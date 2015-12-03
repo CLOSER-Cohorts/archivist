@@ -1,3 +1,3 @@
 class QuestionItem < ActiveRecord::Base
-  belongs_to :instruction
+  include Question
 end

@@ -3,7 +3,7 @@
 one:
   label: MyString
   literal: MyString
-  instruction_id: 
+  instruction: :one 
   vertical_code_list_id: 
   horizontal_code_list_id: 
   roster_rows: 1

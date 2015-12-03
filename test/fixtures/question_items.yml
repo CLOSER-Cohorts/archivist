@@ -3,7 +3,7 @@
 one:
   label: MyString
   literal: MyString
-  instruction_id: 
+  instruction: :one 
 
 two:
   label: MyString

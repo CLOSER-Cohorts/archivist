@@ -10,15 +10,15 @@
 * ~~code.rb~~
 * ~~code_list.rb~~
 * control_construct.rb
-* instruction.rb
+* ~~instruction.rb~~
 * instrument.rb
 * question_grid.rb
 * question_item.rb
-* rds_qs.rb
+* ~~rds_qs.rb~~
 * ~~response_domain_code.rb~~
-* response_domain_datetime.rb
-* response_domain_numeric.rb
-* response_domain_text.rb
+* ~~response_domain_datetime.rb~~
+* ~~response_domain_numeric.rb~~
+* ~~response_domain_text.rb~~
 * response_unit.rb
 
 ### Models to Add
