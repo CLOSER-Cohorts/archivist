@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numeric_type: MyString
+  label: MyString
+  min: 9.99
+  max: 9.99
+
+two:
+  numeric_type: MyString
+  label: MyString
+  min: 9.99
+  max: 9.99

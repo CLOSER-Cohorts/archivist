@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  label: MyString
+  literal: MyString
+  instruction_id: 
+  vertical_code_list_id: 
+  horizontal_code_list_id: 
+  roster_rows: 1
+  roster_label: MyString
+  corner_label: MyString
+
+two:
+  label: MyString
+  literal: MyString
+  instruction_id: 
+  vertical_code_list_id: 
+  horizontal_code_list_id: 
+  roster_rows: 1
+  roster_label: MyString
+  corner_label: MyString

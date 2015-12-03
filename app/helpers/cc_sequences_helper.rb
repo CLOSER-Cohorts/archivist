@@ -1,0 +1,2 @@
+module CcSequencesHelper
+end

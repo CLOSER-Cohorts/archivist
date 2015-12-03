@@ -1,0 +1,2 @@
+module CcQuestionsHelper
+end

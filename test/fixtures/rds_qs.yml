@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  response_domain_id: 2
+  response_domain_type: ResponseDomainText
+  question_id: 2
+  question_type: QuestionItem
+  created_at: 2015-12-02 19:09:38.410947
+  updated_at: 2015-12-02 19:09:38.410947 
+
+two:
+  response_domain_id: 1
+  response_domain_type: ResponseDomainCode
+  question_id: 1
+  question_type: QuestionItem
+  created_at: 2015-12-02 19:09:38.410947
+  updated_at: 2015-12-02 19:09:38.410947

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  loop_var: MyString
+  start_val: MyString
+  end_val: MyString
+  loop_while: MyString
+
+two:
+  loop_var: MyString
+  start_val: MyString
+  end_val: MyString
+  loop_while: MyString

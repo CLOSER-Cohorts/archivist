@@ -1,0 +1,2 @@
+module CcStatementsHelper
+end

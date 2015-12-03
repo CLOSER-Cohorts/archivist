@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 1
+  order: 1
+  code_list: :one 
+  category: :one
+
+two:
+  value: b
+  order: 2
+  code_list: :one 
+  category: :two 

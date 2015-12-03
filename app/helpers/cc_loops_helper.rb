@@ -1,0 +1,2 @@
+module CcLoopsHelper
+end
