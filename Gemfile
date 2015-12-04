@@ -69,5 +69,6 @@ group :development do
   # Performance testing
   gem 'rails-perftest'
   gem 'ruby-prof'
+  gem 'rails-erd'
 end
 

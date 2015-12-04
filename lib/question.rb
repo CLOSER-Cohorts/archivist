@@ -7,6 +7,8 @@ module Question
     has_many :response_domain_datetimes, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainDatetime'
     has_many :response_domain_numerics, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainNumeric'
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
+    has_many :cc_questions, as: :question
+    alias constructs cc_questions
   
     def response_domains
       self.response_domain_codes.to_a + self.response_domain_datetimes.to_a + 

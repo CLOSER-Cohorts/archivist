@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  question_id: 
-  question_type: Question
+  question: one(QuestionItem) 
+  response_unit: :one
 
 two:
-  question_id: 
-  question_type: Question
+  question: one(QuestionGrid) 
+  response_unit: :one

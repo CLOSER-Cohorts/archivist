@@ -1,17 +1,50 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  label: MyString
-  construct_id: 
-  construct_type: Construct
+seq:
+  label: tiptop
+  construct: one(CcSequence)
   parent_id: 
   position: 1
   branch: 1
 
-two:
-  label: MyString
-  construct_id: 
-  construct_type: Construct
-  parent_id: 
+con:
+  label: c_i
+  construct: one(CcCondition)
+  parent: :seq
+  position: 2
+  branch: 1
+
+qi:
+  label: qc_1
+  construct: one(CcQuestion)
+  parent: :seq
+  position: 1
+  branch: 1
+
+qg:
+  label: qc_2
+  construct: two(CcQuestion)
+  parent: :con
+  position: 1
+  branch: 1
+
+sta:
+  label: s_i
+  construct: one(CcStatement)
+  parent: :con
+  position: 1
+  branch: 2
+
+loop:
+  label: l_i
+  construct: one(CcLoop)
+  parent: :seq
+  position: 3
+  branch: 1
+
+seq2:
+  label: lowerseq
+  construct: two(CcSequence)
+  parent: :loop
   position: 1
   branch: 1

@@ -9,26 +9,31 @@ class QuestionGridTest < ActiveSupport::TestCase
   end
   
   test "has one instruction" do
-    assert_not_nil @question_grid.instruction
+    assert_kind_of Instruction, @question_grid.instruction
   end
 
   test "has many response domains" do
-    assert_not_nil @question_grid.response_domains
+    assert_kind_of Array, @question_grid.response_domains
   end
 
   test "has many response domain codes" do
-    assert_not_nil @question_grid.response_domain_codes
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_grid.response_domain_codes
   end
 
   test "has many response domain datetimes" do
-    assert_not_nil @question_grid.response_domain_datetimes
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_grid.response_domain_datetimes
   end
   
   test "has many response domain numerics" do
-    assert_not_nil @question_grid.response_domain_numerics
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_grid.response_domain_numerics
   end
 
   test "has many response domain texts" do
-    assert_not_nil @question_grid.response_domain_texts
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_grid.response_domain_texts
+  end
+  
+  test "has many question constructs" do
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_grid.cc_questions
+    assert_equal @question_grid.constructs, @question_grid.cc_questions
   end
 end

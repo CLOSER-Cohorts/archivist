@@ -31,4 +31,9 @@ class QuestionItemTest < ActiveSupport::TestCase
   test "has many response domain texts" do
     assert_not_nil @question_item.response_domain_texts
   end
+  
+  test "has many question constructs" do
+    assert_kind_of ActiveRecord::Associations::CollectionProxy, @question_item.cc_questions
+    assert_equal @question_item.constructs, @question_item.cc_questions
+  end
 end
