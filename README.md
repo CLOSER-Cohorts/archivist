@@ -1,5 +1,7 @@
 ## README
 
+[![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=master)](https://travis-ci.org/CLOSER-Cohorts/archivist)
+
 ### Models
 #### CADDIES
 * category.rb
