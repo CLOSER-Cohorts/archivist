@@ -21,6 +21,7 @@
 * response_domain_numeric.rb
 * response_domain_text.rb
 * response_unit.rb
+
 #### Mapper
 * topic.rb
 * variable.rb
