@@ -3,6 +3,7 @@ require 'test_helper'
 class InstructionsControllerTest < ActionController::TestCase
   setup do
     @instruction = instructions(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class InstructionsControllerTest < ActionController::TestCase
 
   test "should create instruction" do
     assert_difference('Instruction.count') do
-      post :create, instruction: { text: @instruction.text }
+      post :create, instruction: { text: @instruction.text, instrument_id: @instrument.id }
     end
 
     assert_redirected_to instruction_path(assigns(:instruction))

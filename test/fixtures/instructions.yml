@@ -2,6 +2,8 @@
 
 one:
   text: MyString
+  instrument: :one
 
 two:
   text: MyString
+  instrument: :one

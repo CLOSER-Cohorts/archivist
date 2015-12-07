@@ -5,6 +5,10 @@ class CcSequenceTest < ActiveSupport::TestCase
     @cc_sequence = cc_sequences :two
   end
   
+  test "belongs to an instrument" do
+    assert_kind_of Instrument, @cc_sequence.instrument
+  end
+  
   test "has one cc" do
     assert_kind_of ControlConstruct, @cc_sequence.cc
   end
@@ -14,10 +18,13 @@ class CcSequenceTest < ActiveSupport::TestCase
   end
   
   test "set a new parent" do
-  	seq = CcSequence.new
-  	seq.save!
+  	seq = @cc_sequence.instrument.cc_sequences.create
   	@cc_sequence.parent = seq
   	assert_equal @cc_sequence.parent, seq
+  end
+  
+  test "has one topic" do
+    assert_kind_of Topic, @cc_sequence.topic
   end
   
   test "has many children" do

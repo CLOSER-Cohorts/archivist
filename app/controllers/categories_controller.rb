@@ -76,6 +76,6 @@ class CategoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.require(:category).permit(:label)
+      params.require(:category).permit(:label, :instrument_id)
     end
 end

@@ -69,6 +69,6 @@ class CcConditionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cc_condition_params
-      params.require(:cc_condition).permit(:literal, :logic)
+      params.require(:cc_condition).permit(:literal, :logic, :instrument_id)
     end
 end

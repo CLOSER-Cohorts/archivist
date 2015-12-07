@@ -3,7 +3,9 @@
 one:
   literal: MyString
   logic: MyString
+  instrument: :one
 
 two:
   literal: MyString
   logic: MyString
+  instrument: :one

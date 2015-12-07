@@ -69,6 +69,6 @@ class CodeListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def code_list_params
-      params.require(:code_list).permit(:label)
+      params.require(:code_list).permit(:label, :instrument_id)
     end
 end

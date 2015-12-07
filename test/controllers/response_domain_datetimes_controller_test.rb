@@ -3,6 +3,7 @@ require 'test_helper'
 class ResponseDomainDatetimesControllerTest < ActionController::TestCase
   setup do
     @response_domain_datetime = response_domain_datetimes(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ResponseDomainDatetimesControllerTest < ActionController::TestCase
 
   test "should create response_domain_datetime" do
     assert_difference('ResponseDomainDatetime.count') do
-      post :create, response_domain_datetime: { datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label }
+      post :create, response_domain_datetime: { datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label, instrument_id: @instrument.id }
     end
 
     assert_redirected_to response_domain_datetime_path(assigns(:response_domain_datetime))

@@ -3,6 +3,7 @@ require 'test_helper'
 class CcLoopsControllerTest < ActionController::TestCase
   setup do
     @cc_loop = cc_loops(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CcLoopsControllerTest < ActionController::TestCase
 
   test "should create cc_loop" do
     assert_difference('CcLoop.count') do
-      post :create, cc_loop: { end_val: @cc_loop.end_val, loop_var: @cc_loop.loop_var, loop_while: @cc_loop.loop_while, start_val: @cc_loop.start_val }
+      post :create, cc_loop: { end_val: @cc_loop.end_val, loop_var: @cc_loop.loop_var, loop_while: @cc_loop.loop_while, start_val: @cc_loop.start_val, instrument_id: @instrument.id }
     end
 
     assert_redirected_to cc_loop_path(assigns(:cc_loop))

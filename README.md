@@ -1,33 +1,35 @@
 ## README
 
-### Flesh out Models
+### Models
+#### CADDIES
 * ~~category.rb~~
-* cc_condition.rb
-* cc_loop.rb
-* cc_question.rb
-* cc_sequence.rb
-* cc_statement.rb
+* ~~cc_condition.rb~~
+* ~~cc_loop.rb~~
+* ~~cc_question.rb~~
+* ~~cc_sequence.rb~~
+* ~~cc_statement.rb~~
 * ~~code.rb~~
 * ~~code_list.rb~~
-* control_construct.rb
+* ~~control_construct.rb~~
 * ~~instruction.rb~~
-* instrument.rb
-* question_grid.rb
-* question_item.rb
+* ~~instrument.rb~~
+* ~~question_grid.rb~~
+* ~~question_item.rb~~
 * ~~rds_qs.rb~~
 * ~~response_domain_code.rb~~
 * ~~response_domain_datetime.rb~~
 * ~~response_domain_numeric.rb~~
 * ~~response_domain_text.rb~~
-* response_unit.rb
-
-### Models to Add
+* ~~response_unit.rb~~
 #### Mapper
 * topic.rb
 * variable.rb
 * map.rb
 * link.rb
+* dataset.rb
+* instruments_datasets.rb
 
+### Models to Add
 #### User
 * user.rb
 * role.rb     (maybe)

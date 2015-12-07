@@ -7,6 +7,10 @@ class ResponseDomainTextTest < ActiveSupport::TestCase
   setup do
     @response_domain_text = response_domain_texts :one
   end
+  
+  test "belongs to an instrument" do
+    assert_kind_of Instrument, @response_domain_text.instrument
+  end
 
   test "has many questions" do
     assert_not_nil @response_domain_text.questions

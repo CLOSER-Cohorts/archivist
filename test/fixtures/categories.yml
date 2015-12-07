@@ -2,9 +2,12 @@
 
 one:
   label: CategoryOne
+  instrument: :one
 
 two:
   label: CategoryTwo
+  instrument: :one
 
 three:
   label: CategoryThree
+  instrument: :one

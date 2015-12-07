@@ -2,6 +2,8 @@
 
 one:
   literal: MyString
+  instrument: :one
 
 two:
   literal: MyString
+  instrument: :one

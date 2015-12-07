@@ -14,8 +14,7 @@ class CcConditionTest < ActiveSupport::TestCase
   end
   
   test "set a new parent" do
-  	seq = CcSequence.new
-  	seq.save!
+  	seq = @cc_condition.instrument.cc_sequences.create
   	@cc_condition.parent = seq
   	assert_equal @cc_condition.parent, seq
   end
@@ -24,9 +23,13 @@ class CcConditionTest < ActiveSupport::TestCase
     assert_kind_of ActiveRecord::Associations::CollectionProxy, @cc_condition.children
   end
   
-  test "push new construct into children" do
-    assert_difference '@cc_condition.children.length', 1 do
-      #@cc_condition.children << CcCondition.new
-    end
+  test "has one topic" do
+    assert_kind_of Topic, @cc_condition.topic
   end
+  
+  #test "push new construct into children" do
+  #  assert_difference '@cc_condition.children.length', 1 do
+      #@cc_condition.children << CcCondition.new
+  #  end
+  #end
 end

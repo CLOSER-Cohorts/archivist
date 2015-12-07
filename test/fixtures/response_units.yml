@@ -2,6 +2,8 @@
 
 one:
   label: MyString
+  instrument: :one
 
 two:
   label: MyString
+  instrument: :one

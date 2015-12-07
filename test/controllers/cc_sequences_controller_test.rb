@@ -3,6 +3,7 @@ require 'test_helper'
 class CcSequencesControllerTest < ActionController::TestCase
   setup do
     @cc_sequence = cc_sequences(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CcSequencesControllerTest < ActionController::TestCase
 
   test "should create cc_sequence" do
     assert_difference('CcSequence.count') do
-      post :create, cc_sequence: { literal: @cc_sequence.literal }
+      post :create, cc_sequence: { literal: @cc_sequence.literal, instrument_id: @instrument.id }
     end
 
     assert_redirected_to cc_sequence_path(assigns(:cc_sequence))

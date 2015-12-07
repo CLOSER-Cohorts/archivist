@@ -69,6 +69,6 @@ class CcSequencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cc_sequence_params
-      params.require(:cc_sequence).permit(:literal)
+      params.require(:cc_sequence).permit(:literal, :instrument_id)
     end
 end

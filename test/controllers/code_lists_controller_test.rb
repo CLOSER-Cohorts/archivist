@@ -3,6 +3,7 @@ require 'test_helper'
 class CodeListsControllerTest < ActionController::TestCase
   setup do
     @code_list = code_lists(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CodeListsControllerTest < ActionController::TestCase
 
   test "should create code_list" do
     assert_difference('CodeList.count') do
-      post :create, code_list: { label: @code_list.label }
+      post :create, code_list: { label: @code_list.label, instrument_id: @instrument.id }
     end
 
     assert_redirected_to code_list_path(assigns(:code_list))

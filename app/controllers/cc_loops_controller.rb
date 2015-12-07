@@ -69,6 +69,6 @@ class CcLoopsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cc_loop_params
-      params.require(:cc_loop).permit(:loop_var, :start_val, :end_val, :loop_while)
+      params.require(:cc_loop).permit(:loop_var, :start_val, :end_val, :loop_while, :instrument_id)
     end
 end

@@ -3,6 +3,7 @@ require 'test_helper'
 class CcConditionsControllerTest < ActionController::TestCase
   setup do
     @cc_condition = cc_conditions(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CcConditionsControllerTest < ActionController::TestCase
 
   test "should create cc_condition" do
     assert_difference('CcCondition.count') do
-      post :create, cc_condition: { literal: @cc_condition.literal, logic: @cc_condition.logic }
+      post :create, cc_condition: { literal: @cc_condition.literal, logic: @cc_condition.logic, instrument_id: @instrument.id }
     end
 
     assert_redirected_to cc_condition_path(assigns(:cc_condition))

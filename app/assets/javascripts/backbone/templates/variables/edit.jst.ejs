@@ -1,0 +1,30 @@
+<h1>Edit variable</h1>
+
+<form id="edit-variable" name="variable">
+  <div class="field">
+    <label for="name"> name:</label>
+    <input type="text" name="name" id="name" value="<%= name %>" >
+  </div>
+
+  <div class="field">
+    <label for="label"> label:</label>
+    <input type="text" name="label" id="label" value="<%= label %>" >
+  </div>
+
+  <div class="field">
+    <label for="var_type"> var_type:</label>
+    <input type="text" name="var_type" id="var_type" value="<%= var_type %>" >
+  </div>
+
+  <div class="field">
+    <label for="dataset"> dataset:</label>
+    <input type="text" name="dataset" id="dataset" value="<%= dataset %>" >
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Update Variable" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>

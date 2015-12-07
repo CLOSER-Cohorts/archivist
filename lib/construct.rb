@@ -1,6 +1,7 @@
 module Construct
   extend ActiveSupport::Concern
   included do
+    belongs_to :instrument
     has_one :cc, class_name: 'ControlConstruct', as: :construct
     before_create :create_control_construct
     
@@ -20,14 +21,12 @@ module Construct
   
   module ClassMethods
     def is_a_parent(options = {})
-      reflect_on_association(:cc).klass.send :has_many, :children, class_name: 'ControlConstruct', foreign_key: 'parent_id'
+      include Linkable
       include Construct::LocalInstanceMethods
+      delegate :children, to: :cc
     end
   end
   
   module LocalInstanceMethods    
-    def children
-      @children
-    end
   end
 end

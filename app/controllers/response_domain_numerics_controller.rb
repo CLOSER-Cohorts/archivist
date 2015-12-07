@@ -69,6 +69,6 @@ class ResponseDomainNumericsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def response_domain_numeric_params
-      params.require(:response_domain_numeric).permit(:numeric_type, :label, :min, :max)
+      params.require(:response_domain_numeric).permit(:numeric_type, :label, :min, :max, :instrument_id)
     end
 end

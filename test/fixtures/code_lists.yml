@@ -2,9 +2,20 @@
 
 one:
   label: CodeListOne
+  instrument: :one
 
 two:
   label: CodeListTwo
+  instrument: :one
 
 three:
   label: CodeListThree
+  instrument: :one
+  
+axisx:
+  label: X Axis
+  instrument: :one
+  
+axisy:
+  label: Y Axis
+  instrument: :one

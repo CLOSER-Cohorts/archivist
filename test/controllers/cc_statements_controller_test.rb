@@ -3,6 +3,7 @@ require 'test_helper'
 class CcStatementsControllerTest < ActionController::TestCase
   setup do
     @cc_statement = cc_statements(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CcStatementsControllerTest < ActionController::TestCase
 
   test "should create cc_statement" do
     assert_difference('CcStatement.count') do
-      post :create, cc_statement: { literal: @cc_statement.literal }
+      post :create, cc_statement: { literal: @cc_statement.literal, instrument_id: @instrument.id }
     end
 
     assert_redirected_to cc_statement_path(assigns(:cc_statement))

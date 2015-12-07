@@ -4,8 +4,10 @@ one:
   datetime_type: MyString
   label: MyString
   format: MyString
+  instrument: :one
 
 two:
   datetime_type: MyString
   label: MyString
   format: MyString
+  instrument: :one

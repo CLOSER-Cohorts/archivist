@@ -3,7 +3,9 @@
 one:
   label: MyString
   maxlen: 1
+  instrument: :one
 
 two:
   label: MyString
   maxlen: 1
+  instrument: :one

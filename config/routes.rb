@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :topics
+  resources :variables
+  resources :datasets
   resources :cc_sequences
   resources :cc_statements
   resources :cc_questions

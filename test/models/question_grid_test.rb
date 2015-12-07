@@ -8,6 +8,10 @@ class QuestionGridTest < ActiveSupport::TestCase
     @question_grid = question_grids :one
   end
   
+  test "belongs to an instrument" do
+    assert_kind_of Instrument, @question_grid.instrument
+  end
+  
   test "has one instruction" do
     assert_kind_of Instruction, @question_grid.instruction
   end

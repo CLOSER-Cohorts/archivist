@@ -8,6 +8,10 @@ class InstructionTest < ActiveSupport::TestCase
     @instruction = instructions :one
   end
   
+  test "belongs to an instrument" do
+    assert_kind_of Instrument, @instruction.instrument
+  end
+  
   test "has many questions" do
     assert_not_nil @instruction.questions
   end

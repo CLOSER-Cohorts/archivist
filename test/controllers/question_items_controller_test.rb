@@ -3,6 +3,7 @@ require 'test_helper'
 class QuestionItemsControllerTest < ActionController::TestCase
   setup do
     @question_item = question_items(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class QuestionItemsControllerTest < ActionController::TestCase
 
   test "should create question_item" do
     assert_difference('QuestionItem.count') do
-      post :create, question_item: { instruction_id: @question_item.instruction_id, label: @question_item.label, literal: @question_item.literal }
+      post :create, question_item: { instruction_id: @question_item.instruction_id, label: @question_item.label, literal: @question_item.literal, instrument_id: @instrument.id }
     end
 
     assert_redirected_to question_item_path(assigns(:question_item))

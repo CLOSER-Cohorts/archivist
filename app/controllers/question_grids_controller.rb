@@ -69,6 +69,6 @@ class QuestionGridsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_grid_params
-      params.require(:question_grid).permit(:label, :literal, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label)
+      params.require(:question_grid).permit(:label, :literal, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label, :instrument_id)
     end
 end

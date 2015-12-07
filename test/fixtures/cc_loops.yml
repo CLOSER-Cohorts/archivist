@@ -5,9 +5,11 @@ one:
   start_val: MyString
   end_val: MyString
   loop_while: MyString
+  instrument: :one
 
 two:
   loop_var: MyString
   start_val: MyString
   end_val: MyString
   loop_while: MyString
+  instrument: :one

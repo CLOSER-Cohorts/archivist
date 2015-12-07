@@ -69,6 +69,6 @@ class ResponseUnitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def response_unit_params
-      params.require(:response_unit).permit(:label)
+      params.require(:response_unit).permit(:label, :instrument_id)
     end
 end

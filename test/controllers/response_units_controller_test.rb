@@ -3,6 +3,7 @@ require 'test_helper'
 class ResponseUnitsControllerTest < ActionController::TestCase
   setup do
     @response_unit = response_units(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ResponseUnitsControllerTest < ActionController::TestCase
 
   test "should create response_unit" do
     assert_difference('ResponseUnit.count') do
-      post :create, response_unit: { label: @response_unit.label }
+      post :create, response_unit: { label: @response_unit.label, instrument_id: @instrument.id }
     end
 
     assert_redirected_to response_unit_path(assigns(:response_unit))

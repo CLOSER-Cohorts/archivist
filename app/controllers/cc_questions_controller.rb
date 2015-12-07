@@ -69,6 +69,6 @@ class CcQuestionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cc_question_params
-      params.require(:cc_question).permit(:question_id, :question_type)
+      params.require(:cc_question).permit(:question_id, :question_type, :instrument_id, :response_unit_id)
     end
 end

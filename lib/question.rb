@@ -1,6 +1,7 @@
 module Question
   extend ActiveSupport::Concern
   included do
+    belongs_to :instrument
     belongs_to :instruction
     has_many :rds_qs, class_name: 'RdsQs', as: :question, dependent: :destroy
     has_many :response_domain_codes, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainCode'

@@ -69,6 +69,6 @@ class CcStatementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cc_statement_params
-      params.require(:cc_statement).permit(:literal)
+      params.require(:cc_statement).permit(:literal, :instrument_id)
     end
 end

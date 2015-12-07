@@ -4,8 +4,10 @@ one:
   label: MyString
   literal: MyString
   instruction: :one 
+  instrument: :one
 
 two:
   label: MyString
   literal: MyString
   instruction_id: 
+  instrument: :one

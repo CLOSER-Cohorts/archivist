@@ -9,7 +9,7 @@ class Code < ActiveRecord::Base
   def label=(val)
     category = Category.find_by_label(val)
     if category.nil?
-      category = Category.create label: val
+      category = Category.create label: val, instrument: code_list.instrument
     end
   end
 end

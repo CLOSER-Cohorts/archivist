@@ -5,9 +5,11 @@ one:
   label: MyString
   min: 9.99
   max: 9.99
+  instrument: :one
 
 two:
   numeric_type: MyString
   label: MyString
   min: 9.99
   max: 9.99
+  instrument: :one

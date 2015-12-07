@@ -3,6 +3,7 @@ require 'test_helper'
 class ResponseDomainNumericsControllerTest < ActionController::TestCase
   setup do
     @response_domain_numeric = response_domain_numerics(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ResponseDomainNumericsControllerTest < ActionController::TestCase
 
   test "should create response_domain_numeric" do
     assert_difference('ResponseDomainNumeric.count') do
-      post :create, response_domain_numeric: { label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type }
+      post :create, response_domain_numeric: { label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type, instrument_id: @instrument.id }
     end
 
     assert_redirected_to response_domain_numeric_path(assigns(:response_domain_numeric))

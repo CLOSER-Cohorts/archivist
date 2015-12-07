@@ -3,7 +3,9 @@
 one:
   question: one(QuestionItem) 
   response_unit: :one
+  instrument: :one
 
 two:
   question: one(QuestionGrid) 
   response_unit: :one
+  instrument: :one

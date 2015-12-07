@@ -69,6 +69,6 @@ class ResponseDomainTextsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def response_domain_text_params
-      params.require(:response_domain_text).permit(:label, :maxlen)
+      params.require(:response_domain_text).permit(:label, :maxlen, :instrument_id)
     end
 end

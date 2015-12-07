@@ -4,18 +4,20 @@ one:
   label: MyString
   literal: MyString
   instruction: :one 
-  vertical_code_list_id: 
-  horizontal_code_list_id: 
+  vertical_code_list: :xaxis
+  horizontal_code_list: :yaxis
   roster_rows: 1
   roster_label: MyString
   corner_label: MyString
+  instrument: :one
 
 two:
   label: MyString
   literal: MyString
   instruction_id: 
-  vertical_code_list_id: 
-  horizontal_code_list_id: 
+  vertical_code_list: :xaxis
+  horizontal_code_list: :yaxis
   roster_rows: 1
   roster_label: MyString
   corner_label: MyString
+  instrument: :one

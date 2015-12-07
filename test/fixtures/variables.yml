@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: v001
+  label: MyString
+  var_type: Normal
+  dataset: :one
+#  questions: :one
+#  topic: :TopLevelTopic
+
+two:
+  name: v002
+  label: MyString
+  var_type: Derived
+  dataset: :one 

@@ -69,6 +69,6 @@ class ResponseDomainDatetimesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def response_domain_datetime_params
-      params.require(:response_domain_datetime).permit(:datetime_type, :label, :format)
+      params.require(:response_domain_datetime).permit(:datetime_type, :label, :format, :instrument_id)
     end
 end

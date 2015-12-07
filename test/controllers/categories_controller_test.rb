@@ -3,6 +3,7 @@ require 'test_helper'
 class CategoriesControllerTest < ActionController::TestCase
   setup do
     @category = categories(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, category: { label: @category.label }
+      post :create, category: { label: @category.label, instrument_id: @instrument.id }
     end
 
     assert_redirected_to category_path(assigns(:category))

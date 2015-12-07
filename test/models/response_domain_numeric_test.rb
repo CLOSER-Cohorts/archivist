@@ -7,6 +7,10 @@ class ResponseDomainNumericTest < ActiveSupport::TestCase
   setup do
     @response_domain_numeric = response_domain_numerics :one
   end
+  
+  test "belongs to an instrument" do
+    assert_kind_of Instrument, @response_domain_numeric.instrument
+  end
 
   test "has many questions" do
     assert_not_nil @response_domain_numeric.questions

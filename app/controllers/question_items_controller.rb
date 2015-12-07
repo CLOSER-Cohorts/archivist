@@ -69,6 +69,6 @@ class QuestionItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_item_params
-      params.require(:question_item).permit(:label, :literal, :instruction_id)
+      params.require(:question_item).permit(:label, :literal, :instruction_id, :instrument_id)
     end
 end

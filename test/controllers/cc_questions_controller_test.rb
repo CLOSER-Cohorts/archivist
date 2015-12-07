@@ -3,6 +3,7 @@ require 'test_helper'
 class CcQuestionsControllerTest < ActionController::TestCase
   setup do
     @cc_question = cc_questions(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,11 @@ class CcQuestionsControllerTest < ActionController::TestCase
 
   test "should create cc_question" do
     assert_difference('CcQuestion.count') do
-      post :create, cc_question: { question_id: @cc_question.question_id, question_type: @cc_question.question_type }
+      post :create, cc_question: { 
+        question_id: @cc_question.question_id, 
+        question_type: @cc_question.question_type, 
+        instrument_id: @instrument.id,
+        response_unit_id: @cc_question.response_unit.id }
     end
 
     assert_redirected_to cc_question_path(assigns(:cc_question))

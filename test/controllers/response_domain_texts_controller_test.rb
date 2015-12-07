@@ -3,6 +3,7 @@ require 'test_helper'
 class ResponseDomainTextsControllerTest < ActionController::TestCase
   setup do
     @response_domain_text = response_domain_texts(:one)
+    @instrument = instruments(:two)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class ResponseDomainTextsControllerTest < ActionController::TestCase
 
   test "should create response_domain_text" do
     assert_difference('ResponseDomainText.count') do
-      post :create, response_domain_text: { label: @response_domain_text.label, maxlen: @response_domain_text.maxlen }
+      post :create, response_domain_text: { label: @response_domain_text.label, maxlen: @response_domain_text.maxlen, instrument_id: @instrument.id }
     end
 
     assert_redirected_to response_domain_text_path(assigns(:response_domain_text))
