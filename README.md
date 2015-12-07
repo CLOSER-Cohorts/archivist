@@ -38,7 +38,7 @@
 
 ### Model Relationship Diagram
 Run `rake generate_erd` to regenerate (must have graphvis).
-![](/erd.png)
+![](/app/assets/images/diagrams/erd.png)
 
 ## Configuation
 * Ruby: 2.2.1
