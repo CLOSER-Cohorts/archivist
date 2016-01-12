@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li data-ng-repeat="sequence in instrument.sequences">
+                {{sequence.label}}
+            </li>
+        </ul>
+    </div>
+</div>

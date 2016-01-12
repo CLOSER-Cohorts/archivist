@@ -1,10 +1,11 @@
 class CcSequencesController < ApplicationController
   before_action :set_cc_sequence, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_sequences
   # GET /cc_sequences.json
   def index
-    @cc_sequences = CcSequence.all
+    @cc_sequences = @instrument.cc_sequences
   end
 
   # GET /cc_sequences/1
@@ -14,7 +15,7 @@ class CcSequencesController < ApplicationController
 
   # GET /cc_sequences/new
   def new
-    @cc_sequence = CcSequence.new
+    @cc_sequence = @instrument.cc_sequences.new
   end
 
   # GET /cc_sequences/1/edit
@@ -24,7 +25,7 @@ class CcSequencesController < ApplicationController
   # POST /cc_sequences
   # POST /cc_sequences.json
   def create
-    @cc_sequence = CcSequence.new(cc_sequence_params)
+    @cc_sequence = @instrument.cc_sequences.new(cc_sequence_params)
 
     respond_to do |format|
       if @cc_sequence.save
@@ -65,6 +66,10 @@ class CcSequencesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_sequence
       @cc_sequence = CcSequence.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

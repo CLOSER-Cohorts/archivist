@@ -1,26 +1,33 @@
 Rails.application.routes.draw do
-  resources :topics
-  resources :variables
-  resources :datasets
-  resources :cc_sequences
-  resources :cc_statements
-  resources :cc_questions
-  resources :cc_loops
-  resources :cc_conditions
-  resources :response_units
-  resources :response_domain_datetimes
-  resources :response_domain_numerics
-  resources :instruments
-  resources :question_grids
-  resources :question_items
-  resources :instructions
-  resources :response_domain_texts
-  resources :response_domain_codes
-  resources :codes
-  resources :code_lists
-  resources :categories
-
   root 'application#index'
+
+  resources :topics, constraints: -> (r){ (r.format == :json) }
+  
+  resources :datasets, shallow: true, constraints: -> (r){ (r.format == :json) } do 
+  	resources :variables
+  end
+  
+  resources :instruments, shallow: true, constraints: -> (r){ (r.format == :json) } do 
+	resources :cc_sequences
+	resources :cc_statements
+	resources :cc_questions
+	resources :cc_loops
+	resources :cc_conditions
+	resources :response_units
+	resources :response_domain_datetimes
+	resources :response_domain_numerics
+	resources :question_grids
+	resources :question_items
+	resources :instructions
+	resources :response_domain_texts
+	resources :response_domain_codes
+	resources :codes
+	resources :code_lists
+	resources :categories
+  end
+  
+  match '*path', to: 'application#index', via: :all, constraints: {format: ''}
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
