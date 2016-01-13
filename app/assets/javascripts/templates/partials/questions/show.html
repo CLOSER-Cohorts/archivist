@@ -1,0 +1,28 @@
+<span data-ng-bind="obj.base.literal"></span>
+<div data-ng-if="obj.base.rds" class="row a-response-domains">
+    <div data-ng-repeat="rd in obj.base.rds" data-ng-include="'partials/response_domains/show.html'" class="col-md-10"></div>
+</div>
+<div data-ng-if="obj.base.cols">
+    <table class="table a-question-grid">
+        <tr>
+            <th>
+                {{obj.base.corner_label}}
+            </th>
+            <th data-ng-repeat="col in obj.base.cols | orderBy:'order'">
+                {{col.label}}
+            </th>
+        </tr>
+        <tr class="a-response-domains">
+            <td></td>
+            <td data-ng-repeat="col in obj.base.cols | orderBy:'order'">
+                <div data-ng-init="rd = col.rd" data-ng-include="'partials/response_domains/show.html'"></div>
+            </td>
+        </tr>
+        <tr data-ng-repeat="row in obj.base.rows | orderBy:'order'">
+            <td>
+                {{row.label}}
+            </td>
+            <td data-ng-repeat="col in obj.base.cols"></td>
+        </tr>
+    </table>
+</div>

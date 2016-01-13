@@ -12,6 +12,9 @@ class InstrumentsController < ApplicationController
   def show
   end
 
+  def full
+  end
+
   # GET /instruments/new
   def new
     @instrument = Instrument.new

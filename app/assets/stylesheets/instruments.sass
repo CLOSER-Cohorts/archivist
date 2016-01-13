@@ -1,0 +1,60 @@
+.a-glyphicon
+  position: relative
+  top: 1px
+  display: inline-block
+  font-family: 'Glyphicons Halflings'
+  font-style: normal
+  font-weight: normal
+  line-height: 1
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+#tree
+  .a-sequence > .row > span.a-label
+    background: #333
+    width: 100%
+    display: block
+    color: white
+
+  .a-label
+    padding: 6px 12px
+
+  .tree-item
+    margin: 12px auto
+
+  .tree-container
+    background: rgba(0, 0, 0, 0.05)
+    border-right: 3px solid rgba(0, 0, 0, 0.10)
+    margin-right: -3px
+    margin-top: 2px
+
+  .a-condition .a-label,
+  .a-loop .a-label,
+  .a-question .a-label,
+  .a-statement .a-label
+    color: #777
+    font-style: italic
+
+  .a-icon
+    margin-right: 10px
+    color: #333
+
+  .a-statement > .tree-container > .a-label:before
+    @extend .a-glyphicon
+    @extend .a-icon
+    content: "\e111"
+
+  .a-condition > .tree-container > .a-label:before
+    @extend .a-glyphicon
+    @extend .a-icon
+    content: "\e120"
+
+  .a-question > .tree-container > .a-label:before
+    @extend .a-glyphicon
+    @extend .a-icon
+    content: "\e085"
+
+  .a-loop > .tree-container > .a-label:before
+    @extend .a-glyphicon
+    @extend .a-icon
+    content: "\e030"

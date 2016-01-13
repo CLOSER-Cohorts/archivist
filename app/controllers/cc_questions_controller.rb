@@ -1,10 +1,11 @@
 class CcQuestionsController < ApplicationController
   before_action :set_cc_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_questions
   # GET /cc_questions.json
   def index
-    @cc_questions = CcQuestion.all
+    @cc_questions = @instrument.cc_questions
   end
 
   # GET /cc_questions/1
@@ -14,7 +15,7 @@ class CcQuestionsController < ApplicationController
 
   # GET /cc_questions/new
   def new
-    @cc_question = CcQuestion.new
+    @cc_question = @instrument.cc_questions.new
   end
 
   # GET /cc_questions/1/edit
@@ -24,7 +25,7 @@ class CcQuestionsController < ApplicationController
   # POST /cc_questions
   # POST /cc_questions.json
   def create
-    @cc_question = CcQuestion.new(cc_question_params)
+    @cc_question = @instrument.cc_questions.new(cc_question_params)
 
     respond_to do |format|
       if @cc_question.save
@@ -65,6 +66,10 @@ class CcQuestionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_question
       @cc_question = CcQuestion.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

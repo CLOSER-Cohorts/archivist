@@ -27,4 +27,7 @@ archivist.run(
       output = {}
       output[@[key]] = @[key] for key in [0...@length]
       value for key, value of output
+
+    Array::select_resource_by_id = (ref_id)->
+      output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 )

@@ -1,10 +1,11 @@
 class CcLoopsController < ApplicationController
   before_action :set_cc_loop, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_loops
   # GET /cc_loops.json
   def index
-    @cc_loops = CcLoop.all
+    @cc_loops = @instrument.cc_loops
   end
 
   # GET /cc_loops/1
@@ -14,7 +15,7 @@ class CcLoopsController < ApplicationController
 
   # GET /cc_loops/new
   def new
-    @cc_loop = CcLoop.new
+    @cc_loop = @instrument.cc_loops.new
   end
 
   # GET /cc_loops/1/edit
@@ -24,7 +25,7 @@ class CcLoopsController < ApplicationController
   # POST /cc_loops
   # POST /cc_loops.json
   def create
-    @cc_loop = CcLoop.new(cc_loop_params)
+    @cc_loop = @instrument.cc_loops.new(cc_loop_params)
 
     respond_to do |format|
       if @cc_loop.save
@@ -65,6 +66,10 @@ class CcLoopsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_loop
       @cc_loop = CcLoop.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

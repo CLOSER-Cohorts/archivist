@@ -4,9 +4,12 @@ module Construct
     belongs_to :instrument
     has_one :cc, class_name: 'ControlConstruct', as: :construct
     before_create :create_control_construct
+    delegate :label, to: :cc
     
     def parent
-      self.cc.parent.construct
+      if not self.cc.parent.nil?
+        self.cc.parent.construct
+      end
     end
     
     def parent=(new_parent)

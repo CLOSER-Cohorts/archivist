@@ -1,10 +1,11 @@
 class CcConditionsController < ApplicationController
   before_action :set_cc_condition, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_conditions
   # GET /cc_conditions.json
   def index
-    @cc_conditions = CcCondition.all
+    @cc_conditions = @instrument.cc_conditions
   end
 
   # GET /cc_conditions/1
@@ -14,7 +15,7 @@ class CcConditionsController < ApplicationController
 
   # GET /cc_conditions/new
   def new
-    @cc_condition = CcCondition.new
+    @cc_condition = @instrument.cc_conditions.new
   end
 
   # GET /cc_conditions/1/edit
@@ -24,7 +25,7 @@ class CcConditionsController < ApplicationController
   # POST /cc_conditions
   # POST /cc_conditions.json
   def create
-    @cc_condition = CcCondition.new(cc_condition_params)
+    @cc_condition = @instrument.cc_conditions.new(cc_condition_params)
 
     respond_to do |format|
       if @cc_condition.save
@@ -65,6 +66,10 @@ class CcConditionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_condition
       @cc_condition = CcCondition.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

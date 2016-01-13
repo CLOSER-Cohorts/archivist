@@ -1,12 +1,30 @@
+<script type="text/ng-template" id="child_render.html">
+    <div class="tree-container row">
+            <span class="a-label col-md-2">
+                {{obj.label}}
+            </span>
+            <span data-ng-if="obj.literal" class="a-literal col-md-8">
+                {{obj.literal}}
+            </span>
+            <div data-ng-if="obj.type=='question'" class="col-md-8" data-ng-include="'partials/questions/show.html'"></div>
+        <div class="col-md-offset-1 col-md-11">
+            <!-- TODO: Change orderBy to correct ordering system -->
+            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:'id'" data-ng-include="'child_render.html'"></div>
+        </div>
+    </div>
+</script>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>
     </div>
     <div class="panel-body">
-        <ul>
-            <li data-ng-repeat="sequence in instrument.sequences">
-                {{sequence.label}}
-            </li>
-        </ul>
+        <div id="tree">
+            <span class="a-label">{{instrument.topsequence.label}}</span>
+            <div>
+                <!-- TODO: Change orderBy to correct ordering system -->
+                <div class="tree-item a-sequence" data-ng-repeat="obj in instrument.topsequence.children | orderBy:'id'" data-ng-include="'child_render.html'"></div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,10 +1,11 @@
 class CcStatementsController < ApplicationController
   before_action :set_cc_statement, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_statements
   # GET /cc_statements.json
   def index
-    @cc_statements = CcStatement.all
+    @cc_statements = @instrument.cc_statements
   end
 
   # GET /cc_statements/1
@@ -14,7 +15,7 @@ class CcStatementsController < ApplicationController
 
   # GET /cc_statements/new
   def new
-    @cc_statement = CcStatement.new
+    @cc_statement = @instrument.cc_statements.new
   end
 
   # GET /cc_statements/1/edit
@@ -24,7 +25,7 @@ class CcStatementsController < ApplicationController
   # POST /cc_statements
   # POST /cc_statements.json
   def create
-    @cc_statement = CcStatement.new(cc_statement_params)
+    @cc_statement = @instrument.cc_statements.new(cc_statement_params)
 
     respond_to do |format|
       if @cc_statement.save
@@ -65,6 +66,10 @@ class CcStatementsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_statement
       @cc_statement = CcStatement.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
