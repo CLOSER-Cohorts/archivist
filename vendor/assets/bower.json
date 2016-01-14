@@ -4,8 +4,9 @@
     "angular": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
+    "angular-messages": "latest",
     "angular-animate": "latest",
     "bootstrap-sass-official": "latest",
-    "jstree": "latest"
+    "angular-bootstrap": "latest"
   }
 }

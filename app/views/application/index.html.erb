@@ -60,6 +60,11 @@
 
 <div class="container-fluid">
 	<div class="view-container">
+    <div data-ng-repeat="notice in notices">
+      <div class="alert alert-{{notice.type}}" role="alert">
+        {{notice.message}}
+      </div>
+    </div>
 		<div data-ng-view class="view-frame animate-view"></div>
 	</div>
 </div>

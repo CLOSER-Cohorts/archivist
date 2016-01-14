@@ -1,7 +1,8 @@
 asset 'angular'
 asset 'angular-route'
 asset 'angular-resource'
+asset 'angular-messages'
 asset 'angular-animate'
 asset 'bootstrap-sass-official'
-asset 'jstree'
+asset 'angular-bootstrap'
 # vim: ft=ruby

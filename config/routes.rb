@@ -25,7 +25,8 @@ Rails.application.routes.draw do
 	resources :code_lists
 	resources :categories
   end
-  
+
+  get 'studies', to: 'application#studies', constraints: -> (r){ (r.format == :json) }
   match '*path', to: 'application#index', via: :all, constraints: {format: ''}
 
   # The priority is based upon order of creation: first created -> highest priority.

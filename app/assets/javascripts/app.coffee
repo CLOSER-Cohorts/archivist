@@ -1,6 +1,7 @@
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
+  'archivist.flash'
   'archivist.instruments',
 ])
 
@@ -14,15 +15,15 @@ archivist.config([ '$routeProvider', '$locationProvider',
     $locationProvider.html5Mode true
 ])
 
-archivist.controller('RootController', [ '$scope', '$location',
-  ($scope, $location)->
+archivist.controller('RootController', [ '$scope', '$location', 'flash'
+  ($scope, $location, Flash)->
     $scope.softwareName = 'Archivist'
     $scope.isActive = (viewLocation) ->
       viewLocation == $location.path()
 ])
 
-archivist.run(
-  ->
+archivist.run(['$rootScope', 'flash',
+  ($rootScope, Flash)->
     Array::unique = ->
       output = {}
       output[@[key]] = @[key] for key in [0...@length]
@@ -30,4 +31,8 @@ archivist.run(
 
     Array::select_resource_by_id = (ref_id)->
       output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
-)
+
+    $rootScope.$on('$routeChangeSuccess', ->
+      Flash.publish($rootScope)
+    )
+])
