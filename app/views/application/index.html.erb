@@ -23,7 +23,7 @@
 				</li>
 				<li data-ng-class="{active: isActive('/admin')}" class="dropdown">
 					<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
-					data-toggle="dropdown" href="/admin" role="button">Admin <span class=
+					data-toggle="dropdown" href="#" role="button">Admin <span class=
 					"caret"></span></a>
 					<ul class="dropdown-menu">
 						<li>
@@ -60,7 +60,7 @@
 
 <div class="container-fluid">
 	<div class="view-container">
-    <div data-ng-repeat="notice in notices">
+    <div data-ng-repeat="notice in notices" data-ng-if="isActive('/admin') == false">
       <div class="alert alert-{{notice.type}}" role="alert">
         {{notice.message}}
       </div>

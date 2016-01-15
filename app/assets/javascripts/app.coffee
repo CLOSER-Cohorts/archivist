@@ -1,8 +1,9 @@
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
-  'archivist.flash'
+  'archivist.flash',
   'archivist.instruments',
+  'archivist.admin'
 ])
 
 archivist.config([ '$routeProvider', '$locationProvider',

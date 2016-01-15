@@ -15,6 +15,22 @@ class InstrumentsController < ApplicationController
   def full
   end
 
+  def import
+    params[:files].each do |file|
+      filepath = Rails.root.join(
+          'tmp',
+          'uploads',
+          (0...8).map { (65 + rand(26)).chr }.join + '-' + file.original_filename
+      )
+      File.open(filepath, 'wb') do |f|
+        f.write(file.read)
+      end
+      im = XML::Importer.new filepath
+      im.parse
+    end
+    redirect_to '/admin/import'
+  end
+
   # GET /instruments/new
   def new
     @instrument = Instrument.new
