@@ -16,6 +16,7 @@ class InstrumentsController < ApplicationController
   end
 
   def import
+    FileUtils.mkdir_p Rails.root.join('tmp','uploads')
     params[:files].each do |file|
       filepath = Rails.root.join(
           'tmp',
