@@ -1,6 +1,7 @@
 admin = angular.module('archivist.admin', [
   'templates',
-  'ngRoute'
+  'ngRoute',
+  'archivist.instruments'
 ])
 
 admin.config(['$routeProvider',
@@ -8,15 +9,18 @@ admin.config(['$routeProvider',
     $routeProvider
       .when('/admin',
         templateUrl: 'partials/admin/index.html'
-        controller: 'AdminController'
+        controller: 'AdminDashController'
+      )
+      .when('/admin/instruments',
+        templateUrl: 'partials/admin/instruments.html'
+        controller: 'AdminInstrumentsController'
       )
       .when('/admin/import',
         templateUrl: 'partials/admin/import.html'
-        controller: 'AdminController'
       )
 ])
 
-admin.controller('AdminController',
+admin.controller('AdminDashController',
   [
     '$scope',
     ($scope)->
@@ -25,6 +29,26 @@ admin.controller('AdminController',
       $scope.counts.questions = 3021
       $scope.counts.variables = 687
       $scope.counts.users = 1
+])
+
+admin.controller('AdminInstrumentsController',
+  [
+    '$scope',
+    'InstrumentsArchive'
+    ($scope, Instruments)->
+      $scope.instruments = Instruments.query()
+      $scope.pageSize = 8
+
+      $scope.prepareCopy = (id)->
+        $scope.original = $scope.instruments.select_resource_by_id(id)
+        $scope.copiedInstrument = new Instruments()
+        $scope.copiedInstrument.study = $scope.original.study
+        $scope.copiedInstrument.agency = $scope.original.agency
+        $scope.copiedInstrument.version = $scope.original.version
+
+      $scope.copy = ->
+        $scope.copiedInstrument.$save()
+        $scope.copiedInstrument.copy($scope.original.id)
 ])
 
 admin.controller('FileUploadController',

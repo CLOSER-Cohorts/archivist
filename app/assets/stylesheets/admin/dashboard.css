@@ -22,16 +22,23 @@
 @media (min-width: 768px) {
     .sidebar {
         position: fixed !important;
-        top: 51px;
+        top: 0;
         bottom: 0;
         left: 0;
         z-index: 1000;
         display: block;
-        padding: 20px;
+        padding: 71px 20px 20px 20px;
         overflow-x: hidden;
         overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         background-color: #f5f5f5;
         border-right: 1px solid #eee;
+    }
+    .navbar-static-top {
+        z-index: 1100 !important;
+    }
+
+    .modal-dialog {
+        margin-top: 100px !important;
     }
 }
 
@@ -104,4 +111,18 @@
         width: 28vw;
         line-height: 28vw;
     }
+}
+
+.sidebar a,
+.sidebar a:visited {
+    color: #337ab7;
+}
+
+.sidebar .active a:visited {
+    color: #ccc;
+}
+
+
+.sidebar .active a:hover {
+    color: #fff;
 }

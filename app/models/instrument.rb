@@ -60,4 +60,10 @@ class Instrument < ActiveRecord::Base
   def statements
     self.cc_statements
   end
+
+  def copy(original_id)
+    original = Instrument.find original_id
+    #Deep copy all components, including those not directly
+    #references like ResponseDomainCodes
+  end
 end

@@ -1,5 +1,5 @@
 class InstrumentsController < ApplicationController
-  before_action :set_instrument, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:show, :edit, :update, :destroy, :copy]
 
   # GET /instruments
   # GET /instruments.json
@@ -30,6 +30,11 @@ class InstrumentsController < ApplicationController
       im.parse
     end
     redirect_to '/admin/import'
+  end
+
+  def copy
+    @instrument.copy params[:original_id]
+    head :ok, format: :json
   end
 
   # GET /instruments/new

@@ -10,22 +10,25 @@ Rails.application.routes.draw do
   end
   
   resources :instruments, shallow: true, constraints: -> (r){ (r.format == :json) } do 
-	resources :cc_sequences
-	resources :cc_statements
-	resources :cc_questions
-	resources :cc_loops
-	resources :cc_conditions
-	resources :response_units
-	resources :response_domain_datetimes
-	resources :response_domain_numerics
-	resources :question_grids
-	resources :question_items
-	resources :instructions
-	resources :response_domain_texts
-	resources :response_domain_codes
-	resources :codes
-	resources :code_lists
-	resources :categories
+		resources :cc_sequences
+		resources :cc_statements
+		resources :cc_questions
+		resources :cc_loops
+		resources :cc_conditions
+		resources :response_units
+		resources :response_domain_datetimes
+		resources :response_domain_numerics
+		resources :question_grids
+		resources :question_items
+		resources :instructions
+		resources :response_domain_texts
+		resources :response_domain_codes
+		resources :codes
+		resources :code_lists
+		resources :categories
+		member do
+			post 'copy/:original_id', to: 'instruments#copy'
+		end
   end
 
   get 'studies', to: 'application#studies', constraints: -> (r){ (r.format == :json) }
