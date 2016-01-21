@@ -97,6 +97,13 @@ build.controller('BuildCodeListsController',
                 $scope.current.newValue = null
           )
 
+          $scope.breadcrumbs = [
+            {label: 'Instruments', link: '/instruments', active: false},
+            {label: $scope.instrument.prefix, link: '/instruments/' + $scope.instrument.id.toString(), active: false},
+            {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
+            {label: 'Code Lists', link: false, active: true}
+          ]
+
       $scope.edit_path = (cl)->
         '/instruments/' + $scope.instrument.id + '/build/code_lists/'+ cl.id
 
