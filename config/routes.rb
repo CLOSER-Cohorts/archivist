@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   	resources :variables
   end
   
-  resources :instruments, shallow: true, constraints: -> (r){ (r.format == :json) } do 
+  resources :instruments, constraints: -> (r){ (r.format == :json) } do
 		resources :cc_sequences
 		resources :cc_statements
 		resources :cc_questions

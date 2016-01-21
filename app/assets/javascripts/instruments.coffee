@@ -28,13 +28,28 @@ instruments.config([ '$routeProvider',
       )
 ])
 
-instruments.factory('InstrumentsArchive', [ '$resource',
+///instruments.factory('InstrumentsArchive', [ '$resource',
   ($resource)->
     $resource('instruments/:id.json', {id: '@id'}, {
       query: {method: 'GET', isArray: true}
       save: {method: 'PUT'}
     })
-])
+])///
+
+instruments.factory(
+  'InstrumentsArchive',
+  [ 'WrappedResource',
+    (WrappedResource)->
+      new WrappedResource(
+        'instruments/:id.json',
+        {id: '@id'},
+        {
+          save:
+            method: 'PUT'
+        }
+      )
+  ]
+)
 
 instruments.factory('InstrumentRelationshipResolver', [
   ->

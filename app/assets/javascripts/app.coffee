@@ -3,6 +3,7 @@ archivist = angular.module('archivist', [
   'ngRoute',
   'archivist.flash',
   'archivist.instruments',
+  'archivist.build',
   'archivist.admin'
 ])
 

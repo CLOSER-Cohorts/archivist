@@ -540,7 +540,7 @@ CREATE TABLE question_grids (
     label character varying,
     literal character varying,
     instruction_id integer,
-    vertical_code_list_id integer NOT NULL,
+    vertical_code_list_id integer,
     horizontal_code_list_id integer NOT NULL,
     roster_rows integer DEFAULT 0,
     roster_label character varying,
@@ -1263,6 +1263,13 @@ CREATE INDEX index_categories_on_instrument_id ON categories USING btree (instru
 
 
 --
+-- Name: index_categories_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_categories_on_label ON categories USING btree (label);
+
+
+--
 -- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1712,4 +1719,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151206185120');
 INSERT INTO schema_migrations (version) VALUES ('20151206185659');
 
 INSERT INTO schema_migrations (version) VALUES ('20151206205100');
+
+INSERT INTO schema_migrations (version) VALUES ('20151211153924');
+
+INSERT INTO schema_migrations (version) VALUES ('20160121070958');
 

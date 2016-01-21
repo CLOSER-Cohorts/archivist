@@ -61,6 +61,14 @@ class Instrument < ActiveRecord::Base
     self.cc_statements
   end
 
+  def codes
+    Code.joins(:code_list).where('instrument_id = ?', id)
+  end
+
+  def response_domain_codes
+    ResponseDomainCode.joins(:code_list).where('instrument_id = ?', id)
+  end
+
   def copy(original_id)
     original = Instrument.find original_id
     #Deep copy all components, including those not directly
