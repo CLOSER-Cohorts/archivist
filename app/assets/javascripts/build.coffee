@@ -5,7 +5,8 @@ build = angular.module('archivist.build', [
   'archivist.instruments',
   'archivist.code_lists',
   'archivist.categories',
-  'archivist.codes'
+  'archivist.codes',
+  'archivist.data_manager'
 ])
 
 build.factory('builder', ['',
@@ -28,15 +29,15 @@ build.config(['$routeProvider',
       controller: 'BuildMenuController'
     )
     .when('/instruments/:id/build/code_lists/:code_list_id?',
-      templateUrl: 'partials/build/code_lists.html'
+      templateUrl: 'partials/build/editor.html'
       controller: 'BuildCodeListsController'
     )
     .when('/instruments/:id/build/response_domains',
       templateUrl: 'partials/build/response_domains.html'
       controller: 'BuildResponseDomainsController'
     )
-    .when('/instruments/:id/build/questions',
-      templateUrl: 'partials/build/questions.html'
+    .when('/instruments/:id/build/questions/:question_type?/:question_id?',
+      templateUrl: 'partials/build/editor.html'
       controller: 'BuildQuestionsController'
     )
     .when('/instruments/:id/build/constructs',
@@ -51,6 +52,7 @@ build.controller('BuildMenuController',
     '$routeParams',
     ($scope, $routeParams)->
       $scope.code_lists_url = '/instruments/' + $routeParams.id + '/build/code_lists'
+      $scope.questions_url = '/instruments/' + $routeParams.id + '/build/questions'
   ])
 
 build.controller('BuildCodeListsController',
@@ -60,12 +62,16 @@ build.controller('BuildCodeListsController',
     '$q',
     '$location',
     'flash',
-    'InstrumentsArchive',
+    'Instruments',
     'CodeListsArchive',
     'CategoriesArchive',
     'CodesArchive',
     'CodeResolver',
     ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, Codes, CodeResolver)->
+
+      $scope.title = "Code lists"
+      $scope.main_panel = "partials/build/code_lists.html"
+
       $scope.instrument = Instruments.get {id: $routeParams.id}
       $scope.code_lists = CodeLists.query {instrument_id: $routeParams.id}
       $scope.categories = Categories.query {instrument_id: $routeParams.id}
@@ -141,6 +147,62 @@ build.controller('BuildCodeListsController',
         $scope.editMode = true
         null
   ])
+
+build.controller('BuildQuestionsController',
+  [
+    '$scope',
+    '$routeParams',
+    '$location',
+    'DataManager',
+    (
+      $scope,
+      $routeParams,
+      $location,
+      DataManager
+    ) ->
+      $scope.title = "Questions"
+      $scope.main_panel = 'partials/build/questions.html'
+
+      $scope.instrument = DataManager.getInstrument($routeParams.id,{questions: true, rds: true}, ()->
+        $scope.sidebar_objs =  $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
+        if $routeParams.question_id?
+          $scope.reset()
+
+          $scope.breadcrumbs = [
+            {label: 'Instruments', link: '/instruments', active: false},
+            {label: $scope.instrument.prefix, link: '/instruments/' + $scope.instrument.id.toString(), active: false},
+            {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
+            {label: 'Questions', link: false, active: true}
+          ]
+      )
+
+      $scope.cancel = () ->
+        console.log "cancel called"
+        $scope.reset()
+        null
+
+      $scope.edit_path = (q)->
+        '/instruments/' + $scope.instrument.id + '/build/questions/' + q.type + '/' + q.id
+
+      $scope.change_panel = (q) ->
+        $location.url $scope.edit_path q
+
+      $scope.reset = () ->
+        console.log "reset called"
+        if $routeParams.question_type == 'question-item'
+          $scope.current = angular.copy $scope.instrument.Questions.Items.select_resource_by_id parseInt $routeParams.question_id
+          $scope.title = 'Question Item'
+        else
+          $scope.current = angular.copy $scope.instrument.Questions.Grids.select_resource_by_id parseInt $routeParams.question_id
+          $scope.title = 'Question Grid'
+        $scope.editMode = false
+        null
+
+      $scope.startEditMode = () ->
+        $scope.editMode = true
+        null
+  ]
+)
 
 build.directive('resumeScroll', ['$timeout', ($timeout)->
   {
