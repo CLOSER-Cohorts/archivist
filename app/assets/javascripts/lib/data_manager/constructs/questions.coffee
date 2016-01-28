@@ -8,11 +8,20 @@ questions.factory(
     'WrappedResource',
     (WrappedResource)->
       {
-        cc: new WrappedResource('instruments/:instrument_id/cc_questions/:id.json')
+        cc: new WrappedResource(
+          'instruments/:instrument_id/cc_questions/:id.json',
+          {id: '@id', instrument_id: '@instrument_id'}
+        )
 
-        item: new WrappedResource('instruments/:instrument_id/question_items/:id.json')
+        item: new WrappedResource(
+          'instruments/:instrument_id/question_items/:id.json',
+          {id: '@id', instrument_id: '@instrument_id'}
+        )
 
-        grid: new WrappedResource('instruments/:instrument_id/question_grids/:id.json')
+        grid: new WrappedResource(
+          'instruments/:instrument_id/question_grids/:id.json',
+          {id: '@id', instrument_id: '@instrument_id'}
+        )
       }
   ]
 )

@@ -166,12 +166,14 @@ build.controller('BuildQuestionsController',
     '$scope',
     '$routeParams',
     '$location',
+    'flash',
     'DataManager',
     'RealTimeListener'
     (
       $scope,
       $routeParams,
       $location,
+      Flash,
       DataManager,
       RealTimeListener
     ) ->
@@ -194,6 +196,19 @@ build.controller('BuildQuestionsController',
       $scope.listener = RealTimeListener (event, message)->
         if !$scope.editMode
           $scope.reset()
+
+      $scope.save = () ->
+        if $routeParams.question_type == 'question-item'
+          angular.copy $scope.current, $scope.instrument.Questions.Items.select_resource_by_id(parseInt($routeParams.question_id))
+          $scope.instrument.Questions.Items.select_resource_by_id(parseInt($routeParams.question_id)).$save(
+            {}
+          ,(value, rh)->
+            value['instrument_id'] = $scope.instrument.id
+            Flash.add('success', 'Question updated successfully!')
+            $scope.reset()
+          ,->
+            console.log("error")
+          )
 
       $scope.cancel = () ->
         console.log "cancel called"
