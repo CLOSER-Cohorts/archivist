@@ -5,10 +5,11 @@ module Realtime
 
     private
     def rt_update
-      output = self.to_json except: :created_at
-      output = JSON.parse output
-      output[:type] = self.class.name
-      $redis.publish 'rt-update', output.to_json
+      output = {}
+      output[:data] = self.to_json except: :created_at
+      output[:data] = JSON.parse output[:data]
+      output[:data][:type] = self.class.name
+      $redis.publish 'rt-update', output[:data].to_json
     end
   end
 end
