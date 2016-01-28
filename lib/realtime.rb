@@ -9,7 +9,7 @@ module Realtime
       data = self.to_json except: :created_at
       output[:data] = self.to_json except: :created_at
       data = JSON.parse data
-      data.type = self.class.name
+      data[:type] = self.class.name
       output[:data] = [data]
       $redis.publish 'rt-update', output.to_json
     end
