@@ -26,8 +26,7 @@ realtime.factory('RealTimeListener',
         constructor: ($rootScope, callback)->
           @handler = $rootScope.$on('rt-update', (event, message)->
             $rootScope.$apply () ->
-              console.log message
-              callback event, message
+              callback event, JSON.parse message
           );
 
       listener.prototype.stop = ()->

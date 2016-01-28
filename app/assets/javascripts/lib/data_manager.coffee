@@ -177,7 +177,6 @@ data_manager.factory(
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
 
       DataManager.listener = RealTimeListener (event, message)->
-
         if message.data?
           for row in message.data
             obj = Map.find(DataManager.Data, row.type).select_resource_by_id row.id
