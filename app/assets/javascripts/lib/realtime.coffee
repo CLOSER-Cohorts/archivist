@@ -7,7 +7,7 @@ realtime.factory('RealTimeConnection',
     ($rootScope)->
       service = {}
 
-      service.socket = io('http://localhost:5000')
+      service.socket = io window.socket_url
 
       service.socket.on 'disconnect', ()->
         console.error 'Archivisit RealTime connection lost.'
