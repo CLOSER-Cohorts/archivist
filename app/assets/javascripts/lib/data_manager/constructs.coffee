@@ -12,14 +12,12 @@ constructs.factory(
     'Conditions',
     'Loops',
     'Questions',
-    'QuestionResolver',
     'Sequences',
     'Statements',
     (
       Conditions,
       Loops,
       Questions,
-      QuestionResolver,
       Sequences,
       Statements,
     )->
@@ -28,7 +26,6 @@ constructs.factory(
       Constructs.Conditions       = Conditions
       Constructs.Loops            = Loops
       Constructs.Questions        = Questions
-      Constructs.QuestionResolver = QuestionResolver
       Constructs.Sequences        = Sequences
       Constructs.Statements       = Statements
 

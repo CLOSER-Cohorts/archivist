@@ -1,9 +1,11 @@
 data_manager = angular.module(
   'archivist.data_manager',
   [
+    'archivist.data_manager.map',
     'archivist.data_manager.instruments',
     'archivist.data_manager.constructs',
-    'archivist.data_manager.resolution'
+    'archivist.data_manager.resolution',
+    'archivist.realtime'
   ]
 )
 
@@ -12,19 +14,25 @@ data_manager.factory(
   [
     '$http',
     '$q',
+    'Map',
     'Instruments',
     'Constructs',
-    'ResolutionService'
+    'ResolutionService',
+    'RealTimeListener'
     (
       $http,
       $q,
+      Map,
       Instruments,
       Constructs,
-      ResolutionService
+      ResolutionService,
+      RealTimeListener
     )->
       DataManager = {}
 
       DataManager.Data = {}
+
+      DataManager.Data.ResponseDomains = {}
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
@@ -138,10 +146,11 @@ data_manager.factory(
             if options.constructs and options.instrument and options.topsequence
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Sequences when s.top)[0]
 
-            if options.rds and options.instrument
-              $http.get('/instruments/' + instrument_id + '/response_domains.json').success((data)->
-                DataManager.Data.Instrument.rds = data
-              )
+            if options.rds
+              if options.instrument
+                DataManager.Data.Instrument.rds = DataManager.getResponseDomains instrument_id
+              else
+                DataManager.getResponseDomains instrument_id
 
             if success?
               success()
@@ -152,6 +161,13 @@ data_manager.factory(
 
         return DataManager.Data.Instrument
 
+      DataManager.getResponseDomains = (instrument_id, force = false)->
+        if (not DataManager.Data.ResponseDomains[instrument_id]?) or force
+          $http.get('/instruments/' + instrument_id + '/response_domains.json').success((data)->
+            DataManager.Data.ResponseDomains[instrument_id] = data
+          )
+        DataManager.Data.ResponseDomains[instrument_id]
+
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.resolve options
@@ -159,6 +175,15 @@ data_manager.factory(
       DataManager.resolveQuestions = ()->
         DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
+
+      DataManager.listener = RealTimeListener (event, message)->
+        if message.data?
+          for row in message.data
+            obj = Map.find(DataManager.Data, row.type).select_resource_by_id row.id
+            if obj?
+              for key, value of row
+                if ['id','type'].indexOf(key) == -1
+                  obj[key] = row[key]
 
       DataManager
   ]

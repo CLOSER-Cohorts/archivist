@@ -6,7 +6,8 @@ build = angular.module('archivist.build', [
   'archivist.code_lists',
   'archivist.categories',
   'archivist.codes',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'archivist.realtime'
 ])
 
 build.factory('builder', ['',
@@ -32,27 +33,29 @@ build.config(['$routeProvider',
       templateUrl: 'partials/build/editor.html'
       controller: 'BuildCodeListsController'
     )
-    .when('/instruments/:id/build/response_domains',
-      templateUrl: 'partials/build/response_domains.html'
+    .when('/instruments/:id/build/response_domains/:response_domain_type?/:response_domain_id?',
+      templateUrl: 'partials/build/editor.html'
       controller: 'BuildResponseDomainsController'
     )
     .when('/instruments/:id/build/questions/:question_type?/:question_id?',
       templateUrl: 'partials/build/editor.html'
       controller: 'BuildQuestionsController'
     )
-    .when('/instruments/:id/build/constructs',
-      templateUrl: 'partials/build/constructs.html'
+    .when('/instruments/:id/build/constructs/:construct_type?/:construct_id?',
+      templateUrl: 'partials/build/editor.html'
       controller: 'BuildConstructsController'
     )
 ])
 
 build.controller('BuildMenuController',
   [
-    '$scope'
+    '$scope',
     '$routeParams',
     ($scope, $routeParams)->
       $scope.code_lists_url = '/instruments/' + $routeParams.id + '/build/code_lists'
+      $scope.response_domains_url = '/instruments/' + $routeParams.id + '/build/response_domains'
       $scope.questions_url = '/instruments/' + $routeParams.id + '/build/questions'
+      $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs'
   ])
 
 build.controller('BuildCodeListsController',
@@ -148,17 +151,29 @@ build.controller('BuildCodeListsController',
         null
   ])
 
+build.controller('BuildResponseDomainsController',
+  [
+    '$scope',
+    '$routeParams',
+    ($scope, $routeParams)->
+      $scope.title = "Response Domains"
+      $scope.main_panel = "partials/build/response_domains.html"
+  ]
+)
+
 build.controller('BuildQuestionsController',
   [
     '$scope',
     '$routeParams',
     '$location',
     'DataManager',
+    'RealTimeListener'
     (
       $scope,
       $routeParams,
       $location,
-      DataManager
+      DataManager,
+      RealTimeListener
     ) ->
       $scope.title = "Questions"
       $scope.main_panel = 'partials/build/questions.html'
@@ -175,6 +190,10 @@ build.controller('BuildQuestionsController',
             {label: 'Questions', link: false, active: true}
           ]
       )
+
+      $scope.listener = RealTimeListener (event, message)->
+        if !$scope.editMode
+          $scope.reset()
 
       $scope.cancel = () ->
         console.log "cancel called"
@@ -201,6 +220,16 @@ build.controller('BuildQuestionsController',
       $scope.startEditMode = () ->
         $scope.editMode = true
         null
+  ]
+)
+
+build.controller('BuildConstructsController',
+  [
+    '$scope',
+    '$routeParams',
+    ($scope, $routeParams)->
+      $scope.title = "Constructs"
+      $scope.main_panel = "partials/build/constructs.html"
   ]
 )
 

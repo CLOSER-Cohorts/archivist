@@ -55,8 +55,9 @@ instruments.controller('InstrumentsController',
           },
           ()->
             $timeout ()->
-              DataManager.resolveConstructs()
-              DataManager.resolveQuestions()
+              if loadStructure
+                DataManager.resolveConstructs()
+                DataManager.resolveQuestions()
               $scope.loading.state = "Done"
 
         #TODO: Move to DataManager at some point

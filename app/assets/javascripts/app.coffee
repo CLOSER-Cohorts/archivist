@@ -1,10 +1,12 @@
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
+  'ui.sortable',
   'archivist.flash',
   'archivist.instruments',
   'archivist.build',
-  'archivist.admin'
+  'archivist.admin',
+  'archivist.realtime'
 ])
 
 archivist.config([ '$routeProvider', '$locationProvider',
@@ -24,8 +26,8 @@ archivist.controller('RootController', [ '$scope', '$location', 'flash'
       viewLocation == $location.path()
 ])
 
-archivist.run(['$rootScope', 'flash',
-  ($rootScope, Flash)->
+archivist.run(['$rootScope', 'flash', 'RealTimeConnection'
+  ($rootScope, Flash, RealTimeConnection)->
     Array::unique = ->
       output = {}
       output[@[key]] = @[key] for key in [0...@length]

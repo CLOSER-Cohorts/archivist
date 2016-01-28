@@ -5,4 +5,7 @@ asset 'angular-messages'
 asset 'angular-animate'
 asset 'bootstrap-sass-official'
 asset 'angular-bootstrap'
+asset 'angular-ui-sortable'
+asset 'jquery-ui'
+asset 'socket.io-client'
 # vim: ft=ruby
