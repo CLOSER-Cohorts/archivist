@@ -177,13 +177,19 @@ data_manager.factory(
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
 
       DataManager.listener = RealTimeListener (event, message)->
+        apply = (obj, row)->
+          for key, value of row
+            if ['id','type'].indexOf(key) == -1
+              obj[key] = row[key]
+          obj
+
         if message.data?
           for row in message.data
             obj = Map.find(DataManager.Data, row.type).select_resource_by_id row.id
             if obj?
-              for key, value of row
-                if ['id','type'].indexOf(key) == -1
-                  obj[key] = row[key]
+              obj = apply obj, row
+            if row.type == 'Instrument' and row.id DataManager.Data.Instrument.id
+              DataManager.Data.Instrument = apply DataManager.Data.Instrument, row
 
       DataManager
   ]
