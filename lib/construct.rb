@@ -3,7 +3,11 @@ module Construct
   included do
     belongs_to :instrument
     has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
+
+    include Realtime
+
     before_create :create_control_construct
+
     delegate :label, to: :cc
     delegate :label=, to: :cc
     

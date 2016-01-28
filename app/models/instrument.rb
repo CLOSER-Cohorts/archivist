@@ -41,6 +41,8 @@ class Instrument < ActiveRecord::Base
   has_many :response_domain_texts, dependent: :destroy
   has_many :response_units, dependent: :destroy
 
+  include Realtime
+
   def conditions
     self.cc_conditions
   end
@@ -66,12 +68,17 @@ class Instrument < ActiveRecord::Base
   end
 
   def response_domain_codes
-    ResponseDomainCode.joins(:code_list).where('instrument_id = ?', id)
+    ResponseDomainCode.includes(:code_list).joins(:code_list).where('instrument_id = ?', id)
+  end
+
+  def response_domains
+    self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
+    self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
   def copy(original_id)
     original = Instrument.find original_id
     #Deep copy all components, including those not directly
-    #references like ResponseDomainCodes
+    #referenced like ResponseDomainCodes
   end
 end
