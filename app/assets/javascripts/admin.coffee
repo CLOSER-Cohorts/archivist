@@ -1,7 +1,7 @@
 admin = angular.module('archivist.admin', [
   'templates',
   'ngRoute',
-  'archivist.instruments'
+  'archivist.data_manager'
 ])
 
 admin.config(['$routeProvider',
@@ -34,14 +34,14 @@ admin.controller('AdminDashController',
 admin.controller('AdminInstrumentsController',
   [
     '$scope',
-    'InstrumentsArchive'
-    ($scope, Instruments)->
-      $scope.instruments = Instruments.query()
+    'DataManager'
+    ($scope, DataManager)->
+      $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 8
 
       $scope.prepareCopy = (id)->
         $scope.original = $scope.instruments.select_resource_by_id(id)
-        $scope.copiedInstrument = new Instruments()
+        $scope.copiedInstrument = new DataManager.Instruments.resource()
         $scope.copiedInstrument.study = $scope.original.study
         $scope.copiedInstrument.agency = $scope.original.agency
         $scope.copiedInstrument.version = $scope.original.version

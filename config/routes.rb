@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 		resources :categories
 		member do
 			post 'copy/:original_id', to: 'instruments#copy'
+      get 'response_domains', to: 'instruments#response_domains'
 		end
   end
 
