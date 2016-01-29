@@ -13,15 +13,6 @@ class CcQuestionsController < ApplicationController
   def show
   end
 
-  # GET /cc_questions/new
-  def new
-    @cc_question = @instrument.cc_questions.new
-  end
-
-  # GET /cc_questions/1/edit
-  def edit
-  end
-
   # POST /cc_questions
   # POST /cc_questions.json
   def create
@@ -29,10 +20,8 @@ class CcQuestionsController < ApplicationController
 
     respond_to do |format|
       if @cc_question.save
-        format.html { redirect_to @cc_question, notice: 'Cc question was successfully created.' }
         format.json { render :show, status: :created, location: @cc_question }
       else
-        format.html { render :new }
         format.json { render json: @cc_question.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class CcQuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @cc_question.update(cc_question_params)
-        format.html { redirect_to @cc_question, notice: 'Cc question was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_question }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_question.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class CcQuestionsController < ApplicationController
   def destroy
     @cc_question.destroy
     respond_to do |format|
-      format.html { redirect_to cc_questions_url, notice: 'Cc question was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -13,15 +13,6 @@ class CcConditionsController < ApplicationController
   def show
   end
 
-  # GET /cc_conditions/new
-  def new
-    @cc_condition = @instrument.cc_conditions.new
-  end
-
-  # GET /cc_conditions/1/edit
-  def edit
-  end
-
   # POST /cc_conditions
   # POST /cc_conditions.json
   def create
@@ -29,10 +20,8 @@ class CcConditionsController < ApplicationController
 
     respond_to do |format|
       if @cc_condition.save
-        format.html { redirect_to @cc_condition, notice: 'Cc condition was successfully created.' }
-        format.json { render :show, status: :created, location: @cc_condition }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @cc_condition.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class CcConditionsController < ApplicationController
   def update
     respond_to do |format|
       if @cc_condition.update(cc_condition_params)
-        format.html { redirect_to @cc_condition, notice: 'Cc condition was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_condition }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_condition.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class CcConditionsController < ApplicationController
   def destroy
     @cc_condition.destroy
     respond_to do |format|
-      format.html { redirect_to cc_conditions_url, notice: 'Cc condition was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
