@@ -22,6 +22,7 @@ archivist.config([ '$routeProvider', '$locationProvider',
 archivist.controller('RootController', [ '$scope', '$location', 'flash'
   ($scope, $location, Flash)->
     $scope.softwareName = 'Archivist'
+    $scope.page['title'] = 'Home'
     $scope.isActive = (viewLocation) ->
       viewLocation == $location.path()
 ])
@@ -36,7 +37,13 @@ archivist.run(['$rootScope', 'flash', 'RealTimeConnection'
     Array::select_resource_by_id = (ref_id)->
       output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 
+    String::replaceAll = (search, replacement) ->
+      target = this
+      target.replace(new RegExp(search, 'g'), replacement)
+
     $rootScope.$on('$routeChangeSuccess', ->
       Flash.publish($rootScope)
     )
+
+    $rootScope.page = {title: 'Home'}
 ])

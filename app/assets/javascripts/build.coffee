@@ -74,8 +74,10 @@ build.controller('BuildCodeListsController',
 
       $scope.title = "Code lists"
       $scope.main_panel = "partials/build/code_lists.html"
+      $scope.page['title'] = 'Code Lists'
 
-      $scope.instrument = Instruments.get {id: $routeParams.id}
+      $scope.instrument = Instruments.get {id: $routeParams.id}, ->
+        $scope.page['title'] = $scope.instrument.prefix + ' | Code Lists'
       $scope.code_lists = CodeLists.query {instrument_id: $routeParams.id}
       $scope.categories = Categories.query {instrument_id: $routeParams.id}
       $scope.codes = Codes.query {instrument_id: $routeParams.id}
@@ -158,6 +160,7 @@ build.controller('BuildResponseDomainsController',
     ($scope, $routeParams)->
       $scope.title = "Response Domains"
       $scope.main_panel = "partials/build/response_domains.html"
+      $scope.page['title'] = 'Response Domains'
   ]
 )
 
@@ -179,8 +182,10 @@ build.controller('BuildQuestionsController',
     ) ->
       $scope.title = "Questions"
       $scope.main_panel = 'partials/build/questions.html'
+      $scope.page['title'] = 'Questions'
 
       $scope.instrument = DataManager.getInstrument($routeParams.id,{questions: true, rds: true}, ()->
+        $scope.page['title'] = $scope.instrument.prefix + ' | Questions'
         $scope.sidebar_objs =  $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
         if $routeParams.question_id?
           $scope.reset()
@@ -245,6 +250,7 @@ build.controller('BuildConstructsController',
     ($scope, $routeParams)->
       $scope.title = "Constructs"
       $scope.main_panel = "partials/build/constructs.html"
+      $scope.page['title'] = 'Constructs'
   ]
 )
 
@@ -262,5 +268,16 @@ build.directive('resumeScroll', ['$timeout', ($timeout)->
 
         scope.$on '$destroy', ()->
           localStorage.setItem 'sidebar-scroll-top', iElement.scrollTop
+  }
+])
+
+build.directive('strip', [ ->
+  {
+  scope:
+    key: '@'
+
+  link:
+    postLink: (scope, iElement, iAttrs)->
+      iElement.text = iElement.text.replaceAll 'ResponseDomain', ''
   }
 ])

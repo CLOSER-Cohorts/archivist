@@ -35,6 +35,7 @@ instruments.controller('InstrumentsController',
     'flash',
     'DataManager',
     ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
+      $scope.page['title'] = 'Instruments'
       if $routeParams.id
         loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() != 'edit'
         loadStudies = !loadStructure
@@ -54,8 +55,10 @@ instruments.controller('InstrumentsController',
             progress: progressUpdate
           },
           ()->
+            $scope.page['title'] = $scope.instrument.prefix + ' | Edit'
             $timeout ()->
               if loadStructure
+                $scope.page['title'] = $scope.instrument.prefix + ' | View'
                 DataManager.resolveConstructs()
                 DataManager.resolveQuestions()
               $scope.loading.state = "Done"
