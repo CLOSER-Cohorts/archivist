@@ -40,15 +40,6 @@ class InstrumentsController < ApplicationController
     head :ok, format: :json
   end
 
-  # GET /instruments/new
-  def new
-    @instrument = Instrument.new
-  end
-
-  # GET /instruments/1/edit
-  def edit
-  end
-
   # POST /instruments
   # POST /instruments.json
   def create
@@ -56,10 +47,8 @@ class InstrumentsController < ApplicationController
 
     respond_to do |format|
       if @instrument.save
-        format.html { redirect_to @instrument, notice: 'Instrument was successfully created.' }
-        format.json { render :show, status: :created, location: @instrument }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @instrument.errors, status: :unprocessable_entity }
       end
     end
@@ -70,10 +59,8 @@ class InstrumentsController < ApplicationController
   def update
     respond_to do |format|
       if @instrument.update(instrument_params)
-        format.html { redirect_to @instrument, notice: 'Instrument was successfully updated.' }
-        format.json { render :show, status: :ok, location: @instrument }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @instrument.errors, status: :unprocessable_entity }
       end
     end
@@ -84,7 +71,6 @@ class InstrumentsController < ApplicationController
   def destroy
     @instrument.destroy
     respond_to do |format|
-      format.html { redirect_to instruments_url, notice: 'Instrument was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

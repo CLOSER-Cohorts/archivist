@@ -29,10 +29,8 @@ class CcLoopsController < ApplicationController
 
     respond_to do |format|
       if @cc_loop.save
-        format.html { redirect_to @cc_loop, notice: 'Cc loop was successfully created.' }
-        format.json { render :show, status: :created, location: @cc_loop }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @cc_loop.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +41,8 @@ class CcLoopsController < ApplicationController
   def update
     respond_to do |format|
       if @cc_loop.update(cc_loop_params)
-        format.html { redirect_to @cc_loop, notice: 'Cc loop was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_loop }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_loop.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +53,6 @@ class CcLoopsController < ApplicationController
   def destroy
     @cc_loop.destroy
     respond_to do |format|
-      format.html { redirect_to cc_loops_url, notice: 'Cc loop was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

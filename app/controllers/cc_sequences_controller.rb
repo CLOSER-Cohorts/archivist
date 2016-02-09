@@ -13,15 +13,6 @@ class CcSequencesController < ApplicationController
   def show
   end
 
-  # GET /cc_sequences/new
-  def new
-    @cc_sequence = @instrument.cc_sequences.new
-  end
-
-  # GET /cc_sequences/1/edit
-  def edit
-  end
-
   # POST /cc_sequences
   # POST /cc_sequences.json
   def create
@@ -29,10 +20,8 @@ class CcSequencesController < ApplicationController
 
     respond_to do |format|
       if @cc_sequence.save
-        format.html { redirect_to @cc_sequence, notice: 'Cc sequence was successfully created.' }
-        format.json { render :show, status: :created, location: @cc_sequence }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @cc_sequence.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class CcSequencesController < ApplicationController
   def update
     respond_to do |format|
       if @cc_sequence.update(cc_sequence_params)
-        format.html { redirect_to @cc_sequence, notice: 'Cc sequence was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_sequence }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_sequence.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class CcSequencesController < ApplicationController
   def destroy
     @cc_sequence.destroy
     respond_to do |format|
-      format.html { redirect_to cc_sequences_url, notice: 'Cc sequence was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

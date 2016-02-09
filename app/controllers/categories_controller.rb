@@ -29,10 +29,8 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to @category, notice: 'Category was successfully created.' }
-        format.json { render :show, status: :created, location: @category }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @category.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +41,8 @@ class CategoriesController < ApplicationController
   def update
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to @category, notice: 'Category was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @category.errors, status: :unprocessable_entity }
       end
     end
@@ -58,12 +54,10 @@ class CategoriesController < ApplicationController
     begin
       @category.destroy
       respond_to do |format|
-        format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
         format.json { head :no_content }
       end
     rescue ActiveRecord::InvalidForeignKey
       respond_to do |format|
-        format.html { redirect_to categories_url, alert: 'Category was not destroyed.', status: :bad_request }
         format.json { head :no_content, status: :bad_request }
       end
     end
