@@ -6,3 +6,4 @@ services:
 before_script:
   - psql -c 'create database archivist_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
+  - rm -f Gemfile.lock
