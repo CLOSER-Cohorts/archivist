@@ -1,1 +1,1 @@
-json.extract! @cc_sequence, :id, :literal, :created_at, :updated_at
+json.extract! @cc_sequence, :id, :literal, :position, :created_at, :updated_at

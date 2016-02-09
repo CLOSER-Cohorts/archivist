@@ -19,8 +19,8 @@ module XML
       categories = @doc.xpath("//l:Category")
       @category_index = {}
       categories.each do |category|
-        cat = Category.new({label: category.at_xpath("r:Label/r:Content").content})
-        @category_index[category.at_xpath('r:URN').content] = cat
+        cat = Category.new({label: category.at_xpath("./r:Label/r:Content").content})
+        @category_index[category.at_xpath('./r:URN').content] = cat
         @instrument.categories << cat
       end
       @counters['categories'] = categories.length
@@ -31,23 +31,23 @@ module XML
       @counters['codes'] = 0
       @code_list_index = {}
       code_lists.each do |code_list|
-        cl = CodeList.new({label: code_list.at_xpath("r:Label/r:Content").content})
-        @code_list_index[code_list.at_xpath('r:URN').content] = cl
+        cl = CodeList.new({label: code_list.at_xpath("./r:Label/r:Content").content})
+        @code_list_index[code_list.at_xpath('./r:URN').content] = cl
         @instrument.code_lists << cl
-        codes = code_list.xpath("l:Code")
+        codes = code_list.xpath("./l:Code")
         @counters['codes'] += codes.length
         order_counter = 0
         codes.each do |code|
           order_counter += 1
-          co = Code.new({value: code.at_xpath("r:Value").content, order: order_counter})
-          co.category = @category_index[code.at_xpath("r:CategoryReference/r:URN").content]
+          co = Code.new({value: code.at_xpath("./r:Value").content, order: order_counter})
+          co.category = @category_index[code.at_xpath("./r:CategoryReference/r:URN").content]
           cl.codes << co
         end
       end
-      
+
       #Read response domain code
       @rdcs_created = []
-      rdc_urns = @doc.xpath("//d:CodeDomain/r:CodeListReference/r:URN")
+      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN")
       rdc_urns.each do |urn|
         if not @rdcs_created.include? urn.content
           @rdcs_created << urn.content
@@ -132,25 +132,25 @@ module XML
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
         
         #Adding response domains
-        rdcs = question_item.xpath(".//d:CodeDomain/r:CodeListReference/r:URN")
+        rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN")
         rdcs.each do |rdc|
           qi.response_domain_codes << @code_list_index[rdc.content].response_domain
         end
-        rdns = question_item.xpath(".//d:NumericDomain/r:Label/r:Content")
+        rdns = question_item.xpath("./d:NumericDomain/r:Label/r:Content")
         rdns.each do |rdn|
           qi.response_domain_numerics << @reponse_domain_index['N'+rdn.content]
         end
-        rdts = question_item.xpath(".//d:TextDomain/r:Label/r:Content")
+        rdts = question_item.xpath("./d:TextDomain/r:Label/r:Content")
         rdts.each do |rdt|
           qi.response_domain_texts << @reponse_domain_index['T'+rdt.content]
         end
-        rdds = question_item.xpath(".//d:DateTimeDomain/r:Label/r:Content")
+        rdds = question_item.xpath("./d:DateTimeDomain/r:Label/r:Content")
         rdds.each do |rdd|
           qi.response_domain_datetimes << @reponse_domain_index['D'+rdd.content]
         end
         
         #Adding instruction
-        instr = question_item.at_xpath("d:InterviewerInstructionReference/r:URN")
+        instr = question_item.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
           qi.instruction = @instruction_index[instr.content]
         end
@@ -248,7 +248,9 @@ module XML
     end
     
     def read_sequence_children(node, parent)
+      position_counter = 0
       node.xpath("./d:ControlConstructReference").each do |child_ref|
+        position_counter += 1
         urn = child_ref.at_xpath("./r:URN").content
         type = child_ref.at_xpath("./r:TypeOfObject").content
         if type == 'Sequence'
@@ -256,6 +258,7 @@ module XML
           cc_s = CcSequence.new
           @instrument.sequences << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_s.position = position_counter
           parent.children << cc_s.cc
           read_sequence_children(child, cc_s)
           cc_s.save!
@@ -264,6 +267,7 @@ module XML
           cc_s = CcStatement.new
           @instrument.statements << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_s.position = position_counter
           cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
           parent.children << cc_s.cc
           cc_s.save!
@@ -284,6 +288,7 @@ module XML
           cc_q.response_unit = ru
           @instrument.questions << cc_q
           cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_q.position = position_counter
           parent.children << cc_q.cc
           cc_q.save!
         elsif type == 'IfThenElse'
@@ -291,6 +296,7 @@ module XML
           cc_c = CcCondition.new
           @instrument.conditions << cc_c
           cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_c.position = position_counter
           c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
           
           #TODO: Protect against no logic
@@ -321,6 +327,7 @@ module XML
           end_node = child.at_xpath("./d:EndValue/r:Command/r:CommandContent")
           while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
           cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_l.position = position_counter
           if not start_node.nil?
             pieces = start_node.content.split /\W\D\s/
             cc_l.loop_var = pieces[0]
