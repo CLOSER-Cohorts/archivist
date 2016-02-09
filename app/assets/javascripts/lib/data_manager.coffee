@@ -106,6 +106,8 @@ data_manager.factory(
           promises.push DataManager.Data.Constructs.Sequences.$promise
 
         if options.questions
+          qiDefer = $q.defer()
+          promises.push qiDefer.promise
 
           DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Items  =
@@ -116,8 +118,17 @@ data_manager.factory(
               if options.instrument
                 DataManager.Data.Instrument.Questions ?= {}
                 DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items
+
+              console.log DataManager.Data.Instrument.Questions.Items
+              console.log DataManager.Data.Instrument
+              qiDefer.resolve()
+              ''
             )
-          promises.push DataManager.Data.Questions.Items.$promise
+
+          qgDefer = $q.defer()
+          console.log qgDefer
+          promises.push qgDefer.promise
+          console.log qgDefer.promise
 
           DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Grids  =
@@ -125,11 +136,15 @@ data_manager.factory(
               for obj, index in collection
                 collection[index].type = 'question-grid'
 
-                if options.instrument
-                  DataManager.Data.Instrument.Questions ?= {}
-                  DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
+              if options.instrument
+                DataManager.Data.Instrument.Questions ?= {}
+                DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
+
+              console.log DataManager.Data.Instrument.Questions.Grids
+              console.log DataManager.Data.Instrument
+              qgDefer.resolve()
+              ''
             )
-          promises.push DataManager.Data.Questions.Grids.$promise
 
         chunk_size = 100 / promises.length
         for promise in promises
@@ -138,11 +153,13 @@ data_manager.factory(
             if options.progress?
               options.progress(DataManager.progress)
 
+        console.log promises
         $q.all(
           promises
         )
         .then(
           ->
+            console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Sequences when s.top)[0]
 

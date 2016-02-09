@@ -89,7 +89,7 @@
             </td>
         </tr>
         <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != 'ResponseDomainCode'">
-            <td>
+            <td data-ng-strip="ResponseDomain">
                 {{rd.type}}
             </td>
             <td>
