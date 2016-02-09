@@ -1,26 +1,40 @@
 Rails.application.routes.draw do
-  resources :topics
-  resources :variables
-  resources :datasets
-  resources :cc_sequences
-  resources :cc_statements
-  resources :cc_questions
-  resources :cc_loops
-  resources :cc_conditions
-  resources :response_units
-  resources :response_domain_datetimes
-  resources :response_domain_numerics
-  resources :instruments
-  resources :question_grids
-  resources :question_items
-  resources :instructions
-  resources :response_domain_texts
-  resources :response_domain_codes
-  resources :codes
-  resources :code_lists
-  resources :categories
-
   root 'application#index'
+
+	match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
+
+  resources :topics, constraints: -> (r){ (r.format == :json) }
+  
+  resources :datasets, shallow: true, constraints: -> (r){ (r.format == :json) } do 
+  	resources :variables
+  end
+  
+  resources :instruments, constraints: -> (r){ (r.format == :json) } do
+		resources :cc_sequences
+		resources :cc_statements
+		resources :cc_questions
+		resources :cc_loops
+		resources :cc_conditions
+		resources :response_units
+		resources :response_domain_datetimes
+		resources :response_domain_numerics
+		resources :question_grids
+		resources :question_items
+		resources :instructions
+		resources :response_domain_texts
+		resources :response_domain_codes
+		resources :codes
+		resources :code_lists
+		resources :categories
+		member do
+			post 'copy/:original_id', to: 'instruments#copy'
+      get 'response_domains', to: 'instruments#response_domains'
+		end
+  end
+
+  get 'studies', to: 'application#studies', constraints: -> (r){ (r.format == :json) }
+  match '*path', to: 'application#index', via: :all, constraints: {format: ''}
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

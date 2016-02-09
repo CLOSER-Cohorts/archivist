@@ -1,10 +1,11 @@
 class QuestionGridsController < ApplicationController
   before_action :set_question_grid, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /question_grids
   # GET /question_grids.json
   def index
-    @question_grids = QuestionGrid.all
+    @question_grids = @instrument.question_grids
   end
 
   # GET /question_grids/1
@@ -14,7 +15,7 @@ class QuestionGridsController < ApplicationController
 
   # GET /question_grids/new
   def new
-    @question_grid = QuestionGrid.new
+    @question_grid = @instrument.question_grids.new
   end
 
   # GET /question_grids/1/edit
@@ -24,7 +25,7 @@ class QuestionGridsController < ApplicationController
   # POST /question_grids
   # POST /question_grids.json
   def create
-    @question_grid = QuestionGrid.new(question_grid_params)
+    @question_grid = @instrument.question_grids.new(question_grid_params)
 
     respond_to do |format|
       if @question_grid.save
@@ -65,6 +66,10 @@ class QuestionGridsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_question_grid
       @question_grid = QuestionGrid.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

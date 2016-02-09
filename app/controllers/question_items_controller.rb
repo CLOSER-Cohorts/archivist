@@ -1,10 +1,11 @@
 class QuestionItemsController < ApplicationController
   before_action :set_question_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /question_items
   # GET /question_items.json
   def index
-    @question_items = QuestionItem.all
+    @question_items = @instrument.question_items
   end
 
   # GET /question_items/1
@@ -14,7 +15,7 @@ class QuestionItemsController < ApplicationController
 
   # GET /question_items/new
   def new
-    @question_item = QuestionItem.new
+    @question_item = @instrument.question_items.new
   end
 
   # GET /question_items/1/edit
@@ -24,7 +25,7 @@ class QuestionItemsController < ApplicationController
   # POST /question_items
   # POST /question_items.json
   def create
-    @question_item = QuestionItem.new(question_item_params)
+    @question_item = @instrument.question_items.new(question_item_params)
 
     respond_to do |format|
       if @question_item.save
@@ -43,7 +44,7 @@ class QuestionItemsController < ApplicationController
     respond_to do |format|
       if @question_item.update(question_item_params)
         format.html { redirect_to @question_item, notice: 'Question item was successfully updated.' }
-        format.json { render :show, status: :ok, location: @question_item }
+        format.json { render :show, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @question_item.errors, status: :unprocessable_entity }
@@ -65,6 +66,10 @@ class QuestionItemsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_question_item
       @question_item = QuestionItem.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

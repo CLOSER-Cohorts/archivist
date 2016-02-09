@@ -1,0 +1,73 @@
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button aria-controls="navbar" aria-expanded="false" class=
+			"navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type=
+			"button"><span class="sr-only">Toggle navigation</span> <span class=
+			"icon-bar"></span> <span class="icon-bar"></span> <span class=
+			"icon-bar"></span></button> <a class="navbar-brand" href="#">{{softwareName}}</a>
+		</div>
+		<div class="navbar-collapse collapse" id="navbar">
+			<ul class="nav navbar-nav">
+				<li data-ng-class="{active: isActive('/')}">
+					<a href="/">Home</a>
+				</li>
+				<li data-ng-class="{active: isActive('/instruments')}">
+					<a href="/instruments">Instruments</a>
+				</li>
+				<li data-ng-class="{active: isActive('/datasets')}">
+					<a href="/datasets">Datasets</a>
+				</li>
+				<li data-ng-class="{active: isActive('/topics')}">
+					<a href="/topics">Topics</a>
+				</li>
+				<li data-ng-class="{active: isActive('/admin')}" class="dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
+					data-toggle="dropdown" href="#" role="button">Admin <span class=
+					"caret"></span></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="/admin">Dashboard</a>
+						</li>
+            <li>
+              <a href="/admin/instruments">Instruments</a>
+            </li>
+						<li>
+							<a href="/admin/users">Users</a>
+						</li>
+						<li>
+							<a href="/admin/reporting">Reporting</a>
+						</li>
+						<li class="divider" role="separator"></li>
+						<li class="dropdown-header">Data</li>
+						<li>
+							<a href="/admin/import">Import</a>
+						</li>
+						<li>
+							<a href="/admin/export">Export</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="/help">Help</a>
+				</li>
+				<li>
+					<a href="/logout">Logout</a>
+				</li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="view-container">
+    <div data-ng-repeat="notice in notices" data-ng-if="isActive('/admin') == false">
+      <div class="alert alert-{{notice.type}}" role="alert">
+        {{notice.message}}
+      </div>
+    </div>
+		<div data-ng-view class="view-frame animate-view"></div>
+	</div>
+</div>

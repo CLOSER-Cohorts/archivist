@@ -1,10 +1,11 @@
 class CcSequencesController < ApplicationController
   before_action :set_cc_sequence, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:new, :create, :index]
 
   # GET /cc_sequences
   # GET /cc_sequences.json
   def index
-    @cc_sequences = CcSequence.all
+    @cc_sequences = @instrument.cc_sequences
   end
 
   # GET /cc_sequences/1
@@ -12,26 +13,15 @@ class CcSequencesController < ApplicationController
   def show
   end
 
-  # GET /cc_sequences/new
-  def new
-    @cc_sequence = CcSequence.new
-  end
-
-  # GET /cc_sequences/1/edit
-  def edit
-  end
-
   # POST /cc_sequences
   # POST /cc_sequences.json
   def create
-    @cc_sequence = CcSequence.new(cc_sequence_params)
+    @cc_sequence = @instrument.cc_sequences.new(cc_sequence_params)
 
     respond_to do |format|
       if @cc_sequence.save
-        format.html { redirect_to @cc_sequence, notice: 'Cc sequence was successfully created.' }
-        format.json { render :show, status: :created, location: @cc_sequence }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @cc_sequence.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +32,8 @@ class CcSequencesController < ApplicationController
   def update
     respond_to do |format|
       if @cc_sequence.update(cc_sequence_params)
-        format.html { redirect_to @cc_sequence, notice: 'Cc sequence was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_sequence }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_sequence.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +44,6 @@ class CcSequencesController < ApplicationController
   def destroy
     @cc_sequence.destroy
     respond_to do |format|
-      format.html { redirect_to cc_sequences_url, notice: 'Cc sequence was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +52,10 @@ class CcSequencesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cc_sequence
       @cc_sequence = CcSequence.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

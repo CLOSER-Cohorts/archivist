@@ -9,6 +9,9 @@ module Question
     has_many :response_domain_numerics, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainNumeric'
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
     has_many :cc_questions, as: :question
+
+    include Realtime
+
     alias constructs cc_questions
   
     def response_domains

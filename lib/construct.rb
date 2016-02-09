@@ -2,11 +2,19 @@ module Construct
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
-    has_one :cc, class_name: 'ControlConstruct', as: :construct
+    has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
+
+    include Realtime
+
     before_create :create_control_construct
+
+    delegate :label, to: :cc
+    delegate :label=, to: :cc
     
     def parent
-      self.cc.parent.construct
+      if not self.cc.parent.nil?
+        self.cc.parent.construct
+      end
     end
     
     def parent=(new_parent)

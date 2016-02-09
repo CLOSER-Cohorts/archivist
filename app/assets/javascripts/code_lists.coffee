@@ -1,3 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+code_lists = angular.module('archivist.code_lists', [
+  'archivist.resource',
+])
+
+code_lists.factory(
+  'CodeListsArchive',
+  [ 'WrappedResource',
+    (
+      WrappedResource,
+    )->
+      new WrappedResource 'instruments/:instrument_id/code_lists/:id.json'
+        ,{id: '@id', instrument_id: '@instrument_id'}
+  ])

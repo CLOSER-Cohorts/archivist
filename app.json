@@ -1,7 +1,9 @@
 {
   "name": "archivist",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "rake db:setup"
+  },
   "env": {},
   "addons": [
     "heroku-postgresql",

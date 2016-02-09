@@ -1,10 +1,11 @@
 class CodesController < ApplicationController
   before_action :set_code, only: [:show, :edit, :update, :destroy]
+  before_action :set_instrument, only: [:index, :new, :create]
 
   # GET /codes
   # GET /codes.json
   def index
-    @codes = Code.all
+    @codes = @instrument.codes
   end
 
   # GET /codes/1
@@ -14,7 +15,7 @@ class CodesController < ApplicationController
 
   # GET /codes/new
   def new
-    @code = Code.new
+    @code = @instrument.codes.new
   end
 
   # GET /codes/1/edit
@@ -24,7 +25,7 @@ class CodesController < ApplicationController
   # POST /codes
   # POST /codes.json
   def create
-    @code = Code.new(code_params)
+    @code = @instrument.codes.new(code_params)
 
     respond_to do |format|
       if @code.save
@@ -43,7 +44,7 @@ class CodesController < ApplicationController
     respond_to do |format|
       if @code.update(code_params)
         format.html { redirect_to @code, notice: 'Code was successfully updated.' }
-        format.json { render :show, status: :ok, location: @code }
+        format.json { render :show, status: :ok}
       else
         format.html { render :edit }
         format.json { render json: @code.errors, status: :unprocessable_entity }
@@ -65,6 +66,10 @@ class CodesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_code
       @code = Code.find(params[:id])
+    end
+
+    def set_instrument
+      @instrument = Instrument.find(params[:instrument_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

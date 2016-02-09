@@ -1,0 +1,42 @@
+<div class="row">
+    <div data-ng-include="'partials/build/sidebar.html'" class="col-sm-4 col-md-3 sidebar" data-resume-scroll="sidebar"></div>
+
+    <div data-ng-if="current" class="col-sm-8 col-md-9 col-sm-offset-4 col-md-offset-3 main">
+
+        <h1 class="page-header">
+            {{title}}
+        </h1>
+
+        <div class="edit-cancel-save">
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-ng-show="!editMode"
+                    data-ng-click="startEditMode()"
+            >
+                Edit
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-default"
+                    data-ng-show="editMode"
+                    data-ng-click="cancel()"
+            >
+                Cancel
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-ng-show="editMode"
+                    data-ng-click="save()"
+            >
+                Save
+            </button>
+        </div>
+
+        <div data-ng-include="'partials/build/breadcrumb.html'"></div>
+
+        <div data-ng-include="main_panel"></div>
+
+    </div>
+</div>
