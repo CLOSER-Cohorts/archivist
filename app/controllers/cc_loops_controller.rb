@@ -13,15 +13,6 @@ class CcLoopsController < ApplicationController
   def show
   end
 
-  # GET /cc_loops/new
-  def new
-    @cc_loop = @instrument.cc_loops.new
-  end
-
-  # GET /cc_loops/1/edit
-  def edit
-  end
-
   # POST /cc_loops
   # POST /cc_loops.json
   def create

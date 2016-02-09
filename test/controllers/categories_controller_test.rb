@@ -44,6 +44,6 @@ class CategoriesControllerTest < ActionController::TestCase
       delete :destroy, format: :json, instrument_id: 20, id: @category
     end
 
-    assert_response 400
+    assert_response :bad_request
   end
 end

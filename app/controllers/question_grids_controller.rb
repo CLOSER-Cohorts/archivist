@@ -13,15 +13,6 @@ class QuestionGridsController < ApplicationController
   def show
   end
 
-  # GET /question_grids/new
-  def new
-    @question_grid = @instrument.question_grids.new
-  end
-
-  # GET /question_grids/1/edit
-  def edit
-  end
-
   # POST /question_grids
   # POST /question_grids.json
   def create
@@ -29,10 +20,8 @@ class QuestionGridsController < ApplicationController
 
     respond_to do |format|
       if @question_grid.save
-        format.html { redirect_to @question_grid, notice: 'Question grid was successfully created.' }
-        format.json { render :show, status: :created, location: @question_grid }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @question_grid.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class QuestionGridsController < ApplicationController
   def update
     respond_to do |format|
       if @question_grid.update(question_grid_params)
-        format.html { redirect_to @question_grid, notice: 'Question grid was successfully updated.' }
-        format.json { render :show, status: :ok, location: @question_grid }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @question_grid.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class QuestionGridsController < ApplicationController
   def destroy
     @question_grid.destroy
     respond_to do |format|
-      format.html { redirect_to question_grids_url, notice: 'Question grid was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

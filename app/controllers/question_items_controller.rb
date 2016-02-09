@@ -13,15 +13,6 @@ class QuestionItemsController < ApplicationController
   def show
   end
 
-  # GET /question_items/new
-  def new
-    @question_item = @instrument.question_items.new
-  end
-
-  # GET /question_items/1/edit
-  def edit
-  end
-
   # POST /question_items
   # POST /question_items.json
   def create
@@ -29,10 +20,8 @@ class QuestionItemsController < ApplicationController
 
     respond_to do |format|
       if @question_item.save
-        format.html { redirect_to @question_item, notice: 'Question item was successfully created.' }
-        format.json { render :show, status: :created, location: @question_item }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @question_item.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class QuestionItemsController < ApplicationController
   def update
     respond_to do |format|
       if @question_item.update(question_item_params)
-        format.html { redirect_to @question_item, notice: 'Question item was successfully updated.' }
         format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @question_item.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class QuestionItemsController < ApplicationController
   def destroy
     @question_item.destroy
     respond_to do |format|
-      format.html { redirect_to question_items_url, notice: 'Question item was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -12,15 +12,6 @@ class DatasetsController < ApplicationController
   def show
   end
 
-  # GET /datasets/new
-  def new
-    @dataset = Dataset.new
-  end
-
-  # GET /datasets/1/edit
-  def edit
-  end
-
   # POST /datasets
   # POST /datasets.json
   def create

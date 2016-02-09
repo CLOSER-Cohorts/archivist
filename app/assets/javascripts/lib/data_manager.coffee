@@ -118,7 +118,7 @@ data_manager.factory(
           DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Items  =
             DataManager.Constructs.Questions.item.query instrument_id: instrument_id
-          DataManager.Data.Questions.Items.$promise.then (collection)->
+          promises.push DataManager.Data.Questions.Items.$promise.then (collection)->
             for obj, index in collection
               collection[index].type = 'question-item'
 
@@ -130,7 +130,7 @@ data_manager.factory(
 
           DataManager.Data.Questions.Grids  =
             DataManager.Constructs.Questions.grid.query instrument_id: instrument_id
-          DataManager.Data.Questions.Grids.$promise.then (collection)->
+          promises.push DataManager.Data.Questions.Grids.$promise.then (collection)->
             for obj, index in collection
               collection[index].type = 'question-grid'
 

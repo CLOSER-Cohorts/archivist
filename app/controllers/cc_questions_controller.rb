@@ -20,7 +20,7 @@ class CcQuestionsController < ApplicationController
 
     respond_to do |format|
       if @cc_question.save
-        format.json { render :show, status: :created, location: @cc_question }
+        format.json { render :show, status: :created }
       else
         format.json { render json: @cc_question.errors, status: :unprocessable_entity }
       end

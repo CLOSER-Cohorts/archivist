@@ -2,13 +2,6 @@ codes = angular.module('archivist.codes', [
   'archivist.resource'
 ])
 
-codes.factory(
-  'CodesArchive',
-  [ 'WrappedResource',
-    (WrappedResource)->
-      new WrappedResource('instruments/:instrument_id/codes/:id.json')
-])
-
 codes.factory('CodeResolver', [
   ->{
     code_list:(scope, code)->

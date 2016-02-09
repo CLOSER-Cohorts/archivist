@@ -12,15 +12,6 @@ class TopicsController < ApplicationController
   def show
   end
 
-  # GET /topics/new
-  def new
-    @topic = Topic.new
-  end
-
-  # GET /topics/1/edit
-  def edit
-  end
-
   # POST /topics
   # POST /topics.json
   def create

@@ -12,11 +12,6 @@ class TopicsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create topic" do
     assert_difference('Topic.count') do
       post :create, topic: { code: @topic.code, name: @topic.name, parent_id: @topic.parent_id }
@@ -26,12 +21,7 @@ class TopicsControllerTest < ActionController::TestCase
   end
 
   test "should show topic" do
-    get :show, id: @topic
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @topic
+    get :show, id: @topic, format: :json
     assert_response :success
   end
 

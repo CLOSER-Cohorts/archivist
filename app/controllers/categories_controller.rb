@@ -13,15 +13,6 @@ class CategoriesController < ApplicationController
   def show
   end
 
-  # GET /categories/new
-  def new
-    @category = @instrument.categories.new
-  end
-
-  # GET /categories/1/edit
-  def edit
-  end
-
   # POST /categories
   # POST /categories.json
   def create
@@ -58,7 +49,7 @@ class CategoriesController < ApplicationController
       end
     rescue ActiveRecord::InvalidForeignKey
       respond_to do |format|
-        format.json { head :no_content, status: :bad_request }
+        format.json { head :bad_request }
       end
     end
   end

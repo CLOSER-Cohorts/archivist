@@ -11,11 +11,6 @@ class DatasetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:datasets)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create dataset" do
     assert_difference('Dataset.count') do
       post :create, dataset: { name: @dataset.name }
@@ -25,12 +20,7 @@ class DatasetsControllerTest < ActionController::TestCase
   end
 
   test "should show dataset" do
-    get :show, id: @dataset
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @dataset
+    get :show, id: @dataset, format: :json
     assert_response :success
   end
 

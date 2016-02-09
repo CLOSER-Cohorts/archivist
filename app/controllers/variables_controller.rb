@@ -12,15 +12,6 @@ class VariablesController < ApplicationController
   def show
   end
 
-  # GET /variables/new
-  def new
-    @variable = Variable.new
-  end
-
-  # GET /variables/1/edit
-  def edit
-  end
-
   # POST /variables
   # POST /variables.json
   def create
@@ -28,10 +19,8 @@ class VariablesController < ApplicationController
 
     respond_to do |format|
       if @variable.save
-        format.html { redirect_to @variable, notice: 'Variable was successfully created.' }
-        format.json { render :show, status: :created, location: @variable }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +31,8 @@ class VariablesController < ApplicationController
   def update
     respond_to do |format|
       if @variable.update(variable_params)
-        format.html { redirect_to @variable, notice: 'Variable was successfully updated.' }
-        format.json { render :show, status: :ok, location: @variable }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @variable.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +43,6 @@ class VariablesController < ApplicationController
   def destroy
     @variable.destroy
     respond_to do |format|
-      format.html { redirect_to variables_url, notice: 'Variable was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

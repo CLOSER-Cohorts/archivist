@@ -13,15 +13,6 @@ class InstructionsController < ApplicationController
   def show
   end
 
-  # GET /instructions/new
-  def new
-    @instruction = @instrument.instructions.new
-  end
-
-  # GET /instructions/1/edit
-  def edit
-  end
-
   # POST /instructions
   # POST /instructions.json
   def create

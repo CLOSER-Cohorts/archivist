@@ -68,9 +68,8 @@ build.controller('BuildCodeListsController',
     'Instruments',
     'CodeListsArchive',
     'CategoriesArchive',
-    'CodesArchive',
     'CodeResolver',
-    ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, Codes, CodeResolver)->
+    ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, CodeResolver)->
 
       $scope.title = "Code lists"
       $scope.main_panel = "partials/build/code_lists.html"
@@ -80,13 +79,11 @@ build.controller('BuildCodeListsController',
         $scope.page['title'] = $scope.instrument.prefix + ' | Code Lists'
       $scope.code_lists = CodeLists.query {instrument_id: $routeParams.id}
       $scope.categories = Categories.query {instrument_id: $routeParams.id}
-      $scope.codes = Codes.query {instrument_id: $routeParams.id}
 
       $q.all([
         $scope.instrument.$promise,
         $scope.code_lists.$promise,
-        $scope.categories.$promise,
-        $scope.codes.$promise
+        $scope.categories.$promise
       ]).then ()->
 
 

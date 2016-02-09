@@ -7,13 +7,13 @@ class Code < ActiveRecord::Base
   end
 
   def label=(val)
-    set_label(val, code_list.instrument_id)
+    set_label(val, code_list.instrument)
   end
 
-  def set_label(val, instrument_id)
-    self.category = Category.find_by label: val, instrument_id: instrument_id
+  def set_label(val, instrument)
+    self.category = Category.find_by label: val, instrument_id: instrument.id
     if self.category.nil?
-      self.category = Category.create label: val, instrument: instrument_id
+      self.category = Category.create label: val, instrument: instrument
     end
   end
 end

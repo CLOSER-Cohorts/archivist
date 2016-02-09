@@ -13,15 +13,6 @@ class CcStatementsController < ApplicationController
   def show
   end
 
-  # GET /cc_statements/new
-  def new
-    @cc_statement = @instrument.cc_statements.new
-  end
-
-  # GET /cc_statements/1/edit
-  def edit
-  end
-
   # POST /cc_statements
   # POST /cc_statements.json
   def create
@@ -29,10 +20,8 @@ class CcStatementsController < ApplicationController
 
     respond_to do |format|
       if @cc_statement.save
-        format.html { redirect_to @cc_statement, notice: 'Cc statement was successfully created.' }
-        format.json { render :show, status: :created, location: @cc_statement }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @cc_statement.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +32,8 @@ class CcStatementsController < ApplicationController
   def update
     respond_to do |format|
       if @cc_statement.update(cc_statement_params)
-        format.html { redirect_to @cc_statement, notice: 'Cc statement was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cc_statement }
+        format.json { render :show, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @cc_statement.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +44,6 @@ class CcStatementsController < ApplicationController
   def destroy
     @cc_statement.destroy
     respond_to do |format|
-      format.html { redirect_to cc_statements_url, notice: 'Cc statement was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

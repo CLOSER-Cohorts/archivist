@@ -13,15 +13,6 @@ class CodeListsController < ApplicationController
   def show
   end
 
-  # GET /code_lists/new
-  def new
-    @code_list = @instrument.code_lists.new
-  end
-
-  # GET /code_lists/1/edit
-  def edit
-  end
-
   # POST /code_lists
   # POST /code_lists.json
   def create
@@ -29,10 +20,8 @@ class CodeListsController < ApplicationController
 
     respond_to do |format|
       if @code_list.save
-        format.html { redirect_to @code_list, notice: 'Code list was successfully created.' }
-        format.json { render :show, status: :created, location: @code_list }
+        format.json { render :show, status: :created }
       else
-        format.html { render :new }
         format.json { render json: @code_list.errors, status: :unprocessable_entity }
       end
     end
@@ -49,10 +38,8 @@ class CodeListsController < ApplicationController
     end
     respond_to do |format|
       if @code_list.update(parameters)
-        format.html { redirect_to @code_list, notice: 'Code list was successfully updated.' }
         format.json { render :show, status: :ok}
       else
-        format.html { render :edit }
         format.json { render json: @code_list.errors, status: :unprocessable_entity }
       end
     end
@@ -63,7 +50,6 @@ class CodeListsController < ApplicationController
   def destroy
     @code_list.destroy
     respond_to do |format|
-      format.html { redirect_to code_lists_url, notice: 'Code list was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
