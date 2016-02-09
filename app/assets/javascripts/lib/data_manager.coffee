@@ -56,95 +56,89 @@ data_manager.factory(
 
           DataManager.Data.Constructs ?= {}
           DataManager.Data.Constructs.Conditions  =
-            DataManager.Constructs.Conditions.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'condition'
+            DataManager.Constructs.Conditions.query instrument_id: instrument_id
+          promises.push DataManager.Data.Constructs.Conditions.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'condition'
 
-              if options.instrument
-                DataManager.Data.Instrument.Conditions = DataManager.Data.Constructs.Conditions
-            )
-          promises.push DataManager.Data.Constructs.Conditions.$promise
+            if options.instrument
+              DataManager.Data.Instrument.Conditions = DataManager.Data.Constructs.Conditions
+              true
 
-          DataManager.Data.Constructs.Loops       =
-            DataManager.Constructs.Loops.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'loop'
 
-              if options.instrument
-                DataManager.Data.Instrument.Loops = DataManager.Data.Constructs.Loops
-            )
-          promises.push DataManager.Data.Constructs.Loops.$promise
+          DataManager.Data.Constructs.Loops  =
+            DataManager.Constructs.Loops.query instrument_id: instrument_id
+          promises.push DataManager.Data.Constructs.Loops.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'loop'
 
+            if options.instrument
+              DataManager.Data.Instrument.Loops = DataManager.Data.Constructs.Loops
+              true
+
+
+          # Load Questions
           DataManager.Data.Constructs.Questions   =
-            DataManager.Constructs.Questions.cc.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'question'
+            DataManager.Constructs.Questions.cc.query instrument_id: instrument_id
+          promises.push DataManager.Data.Constructs.Questions.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'question'
 
-              if options.instrument
-                DataManager.Data.Instrument.Questions = DataManager.Data.Constructs.Questions
-            )
-          promises.push DataManager.Data.Constructs.Questions.$promise
+            if options.instrument
+              DataManager.Data.Instrument.Questions = DataManager.Data.Constructs.Questions
+              true
 
+
+          # Load Statements
           DataManager.Data.Constructs.Statements  =
-            DataManager.Constructs.Statements.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'statement'
+            DataManager.Constructs.Statements.query instrument_id: instrument_id
+          promises.push DataManager.Data.Constructs.Statements.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'statement'
 
-              if options.instrument
-                DataManager.Data.Instrument.Statements = DataManager.Data.Constructs.Statements
-            )
-          promises.push DataManager.Data.Constructs.Statements.$promise
+            if options.instrument
+              DataManager.Data.Instrument.Statements = DataManager.Data.Constructs.Statements
+              true
 
+
+          # Load Sequences
           DataManager.Data.Constructs.Sequences   =
-            DataManager.Constructs.Sequences.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'sequence'
+            DataManager.Constructs.Sequences.query instrument_id: instrument_id
+          promises.push DataManager.Data.Constructs.Sequences.$promise.then (collection)->
+            console.log 'seqeunce altering'
+            for obj, index in collection
+              collection[index].type = 'sequence'
 
-              if options.instrument
-                DataManager.Data.Instrument.Sequences = DataManager.Data.Constructs.Sequences
-            )
-          promises.push DataManager.Data.Constructs.Sequences.$promise
+            if options.instrument
+              DataManager.Data.Instrument.Sequences = DataManager.Data.Constructs.Sequences
+              true
 
         if options.questions
-          qiDefer = $q.defer()
-          promises.push qiDefer.promise
 
           DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Items  =
-            DataManager.Constructs.Questions.item.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'question-item'
+            DataManager.Constructs.Questions.item.query instrument_id: instrument_id
+          DataManager.Data.Questions.Items.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'question-item'
 
-              if options.instrument
-                DataManager.Data.Instrument.Questions ?= {}
-                DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items
+            if options.instrument
+              DataManager.Data.Instrument.Questions ?= {}
+              DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items
+              true
 
-              console.log DataManager.Data.Instrument.Questions.Items
-              console.log DataManager.Data.Instrument
-              qiDefer.resolve()
-              ''
-            )
 
-          qgDefer = $q.defer()
-          console.log qgDefer
-          promises.push qgDefer.promise
-          console.log qgDefer.promise
-
-          DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Grids  =
-            DataManager.Constructs.Questions.grid.query({instrument_id: instrument_id}, (collection)->
-              for obj, index in collection
-                collection[index].type = 'question-grid'
+            DataManager.Constructs.Questions.grid.query instrument_id: instrument_id
+          DataManager.Data.Questions.Grids.$promise.then (collection)->
+            for obj, index in collection
+              collection[index].type = 'question-grid'
 
-              if options.instrument
-                DataManager.Data.Instrument.Questions ?= {}
-                DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
+            if options.instrument
+              DataManager.Data.Instrument.Questions ?= {}
+              DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
+              true
 
-              console.log DataManager.Data.Instrument.Questions.Grids
-              console.log DataManager.Data.Instrument
-              qgDefer.resolve()
-              ''
-            )
 
         chunk_size = 100 / promises.length
         for promise in promises
