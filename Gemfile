@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.2.1'
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5.1'
+gem 'json', '1.8.2'
 
 # Use Puma as the web server
 gem 'puma'
@@ -56,6 +57,7 @@ gem 'angular-rails-templates', '0.2.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 end
 
 group :development do
