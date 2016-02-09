@@ -47,7 +47,7 @@ module XML
 
       #Read response domain code
       @rdcs_created = []
-      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN")
+      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionGrid/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
       rdc_urns.each do |urn|
         if not @rdcs_created.include? urn.content
           @rdcs_created << urn.content
@@ -132,19 +132,19 @@ module XML
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
         
         #Adding response domains
-        rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN")
+        rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
         rdcs.each do |rdc|
           qi.response_domain_codes << @code_list_index[rdc.content].response_domain
         end
-        rdns = question_item.xpath("./d:NumericDomain/r:Label/r:Content")
+        rdns = question_item.xpath("./d:NumericDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content")
         rdns.each do |rdn|
           qi.response_domain_numerics << @reponse_domain_index['N'+rdn.content]
         end
-        rdts = question_item.xpath("./d:TextDomain/r:Label/r:Content")
+        rdts = question_item.xpath("./d:TextDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:TextDomain/r:Label/r:Content")
         rdts.each do |rdt|
           qi.response_domain_texts << @reponse_domain_index['T'+rdt.content]
         end
-        rdds = question_item.xpath("./d:DateTimeDomain/r:Label/r:Content")
+        rdds = question_item.xpath("./d:DateTimeDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:DateTimeDomain/r:Label/r:Content")
         rdds.each do |rdd|
           qi.response_domain_datetimes << @reponse_domain_index['D'+rdd.content]
         end
