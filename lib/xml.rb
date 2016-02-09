@@ -248,7 +248,9 @@ module XML
     end
     
     def read_sequence_children(node, parent)
+      position_counter = 0
       node.xpath("./d:ControlConstructReference").each do |child_ref|
+        position_counter += 1
         urn = child_ref.at_xpath("./r:URN").content
         type = child_ref.at_xpath("./r:TypeOfObject").content
         if type == 'Sequence'
@@ -256,6 +258,7 @@ module XML
           cc_s = CcSequence.new
           @instrument.sequences << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_s.position = position_counter
           parent.children << cc_s.cc
           read_sequence_children(child, cc_s)
           cc_s.save!
@@ -264,6 +267,7 @@ module XML
           cc_s = CcStatement.new
           @instrument.statements << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_s.position = position_counter
           cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
           parent.children << cc_s.cc
           cc_s.save!
@@ -284,6 +288,7 @@ module XML
           cc_q.response_unit = ru
           @instrument.questions << cc_q
           cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_q.position = position_counter
           parent.children << cc_q.cc
           cc_q.save!
         elsif type == 'IfThenElse'
@@ -291,6 +296,7 @@ module XML
           cc_c = CcCondition.new
           @instrument.conditions << cc_c
           cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_c.position = position_counter
           c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
           
           #TODO: Protect against no logic
@@ -321,6 +327,7 @@ module XML
           end_node = child.at_xpath("./d:EndValue/r:Command/r:CommandContent")
           while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
           cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
+          cc_l.position = position_counter
           if not start_node.nil?
             pieces = start_node.content.split /\W\D\s/
             cc_l.loop_var = pieces[0]
