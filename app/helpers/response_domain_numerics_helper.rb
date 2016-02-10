@@ -1,2 +1,0 @@
-module ResponseDomainNumericsHelper
-end

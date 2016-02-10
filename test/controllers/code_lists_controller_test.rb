@@ -7,44 +7,34 @@ class CodeListsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
     assert_not_nil assigns(:code_lists)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create code_list" do
     assert_difference('CodeList.count') do
-      post :create, code_list: { label: @code_list.label, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, code_list: {label: @code_list.label, instrument_id: @instrument.id}
     end
 
-    assert_redirected_to code_list_path(assigns(:code_list))
+    assert_response :success
   end
 
   test "should show code_list" do
-    get :show, id: @code_list
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @code_list
+    get :show, id: @code_list, format: :json, instrument_id: @instrument.id
     assert_response :success
   end
 
   test "should update code_list" do
-    patch :update, id: @code_list, code_list: { label: @code_list.label }
-    assert_redirected_to code_list_path(assigns(:code_list))
+    patch :update, format: :json, instrument_id: @instrument.id, id: @code_list, code_list: {label: @code_list.label}
+    assert_response :success
   end
 
   test "should destroy code_list" do
     assert_difference('CodeList.count', -1) do
-      delete :destroy, id: @code_list
+      delete :destroy, format: :json, instrument_id: @instrument.id, id: @code_list
     end
 
-    assert_redirected_to code_lists_path
+    assert_response :success
   end
 end

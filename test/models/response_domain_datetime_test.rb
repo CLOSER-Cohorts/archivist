@@ -7,7 +7,7 @@ class ResponseDomainDatetimeTest < ActiveSupport::TestCase
   setup do
     @response_domain_datetime = response_domain_datetimes :one
   end
-  
+
   test "belongs to an instrument" do
     assert_kind_of Instrument, @response_domain_datetime.instrument
   end

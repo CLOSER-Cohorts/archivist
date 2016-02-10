@@ -24,7 +24,23 @@ module Archivist
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_record.schema_format = :sql
-    
+
+    config.assets.paths += %W(#{config.root}/vendor/assets)
+
+    config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
+
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.after_initialize do
+      begin
+        if $redis.ping === 'PONG'
+          puts 'Redis is connected.'
+        else
+          raise 'Did not reply "PONG"'
+        end
+      rescue
+        puts 'Redis is NOT connected.'
+      end
+    end
   end
 end

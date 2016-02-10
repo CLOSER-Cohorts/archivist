@@ -12,36 +12,26 @@ class TopicsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create topic" do
     assert_difference('Topic.count') do
-      post :create, topic: { code: @topic.code, name: @topic.name, parent_id: @topic.parent_id }
+      post :create, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
     end
 
     assert_redirected_to topic_path(assigns(:topic))
   end
 
   test "should show topic" do
-    get :show, id: @topic
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @topic
+    get :show, id: @topic, format: :json
     assert_response :success
   end
 
   test "should update topic" do
-    patch :update, id: @topic, topic: { code: @topic.code, name: @topic.name, parent_id: @topic.parent_id }
+    patch :update, id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
     assert_redirected_to topic_path(assigns(:topic))
   end
 
   test "should destroy topic" do
-    
+
     assert_difference('Topic.count', -1) do
       delete :destroy, id: @l2_topic
     end

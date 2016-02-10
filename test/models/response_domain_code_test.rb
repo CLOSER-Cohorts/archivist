@@ -7,7 +7,7 @@ class ResponseDomainCodeTest < ActiveSupport::TestCase
   setup do
     @response_domain_code = response_domain_codes :one
   end
-  
+
   test "belongs to an instrument" do
     assert_kind_of Instrument, @response_domain_code.instrument
   end

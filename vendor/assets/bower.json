@@ -1,0 +1,15 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-resource": "latest",
+    "angular-messages": "latest",
+    "angular-animate": "latest",
+    "bootstrap-sass-official": "latest",
+    "angular-bootstrap": "latest",
+    "angular-ui-sortable": "latest",
+    "jquery-ui": "latest",
+    "socket.io-client": "latest"
+  }
+}

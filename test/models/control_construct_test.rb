@@ -9,7 +9,7 @@ class ControlConstructTest < ActiveSupport::TestCase
     #@cc_st = control_constructs :st
     #@cc_lo = control_constructs :lo
   end
-  
+
   test "has one construct" do
     assert_not_nil @cc_qi.construct
   end

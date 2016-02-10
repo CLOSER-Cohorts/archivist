@@ -17,5 +17,5 @@
 /tmp
 
 *.swp
-
-.idea
+.idea/
+*.xml
