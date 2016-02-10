@@ -61,6 +61,13 @@ admin.controller('AdminInstrumentsController',
             $scope.instruments = DataManager.Instruments.requery()
         else
           #TODO: Add Flash that says the delete failed
+
+      $scope.prepareNew = ->
+        $scope.newInstrument = new DataManager.Instruments.resource()
+
+      $scope.new = ->
+        $scope.newInstrument.$create()
+        $scope.instruments.push $scope.newInstrument
 ])
 
 admin.controller('FileUploadController',
