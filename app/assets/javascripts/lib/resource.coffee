@@ -10,7 +10,7 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
     if actions?
      @actions = actions
     else
-      @actions = {save: {method: 'PUT'}}
+      @actions = {save: {method: 'PUT'}, create: {method: 'POST'}}
 
     @index = (method, parameters)->
       path + method + JSON.stringify parameters

@@ -49,6 +49,13 @@ admin.controller('AdminInstrumentsController',
       $scope.copy = ->
         $scope.copiedInstrument.$save()
         $scope.copiedInstrument.copy($scope.original.id)
+
+      $scope.prepareNew = ->
+        $scope.newInstrument = new DataManager.Instruments.resource()
+
+      $scope.new = ->
+        $scope.newInstrument.$create()
+        $scope.instruments.push $scope.newInstrument
 ])
 
 admin.controller('FileUploadController',
