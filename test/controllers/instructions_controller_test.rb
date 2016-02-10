@@ -7,44 +7,33 @@ class InstructionsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
     assert_not_nil assigns(:instructions)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create instruction" do
     assert_difference('Instruction.count') do
-      post :create, instruction: { text: @instruction.text, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, instruction: {text: @instruction.text, instrument_id: @instrument.id}
     end
 
-    assert_redirected_to instruction_path(assigns(:instruction))
+    assert_response :success
   end
 
   test "should show instruction" do
-    get :show, id: @instruction
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @instruction
+    get :show, format: :json, instrument_id: @instrument.id, id: @instruction
     assert_response :success
   end
 
   test "should update instruction" do
-    patch :update, id: @instruction, instruction: { text: @instruction.text }
-    assert_redirected_to instruction_path(assigns(:instruction))
+    patch :update, format: :json, instrument_id: @instrument.id, id: @instruction, instruction: {text: @instruction.text}
+    assert_response :success
   end
 
   test "should destroy instruction" do
     assert_difference('Instruction.count', -1) do
-      delete :destroy, id: @instruction
+      delete :destroy, format: :json, instrument_id: @instrument.id, id: @instruction
     end
-
-    assert_redirected_to instructions_path
+    assert_response :success
   end
 end
