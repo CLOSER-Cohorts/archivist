@@ -56,9 +56,15 @@
                             Copy
                         </button>
                         |
-                        <a data-ng-href="/instruments/{{instrument.id}}">
-                            <span class="view">View</span>
-                        </a>
+                        <button
+                                type="button"
+                                class="btn btn-link btn-sm"
+                                data-toggle="modal"
+                                data-target="#delete-instrument"
+                                data-ng-click="prepareDelete(instrument.id)"
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -74,4 +80,5 @@
 </div>
 
 <div data-ng-include="'partials/admin/modals/copy.html'"></div>
+<div data-ng-include="'partials/admin/modals/delete.html'"></div>
 <div data-ng-include="'partials/admin/modals/new.html'"></div>

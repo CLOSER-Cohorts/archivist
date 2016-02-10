@@ -38,6 +38,7 @@ admin.controller('AdminInstrumentsController',
     ($scope, DataManager)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 8
+      $scope.confirmation = {prefix: ''}
 
       $scope.prepareCopy = (id)->
         $scope.original = $scope.instruments.select_resource_by_id(id)
@@ -49,6 +50,17 @@ admin.controller('AdminInstrumentsController',
       $scope.copy = ->
         $scope.copiedInstrument.$save()
         $scope.copiedInstrument.copy($scope.original.id)
+
+      $scope.prepareDelete = (id)->
+        $scope.instrument = $scope.instruments.select_resource_by_id(id)
+
+      $scope.delete = ->
+        if $scope.confirmation.prefix == $scope.instrument.prefix
+          $scope.instrument.$delete {}, ->
+            DataManager.Data = {}
+            $scope.instruments = DataManager.Instruments.requery()
+        else
+          #TODO: Add Flash that says the delete failed
 
       $scope.prepareNew = ->
         $scope.newInstrument = new DataManager.Instruments.resource()
