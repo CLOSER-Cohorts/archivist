@@ -19,6 +19,7 @@ gem 'redis'
 group :production do
   # Heroku logging
   gem 'rails_12factor'
+  gem 'redis-rack-cache'
 end
 
 # Use SCSS for stylesheets
