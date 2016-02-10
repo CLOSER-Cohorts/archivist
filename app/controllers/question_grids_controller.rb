@@ -49,17 +49,17 @@ class QuestionGridsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_question_grid
-      @question_grid = QuestionGrid.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_question_grid
+    @question_grid = QuestionGrid.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def question_grid_params
-      params.require(:question_grid).permit(:label, :literal, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def question_grid_params
+    params.require(:question_grid).permit(:label, :literal, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label, :instrument_id)
+  end
 end

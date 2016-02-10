@@ -49,17 +49,17 @@ class CcQuestionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cc_question
-      @cc_question = CcQuestion.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cc_question
+    @cc_question = CcQuestion.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def cc_question_params
-      params.require(:cc_question).permit(:question_id, :question_type, :instrument_id, :response_unit_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def cc_question_params
+    params.require(:cc_question).permit(:question_id, :question_type, :instrument_id, :response_unit_id)
+  end
 end

@@ -14,7 +14,7 @@ class CcStatementsControllerTest < ActionController::TestCase
 
   test "should create cc_statement" do
     assert_difference('CcStatement.count') do
-      post :create, format: :json, instrument_id: @instrument.id, cc_statement: { literal: @cc_statement.literal, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, cc_statement: {literal: @cc_statement.literal, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class CcStatementsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_statement" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_statement, cc_statement: { literal: @cc_statement.literal }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_statement, cc_statement: {literal: @cc_statement.literal}
     assert_response :success
   end
 

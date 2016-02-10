@@ -7,7 +7,7 @@ class CodeListTest < ActiveSupport::TestCase
   setup do
     @code_list = code_lists :one
   end
-  
+
   test "belongs to an instrument" do
     assert_kind_of Instrument, @code_list.instrument
   end

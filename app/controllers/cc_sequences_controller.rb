@@ -49,17 +49,17 @@ class CcSequencesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cc_sequence
-      @cc_sequence = CcSequence.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cc_sequence
+    @cc_sequence = CcSequence.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def cc_sequence_params
-      params.require(:cc_sequence).permit(:literal, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def cc_sequence_params
+    params.require(:cc_sequence).permit(:literal, :instrument_id)
+  end
 end

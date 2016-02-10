@@ -48,13 +48,13 @@ class ResponseDomainNumericsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_response_domain_numeric
-      @response_domain_numeric = ResponseDomainNumeric.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_response_domain_numeric
+    @response_domain_numeric = ResponseDomainNumeric.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def response_domain_numeric_params
-      params.require(:response_domain_numeric).permit(:numeric_type, :label, :min, :max, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def response_domain_numeric_params
+    params.require(:response_domain_numeric).permit(:numeric_type, :label, :min, :max, :instrument_id)
+  end
 end

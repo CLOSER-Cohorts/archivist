@@ -49,17 +49,17 @@ class CcLoopsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cc_loop
-      @cc_loop = CcLoop.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cc_loop
+    @cc_loop = CcLoop.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def cc_loop_params
-      params.require(:cc_loop).permit(:loop_var, :start_val, :end_val, :loop_while, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def cc_loop_params
+    params.require(:cc_loop).permit(:loop_var, :start_val, :end_val, :loop_while, :instrument_id)
+  end
 end

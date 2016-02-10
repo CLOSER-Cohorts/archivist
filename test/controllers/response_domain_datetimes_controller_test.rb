@@ -14,7 +14,7 @@ class ResponseDomainDatetimesControllerTest < ActionController::TestCase
 
   test "should create response_domain_datetime" do
     assert_difference('ResponseDomainDatetime.count') do
-      post :create, format: :json, instrument_id: @instrument.id, response_domain_datetime: { datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, response_domain_datetime: {datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class ResponseDomainDatetimesControllerTest < ActionController::TestCase
   end
 
   test "should update response_domain_datetime" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @response_domain_datetime, response_domain_datetime: { datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @response_domain_datetime, response_domain_datetime: {datetime_type: @response_domain_datetime.datetime_type, format: @response_domain_datetime.format, label: @response_domain_datetime.label}
     assert_response :success
   end
 

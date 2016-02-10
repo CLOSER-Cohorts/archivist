@@ -14,7 +14,7 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, format: :json, instrument_id: @instrument.id, category: { label: @category.label, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, category: {label: @category.label, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should update category" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @category, category: { label: @category.label }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @category, category: {label: @category.label}
     assert_response :success
   end
 

@@ -12,23 +12,23 @@ module Construct
     delegate :label=, to: :cc
     delegate :position, to: :cc
     delegate :position=, to: :cc
-    
+
     def parent
       if not self.cc.parent.nil?
         self.cc.parent.construct
       end
     end
-    
+
     def parent=(new_parent)
       self.cc.parent = new_parent.cc
     end
-    
+
     def create_control_construct
       self.cc = ControlConstruct.new
       true
     end
   end
-  
+
   module ClassMethods
     def is_a_parent(options = {})
       include Linkable
@@ -36,7 +36,7 @@ module Construct
       delegate :children, to: :cc
     end
   end
-  
-  module LocalInstanceMethods    
+
+  module LocalInstanceMethods
   end
 end

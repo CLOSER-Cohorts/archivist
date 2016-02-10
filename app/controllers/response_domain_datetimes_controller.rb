@@ -48,13 +48,13 @@ class ResponseDomainDatetimesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_response_domain_datetime
-      @response_domain_datetime = ResponseDomainDatetime.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_response_domain_datetime
+    @response_domain_datetime = ResponseDomainDatetime.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def response_domain_datetime_params
-      params.require(:response_domain_datetime).permit(:datetime_type, :label, :format, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def response_domain_datetime_params
+    params.require(:response_domain_datetime).permit(:datetime_type, :label, :format, :instrument_id)
+  end
 end

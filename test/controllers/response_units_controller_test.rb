@@ -14,7 +14,7 @@ class ResponseUnitsControllerTest < ActionController::TestCase
 
   test "should create response_unit" do
     assert_difference('ResponseUnit.count') do
-      post :create, format: :json, instrument_id: @instrument.id, response_unit: { label: @response_unit.label, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, response_unit: {label: @response_unit.label, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class ResponseUnitsControllerTest < ActionController::TestCase
   end
 
   test "should update response_unit" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @response_unit, response_unit: { label: @response_unit.label }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @response_unit, response_unit: {label: @response_unit.label}
     assert_response :success
   end
 

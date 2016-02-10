@@ -14,7 +14,7 @@ class CcConditionsControllerTest < ActionController::TestCase
 
   test "should create cc_condition" do
     assert_difference('CcCondition.count') do
-      post :create, format: :json, instrument_id: @instrument.id, cc_condition: { literal: @cc_condition.literal, logic: @cc_condition.logic, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class CcConditionsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_condition" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_condition, cc_condition: { literal: @cc_condition.literal, logic: @cc_condition.logic }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_condition, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic}
     assert_response :success
   end
 

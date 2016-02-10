@@ -48,13 +48,13 @@ class ResponseUnitsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_response_unit
-      @response_unit = ResponseUnit.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_response_unit
+    @response_unit = ResponseUnit.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def response_unit_params
-      params.require(:response_unit).permit(:label, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def response_unit_params
+    params.require(:response_unit).permit(:label, :instrument_id)
+  end
 end

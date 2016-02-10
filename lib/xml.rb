@@ -4,7 +4,7 @@ module XML
       @doc = File.open(filepath) { |f| Nokogiri::XML(f) }
       @counters = {}
     end
-    
+
     def parse
       @instrument = Importer.build_instrument @doc
       read_code_lists
@@ -13,7 +13,7 @@ module XML
       read_questions
       read_constructs
     end
-    
+
     def read_code_lists
       #Read categories first
       categories = @doc.xpath("//l:Category")
@@ -24,7 +24,7 @@ module XML
         @instrument.categories << cat
       end
       @counters['categories'] = categories.length
-      
+
       #Read code lists and codes together
       code_lists = @doc.xpath("//l:CodeList")
       @counters['code_lists'] = code_lists.length
@@ -56,7 +56,7 @@ module XML
         end
       end
     end
-    
+
     def read_instructions
       instructions = @doc.xpath("//d:Instruction")
       @counters['instructions'] = instructions.length
@@ -67,7 +67,7 @@ module XML
         @instrument.instructions << instr
       end
     end
-    
+
     def read_response_domains
       text_domains = @doc.xpath("//d:TextDomain")
       @counters['response_domain_texts'] = text_domains.length
@@ -83,7 +83,7 @@ module XML
           @reponse_domain_index["T" + index_label] = rdt
         end
       end
-      
+
       numeric_domains = @doc.xpath("//d:NumericDomain")
       @counters['response_domain_numerics'] = numeric_domains.length
       @reponse_domain_index ||= {}
@@ -93,13 +93,17 @@ module XML
           rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
           min = numeric_domain.at_xpath("r:NumberRange/r:Low")
           max = numeric_domain.at_xpath("r:NumberRange/r:High")
-          if not min.nil? then rdn.min = min.content end
-          if not max.nil? then rdn.max = max.content end
+          if not min.nil? then
+            rdn.min = min.content
+          end
+          if not max.nil? then
+            rdn.max = max.content
+          end
           @instrument.response_domain_numerics << rdn
           @reponse_domain_index["N" + index_label] = rdn
         end
       end
-      
+
       datetime_domains = @doc.xpath("//d:DateTimeDomain")
       @counters['response_domain_datetimes'] = datetime_domains.length
       @reponse_domain_index ||= {}
@@ -108,7 +112,7 @@ module XML
         if not @reponse_domain_index.has_key? "D" + index_label
           rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
           format = datetime_domain.at_xpath("r:DateFieldFormat").content
-          if format.length > 0 
+          if format.length > 0
             rdd.format = format
           end
           @instrument.response_domain_datetimes << rdd
@@ -116,12 +120,12 @@ module XML
         end
       end
     end
-    
+
     def read_questions
       read_question_items
       read_question_grids
     end
-    
+
     def read_question_items
       question_items = @doc.xpath("//d:QuestionItem")
       @counters['question_items'] = question_items.length
@@ -130,7 +134,7 @@ module XML
         qi = QuestionItem.new({label: question_item.at_xpath("d:QuestionItemName/r:String").content})
         qi.literal = question_item.at_xpath("d:QuestionText/d:LiteralText/d:Text").content
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
-        
+
         #Adding response domains
         rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
         rdcs.each do |rdc|
@@ -148,7 +152,7 @@ module XML
         rdds.each do |rdd|
           qi.response_domain_datetimes << @reponse_domain_index['D'+rdd.content]
         end
-        
+
         #Adding instruction
         instr = question_item.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
@@ -157,7 +161,7 @@ module XML
         @instrument.question_items << qi
       end
     end
-    
+
     def read_question_grids
       question_grids = @doc.xpath("//d:QuestionGrid")
       @counters['question_grids'] = question_grids.length
@@ -173,7 +177,7 @@ module XML
           qg.vertical_code_list = @code_list_index[qg_Y.content]
         end
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
-        
+
         @instrument.question_grids << qg
         if not corner.nil?
           qg.corner_label = corner.attribute('rank').value.to_i == 1 ? "V" : "H"
@@ -183,10 +187,10 @@ module XML
           if not rdc.parent.name == "GridDimension"
             if rdc.parent.name == "GridResponseDomain"
               RdsQs.create({
-                question: qg,
-                response_domain: @code_list_index[rdc.at_xpath("r:CodeListReference/r:URN").content].response_domain,
-                code_id: rdc.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-              })
+                               question: qg,
+                               response_domain: @code_list_index[rdc.at_xpath("r:CodeListReference/r:URN").content].response_domain,
+                               code_id: rdc.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                           })
             else
               qg.response_domain_codes << @code_list_index[rdc.at_xpath("r:CodeListReference/r:URN").content].response_domain
             end
@@ -196,10 +200,10 @@ module XML
         rdns.each do |rdn|
           if rdn.parent.name == "GridResponseDomain"
             RdsQs.create({
-              question: qg,
-              response_domain: @reponse_domain_index['N'+rdn.at_xpath("r:Label/r:Content").content],
-              code_id: rdn.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-            })
+                             question: qg,
+                             response_domain: @reponse_domain_index['N'+rdn.at_xpath("r:Label/r:Content").content],
+                             code_id: rdn.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                         })
           else
             qg.response_domain_numerics << @reponse_domain_index['N'+rdn.at_xpath("r:Label/r:Content").content]
           end
@@ -208,10 +212,10 @@ module XML
         rdts.each do |rdt|
           if rdt.parent.name == "GridResponseDomain"
             RdsQs.create({
-              question: qg,
-              response_domain: @reponse_domain_index['T'+rdt.at_xpath("r:Label/r:Content").content],
-              code_id: rdt.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-            })
+                             question: qg,
+                             response_domain: @reponse_domain_index['T'+rdt.at_xpath("r:Label/r:Content").content],
+                             code_id: rdt.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                         })
           else
             qg.response_domain_texts << @reponse_domain_index['T'+rdt.at_xpath("r:Label/r:Content").content]
           end
@@ -220,15 +224,15 @@ module XML
         rdds.each do |rdd|
           if rdd.parent.name == "GridResponseDomain"
             RdsQs.create({
-              question: qg,
-              response_domain: @reponse_domain_index['D'+rdd.at_xpath("r:Label/r:Content").content],
-              code_id: rdd.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-            })
+                             question: qg,
+                             response_domain: @reponse_domain_index['D'+rdd.at_xpath("r:Label/r:Content").content],
+                             code_id: rdd.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                         })
           else
             qg.response_domain_datetimes << @reponse_domain_index['D'+rdd.at_xpath("r:Label/r:Content").content]
           end
         end
-        
+
         #Adding instruction
         instr = question_grid.at_xpath("d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
@@ -237,7 +241,7 @@ module XML
         qg.save!
       end
     end
-    
+
     def read_constructs
       seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
       cc_seq = CcSequence.new
@@ -246,7 +250,7 @@ module XML
       @response_unit_index = {}
       read_sequence_children(seq, cc_seq)
     end
-    
+
     def read_sequence_children(node, parent)
       position_counter = 0
       node.xpath("./d:ControlConstructReference").each do |child_ref|
@@ -276,7 +280,7 @@ module XML
           cc_q = CcQuestion.new
           q_urn = child.at_xpath("./r:QuestionReference/r:URN").content
           q_type = child.at_xpath("./r:QuestionReference/r:TypeOfObject").content
-          cc_q.question = q_type == 'QuestionItem' ?  @question_item_index[q_urn] : @question_grid_index[q_urn]
+          cc_q.question = q_type == 'QuestionItem' ? @question_item_index[q_urn] : @question_grid_index[q_urn]
           ru_val = child.at_xpath("./d:ResponseUnit").content
           if @response_unit_index.has_key? ru_val
             ru = @response_unit_index[ru_val]
@@ -298,27 +302,27 @@ module XML
           cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_c.position = position_counter
           c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
-          
+
           #TODO: Protect against no logic
           cc_c.literal = c_string[0, c_string.rindex('[')].strip
           cc_c.logic = c_string[c_string.rindex('[') + 1, c_string.length - c_string.rindex('[') - 2].strip
           parent.children << cc_c.cc
           cc_c.save!
-          
+
           true_branch = child.at_xpath("./d:ThenConstructReference/r:URN")
           if not true_branch.nil?
             then_urn = true_branch.content
             seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{then_urn}']").parent
             read_sequence_children(seq, cc_c)
           end
-          
+
           else_branch = child.at_xpath("./d:ElseConstructReference/r:URN")
           if not else_branch.nil?
             else_urn = else_branch.content
             seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{else_urn}']").parent
             read_sequence_children(seq, cc_c)
           end
-          
+
         elsif type == 'Loop'
           child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
           cc_l = CcLoop.new
@@ -337,26 +341,28 @@ module XML
             pieces = end_node.content.split /\W\D\s/
             cc_l.end_val = pieces[1]
           end
-          if not while_node.nil? then cc_l.loop_while = while_node.content end
+          if not while_node.nil? then
+            cc_l.loop_while = while_node.content
+          end
           parent.children << cc_l.cc
           cc_l.save!
-          
+
           inner_loop = child.at_xpath("./d:ControlConstructReference/r:URN")
           if not inner_loop.nil?
             inner_loop_urn = inner_loop.content
             seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{inner_loop_urn}']").parent
             read_sequence_children(seq, cc_l)
           end
-          
+
         end
       end
-      
+
     end
-    
+
     def self.build_instrument(doc, options= {})
       save = defined? options[:save] ? true : options[:save]
       duplicate = defined? options[:duplicate] ? :do_nothing : options[:duplicate]
-      
+
       i = Instrument.new
       i.label = doc.xpath("//d:InstrumentName//r:String").first.content
       urn_pieces = doc.xpath("//r:URN").first.content.split(":")
@@ -369,17 +375,17 @@ module XML
           return
         else
           if duplicate == :update || duplicate == :replace
-          if instruments.length == 1
-            if duplicate == :update
-              i = instruments.first
+            if instruments.length == 1
+              if duplicate == :update
+                i = instruments.first
+              else
+                instruments.first.destroy
+              end
             else
-              instruments.first.destroy
+              Rails.logger.error 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
+              return
             end
-          else
-            Rails.logger.error 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
-            return
-          end 
-        end
+          end
         end
       end
       i.version = "1.0"
@@ -389,13 +395,13 @@ module XML
       end
       return i
     end
-    
+
     def doc
       @doc
     end
-    
+
     def instrument
-      @instrument	
+      @instrument
     end
   end
 end

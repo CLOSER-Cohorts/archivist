@@ -13,7 +13,7 @@ class InstrumentsControllerTest < ActionController::TestCase
 
   test "should create instrument" do
     assert_difference('Instrument.count') do
-      post :create, format: :json, instrument: { agency: @instrument.agency, label: @instrument.label, prefix: @instrument.prefix, study: @instrument.study, version: @instrument.version }
+      post :create, format: :json, instrument: {agency: @instrument.agency, label: @instrument.label, prefix: @instrument.prefix, study: @instrument.study, version: @instrument.version}
     end
 
     assert_response :success
@@ -25,7 +25,7 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should update instrument" do
-    patch :update, format: :json, id: @instrument, instrument: { agency: @instrument.agency, label: @instrument.label, prefix: @instrument.prefix, study: @instrument.study, version: @instrument.version }
+    patch :update, format: :json, id: @instrument, instrument: {agency: @instrument.agency, label: @instrument.label, prefix: @instrument.prefix, study: @instrument.study, version: @instrument.version}
     assert_response :success
   end
 

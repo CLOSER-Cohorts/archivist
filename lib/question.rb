@@ -13,10 +13,10 @@ module Question
     include Realtime
 
     alias constructs cc_questions
-  
+
     def response_domains
-      self.response_domain_codes.to_a + self.response_domain_datetimes.to_a + 
-      self.response_domain_numerics.to_a + self.response_domain_texts.to_a
+      self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
+          self.response_domain_numerics.to_a + self.response_domain_texts.to_a
     end
   end
 end

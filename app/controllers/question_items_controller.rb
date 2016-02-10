@@ -49,17 +49,17 @@ class QuestionItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_question_item
-      @question_item = QuestionItem.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_question_item
+    @question_item = QuestionItem.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def question_item_params
-      params.require(:question_item).permit(:label, :literal, :instruction_id, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def question_item_params
+    params.require(:question_item).permit(:label, :literal, :instruction_id, :instrument_id)
+  end
 end

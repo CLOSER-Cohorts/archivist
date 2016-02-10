@@ -14,7 +14,7 @@ class TopicsControllerTest < ActionController::TestCase
 
   test "should create topic" do
     assert_difference('Topic.count') do
-      post :create, topic: { code: @topic.code, name: @topic.name, parent_id: @topic.parent_id }
+      post :create, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
     end
 
     assert_redirected_to topic_path(assigns(:topic))
@@ -26,12 +26,12 @@ class TopicsControllerTest < ActionController::TestCase
   end
 
   test "should update topic" do
-    patch :update, id: @topic, topic: { code: @topic.code, name: @topic.name, parent_id: @topic.parent_id }
+    patch :update, id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
     assert_redirected_to topic_path(assigns(:topic))
   end
 
   test "should destroy topic" do
-    
+
     assert_difference('Topic.count', -1) do
       delete :destroy, id: @l2_topic
     end

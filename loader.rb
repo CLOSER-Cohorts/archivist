@@ -1,5 +1,5 @@
 Dir.chdir '/Users/williampoynter/Downloads/bundles'
-folders = Dir.entries(".").reject {|x| x.first == "."}
+folders = Dir.entries(".").reject { |x| x.first == "." }
 
 folders.each do |folder|
 

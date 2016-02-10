@@ -14,7 +14,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should create variable" do
     assert_difference('Variable.count') do
-      post :create, format: :json, dataset_id: @dataset.id, variable: { dataset_id: @variable.dataset_id, label: @variable.label, name: 'v'+@variable.name, var_type: @variable.var_type }
+      post :create, format: :json, dataset_id: @dataset.id, variable: {dataset_id: @variable.dataset_id, label: @variable.label, name: 'v'+@variable.name, var_type: @variable.var_type}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should update variable" do
-    patch :update, format: :json, dataset_id: @dataset.id, id: @variable, variable: { dataset_id: @variable.dataset_id, label: @variable.label, name: @variable.name, var_type: @variable.var_type }
+    patch :update, format: :json, dataset_id: @dataset.id, id: @variable, variable: {dataset_id: @variable.dataset_id, label: @variable.label, name: @variable.name, var_type: @variable.var_type}
     assert_response :success
   end
 

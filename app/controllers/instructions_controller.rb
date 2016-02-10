@@ -20,7 +20,7 @@ class InstructionsController < ApplicationController
 
     respond_to do |format|
       if @instruction.save
-        format.json { render :show, status: :created  }
+        format.json { render :show, status: :created }
       else
         format.json { render json: @instruction.errors, status: :unprocessable_entity }
       end
@@ -49,17 +49,17 @@ class InstructionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_instruction
-      @instruction = Instruction.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_instruction
+    @instruction = Instruction.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def instruction_params
-      params.require(:instruction).permit(:text, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def instruction_params
+    params.require(:instruction).permit(:text, :instrument_id)
+  end
 end

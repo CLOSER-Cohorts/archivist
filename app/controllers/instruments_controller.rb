@@ -19,7 +19,7 @@ class InstrumentsController < ApplicationController
   end
 
   def import
-    FileUtils.mkdir_p Rails.root.join('tmp','uploads')
+    FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
     params[:files].each do |file|
       filepath = Rails.root.join(
           'tmp',
@@ -76,13 +76,13 @@ class InstrumentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_instrument
-      @instrument = Instrument.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_instrument
+    @instrument = Instrument.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def instrument_params
-      params.require(:instrument).permit(:agency, :version, :prefix, :label, :study)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def instrument_params
+    params.require(:instrument).permit(:agency, :version, :prefix, :label, :study)
+  end
 end

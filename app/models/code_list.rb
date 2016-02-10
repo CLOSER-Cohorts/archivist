@@ -1,6 +1,6 @@
 class CodeList < ActiveRecord::Base
   belongs_to :instrument
-  has_many :codes, -> { includes(:category).order('"order" ASC')}, dependent: :destroy
+  has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy
   has_many :categories, through: :codes
   has_one :response_domain_code, dependent: :destroy
   has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id'
@@ -15,7 +15,7 @@ class CodeList < ActiveRecord::Base
       self.response_domain_code = ResponseDomainCode.new
     end
 
-    if  !(be_code_answer || response_domain.nil?)
+    if !(be_code_answer || response_domain.nil?)
       self.response_domain_code.destroy
     end
   end
@@ -32,7 +32,7 @@ class CodeList < ActiveRecord::Base
     logger.debug codes
     #Check current codes against what was returned
     self.codes.each do |code|
-      matching = codes.select {|x| x[:id] == code[:id]}
+      matching = codes.select { |x| x[:id] == code[:id] }
       if matching.count == 0
         #Code is no longer included
         #TODO: What implications does destroying a code have for grid axises?
@@ -49,7 +49,7 @@ class CodeList < ActiveRecord::Base
 
     if self.codes.length < codes.length
       # There are codes to add
-      new_codes_values = codes.select {|x| x[:id].nil?}
+      new_codes_values = codes.select { |x| x[:id].nil? }
       new_codes_values.each do |new_code_values|
         new_code = Code.new
         new_code.order = new_code_values[:order]

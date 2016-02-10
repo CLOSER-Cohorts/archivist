@@ -7,29 +7,29 @@ class Instrument < ActiveRecord::Base
   has_many :cc_statements, -> { includes :cc }, dependent: :destroy
 
   has_many :question_grids, -> { includes [
-      :response_domain_datetimes,
-      :response_domain_numerics,
-      :response_domain_texts,
-      response_domain_codes: [
-          code_list: [
-              codes: [
-                  :category
-              ]
-          ]
-      ]
-  ] }, dependent: :destroy
+                                              :response_domain_datetimes,
+                                              :response_domain_numerics,
+                                              :response_domain_texts,
+                                              response_domain_codes: [
+                                                  code_list: [
+                                                      codes: [
+                                                          :category
+                                                      ]
+                                                  ]
+                                              ]
+                                          ] }, dependent: :destroy
   has_many :question_items, -> { includes [
-      :response_domain_datetimes,
-      :response_domain_numerics,
-      :response_domain_texts,
-      response_domain_codes: [
-          code_list: [
-              codes: [
-                  :category
-              ]
-          ]
-      ]
-  ] }, dependent: :destroy
+                                              :response_domain_datetimes,
+                                              :response_domain_numerics,
+                                              :response_domain_texts,
+                                              response_domain_codes: [
+                                                  code_list: [
+                                                      codes: [
+                                                          :category
+                                                      ]
+                                                  ]
+                                              ]
+                                          ] }, dependent: :destroy
 
   has_many :code_lists, dependent: :destroy
   has_many :categories, dependent: :destroy
@@ -73,7 +73,7 @@ class Instrument < ActiveRecord::Base
 
   def response_domains
     self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
-    self.response_domain_texts.to_a + self.response_domain_codes.to_a
+        self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
   def copy(original_id)

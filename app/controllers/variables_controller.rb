@@ -48,13 +48,13 @@ class VariablesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_variable
-      @variable = Variable.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_variable
+    @variable = Variable.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def variable_params
-      params.require(:variable).permit(:name, :label, :var_type, :dataset_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def variable_params
+    params.require(:variable).permit(:name, :label, :var_type, :dataset_id)
+  end
 end

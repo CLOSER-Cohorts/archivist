@@ -14,7 +14,7 @@ class ResponseDomainTextsControllerTest < ActionController::TestCase
 
   test "should create response_domain_text" do
     assert_difference('ResponseDomainText.count') do
-      post :create, format: :json, instrument_id: @instrument.id, response_domain_text: { label: @response_domain_text.label, maxlen: @response_domain_text.maxlen, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, response_domain_text: {label: @response_domain_text.label, maxlen: @response_domain_text.maxlen, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class ResponseDomainTextsControllerTest < ActionController::TestCase
   end
 
   test "should update response_domain_text" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @response_domain_text, response_domain_text: { label: @response_domain_text.label, maxlen: @response_domain_text.maxlen }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @response_domain_text, response_domain_text: {label: @response_domain_text.label, maxlen: @response_domain_text.maxlen}
     assert_response :success
   end
 

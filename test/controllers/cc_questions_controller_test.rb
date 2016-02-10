@@ -15,10 +15,10 @@ class CcQuestionsControllerTest < ActionController::TestCase
   test "should create cc_question" do
     assert_difference('CcQuestion.count') do
       post :create, format: :json, instrument_id: @instrument.id, cc_question: {
-        question_id: @cc_question.question_id, 
-        question_type: @cc_question.question_type, 
-        instrument_id: @instrument.id,
-        response_unit_id: @cc_question.response_unit.id }
+          question_id: @cc_question.question_id,
+          question_type: @cc_question.question_type,
+          instrument_id: @instrument.id,
+          response_unit_id: @cc_question.response_unit.id}
     end
 
     assert_response :success
@@ -30,7 +30,7 @@ class CcQuestionsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_question" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_question, cc_question: { question_id: @cc_question.question_id, question_type: @cc_question.question_type }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @cc_question, cc_question: {question_id: @cc_question.question_id, question_type: @cc_question.question_type}
     assert_response :success
   end
 

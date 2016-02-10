@@ -38,7 +38,7 @@ class CodeListsController < ApplicationController
     end
     respond_to do |format|
       if @code_list.update(parameters)
-        format.json { render :show, status: :ok}
+        format.json { render :show, status: :ok }
       else
         format.json { render json: @code_list.errors, status: :unprocessable_entity }
       end
@@ -55,17 +55,17 @@ class CodeListsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_code_list
-      @code_list = CodeList.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_code_list
+    @code_list = CodeList.find(params[:id])
+  end
 
-    def set_instrument
-      @instrument = Instrument.find(params[:instrument_id])
-    end
+  def set_instrument
+    @instrument = Instrument.find(params[:instrument_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def code_list_params
-      params.require(:code_list).permit(:label, :instrument_id, :codes)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def code_list_params
+    params.require(:code_list).permit(:label, :instrument_id, :codes)
+  end
 end

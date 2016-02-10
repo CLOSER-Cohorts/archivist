@@ -48,13 +48,13 @@ class ResponseDomainTextsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_response_domain_text
-      @response_domain_text = ResponseDomainText.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_response_domain_text
+    @response_domain_text = ResponseDomainText.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def response_domain_text_params
-      params.require(:response_domain_text).permit(:label, :maxlen, :instrument_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def response_domain_text_params
+    params.require(:response_domain_text).permit(:label, :maxlen, :instrument_id)
+  end
 end

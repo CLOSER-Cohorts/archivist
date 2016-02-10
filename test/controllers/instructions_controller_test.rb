@@ -14,7 +14,7 @@ class InstructionsControllerTest < ActionController::TestCase
 
   test "should create instruction" do
     assert_difference('Instruction.count') do
-      post :create, format: :json, instrument_id: @instrument.id, instruction: { text: @instruction.text, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, instruction: {text: @instruction.text, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class InstructionsControllerTest < ActionController::TestCase
   end
 
   test "should update instruction" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @instruction, instruction: { text: @instruction.text }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @instruction, instruction: {text: @instruction.text}
     assert_response :success
   end
 

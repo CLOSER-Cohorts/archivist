@@ -14,7 +14,7 @@ class CodeListsControllerTest < ActionController::TestCase
 
   test "should create code_list" do
     assert_difference('CodeList.count') do
-      post :create, format: :json, instrument_id: @instrument.id, code_list: { label: @code_list.label, instrument_id: @instrument.id }
+      post :create, format: :json, instrument_id: @instrument.id, code_list: {label: @code_list.label, instrument_id: @instrument.id}
     end
 
     assert_response :success
@@ -26,7 +26,7 @@ class CodeListsControllerTest < ActionController::TestCase
   end
 
   test "should update code_list" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @code_list, code_list: { label: @code_list.label }
+    patch :update, format: :json, instrument_id: @instrument.id, id: @code_list, code_list: {label: @code_list.label}
     assert_response :success
   end
 
