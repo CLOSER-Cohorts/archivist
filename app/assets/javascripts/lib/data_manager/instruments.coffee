@@ -9,11 +9,7 @@ instruments.factory(
     (WrappedResource)->
       new WrappedResource(
         'instruments/:id.json',
-        {id: '@id'},
-        {
-          save:
-            method: 'PUT'
-        }
+        {id: '@id'}
       )
   ]
 )
