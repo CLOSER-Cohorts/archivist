@@ -30,5 +30,17 @@ module Archivist
     config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.after_initialize do
+      begin
+        if $redis.ping === 'PONG'
+          puts 'Redis is connected.'
+        else
+          raise 'Did not reply "PONG"'
+        end
+      rescue
+        puts 'Redis is NOT connected.'
+      end
+    end
   end
 end

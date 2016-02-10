@@ -22,8 +22,6 @@ Rails.application.routes.draw do
 		resources :question_items
 		resources :instructions
 		resources :response_domain_texts
-		resources :response_domain_codes
-		resources :codes
 		resources :code_lists
 		resources :categories
 		member do
