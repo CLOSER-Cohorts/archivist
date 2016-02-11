@@ -1,6 +1,8 @@
 ## README
 
 [![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=master)](https://travis-ci.org/CLOSER-Cohorts/archivist)
+[![Inline docs](http://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=master)](http://inch-ci.org/github/CLOSER-Cohorts/archivist)
+[![Coverage Status](https://coveralls.io/repos/github/CLOSER-Cohorts/archivist/badge.svg?branch=master)](https://coveralls.io/github/CLOSER-Cohorts/archivist?branch=master)
 
 ### Models
 #### CADDIES
