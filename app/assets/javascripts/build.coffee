@@ -64,12 +64,13 @@ build.controller('BuildCodeListsController',
     '$routeParams',
     '$q',
     '$location',
-    'flash',
+    'Flash',
     'Instruments',
     'CodeListsArchive',
     'CategoriesArchive',
     'CodeResolver',
-    ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, CodeResolver)->
+    'RealTimeLocking',
+    ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, CodeResolver, RealTimeLocking)->
 
       $scope.title = "Code lists"
       $scope.main_panel = "partials/build/code_lists.html"
@@ -143,10 +144,13 @@ build.controller('BuildCodeListsController',
         console.log "reset called"
         $scope.current = angular.copy $scope.code_lists.select_resource_by_id parseInt $routeParams.code_list_id
         $scope.editMode = false
+        RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
         null
 
       $scope.startEditMode = () ->
         $scope.editMode = true
+        console.log $scope.current
+        RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
         null
   ])
 
@@ -166,16 +170,18 @@ build.controller('BuildQuestionsController',
     '$scope',
     '$routeParams',
     '$location',
-    'flash',
+    'Flash',
     'DataManager',
-    'RealTimeListener'
+    'RealTimeListener',
+    'RealTimeLocking',
     (
       $scope,
       $routeParams,
       $location,
       Flash,
       DataManager,
-      RealTimeListener
+      RealTimeListener,
+      RealTimeLocking
     ) ->
       $scope.title = "Questions"
       $scope.main_panel = 'partials/build/questions.html'
@@ -218,7 +224,12 @@ build.controller('BuildQuestionsController',
         null
 
       $scope.edit_path = (q)->
-        '/instruments/' + $scope.instrument.id + '/build/questions/' + q.type + '/' + q.id
+        '/instruments/' +
+          $scope.instrument.id +
+          '/build/questions/' +
+          q.type.replace(/([A-Z])/g, (x,y) -> "-"+y.toLowerCase()).replace /^-/, '' +
+          '/' +
+          q.id
 
       $scope.change_panel = (q) ->
         $location.url $scope.edit_path q
@@ -232,10 +243,12 @@ build.controller('BuildQuestionsController',
           $scope.current = angular.copy $scope.instrument.Questions.Grids.select_resource_by_id parseInt $routeParams.question_id
           $scope.title = 'Question Grid'
         $scope.editMode = false
+        RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
         null
 
       $scope.startEditMode = () ->
         $scope.editMode = true
+        RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
         null
   ]
 )

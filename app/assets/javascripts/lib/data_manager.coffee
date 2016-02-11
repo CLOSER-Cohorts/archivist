@@ -119,8 +119,6 @@ data_manager.factory(
           DataManager.Data.Questions.Items  =
             DataManager.Constructs.Questions.item.query instrument_id: instrument_id
           promises.push DataManager.Data.Questions.Items.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'question-item'
 
             if options.instrument
               DataManager.Data.Instrument.Questions ?= {}
@@ -131,8 +129,6 @@ data_manager.factory(
           DataManager.Data.Questions.Grids  =
             DataManager.Constructs.Questions.grid.query instrument_id: instrument_id
           promises.push DataManager.Data.Questions.Grids.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'question-grid'
 
             if options.instrument
               DataManager.Data.Instrument.Questions ?= {}

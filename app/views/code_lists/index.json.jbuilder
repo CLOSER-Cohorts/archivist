@@ -1,5 +1,6 @@
 json.array!(@code_lists) do |code_list|
   json.extract! code_list, :id, :label
+  json.type code_list.class.name
   json.codes code_list.codes do |code|
     json.id code.id
     json.category_id code.category.id
