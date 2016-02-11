@@ -32,7 +32,7 @@ instruments.controller('InstrumentsController',
     '$q',
     '$http',
     '$timeout',
-    'flash',
+    'Flash',
     'DataManager',
     ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
       $scope.page['title'] = 'Instruments'

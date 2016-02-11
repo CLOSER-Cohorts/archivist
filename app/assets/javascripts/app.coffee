@@ -19,7 +19,7 @@ archivist.config([ '$routeProvider', '$locationProvider',
     $locationProvider.html5Mode true
 ])
 
-archivist.controller('RootController', [ '$scope', '$location', 'flash'
+archivist.controller('RootController', [ '$scope', '$location', 'Flash'
   ($scope, $location, Flash)->
     $scope.softwareName = 'Archivist'
     $scope.page['title'] = 'Home'
@@ -27,7 +27,12 @@ archivist.controller('RootController', [ '$scope', '$location', 'flash'
       viewLocation == $location.path()
 ])
 
-archivist.run(['$rootScope', 'flash', 'RealTimeConnection'
+archivist.directive 'notices', ->
+  {
+    templateURL: 'partials/notices.html'
+  }
+
+archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
   ($rootScope, Flash, RealTimeConnection)->
     Array::unique = ->
       output = {}
@@ -44,6 +49,7 @@ archivist.run(['$rootScope', 'flash', 'RealTimeConnection'
     $rootScope.$on('$routeChangeSuccess', ->
       Flash.publish($rootScope)
     )
+    Flash.publish($rootScope)
 
     $rootScope.page = {title: 'Home'}
 ])
