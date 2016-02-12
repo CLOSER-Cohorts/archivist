@@ -1,7 +1,8 @@
 admin = angular.module('archivist.admin', [
   'templates',
   'ngRoute',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'archivist.flash'
 ])
 
 admin.config(['$routeProvider',
@@ -17,6 +18,7 @@ admin.config(['$routeProvider',
       )
       .when('/admin/import',
         templateUrl: 'partials/admin/import.html'
+        controller: 'AdminImportController'
       )
 ])
 
@@ -70,22 +72,18 @@ admin.controller('AdminInstrumentsController',
         $scope.instruments.push $scope.newInstrument
 ])
 
-admin.controller('FileUploadController',
+admin.controller('AdminImportController',
   [
     '$scope',
     '$http',
-    '$filter',
-    '$window',
-    ($scope, $http)->
-      $scope.options =
-        url: '/admin/import'
-      $scope.loadingFiles = true;
-      $http.get $scope.options.url
-        .then(
-          (response)->
-            $scope.loadingFiles = false
-            $scope.queue = response.data.files || []
-          ,()->
-            $scope.loadingFiles = false
-        )
+    'Flash'
+    ($scope, $http, Flash)->
+      $scope.uploadImport = ()->
+        $http {
+          method: 'POST'
+          url: '/admin/import/instruments'
+          headers :
+            'Content-Type': 'multipart/form-data'
+        }
+        Flash.add('success', 'Instrument imported.')
 ])

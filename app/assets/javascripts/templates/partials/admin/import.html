@@ -8,7 +8,7 @@
 
         <notices></notices>
 
-        <form action="/admin/import/instruments" method="POST" enctype="multipart/form-data">
+        <form data-ng-submit="uploadImport()">
             <div class="form-group">
                 <label for="instrument-files">
                     Upload DDI files
