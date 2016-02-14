@@ -43,3 +43,4 @@ exclude_paths:
 - db/
 - test/
 - vendor/
+- public/
