@@ -3,7 +3,7 @@
 one:
   value: 1
   order: 1
-  code_list: :one 
+  code_list: :four
   category: :one
 
 two:

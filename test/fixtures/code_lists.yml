@@ -19,3 +19,7 @@ axisx:
 axisy:
   label: Y Axis
   instrument: :one
+
+four:
+  label: CodeListFour
+  instrument: :two
