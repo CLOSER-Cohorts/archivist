@@ -1,4 +1,4 @@
-json.array!(@cc_sequences) do |cc_sequence|
+json.array!(@collection) do |cc_sequence|
   json.extract! cc_sequence, :id, :literal, :position
   json.label cc_sequence.label
   json.children cc_sequence.children do |child|

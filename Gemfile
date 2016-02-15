@@ -54,6 +54,7 @@ gem "devise"
 gem "pundit"
 gem 'bower-rails'
 gem 'angular-rails-templates', '0.2.0'
+gem 'skylight'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

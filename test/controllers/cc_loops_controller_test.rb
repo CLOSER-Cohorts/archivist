@@ -3,13 +3,13 @@ require 'test_helper'
 class CcLoopsControllerTest < ActionController::TestCase
   setup do
     @cc_loop = cc_loops(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:cc_loops)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create cc_loop" do
