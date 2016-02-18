@@ -29,7 +29,7 @@ class InstrumentsController < ApplicationController
       File.open(filepath, 'wb') do |f|
         f.write(file.read)
       end
-      im = XML::Instrument::Importer.new filepath
+      im = XML::CADDIES::Importer.new filepath
       im.parse
     end
     redirect_to '/admin/import'
