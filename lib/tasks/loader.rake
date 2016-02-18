@@ -7,7 +7,7 @@ task :load_instruments => :environment do
 
     if File.exist? folder + '/ddi.xml'
 
-      im = XML::Importer.new(folder + '/ddi.xml')
+      im = XML::Instrument::Importer.new(folder + '/ddi.xml')
       im.parse
 
     end
