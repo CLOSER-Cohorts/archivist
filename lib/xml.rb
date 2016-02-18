@@ -47,7 +47,12 @@ module XML
 
       #Read response domain code
       @rdcs_created = []
-      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionGrid/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | //d:QuestionItem/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
+      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | " +
+                                "//d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN | " +
+                                "//d:QuestionGrid/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | " +
+                                "//d:QuestionItem/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | " +
+                                "//d:QuestionGrid/d:StructuredMixedGridResponseDomain/d:GridResponseDomain/d:CodeDomain/r:CodeListReference/r:URN"
+      )
       rdc_urns.each do |urn|
         if not @rdcs_created.include? urn.content
           @rdcs_created << urn.content
@@ -188,11 +193,11 @@ module XML
             if rdc.parent.name == "GridResponseDomain"
               RdsQs.create({
                                question: qg,
-                               response_domain: @code_list_index[rdc.at_xpath("r:CodeListReference/r:URN").content].response_domain,
-                               code_id: rdc.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                               response_domain: @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain,
+                               code_id: rdc.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
                            })
             else
-              qg.response_domain_codes << @code_list_index[rdc.at_xpath("r:CodeListReference/r:URN").content].response_domain
+              qg.response_domain_codes << @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain
             end
           end
         end
@@ -201,11 +206,11 @@ module XML
           if rdn.parent.name == "GridResponseDomain"
             RdsQs.create({
                              question: qg,
-                             response_domain: @reponse_domain_index['N'+rdn.at_xpath("r:Label/r:Content").content],
-                             code_id: rdn.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                             response_domain: @reponse_domain_index['N'+rdn.at_xpath("./r:Label/r:Content").content],
+                             code_id: rdn.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
                          })
           else
-            qg.response_domain_numerics << @reponse_domain_index['N'+rdn.at_xpath("r:Label/r:Content").content]
+            qg.response_domain_numerics << @reponse_domain_index['N'+rdn.at_xpath("./r:Label/r:Content").content]
           end
         end
         rdts = question_grid.xpath(".//d:TextDomain")
@@ -213,11 +218,11 @@ module XML
           if rdt.parent.name == "GridResponseDomain"
             RdsQs.create({
                              question: qg,
-                             response_domain: @reponse_domain_index['T'+rdt.at_xpath("r:Label/r:Content").content],
-                             code_id: rdt.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                             response_domain: @reponse_domain_index['T'+rdt.at_xpath("./r:Label/r:Content").content],
+                             code_id: rdt.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
                          })
           else
-            qg.response_domain_texts << @reponse_domain_index['T'+rdt.at_xpath("r:Label/r:Content").content]
+            qg.response_domain_texts << @reponse_domain_index['T'+rdt.at_xpath("./r:Label/r:Content").content]
           end
         end
         rdds = question_grid.xpath(".//d:DateTimeDomain")
@@ -225,16 +230,16 @@ module XML
           if rdd.parent.name == "GridResponseDomain"
             RdsQs.create({
                              question: qg,
-                             response_domain: @reponse_domain_index['D'+rdd.at_xpath("r:Label/r:Content").content],
-                             code_id: rdd.parent.at_xpath("d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
+                             response_domain: @reponse_domain_index['D'+rdd.at_xpath("./r:Label/r:Content").content],
+                             code_id: rdd.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
                          })
           else
-            qg.response_domain_datetimes << @reponse_domain_index['D'+rdd.at_xpath("r:Label/r:Content").content]
+            qg.response_domain_datetimes << @reponse_domain_index['D'+rdd.at_xpath("./r:Label/r:Content").content]
           end
         end
 
         #Adding instruction
-        instr = question_grid.at_xpath("d:InterviewerInstructionReference/r:URN")
+        instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
           qg.instruction = @instruction_index[instr.content]
         end
@@ -303,9 +308,13 @@ module XML
           cc_c.position = position_counter
           c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
 
-          #TODO: Protect against no logic
-          cc_c.literal = c_string[0, c_string.rindex('[')].strip
-          cc_c.logic = c_string[c_string.rindex('[') + 1, c_string.length - c_string.rindex('[') - 2].strip
+          if c_string.rindex('[').nil?
+            cc_c.literal = c_string
+            cc_c.logic = ''
+          else
+            cc_c.literal = c_string[0, c_string.rindex('[')].strip
+            cc_c.logic = c_string[c_string.rindex('[') + 1, c_string.length - c_string.rindex('[') - 2].strip
+          end
           parent.children << cc_c.cc
           cc_c.save!
 
