@@ -25,12 +25,14 @@ admin.config(['$routeProvider',
 admin.controller('AdminDashController',
   [
     '$scope',
-    ($scope)->
-      $scope.counts = []
-      $scope.counts.instruments = 68
-      $scope.counts.questions = 3021
-      $scope.counts.variables = 687
-      $scope.counts.users = 1
+    'DataManager',
+    ($scope, DataManager)->
+      $scope.counts = DataManager.getApplicationStats()
+      console.log $scope.counts
+      #$scope.counts.instruments = 68
+      #$scope.counts.questions = 3021
+      #$scope.counts.variables = 687
+      #$scope.counts.users = 1
 ])
 
 admin.controller('AdminInstrumentsController',

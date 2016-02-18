@@ -17,6 +17,16 @@ class ApplicationController < ActionController::Base
     render json: studies
   end
 
+  def stats
+    counts = {
+        instruments: Instrument.all.count,
+        questions: CcQuestion.all.count,
+        variables: Variable.all.count,
+        users: 0
+    }
+    render json: counts
+  end
+
   protected
   def verified_request?
     super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])

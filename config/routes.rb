@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   end
 
   get 'studies', to: 'application#studies', constraints: -> (r) { (r.format == :json) }
+  get 'stats', to: 'application#stats', constraints: -> (r) { (r.format == :json) }
   match '*path', to: 'application#index', via: :all, constraints: {format: ''}
 
   # The priority is based upon order of creation: first created -> highest priority.

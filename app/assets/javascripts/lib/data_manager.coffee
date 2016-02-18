@@ -5,6 +5,7 @@ data_manager = angular.module(
     'archivist.data_manager.instruments',
     'archivist.data_manager.constructs',
     'archivist.data_manager.resolution',
+    'archivist.data_manager.stats',
     'archivist.realtime'
   ]
 )
@@ -18,7 +19,8 @@ data_manager.factory(
     'Instruments',
     'Constructs',
     'ResolutionService',
-    'RealTimeListener'
+    'RealTimeListener',
+    'ApplicationStats'
     (
       $http,
       $q,
@@ -26,7 +28,8 @@ data_manager.factory(
       Instruments,
       Constructs,
       ResolutionService,
-      RealTimeListener
+      RealTimeListener,
+      ApplicationStats
     )->
       DataManager = {}
 
@@ -182,6 +185,17 @@ data_manager.factory(
       DataManager.resolveQuestions = ()->
         DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
+
+      DataManager.getApplicationStats = ()->
+        DataManager.Data.AppStats = {$resolved: false}
+        DataManager.Data.AppStats.$promise = ApplicationStats
+        DataManager.Data.AppStats.$promise.then (res)->
+          console.log res.data
+          for key of res.data
+            if res.data.hasOwnProperty key
+              DataManager.Data.AppStats[key] = res.data[key]
+          DataManager.Data.AppStats.$resolved = true
+        DataManager.Data.AppStats
 
       DataManager.listener = RealTimeListener (event, message)->
         if message.data?
