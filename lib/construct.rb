@@ -35,6 +35,14 @@ module Construct
       include Construct::LocalInstanceMethods
       delegate :children, to: :cc
     end
+
+    def find_by_label(label)
+        self
+          .where(nil)
+          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND construct_type = \'CcQuestion\'')
+          .where('label = ?', label)
+          .first
+    end
   end
 
   module LocalInstanceMethods

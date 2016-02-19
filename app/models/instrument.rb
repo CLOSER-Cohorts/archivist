@@ -41,6 +41,9 @@ class Instrument < ActiveRecord::Base
   has_many :response_domain_texts, dependent: :destroy
   has_many :response_units, dependent: :destroy
 
+  has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+  has_many :datasets, through: :instruments_datasets
+
   include Realtime
 
   def conditions

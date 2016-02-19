@@ -33,3 +33,10 @@ task :load_datasets => :environment do
   end
 
 end
+
+desc 'Loads a mapping.txt'
+task :load_mapping => :environment do
+
+  i = Instrument.find_by_prefix ENV['instrument']
+  d = Dataset.find ENV['dataset']
+end
