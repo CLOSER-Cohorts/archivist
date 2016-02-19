@@ -58,11 +58,51 @@ build.controller('BuildMenuController',
       $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs'
   ])
 
+Toolbox = ($scope, title, extra_url_parameters)->
+  underscored = title.toLowerCase().replaceAll(' ','_')
+
+  $scope.title = title
+  $scope.main_panel = "partials/build/" + underscored + ".html"
+  $scope.page['title'] = title
+  $scope.extra_url_parameters = extra_url_parameters
+
+  $scope.cancel = () ->
+    console.log "cancel called"
+    $scope.reset()
+    null
+
+  $scope.edit_path = (obj)->
+    terms = [
+      'instruments',
+      $scope.instrument.id,
+      'build'
+    ]
+    if $scope.extra_url_parameters
+      terms = terms.concat $scope.extra_url_parameters
+
+    terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
+    terms.push obj.id
+    terms.join('/')
+
+  $scope.startEditMode = () ->
+    $scope.editMode = true
+    console.log $scope.current
+    RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
+    null
+
+  $scope.change_panel = (obj) ->
+    $location.url $scope.edit_path obj
+
+  $scope.listener = RealTimeListener (event, message)->
+    if !$scope.editMode
+      $scope.reset()
+
 build.controller('BuildCodeListsController',
   [
     '$scope'
     '$routeParams',
     '$q',
+    '$injector',
     '$location',
     'Flash',
     'Instruments',
@@ -70,11 +110,9 @@ build.controller('BuildCodeListsController',
     'CategoriesArchive',
     'CodeResolver',
     'RealTimeLocking',
-    ($scope, $routeParams, $q, $location, Flash, Instruments, CodeLists, Categories, CodeResolver, RealTimeLocking)->
+    ($scope, $routeParams, $q, $injector, $location, Flash, Instruments, CodeLists, Categories, CodeResolver, RealTimeLocking)->
 
-      $scope.title = "Code lists"
-      $scope.main_panel = "partials/build/code_lists.html"
-      $scope.page['title'] = 'Code Lists'
+      $injector.invoke(Toolbox, this, {$scope: $scope, title: "Code Lists"});
 
       $scope.instrument = Instruments.get {id: $routeParams.id}, ->
         $scope.page['title'] = $scope.instrument.prefix + ' | Code Lists'
@@ -113,12 +151,6 @@ build.controller('BuildCodeListsController',
             {label: 'Code Lists', link: false, active: true}
           ]
 
-      $scope.edit_path = (cl)->
-        '/instruments/' + $scope.instrument.id + '/build/code_lists/'+ cl.id
-
-      $scope.change_panel = (cl) ->
-        $location.url $scope.edit_path cl
-
       $scope.save = () ->
         angular.copy $scope.current, $scope.code_lists.select_resource_by_id(parseInt($routeParams.code_list_id))
         $scope.code_lists.select_resource_by_id(parseInt($routeParams.code_list_id)).$save(
@@ -135,22 +167,11 @@ build.controller('BuildCodeListsController',
       $scope.removeCode = (code) ->
         $scope.current.codes = (c for c in $scope.current.codes when c.$$hashKey != code.$$hashKey)
 
-      $scope.cancel = () ->
-        console.log "cancel called"
-        $scope.reset()
-        null
-
       $scope.reset = () ->
         console.log "reset called"
         $scope.current = angular.copy $scope.code_lists.select_resource_by_id parseInt $routeParams.code_list_id
         $scope.editMode = false
         RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
-        null
-
-      $scope.startEditMode = () ->
-        $scope.editMode = true
-        console.log $scope.current
-        RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
         null
   ])
 
@@ -170,6 +191,7 @@ build.controller('BuildQuestionsController',
     '$scope',
     '$routeParams',
     '$location',
+    '$injector',
     'Flash',
     'DataManager',
     'RealTimeListener',
@@ -178,11 +200,25 @@ build.controller('BuildQuestionsController',
       $scope,
       $routeParams,
       $location,
+      $injector,
       Flash,
       DataManager,
       RealTimeListener,
       RealTimeLocking
     ) ->
+
+      $injector.invoke(
+        Toolbox,
+        this,
+        {
+          $scope: $scope,
+          title: "Questions",
+          extra_url_parameters: [
+            'questions'
+          ]
+        }
+      );
+
       $scope.title = "Questions"
       $scope.main_panel = 'partials/build/questions.html'
       $scope.page['title'] = 'Questions'
@@ -201,12 +237,8 @@ build.controller('BuildQuestionsController',
           ]
       )
 
-      $scope.listener = RealTimeListener (event, message)->
-        if !$scope.editMode
-          $scope.reset()
-
       $scope.save = () ->
-        if $routeParams.question_type == 'question-item'
+        if $routeParams.question_type == 'question_items'
           angular.copy $scope.current, $scope.instrument.Questions.Items.select_resource_by_id(parseInt($routeParams.question_id))
           $scope.instrument.Questions.Items.select_resource_by_id(parseInt($routeParams.question_id)).$save(
             {}
@@ -218,25 +250,10 @@ build.controller('BuildQuestionsController',
             console.log("error")
           )
 
-      $scope.cancel = () ->
-        console.log "cancel called"
-        $scope.reset()
-        null
-
-      $scope.edit_path = (q)->
-        '/instruments/' +
-          $scope.instrument.id +
-          '/build/questions/' +
-          q.type.replace(/([A-Z])/g, (x,y) -> "-"+y.toLowerCase()).replace /^-/, '' +
-          '/' +
-          q.id
-
-      $scope.change_panel = (q) ->
-        $location.url $scope.edit_path q
 
       $scope.reset = () ->
         console.log "reset called"
-        if $routeParams.question_type == 'question-item'
+        if $routeParams.question_type == 'question_items'
           $scope.current = angular.copy $scope.instrument.Questions.Items.select_resource_by_id parseInt $routeParams.question_id
           $scope.title = 'Question Item'
         else
@@ -246,10 +263,6 @@ build.controller('BuildQuestionsController',
         RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
         null
 
-      $scope.startEditMode = () ->
-        $scope.editMode = true
-        RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
-        null
   ]
 )
 
