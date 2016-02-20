@@ -97,6 +97,11 @@ Toolbox = ($scope, title, extra_url_parameters)->
     if !$scope.editMode
       $scope.reset()
 
+  $scope.instrument = DataManager.getInstrument(
+    $routeParams.id,
+
+  )
+
 build.controller('BuildCodeListsController',
   [
     '$scope'
@@ -179,10 +184,20 @@ build.controller('BuildResponseDomainsController',
   [
     '$scope',
     '$routeParams',
-    ($scope, $routeParams)->
-      $scope.title = "Response Domains"
-      $scope.main_panel = "partials/build/response_domains.html"
-      $scope.page['title'] = 'Response Domains'
+    '$injector',
+    ($scope, $routeParams, $injector)->
+      $injector.invoke(
+        Toolbox,
+        this,
+        {
+          $scope: $scope,
+          title: "Response Domains",
+          extra_url_parameters: [
+            'response_domains'
+          ]
+        }
+      );
+
   ]
 )
 
@@ -218,10 +233,6 @@ build.controller('BuildQuestionsController',
           ]
         }
       );
-
-      $scope.title = "Questions"
-      $scope.main_panel = 'partials/build/questions.html'
-      $scope.page['title'] = 'Questions'
 
       $scope.instrument = DataManager.getInstrument($routeParams.id,{questions: true, rds: true}, ()->
         $scope.page['title'] = $scope.instrument.prefix + ' | Questions'
@@ -271,9 +282,20 @@ build.controller('BuildConstructsController',
     '$scope',
     '$routeParams',
     ($scope, $routeParams)->
-      $scope.title = "Constructs"
-      $scope.main_panel = "partials/build/constructs.html"
-      $scope.page['title'] = 'Constructs'
+      $injector.invoke(
+        Toolbox,
+        this,
+        {
+          $scope: $scope,
+          title: "Constructs",
+          extra_url_parameters: [
+            'constructs'
+          ]
+          instrument_options: {
+            constructs: true
+          }
+        }
+      );
   ]
 )
 
