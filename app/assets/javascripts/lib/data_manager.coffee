@@ -6,7 +6,8 @@ data_manager = angular.module(
     'archivist.data_manager.constructs',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
-    'archivist.realtime'
+    'archivist.realtime',
+    'archivist.resource'
   ]
 )
 
@@ -20,6 +21,7 @@ data_manager.factory(
     'Constructs',
     'ResolutionService',
     'RealTimeListener',
+    'GetResource',
     'ApplicationStats'
     (
       $http,
@@ -29,6 +31,7 @@ data_manager.factory(
       Constructs,
       ResolutionService,
       RealTimeListener,
+      GetResource,
       ApplicationStats
     )->
       DataManager = {}
@@ -41,6 +44,8 @@ data_manager.factory(
       DataManager.Constructs = Constructs
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
+
+        console.log 'getInstrument'
 
         DataManager.progress = 0
 
@@ -156,26 +161,38 @@ data_manager.factory(
             if options.constructs and options.instrument and options.topsequence
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Sequences when s.top)[0]
 
+            defer = $.Deferred()
             if options.rds
+              rds = DataManager.getResponseDomains instrument_id, false, defer.resolve
               if options.instrument
-                DataManager.Data.Instrument.rds = DataManager.getResponseDomains instrument_id
-              else
-                DataManager.getResponseDomains instrument_id
+                DataManager.Data.Instrument.ResponseDomains = rds
 
-            if success?
-              success()
+            else
+              defer.resolve()
 
-            if error?
-              error()
+            defer.then(
+              ->
+                success?()
+            )
+
+
+            #if error?
+            #  error()
         )
 
         return DataManager.Data.Instrument
 
-      DataManager.getResponseDomains = (instrument_id, force = false)->
+      DataManager.getResponseDomains = (instrument_id, force = false, cb)->
         if (not DataManager.Data.ResponseDomains[instrument_id]?) or force
-          $http.get('/instruments/' + instrument_id + '/response_domains.json').success((data)->
-            DataManager.Data.ResponseDomains[instrument_id] = data
-          )
+          DataManager.Data.ResponseDomains[instrument_id] =
+            GetResource(
+              '/instruments/' + instrument_id + '/response_domains.json',
+              true,
+              cb
+            )
+        else
+          cb?()
+
         DataManager.Data.ResponseDomains[instrument_id]
 
       DataManager.resolveConstructs = (options)->

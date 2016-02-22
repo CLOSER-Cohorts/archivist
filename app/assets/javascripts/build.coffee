@@ -58,49 +58,76 @@ build.controller('BuildMenuController',
       $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs'
   ])
 
-Toolbox = ($scope, title, extra_url_parameters)->
-  underscored = title.toLowerCase().replaceAll(' ','_')
+build.controller('BaseBuildController',[
+  '$scope',
+  '$routeParams',
+  '$location',
+  'Flash',
+  'DataManager',
+  'RealTimeListener',
+  'RealTimeLocking',
+  ($scope, $routeParams, $location, Flash, DataManager, RealTimeListener, RealTimeLocking)->
 
-  $scope.title = title
-  $scope.main_panel = "partials/build/" + underscored + ".html"
-  $scope.page['title'] = title
-  $scope.extra_url_parameters = extra_url_parameters
+    $scope.page['title'] = $scope.title
+    $scope.underscored = $scope.title.toLowerCase().replaceAll(' ','_')
+    $scope.main_panel = "partials/build/" + $scope.underscored + ".html"
 
-  $scope.cancel = () ->
-    console.log "cancel called"
-    $scope.reset()
-    null
+    $scope.before_instrument_loaded?()
 
-  $scope.edit_path = (obj)->
-    terms = [
-      'instruments',
-      $scope.instrument.id,
-      'build'
-    ]
-    if $scope.extra_url_parameters
-      terms = terms.concat $scope.extra_url_parameters
+    $scope.instrument = DataManager.getInstrument(
+      $routeParams.id,
+      $scope.instrument_options,
+      ()->
+        $scope.page['title'] = $scope.instrument.prefix + ' | ' + $scope.title
 
-    terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
-    terms.push obj.id
-    terms.join('/')
+        $scope.reset()
 
-  $scope.startEditMode = () ->
-    $scope.editMode = true
-    console.log $scope.current
-    RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
-    null
+        $scope.breadcrumbs = [
+          {label: 'Instruments', link: '/instruments', active: false},
+          {label: $scope.instrument.prefix, link: '/instruments/' + $scope.instrument.id.toString(), active: false},
+          {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
+          {label: $scope.title, link: false, active: true}
+        ]
+        $scope.after_instrument_loaded?()
+        console.log $scope
+    )
 
-  $scope.change_panel = (obj) ->
-    $location.url $scope.edit_path obj
-
-  $scope.listener = RealTimeListener (event, message)->
-    if !$scope.editMode
+    $scope.cancel = () ->
+      console.log "cancel called"
       $scope.reset()
+      null
 
-  $scope.instrument = DataManager.getInstrument(
-    $routeParams.id,
+    $scope.edit_path = (obj)->
+      terms = [
+        'instruments',
+        $scope.instrument.id,
+        'build'
+      ]
+      if $scope.extra_url_parameters
+        terms = terms.concat $scope.extra_url_parameters
 
-  )
+      terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
+      terms.push obj.id
+      terms.join('/')
+
+    $scope.startEditMode = () ->
+      $scope.editMode = true
+      console.log $scope.current
+      RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
+      null
+
+    $scope.change_panel = (obj) ->
+      $location.url $scope.edit_path obj
+
+    $scope.listener = RealTimeListener (event, message)->
+      if !$scope.editMode
+        $scope.reset()
+
+    $scope.instrument = DataManager.getInstrument(
+      $routeParams.id,
+
+    )
+])
 
 build.controller('BuildCodeListsController',
   [
@@ -182,22 +209,51 @@ build.controller('BuildCodeListsController',
 
 build.controller('BuildResponseDomainsController',
   [
+    '$controller',
     '$scope',
     '$routeParams',
-    '$injector',
-    ($scope, $routeParams, $injector)->
-      $injector.invoke(
-        Toolbox,
-        this,
+    '$location',
+    'Flash',
+    'DataManager',
+    'RealTimeListener',
+    'RealTimeLocking',
+    ($controller, $scope, $routeParams, $location, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+
+      $scope.title = 'Response Domains'
+      $scope.extra_url_parameters = [
+        'response_domains'
+      ]
+      $scope.instrument_options = {
+        rds: true
+      }
+
+      $scope.reset = ->
+        console.log $scope.instrument.ResponseDomains
+        if $routeParams.response_domain_type? and $routeParams.response_domain_id?
+          for rd in $scope.instrument.ResponseDomains
+            if rd.type.camel_case_to_underscore() + 's' == $routeParams.response_domain_type and rd.id.toString() == $routeParams.response_domain_id
+
+              $scope.current = angular.copy rd
+              $scope.editMode = false
+              break
+
+        null
+
+      $scope.after_instrument_loaded = ->
+        $scope.sidebar_objs = $scope.instrument.ResponseDomains
+
+      $controller(
+        'BaseBuildController',
         {
           $scope: $scope,
-          title: "Response Domains",
-          extra_url_parameters: [
-            'response_domains'
-          ]
+          $routeParams: $routeParams,
+          $location: $location,
+          Flash: Flash,
+          DataManager: DataManager,
+          RealTimeListener: RealTimeListener,
+          RealTimeLocking: RealTimeLocking
         }
-      );
-
+      )
   ]
 )
 
@@ -227,10 +283,15 @@ build.controller('BuildQuestionsController',
         this,
         {
           $scope: $scope,
+          DataManager: DataManager,
           title: "Questions",
           extra_url_parameters: [
             'questions'
-          ]
+          ],
+          instrument_options: {
+            questions: true,
+            rds: true
+          }
         }
       );
 
@@ -287,6 +348,7 @@ build.controller('BuildConstructsController',
         this,
         {
           $scope: $scope,
+          DataManager: DataManager,
           title: "Constructs",
           extra_url_parameters: [
             'constructs'
