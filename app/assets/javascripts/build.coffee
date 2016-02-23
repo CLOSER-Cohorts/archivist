@@ -213,11 +213,12 @@ build.controller('BuildResponseDomainsController',
     '$scope',
     '$routeParams',
     '$location',
+    '$filter',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, Flash, DataManager, RealTimeListener, RealTimeLocking)->
 
       $scope.title = 'Response Domains'
       $scope.extra_url_parameters = [
@@ -240,7 +241,7 @@ build.controller('BuildResponseDomainsController',
         null
 
       $scope.after_instrument_loaded = ->
-        $scope.sidebar_objs = $scope.instrument.ResponseDomains
+        $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains)
 
       $controller(
         'BaseBuildController',
@@ -388,3 +389,17 @@ build.directive('strip', [ ->
       iElement.text = iElement.text.replaceAll 'ResponseDomain', ''
   }
 ])
+
+build.filter('stripRD', ->
+  (item)->
+    item.replace 'ResponseDomain', ''
+)
+
+build.filter('excludeRDC', ->
+  (items)->
+    output = []
+    angular.forEach items, (item)->
+      if item.type != 'ResponseDomainCode'
+        output.push item
+    output
+)
