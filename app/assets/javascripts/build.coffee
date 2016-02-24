@@ -229,7 +229,6 @@ build.controller('BuildResponseDomainsController',
       }
 
       $scope.reset = ->
-        console.log $scope.instrument.ResponseDomains
         if $routeParams.response_domain_type? and $routeParams.response_domain_id?
           for rd in $scope.instrument.ResponseDomains
             if rd.type.camel_case_to_underscore() + 's' == $routeParams.response_domain_type and rd.id.toString() == $routeParams.response_domain_id
@@ -341,24 +340,89 @@ build.controller('BuildQuestionsController',
 
 build.controller('BuildConstructsController',
   [
+    '$controller',
     '$scope',
     '$routeParams',
-    ($scope, $routeParams)->
-      $injector.invoke(
-        Toolbox,
-        this,
+    '$location',
+    '$filter',
+    'Flash',
+    'DataManager',
+    'RealTimeListener',
+    'RealTimeLocking',
+    ($controller, $scope, $routeParams, $location, $filter, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+      $scope.title = 'Constructs'
+      $scope.overview = true
+      $scope.hide_edit_buttons = true
+      $scope.extra_url_parameters = [
+        'constructs'
+      ]
+      $scope.instrument_options = {
+        constructs: true
+      }
+
+      constructSorter = (a, b)->
+        a.position > b.position
+
+      $scope.sortableOptions = {
+        placeholder: 'a-construct',
+        connectWith: '.a-construct-container',
+        stop: (e, ui)->
+          updates = []
+          positionUpdater = (parent)->
+            if parent.children?
+              for child_key of parent.children
+                if parent.children.hasOwnProperty child_key
+                  if parent.children[child_key].position != (parseInt child_key) + 1 or parent.children[child_key].parent != parent.id
+                    updates.push {
+                      id: parent.children[child_key].id,
+                      type: parent.children[child_key].type,
+                      position: (parseInt child_key) + 1,
+                      parent: parent.id
+                    }
+                    parent.children[child_key].position = updates[updates.length-1]['position']
+                    parent.children[child_key].parent = updates[updates.length-1]['parent']
+                  positionUpdater parent.children[child_key]
+
+          positionUpdater $scope.instrument.topsequence
+      }
+
+      $scope.reset = ->
+        if $routeParams.construct_type? and $routeParams.construct_id?
+          for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter()]
+            if cc.type.camel_case_to_underscore() + 's' == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id
+
+              $scope.current = angular.copy cc
+              $scope.editMode = false
+              break
+
+        null
+
+      $scope.after_instrument_loaded = ->
+        DataManager.resolveConstructs()
+        sortChildren = (parent)->
+          if parent.children?
+            parent.children.sort constructSorter
+            for child in parent.children
+              sortChildren child
+
+        $scope.sidebar_objs = $scope.instrument.Constructs.Questions
+
+        sortChildren $scope.instrument.topsequence
+        console.log $scope
+
+      $controller(
+        'BaseBuildController',
         {
           $scope: $scope,
+          $routeParams: $routeParams,
+          $location: $location,
+          Flash: Flash,
           DataManager: DataManager,
-          title: "Constructs",
-          extra_url_parameters: [
-            'constructs'
-          ]
-          instrument_options: {
-            constructs: true
-          }
+          RealTimeListener: RealTimeListener,
+          RealTimeLocking: RealTimeLocking
         }
-      );
+      )
+      console.log $scope
   ]
 )
 

@@ -70,7 +70,9 @@ data_manager.factory(
               collection[index].type = 'condition'
 
             if options.instrument
-              DataManager.Data.Instrument.Conditions = DataManager.Data.Constructs.Conditions
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions
               true
 
 
@@ -81,7 +83,9 @@ data_manager.factory(
               collection[index].type = 'loop'
 
             if options.instrument
-              DataManager.Data.Instrument.Loops = DataManager.Data.Constructs.Loops
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops
               true
 
 
@@ -93,7 +97,9 @@ data_manager.factory(
               collection[index].type = 'question'
 
             if options.instrument
-              DataManager.Data.Instrument.Questions = DataManager.Data.Constructs.Questions
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions
               true
 
 
@@ -105,7 +111,9 @@ data_manager.factory(
               collection[index].type = 'statement'
 
             if options.instrument
-              DataManager.Data.Instrument.Statements = DataManager.Data.Constructs.Statements
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements
               true
 
 
@@ -116,10 +124,6 @@ data_manager.factory(
             console.log 'seqeunce altering'
             for obj, index in collection
               collection[index].type = 'sequence'
-
-            if options.instrument
-              DataManager.Data.Instrument.Sequences = DataManager.Data.Constructs.Sequences
-              true
 
         if options.questions
 
@@ -157,9 +161,17 @@ data_manager.factory(
         )
         .then(
           ->
+
+            if options.instrument
+              if DataManager.Data.Instrument.Constructs?
+                DataManager.Data.Instrument.Constructs = DataManager.Data.Constructs
+              if DataManager.Data.Instrument.Questions?
+                DataManager.Data.Instrument.Questions = DataManager.Data.Questions
+
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
-              DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Sequences when s.top)[0]
+              console.log DataManager.Data
+              DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Constructs.Sequences when s.top)[0]
 
             defer = $.Deferred()
             if options.rds

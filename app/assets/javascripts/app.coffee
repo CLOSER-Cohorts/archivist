@@ -50,6 +50,10 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
       target = this
       target.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, ''
 
+    String::capitalizeFirstLetter = ->
+      target = this
+      target.charAt(0).toUpperCase() + target.slice(1)
+
     $rootScope.$on('$routeChangeSuccess', ->
       Flash.publish($rootScope)
     )

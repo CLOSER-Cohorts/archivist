@@ -6,4 +6,7 @@ json.array!(@collection) do |cc_sequence|
     json.type child.construct.class.name
   end
   json.top cc_sequence.parent.nil?
+  unless cc_sequence.parent.nil?
+    json.parent cc_sequence.parent.id
+  end
 end
