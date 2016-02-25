@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="child_render.html">
-    {{obj.label}}
+    <a data-ng-href="#" data-ng-click="change_panel(obj)">{{obj.label}}</a>
     <ul class="a-construct-container list-group" data-ui-sortable="sortableOptions" data-ng-model="obj.children">
         <li class="a-construct list-group-item" data-ng-repeat="obj in obj.children" data-ng-include="'child_render.html'"></li>
     </ul>

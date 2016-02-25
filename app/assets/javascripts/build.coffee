@@ -345,13 +345,15 @@ build.controller('BuildConstructsController',
     '$routeParams',
     '$location',
     '$filter',
+    '$http',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $http, Flash, DataManager, RealTimeListener, RealTimeLocking)->
       $scope.title = 'Constructs'
       $scope.overview = true
+      $scope.details = true
       $scope.hide_edit_buttons = true
       $scope.extra_url_parameters = [
         'constructs'
@@ -377,16 +379,18 @@ build.controller('BuildConstructsController',
                       id: parent.children[child_key].id,
                       type: parent.children[child_key].type,
                       position: (parseInt child_key) + 1,
-                      parent: parent.id
+                      parent: {id: parent.id, type: parent.type}
                     }
                     parent.children[child_key].position = updates[updates.length-1]['position']
                     parent.children[child_key].parent = updates[updates.length-1]['parent']
                   positionUpdater parent.children[child_key]
 
           positionUpdater $scope.instrument.topsequence
+          $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
       }
 
       $scope.reset = ->
+        console.time 'reset'
         if $routeParams.construct_type? and $routeParams.construct_id?
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter()]
             if cc.type.camel_case_to_underscore() + 's' == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id
@@ -394,21 +398,27 @@ build.controller('BuildConstructsController',
               $scope.current = angular.copy cc
               $scope.editMode = false
               break
-
+        console.timeEnd 'reset'
         null
 
       $scope.after_instrument_loaded = ->
-        DataManager.resolveConstructs()
+        console.time 'after load'
+        console.log DataManager.ConstructResolver
+        console.log $scope
+        console.time 'resolve'
+        if !DataManager.ConstructResolver?
+          DataManager.resolveConstructs()
+        console.timeEnd 'resolve'
         sortChildren = (parent)->
           if parent.children?
             parent.children.sort constructSorter
             for child in parent.children
               sortChildren child
-
-        $scope.sidebar_objs = $scope.instrument.Constructs.Questions
-
+        console.time 'cc sort'
         sortChildren $scope.instrument.topsequence
+        console.timeEnd 'cc sort'
         console.log $scope
+        console.timeEnd 'after load'
 
       $controller(
         'BaseBuildController',

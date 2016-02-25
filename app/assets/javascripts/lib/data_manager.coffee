@@ -219,7 +219,6 @@ data_manager.factory(
         DataManager.Data.AppStats = {$resolved: false}
         DataManager.Data.AppStats.$promise = ApplicationStats
         DataManager.Data.AppStats.$promise.then (res)->
-          console.log res.data
           for key of res.data
             if res.data.hasOwnProperty key
               DataManager.Data.AppStats[key] = res.data[key]

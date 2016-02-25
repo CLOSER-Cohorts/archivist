@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group" data-ng-repeat="field in fields">
+        <label>{{field.label}}</label>
+        <input
+                type="text"
+                class="form-control"
+                data-ng-model="field.model"
+        />
+    </div>
+</form>
