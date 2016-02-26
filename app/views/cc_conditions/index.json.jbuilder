@@ -5,5 +5,5 @@ json.array!(@collection) do |cc_condition|
     json.id child.construct.id
     json.type child.construct.class.name
   end
-  json.parent cc_loop.parent.id
+  json.parent cc_condition.parent.id
 end
