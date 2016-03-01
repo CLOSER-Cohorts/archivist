@@ -39,6 +39,7 @@ data_manager.factory(
       DataManager.Data = {}
 
       DataManager.Data.ResponseDomains = {}
+      DataManager.Data.ResponseUnits = {}
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
@@ -207,6 +208,17 @@ data_manager.factory(
 
         DataManager.Data.ResponseDomains[instrument_id]
 
+      DataManager.getResponseUnits = (instrument_id, force = false, cb)->
+        if (not DataManager.Data.ResponseUnits[instrument_id]?) or force
+          DataManager.Data.ResponseUnits[instrument_id] =
+            GetResource(
+              '/instruments/' + instrument_id + '/response_units.json',
+              true,
+              cb
+            )
+        else
+          cb?()
+
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.resolve options
@@ -224,6 +236,18 @@ data_manager.factory(
               DataManager.Data.AppStats[key] = res.data[key]
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
+
+      DataManager.getQuestionItemIDs = ()->
+        output = []
+        for qi in DataManager.Data.Questions.Items
+          output.push {value: qi.id, label: qi.label}
+        output
+
+      DataManager.getQuestionGridIDs = ()->
+        output = []
+        for qg in DataManager.Data.Questions.Grids
+          output.push {value: qg.id, label: qg.label}
+        output
 
       DataManager.listener = RealTimeListener (event, message)->
         if message.data?

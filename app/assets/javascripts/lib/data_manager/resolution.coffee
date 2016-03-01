@@ -35,6 +35,12 @@ resolution.factory(
                     if child.type of @map
                       construct.children[index] = @constructs[@map[child.type]].select_resource_by_id child.id
 
+                if construct.fchildren?
+                  for child, index in construct.fchildren
+                    if child.type?
+                      if child.type of @map
+                        construct.fchildren[index] = @constructs[@map[child.type]].select_resource_by_id child.id
+
 
       service.QuestionResolver = class
         constructor:(questions)->

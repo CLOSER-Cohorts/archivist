@@ -68,7 +68,7 @@ resource.factory('GetResource', [
           for key of res.data
             if res.data.hasOwnProperty key
               rsrc[key] = res.data[key]
-          rsrc.$promise = true
+          rsrc.$resolved = true
       )
       sub_promise.then(cb) if typeof cb is 'function'
       rsrc

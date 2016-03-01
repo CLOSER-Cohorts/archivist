@@ -13,13 +13,16 @@ class InstrumentsController < ApplicationController
   end
 
   def reorder_ccs
-    params[:updates].each do |u|
-      cc = @instrument.send(u[:type] + 's').find(u[:id])
-      parent = @instrument.send(u[:parent][:type] + 's').find(u[:parent][:id])
-      unless cc.nil? or parent.nil?
-        cc.position = u[:position]
-        cc.parent = parent
-        cc.cc.save!
+    unless params[:updates].nil?
+      params[:updates].each do |u|
+        cc = @instrument.send(u[:type] + 's').find(u[:id])
+        parent = @instrument.send(u[:parent][:type] + 's').find(u[:parent][:id])
+        unless cc.nil? or parent.nil?
+          cc.position = u[:position]
+          cc.parent = parent
+          cc.branch = u[:branch]
+          cc.cc.save!
+        end
       end
     end
     head :ok, format: :json

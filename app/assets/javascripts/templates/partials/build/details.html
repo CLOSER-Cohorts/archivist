@@ -1,10 +1,20 @@
-<form>
-    <div class="form-group" data-ng-repeat="field in fields">
+<form name="detail">
+    <div class="form-group" data-ng-repeat="field in details.fields">
         <label>{{field.label}}</label>
         <input
                 type="text"
                 class="form-control"
                 data-ng-model="field.model"
-        />
+                data-ng-if="!field.options"
+            />
+        <select
+                class="form-control"
+                data-ng-model="field.model"
+                data-ng-if="field.options"
+                data-ng-options="option.value as option.label for option in field.options"
+            />
     </div>
 </form>
+
+<button class="btn btn-danger">Delete</button>
+<button data-ng-show="detail.$dirty" class="btn btn-primary">Save</button>

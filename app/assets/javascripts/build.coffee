@@ -41,9 +41,10 @@ build.config(['$routeProvider',
       templateUrl: 'partials/build/editor.html'
       controller: 'BuildQuestionsController'
     )
-    .when('/instruments/:id/build/constructs/:construct_type?/:construct_id?',
+    .when('/instruments/:id/build/constructs',
       templateUrl: 'partials/build/editor.html'
       controller: 'BuildConstructsController'
+      reloadOnSearch: false
     )
 ])
 
@@ -92,41 +93,40 @@ build.controller('BaseBuildController',[
         console.log $scope
     )
 
-    $scope.cancel = () ->
-      console.log "cancel called"
-      $scope.reset()
-      null
+    if !$scope.cancel?
+      $scope.cancel = () ->
+        console.log "cancel called"
+        $scope.reset()
+        null
 
-    $scope.edit_path = (obj)->
-      terms = [
-        'instruments',
-        $scope.instrument.id,
-        'build'
-      ]
-      if $scope.extra_url_parameters
-        terms = terms.concat $scope.extra_url_parameters
+    if !$scope.edit_path?
+      $scope.edit_path = (obj)->
+        terms = [
+          'instruments',
+          $scope.instrument.id,
+          'build'
+        ]
+        if $scope.extra_url_parameters
+          terms = terms.concat $scope.extra_url_parameters
 
-      terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
-      terms.push obj.id
-      terms.join('/')
+        terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
+        terms.push obj.id
+        terms.join('/')
 
-    $scope.startEditMode = () ->
-      $scope.editMode = true
-      console.log $scope.current
-      RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
-      null
+    if !$scope.startEditMode?
+      $scope.startEditMode = () ->
+        $scope.editMode = true
+        console.log $scope.current
+        RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
+        null
 
-    $scope.change_panel = (obj) ->
-      $location.url $scope.edit_path obj
+    if !$scope.change_panel?
+      $scope.change_panel = (obj) ->
+        $location.url $scope.edit_path obj
 
     $scope.listener = RealTimeListener (event, message)->
       if !$scope.editMode
         $scope.reset()
-
-    $scope.instrument = DataManager.getInstrument(
-      $routeParams.id,
-
-    )
 ])
 
 build.controller('BuildCodeListsController',
@@ -351,19 +351,23 @@ build.controller('BuildConstructsController',
     'RealTimeListener',
     'RealTimeLocking',
     ($controller, $scope, $routeParams, $location, $filter, $http, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+      console.time 'end to end'
       $scope.title = 'Constructs'
       $scope.overview = true
-      $scope.details = true
       $scope.hide_edit_buttons = true
       $scope.extra_url_parameters = [
         'constructs'
       ]
       $scope.instrument_options = {
         constructs: true
+        questions: true
       }
 
-      constructSorter = (a, b)->
-        a.position > b.position
+      $scope.$on '$routeUpdate', (scope, next, current) ->
+        $scope.reset()
+
+      $scope.change_panel = (obj)->
+        $location.search {construct_type: obj.type, construct_id: obj.id}
 
       $scope.sortableOptions = {
         placeholder: 'a-construct',
@@ -371,19 +375,23 @@ build.controller('BuildConstructsController',
         stop: (e, ui)->
           updates = []
           positionUpdater = (parent)->
-            if parent.children?
-              for child_key of parent.children
-                if parent.children.hasOwnProperty child_key
-                  if parent.children[child_key].position != (parseInt child_key) + 1 or parent.children[child_key].parent != parent.id
-                    updates.push {
-                      id: parent.children[child_key].id,
-                      type: parent.children[child_key].type,
-                      position: (parseInt child_key) + 1,
-                      parent: {id: parent.id, type: parent.type}
-                    }
-                    parent.children[child_key].position = updates[updates.length-1]['position']
-                    parent.children[child_key].parent = updates[updates.length-1]['parent']
-                  positionUpdater parent.children[child_key]
+            child_dimensions = ['children', 'fchildren']
+            for dimension, index in child_dimensions
+              if parent[dimension]?
+                for child_key of parent[dimension]
+                  if parent[dimension].hasOwnProperty child_key
+                    console.log parent[dimension][child_key].branch
+                    if parent[dimension][child_key].position != (parseInt child_key) + 1 or parent[dimension][child_key].parent != parent.id or parent[dimension][child_key].branch != index
+                      updates.push {
+                        id: parent[dimension][child_key].id,
+                        type: parent[dimension][child_key].type,
+                        position: (parseInt child_key) + 1,
+                        parent: {id: parent.id, type: parent.type},
+                        branch: index
+                      }
+                      parent[dimension][child_key].position = updates[updates.length-1]['position']
+                      parent[dimension][child_key].parent = updates[updates.length-1]['parent']
+                    positionUpdater parent[dimension][child_key]
 
           positionUpdater $scope.instrument.topsequence
           $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
@@ -391,35 +399,86 @@ build.controller('BuildConstructsController',
 
       $scope.reset = ->
         console.time 'reset'
+        console.log $routeParams
         if $routeParams.construct_type? and $routeParams.construct_id?
-          for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter()]
-            if cc.type.camel_case_to_underscore() + 's' == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id
+          for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
+            if cc.type.camel_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
 
               $scope.current = angular.copy cc
               $scope.editMode = false
               break
+
+        if $scope.current?
+          $scope.details = {fields: []}
+          for key of $scope.current
+            if ['label', 'literal'].indexOf(key) >= 0
+              $scope.details.fields.splice 0, 0, {label: key.capitalizeFirstLetter(), model: $scope.current[key]}
+
+          if $scope.current.type == 'question'
+            $scope.details.fields.push {
+              label: 'Type',
+              model: $scope.current.question_type,
+              options:[
+                {value: 'QuestionItem', label: 'Item'},
+                {value: 'QuestionGrid', label: 'Grid'}
+              ]
+            }
+            $scope.details.fields.push {
+              label: 'Question',
+              model: $scope.current.question_id,
+              options: if $scope.current.question_type == 'QuestionItem' then DataManager.getQuestionItemIDs() else DataManager.getQuestionGridIDs()
+            }
+            DataManager.getResponseUnits $scope.instrument.id, false, ()->
+              options = []
+              for ru in DataManager.Data.ResponseUnits[$scope.instrument.id]
+                options.push {value: ru.id, label: ru.label}
+              $scope.details.fields.push {
+                label: 'Interviewee',
+                model: $scope.current.response_unit_id,
+                options: options
+              }
+
         console.timeEnd 'reset'
         null
 
       $scope.after_instrument_loaded = ->
-        console.time 'after load'
-        console.log DataManager.ConstructResolver
-        console.log $scope
-        console.time 'resolve'
+        console.time 'after instrument'
+        constructSorter = (a, b)->
+          a.position > b.position
         if !DataManager.ConstructResolver?
           DataManager.resolveConstructs()
-        console.timeEnd 'resolve'
-        sortChildren = (parent)->
-          if parent.children?
-            parent.children.sort constructSorter
-            for child in parent.children
-              sortChildren child
-        console.time 'cc sort'
-        sortChildren $scope.instrument.topsequence
-        console.timeEnd 'cc sort'
-        console.log $scope
-        console.timeEnd 'after load'
+          DataManager.resolveQuestions()
+          sortChildren = (parent)->
+            if parent.children?
+              parent.children.sort constructSorter
+              for child in parent.children
+                sortChildren child
+              if parent.fchildren?
+                parent.fchildren.sort constructSorter
+                for child in parent.fchildren
+                  sortChildren child
+          sortChildren $scope.instrument.topsequence
 
+        console.timeEnd 'after instrument'
+        console.timeEnd 'end to end'
+
+      $scope.new = ->
+        $location.search {construct_type: null, construct_id: null}
+        $scope.current = {}
+        $scope.details = {fields: []}
+        $scope.details.fields.push {
+          label: 'Construct',
+          model: $scope.current.construct_type,
+          options:[
+            {value: 'condition', label: 'Condition'},
+            {value: 'loop', label: 'Loop'},
+            {value: 'quesiton', label: 'Question'},
+            {value: 'sequence', label: 'Sequence'},
+            {value: 'statement', label: 'Statement'}
+          ]
+        }
+
+      console.time 'load base'
       $controller(
         'BaseBuildController',
         {
@@ -432,6 +491,7 @@ build.controller('BuildConstructsController',
           RealTimeLocking: RealTimeLocking
         }
       )
+      console.timeEnd 'load base'
       console.log $scope
   ]
 )
