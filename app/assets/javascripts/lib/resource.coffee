@@ -51,3 +51,25 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
 
     this
 ])
+
+resource.factory('GetResource', [
+  '$http',
+  ($http)->
+    (url, isArray = false, cb)->
+      if isArray
+        rsrc = []
+      else
+        rsrc = {}
+
+      rsrc.$resolved = false
+      rsrc.$promise = $http.get(url, {cache: true})
+      sub_promise = rsrc.$promise.then(
+        (res)->
+          for key of res.data
+            if res.data.hasOwnProperty key
+              rsrc[key] = res.data[key]
+          rsrc.$resolved = true
+      )
+      sub_promise.then(cb) if typeof cb is 'function'
+      rsrc
+])

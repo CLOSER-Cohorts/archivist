@@ -1,107 +1,137 @@
 <form>
     <div class="form-group">
-        <label for="a-question-label">
+        <label for="a-rd-label">
             Label
         </label>
         <input
                 type="text"
                 class="form-control"
-                id="a-question-label"
+                id="a-rd-label"
                 placeholder="Label"
                 data-ng-model="current.label"
                 data-ng-disabled="!editMode"
         />
     </div>
     <div class="form-group">
-        <label for="a-question-instruction">
-            Instruction
+        <label for="a-rd-type">
+            Type
         </label>
-        <input
-                type="text"
+        <select
                 class="form-control"
-                id="a-question-instruction"
-                placeholder="Interviewer Instruction"
-                data-ng-model="current.instruction"
+                id="a-rd-type"
+                data-ng-model="current.type"
                 data-ng-disabled="!editMode"
-                data-uib-typeahead="instruction.text for instruction in instructions | filter:$viewValue | orderBy:'text'"
-                data-typeahead-show-hint="true"
-                data-typeahead-min-length="2"
-                autocomplete="off"
-        />
+        >
+            <option value="ResponseDomainDatetime">Datetime</option>
+            <option value="ResponseDomainNumeric">Numeric</option>
+            <option value="ResponseDomainText">Text</option>
+        </select>
     </div>
-    <div class="form-group">
-        <label for="a-question-literal">
-            Literal
-        </label>
-        <input
-                type="text"
-                class="form-control"
-                id="a-question-literal"
-                placeholder="Literal"
-                data-ng-model="current.literal"
-                data-ng-disabled="!editMode"
-        />
+    <div data-ng-show="current.type == 'ResponseDomainDatetime'">
+        <div class="form-group">
+            <label for="a-dt-type">
+                Datatime type:
+            </label>
+            <select
+                    class="form-control"
+                    id="a-dt-type"
+                    data-ng-model="current.subtype"
+                    data-ng-disabled="!editMode"
+            >
+                <option value="Date">Date</option>
+                <option value="Time">Time</option>
+                <option value="Duration">Duration</option>
+            </select>
+        </div>
+        <div class="form-group" data-ng-show="current.subtype == 'Duration'">
+            <label for="a-dt-format">
+                Format:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-dt-format"
+                    data-ng-model="current.format"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+    </div>
+    <div data-ng-show="current.type == 'ResponseDomainNumeric'">
+        <div class="form-group">
+            <label for="a-n-type">
+                Numeric type:
+            </label>
+            <select
+                    class="form-control"
+                    id="a-n-type"
+                    data-ng-model="current.subtype"
+                    data-ng-disabled="!editMode"
+            >
+                <option value="Integer">Integer</option>
+                <option value="Float">Float</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="a-n-min-i" data-ng-show="current.subtype == 'Integer'">
+                Min:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-n-min-i"
+                    data-ng-model="current.min | number: 0"
+                    data-ng-disabled="!editMode"
+                    data-ng-show="current.subtype == 'Integer'"
+            />
+            <label for="a-n-min-ii" data-ng-show="current.subtype == 'Float'">
+                Min:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-n-min-ii"
+                    data-ng-model="current.min"
+                    data-ng-disabled="!editMode"
+                    data-ng-show="current.subtype == 'Float'"
+            />
+        </div>
+        <div class="form-group">
+            <label for="a-n-max-i" data-ng-show="current.subtype == 'Integer'">
+                Max:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-n-max-i"
+                    data-ng-model="current.max | number: 0"
+                    data-ng-disabled="!editMode"
+                    data-ng-show="current.subtype == 'Integer'"
+            />
+            <label for="a-n-max-ii" data-ng-show="current.subtype == 'Float'">
+                Max:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-n-max-ii"
+                    data-ng-model="current.max"
+                    data-ng-disabled="!editMode"
+                    data-ng-show="current.subtype == 'Float'"
+            />
+        </div>
+    </div>
+    <div data-ng-show="current.type == 'ResponseDomainText'">
+        <div class="form-group">
+            <label for="a-t-maxlen">
+                Format:
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-t-maxlen"
+                    data-ng-model="current.maxlen"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
     </div>
 </form>
-
-<h3 class="sub-header">
-    Response Domains
-    <a
-            href="#"
-            data-ng-show="editMode"
-            data-toggle="modal"
-            data-target="#add-rd"
-    >
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </a>
-</h3>
-
-<table class="table table-striped table-condensed">
-    <tr>
-        <th>
-            Type
-        </th>
-        <th>
-            Label
-        </th>
-        <th data-ng-show="editMode">
-
-        </th>
-    </tr>
-    <tbody data-ui-sortable data-ng-model="current.rds">
-        <tr
-                data-ng-repeat="rd in current.rds"
-                data-uib-popover-template="'partials/build/popover/response_domain.html'"
-                data-popover-trigger="mouseenter"
-                data-popover-title="{{rd.label}}"
-                data-ng-if="rd.type == 'ResponseDomainCode'"
-        >
-            <td>
-                {{rd.type}}
-            </td>
-            <td>
-                {{rd.label}}
-            </td>
-            <td data-ng-show="editMode">
-                <a data-ng-href="#">
-                    Remove
-                </a>
-            </td>
-        </tr>
-        <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != 'ResponseDomainCode'">
-            <td>
-                {{rd.type}}
-            </td>
-            <td>
-                {{rd.label}}
-            </td>
-            <td data-ng-show="editMode">
-                <a data-ng-href="#">
-                    Remove
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<div data-ng-include="'partials/build/modals/add_rd.html'"></div>

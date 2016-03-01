@@ -1,5 +1,5 @@
 class InstrumentsController < ApplicationController
-  before_action :set_instrument, only: [:show, :edit, :update, :destroy, :copy, :response_domains]
+  before_action :set_instrument, only: [:show, :edit, :update, :destroy, :copy, :response_domains, :reorder_ccs]
 
   # GET /instruments
   # GET /instruments.json
@@ -10,6 +10,22 @@ class InstrumentsController < ApplicationController
   # GET /instruments/1
   # GET /instruments/1.json
   def show
+  end
+
+  def reorder_ccs
+    unless params[:updates].nil?
+      params[:updates].each do |u|
+        cc = @instrument.send(u[:type] + 's').find(u[:id])
+        parent = @instrument.send(u[:parent][:type] + 's').find(u[:parent][:id])
+        unless cc.nil? or parent.nil?
+          cc.position = u[:position]
+          cc.parent = parent
+          cc.branch = u[:branch]
+          cc.cc.save!
+        end
+      end
+    end
+    head :ok, format: :json
   end
 
   def full

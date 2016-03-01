@@ -6,7 +6,8 @@ data_manager = angular.module(
     'archivist.data_manager.constructs',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
-    'archivist.realtime'
+    'archivist.realtime',
+    'archivist.resource'
   ]
 )
 
@@ -20,6 +21,7 @@ data_manager.factory(
     'Constructs',
     'ResolutionService',
     'RealTimeListener',
+    'GetResource',
     'ApplicationStats'
     (
       $http,
@@ -29,6 +31,7 @@ data_manager.factory(
       Constructs,
       ResolutionService,
       RealTimeListener,
+      GetResource,
       ApplicationStats
     )->
       DataManager = {}
@@ -36,11 +39,14 @@ data_manager.factory(
       DataManager.Data = {}
 
       DataManager.Data.ResponseDomains = {}
+      DataManager.Data.ResponseUnits = {}
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
+
+        console.log 'getInstrument'
 
         DataManager.progress = 0
 
@@ -65,7 +71,9 @@ data_manager.factory(
               collection[index].type = 'condition'
 
             if options.instrument
-              DataManager.Data.Instrument.Conditions = DataManager.Data.Constructs.Conditions
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions
               true
 
 
@@ -76,7 +84,9 @@ data_manager.factory(
               collection[index].type = 'loop'
 
             if options.instrument
-              DataManager.Data.Instrument.Loops = DataManager.Data.Constructs.Loops
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops
               true
 
 
@@ -88,7 +98,9 @@ data_manager.factory(
               collection[index].type = 'question'
 
             if options.instrument
-              DataManager.Data.Instrument.Questions = DataManager.Data.Constructs.Questions
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions
               true
 
 
@@ -100,7 +112,9 @@ data_manager.factory(
               collection[index].type = 'statement'
 
             if options.instrument
-              DataManager.Data.Instrument.Statements = DataManager.Data.Constructs.Statements
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements
               true
 
 
@@ -111,10 +125,6 @@ data_manager.factory(
             console.log 'seqeunce altering'
             for obj, index in collection
               collection[index].type = 'sequence'
-
-            if options.instrument
-              DataManager.Data.Instrument.Sequences = DataManager.Data.Constructs.Sequences
-              true
 
         if options.questions
 
@@ -152,31 +162,62 @@ data_manager.factory(
         )
         .then(
           ->
+
+            if options.instrument
+              if DataManager.Data.Instrument.Constructs?
+                DataManager.Data.Instrument.Constructs = DataManager.Data.Constructs
+              if DataManager.Data.Instrument.Questions?
+                DataManager.Data.Instrument.Questions = DataManager.Data.Questions
+
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
-              DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Sequences when s.top)[0]
+              console.log DataManager.Data
+              DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Constructs.Sequences when s.top)[0]
 
+            defer = $.Deferred()
             if options.rds
+              rds = DataManager.getResponseDomains instrument_id, false, defer.resolve
               if options.instrument
-                DataManager.Data.Instrument.rds = DataManager.getResponseDomains instrument_id
-              else
-                DataManager.getResponseDomains instrument_id
+                DataManager.Data.Instrument.ResponseDomains = rds
 
-            if success?
-              success()
+            else
+              defer.resolve()
 
-            if error?
-              error()
+            defer.then(
+              ->
+                success?()
+            )
+
+
+            #if error?
+            #  error()
         )
 
         return DataManager.Data.Instrument
 
-      DataManager.getResponseDomains = (instrument_id, force = false)->
+      DataManager.getResponseDomains = (instrument_id, force = false, cb)->
         if (not DataManager.Data.ResponseDomains[instrument_id]?) or force
-          $http.get('/instruments/' + instrument_id + '/response_domains.json').success((data)->
-            DataManager.Data.ResponseDomains[instrument_id] = data
-          )
+          DataManager.Data.ResponseDomains[instrument_id] =
+            GetResource(
+              '/instruments/' + instrument_id + '/response_domains.json',
+              true,
+              cb
+            )
+        else
+          cb?()
+
         DataManager.Data.ResponseDomains[instrument_id]
+
+      DataManager.getResponseUnits = (instrument_id, force = false, cb)->
+        if (not DataManager.Data.ResponseUnits[instrument_id]?) or force
+          DataManager.Data.ResponseUnits[instrument_id] =
+            GetResource(
+              '/instruments/' + instrument_id + '/response_units.json',
+              true,
+              cb
+            )
+        else
+          cb?()
 
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
@@ -190,12 +231,23 @@ data_manager.factory(
         DataManager.Data.AppStats = {$resolved: false}
         DataManager.Data.AppStats.$promise = ApplicationStats
         DataManager.Data.AppStats.$promise.then (res)->
-          console.log res.data
           for key of res.data
             if res.data.hasOwnProperty key
               DataManager.Data.AppStats[key] = res.data[key]
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
+
+      DataManager.getQuestionItemIDs = ()->
+        output = []
+        for qi in DataManager.Data.Questions.Items
+          output.push {value: qi.id, label: qi.label}
+        output
+
+      DataManager.getQuestionGridIDs = ()->
+        output = []
+        for qg in DataManager.Data.Questions.Grids
+          output.push {value: qg.id, label: qg.label}
+        output
 
       DataManager.listener = RealTimeListener (event, message)->
         if message.data?

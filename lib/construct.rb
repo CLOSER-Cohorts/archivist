@@ -12,6 +12,8 @@ module Construct
     delegate :label=, to: :cc
     delegate :position, to: :cc
     delegate :position=, to: :cc
+    delegate :branch, to: :cc
+    delegate :branch=, to: :cc
 
     def parent
       if not self.cc.parent.nil?
