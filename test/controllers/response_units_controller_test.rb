@@ -3,13 +3,13 @@ require 'test_helper'
 class ResponseUnitsControllerTest < ActionController::TestCase
   setup do
     @response_unit = response_units(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:response_units)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create response_unit" do
