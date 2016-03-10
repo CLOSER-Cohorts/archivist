@@ -126,6 +126,12 @@ data_manager.factory(
             for obj, index in collection
               collection[index].type = 'sequence'
 
+            if options.instrument
+              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
+                DataManager.Data.Instrument.Constructs = {}
+              DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences
+              true
+
         if options.questions
 
           DataManager.Data.Questions ?= {}
