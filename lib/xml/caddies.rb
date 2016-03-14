@@ -342,12 +342,12 @@ module XML::CADDIES
           cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_l.position = position_counter
           if not start_node.nil?
-            pieces = start_node.content.split /\W\D\s/
+            pieces = start_node.content.split(/\W\D\s/)
             cc_l.loop_var = pieces[0]
             cc_l.start_val = pieces[1]
           end
           if not end_node.nil?
-            pieces = end_node.content.split /\W\D\s/
+            pieces = end_node.content.split(/\W\D\s/)
             cc_l.end_val = pieces[1]
           end
           if not while_node.nil? then
