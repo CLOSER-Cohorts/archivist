@@ -220,6 +220,25 @@ module XML::DDI
           inner_prev.add_next_sibling td
           inner_prev = td
         end
+        qitem.response_domain_datetimes.each do |rdd|
+          dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
+          dd['maxLength'] = rdd.maxlen
+          dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                           {label: rdd.label, type: rdd.datetime_type, format: rdd.format || ''}
+
+          inner_prev.add_next_sibling dd
+          inner_prev = dd
+        end
+        qitem.response_domain_numerics.each do |rdn|
+          nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
+          nd['maxLength'] = rdn.maxlen
+          nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                           {label: rdn.label, type: rdn.numeric_type, range: (if rdn.min then "<r:Low>%d</r:Low>" % rdn.min else '' end) + (if rdn.max then "<r:High>%d</r:High>" % rdn.max else '' end)}
+
+
+          inner_prev.add_next_sibling nd
+          inner_prev = nd
+        end
 
         prev = qi
       end
