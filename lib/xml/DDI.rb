@@ -1,6 +1,6 @@
 module XML::DDI
   class Exporter
-    def initialize(version)
+    def initialize
       @doc = Nokogiri::XML '<ddi:DDIInstance></ddi:DDIInstance>'
       @urns = {}
     end
