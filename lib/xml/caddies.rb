@@ -207,7 +207,7 @@ module XML::CADDIES
                                             .to_i
                            })
             else
-              obj[arr] << @reponse_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
+              obj.send(arr) << @reponse_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
             end
           end
         end
@@ -325,19 +325,17 @@ module XML::CADDIES
           parent.children << cc_c.cc
           cc_c.save!
 
-          true_branch = child.at_xpath("./d:ThenConstructReference/r:URN")
-          if not true_branch.nil?
-            then_urn = true_branch.content
-            seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{then_urn}']").parent
-            read_sequence_children(seq, cc_c)
+          sub_sequence = lambda do |search, cc|
+            sub_seq = child.at_xpath(search)
+            if not sub_seq.nil?
+              urn = sub_seq.content
+              seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
+              read_sequence_children seq, cc
+            end
           end
 
-          else_branch = child.at_xpath("./d:ElseConstructReference/r:URN")
-          if not else_branch.nil?
-            else_urn = else_branch.content
-            seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{else_urn}']").parent
-            read_sequence_children(seq, cc_c)
-          end
+          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c
+          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c
 
         elsif type == 'Loop'
           child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
@@ -363,12 +361,7 @@ module XML::CADDIES
           parent.children << cc_l.cc
           cc_l.save!
 
-          inner_loop = child.at_xpath("./d:ControlConstructReference/r:URN")
-          if not inner_loop.nil?
-            inner_loop_urn = inner_loop.content
-            seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{inner_loop_urn}']").parent
-            read_sequence_children(seq, cc_l)
-          end
+          sub_sequence.call './d:ControlConstructReference/r:URN', cc_l
 
         end
       end
