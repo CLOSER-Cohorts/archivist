@@ -188,16 +188,16 @@ module XML::CADDIES
           qg.corner_label = corner.attribute('rank').value.to_i == 1 ? "V" : "H"
         end
 
-        def read_q_rds(obj, collection, index_prefix, arr)
+        read_q_rds = lambda do |obj, collection, index_prefix, arr|
           collection.each do |x|
             if x.parent.name == "GridResponseDomain"
               RdsQs.create({
                                question: obj,
                                response_domain: @reponse_domain_index[
                                    index_prefix +
-                                   x
-                                       .at_xpath("./r:Label/r:Content")
-                                       .content
+                                       x
+                                           .at_xpath("./r:Label/r:Content")
+                                           .content
                                ],
                                code_id: x
                                             .parent
@@ -226,63 +226,24 @@ module XML::CADDIES
             end
           end
         end
-        read_q_rds(
+        read_q_rds.call(
             qg,
             question_grid.xpath(".//d:NumericDomain"),
             'N',
             'response_domain_numerics'
         )
-        read_q_rds(
+        read_q_rds.call(
             qg,
             question_grid.xpath(".//d:TextDomain"),
             'T',
             'response_domain_texts'
         )
-        read_q_rds(
+        read_q_rds.call(
             qg,
             question_grid.xpath(".//d:DateTimeDomain"),
             'D',
             'response_domain_datetimes'
         )
-
-=begin
-        rdns = question_grid.xpath(".//d:NumericDomain")
-        rdns.each do |rdn|
-          if rdn.parent.name == "GridResponseDomain"
-            RdsQs.create({
-                             question: qg,
-                             response_domain: @reponse_domain_index['N'+rdn.at_xpath("./r:Label/r:Content").content],
-                             code_id: rdn.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-                         })
-          else
-            qg.response_domain_numerics << @reponse_domain_index['N'+rdn.at_xpath("./r:Label/r:Content").content]
-          end
-        end
-        rdts = question_grid.xpath(".//d:TextDomain")
-        rdts.each do |rdt|
-          if rdt.parent.name == "GridResponseDomain"
-            RdsQs.create({
-                             question: qg,
-                             response_domain: @reponse_domain_index['T'+rdt.at_xpath("./r:Label/r:Content").content],
-                             code_id: rdt.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-                         })
-          else
-            qg.response_domain_texts << @reponse_domain_index['T'+rdt.at_xpath("./r:Label/r:Content").content]
-          end
-        end
-        rdds = question_grid.xpath(".//d:DateTimeDomain")
-        rdds.each do |rdd|
-          if rdd.parent.name == "GridResponseDomain"
-            RdsQs.create({
-                             question: qg,
-                             response_domain: @reponse_domain_index['D'+rdd.at_xpath("./r:Label/r:Content").content],
-                             code_id: rdd.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
-                         })
-          else
-            qg.response_domain_datetimes << @reponse_domain_index['D'+rdd.at_xpath("./r:Label/r:Content").content]
-          end
-        end
-=end
 
         #Adding instruction
         instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
