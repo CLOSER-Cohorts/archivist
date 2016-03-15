@@ -187,6 +187,31 @@ module XML::CADDIES
         if not corner.nil?
           qg.corner_label = corner.attribute('rank').value.to_i == 1 ? "V" : "H"
         end
+
+        def read_q_rds(obj, collection, index_prefix, arr)
+          collection.each do |x|
+            if x.parent.name == "GridResponseDomain"
+              RdsQs.create({
+                               question: obj,
+                               response_domain: @reponse_domain_index[
+                                   index_prefix +
+                                   x
+                                       .at_xpath("./r:Label/r:Content")
+                                       .content
+                               ],
+                               code_id: x
+                                            .parent
+                                            .at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']")
+                                            .attribute('specificValue')
+                                            .value
+                                            .to_i
+                           })
+            else
+              obj[arr] << @reponse_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
+            end
+          end
+        end
+
         rdcs = question_grid.xpath(".//d:CodeDomain")
         rdcs.each do |rdc|
           if not rdc.parent.name == "GridDimension"
@@ -201,6 +226,26 @@ module XML::CADDIES
             end
           end
         end
+        read_q_rds(
+            qg,
+            question_grid.xpath(".//d:NumericDomain"),
+            'N',
+            'response_domain_numerics'
+        )
+        read_q_rds(
+            qg,
+            question_grid.xpath(".//d:TextDomain"),
+            'T',
+            'response_domain_texts'
+        )
+        read_q_rds(
+            qg,
+            question_grid.xpath(".//d:DateTimeDomain"),
+            'D',
+            'response_domain_datetimes'
+        )
+
+=begin
         rdns = question_grid.xpath(".//d:NumericDomain")
         rdns.each do |rdn|
           if rdn.parent.name == "GridResponseDomain"
@@ -237,6 +282,7 @@ module XML::CADDIES
             qg.response_domain_datetimes << @reponse_domain_index['D'+rdd.at_xpath("./r:Label/r:Content").content]
           end
         end
+=end
 
         #Adding instruction
         instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")

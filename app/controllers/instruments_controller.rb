@@ -36,6 +36,7 @@ class InstrumentsController < ApplicationController
 
   def import
     FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
+    logger.debug params
     params[:files].each do |file|
       filepath = Rails.root.join(
           'tmp',
