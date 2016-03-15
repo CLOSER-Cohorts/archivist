@@ -103,6 +103,7 @@ GEM
     nokogiri (1.6.7.2-x64-mingw32)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
+    parallel (1.6.2)
     pg (0.18.4-x64-mingw32)
     puma (2.16.0)
     pundit (1.1.0)
@@ -230,6 +231,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   json (= 1.8.2)
+  parallel
   pg
   puma
   pundit
