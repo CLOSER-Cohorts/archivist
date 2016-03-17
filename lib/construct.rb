@@ -4,6 +4,7 @@ module Construct
     belongs_to :instrument
     has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
 
+    include Comparable
     include Realtime
 
     before_create :create_control_construct
@@ -28,6 +29,16 @@ module Construct
     def create_control_construct
       self.cc = ControlConstruct.new
       true
+    end
+
+    def <=> other
+      if (self.cc.parent_id == other.cc.parent_id)
+        return self.cc.position <=> other.cc.position
+      else
+        return 1 if self.cc.parent_id.nil? || self.parent.position.nil?
+        return -1 if other.cc.parent_id.nil? || other.parent.position.nil?
+        return self.parent.position <=> other.parent.position
+      end
     end
   end
 

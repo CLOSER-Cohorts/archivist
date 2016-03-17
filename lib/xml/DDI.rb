@@ -1,4 +1,8 @@
 module XML::DDI
+  class URNGenerator
+
+  end
+
   class Exporter
     def initialize
       @doc = Nokogiri::XML '<ddi:DDIInstance></ddi:DDIInstance>'
@@ -120,8 +124,13 @@ module XML::DDI
         cn = Nokogiri::XML::Node.new 'l:CategoryName', @doc
         cn.add_child "<r:String xml:lang=\"en-GB\">%d</r:String>" % counter
         urn.add_next_sibling cn
-        cn.add_next_sibling "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                                 {label: cat.label}
+        l = Nokogiri::XML::Node.new 'r:Label', @doc
+        con = Nokogiri::XML::Node.new 'r:Content', @doc
+        con['xml:lang'] = 'en-GB'
+        con.content = cat.label
+        l.add_child con
+        cn.add_next_sibling l
+
         prev = c
       end
     end
@@ -179,18 +188,18 @@ module XML::DDI
       urn.add_next_sibling qisn
       prev = qisn
       counter = 0
-      @urns[:question_items] = {}
+      @urns[QuestionItem.name] = {}
       @instrument.question_items.find_each do |qitem|
         counter += 1
         qi = Nokogiri::XML::Node.new 'd:QuestionItem', @doc
         prev.add_next_sibling qi
         urn = Nokogiri::XML::Node.new 'r:URN', @doc
-        @urns[:question_items][qitem.id] = @urn_prefix + "qi-%06d:1.0.0" % counter
-        urn.content = @urns[:question_items][qitem.id]
+        @urns[QuestionItem.name][qitem.id] = @urn_prefix + "qi-%06d:1.0.0" % counter
+        urn.content = @urns[QuestionItem.name][qitem.id]
         qi.add_child urn
         uap = Nokogiri::XML::Node.new 'r:UserAttributePair', @doc
         uap.add_child "<r:AttributeKey>extension:Label</r:AttributeKey><r:AttributeValue>{\"en-GB\":\"%{label}\"}</r:AttributeValue>" %
-        {label: qitem.label}
+        {label: Util::question_label(qitem.label)}
         urn.add_next_sibling uap
         qin = Nokogiri::XML::Node.new 'd:QuestionItemName', @doc
         qin.add_child "<r:String xml:lang=\"en-GB\">%{label}</r:String>" %
@@ -203,35 +212,139 @@ module XML::DDI
         qin.add_next_sibling qt
 
         inner_prev = qt
-        qitem.response_domain_codes.each do |rdc|
+
+        build_response_domain = lambda do |rd|
+          case rd
+            when ResponseDomainCode
+              cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
+              cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject></r:CodeListReference>" %
+                               {urn: @urns[:code_lists][rd.code_list_id]}
+
+              return cd
+            when ResponseDomainDatetime
+              dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
+              dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label, type: rd.datetime_type, format: rd.format || ''}
+
+              return dd
+            when ResponseDomainNumeric
+              nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
+              nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label, type: rd.numeric_type, range: (if rd.min then "<r:Low>%d</r:Low>" % rd.min else '' end) + (if rd.max then "<r:High>%d</r:High>" % rd.max else '' end)}
+
+
+              return nd
+            when ResponseDomainText
+              td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
+              unless rd.maxlen.nil?
+                td['maxLength'] = rd.maxlen
+              end
+              td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label}
+
+              return td
+          end
+        end
+
+        if qitem.response_domains.count > 1
+          smrd = Nokogiri::XML::Node.new 'd:StructuredMixedResponseDomain', @doc
+          inner_prev.add_next_sibling smrd
+          qitem.response_domains.each do |rd|
+            rdm = Nokogiri::XML::Node.new 'd:ResponseDomainInMixed', @doc
+            rdm.add_child build_response_domain.call rd
+            smrd.add_child rdm
+          end
+        elsif qitem.response_domains.count == 1
+          inner_prev.add_next_sibling build_response_domain.call qitem.response_domains.first
+        end
+
+
+
+        prev = qi
+      end
+    end
+
+    def build_qgs
+      urn = Nokogiri::XML::Node.new 'r:URN', @doc
+      urn.content = @urn_prefix + 'qs-000002:1.0.0'
+      @qgs.add_child urn
+      qgsn = Nokogiri::XML::Node.new 'd:QuestionSchemeName', @doc
+      qgsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_qg01</r:String>" %
+                         {prefix: @instrument.prefix}
+      urn.add_next_sibling qgsn
+      prev = qgsn
+      counter = 0
+      @urns[QuestionGrid.name] = {}
+      @instrument.question_grids.find_each do |qgrid|
+        counter += 1
+        qg = Nokogiri::XML::Node.new 'd:QuestionGrid', @doc
+        prev.add_next_sibling qg
+        urn = Nokogiri::XML::Node.new 'r:URN', @doc
+        @urns[QuestionGrid.name][qgrid.id] = @urn_prefix + "qg-%06d:1.0.0" % counter
+        urn.content = @urns[QuestionGrid.name][qgrid.id]
+        qg.add_child urn
+        uap = Nokogiri::XML::Node.new 'r:UserAttributePair', @doc
+        uap.add_child "<r:AttributeKey>extension:Label</r:AttributeKey><r:AttributeValue>{\"en-GB\":\"%{label}\"}</r:AttributeValue>" %
+                          {label: Util::question_label(qgrid.label)}
+        urn.add_next_sibling uap
+        qgn = Nokogiri::XML::Node.new 'd:QuestionGridName', @doc
+        qgn.add_child "<r:String xml:lang=\"en-GB\">%{label}</r:String>" %
+                          {label: qgrid.label}
+        uap.add_next_sibling qgn
+        qt = Nokogiri::XML::Node.new 'd:QuestionText', @doc
+        qt['audienceLanguage'] = 'en-GB'
+        qt.add_child "<d:LiteralText><d:Text>%{text}</d:Text></d:LiteralText>" %
+                         {text: qgrid.literal}
+        qgn.add_next_sibling qt
+
+        add_grid_dimension = lambda do |rank, axis, urn|
+          gd = Nokogiri::XML::Node.new 'd:GridDimension', @doc
+          gd['rank'] = rank
+          gd['displayCode'] = 'false'
+          gd['displayLabel'] = if qgrid.corner_label == axis then 'true' else 'false' end
+
+          gd.add_child '<d:CodeDomain><r:CodeListReference>' +
+            "<r:URN>%{urn}</r:URN>" % {urn: urn} +
+            '<r:TypeOfObject>CodeList</r:TypeOfObject>' +
+              '</r:CodeListReference></d:CodeDomain>'
+          return gd
+        end
+
+        gdy = add_grid_dimension.call('1', 'V', @urns[:code_lists][qgrid.vertical_code_list_id])
+        qt.add_next_sibling gdy
+        gdx = add_grid_dimension.call('2', 'H', @urns[:code_lists][qgrid.horizontal_code_list_id])
+        gdy.add_next_sibling gdx
+
+        inner_prev = gdx
+        qgrid.response_domain_codes.each do |rdc|
           cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
           cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject></r:CodeListReference>" %
-              {urn: @urns[:code_lists][rdc.code_list_id]}
+                           {urn: @urns[:code_lists][rdc.code_list_id]}
 
           inner_prev.add_next_sibling cd
           inner_prev = cd
         end
-        qitem.response_domain_texts.each do |rdt|
+        qgrid.response_domain_texts.each do |rdt|
           td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
-          td['maxLength'] = rdt.maxlen
+          unless rdt.maxlen.nil?
+            td['maxLength'] = rdt.maxlen
+          end
           td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
                            {label: rdt.label}
 
           inner_prev.add_next_sibling td
           inner_prev = td
         end
-        qitem.response_domain_datetimes.each do |rdd|
+        qgrid.response_domain_datetimes.each do |rdd|
           dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
-          dd['maxLength'] = rdd.maxlen
           dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
                            {label: rdd.label, type: rdd.datetime_type, format: rdd.format || ''}
 
           inner_prev.add_next_sibling dd
           inner_prev = dd
         end
-        qitem.response_domain_numerics.each do |rdn|
+        qgrid.response_domain_numerics.each do |rdn|
           nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
-          nd['maxLength'] = rdn.maxlen
           nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
                            {label: rdn.label, type: rdn.numeric_type, range: (if rdn.min then "<r:Low>%d</r:Low>" % rdn.min else '' end) + (if rdn.max then "<r:High>%d</r:High>" % rdn.max else '' end)}
 
@@ -240,8 +353,230 @@ module XML::DDI
           inner_prev = nd
         end
 
-        prev = qi
+        prev = qg
       end
+    end
+
+    def build_ccs
+      urn = Nokogiri::XML::Node.new 'r:URN', @doc
+      urn.content = @urn_prefix + 'ccs-000001:1.0.0'
+      @ccs.add_child urn
+      ccsn = Nokogiri::XML::Node.new 'd:ControlConstructSchemeName', @doc
+      ccsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_ccs01</r:String>" %
+                        {prefix: @instrument.prefix}
+      urn.add_next_sibling ccsn
+      prev = ccsn
+      @instrument.ccs_in_ddi_order.each do |cc|
+        case cc
+          when CcCondition
+            con = Nokogiri::XML::Node.new 'd:IfThenElse', @doc
+            urn = Nokogiri::XML::Node.new 'r:URN', @doc
+            urn.content = @urn_prefix + 'if-%06d:1.0.0' % cc.id
+            con.add_child urn
+
+            cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+            s = Nokogiri::XML::Node.new 'r:String', @doc
+            s['xml:lang'] = 'en-GB'
+            s.content = cc.label
+            cn.add_child s
+            urn.add_next_sibling cn
+
+            ic = Nokogiri::XML::Node.new 'd:IfCondition', @doc
+            d = Nokogiri::XML::Node.new 'r:Description', @doc
+            c = Nokogiri::XML::Node.new 'r:Content', @doc
+            c['xml:lang'] = 'en-GB'
+            c.content = cc.literal
+            d.add_child c
+            ic.add_child d
+            cn.add_next_sibling ic
+
+            com = Nokogiri::XML::Node.new 'r:Command', @doc
+            com.add_child '<r:ProgramLanguage>pseudo-code</r:ProgramLanguage>'
+            comc = Nokogiri::XML::Node.new 'r:CommandContent', @doc
+            comc.content = cc.logic
+            com.add_child comc
+            ic.add_child com
+
+            prev.add_next_sibling con
+            prev = con
+
+            if cc.children.where(branch: 0).count > 0
+              tcr = Nokogiri::XML::Node.new 'd:ThenConstructReference', @doc
+              tcr.add_child '<r:URN>' + @urn_prefix + 'seth-%06d:1.0.0' % cc.id + '</r:URN>'
+              tcr.add_child '<r:TypeOfObject>Sequence</r:TypeOfObject>'
+              con.add_child tcr
+
+              seth = Nokogiri::XML::Node.new 'd:Sequence', @doc
+              seth.add_child '<r:URN>' + @urn_prefix + 'seth-%06d:1.0.0' % cc.id + '</r:URN>'
+              seth_cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+              seth_s = Nokogiri::XML::Node.new 'r:String', @doc
+              seth_s['xml:lang'] = 'en-GB'
+              seth_s.content = 'then_seq_' + cc.label
+              seth_cn.add_child seth_s
+              seth.add_child seth_cn
+
+              seth_l = Nokogiri::XML::Node.new 'r:Label', @doc
+              seth_c = Nokogiri::XML::Node.new 'r:Content', @doc
+              seth_c['xml:lang'] = 'en-GB'
+              seth_c.content = 'then_seq_' + cc.label
+              seth_l.add_child seth_c
+              seth_cn.add_next_sibling seth_l
+
+              seth_inner_prev = seth_l
+              cc.children.where(branch: 0).each do |child|
+                ccf = Nokogiri::XML::Node.new 'd:ControlConstructReference', @doc
+                ccf_urn = Nokogiri::XML::Node.new 'r:URN', @doc
+                ccf_urn.content = @urn_prefix + child.construct.class::URN_TYPE + '-%06d:1.0.0' % child.construct.id
+                ccf.add_child ccf_urn
+                ccf.add_child '<r:TypeOfObject>' + child.construct.class::TYPE + '</r:TypeOfObject>'
+                seth_inner_prev.add_next_sibling ccf
+                seth_inner_prev = ccf
+              end
+              prev.add_next_sibling seth
+              prev = seth
+            end
+
+            if cc.children.where(branch: 1).count > 0
+              tcr = Nokogiri::XML::Node.new 'd:ElseConstructReference', @doc
+              tcr.add_child '<r:URN>' + @urn_prefix + 'seel-%06d:1.0.0' % cc.id + '</r:URN>'
+              tcr.add_child '<r:TypeOfObject>Sequence</r:TypeOfObject>'
+              con.add_child tcr
+
+              seel = Nokogiri::XML::Node.new 'd:Sequence', @doc
+              seel.add_child '<r:URN>' + @urn_prefix + 'seel-%06d:1.0.0' % cc.id + '</r:URN>'
+              seel_cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+              seel_s = Nokogiri::XML::Node.new 'r:String', @doc
+              seel_s['xml:lang'] = 'en-GB'
+              seel_s.content = 'then_seq_' + cc.label
+              seel_cn.add_child seel_s
+              seel.add_child seel_cn
+
+              seel_l = Nokogiri::XML::Node.new 'r:Label', @doc
+              seel_c = Nokogiri::XML::Node.new 'r:Content', @doc
+              seel_c['xml:lang'] = 'en-GB'
+              seel_c.content = 'then_seq_' + cc.label
+              seel_l.add_child seel_c
+              seel_cn.add_next_sibling seel_l
+
+              seel_inner_prev = seel_l
+              cc.children.where(branch: 0).each do |child|
+                ccf = Nokogiri::XML::Node.new 'd:ControlConstructReference', @doc
+                ccf_urn = Nokogiri::XML::Node.new 'r:URN', @doc
+                ccf_urn.content = @urn_prefix + child.construct.class::URN_TYPE + '-%06d:1.0.0' % child.construct.id
+                ccf.add_child ccf_urn
+                ccf.add_child '<r:TypeOfObject>' + child.construct.class::TYPE + '</r:TypeOfObject>'
+                seel_inner_prev.add_next_sibling ccf
+                seel_inner_prev = ccf
+              end
+              prev.add_next_sibling seel
+              prev = seel
+            end
+
+          when CcQuestion
+            qc = Nokogiri::XML::Node.new 'd:QuestionConstruct', @doc
+            urn = Nokogiri::XML::Node.new 'r:URN', @doc
+            urn.content = @urn_prefix + 'qc-%06d:1.0.0' % cc.id
+            qc.add_child urn
+
+            cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+            s = Nokogiri::XML::Node.new 'r:String', @doc
+            s['xml:lang'] = 'en-GB'
+            s.content = cc.label
+            cn.add_child s
+            urn.add_next_sibling cn
+
+            l = Nokogiri::XML::Node.new 'r:Label', @doc
+            c = Nokogiri::XML::Node.new 'r:Content', @doc
+            c['xml:lang'] = 'en-GB'
+            c.content = Util::question_label cc.label
+            l.add_child c
+            cn.add_next_sibling l
+
+            qf = Nokogiri::XML::Node.new 'r:QuestionReference', @doc
+            qf_urn = Nokogiri::XML::Node.new 'r:URN', @doc
+            qf_urn.content = @urns[cc.question.class.name][cc.question.id]
+            qf.add_child qf_urn
+            qf.add_child '<r:TypeOfObject>' + cc.question.class::TYPE + '</r:TypeOfObject>'
+            ru = Nokogiri::XML::Node.new 'd:ResponseUnit', @doc
+            ru.content = cc.response_unit.label
+            l.add_next_sibling qf
+            qf.add_next_sibling ru
+            prev.add_next_sibling qc
+            prev = qc
+
+          when CcStatement
+            st = Nokogiri::XML::Node.new 'd:StatementItem', @doc
+            urn = Nokogiri::XML::Node.new 'r:URN', @doc
+            urn.content = @urn_prefix + 'si-%06d:1.0.0' % cc.id
+            st.add_child urn
+
+            cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+            s = Nokogiri::XML::Node.new 'r:String', @doc
+            s['xml:lang'] = 'en-GB'
+            s.content = cc.label
+            cn.add_child s
+            urn.add_next_sibling cn
+
+            dt = Nokogiri::XML::Node.new 'd:DisplayText', @doc
+            dt['audienceLanguage'] = 'en-GB'
+            lt = Nokogiri::XML::Node.new 'd:LiteralText', @doc
+            t = Nokogiri::XML::Node.new 'd:Text', @doc
+            t.content = cc.literal
+            lt.add_child t
+            dt.add_child lt
+            cn.add_next_sibling dt
+            prev.add_next_sibling st
+            prev = st
+
+          when CcSequence
+            seq = Nokogiri::XML::Node.new 'd:Sequence', @doc
+            urn = Nokogiri::XML::Node.new 'r:URN', @doc
+            urn.content = @urn_prefix + 'se-%06d:1.0.0' % cc.id
+            seq.add_child urn
+
+            cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
+            s = Nokogiri::XML::Node.new 'r:String', @doc
+            s['xml:lang'] = 'en-GB'
+            s.content = cc.label
+            cn.add_child s
+            urn.add_next_sibling cn
+            l = Nokogiri::XML::Node.new 'r:Label', @doc
+            c = Nokogiri::XML::Node.new 'r:Content', @doc
+            c['xml:lang'] = 'en-GB'
+            c.content = cc.label
+            l.add_child c
+            cn.add_next_sibling l
+            inner_prev = l
+            cc.children.each do |child|
+              ccf = Nokogiri::XML::Node.new 'd:ControlConstructReference', @doc
+              urn = Nokogiri::XML::Node.new 'r:URN', @doc
+              urn.content = @urn_prefix + child.construct.class::URN_TYPE + '-%06d:1.0.0' % child.construct.id
+              ccf.add_child urn
+              ccf.add_child '<r:TypeOfObject>' + child.construct.class::TYPE + '</r:TypeOfObject>'
+              inner_prev.add_next_sibling ccf
+              inner_prev = ccf
+            end
+            prev.add_next_sibling seq
+            prev = seq
+        end
+      end
+    end
+
+    def build_is
+      urn = Nokogiri::XML::Node.new 'r:URN', @doc
+      urn.content = @urn_prefix + 'ins-000001:1.0.0'
+      @is.add_child urn
+      isn = Nokogiri::XML::Node.new 'd:InstrumentSchemeName', @doc
+      isn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_is01</r:String>" %
+                        {prefix: @instrument.prefix}
+      urn.add_next_sibling isn
+      i = Nokogiri::XML::Node.new 'd:Instrument', @doc
+      i.add_child "<r:URN>%{urn}</r:URN>" % {urn: @urn_prefix + 'in-000001:1.0.0'}
+      i.add_child "<d:InstrumentName><r:String xml:lang=\"en-GB\">%{title}</r:String></d:InstrumentName>" %
+          {title: @instrument.label}
+      i.add_child "<d:ControlConstructReference><r:URN>%{urn}</r:URN><r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>" %
+          {urn: @urn_prefix + "se-%06d:1.0.0" % @instrument.top_sequence.id}
+      isn.add_next_sibling i
     end
 
     def doc

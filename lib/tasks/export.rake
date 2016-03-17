@@ -8,10 +8,14 @@ def export_instrument(id)
   exp.build_iis
   exp.build_cs
   exp.build_cls
+  exp.build_qis
+  exp.build_qgs
+  exp.build_is
+  exp.build_ccs
 
   FileUtils.mkdir_p Rails.root.join('tmp', 'exports')
   f = File.new 'tmp/exports/' + i.prefix + '.xml', "w"
-  f.write(exp.doc.to_xml)
+  f.write(exp.doc.to_xml &:no_empty_tags)
   f.close
 end
 
