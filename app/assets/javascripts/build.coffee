@@ -144,7 +144,7 @@ build.controller('BuildCodeListsController',
     'RealTimeLocking',
     ($scope, $routeParams, $q, $injector, $location, Flash, Instruments, CodeLists, Categories, CodeResolver, RealTimeLocking)->
 
-      $injector.invoke(Toolbox, this, {$scope: $scope, title: "Code Lists"});
+      $injector.invoke Toolbox, this, {$scope: $scope, title: "Code Lists"}
 
       $scope.instrument = Instruments.get {id: $routeParams.id}, ->
         $scope.page['title'] = $scope.instrument.prefix + ' | Code Lists'
@@ -293,7 +293,7 @@ build.controller('BuildQuestionsController',
             rds: true
           }
         }
-      );
+      )
 
       $scope.instrument = DataManager.getInstrument($routeParams.id,{questions: true, rds: true}, ()->
         $scope.page['title'] = $scope.instrument.prefix + ' | Questions'

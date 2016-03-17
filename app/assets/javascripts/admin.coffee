@@ -80,12 +80,36 @@ admin.controller('AdminImportController',
     '$http',
     'Flash'
     ($scope, $http, Flash)->
-      $scope.uploadImport = ()->
-        $http {
+      $scope.uploadImport = (model)->
+        console.log $scope
+        fd = new FormData()
+        fd.append model+'[]', $scope[model]
+        $http({
           method: 'POST'
           url: '/admin/import/instruments'
+          data: fd
+          transformRequest: angular.identity
           headers :
-            'Content-Type': 'multipart/form-data'
-        }
-        Flash.add('success', 'Instrument imported.')
+            'Content-Type': undefined
+        }).success(->
+          Flash.add('success', 'Instrument imported.')
+        ).error(->
+          Flash.add('danger', 'Instrument failed to import.')
+        )
+])
+
+admin.directive('fileModel',
+  [
+    '$parse',
+    ($parse)->
+      {
+        restrict: 'A',
+        link: (scope, element, attrs)->
+          model = $parse(attrs.fileModel)
+          modelSetter = model.assign
+
+          element.bind 'change', ->
+            scope.$apply ->
+              modelSetter(scope, element[0].files[0])
+      }
 ])

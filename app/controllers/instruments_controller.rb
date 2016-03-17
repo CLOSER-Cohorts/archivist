@@ -36,6 +36,7 @@ class InstrumentsController < ApplicationController
 
   def import
     FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
+    logger.debug params
     params[:files].each do |file|
       filepath = Rails.root.join(
           'tmp',
@@ -45,14 +46,14 @@ class InstrumentsController < ApplicationController
       File.open(filepath, 'wb') do |f|
         f.write(file.read)
       end
-      im = XML::Importer.new filepath
+      im = XML::CADDIES::Importer.new filepath
       im.parse
     end
     redirect_to '/admin/import'
   end
 
   def copy
-    @instrument.copy params[:original_id]
+    @instrument.copy
     head :ok, format: :json
   end
 
