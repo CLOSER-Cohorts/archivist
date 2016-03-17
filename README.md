@@ -14,7 +14,7 @@
 * link.rb
 * dataset.rb
 * instruments_datasets.rb
-*
+
 #### User
 * user.rb
 * role.rb     (probably)
@@ -31,7 +31,7 @@ Run `rake generate_erd` to regenerate (must have graphvis).
 * Redis: 3.0.7
 
 ## Deployment
-Currently Archivist has only been designed to be deployed to Heroku[heroku], but rolling your own deployment should not be too difficult.
+Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
 #### Some basic steps
 1. `git clone -b master --single-branch https://github.com/CLOSER-Cohorts/archivist.git`
 2. `cd archivist`
