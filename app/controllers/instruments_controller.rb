@@ -53,7 +53,7 @@ class InstrumentsController < ApplicationController
   end
 
   def copy
-    @instrument.copy params[:original_id]
+    @instrument.copy
     head :ok, format: :json
   end
 

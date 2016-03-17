@@ -104,8 +104,8 @@ class Instrument < ActiveRecord::Base
     output
   end
 
-  def copy(original_id)
-    original = Instrument.find original_id
+  def copy
+    #original = Instrument.find original_id
     #Deep copy all components, including those not directly
     #referenced like ResponseDomainCodes
   end
