@@ -1,19 +1,15 @@
 module BaseController
   extend ActiveSupport::Concern
   included do
-  end
 
+  end
   module ClassMethods
     def add_basic_actions(options = {})
-      before_action :set_instrument
       before_action :set_object, only: [:show, :update, :destroy]
 
       class_eval <<-RUBY
 
         private
-        def set_instrument
-          @instrument = Instrument.find(params[:instrument_id])
-        end
 
         def collection
           #{options[:collection]}
@@ -27,7 +23,7 @@ module BaseController
         def safe_params
           params
             .require( #{options[:require]} )
-            .permit([:instrument_id] + #{options[:params]})
+            .permit( #{options[:params]} )
         end
       RUBY
 

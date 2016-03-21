@@ -3,13 +3,13 @@ require 'test_helper'
 class CodeListsControllerTest < ActionController::TestCase
   setup do
     @code_list = code_lists(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:code_lists)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create code_list" do

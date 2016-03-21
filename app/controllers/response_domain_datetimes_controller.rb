@@ -1,5 +1,5 @@
 class ResponseDomainDatetimesController < ApplicationController
-  include BaseController
+  include BaseInstrumentController
 
   add_basic_actions require: ':response_domain_datetime',
                     params: '[:datetime_type, :label, :format]',

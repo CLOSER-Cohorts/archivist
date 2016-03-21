@@ -1,5 +1,5 @@
 class QuestionItemsController < ApplicationController
-  include BaseController
+  include BaseInstrumentController
 
   add_basic_actions require: ':question_item',
                     params: '[:literal, :label, :instruction_id]',

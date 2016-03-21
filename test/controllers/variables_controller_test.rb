@@ -9,7 +9,7 @@ class VariablesControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, format: :json, dataset_id: @dataset.id
     assert_response :success
-    assert_not_nil assigns(:variables)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create variable" do

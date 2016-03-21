@@ -1,5 +1,5 @@
 class CcConditionsController < ApplicationController
-  include BaseController
+  include BaseInstrumentController
 
   add_basic_actions require: ':cc_condition',
                     params: '[:literal, :logic]',

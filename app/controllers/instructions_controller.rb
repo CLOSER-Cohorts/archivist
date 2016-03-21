@@ -1,5 +1,5 @@
 class InstructionsController < ApplicationController
-  include BaseController
+  include BaseInstrumentController
 
   add_basic_actions require: ':instruction',
                     params: '[:text]',

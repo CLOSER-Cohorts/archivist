@@ -1,5 +1,5 @@
 class ResponseUnitsController < ApplicationController
-  include BaseController
+  include BaseInstrumentController
 
   add_basic_actions require: ':response_unit',
                     params: '[:label]',
