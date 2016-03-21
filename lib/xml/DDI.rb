@@ -145,26 +145,24 @@ module XML::DDI
       urn.add_next_sibling clsn
       prev = clsn
       counter = 0
-      @urns[:code_lists] = {}
+      @urns[:codes] = {}
       @instrument.code_lists.find_each do |codelist|
         counter += 1
         cl = Nokogiri::XML::Node.new 'l:CodeList', @doc
         prev.add_next_sibling cl
         urn = Nokogiri::XML::Node.new 'r:URN', @doc
-        @urns[:code_lists][codelist.id] = @urn_prefix + "cl-%06d:1.0.0" % counter
-        urn.content = @urns[:code_lists][codelist.id]
+        @urns[:codes][codelist.id] = @urn_prefix + "cl-%06d:1.0.0" % counter
+        urn.content = @urns[:codes][codelist.id]
         cl.add_child urn
         l = Nokogiri::XML::Node.new 'r:Label', @doc
         l.add_child "<r:Content xml:lang=\"en-GB\">%{label}</r:Content>" % {label: codelist.label}
         urn.add_next_sibling l
         inner_prev = l
-        inner_counter = 0
         codelist.codes.find_each do |code|
-          inner_counter += 1
           co = Nokogiri::XML::Node.new 'l:Code', @doc
           inner_prev.add_next_sibling co
           c_urn = Nokogiri::XML::Node.new 'r:URN', @doc
-          c_urn.content = @urn_prefix + "co-%06d:1.0.0" % inner_counter
+          c_urn.content = @urn_prefix + "co-%06d:1.0.0" % code.id
           co.add_child c_urn
           c_ref = Nokogiri::XML::Node.new 'r:CategoryReference', @doc
           c_ref.add_child "<r:URN>%{urn}</r:URN><r:TypeOfObject>Category</r:TypeOfObject>" %
@@ -218,7 +216,7 @@ module XML::DDI
             when ResponseDomainCode
               cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
               cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject></r:CodeListReference>" %
-                               {urn: @urns[:code_lists][rd.code_list_id]}
+                               {urn: @urns[:codes][rd.code_list_id]}
 
               return cd
             when ResponseDomainDatetime
@@ -266,10 +264,10 @@ module XML::DDI
 
     def build_qgs
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + 'qs-000002:1.0.0'
+      urn.content = @urn_prefix + 'qgs-000002:1.0.0'
       @qgs.add_child urn
       qgsn = Nokogiri::XML::Node.new 'd:QuestionSchemeName', @doc
-      qgsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_qg01</r:String>" %
+      qgsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_qgs01</r:String>" %
                          {prefix: @instrument.prefix}
       urn.add_next_sibling qgsn
       prev = qgsn
@@ -310,16 +308,16 @@ module XML::DDI
           return gd
         end
 
-        gdy = add_grid_dimension.call('1', 'V', @urns[:code_lists][qgrid.vertical_code_list_id])
+        gdy = add_grid_dimension.call('1', 'V', @urns[:codes][qgrid.vertical_code_list_id])
         qt.add_next_sibling gdy
-        gdx = add_grid_dimension.call('2', 'H', @urns[:code_lists][qgrid.horizontal_code_list_id])
+        gdx = add_grid_dimension.call('2', 'H', @urns[:codes][qgrid.horizontal_code_list_id])
         gdy.add_next_sibling gdx
 
         inner_prev = gdx
         qgrid.response_domain_codes.each do |rdc|
           cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
           cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject></r:CodeListReference>" %
-                           {urn: @urns[:code_lists][rdc.code_list_id]}
+                           {urn: @urns[:codes][rdc.code_list_id]}
 
           inner_prev.add_next_sibling cd
           inner_prev = cd

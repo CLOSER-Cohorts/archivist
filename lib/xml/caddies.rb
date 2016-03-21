@@ -27,7 +27,7 @@ module XML::CADDIES
 
       #Read code lists and codes together
       code_lists = @doc.xpath("//l:CodeList")
-      @counters['code_lists'] = code_lists.length
+      @counters['codes'] = code_lists.length
       @counters['codes'] = 0
       @code_list_index = {}
       code_lists.each do |code_list|
