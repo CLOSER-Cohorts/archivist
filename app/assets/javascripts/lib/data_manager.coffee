@@ -4,6 +4,7 @@ data_manager = angular.module(
     'archivist.data_manager.map',
     'archivist.data_manager.instruments',
     'archivist.data_manager.constructs',
+    'archivist.data_manager.codes',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.realtime',
@@ -19,6 +20,7 @@ data_manager.factory(
     'Map',
     'Instruments',
     'Constructs',
+    'Codes',
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
@@ -29,6 +31,7 @@ data_manager.factory(
       Map,
       Instruments,
       Constructs,
+      Codes,
       ResolutionService,
       RealTimeListener,
       GetResource,
@@ -43,6 +46,7 @@ data_manager.factory(
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
+      DataManager.Codes = Codes
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
 
@@ -50,6 +54,7 @@ data_manager.factory(
 
         DataManager.progress = 0
 
+        options.codes ?= false
         options.constructs ?= false
         options.questions ?= false
         options.rds ?= false
@@ -60,6 +65,19 @@ data_manager.factory(
 
         DataManager.Data.Instrument  = DataManager.Instruments.get({id: instrument_id})
         promises.push DataManager.Data.Instrument .$promise
+
+        if options.codes
+
+          DataManager.Data.Codes.CodeLists =
+            DataManager.Codes.CodeLists.query instrument_id: instrument_id
+          promises.push DataManager.Data.Codes.CodeLists.$promise.then (collection)->
+            if options.instrument
+              DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists
+              true
+
+          DataManager.Data.Codes.Categories =
+            DataManager.Codes.Categories.query instrument_id: instrument_id
+          promises.push DataManager.Data.Codes.Categories.$promise
 
         if options.constructs
 
@@ -163,12 +181,6 @@ data_manager.factory(
         .then(
           ->
 
-            if options.instrument
-              if DataManager.Data.Instrument.Constructs?
-                DataManager.Data.Instrument.Constructs = DataManager.Data.Constructs
-              if DataManager.Data.Instrument.Questions?
-                DataManager.Data.Instrument.Questions = DataManager.Data.Questions
-
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
               console.log DataManager.Data
@@ -226,6 +238,13 @@ data_manager.factory(
       DataManager.resolveQuestions = ()->
         DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
+
+      DataManager.resolveCodes = ->
+        DataManager.CodeResolver ?= new ResolutionService.CodeResolver(
+          DataManager.Data.Codes.CodeLists,
+          DataManager.Data.Codes.Categories
+        )
+        DataManager.ConstructResolver.resolve
 
       DataManager.getApplicationStats = ()->
         DataManager.Data.AppStats = {$resolved: false}
