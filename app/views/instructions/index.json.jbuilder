@@ -1,4 +1,3 @@
-json.array!(@instructions) do |instruction|
+json.array!(@collection) do |instruction|
   json.extract! instruction, :id, :text
-  json.url instruction_url(instruction, format: :json)
 end
