@@ -5,7 +5,8 @@ module BaseController
   end
   module ClassMethods
     def add_basic_actions(options = {})
-      before_action :set_object, only: [:show, :update, :destroy]
+      options[:only] ||= []
+      before_action :set_object, only: [:show, :update, :destroy] + options[:only]
 
       class_eval <<-RUBY
 

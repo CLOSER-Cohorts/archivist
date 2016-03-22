@@ -8,7 +8,7 @@ class InstrumentsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, format: :json
     assert_response :success
-    assert_not_nil assigns(:instruments)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create instrument" do

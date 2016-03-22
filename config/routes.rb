@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :topics, constraints: -> (r) { (r.format == :json) }
 
-  resources :datasets, shallow: true, constraints: -> (r) { (r.format == :json) } do
+  resources :datasets, constraints: -> (r) { (r.format == :json) } do
     resources :variables
   end
 
