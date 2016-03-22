@@ -62,24 +62,20 @@ class InstrumentsController < ApplicationController
   def create
     @instrument = Instrument.new(instrument_params)
 
-    respond_to do |format|
-      if @instrument.save
-        format.json { render :show, status: :created }
-      else
-        format.json { render json: @instrument.errors, status: :unprocessable_entity }
-      end
+    if @instrument.save
+      render :show, status: :created
+    else
+      render json: @instrument.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /instruments/1
   # PATCH/PUT /instruments/1.json
   def update
-    respond_to do |format|
-      if @instrument.update(instrument_params)
-        format.json { render :show, status: :ok }
-      else
-        format.json { render json: @instrument.errors, status: :unprocessable_entity }
-      end
+    if @instrument.update(instrument_params)
+      render :show, status: :ok
+    else
+      render json: @instrument.errors, status: :unprocessable_entity
     end
   end
 
@@ -87,9 +83,7 @@ class InstrumentsController < ApplicationController
   # DELETE /instruments/1.json
   def destroy
     @instrument.destroy
-    respond_to do |format|
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
