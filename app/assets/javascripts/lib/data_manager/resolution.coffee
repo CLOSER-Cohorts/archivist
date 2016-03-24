@@ -65,7 +65,7 @@ resolution.factory(
         resolve: ->
           for code_list in @code_lists
             for code, index in code_list.codes
-              code_list.codes[index] = @category(code)['label']
+              code_list.codes[index].label = @category(code)['label']
 
       service
   ]

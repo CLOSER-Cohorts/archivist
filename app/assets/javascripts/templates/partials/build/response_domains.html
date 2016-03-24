@@ -72,7 +72,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="a-n-min-i" data-ng-show="current.subtype == 'Integer'">
+            <label for="a-n-min-i" data-ng-show="current.type == 'ResponseDomainNumeric' && current.subtype == 'Integer'">
                 Min:
             </label>
             <input
@@ -83,7 +83,7 @@
                     data-ng-disabled="!editMode"
                     data-ng-show="current.subtype == 'Integer'"
             />
-            <label for="a-n-min-ii" data-ng-show="current.subtype == 'Float'">
+            <label for="a-n-min-ii" data-ng-show="current.type == 'ResponseDomainNumeric' && current.subtype == 'Float'">
                 Min:
             </label>
             <input
@@ -96,7 +96,7 @@
             />
         </div>
         <div class="form-group">
-            <label for="a-n-max-i" data-ng-show="current.subtype == 'Integer'">
+            <label for="a-n-max-i" data-ng-show="current.type == 'ResponseDomainNumeric' && current.subtype == 'Integer'">
                 Max:
             </label>
             <input
@@ -107,7 +107,7 @@
                     data-ng-disabled="!editMode"
                     data-ng-show="current.subtype == 'Integer'"
             />
-            <label for="a-n-max-ii" data-ng-show="current.subtype == 'Float'">
+            <label for="a-n-max-ii" data-ng-show="current.type == 'ResponseDomainNumeric' && current.subtype == 'Float'">
                 Max:
             </label>
             <input

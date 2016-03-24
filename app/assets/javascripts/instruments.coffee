@@ -56,12 +56,14 @@ instruments.controller('InstrumentsController',
           },
           ()->
             $scope.page['title'] = $scope.instrument.prefix + ' | Edit'
-            $timeout ()->
+            $timeout(->
               if loadStructure
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
                 DataManager.resolveConstructs()
                 DataManager.resolveQuestions()
+                console.log $scope
               $scope.loading.state = "Done"
+            , 100)
 
         #TODO: Move to DataManager at some point
         if loadStudies

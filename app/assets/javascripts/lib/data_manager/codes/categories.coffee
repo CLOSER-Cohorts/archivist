@@ -1,4 +1,4 @@
-categories = angular.module('archivist.data_manager.code_lists.categories', [
+categories = angular.module('archivist.data_manager.codes.categories', [
   'archivist.resource'
 ])
 

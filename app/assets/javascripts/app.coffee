@@ -42,6 +42,9 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     Array::select_resource_by_id = (ref_id)->
       output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 
+    Array::select_resource_by_id_and_type = (ref_id, ref_type)->
+      output = (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
+
     String::replaceAll = (search, replacement) ->
       target = this
       target.replace(new RegExp(search, 'g'), replacement)

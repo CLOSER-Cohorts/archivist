@@ -42,17 +42,18 @@ angular.module('archivist.build').controller(
 
       if !$scope.edit_path?
         $scope.edit_path = (obj)->
-          terms = [
-            'instruments',
-            $scope.instrument.id,
-            'build'
-          ]
-          if $scope.extra_url_parameters
-            terms = terms.concat $scope.extra_url_parameters
+          if obj?
+            terms = [
+              'instruments',
+              $scope.instrument.id,
+              'build'
+            ]
+            if $scope.extra_url_parameters
+              terms = terms.concat $scope.extra_url_parameters
 
-          terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
-          terms.push obj.id
-          terms.join('/')
+            terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
+            terms.push obj.id
+            terms.join('/')
 
       if !$scope.startEditMode?
         $scope.startEditMode = () ->

@@ -2,10 +2,6 @@ build = angular.module('archivist.build', [
   'templates',
   'ngRoute',
   'archivist.flash',
-  'archivist.instruments',
-  'archivist.code_lists',
-  'archivist.categories',
-  'archivist.codes',
   'archivist.data_manager',
   'archivist.realtime'
 ])
