@@ -1,1 +1,1 @@
-json.extract! @instruction, :id, :text, :created_at, :updated_at
+json.extract! @object, :id, :text, :created_at, :updated_at

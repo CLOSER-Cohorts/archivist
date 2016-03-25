@@ -6,34 +6,34 @@ class DatasetsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    get :index, format: :json
     assert_response :success
-    assert_not_nil assigns(:datasets)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create dataset" do
     assert_difference('Dataset.count') do
-      post :create, dataset: {name: @dataset.name}
+      post :create, format: :json, dataset: {name: @dataset.name}
     end
 
-    assert_redirected_to dataset_path(assigns(:dataset))
+    assert_response :success
   end
 
   test "should show dataset" do
-    get :show, id: @dataset, format: :json
+    get :show, format: :json, id: @dataset, format: :json
     assert_response :success
   end
 
   test "should update dataset" do
-    patch :update, id: @dataset, dataset: {name: @dataset.name}
-    assert_redirected_to dataset_path(assigns(:dataset))
+    patch :update, format: :json, id: @dataset, dataset: {name: @dataset.name}
+    assert_response :success
   end
 
   test "should destroy dataset" do
     assert_difference('Dataset.count', -1) do
-      delete :destroy, id: @dataset
+      delete :destroy, format: :json, id: @dataset
     end
 
-    assert_redirected_to datasets_path
+    assert_response :success
   end
 end

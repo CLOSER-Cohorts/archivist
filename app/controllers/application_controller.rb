@@ -27,6 +27,10 @@ class ApplicationController < ActionController::Base
     render json: counts
   end
 
+  def exports
+
+  end
+
   protected
   def verified_request?
     super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])

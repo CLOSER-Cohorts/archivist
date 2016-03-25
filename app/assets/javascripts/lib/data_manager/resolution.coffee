@@ -43,7 +43,7 @@ resolution.factory(
 
 
       service.QuestionResolver = class
-        constructor:(questions)->
+        constructor: (questions)->
           @questions = questions
 
         map:
@@ -53,6 +53,19 @@ resolution.factory(
         resolve: (constructs)->
           for construct, index in constructs
             constructs[index].base ?= @questions[@map[construct.question_type]].select_resource_by_id construct.question_id
+
+      service.CodeResolver = class
+        constructor: (codes_lists, categories)->
+          @code_lists = codes_lists
+          @categories = categories
+
+        category: (code)->
+          @categories.select_resource_by_id code.category_id
+
+        resolve: ->
+          for code_list in @code_lists
+            for code, index in code_list.codes
+              code_list.codes[index].label = @category(code)['label']
 
       service
   ]

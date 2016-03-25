@@ -28,7 +28,7 @@ realtime.factory('RealTimeListener',
           @handler = $rootScope.$on('rt-update', (event, message)->
             $rootScope.$apply () ->
               callback event, JSON.parse message
-          );
+          )
 
       listener.prototype.stop = ()->
         @handler()
@@ -65,7 +65,7 @@ realtime.factory('RealTimeLocking',
 
       RTC.socket.on 'locks-updated', (message)->
         locks = JSON.parse message
-        $('.lockable').prop('disabled', false);
+        $('.lockable').prop('disabled', false)
         for lock in locks
           console.log lock
           if service.comparator[lock.type] lock.id

@@ -4,6 +4,7 @@ data_manager = angular.module(
     'archivist.data_manager.map',
     'archivist.data_manager.instruments',
     'archivist.data_manager.constructs',
+    'archivist.data_manager.codes',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.realtime',
@@ -19,6 +20,7 @@ data_manager.factory(
     'Map',
     'Instruments',
     'Constructs',
+    'Codes',
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
@@ -29,6 +31,7 @@ data_manager.factory(
       Map,
       Instruments,
       Constructs,
+      Codes,
       ResolutionService,
       RealTimeListener,
       GetResource,
@@ -43,6 +46,7 @@ data_manager.factory(
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
+      DataManager.Codes = Codes
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
 
@@ -50,6 +54,7 @@ data_manager.factory(
 
         DataManager.progress = 0
 
+        options.codes ?= false
         options.constructs ?= false
         options.questions ?= false
         options.rds ?= false
@@ -59,7 +64,18 @@ data_manager.factory(
         promises = []
 
         DataManager.Data.Instrument  = DataManager.Instruments.get({id: instrument_id})
-        promises.push DataManager.Data.Instrument .$promise
+        promises.push DataManager.Data.Instrument.$promise
+
+        if options.codes
+
+          DataManager.Data.Codes ?= {}
+          DataManager.Data.Codes.CodeLists =
+            DataManager.Codes.CodeLists.query instrument_id: instrument_id
+          promises.push DataManager.Data.Codes.CodeLists.$promise
+
+          DataManager.Data.Codes.Categories =
+            DataManager.Codes.Categories.query instrument_id: instrument_id
+          promises.push DataManager.Data.Codes.Categories.$promise
 
         if options.constructs
 
@@ -70,24 +86,11 @@ data_manager.factory(
             for obj, index in collection
               collection[index].type = 'condition'
 
-            if options.instrument
-              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
-                DataManager.Data.Instrument.Constructs = {}
-              DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions
-              true
-
-
           DataManager.Data.Constructs.Loops  =
             DataManager.Constructs.Loops.query instrument_id: instrument_id
           promises.push DataManager.Data.Constructs.Loops.$promise.then (collection)->
             for obj, index in collection
               collection[index].type = 'loop'
-
-            if options.instrument
-              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
-                DataManager.Data.Instrument.Constructs = {}
-              DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops
-              true
 
 
           # Load Questions
@@ -97,12 +100,6 @@ data_manager.factory(
             for obj, index in collection
               collection[index].type = 'question'
 
-            if options.instrument
-              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
-                DataManager.Data.Instrument.Constructs = {}
-              DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions
-              true
-
 
           # Load Statements
           DataManager.Data.Constructs.Statements  =
@@ -110,12 +107,6 @@ data_manager.factory(
           promises.push DataManager.Data.Constructs.Statements.$promise.then (collection)->
             for obj, index in collection
               collection[index].type = 'statement'
-
-            if options.instrument
-              if typeof DataManager.Data.Instrument.Constructs == 'undefined'
-                DataManager.Data.Instrument.Constructs = {}
-              DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements
-              true
 
 
           # Load Sequences
@@ -137,30 +128,20 @@ data_manager.factory(
           DataManager.Data.Questions ?= {}
           DataManager.Data.Questions.Items  =
             DataManager.Constructs.Questions.item.query instrument_id: instrument_id
-          promises.push DataManager.Data.Questions.Items.$promise.then (collection)->
-
-            if options.instrument
-              DataManager.Data.Instrument.Questions ?= {}
-              DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items
-              true
+          promises.push DataManager.Data.Questions.Items.$promise
 
 
           DataManager.Data.Questions.Grids  =
             DataManager.Constructs.Questions.grid.query instrument_id: instrument_id
-          promises.push DataManager.Data.Questions.Grids.$promise.then (collection)->
-
-            if options.instrument
-              DataManager.Data.Instrument.Questions ?= {}
-              DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
-              true
+          promises.push DataManager.Data.Questions.Grids.$promise
 
 
         chunk_size = 100 / promises.length
-        for promise in promises
+        ###for promise in promises
           promise.finally ()->
             DataManager.progress += chunk_size
             if options.progress?
-              options.progress(DataManager.progress)
+              options.progress(DataManager.progress)###
 
         console.log promises
         $q.all(
@@ -168,18 +149,33 @@ data_manager.factory(
         )
         .then(
           ->
-
+            console.log 'All promises resolved'
             if options.instrument
-              if DataManager.Data.Instrument.Constructs?
-                DataManager.Data.Instrument.Constructs = DataManager.Data.Constructs
-              if DataManager.Data.Instrument.Questions?
-                DataManager.Data.Instrument.Questions = DataManager.Data.Questions
+              if options.constructs
+                DataManager.Data.Instrument.Constructs = {}
+                DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions
+                DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops
+                DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions
+                DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences
+                DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements
 
+              if options.questions
+                DataManager.Data.Instrument.Questions ?= {}
+                DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items
+                DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids
+
+              if options.codes
+                DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists
+
+            console.log DataManager.Data.Questions
+            console.log DataManager.Data.Instrument.Questions
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
               console.log DataManager.Data
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Constructs.Sequences when s.top)[0]
 
+
+            console.log success
             defer = $.Deferred()
             if options.rds
               rds = DataManager.getResponseDomains instrument_id, false, defer.resolve
@@ -191,6 +187,7 @@ data_manager.factory(
 
             defer.then(
               ->
+                console.log DataManager.Data.Instrument.Questions
                 success?()
             )
 
@@ -232,6 +229,13 @@ data_manager.factory(
       DataManager.resolveQuestions = ()->
         DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
+
+      DataManager.resolveCodes = ->
+        DataManager.CodeResolver ?= new ResolutionService.CodeResolver(
+          DataManager.Data.Codes.CodeLists,
+          DataManager.Data.Codes.Categories
+        )
+        DataManager.CodeResolver.resolve()
 
       DataManager.getApplicationStats = ()->
         DataManager.Data.AppStats = {$resolved: false}

@@ -3,13 +3,13 @@ require 'test_helper'
 class ResponseDomainTextsControllerTest < ActionController::TestCase
   setup do
     @response_domain_text = response_domain_texts(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:response_domain_texts)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create response_domain_text" do

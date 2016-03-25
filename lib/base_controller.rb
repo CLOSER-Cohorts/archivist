@@ -1,19 +1,16 @@
 module BaseController
   extend ActiveSupport::Concern
   included do
-  end
 
+  end
   module ClassMethods
     def add_basic_actions(options = {})
-      before_action :set_instrument
-      before_action :set_object, only: [:show, :update, :destroy]
+      options[:only] ||= []
+      before_action :set_object, only: [:show, :update, :destroy] + options[:only]
 
       class_eval <<-RUBY
 
         private
-        def set_instrument
-          @instrument = Instrument.find(params[:instrument_id])
-        end
 
         def collection
           #{options[:collection]}
@@ -27,7 +24,7 @@ module BaseController
         def safe_params
           params
             .require( #{options[:require]} )
-            .permit([:instrument_id] + #{options[:params]})
+            .permit( #{options[:params]} )
         end
       RUBY
 
@@ -45,36 +42,27 @@ module BaseController
 
     def create
       @object = collection.new(safe_params)
-
-      respond_to do |format|
-        if @object.save
-          format.json { render :show, status: :created }
-        else
-          format.json { render json: @object.errors, status: :unprocessable_entity }
-        end
+      if @object.save
+        render :show, status: :created
+      else
+        render json: @object.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      respond_to do |format|
-        if @object.update(safe_params)
-          format.json { render :show, status: :ok }
-        else
-          format.json { render json: @object.errors, status: :unprocessable_entity }
-        end
+      if @object.update(safe_params)
+        render :show, status: :ok
+      else
+        render json: @object.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
       begin
         @object.destroy
-        respond_to do |format|
-          format.json { head :no_content }
-        end
+        head :no_content
       rescue
-        respond_to do |format|
-          format.json { head :bad_request }
-        end
+        head :bad_request
       end
     end
   end

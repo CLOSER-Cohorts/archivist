@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :topics, constraints: -> (r) { (r.format == :json) }
 
-  resources :datasets, shallow: true, constraints: -> (r) { (r.format == :json) } do
+  resources :datasets, constraints: -> (r) { (r.format == :json) } do
     resources :variables
   end
 
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :code_lists
     resources :categories
     member do
-      post 'copy/:original_id', to: 'instruments#copy'
+      post 'copy', to: 'instruments#copy'
       get 'response_domains', to: 'instruments#response_domains'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
     end
