@@ -7,7 +7,7 @@ gem 'rails', '4.2.5.1'
 gem 'json', '1.8.2'
 
 # Use Puma as the web server
-gem 'puma'
+gem 'puma', '~>2.16.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'

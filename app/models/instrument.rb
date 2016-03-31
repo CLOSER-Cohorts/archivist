@@ -16,6 +16,16 @@ class Instrument < ActiveRecord::Base
                                                           :category
                                                       ]
                                                   ]
+                                              ],
+                                              vertical_code_list: [
+                                                  codes: [
+                                                      :category
+                                                  ]
+                                              ],
+                                              horizontal_code_list: [
+                                                  codes: [
+                                                      :category
+                                                  ]
                                               ]
                                           ] }, dependent: :destroy
   has_many :question_items, -> { includes [

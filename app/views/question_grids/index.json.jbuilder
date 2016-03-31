@@ -1,6 +1,7 @@
 json.array!(@collection) do |question_grid|
   json.extract! question_grid, :id, :label, :literal, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label
   json.type question_grid.class.name
+  begin
   json.cols question_grid.horizontal_code_list.codes do |x|
     json.label x.category.label
     json.order x.order
@@ -17,4 +18,6 @@ json.array!(@collection) do |question_grid|
   json.corner_label (question_grid.corner_label == 'Vertical') ?
                         question_grid.vertical_code_list.label :
                         ((question_grid.corner_label == 'Horizontal') ? question_grid.horizontal_code_list.label : nil)
+  rescue
+  end
 end

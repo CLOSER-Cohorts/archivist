@@ -137,11 +137,11 @@ data_manager.factory(
 
 
         chunk_size = 100 / promises.length
-        ###for promise in promises
+        for promise in promises
           promise.finally ()->
             DataManager.progress += chunk_size
             if options.progress?
-              options.progress(DataManager.progress)###
+              options.progress(DataManager.progress)
 
         console.log promises
         $q.all(
