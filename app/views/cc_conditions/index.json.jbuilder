@@ -10,4 +10,5 @@ json.array!(@collection) do |cc_condition|
     json.type child.construct.class.name
   end
   json.parent cc_condition.parent.id
+  json.topic cc_condition.topic
 end

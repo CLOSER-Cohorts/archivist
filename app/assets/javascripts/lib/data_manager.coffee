@@ -7,6 +7,7 @@ data_manager = angular.module(
     'archivist.data_manager.codes',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
+    'archivist.data_manager.topics',
     'archivist.realtime',
     'archivist.resource'
   ]
@@ -24,7 +25,8 @@ data_manager.factory(
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
-    'ApplicationStats'
+    'ApplicationStats',
+    'Topics'
     (
       $http,
       $q,
@@ -35,7 +37,8 @@ data_manager.factory(
       ResolutionService,
       RealTimeListener,
       GetResource,
-      ApplicationStats
+      ApplicationStats,
+      Topics
     )->
       DataManager = {}
 
@@ -246,6 +249,15 @@ data_manager.factory(
               DataManager.Data.AppStats[key] = res.data[key]
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
+
+      DataManager.getTopics = (options = {})->
+        options.nested ?= false
+        options.flattened ?= false
+        if options.nested
+          DataManager.Data.Topics = Topics.getNested()
+        if options.flattened
+          DataManager.Data.Topics = Topics.getFlattenedNest()
+        DataManager.Data.Topics
 
       DataManager.getQuestionItemIDs = ()->
         output = []

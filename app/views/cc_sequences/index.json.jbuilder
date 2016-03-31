@@ -9,4 +9,5 @@ json.array!(@collection) do |cc_sequence|
   unless cc_sequence.parent.nil?
     json.parent cc_sequence.parent.id
   end
+  json.topic cc_sequence.topic
 end

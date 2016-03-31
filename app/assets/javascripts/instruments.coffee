@@ -4,7 +4,8 @@ instruments = angular.module('archivist.instruments', [
   'ngResource',
   'ui.bootstrap',
   'archivist.flash',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'archivist.instruments.mapping'
 ])
 
 instruments.config([ '$routeProvider',
@@ -21,6 +22,10 @@ instruments.config([ '$routeProvider',
       .when('/instruments/:id/edit',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
+      )
+      .when('/instruments/:id/map',
+        templateUrl: 'partials/instruments/map.html'
+        controller: 'MappingController'
       )
 ])
 
