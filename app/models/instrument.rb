@@ -119,4 +119,10 @@ class Instrument < ActiveRecord::Base
     #Deep copy all components, including those not directly
     #referenced like ResponseDomainCodes
   end
+
+  def cc_count
+    stats = self.association_stats
+    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
+        stats['cc_sequences'] + stats['cc_statements']
+  end
 end
