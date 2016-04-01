@@ -1,4 +1,4 @@
 json.array!(@collection) do |instrument|
   json.extract! instrument, :id, :agency, :version, :prefix, :label, :study
-  json.url instrument_url(instrument, format: :json)
+  json.ccs instrument.ccs.count
 end

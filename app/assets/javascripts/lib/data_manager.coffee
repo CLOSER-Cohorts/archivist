@@ -24,7 +24,8 @@ data_manager.factory(
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
-    'ApplicationStats'
+    'ApplicationStats',
+    'InstrumentStats'
     (
       $http,
       $q,
@@ -35,7 +36,8 @@ data_manager.factory(
       ResolutionService,
       RealTimeListener,
       GetResource,
-      ApplicationStats
+      ApplicationStats,
+      InstrumentStats
     )->
       DataManager = {}
 
@@ -43,6 +45,8 @@ data_manager.factory(
 
       DataManager.Data.ResponseDomains = {}
       DataManager.Data.ResponseUnits = {}
+
+      DataManager.Data.InstrumentStats = {}
 
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
@@ -246,6 +250,16 @@ data_manager.factory(
               DataManager.Data.AppStats[key] = res.data[key]
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
+
+      DataManager.getInstrumentStats = (id)->
+        DataManager.Data.InstrumentStats[id] = {$resolved: false}
+        DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id)
+        DataManager.Data.InstrumentStats[id].$promise.then (res)->
+          for key of res.data
+            if res.data.hasOwnProperty key
+              DataManager.Data.InstrumentStats[id][key] = res.data[key]
+          DataManager.Data.InstrumentStats[id].$resolved = true
+        DataManager.Data.InstrumentStats[id]
 
       DataManager.getQuestionItemIDs = ()->
         output = []

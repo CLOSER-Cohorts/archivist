@@ -4,7 +4,7 @@ class InstrumentsController < ApplicationController
   add_basic_actions require: ':instrument',
                     params: '[:agency, :version, :prefix, :label, :study]',
                     collection: 'Instrument.all',
-                    only: [:copy, :response_domains, :reorder_ccs]
+                    only: [:copy, :response_domains, :reorder_ccs, :stats]
 
   def reorder_ccs
     unless params[:updates].nil?
@@ -46,5 +46,9 @@ class InstrumentsController < ApplicationController
   def copy
     @object.copy
     head :ok, format: :json
+  end
+
+  def stats
+    render json: @object.association_stats
   end
 end

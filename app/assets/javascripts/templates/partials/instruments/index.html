@@ -28,6 +28,11 @@
                             </a>
                         </li>
                         <li>
+                            <a data-ng-click="sortedBy = '-ccs'">
+                                Control Constructs
+                            </a>
+                        </li>
+                        <li>
                             <a data-ng-click="sortedBy = 'study'">
                                 Study
                             </a>
@@ -62,6 +67,7 @@
 		<tr>
 			<th>ID</th>
 			<th>Prefix</th>
+            <th>Control Constructs</th>
 			<th>Study</th>
             <th>Actions</th>
 		</tr>
@@ -72,6 +78,7 @@
                     {{instrument.prefix}}
                 </a>
             </td>
+            <td>{{instrument.ccs}}</td>
 			<td>{{instrument.study}}</td>
             <td>
                 <a data-ng-href="/instruments/{{instrument.id}}/edit">

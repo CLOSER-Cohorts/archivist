@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       post 'copy', to: 'instruments#copy'
       get 'response_domains', to: 'instruments#response_domains'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
+      get 'stats', to: 'instruments#stats'
     end
   end
 
