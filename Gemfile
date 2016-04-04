@@ -7,7 +7,7 @@ gem 'rails', '4.2.5.1'
 gem 'json', '1.8.2'
 
 # Use Puma as the web server
-gem 'puma'
+gem 'puma', '~>2.16.0'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
@@ -19,6 +19,7 @@ gem 'redis'
 group :production do
   # Heroku logging
   gem 'rails_12factor'
+  gem 'redis-rack-cache'
 end
 
 # Use SCSS for stylesheets
@@ -53,6 +54,8 @@ gem "devise"
 gem "pundit"
 gem 'bower-rails'
 gem 'angular-rails-templates', '0.2.0'
+gem 'skylight'
+gem 'parallel'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -73,3 +76,4 @@ group :development do
   gem 'rails-erd'
 end
 
+gem 'coveralls', require: false

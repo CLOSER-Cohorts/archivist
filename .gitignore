@@ -19,3 +19,5 @@
 *.swp
 .idea/
 *.xml
+coverage/
+vendor/

@@ -2,7 +2,7 @@
 
 one:
   label: CategoryOne
-  instrument: :one
+  instrument: :two
 
 two:
   label: CategoryTwo
@@ -10,4 +10,4 @@ two:
 
 three:
   label: CategoryThree
-  instrument: :one
+  instrument: :two

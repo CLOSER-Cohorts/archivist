@@ -1,17 +1,17 @@
 conditions = angular.module('archivist.data_manager.constructs.conditions', [
-  'ngResource',
+  'archivist.resource',
 ])
 
 conditions.factory(
   'Conditions',
   [
-    '$resource',
-    ($resource)->
-      $resource(
-        'instruments/:instrument_id/cc_conditions/:id.json'
-        , {}
-        , {
-          query: {method: 'GET', isArray: true}
+    'WrappedResource',
+    (WrappedResource)->
+      new WrappedResource(
+        'instruments/:instrument_id/cc_conditions/:id.json',
+        {
+          id: '@id',
+          instrument_id: '@instrument_id'
         }
       )
   ]

@@ -25,7 +25,11 @@ class CodeList < ActiveRecord::Base
   end
 
   def used_by
-    self.response_domain.questions + self.question_grids
+    if self.response_domain.nil?
+      return self.question_grids
+    else
+      return self.response_domain.questions + self.question_grids
+    end
   end
 
   def update_codes(codes)

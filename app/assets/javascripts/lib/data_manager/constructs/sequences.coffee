@@ -5,13 +5,13 @@ sequences = angular.module('archivist.data_manager.constructs.sequences', [
 sequences.factory(
   'Sequences',
   [
-    '$resource',
-    ($resource)->
-      $resource(
-        'instruments/:instrument_id/cc_sequences/:id.json'
-        , {}
-        , {
-          query: {method: 'GET', isArray: true}
+    'WrappedResource',
+    (WrappedResource)->
+      new WrappedResource(
+        'instruments/:instrument_id/cc_sequences/:id.json',
+        {
+          id: '@id',
+          instrument_id: '@instrument_id'
         }
       )
   ]

@@ -4,8 +4,8 @@ one:
   label: MyString
   literal: MyString
   instruction: :one 
-  vertical_code_list: :xaxis
-  horizontal_code_list: :yaxis
+  vertical_code_list: :axisx
+  horizontal_code_list: :axisy
   roster_rows: 1
   roster_label: MyString
   corner_label: MyString
@@ -15,8 +15,8 @@ two:
   label: MyString
   literal: MyString
   instruction_id: 
-  vertical_code_list: :xaxis
-  horizontal_code_list: :yaxis
+  vertical_code_list: :axisx
+  horizontal_code_list: :axisy
   roster_rows: 1
   roster_label: MyString
   corner_label: MyString

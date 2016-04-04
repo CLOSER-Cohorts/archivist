@@ -8,4 +8,4 @@ one:
 two:
   literal: MyString
   logic: MyString
-  instrument: :one
+  instrument: :two

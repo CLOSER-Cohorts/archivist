@@ -5,13 +5,13 @@ loops = angular.module('archivist.data_manager.constructs.loops', [
 loops.factory(
   'Loops',
   [
-    '$resource',
-    ($resource)->
-      $resource(
-        'instruments/:instrument_id/cc_loops/:id.json'
-        , {}
-        , {
-          query: {method: 'GET', isArray: true}
+    'WrappedResource',
+    (WrappedResource)->
+      new WrappedResource(
+        'instruments/:instrument_id/cc_loops/:id.json',
+        {
+          id: '@id',
+          instrument_id: '@instrument_id'
         }
       )
   ]

@@ -3,13 +3,13 @@ require 'test_helper'
 class QuestionItemsControllerTest < ActionController::TestCase
   setup do
     @question_item = question_items(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:question_items)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create question_item" do

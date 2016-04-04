@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :topics, constraints: -> (r) { (r.format == :json) }
 
-  resources :datasets, shallow: true, constraints: -> (r) { (r.format == :json) } do
+  resources :datasets, constraints: -> (r) { (r.format == :json) } do
     resources :variables
   end
 
@@ -25,12 +25,15 @@ Rails.application.routes.draw do
     resources :code_lists
     resources :categories
     member do
-      post 'copy/:original_id', to: 'instruments#copy'
+      post 'copy', to: 'instruments#copy'
       get 'response_domains', to: 'instruments#response_domains'
+      post 'reorder_ccs', to: 'instruments#reorder_ccs'
+      get 'stats', to: 'instruments#stats'
     end
   end
 
   get 'studies', to: 'application#studies', constraints: -> (r) { (r.format == :json) }
+  get 'stats', to: 'application#stats', constraints: -> (r) { (r.format == :json) }
   match '*path', to: 'application#index', via: :all, constraints: {format: ''}
 
   # The priority is based upon order of creation: first created -> highest priority.

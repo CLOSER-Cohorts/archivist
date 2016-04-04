@@ -48,3 +48,24 @@ seq2:
   parent: :loop
   position: 1
   branch: 1
+
+con2:
+  label: c_ii
+  construct: two(CcCondition)
+  parent: :seq
+  position: 4
+  branch: 1
+
+sta2:
+  label: s_ii
+  construct: two(CcStatement)
+  parent: :con2
+  position: 1
+  branch: 2
+
+loop2:
+  label: l_ii
+  construct: two(CcLoop)
+  parent: :seq
+  position: 5
+  branch: 1

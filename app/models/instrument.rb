@@ -16,6 +16,16 @@ class Instrument < ActiveRecord::Base
                                                           :category
                                                       ]
                                                   ]
+                                              ],
+                                              vertical_code_list: [
+                                                  codes: [
+                                                      :category
+                                                  ]
+                                              ],
+                                              horizontal_code_list: [
+                                                  codes: [
+                                                      :category
+                                                  ]
                                               ]
                                           ] }, dependent: :destroy
   has_many :question_items, -> { includes [
@@ -40,6 +50,9 @@ class Instrument < ActiveRecord::Base
   has_many :response_domain_numerics, dependent: :destroy
   has_many :response_domain_texts, dependent: :destroy
   has_many :response_units, dependent: :destroy
+
+  has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+  has_many :datasets, through: :instruments_datasets
 
   include Realtime
 
@@ -76,9 +89,40 @@ class Instrument < ActiveRecord::Base
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
-  def copy(original_id)
-    original = Instrument.find original_id
+  def ccs
+    self.cc_conditions.to_a + self.cc_loops.to_a + self.cc_questions.to_a +
+        self.cc_sequences.to_a + self.cc_statements.to_a
+  end
+
+  def top_sequence
+    self
+        .cc_sequences
+        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = construct_id AND construct_type = \'CcSequence\'')
+        .where('cc.parent_id IS NULL')
+        .first
+  end
+
+  def ccs_in_ddi_order
+    output = []
+    harvest = lambda do |parent|
+      output.append parent
+      if parent.class.method_defined? :children
+        parent.children.each { |child| harvest.call child.construct }
+      end
+    end
+    harvest.call self.top_sequence
+    output
+  end
+
+  def copy
+    #original = Instrument.find original_id
     #Deep copy all components, including those not directly
     #referenced like ResponseDomainCodes
+  end
+
+  def cc_count
+    stats = self.association_stats
+    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
+        stats['cc_sequences'] + stats['cc_statements']
   end
 end

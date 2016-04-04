@@ -1,7 +1,8 @@
 admin = angular.module('archivist.admin', [
   'templates',
   'ngRoute',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'archivist.flash'
 ])
 
 admin.config(['$routeProvider',
@@ -17,18 +18,21 @@ admin.config(['$routeProvider',
       )
       .when('/admin/import',
         templateUrl: 'partials/admin/import.html'
+        controller: 'AdminImportController'
       )
 ])
 
 admin.controller('AdminDashController',
   [
     '$scope',
-    ($scope)->
-      $scope.counts = []
-      $scope.counts.instruments = 68
-      $scope.counts.questions = 3021
-      $scope.counts.variables = 687
-      $scope.counts.users = 1
+    'DataManager',
+    ($scope, DataManager)->
+      $scope.counts = DataManager.getApplicationStats()
+      console.log $scope.counts
+      #$scope.counts.instruments = 68
+      #$scope.counts.questions = 3021
+      #$scope.counts.variables = 687
+      #$scope.counts.users = 1
 ])
 
 admin.controller('AdminInstrumentsController',
@@ -70,22 +74,42 @@ admin.controller('AdminInstrumentsController',
         $scope.instruments.push $scope.newInstrument
 ])
 
-admin.controller('FileUploadController',
+admin.controller('AdminImportController',
   [
     '$scope',
     '$http',
-    '$filter',
-    '$window',
-    ($scope, $http)->
-      $scope.options =
-        url: '/admin/import'
-      $scope.loadingFiles = true;
-      $http.get $scope.options.url
-        .then(
-          (response)->
-            $scope.loadingFiles = false
-            $scope.queue = response.data.files || []
-          ,()->
-            $scope.loadingFiles = false
+    'Flash'
+    ($scope, $http, Flash)->
+      $scope.uploadImport = (model)->
+        console.log $scope
+        fd = new FormData()
+        fd.append model+'[]', $scope[model]
+        $http({
+          method: 'POST'
+          url: '/admin/import/instruments'
+          data: fd
+          transformRequest: angular.identity
+          headers :
+            'Content-Type': undefined
+        }).success(->
+          Flash.add('success', 'Instrument imported.')
+        ).error(->
+          Flash.add('danger', 'Instrument failed to import.')
         )
+])
+
+admin.directive('fileModel',
+  [
+    '$parse',
+    ($parse)->
+      {
+        restrict: 'A',
+        link: (scope, element, attrs)->
+          model = $parse(attrs.fileModel)
+          modelSetter = model.assign
+
+          element.bind 'change', ->
+            scope.$apply ->
+              modelSetter(scope, element[0].files[0])
+      }
 ])

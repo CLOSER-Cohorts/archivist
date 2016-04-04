@@ -6,12 +6,14 @@
             Import
         </h1>
 
-        <form action="/admin/import/instruments" method="POST" enctype="multipart/form-data">
+        <notices></notices>
+
+        <form data-ng-submit="uploadImport('files')">
             <div class="form-group">
                 <label for="instrument-files">
                     Upload DDI files
                 </label>
-                <input id="instrument-files" name="files[]" type="file" multiple required />
+                <input id="instrument-files" file-model="files" name="files[]" type="file" multiple required />
                 <p class="help-block">Only DDI-L 3.2 files are accepted.</p>
             </div>
             <button type="submit" class="btn btn-default">Import</button>

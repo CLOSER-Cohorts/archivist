@@ -1,6 +1,28 @@
-codes = angular.module('archivist.codes', [
-  'archivist.resource'
+codes = angular.module('archivist.data_manager.codes', [
+  'archivist.data_manager.codes.code_lists',
+  'archivist.data_manager.codes.categories'
 ])
+
+codes.factory(
+  'Codes',
+  [
+    'CodeLists',
+    'Categories',
+    'CodeResolver',
+    (
+      CodeLists,
+      Categories,
+      CodeResolver,
+    )->
+      Codes = {}
+
+      Codes.CodeLists       = CodeLists
+      Codes.Categories      = Categories
+      Codes.CodeResolver    = CodeResolver
+
+      Codes
+  ]
+)
 
 codes.factory('CodeResolver', [
   ->{

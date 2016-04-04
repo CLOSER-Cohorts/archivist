@@ -9,7 +9,7 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:categories)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create category" do
@@ -21,7 +21,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should show category" do
-    get :show, format: :json, instrument_id: @instrument.id, id: @category
+    get :show, format: :json, instrument_id: @instrument.id, id: @category.id
     assert_response :success
   end
 
@@ -37,13 +37,5 @@ class CategoriesControllerTest < ActionController::TestCase
     end
 
     assert_response :success
-  end
-
-  test "should not destroy category" do
-    assert_difference('Category.count', 0) do
-      delete :destroy, format: :json, instrument_id: 20, id: @category
-    end
-
-    assert_response :bad_request
   end
 end

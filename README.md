@@ -1,29 +1,12 @@
 ## README
 
-[![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=master)](https://travis-ci.org/CLOSER-Cohorts/archivist)
+[![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=develop)](https://travis-ci.org/CLOSER-Cohorts/archivist)
+[![Inline docs](http://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](http://inch-ci.org/github/CLOSER-Cohorts/archivist)
+[![Coverage Status](https://coveralls.io/repos/github/CLOSER-Cohorts/archivist/badge.svg?branch=develop)](https://coveralls.io/github/CLOSER-Cohorts/archivist?branch=master)
+[![Code Climate](https://codeclimate.com/github/CLOSER-Cohorts/archivist/badges/gpa.svg)](https://codeclimate.com/github/CLOSER-Cohorts/archivist)
+[![Issue Stats](http://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](http://issuestats.com/github/CLOSER-Cohorts/archivist)
 
-### Models
-#### CADDIES
-* category.rb
-* cc_condition.rb
-* cc_loop.rb
-* cc_question.rb
-* cc_sequence.rb
-* cc_statement.rb
-* code.rb
-* code_list.rb
-* control_construct.rb
-* instruction.rb
-* instrument.rb
-* question_grid.rb
-* question_item.rb
-* rds_qs.rb
-* response_domain_code.rb
-* response_domain_datetime.rb
-* response_domain_numeric.rb
-* response_domain_text.rb
-* response_unit.rb
-
+### Non-Implemented Models
 #### Mapper
 * topic.rb
 * variable.rb
@@ -32,11 +15,10 @@
 * dataset.rb
 * instruments_datasets.rb
 
-### Models to Add
 #### User
 * user.rb
-* role.rb     (maybe)
-* group.rb    (maybe)
+* role.rb     (probably)
+* group.rb    (probably)
 
 ### Model Relationship Diagram
 Run `rake generate_erd` to regenerate (must have graphvis).
@@ -45,28 +27,44 @@ Run `rake generate_erd` to regenerate (must have graphvis).
 ## Configuation
 * Ruby: 2.2.3
 * Rails: 4.2.5.1
-* Postgres: 9.5
-* Redis: coming soon
+* Postgres: 9.4.5
+* Redis: 3.0.7
+
+## Deployment
+Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
+#### Some basic steps
+1. `git clone -b master --single-branch https://github.com/CLOSER-Cohorts/archivist.git`
+2. `cd archivist`
+3. `gem install bundler`
+4. `bundler install`
+5. Set the environment variable  `RAILS_ENV=production` (e.g. `export RAILS_ENV=production`)
+6. Set the environment variable  `ARCHIVIST_DATABASE_PASSWORD=secure_password`
+7. `rake db:setup`
+8. Start server: `bundle exec puma -C config/puma.rb`
+
+This could cause the webserver to start...
 
 ## Testing
-To run the test suite just call `rake test`. Currently 244 tests and 370 assertions.
+To run the test suite just call `rake test`. Currently 196 tests and 263 assertions.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Stats
+| Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |
+|----------------------|-------|-------|---------|---------|-----|-------|
+| Controllers          |   835 |   581 |      19 |      92 |   4 |     4 |
+| Models               |   329 |   278 |      25 |      22 |   0 |    10 |
+| Javascripts          |  1627 |  1336 |       0 |     172 |   0 |     5 |
+| Libraries            |  1304 |  1145 |       6 |      52 |   8 |    20 |
+| Controller tests     |   760 |   609 |      18 |       0 |   0 |     0 |
+| Model tests          |   649 |   478 |      25 |       0 |   0 |     0 |
+| **Total**            |**5504**|**4427**| **93**| **338** |**3**| **11**|
 
-Things you may want to cover:
-* System dependencies
+  - Code LOC: 3340
+  - Test LOC: 1087
+  - Code to Test Ratio: 1:0.3
 
-* Configuration
+## Archivist Realtime
+Archivist is both a module within Archivist and an entirely separate webapp. [Archivist-realtime][realtime] is very slim Node.js app that provides a communications channel between the [Redis][redis] cache and all active users via websockets (Socket.io). The purpose of this is to be able to lock objects while editing them and to update a users screen as changes are made to an instrument.
 
-* Database creation
-
-* Database initialization
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+[realtime]: https://github.com/CLOSER-Cohorts/archivist-realtime
+[redis]: http://redis.io
+[heroku]: http://heroku.com

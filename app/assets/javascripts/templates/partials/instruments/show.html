@@ -5,6 +5,23 @@
             </span>
             <span data-ng-if="obj.literal" class="a-literal col-md-8">
                 {{obj.literal}}
+                <span data-ng-if="obj.type == 'condition'">
+                    <code>[{{obj.logic}}]</code>
+                </span>
+            </span>
+            <span data-ng-if="obj.type == 'loop'">
+                <code>
+                    <var>{{obj.loop_var}}</var> from <var>{{obj.start_val}}</var> while
+                    <span data-ng-if="obj.end_val">
+                        <var>{{obj.loop_var}}</var> != <var>{{obj.end_val}}</var>
+                    </span>
+                    <span data-ng-if="obj.end_val && obj.loop_while">
+                        and
+                    </span>
+                    <span data-ng-if="obj.loop_while">
+                        {{obj.loop_while}}
+                    </span>
+                </code>
             </span>
             <div data-ng-if="obj.type=='question'" class="col-md-8" data-ng-include="'partials/questions/show.html'"></div>
         <div class="col-md-offset-1 col-md-11">

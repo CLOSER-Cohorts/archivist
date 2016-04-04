@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception
 
   after_filter :set_csrf_cookie_for_ng
 
@@ -15,6 +15,20 @@ class ApplicationController < ActionController::Base
   def studies
     studies = ActiveRecord::Base.connection.execute('SELECT study, COUNT(*) FROM instruments GROUP BY study')
     render json: studies
+  end
+
+  def stats
+    counts = {
+        instruments: Instrument.all.count,
+        questions: CcQuestion.all.count,
+        variables: Variable.all.count,
+        users: 0
+    }
+    render json: counts
+  end
+
+  def exports
+
   end
 
   protected

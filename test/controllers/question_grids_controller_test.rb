@@ -3,7 +3,7 @@ require 'test_helper'
 class QuestionGridsControllerTest < ActionController::TestCase
   setup do
     @question_grid = question_grids(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
     @xaxis = code_lists(:axisx)
     @yaxis = code_lists(:axisy)
   end
@@ -11,7 +11,7 @@ class QuestionGridsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:question_grids)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create question_grid" do

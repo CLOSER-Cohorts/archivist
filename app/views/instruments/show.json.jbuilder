@@ -1,1 +1,2 @@
-json.extract! @instrument, :id, :agency, :version, :prefix, :label, :study, :created_at, :updated_at
+json.extract! @object, :id, :agency, :version, :prefix, :label, :study
+json.ccs @object.ccs.count

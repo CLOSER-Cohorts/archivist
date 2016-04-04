@@ -5,13 +5,13 @@ statements = angular.module('archivist.data_manager.constructs.statements', [
 statements.factory(
   'Statements',
   [
-    '$resource',
-    ($resource)->
-      $resource(
-        'instruments/:instrument_id/cc_statements/:id.json'
-        , {}
-        , {
-          query: {method: 'GET', isArray: true}
+    'WrappedResource',
+    (WrappedResource)->
+      new WrappedResource(
+        'instruments/:instrument_id/cc_statements/:id.json',
+        {
+          id: '@id',
+          instrument_id: '@instrument_id'
         }
       )
   ]

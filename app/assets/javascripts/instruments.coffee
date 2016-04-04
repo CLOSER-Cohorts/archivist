@@ -32,7 +32,7 @@ instruments.controller('InstrumentsController',
     '$q',
     '$http',
     '$timeout',
-    'flash',
+    'Flash',
     'DataManager',
     ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
       $scope.page['title'] = 'Instruments'
@@ -56,12 +56,14 @@ instruments.controller('InstrumentsController',
           },
           ()->
             $scope.page['title'] = $scope.instrument.prefix + ' | Edit'
-            $timeout ()->
+            $timeout(->
               if loadStructure
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
                 DataManager.resolveConstructs()
                 DataManager.resolveQuestions()
+                console.log $scope
               $scope.loading.state = "Done"
+            , 100)
 
         #TODO: Move to DataManager at some point
         if loadStudies
@@ -70,10 +72,7 @@ instruments.controller('InstrumentsController',
           )
 
       else
-        $scope.instruments = DataManager.Instruments.query(
-          ->
-            $scope.studies = (instrument.study for instrument in $scope.instruments).unique().sort()
-        )
+        $scope.instruments = DataManager.getInstruments()
         $scope.filterStudy = (study)->
           $scope.filteredStudy = study
 

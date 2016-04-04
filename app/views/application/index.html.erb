@@ -57,17 +57,15 @@
 					<a href="/logout">Logout</a>
 				</li>
 			</ul>
+      <p class="a-navbar-text navbar-right" data-ng-class="{'text-success': realtimeStatus, 'text-danger': !realtimeStatus}">
+        Realtime
+      </p>
 		</div><!--/.nav-collapse -->
 	</div>
 </nav>
 
 <div class="container-fluid">
-	<div class="view-container">
-    <div data-ng-repeat="notice in notices" data-ng-if="isActive('/admin') == false">
-      <div class="alert alert-{{notice.type}}" role="alert">
-        {{notice.message}}
-      </div>
-    </div>
-		<div data-ng-view class="view-frame animate-view"></div>
-	</div>
+  <div class="view-container">
+    <div data-ng-view class="view-frame animate-view"></div>
+  </div>
 </div>

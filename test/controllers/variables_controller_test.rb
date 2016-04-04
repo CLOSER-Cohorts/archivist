@@ -3,13 +3,13 @@ require 'test_helper'
 class VariablesControllerTest < ActionController::TestCase
   setup do
     @variable = variables(:one)
-    @dataset = datasets(:two)
+    @dataset = datasets(:one)
   end
 
   test "should get index" do
     get :index, format: :json, dataset_id: @dataset.id
     assert_response :success
-    assert_not_nil assigns(:variables)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create variable" do
@@ -32,7 +32,7 @@ class VariablesControllerTest < ActionController::TestCase
 
   test "should destroy variable" do
     assert_difference('Variable.count', -1) do
-      delete :destroy, format: :json, id: @variable
+      delete :destroy, format: :json, id: @variable, dataset_id: @dataset.id
     end
 
     assert_response :success

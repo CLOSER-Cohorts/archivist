@@ -3,13 +3,13 @@ require 'test_helper'
 class CcConditionsControllerTest < ActionController::TestCase
   setup do
     @cc_condition = cc_conditions(:one)
-    @instrument = instruments(:two)
+    @instrument = instruments(:one)
   end
 
   test "should get index" do
     get :index, format: :json, instrument_id: @instrument.id
     assert_response :success
-    assert_not_nil assigns(:cc_conditions)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create cc_condition" do

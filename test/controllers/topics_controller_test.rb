@@ -7,17 +7,17 @@ class TopicsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index
+    get :index, format: :json
     assert_response :success
-    assert_not_nil assigns(:topics)
+    assert_not_nil assigns(:collection)
   end
 
   test "should create topic" do
     assert_difference('Topic.count') do
-      post :create, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
+      post :create, format: :json, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
     end
 
-    assert_redirected_to topic_path(assigns(:topic))
+    assert_response :success
   end
 
   test "should show topic" do
@@ -26,16 +26,16 @@ class TopicsControllerTest < ActionController::TestCase
   end
 
   test "should update topic" do
-    patch :update, id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
-    assert_redirected_to topic_path(assigns(:topic))
+    patch :update, format: :json, id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
+    assert_response :success
   end
 
   test "should destroy topic" do
 
     assert_difference('Topic.count', -1) do
-      delete :destroy, id: @l2_topic
+      delete :destroy, format: :json, id: @l2_topic
     end
 
-    assert_redirected_to topics_path
+    assert_response :success
   end
 end
