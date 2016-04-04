@@ -10,7 +10,10 @@ module ActiveRecordExtension
     # Instance methods
     def association_stats
       key = self.class.name + self.id.to_s + 'counts'
-      counts = $redis.get key
+      begin
+        counts = $redis.get key
+      rescue Errno::ECONNREFUSED
+      end
       if counts.nil?
         counts = {}
         self.class.reflections.keys.each do |key|
@@ -18,7 +21,10 @@ module ActiveRecordExtension
             counts[key] = self.send(key).count
           end
         end
-        $redis.set key, counts.to_json
+        begin
+          $redis.set key, counts.to_json
+        rescue Errno::ECONNREFUSED
+        end
       else
         counts = JSON.parse counts
       end
@@ -29,7 +35,10 @@ module ActiveRecordExtension
       self.class.reflections.keys.each do |key|
         if self.class.reflections[key].is_a? ActiveRecord::Reflection::BelongsToReflection
           unless self.send(key).nil?
-            $redis.del key.classify + self.send(key).id.to_s + 'counts'
+            begin
+              $redis.del key.classify + self.send(key).id.to_s + 'counts'
+            rescue Errno::ECONNREFUSED
+            end
           end
         end
       end
