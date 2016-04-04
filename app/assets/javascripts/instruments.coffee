@@ -72,10 +72,7 @@ instruments.controller('InstrumentsController',
           )
 
       else
-        $scope.instruments = DataManager.Instruments.query(
-          ->
-            $scope.studies = (instrument.study for instrument in $scope.instruments).unique().sort()
-        )
+        $scope.instruments = DataManager.getInstruments()
         $scope.filterStudy = (study)->
           $scope.filteredStudy = study
 

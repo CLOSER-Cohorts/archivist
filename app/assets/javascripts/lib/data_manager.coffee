@@ -52,6 +52,11 @@ data_manager.factory(
       DataManager.Constructs = Constructs
       DataManager.Codes = Codes
 
+      DataManager.getInstruments = (params, success, error)->
+        DataManager.Data.Instruments = DataManager.Instruments.query params, success, error
+        DataManager.Data.Instruments
+
+
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
 
         console.log 'getInstrument'
@@ -147,7 +152,6 @@ data_manager.factory(
             if options.progress?
               options.progress(DataManager.progress)
 
-        console.log promises
         $q.all(
           promises
         )
@@ -171,15 +175,11 @@ data_manager.factory(
               if options.codes
                 DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists
 
-            console.log DataManager.Data.Questions
-            console.log DataManager.Data.Instrument.Questions
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence
-              console.log DataManager.Data
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Constructs.Sequences when s.top)[0]
 
 
-            console.log success
             defer = $.Deferred()
             if options.rds
               rds = DataManager.getResponseDomains instrument_id, false, defer.resolve
@@ -281,7 +281,7 @@ data_manager.factory(
               for key, value of row
                 if ['id','type'].indexOf(key) == -1
                   obj[key] = row[key]
-            if row.type == 'Instrument' and row.id DataManager.Data.Instrument.id
+            if row.type == 'Instrument' and row.id == DataManager.Data.Instrument.id
               for key, value of row
                 if ['id','type'].indexOf(key) == -1
                   DataManager.Data.Instrument[key] = row[key]

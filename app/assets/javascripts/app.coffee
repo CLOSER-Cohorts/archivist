@@ -29,7 +29,7 @@ archivist.controller('RootController', [ '$scope', '$location', 'Flash'
 
 archivist.directive 'notices', ->
   {
-    templateURL: 'partials/notices.html'
+    templateUrl: 'partials/notices.html'
   }
 
 archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
@@ -63,4 +63,6 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     Flash.publish($rootScope)
 
     $rootScope.page = {title: 'Home'}
+
+    $rootScope.realtimeStatus = true
 ])

@@ -1,17 +1,19 @@
 realtime = angular.module('archivist.realtime', [
-  'ngRoute'
+  'ngRoute',
+  'archivist.flash'
 ])
 
 realtime.factory('RealTimeConnection',
   [
     '$rootScope',
-    ($rootScope)->
+    'Flash'
+    ($rootScope, Flash)->
       service = {}
 
       service.socket = io window.socket_url
 
       service.socket.on 'disconnect', ()->
-        console.error 'Archivisit RealTime connection lost.'
+        $rootScope.realtimeStatus = false
 
       service.socket.on 'rt-update', (message)->
         $rootScope.$emit('rt-update', message)

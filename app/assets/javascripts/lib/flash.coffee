@@ -23,7 +23,11 @@ flash.factory('Flash', ['$interval',($interval)->
       scope.notices = notices
       clear()
 
+    listen: (scope) ->
+
+
     clear: @clear
     store: @store
+
   }
 ])
