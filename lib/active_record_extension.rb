@@ -28,7 +28,9 @@ module ActiveRecordExtension
     def clear_cached_stats
       self.class.reflections.keys.each do |key|
         if self.class.reflections[key].is_a? ActiveRecord::Reflection::BelongsToReflection
-          $redis.del key.classify + self.send(key).id.to_s + 'counts'
+          unless self.send(key).nil?
+            $redis.del key.classify + self.send(key).id.to_s + 'counts'
+          end
         end
       end
     end
