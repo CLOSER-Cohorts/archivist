@@ -12,7 +12,7 @@ module ActiveRecordExtension
       key = self.class.name + self.id.to_s + 'counts'
       begin
         counts = $redis.get key
-      rescue Errno::ECONNREFUSED
+      rescue Redis::CannotConnectError
       end
       if counts.nil?
         counts = {}
@@ -23,7 +23,7 @@ module ActiveRecordExtension
         end
         begin
           $redis.set key, counts.to_json
-        rescue Errno::ECONNREFUSED
+        rescue Redis::CannotConnectError
         end
       else
         counts = JSON.parse counts
@@ -37,7 +37,7 @@ module ActiveRecordExtension
           unless self.send(key).nil?
             begin
               $redis.del key.classify + self.send(key).id.to_s + 'counts'
-            rescue Errno::ECONNREFUSED
+            rescue Redis::CannotConnectError
             end
           end
         end
