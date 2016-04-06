@@ -21,3 +21,4 @@
 *.xml
 coverage/
 vendor/
+node_modules/
