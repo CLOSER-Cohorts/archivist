@@ -97,6 +97,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.7.2-x64-mingw32)
       mini_portile2 (~> 2.0.0.rc2)
+    oj (2.15.0)
     orm_adapter (0.5.0)
     parallel (1.8.0)
     pg (0.18.4-x64-mingw32)
@@ -217,6 +218,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   json (= 1.8.2)
+  oj
   parallel
   pg
   puma (~> 2.16.0)
