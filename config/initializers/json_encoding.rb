@@ -7,3 +7,4 @@ module ActiveSupport::JSON::Encoding
 end
 
 ActiveSupport.json_encoder = ActiveSupport::JSON::Encoding::Oj
+MultiJson.use :oj
