@@ -73,7 +73,6 @@ group :development do
   gem 'spring'
 
   gem 'rails-erd'
-  
   gem 'db_fixtures_dump'
 end
 
