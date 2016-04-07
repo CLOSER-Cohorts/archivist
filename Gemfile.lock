@@ -41,6 +41,7 @@ GEM
       sprockets (~> 2)
       tilt
     arel (6.0.3)
+    bcrypt (3.1.11)
     bcrypt (3.1.11-x64-mingw32)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -95,10 +96,13 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     nokogiri (1.6.7.2-x64-mingw32)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
     parallel (1.8.0)
+    pg (0.18.4)
     pg (0.18.4-x64-mingw32)
     puma (2.16.0)
     pundit (1.1.0)
@@ -204,6 +208,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
