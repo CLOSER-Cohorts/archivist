@@ -71,7 +71,11 @@
 			<th>Study</th>
             <th>Actions</th>
 		</tr>
-		<tr data-ng-repeat="instrument in instruments | filter:query | filter:{study:filteredStudy} | orderBy:sortedBy">
+		<tr data-ng-repeat="instrument in
+		filteredInstruments = (instruments | filter:query |
+		filter:{study:filteredStudy}) |
+		orderBy:sortedBy |
+		limitTo:pageSize:(currentPage-1)*pageSize">
 			<td>{{instrument.id}}</td>
 			<td>
                 <a data-ng-href="/instruments/{{instrument.id}}">
@@ -95,4 +99,11 @@
             </td>
 		</tr>
 	</table>
+    <div class="panel-footer">
+        <uib-pagination
+                total-items="filteredInstruments.length"
+                ng-model="currentPage"
+                items-per-page="pageSize">
+        </uib-pagination>
+    </div>
 </div>
