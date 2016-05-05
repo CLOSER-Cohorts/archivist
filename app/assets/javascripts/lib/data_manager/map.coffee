@@ -13,11 +13,16 @@ map.factory(
 
       service.map =
         Instrument:   'Instruments'
-        CcCondition:  'Conditions'
-        CcLoop:       'Loops'
-        CcQuestion:   'Questions'
-        CcSequence:   'Sequences'
-        CcStatement:  'Statements'
+        CcCondition:
+          Constructs: 'Conditions'
+        CcLoop:
+          Constructs: 'Loops'
+        CcQuestion:
+          Constructs: 'Questions'
+        CcSequence:
+          Constructs: 'Sequences'
+        CcStatement:
+          Constructs: 'Statements'
         QuestionItem:
           Questions:  'Items'
         QuestionGrid:

@@ -50,6 +50,7 @@ module BaseController
     end
 
     def update
+      logger.debug safe_params
       if @object.update(safe_params)
         render :show, status: :ok
       else
