@@ -10,7 +10,10 @@ module ActiveRecordExtension
     # Instance methods
     def association_stats
       key = self.class.name + self.id.to_s + 'counts'
-      counts = $redis.get key
+      begin
+        counts = $redis.get key
+      rescue Redis::CannotConnectError
+      end
       if counts.nil?
         counts = {}
         self.class.reflections.keys.each do |key|
@@ -18,7 +21,10 @@ module ActiveRecordExtension
             counts[key] = self.send(key).count
           end
         end
-        $redis.set key, counts.to_json
+        begin
+          $redis.set key, counts.to_json
+        rescue Redis::CannotConnectError
+        end
       else
         counts = JSON.parse counts
       end
@@ -28,7 +34,12 @@ module ActiveRecordExtension
     def clear_cached_stats
       self.class.reflections.keys.each do |key|
         if self.class.reflections[key].is_a? ActiveRecord::Reflection::BelongsToReflection
-          $redis.del key.classify + self.send(key).id.to_s + 'counts'
+          unless self.send(key).nil?
+            begin
+              $redis.del key.classify + self.send(key).id.to_s + 'counts'
+            rescue Redis::CannotConnectError
+            end
+          end
         end
       end
     end

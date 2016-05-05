@@ -263,7 +263,7 @@ module XML::CADDIES
       read_sequence_children(seq, cc_seq)
     end
 
-    def read_sequence_children(node, parent)
+    def read_sequence_children(node, parent, branch = nil)
       position_counter = 0
       node.xpath("./d:ControlConstructReference").each do |child_ref|
         position_counter += 1
@@ -275,6 +275,7 @@ module XML::CADDIES
           @instrument.sequences << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_s.position = position_counter
+          cc_s.branch = branch
           parent.children << cc_s.cc
           read_sequence_children(child, cc_s)
           cc_s.save!
@@ -284,6 +285,7 @@ module XML::CADDIES
           @instrument.statements << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_s.position = position_counter
+          cc_s.branch = branch
           cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
           parent.children << cc_s.cc
           cc_s.save!
@@ -305,6 +307,7 @@ module XML::CADDIES
           @instrument.questions << cc_q
           cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_q.position = position_counter
+          cc_q.branch = branch
           parent.children << cc_q.cc
           cc_q.save!
         elsif type == 'IfThenElse'
@@ -313,17 +316,26 @@ module XML::CADDIES
           @instrument.conditions << cc_c
           cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_c.position = position_counter
-          c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
+          cc_c.branch = branch
+          cc_c.literal = child.at_xpath("./d:IfCondition/r:Description/r:Content").content
+          cc_c.logic = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
 
-          if c_string.rindex('[').nil?
-            cc_c.literal = c_string
-            cc_c.logic = ''
-          else
-            cc_c.literal = c_string[0, c_string.rindex('[')].strip
-            cc_c.logic = c_string[c_string.rindex('[') + 1, c_string.length - c_string.rindex('[') - 2].strip
-          end
           parent.children << cc_c.cc
           cc_c.save!
+
+          sub_sequence = lambda do |search, cc, branch|
+            sub_seq = child.at_xpath(search)
+            if not sub_seq.nil?
+              urn = sub_seq.content
+              seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
+              read_sequence_children seq, cc, branch
+            end
+          end
+
+          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c, 0
+          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c, 1
+
+        elsif type == 'Loop'
 
           sub_sequence = lambda do |search, cc|
             sub_seq = child.at_xpath(search)
@@ -334,10 +346,6 @@ module XML::CADDIES
             end
           end
 
-          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c
-          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c
-
-        elsif type == 'Loop'
           child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
           cc_l = CcLoop.new
           @instrument.loops << cc_l
@@ -346,6 +354,7 @@ module XML::CADDIES
           while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
           cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_l.position = position_counter
+          cc_l.branch = branch
           if not start_node.nil?
             pieces = start_node.content.split(/\W\D\s/)
             cc_l.loop_var = pieces[0]

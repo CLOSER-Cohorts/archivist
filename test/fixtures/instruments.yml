@@ -1,15 +1,2329 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  agency: MyString
-  version: MyString
-  prefix: MyString
-  label: MyString
-  study: MyString
-
-two:
-  agency: MyString
-  version: MyString
-  prefix: MyString
-  label: MyString
-  study: MyString
+---
+Instrument_1:
+  id: 791
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs9
+  label: Cohort Member Interview and Paper Self Completion
+  created_at: 2016-04-06 08:04:53.875923000 Z
+  updated_at: 2016-04-06 08:04:53.875923000 Z
+Instrument_2:
+  id: 792
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs8
+  label: Cohort Member Interview
+  created_at: 2016-04-06 08:05:23.522887000 Z
+  updated_at: 2016-04-06 08:05:23.522887000 Z
+Instrument_3:
+  id: 793
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_1970
+  label: Birth Questionnaire
+  created_at: 2016-04-06 08:05:48.363371000 Z
+  updated_at: 2016-04-06 08:05:48.363371000 Z
+Instrument_4:
+  id: 794
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs4_teacher
+  label: Teacher Paper Questionnaire
+  created_at: 2016-04-06 08:05:58.373372000 Z
+  updated_at: 2016-04-06 08:05:58.373372000 Z
+Instrument_5:
+  id: 795
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs5
+  label: MCS5 Parent Interviews, Child Measurement and Assessments
+  created_at: 2016-04-06 08:06:12.069741000 Z
+  updated_at: 2016-04-06 08:06:12.069741000 Z
+Instrument_6:
+  id: 796
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs5_sc
+  label: Cohort Member Paper Self Completion
+  created_at: 2016-04-06 08:07:25.405074000 Z
+  updated_at: 2016-04-06 08:07:25.405074000 Z
+Instrument_7:
+  id: 797
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: pms
+  label: Birth Questionnaire
+  created_at: 2016-04-06 08:07:30.830617000 Z
+  updated_at: 2016-04-06 08:07:30.830617000 Z
+Instrument_8:
+  id: 798
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_biomed
+  label: Cohort Member Biomedical and Paper Self Completions
+  created_at: 2016-04-06 08:07:39.152449000 Z
+  updated_at: 2016-04-06 08:07:39.152449000 Z
+Instrument_9:
+  id: 799
+  agency: uk.cls
+  version: '1.0'
+  prefix: hcs_2_clinic_6
+  label: hcs_2_clinic_6_instr01
+  created_at: 2016-04-06 08:08:02.362769000 Z
+  updated_at: 2016-04-06 08:08:02.362769000 Z
+Instrument_10:
+  id: 800
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_16
+  label: Blood Pressure Measurements 2
+  created_at: 2016-04-06 08:08:02.465780000 Z
+  updated_at: 2016-04-06 08:08:02.465780000 Z
+Instrument_11:
+  id: 801
+  agency: uk.cls
+  version: '1.0'
+  prefix: hcs_2_clinic_5
+  label: hcs_2_clinic_5_instr01
+  created_at: 2016-04-06 08:08:03.211854000 Z
+  updated_at: 2016-04-06 08:08:03.211854000 Z
+Instrument_12:
+  id: 802
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_15
+  label: Timed "up & go"
+  created_at: 2016-04-06 08:08:03.325866000 Z
+  updated_at: 2016-04-06 08:08:03.325866000 Z
+Instrument_13:
+  id: 803
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_1_home_3
+  label: Social Health Questionnaire
+  created_at: 2016-04-06 08:08:03.900923000 Z
+  updated_at: 2016-04-06 08:08:03.900923000 Z
+Instrument_14:
+  id: 804
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_4
+  label: Chair Rises & Flamingo Stands
+  created_at: 2016-04-06 08:08:08.971430000 Z
+  updated_at: 2016-04-06 08:08:08.971430000 Z
+Instrument_15:
+  id: 805
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_14
+  label: Spirometry
+  created_at: 2016-04-06 08:08:09.702503000 Z
+  updated_at: 2016-04-06 08:08:09.702503000 Z
+Instrument_16:
+  id: 806
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_1_home_2
+  label: Health Questionnaire
+  created_at: 2016-04-06 08:08:11.182651000 Z
+  updated_at: 2016-04-06 08:08:11.182651000 Z
+Instrument_17:
+  id: 807
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_3
+  label: Blood Pressure Measurements 1
+  created_at: 2016-04-06 08:08:21.081641000 Z
+  updated_at: 2016-04-06 08:08:21.081641000 Z
+Instrument_18:
+  id: 808
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_13
+  label: Prostate Questionnaire
+  created_at: 2016-04-06 08:08:21.925726000 Z
+  updated_at: 2016-04-06 08:08:21.925726000 Z
+Instrument_19:
+  id: 809
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_1_home_1
+  label: Anthropometry 2
+  created_at: 2016-04-06 08:08:22.744807000 Z
+  updated_at: 2016-04-06 08:08:22.744807000 Z
+Instrument_20:
+  id: 810
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_2
+  label: Anthropometry Data 1
+  created_at: 2016-04-06 08:08:23.344867000 Z
+  updated_at: 2016-04-06 08:08:23.344867000 Z
+Instrument_21:
+  id: 811
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_12
+  label: Smallpox Vaccination Status
+  created_at: 2016-04-06 08:08:23.915925000 Z
+  updated_at: 2016-04-06 08:08:23.915925000 Z
+Instrument_22:
+  id: 812
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_1
+  label: Dietary Questionnaire
+  created_at: 2016-04-06 08:08:24.330966000 Z
+  updated_at: 2016-04-06 08:08:24.330966000 Z
+Instrument_23:
+  id: 813
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_11
+  label: Questionnaire for Knee OA Study
+  created_at: 2016-04-06 08:08:27.550288000 Z
+  updated_at: 2016-04-06 08:08:27.550288000 Z
+Instrument_24:
+  id: 814
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_birth
+  label: Hertfordshire 1911-39
+  created_at: 2016-04-06 08:08:29.335466000 Z
+  updated_at: 2016-04-06 08:08:29.335466000 Z
+Instrument_25:
+  id: 815
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_10
+  label: OVERNIGHT URINE COLLECTION
+  created_at: 2016-04-06 08:08:30.593592000 Z
+  updated_at: 2016-04-06 08:08:30.593592000 Z
+Instrument_26:
+  id: 816
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_9
+  label: Hertfordshire Food Diary
+  created_at: 2016-04-06 08:08:30.915624000 Z
+  updated_at: 2016-04-06 08:08:30.915624000 Z
+Instrument_27:
+  id: 817
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_8
+  label: Physical Activity Questionnaire
+  created_at: 2016-04-06 08:08:31.797713000 Z
+  updated_at: 2016-04-06 08:08:31.797713000 Z
+Instrument_28:
+  id: 818
+  agency: uk.mrcleu-uos.hcs
+  version: '1.0'
+  prefix: hcs_2_clinic_7
+  label: Manual Muscle Testing
+  created_at: 2016-04-06 08:08:33.564889000 Z
+  updated_at: 2016-04-06 08:08:33.564889000 Z
+Instrument_29:
+  id: 819
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_03_gac5
+  label: alspac_03_gac5_instr01
+  created_at: 2016-04-06 08:08:34.086942000 Z
+  updated_at: 2016-04-06 08:08:34.086942000 Z
+Instrument_30:
+  id: 820
+  agency: uk.iser
+  version: '1.0'
+  prefix: us2_ysc
+  label: US2 Youth Self-Completion
+  created_at: 2016-04-06 08:08:34.292962000 Z
+  updated_at: 2016-04-06 08:08:34.292962000 Z
+Instrument_31:
+  id: 821
+  agency: uk.iser
+  version: '1.0'
+  prefix: us1_ysc
+  label: Understanding Society 1 Youth Self-Completion
+  created_at: 2016-04-06 08:08:38.221355000 Z
+  updated_at: 2016-04-06 08:08:38.221355000 Z
+Instrument_32:
+  id: 822
+  agency: uk.iser
+  version: '1.0'
+  prefix: us2_asc
+  label: Understanding Society 2 Adult Self-Completion
+  created_at: 2016-04-06 08:08:42.219755000 Z
+  updated_at: 2016-04-06 08:08:42.219755000 Z
+Instrument_33:
+  id: 823
+  agency: uk.iser
+  version: '1.0'
+  prefix: us1_asc
+  label: US1 Adult Self-Completion
+  created_at: 2016-04-06 08:08:46.908224000 Z
+  updated_at: 2016-04-06 08:08:46.908224000 Z
+Instrument_34:
+  id: 824
+  agency: uk.iser
+  version: '1.0'
+  prefix: us5_ysc
+  label: US5 Youth Self-Completion
+  created_at: 2016-04-06 08:08:49.550488000 Z
+  updated_at: 2016-04-06 08:08:49.550488000 Z
+Instrument_35:
+  id: 825
+  agency: uk.iser
+  version: '1.0'
+  prefix: us3_ysc
+  label: US3 Youth self-completion
+  created_at: 2016-04-06 08:08:54.293962000 Z
+  updated_at: 2016-04-06 08:08:54.293962000 Z
+Instrument_36:
+  id: 826
+  agency: uk.iser
+  version: '1.0'
+  prefix: us4_ysc
+  label: US4 Youth Self-Completion
+  created_at: 2016-04-06 08:08:59.175450000 Z
+  updated_at: 2016-04-06 08:08:59.175450000 Z
+Instrument_37:
+  id: 827
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_me
+  label: Medical Exam
+  created_at: 2016-04-06 08:09:03.399873000 Z
+  updated_at: 2016-04-06 08:09:03.399873000 Z
+Instrument_38:
+  id: 828
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_tf2ca
+  label: alspac_05_tf2ca_instr01
+  created_at: 2016-04-06 08:09:04.337966000 Z
+  updated_at: 2016-04-06 08:09:04.337966000 Z
+Instrument_39:
+  id: 829
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_08_y11qfpac
+  label: Year 11 Questionnaire for Parents and Carers
+  created_at: 2016-04-06 08:09:04.620995000 Z
+  updated_at: 2016-04-06 08:09:04.620995000 Z
+Instrument_40:
+  id: 830
+  agency: 'uk.lha                                   '
+  version: '1.0'
+  prefix: nshd_61_iwm
+  label: Final Interview With Mother 1961
+  created_at: 2016-04-06 08:09:07.366269000 Z
+  updated_at: 2016-04-06 08:09:07.366269000 Z
+Instrument_41:
+  id: 831
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_DCSF
+  label: alspac_DCSF_instr01
+  created_at: 2016-04-06 08:09:13.608893000 Z
+  updated_at: 2016-04-06 08:09:13.608893000 Z
+Instrument_42:
+  id: 832
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_04_mtsd
+  label: My Teenage Son
+  created_at: 2016-04-06 08:09:13.998932000 Z
+  updated_at: 2016-04-06 08:09:13.998932000 Z
+Instrument_43:
+  id: 833
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_04_fat
+  label: Food and Things
+  created_at: 2016-04-06 08:09:28.900422000 Z
+  updated_at: 2016-04-06 08:09:28.900422000 Z
+Instrument_44:
+  id: 834
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_eq
+  label: Educational Questionnaire
+  created_at: 2016-04-06 08:09:32.688801000 Z
+  updated_at: 2016-04-06 08:09:32.688801000 Z
+Instrument_45:
+  id: 835
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_61_sd
+  label: School Doctor 1961
+  created_at: 2016-04-06 08:09:38.193352000 Z
+  updated_at: 2016-04-06 08:09:38.193352000 Z
+Instrument_46:
+  id: 836
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_ffuf
+  label: BCS1986 Family Follow Up form
+  created_at: 2016-04-06 08:09:45.602092000 Z
+  updated_at: 2016-04-06 08:09:45.602092000 Z
+Instrument_47:
+  id: 837
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_05_womtsd
+  label: Wellbeing of my Teenage Daughter
+  created_at: 2016-04-06 08:09:49.399472000 Z
+  updated_at: 2016-04-06 08:09:49.399472000 Z
+Instrument_48:
+  id: 838
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_10_ycl
+  label: alspac_10_ycl_instr01
+  created_at: 2016-04-06 08:10:03.863918000 Z
+  updated_at: 2016-04-06 08:10:03.863918000 Z
+Instrument_49:
+  id: 839
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_59_ci
+  label: Child Interview 1959
+  created_at: 2016-04-06 08:10:04.400972000 Z
+  updated_at: 2016-04-06 08:10:04.400972000 Z
+Instrument_50:
+  id: 840
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_63_cq
+  label: College Questionnaire 1963
+  created_at: 2016-04-06 08:10:06.921224000 Z
+  updated_at: 2016-04-06 08:10:06.921224000 Z
+Instrument_51:
+  id: 841
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_64_cq
+  label: College Questionnaire 1964
+  created_at: 2016-04-06 08:10:11.274659000 Z
+  updated_at: 2016-04-06 08:10:11.274659000 Z
+Instrument_52:
+  id: 842
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_lq
+  label: Local Education Authorities Questionnaire 1962
+  created_at: 2016-04-06 08:10:13.832915000 Z
+  updated_at: 2016-04-06 08:10:13.832915000 Z
+Instrument_53:
+  id: 843
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_10_iu
+  label: alspac_10_iu_instr01
+  created_at: 2016-04-06 08:10:14.953027000 Z
+  updated_at: 2016-04-06 08:10:14.953027000 Z
+Instrument_54:
+  id: 844
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_08_yayf
+  label: You and Your Friends
+  created_at: 2016-04-06 08:10:15.130045000 Z
+  updated_at: 2016-04-06 08:10:15.130045000 Z
+Instrument_55:
+  id: 845
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_74_a
+  label: ncds_74_a_instr01
+  created_at: 2016-04-06 08:10:16.946226000 Z
+  updated_at: 2016-04-06 08:10:16.946226000 Z
+Instrument_56:
+  id: 846
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_bgetab
+  label: alspac_05_bgetab_instr01
+  created_at: 2016-04-06 08:10:17.053237000 Z
+  updated_at: 2016-04-06 08:10:17.053237000 Z
+Instrument_57:
+  id: 847
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_pif
+  label: BCS 1986 Parental Interview Form
+  created_at: 2016-04-06 08:10:17.554287000 Z
+  updated_at: 2016-04-06 08:10:17.554287000 Z
+Instrument_58:
+  id: 848
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_61_htq
+  label: Head Teacher Questionnaire 1961
+  created_at: 2016-04-06 08:10:30.508583000 Z
+  updated_at: 2016-04-06 08:10:30.508583000 Z
+Instrument_59:
+  id: 849
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_loat
+  label: alspac_05_loat_instr01
+  created_at: 2016-04-06 08:10:31.891721000 Z
+  updated_at: 2016-04-06 08:10:31.891721000 Z
+Instrument_60:
+  id: 850
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_dd
+  label: bcs_86_dd_instr01
+  created_at: 2016-04-06 08:10:32.014733000 Z
+  updated_at: 2016-04-06 08:10:32.014733000 Z
+Instrument_61:
+  id: 851
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_61_ci
+  label: Child interview 1961
+  created_at: 2016-04-06 08:10:32.259758000 Z
+  updated_at: 2016-04-06 08:10:32.259758000 Z
+Instrument_62:
+  id: 852
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_lad
+  label: bcs_86_lad_instr01
+  created_at: 2016-04-06 08:10:34.692001000 Z
+  updated_at: 2016-04-06 08:10:34.692001000 Z
+Instrument_63:
+  id: 853
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_st
+  label: bcs_86_st_instr01
+  created_at: 2016-04-06 08:10:34.802012000 Z
+  updated_at: 2016-04-06 08:10:34.802012000 Z
+Instrument_64:
+  id: 854
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_tlas
+  label: alspac_05_tlas_instr01
+  created_at: 2016-04-06 08:10:34.910023000 Z
+  updated_at: 2016-04-06 08:10:34.910023000 Z
+Instrument_65:
+  id: 855
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_tq
+  label: School Questionnaire 1962
+  created_at: 2016-04-06 08:10:35.190051000 Z
+  updated_at: 2016-04-06 08:10:35.190051000 Z
+Instrument_66:
+  id: 856
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_64_cmu
+  label: University Questionnaire 1964
+  created_at: 2016-04-06 08:10:39.122444000 Z
+  updated_at: 2016-04-06 08:10:39.122444000 Z
+Instrument_67:
+  id: 857
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_64_yeoq
+  label: YEO Questionnaire 1964
+  created_at: 2016-04-06 08:10:45.183050000 Z
+  updated_at: 2016-04-06 08:10:45.183050000 Z
+Instrument_68:
+  id: 858
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_mo
+  label: bcs_86_mo_instr01
+  created_at: 2016-04-06 08:10:46.254157000 Z
+  updated_at: 2016-04-06 08:10:46.254157000 Z
+Instrument_69:
+  id: 859
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_cq
+  label: College Questionnaire 1962
+  created_at: 2016-04-06 08:10:46.553187000 Z
+  updated_at: 2016-04-06 08:10:46.553187000 Z
+Instrument_70:
+  id: 860
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_qfmt
+  label: alspac_04_qfmt_instr01
+  created_at: 2016-04-06 08:10:49.518483000 Z
+  updated_at: 2016-04-06 08:10:49.518483000 Z
+Instrument_71:
+  id: 861
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_ras
+  label: Reading and Singing
+  created_at: 2016-04-06 08:10:49.777509000 Z
+  updated_at: 2016-04-06 08:10:49.777509000 Z
+Instrument_72:
+  id: 862
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_63_yeoqcg
+  label: Employment and Training Study (Control Group) 1963
+  created_at: 2016-04-06 08:10:53.751907000 Z
+  updated_at: 2016-04-06 08:10:53.751907000 Z
+Instrument_73:
+  id: 863
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_jc
+  label: bcs_86_jc_instr01
+  created_at: 2016-04-06 08:10:54.875019000 Z
+  updated_at: 2016-04-06 08:10:54.875019000 Z
+Instrument_74:
+  id: 864
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_qfmt
+  label: alspac_02_qfmt_instr01
+  created_at: 2016-04-06 08:10:54.982030000 Z
+  updated_at: 2016-04-06 08:10:54.982030000 Z
+Instrument_75:
+  id: 865
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_74_pq
+  label: ncds_74_pq_instr01
+  created_at: 2016-04-06 08:10:55.224054000 Z
+  updated_at: 2016-04-06 08:10:55.224054000 Z
+Instrument_76:
+  id: 866
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_ssc
+  label: Student Self-Completion Health Questionnaire
+  created_at: 2016-04-06 08:11:00.659597000 Z
+  updated_at: 2016-04-06 08:11:00.659597000 Z
+Instrument_77:
+  id: 867
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_cmy
+  label: Personal Questionnaire 1962
+  created_at: 2016-04-06 08:11:15.140045000 Z
+  updated_at: 2016-04-06 08:11:15.140045000 Z
+Instrument_78:
+  id: 868
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_63_yeoq
+  label: NSHD1963 YEO Questionnaire
+  created_at: 2016-04-06 08:11:17.368268000 Z
+  updated_at: 2016-04-06 08:11:17.368268000 Z
+Instrument_79:
+  id: 869
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_86_haat
+  label: bcs_86_haat_instr01
+  created_at: 2016-04-06 08:11:18.338365000 Z
+  updated_at: 2016-04-06 08:11:18.338365000 Z
+Instrument_80:
+  id: 870
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_63_sq
+  label: School and College Questionnaire 1963
+  created_at: 2016-04-06 08:11:18.782409000 Z
+  updated_at: 2016-04-06 08:11:18.782409000 Z
+Instrument_81:
+  id: 871
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_64_sq
+  label: School and College Questionnaire 1964
+  created_at: 2016-04-06 08:11:20.309562000 Z
+  updated_at: 2016-04-06 08:11:20.309562000 Z
+Instrument_82:
+  id: 872
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_08_gac9
+  label: alspac_08_gac9_instr01
+  created_at: 2016-04-06 08:11:21.964728000 Z
+  updated_at: 2016-04-06 08:11:21.964728000 Z
+Instrument_83:
+  id: 873
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_07_gac8
+  label: alspac_07_gac8_instr01
+  created_at: 2016-04-06 08:11:22.079739000 Z
+  updated_at: 2016-04-06 08:11:22.079739000 Z
+Instrument_84:
+  id: 874
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_07_y11qfyp
+  label: Year 11 Questionnaire for Young People
+  created_at: 2016-04-06 08:11:22.407772000 Z
+  updated_at: 2016-04-06 08:11:22.407772000 Z
+Instrument_85:
+  id: 875
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_hrb
+  label: Health-Related Behaviour
+  created_at: 2016-04-06 08:11:25.862117000 Z
+  updated_at: 2016-04-06 08:11:25.862117000 Z
+Instrument_86:
+  id: 876
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_59_ts
+  label: Teacher Survey 1959
+  created_at: 2016-04-06 08:11:33.042835000 Z
+  updated_at: 2016-04-06 08:11:33.042835000 Z
+Instrument_87:
+  id: 877
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_74_eq
+  label: ncds_74_eq_instr01
+  created_at: 2016-04-06 08:11:36.715203000 Z
+  updated_at: 2016-04-06 08:11:36.715203000 Z
+Instrument_88:
+  id: 878
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_cmc
+  label: Students Questionnaire 1962
+  created_at: 2016-04-06 08:11:36.945226000 Z
+  updated_at: 2016-04-06 08:11:36.945226000 Z
+Instrument_89:
+  id: 879
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_g
+  label: alspac_g_instr01
+  created_at: 2016-04-06 08:11:41.877719000 Z
+  updated_at: 2016-04-06 08:11:41.877719000 Z
+Instrument_90:
+  id: 880
+  agency: uk.bcs70
+  version: '1.0'
+  prefix: bcs_86_fatow
+  label: BCS1986 Friends and the Outside World
+  created_at: 2016-04-06 08:11:42.852816000 Z
+  updated_at: 2016-04-06 08:11:42.852816000 Z
+Instrument_91:
+  id: 881
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_08_ysd16yo
+  label: alspac_08_ysd16yo_instr01
+  created_at: 2016-04-06 08:11:54.235954000 Z
+  updated_at: 2016-04-06 08:11:54.235954000 Z
+Instrument_92:
+  id: 882
+  agency: 'uk.lha                               '
+  version: '1.0'
+  prefix: nshd_61_ts
+  label: Teacher's Survey 1961
+  created_at: 2016-04-06 08:11:54.558987000 Z
+  updated_at: 2016-04-06 08:11:54.558987000 Z
+Instrument_93:
+  id: 883
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_10_yayl
+  label: alspac_10_yayl_instr01
+  created_at: 2016-04-06 08:11:58.145345000 Z
+  updated_at: 2016-04-06 08:11:58.145345000 Z
+Instrument_94:
+  id: 884
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_gac7
+  label: alspac_06_gac7_instr01
+  created_at: 2016-04-06 08:11:58.251356000 Z
+  updated_at: 2016-04-06 08:11:58.251356000 Z
+Instrument_95:
+  id: 885
+  agency: uk.bsc70
+  version: '1.0'
+  prefix: bcs_86_msc
+  label: BCS 1986 Maternal Self-Completion
+  created_at: 2016-04-06 08:11:58.982429000 Z
+  updated_at: 2016-04-06 08:11:58.982429000 Z
+Instrument_96:
+  id: 886
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_62_cms
+  label: NSHD 1962 Cohort Member at School
+  created_at: 2016-04-06 08:12:07.785309000 Z
+  updated_at: 2016-04-06 08:12:07.785309000 Z
+Instrument_97:
+  id: 887
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_74_iq
+  label: ncds_74_iq_instr01
+  created_at: 2016-04-06 08:12:12.397770000 Z
+  updated_at: 2016-04-06 08:12:12.397770000 Z
+Instrument_98:
+  id: 888
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_tf2ct
+  label: alspac_06_tf2ct_instr01
+  created_at: 2016-04-06 08:12:12.483779000 Z
+  updated_at: 2016-04-06 08:12:12.483779000 Z
+Instrument_99:
+  id: 889
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_tf2cb
+  label: alspac_06_tf2cb_instr01
+  created_at: 2016-04-06 08:12:12.602791000 Z
+  updated_at: 2016-04-06 08:12:12.602791000 Z
+Instrument_100:
+  id: 890
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_tf2c
+  label: alspac_06_tf2c_instr01
+  created_at: 2016-04-06 08:12:12.743805000 Z
+  updated_at: 2016-04-06 08:12:12.743805000 Z
+Instrument_101:
+  id: 891
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_tf2b
+  label: alspac_05_tf2b_instr01
+  created_at: 2016-04-06 08:12:12.868818000 Z
+  updated_at: 2016-04-06 08:12:12.868818000 Z
+Instrument_102:
+  id: 892
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_gac6
+  label: alspac_06_gac6_instr01
+  created_at: 2016-04-06 08:12:13.443875000 Z
+  updated_at: 2016-04-06 08:12:13.443875000 Z
+Instrument_103:
+  id: 893
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_06_tf2b
+  label: alspac_06_tf2b_instr01
+  created_at: 2016-04-06 08:12:13.720903000 Z
+  updated_at: 2016-04-06 08:12:13.720903000 Z
+Instrument_104:
+  id: 894
+  agency: uk.bsc70
+  version: '1.0'
+  prefix: bcs_86_lal
+  label: BSC1986 Life and Leisure
+  created_at: 2016-04-06 08:12:15.035034000 Z
+  updated_at: 2016-04-06 08:12:15.035034000 Z
+Instrument_105:
+  id: 895
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_86_htq
+  label: BCS 1986 Head Teacher Questionnaire
+  created_at: 2016-04-06 08:12:26.218152000 Z
+  updated_at: 2016-04-06 08:12:26.218152000 Z
+Instrument_106:
+  id: 896
+  agency: 'uk.lha '
+  version: '1.0'
+  prefix: nshd_62_yeoi
+  label: Interview Schedule 1962
+  created_at: 2016-04-06 08:12:27.401271000 Z
+  updated_at: 2016-04-06 08:12:27.401271000 Z
+Instrument_107:
+  id: 897
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_74_mq
+  label: ncds_74_mq_instr01
+  created_at: 2016-04-06 08:12:35.494080000 Z
+  updated_at: 2016-04-06 08:12:35.494080000 Z
+Instrument_108:
+  id: 898
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_pal
+  label: alspac_04_pal_instr01
+  created_at: 2016-04-06 08:12:35.812112000 Z
+  updated_at: 2016-04-06 08:12:35.812112000 Z
+Instrument_109:
+  id: 899
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_hsl_ssq
+  label: ncds_hsl_ssq_instr01
+  created_at: 2016-04-06 08:12:35.939124000 Z
+  updated_at: 2016-04-06 08:12:35.939124000 Z
+Instrument_110:
+  id: 900
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_05_tf2cb
+  label: alspac_05_tf2cb_instr01
+  created_at: 2016-04-06 08:12:36.086139000 Z
+  updated_at: 2016-04-06 08:12:36.086139000 Z
+Instrument_111:
+  id: 901
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_pq
+  label: Partner's Questionnaire
+  created_at: 2016-04-06 08:12:36.580188000 Z
+  updated_at: 2016-04-06 08:12:36.580188000 Z
+Instrument_112:
+  id: 902
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_ye
+  label: Your Environment
+  created_at: 2016-04-06 08:12:49.907521000 Z
+  updated_at: 2016-04-06 08:12:49.907521000 Z
+Instrument_113:
+  id: 903
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_mamb
+  label: Me and My Baby
+  created_at: 2016-04-06 08:12:58.101340000 Z
+  updated_at: 2016-04-06 08:12:58.101340000 Z
+Instrument_114:
+  id: 904
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_ftg
+  label: Filling the Gaps
+  created_at: 2016-04-06 08:13:10.247555000 Z
+  updated_at: 2016-04-06 08:13:10.247555000 Z
+Instrument_115:
+  id: 905
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_92_tbamp
+  label: The Baby and Me - Partners
+  created_at: 2016-04-06 08:13:21.461676000 Z
+  updated_at: 2016-04-06 08:13:21.461676000 Z
+Instrument_116:
+  id: 906
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_yaye
+  label: You and Your Environment - Partner
+  created_at: 2016-04-06 08:13:33.390869000 Z
+  updated_at: 2016-04-06 08:13:33.390869000 Z
+Instrument_117:
+  id: 907
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_46_tcs
+  label: The Costs Study
+  created_at: 2016-04-06 08:13:43.670897000 Z
+  updated_at: 2016-04-06 08:13:43.670897000 Z
+Instrument_118:
+  id: 908
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_46_tms
+  label: The Maternity Services Study
+  created_at: 2016-04-06 08:13:48.256355000 Z
+  updated_at: 2016-04-06 08:13:48.256355000 Z
+Instrument_119:
+  id: 909
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_95_dq
+  label: Data from Obstetric & Neonatal Records
+  created_at: 2016-04-06 08:13:52.588789000 Z
+  updated_at: 2016-04-06 08:13:52.588789000 Z
+Instrument_120:
+  id: 910
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_hab
+  label: Having a Baby
+  created_at: 2016-04-06 08:14:07.717301000 Z
+  updated_at: 2016-04-06 08:14:07.717301000 Z
+Instrument_121:
+  id: 911
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_msd
+  label: My Son/Daughter
+  created_at: 2016-04-06 08:14:21.138643000 Z
+  updated_at: 2016-04-06 08:14:21.138643000 Z
+Instrument_122:
+  id: 912
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_mybbg
+  label: My Young Baby Boy/Girl
+  created_at: 2016-04-06 08:14:39.427472000 Z
+  updated_at: 2016-04-06 08:14:39.427472000 Z
+Instrument_123:
+  id: 913
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_92_latb
+  label: Looking After the Baby
+  created_at: 2016-04-06 08:14:47.332262000 Z
+  updated_at: 2016-04-06 08:14:47.332262000 Z
+Instrument_124:
+  id: 914
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_baf
+  label: Being a Father
+  created_at: 2016-04-06 08:15:03.040833000 Z
+  updated_at: 2016-04-06 08:15:03.040833000 Z
+Instrument_125:
+  id: 915
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_yhal
+  label: Your Home and Life
+  created_at: 2016-04-06 08:15:10.310560000 Z
+  updated_at: 2016-04-06 08:15:10.310560000 Z
+Instrument_126:
+  id: 916
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_91_yp
+  label: Your Pregnancy
+  created_at: 2016-04-06 08:15:22.623791000 Z
+  updated_at: 2016-04-06 08:15:22.623791000 Z
+Instrument_127:
+  id: 917
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_sdhah
+  label: My Daughter's Health and Happiness
+  created_at: 2016-04-06 08:15:39.770506000 Z
+  updated_at: 2016-04-06 08:15:39.770506000 Z
+Instrument_128:
+  id: 918
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_99_fa8
+  label: alspac_99_fa8_instr01
+  created_at: 2016-04-06 08:15:54.548983000 Z
+  updated_at: 2016-04-06 08:15:54.548983000 Z
+Instrument_129:
+  id: 919
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_01_gac3
+  label: alspac_01_gac3_instr01
+  created_at: 2016-04-06 08:15:54.798008000 Z
+  updated_at: 2016-04-06 08:15:54.798008000 Z
+Instrument_130:
+  id: 920
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_gac4
+  label: alspac_02_gac4_instr01
+  created_at: 2016-04-06 08:15:54.923021000 Z
+  updated_at: 2016-04-06 08:15:54.923021000 Z
+Instrument_131:
+  id: 921
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_gac1
+  label: Growing and Changing (2) Girl
+  created_at: 2016-04-06 08:15:55.267055000 Z
+  updated_at: 2016-04-06 08:15:55.267055000 Z
+Instrument_132:
+  id: 922
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_waff
+  label: Watches and Funny Feelings
+  created_at: 2016-04-06 08:15:57.226251000 Z
+  updated_at: 2016-04-06 08:15:57.226251000 Z
+Instrument_133:
+  id: 923
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_99_sd
+  label: alspac_99_sd_instr01
+  created_at: 2016-04-06 08:16:01.620690000 Z
+  updated_at: 2016-04-06 08:16:01.620690000 Z
+Instrument_134:
+  id: 924
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_03_aam
+  label: All Around Me
+  created_at: 2016-04-06 08:16:01.801709000 Z
+  updated_at: 2016-04-06 08:16:01.801709000 Z
+Instrument_135:
+  id: 925
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_98_fa7b
+  label: alspac_98_fa7b_instr01
+  created_at: 2016-04-06 08:16:04.866015000 Z
+  updated_at: 2016-04-06 08:16:04.866015000 Z
+Instrument_136:
+  id: 926
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_99_fa7c
+  label: alspac_99_fa7c_instr01
+  created_at: 2016-04-06 08:16:04.955024000 Z
+  updated_at: 2016-04-06 08:16:04.955024000 Z
+Instrument_137:
+  id: 927
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_ttd
+  label: Things to do
+  created_at: 2016-04-06 08:16:05.095038000 Z
+  updated_at: 2016-04-06 08:16:05.095038000 Z
+Instrument_138:
+  id: 928
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_01_fas
+  label: alspac_01_fas_instr01
+  created_at: 2016-04-06 08:16:06.153144000 Z
+  updated_at: 2016-04-06 08:16:06.153144000 Z
+Instrument_139:
+  id: 929
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_ssf
+  label: alspac_ssf_instr01
+  created_at: 2016-04-06 08:16:06.256154000 Z
+  updated_at: 2016-04-06 08:16:06.256154000 Z
+Instrument_140:
+  id: 930
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_y4ma
+  label: alspac_y4ma_instr01
+  created_at: 2016-04-06 08:16:06.371165000 Z
+  updated_at: 2016-04-06 08:16:06.371165000 Z
+Instrument_141:
+  id: 931
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_y6m
+  label: alspac_y6m_instr01
+  created_at: 2016-04-06 08:16:06.462175000 Z
+  updated_at: 2016-04-06 08:16:06.462175000 Z
+Instrument_142:
+  id: 932
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_03_tyo
+  label: Twelve Years On
+  created_at: 2016-04-06 08:16:06.932222000 Z
+  updated_at: 2016-04-06 08:16:06.932222000 Z
+Instrument_143:
+  id: 933
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_y8m
+  label: alspac_y8m_instr01
+  created_at: 2016-04-06 08:16:20.676596000 Z
+  updated_at: 2016-04-06 08:16:20.676596000 Z
+Instrument_144:
+  id: 934
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_slam
+  label: School Life and Me
+  created_at: 2016-04-06 08:16:20.944623000 Z
+  updated_at: 2016-04-06 08:16:20.944623000 Z
+Instrument_145:
+  id: 935
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_fa10d
+  label: alspac_02_fa10d_instr01
+  created_at: 2016-04-06 08:16:22.876816000 Z
+  updated_at: 2016-04-06 08:16:22.876816000 Z
+Instrument_146:
+  id: 936
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_babg
+  label: Being a Boy/Girl
+  created_at: 2016-04-06 08:16:23.522880000 Z
+  updated_at: 2016-04-06 08:16:23.522880000 Z
+Instrument_147:
+  id: 937
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_01_fa9
+  label: alspac_01_fa9_instr01
+  created_at: 2016-04-06 08:16:42.686797000 Z
+  updated_at: 2016-04-06 08:16:42.686797000 Z
+Instrument_148:
+  id: 938
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_fa10cb
+  label: alspac_02_fa10cb_instr01
+  created_at: 2016-04-06 08:16:42.820810000 Z
+  updated_at: 2016-04-06 08:16:42.820810000 Z
+Instrument_149:
+  id: 939
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_lahop
+  label: alspac_02_lahop_instr01
+  created_at: 2016-04-06 08:16:43.638892000 Z
+  updated_at: 2016-04-06 08:16:43.638892000 Z
+Instrument_150:
+  id: 940
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_03_fa11c
+  label: alspac_03_fa11c_instr01
+  created_at: 2016-04-06 08:16:43.790907000 Z
+  updated_at: 2016-04-06 08:16:43.790907000 Z
+Instrument_151:
+  id: 941
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_fa10b
+  label: alspac_02_fa10b_instr01
+  created_at: 2016-04-06 08:16:44.030931000 Z
+  updated_at: 2016-04-06 08:16:44.030931000 Z
+Instrument_152:
+  id: 942
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_fa10ca
+  label: alspac_02_fa10ca_instr01
+  created_at: 2016-04-06 08:16:44.145943000 Z
+  updated_at: 2016-04-06 08:16:44.145943000 Z
+Instrument_153:
+  id: 943
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_03_fa11b
+  label: alspac_03_fa11b_instr01
+  created_at: 2016-04-06 08:16:44.534981000 Z
+  updated_at: 2016-04-06 08:16:44.534981000 Z
+Instrument_154:
+  id: 944
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_tf1b
+  label: alspac_04_tf1b_instr01
+  created_at: 2016-04-06 08:16:45.042032000 Z
+  updated_at: 2016-04-06 08:16:45.042032000 Z
+Instrument_155:
+  id: 945
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_tf1cb
+  label: alspac_04_tf1cb_instr01
+  created_at: 2016-04-06 08:16:45.150043000 Z
+  updated_at: 2016-04-06 08:16:45.150043000 Z
+Instrument_156:
+  id: 946
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_03_pam
+  label: alspac_03_pam_instr01
+  created_at: 2016-04-06 08:16:45.247053000 Z
+  updated_at: 2016-04-06 08:16:45.247053000 Z
+Instrument_157:
+  id: 947
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_04_tf1ca
+  label: alspac_04_tf1ca_instr01
+  created_at: 2016-04-06 08:16:45.529081000 Z
+  updated_at: 2016-04-06 08:16:45.529081000 Z
+Instrument_158:
+  id: 948
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_lahom
+  label: Lifestyle and health of mother
+  created_at: 2016-04-06 08:16:46.230151000 Z
+  updated_at: 2016-04-06 08:16:46.230151000 Z
+Instrument_159:
+  id: 949
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_sa
+  label: alspac_02_sa_instr01
+  created_at: 2016-04-06 08:17:01.589687000 Z
+  updated_at: 2016-04-06 08:17:01.589687000 Z
+Instrument_160:
+  id: 950
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_93_mlbg
+  label: My Little Boy/Girl
+  created_at: 2016-04-06 08:17:02.092737000 Z
+  updated_at: 2016-04-06 08:17:02.092737000 Z
+Instrument_161:
+  id: 951
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_95_myfyobg
+  label: My Young Four Year Old Boy/Girl
+  created_at: 2016-04-06 08:17:16.785206000 Z
+  updated_at: 2016-04-06 08:17:16.785206000 Z
+Instrument_162:
+  id: 952
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_92_misd
+  label: My Infant Son/Daughter
+  created_at: 2016-04-06 08:17:32.162744000 Z
+  updated_at: 2016-04-06 08:17:32.162744000 Z
+Instrument_163:
+  id: 953
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_93_cfat
+  label: Caring for a Toddler
+  created_at: 2016-04-06 08:17:49.359463000 Z
+  updated_at: 2016-04-06 08:17:49.359463000 Z
+Instrument_164:
+  id: 954
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_47_ss
+  label: Supplementary Questionnaire for Inquiry into Prematurity
+  created_at: 2016-04-06 08:18:09.653492000 Z
+  updated_at: 2016-04-06 08:18:09.653492000 Z
+Instrument_165:
+  id: 955
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_93_mssd
+  label: My Study Son/Daughter
+  created_at: 2016-04-06 08:18:12.246752000 Z
+  updated_at: 2016-04-06 08:18:12.246752000 Z
+Instrument_166:
+  id: 956
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_95_pnq
+  label: Partner's New Questionnaire
+  created_at: 2016-04-06 08:18:27.871314000 Z
+  updated_at: 2016-04-06 08:18:27.871314000 Z
+Instrument_167:
+  id: 957
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs_03_ossc
+  label: Older Sibling Self Completion
+  created_at: 2016-04-06 08:18:37.818309000 Z
+  updated_at: 2016-04-06 08:18:37.818309000 Z
+Instrument_168:
+  id: 958
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_50
+  label: 1950 Questionnaire
+  created_at: 2016-04-06 08:18:40.503577000 Z
+  updated_at: 2016-04-06 08:18:40.503577000 Z
+Instrument_169:
+  id: 959
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_93_atith
+  label: A Toddler in the House - Partners
+  created_at: 2016-04-06 08:18:46.715198000 Z
+  updated_at: 2016-04-06 08:18:46.715198000 Z
+Instrument_170:
+  id: 960
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_94_mtyobg
+  label: My Three Year Old Boy/Girl
+  created_at: 2016-04-06 08:18:56.570184000 Z
+  updated_at: 2016-04-06 08:18:56.570184000 Z
+Instrument_171:
+  id: 961
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_48
+  label: 1948 Questionnaire
+  created_at: 2016-04-06 08:19:11.186645000 Z
+  updated_at: 2016-04-06 08:19:11.186645000 Z
+Instrument_172:
+  id: 962
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_95_mnq
+  label: Mothers New Questionnaire
+  created_at: 2016-04-06 08:19:17.495276000 Z
+  updated_at: 2016-04-06 08:19:17.495276000 Z
+Instrument_173:
+  id: 963
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_94_msdhab
+  label: My Son's/Daughter's Health and Behaviour
+  created_at: 2016-04-06 08:19:33.314858000 Z
+  updated_at: 2016-04-06 08:19:33.314858000 Z
+Instrument_174:
+  id: 964
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs_03_na
+  label: Neigbourhood Assessment
+  created_at: 2016-04-06 08:19:46.629189000 Z
+  updated_at: 2016-04-06 08:19:46.629189000 Z
+Instrument_175:
+  id: 965
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_94_pheaf
+  label: Partner's Health Events and Feelings
+  created_at: 2016-04-06 08:19:47.925319000 Z
+  updated_at: 2016-04-06 08:19:47.925319000 Z
+Instrument_176:
+  id: 966
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_94_yheaf
+  label: Your Health Events and Feelings
+  created_at: 2016-04-06 08:20:00.441570000 Z
+  updated_at: 2016-04-06 08:20:00.441570000 Z
+Instrument_177:
+  id: 967
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_95_dahomsd
+  label: Development and Health of My Son/Daughter
+  created_at: 2016-04-06 08:20:25.144040000 Z
+  updated_at: 2016-04-06 08:20:25.144040000 Z
+Instrument_178:
+  id: 968
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs_03_cmq
+  label: Cohort Member Cognitive Assessment and Physical Measurements
+  created_at: 2016-04-06 08:20:44.664992000 Z
+  updated_at: 2016-04-06 08:20:44.664992000 Z
+Instrument_179:
+  id: 969
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_92_bgt
+  label: Boy/Girl Toddler
+  created_at: 2016-04-06 08:20:45.519077000 Z
+  updated_at: 2016-04-06 08:20:45.519077000 Z
+Instrument_180:
+  id: 970
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_72_ss
+  label: Doctor Interview
+  created_at: 2016-04-06 08:20:58.963422000 Z
+  updated_at: 2016-04-06 08:20:58.963422000 Z
+Instrument_181:
+  id: 971
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_74_ss
+  label: Doctor Interview
+  created_at: 2016-04-06 08:20:59.042430000 Z
+  updated_at: 2016-04-06 08:20:59.042430000 Z
+Instrument_182:
+  id: 972
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs_03_mapa
+  label: Cohort Member Cognitive Assessment and Physical Measurements
+  created_at: 2016-04-06 08:20:59.146440000 Z
+  updated_at: 2016-04-06 08:20:59.146440000 Z
+Instrument_183:
+  id: 973
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs03_teacher
+  label: mcs03_teacher_instr01
+  created_at: 2016-04-06 08:20:59.432469000 Z
+  updated_at: 2016-04-06 08:20:59.432469000 Z
+Instrument_184:
+  id: 974
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_02_sc_2
+  label: Biomedical Paper Self Completion Two
+  created_at: 2016-04-06 08:21:09.182444000 Z
+  updated_at: 2016-04-06 08:21:09.182444000 Z
+Instrument_185:
+  id: 975
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_followup_2012
+  label: bcs_followup_2012_instr01
+  created_at: 2016-04-06 08:21:13.511876000 Z
+  updated_at: 2016-04-06 08:21:13.511876000 Z
+Instrument_186:
+  id: 976
+  agency: uk.cls
+  version: '1.0'
+  prefix: lsype8
+  label: lsype8_instr01
+  created_at: 2016-04-06 08:21:18.850410000 Z
+  updated_at: 2016-04-06 08:21:18.850410000 Z
+Instrument_187:
+  id: 977
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_02_sc_1
+  label: Biomedical Paper Self Completion One
+  created_at: 2016-04-06 08:21:19.071432000 Z
+  updated_at: 2016-04-06 08:21:19.071432000 Z
+Instrument_188:
+  id: 978
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds9
+  label: ncds9_instr01
+  created_at: 2016-04-06 08:21:23.697895000 Z
+  updated_at: 2016-04-06 08:21:23.697895000 Z
+Instrument_189:
+  id: 979
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_97_pl
+  label: Partner's Lifestyle
+  created_at: 2016-04-06 08:21:52.003725000 Z
+  updated_at: 2016-04-06 08:21:52.003725000 Z
+Instrument_190:
+  id: 980
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_mt
+  label: My Teeth
+  created_at: 2016-04-06 08:22:01.371662000 Z
+  updated_at: 2016-04-06 08:22:01.371662000 Z
+Instrument_191:
+  id: 981
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_rat
+  label: Rings and Things
+  created_at: 2016-04-06 08:22:04.350960000 Z
+  updated_at: 2016-04-06 08:22:04.350960000 Z
+Instrument_192:
+  id: 982
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_qht
+  label: QUESTIONNAIRE FOR THE HEAD TEACHER
+  created_at: 2016-04-06 08:22:07.587283000 Z
+  updated_at: 2016-04-06 08:22:07.587283000 Z
+Instrument_193:
+  id: 983
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_gac2
+  label: Growing and Changing (2) Boy
+  created_at: 2016-04-06 08:22:14.171942000 Z
+  updated_at: 2016-04-06 08:22:14.171942000 Z
+Instrument_194:
+  id: 984
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_02_ysa
+  label: alspac_02_ysa_instr01
+  created_at: 2016-04-06 08:22:15.204045000 Z
+  updated_at: 2016-04-06 08:22:15.204045000 Z
+Instrument_195:
+  id: 985
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_98_ynq
+  label: alspac_98_ynq_instr01
+  created_at: 2016-04-06 08:22:15.304055000 Z
+  updated_at: 2016-04-06 08:22:15.304055000 Z
+Instrument_196:
+  id: 986
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_ays
+  label: About Your School
+  created_at: 2016-04-06 08:22:15.531078000 Z
+  updated_at: 2016-04-06 08:22:15.531078000 Z
+Instrument_197:
+  id: 987
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_98_msdas
+  label: My Son at School
+  created_at: 2016-04-06 08:22:21.140639000 Z
+  updated_at: 2016-04-06 08:22:21.140639000 Z
+Instrument_198:
+  id: 988
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_98_pah
+  label: Partner and Home
+  created_at: 2016-04-06 08:22:41.368661000 Z
+  updated_at: 2016-04-06 08:22:41.368661000 Z
+Instrument_199:
+  id: 989
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_smam
+  label: Some more about me
+  created_at: 2016-04-06 08:22:58.329357000 Z
+  updated_at: 2016-04-06 08:22:58.329357000 Z
+Instrument_200:
+  id: 990
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_mq
+  label: My Questionnaire
+  created_at: 2016-04-06 08:23:01.438668000 Z
+  updated_at: 2016-04-06 08:23:01.438668000 Z
+Instrument_201:
+  id: 991
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_mams
+  label: Me and My School
+  created_at: 2016-04-06 08:23:02.016726000 Z
+  updated_at: 2016-04-06 08:23:02.016726000 Z
+Instrument_202:
+  id: 992
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_moa9yo
+  label: Mother of a 9 year old
+  created_at: 2016-04-06 08:23:04.284953000 Z
+  updated_at: 2016-04-06 08:23:04.284953000 Z
+Instrument_203:
+  id: 993
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_97_yoq
+  label: alspac_97_yoq_instr01
+  created_at: 2016-04-06 08:23:22.419766000 Z
+  updated_at: 2016-04-06 08:23:22.419766000 Z
+Instrument_204:
+  id: 994
+  agency: uk.cls
+  version: '1.0'
+  prefix: alspac_98_msq
+  label: alspac_98_msq_instr01
+  created_at: 2016-04-06 08:23:22.494773000 Z
+  updated_at: 2016-04-06 08:23:22.494773000 Z
+Instrument_205:
+  id: 995
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_msdw
+  label: My Son/Daughter's Well-being
+  created_at: 2016-04-06 08:23:22.818806000 Z
+  updated_at: 2016-04-06 08:23:22.818806000 Z
+Instrument_206:
+  id: 996
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_foa9yo
+  label: FATHER OF A 9 YEAR OLD
+  created_at: 2016-04-06 08:23:36.470171000 Z
+  updated_at: 2016-04-06 08:23:36.470171000 Z
+Instrument_207:
+  id: 997
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_msdms
+  label: Your son at 9
+  created_at: 2016-04-06 08:23:37.646288000 Z
+  updated_at: 2016-04-06 08:23:37.646288000 Z
+Instrument_208:
+  id: 998
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_98_gu
+  label: Growing Up
+  created_at: 2016-04-06 08:23:52.526776000 Z
+  updated_at: 2016-04-06 08:23:52.526776000 Z
+Instrument_209:
+  id: 999
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_96_mfyosd
+  label: My Five Year Old Son/Daughter
+  created_at: 2016-04-06 08:23:53.324856000 Z
+  updated_at: 2016-04-06 08:23:53.324856000 Z
+Instrument_210:
+  id: 1000
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_96_msbg
+  label: " My School Girl/Boy"
+  created_at: 2016-04-06 08:24:09.104434000 Z
+  updated_at: 2016-04-06 08:24:09.104434000 Z
+Instrument_211:
+  id: 1001
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_97_msdgu
+  label: My Daughter Growing Up
+  created_at: 2016-04-06 08:24:23.788902000 Z
+  updated_at: 2016-04-06 08:24:23.788902000 Z
+Instrument_212:
+  id: 1002
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_98_mah
+  label: Mother and Home
+  created_at: 2016-04-06 08:24:43.344858000 Z
+  updated_at: 2016-04-06 08:24:43.344858000 Z
+Instrument_213:
+  id: 1003
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_cba
+  label: Child's Behaviour and Abilities
+  created_at: 2016-04-06 08:25:00.779601000 Z
+  updated_at: 2016-04-06 08:25:00.779601000 Z
+Instrument_214:
+  id: 1004
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_qct
+  label: QUESTIONNAIRE FOR THE CLASS TEACHER
+  created_at: 2016-04-06 08:25:04.987022000 Z
+  updated_at: 2016-04-06 08:25:04.987022000 Z
+Instrument_215:
+  id: 1005
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_96_smq
+  label: Study Mother's Questionnaire
+  created_at: 2016-04-06 08:25:11.451668000 Z
+  updated_at: 2016-04-06 08:25:11.451668000 Z
+Instrument_216:
+  id: 1006
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_fatf
+  label: FATHER AND THE FAMILY
+  created_at: 2016-04-06 08:25:25.760099000 Z
+  updated_at: 2016-04-06 08:25:25.760099000 Z
+Instrument_217:
+  id: 1007
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_mhmfam
+  label: My hands, my feet and me
+  created_at: 2016-04-06 08:25:42.173740000 Z
+  updated_at: 2016-04-06 08:25:42.173740000 Z
+Instrument_218:
+  id: 1008
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_ayc
+  label: About Your Class
+  created_at: 2016-04-06 08:25:45.571080000 Z
+  updated_at: 2016-04-06 08:25:45.571080000 Z
+Instrument_219:
+  id: 1009
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_yays
+  label: You and Your Surroundings
+  created_at: 2016-04-06 08:25:51.033176000 Z
+  updated_at: 2016-04-06 08:25:51.033176000 Z
+Instrument_220:
+  id: 1010
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_96_ml
+  label: Mother's Lifestyle
+  created_at: 2016-04-06 08:26:06.733176000 Z
+  updated_at: 2016-04-06 08:26:06.733176000 Z
+Instrument_221:
+  id: 1011
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_99_maf
+  label: Mother and Family
+  created_at: 2016-04-06 08:26:17.604176000 Z
+  updated_at: 2016-04-06 08:26:17.604176000 Z
+Instrument_222:
+  id: 1012
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_01_tat
+  label: Teeth and Things
+  created_at: 2016-04-06 08:26:36.488176000 Z
+  updated_at: 2016-04-06 08:26:36.488176000 Z
+Instrument_223:
+  id: 1013
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_96_spq
+  label: Study Partner's Questionnaire
+  created_at: 2016-04-06 08:26:40.603176000 Z
+  updated_at: 2016-04-06 08:26:40.603176000 Z
+Instrument_224:
+  id: 1014
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_msdhs
+  label: My Son/Daughter at Home and at School
+  created_at: 2016-04-06 08:26:50.899176000 Z
+  updated_at: 2016-04-06 08:26:50.899176000 Z
+Instrument_225:
+  id: 1015
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_msdh
+  label: My Son/Daughter's Health
+  created_at: 2016-04-06 08:27:02.497176000 Z
+  updated_at: 2016-04-06 08:27:02.497176000 Z
+Instrument_226:
+  id: 1016
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_00_mw
+  label: My World
+  created_at: 2016-04-06 08:27:16.303176000 Z
+  updated_at: 2016-04-06 08:27:16.303176000 Z
+Instrument_227:
+  id: 1017
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_02_tdc
+  label: THE DEVELOPING CHILD
+  created_at: 2016-04-06 08:27:19.346176000 Z
+  updated_at: 2016-04-06 08:27:19.346176000 Z
+Instrument_228:
+  id: 1018
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_3_q3
+  label: sws_3_q3_instr01
+  created_at: 2016-04-06 08:27:22.324176000 Z
+  updated_at: 2016-04-06 08:27:22.324176000 Z
+Instrument_229:
+  id: 1019
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_7_visit
+  label: sws_7_visit_instr01
+  created_at: 2016-04-06 08:27:22.428176000 Z
+  updated_at: 2016-04-06 08:27:22.428176000 Z
+Instrument_230:
+  id: 1020
+  agency: uk.sotonmrc.sws
+  version: '1.0'
+  prefix: sws_3_q2
+  label: Pregnancy Questionnaire Short Version
+  created_at: 2016-04-06 08:27:22.607176000 Z
+  updated_at: 2016-04-06 08:27:22.607176000 Z
+Instrument_231:
+  id: 1021
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_4_q3
+  label: sws_4_q3_instr01
+  created_at: 2016-04-06 08:27:26.453176000 Z
+  updated_at: 2016-04-06 08:27:26.453176000 Z
+Instrument_232:
+  id: 1022
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_2_clinic
+  label: sws_2_clinic_instr01
+  created_at: 2016-04-06 08:27:26.551176000 Z
+  updated_at: 2016-04-06 08:27:26.551176000 Z
+Instrument_233:
+  id: 1023
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_5_visit
+  label: sws_5_visit_instr01
+  created_at: 2016-04-06 08:27:26.653176000 Z
+  updated_at: 2016-04-06 08:27:26.653176000 Z
+Instrument_234:
+  id: 1024
+  agency: uk.mrcleu-uos.sws
+  version: '1.0'
+  prefix: sws_2_visit
+  label: 6 Month
+  created_at: 2016-04-06 08:27:26.972176000 Z
+  updated_at: 2016-04-06 08:27:26.972176000 Z
+Instrument_235:
+  id: 1025
+  agency: uk.mrcleu-uos.sws
+  version: '1.0'
+  prefix: sws_4_visit
+  label: 12 Month Infancy Questionnaire
+  created_at: 2016-04-06 08:27:37.724176000 Z
+  updated_at: 2016-04-06 08:27:37.724176000 Z
+Instrument_236:
+  id: 1026
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_5_bio
+  label: sws_5_bio_instr01
+  created_at: 2016-04-06 08:27:48.162176000 Z
+  updated_at: 2016-04-06 08:27:48.162176000 Z
+Instrument_237:
+  id: 1027
+  agency: uk.sotonmrc.sws
+  version: '1.0'
+  prefix: sws_2_bio
+  label: Early Pregnancy Questionnaire
+  created_at: 2016-04-06 08:27:48.383176000 Z
+  updated_at: 2016-04-06 08:27:48.383176000 Z
+Instrument_238:
+  id: 1028
+  agency: uk.mrcleu-uos.sws
+  version: '1.0'
+  prefix: sws_3_clinic
+  label: Obstetric form
+  created_at: 2016-04-06 08:27:55.589176000 Z
+  updated_at: 2016-04-06 08:27:55.589176000 Z
+Instrument_239:
+  id: 1029
+  agency: uk.mrcleu-uos.sws
+  version: '1.0'
+  prefix: sws_4_bio
+  label: Late Pregnancy Questionnaire
+  created_at: 2016-04-06 08:28:02.241176000 Z
+  updated_at: 2016-04-06 08:28:02.241176000 Z
+Instrument_240:
+  id: 1030
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_5_clinic
+  label: sws_5_clinic_instr01
+  created_at: 2016-04-06 08:28:08.177176000 Z
+  updated_at: 2016-04-06 08:28:08.177176000 Z
+Instrument_241:
+  id: 1031
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_1_visit
+  label: sws_1_visit_instr01
+  created_at: 2016-04-06 08:28:08.270176000 Z
+  updated_at: 2016-04-06 08:28:08.270176000 Z
+Instrument_242:
+  id: 1032
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_9_visit
+  label: sws_9_visit_instr01
+  created_at: 2016-04-06 08:28:08.351176000 Z
+  updated_at: 2016-04-06 08:28:08.351176000 Z
+Instrument_243:
+  id: 1033
+  agency: uk.sotonmrc.sws
+  version: '1.0'
+  prefix: sws_1_bio
+  label: Initial Questionnaire
+  created_at: 2016-04-06 08:28:08.624176000 Z
+  updated_at: 2016-04-06 08:28:08.624176000 Z
+Instrument_244:
+  id: 1034
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_6_visit
+  label: sws_6_visit_instr01
+  created_at: 2016-04-06 08:28:23.382176000 Z
+  updated_at: 2016-04-06 08:28:23.382176000 Z
+Instrument_245:
+  id: 1035
+  agency: uk.cls
+  version: '1.0'
+  prefix: sws_8_visit
+  label: sws_8_visit_instr01
+  created_at: 2016-04-06 08:28:23.467176000 Z
+  updated_at: 2016-04-06 08:28:23.467176000 Z
+Instrument_246:
+  id: 1036
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_80_fmt
+  label: Friendly Maths Test
+  created_at: 2016-04-06 08:28:23.570176000 Z
+  updated_at: 2016-04-06 08:28:23.570176000 Z
+Instrument_247:
+  id: 1037
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_65_t
+  label: Test Booklet
+  created_at: 2016-04-06 08:28:24.838176000 Z
+  updated_at: 2016-04-06 08:28:24.838176000 Z
+Instrument_248:
+  id: 1038
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_69_t
+  label: Test Booklet
+  created_at: 2016-04-06 08:28:25.050176000 Z
+  updated_at: 2016-04-06 08:28:25.050176000 Z
+Instrument_249:
+  id: 1039
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_69_mq
+  label: Medical Questionnaire
+  created_at: 2016-04-06 08:28:26.004176000 Z
+  updated_at: 2016-04-06 08:28:26.004176000 Z
+Instrument_250:
+  id: 1040
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_53_sahsr_2
+  label: nshd_53_sahsr_2_instr01
+  created_at: 2016-04-06 08:28:26.064176000 Z
+  updated_at: 2016-04-06 08:28:26.064176000 Z
+Instrument_251:
+  id: 1041
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_54_iwm
+  label: School Nurse's Interview with Mother
+  created_at: 2016-04-06 08:28:26.266176000 Z
+  updated_at: 2016-04-06 08:28:26.266176000 Z
+Instrument_252:
+  id: 1042
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_57_sq
+  label: Questionnaire on Schools Attended by Survey Children
+  created_at: 2016-04-06 08:28:32.857176000 Z
+  updated_at: 2016-04-06 08:28:32.857176000 Z
+Instrument_253:
+  id: 1043
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_80_pi
+  label: Parental Interview
+  created_at: 2016-04-06 08:28:35.145176000 Z
+  updated_at: 2016-04-06 08:28:35.145176000 Z
+Instrument_254:
+  id: 1044
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_52_sd
+  label: Examination by the school doctor
+  created_at: 2016-04-06 08:28:48.612176000 Z
+  updated_at: 2016-04-06 08:28:48.612176000 Z
+Instrument_255:
+  id: 1045
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_53_sahsr_1
+  label: nshd_53_sahsr_1_instr01
+  created_at: 2016-04-06 08:28:55.676176000 Z
+  updated_at: 2016-04-06 08:28:55.676176000 Z
+Instrument_256:
+  id: 1046
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_56_sq
+  label: nshd_56_sq_instr01
+  created_at: 2016-04-06 08:28:55.785176000 Z
+  updated_at: 2016-04-06 08:28:55.785176000 Z
+Instrument_257:
+  id: 1047
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_75_dhs
+  label: Developmental History Schedule
+  created_at: 2016-04-06 08:28:56.030176000 Z
+  updated_at: 2016-04-06 08:28:56.030176000 Z
+Instrument_258:
+  id: 1048
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_75_bi
+  label: Test Booklet
+  created_at: 2016-04-06 08:29:00.560176000 Z
+  updated_at: 2016-04-06 08:29:00.560176000 Z
+Instrument_259:
+  id: 1049
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_80_ossc
+  label: Educational Score Form
+  created_at: 2016-04-06 08:29:00.864176000 Z
+  updated_at: 2016-04-06 08:29:00.864176000 Z
+Instrument_260:
+  id: 1050
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_80_qi
+  label: Educational Questionnaire
+  created_at: 2016-04-06 08:29:11.720176000 Z
+  updated_at: 2016-04-06 08:29:11.720176000 Z
+Instrument_261:
+  id: 1051
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs_07_csc
+  label: Cohort Member Paper Self Completion
+  created_at: 2016-04-06 08:29:11.884176000 Z
+  updated_at: 2016-04-06 08:29:11.884176000 Z
+Instrument_262:
+  id: 1052
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_54_st
+  label: nshd_54_st_instr01
+  created_at: 2016-04-06 08:29:13.736176000 Z
+  updated_at: 2016-04-06 08:29:13.736176000 Z
+Instrument_263:
+  id: 1053
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_55_ar
+  label: nshd_55_ar_instr01
+  created_at: 2016-04-06 08:29:13.835176000 Z
+  updated_at: 2016-04-06 08:29:13.835176000 Z
+Instrument_264:
+  id: 1054
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_57_sd
+  label: Examination by the School Doctor 1957
+  created_at: 2016-04-06 08:29:14.110176000 Z
+  updated_at: 2016-04-06 08:29:14.110176000 Z
+Instrument_265:
+  id: 1055
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_80_bas
+  label: British Ability Scales
+  created_at: 2016-04-06 08:29:20.068176000 Z
+  updated_at: 2016-04-06 08:29:20.068176000 Z
+Instrument_266:
+  id: 1056
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_65_eq
+  label: Educational Questionnaire
+  created_at: 2016-04-06 08:29:20.272176000 Z
+  updated_at: 2016-04-06 08:29:20.272176000 Z
+Instrument_267:
+  id: 1057
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_65_pq
+  label: Parental Questionnaire
+  created_at: 2016-04-06 08:29:23.991176000 Z
+  updated_at: 2016-04-06 08:29:23.991176000 Z
+Instrument_268:
+  id: 1058
+  agency: uk.cls
+  version: '1.0'
+  prefix: ncds_69_eq
+  label: Educational Questionnaire
+  created_at: 2016-04-06 08:29:36.993176000 Z
+  updated_at: 2016-04-06 08:29:36.993176000 Z
+Instrument_269:
+  id: 1059
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds_69_pq
+  label: Parental Interview Form
+  created_at: 2016-04-06 08:29:39.108176000 Z
+  updated_at: 2016-04-06 08:29:39.108176000 Z
+Instrument_270:
+  id: 1060
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_80_msc
+  label: Maternal Self Completion
+  created_at: 2016-04-06 08:29:52.589176000 Z
+  updated_at: 2016-04-06 08:29:52.589176000 Z
+Instrument_271:
+  id: 1061
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs_05_ossc
+  label: Older Sibling Self Completion
+  created_at: 2016-04-06 08:29:57.130176000 Z
+  updated_at: 2016-04-06 08:29:57.130176000 Z
+Instrument_272:
+  id: 1062
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs_05_ts
+  label: Teacher Paper Questionnaire
+  created_at: 2016-04-06 08:29:59.629176000 Z
+  updated_at: 2016-04-06 08:29:59.629176000 Z
+Instrument_273:
+  id: 1063
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_52_iwm
+  label: School Nurse's  Interview with Mother
+  created_at: 2016-04-06 08:30:10.467176000 Z
+  updated_at: 2016-04-06 08:30:10.467176000 Z
+Instrument_274:
+  id: 1064
+  agency: uk.cls
+  version: '1.0'
+  prefix: bcs_80_ss
+  label: bcs_80_ss_instr01
+  created_at: 2016-04-06 08:30:17.391176000 Z
+  updated_at: 2016-04-06 08:30:17.391176000 Z
+Instrument_275:
+  id: 1065
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_53_sq
+  label: 1953 School questionnaire
+  created_at: 2016-04-06 08:30:17.517176000 Z
+  updated_at: 2016-04-06 08:30:17.517176000 Z
+Instrument_276:
+  id: 1066
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_80_pqf
+  label: Pupil Question Form
+  created_at: 2016-04-06 08:30:18.599176000 Z
+  updated_at: 2016-04-06 08:30:18.599176000 Z
+Instrument_277:
+  id: 1067
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_57_iwm
+  label: Interview With Mother
+  created_at: 2016-04-06 08:30:21.230176000 Z
+  updated_at: 2016-04-06 08:30:21.230176000 Z
+Instrument_278:
+  id: 1068
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_57_st
+  label: nshd_57_st_instr01
+  created_at: 2016-04-06 08:30:26.931176000 Z
+  updated_at: 2016-04-06 08:30:26.931176000 Z
+Instrument_279:
+  id: 1069
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_75_hi
+  label: Home Interview Questionnaire
+  created_at: 2016-04-06 08:30:27.371176000 Z
+  updated_at: 2016-04-06 08:30:27.371176000 Z
+Instrument_280:
+  id: 1070
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs_05_sap
+  label: Sally Ann Protocol
+  created_at: 2016-04-06 08:30:41.874176000 Z
+  updated_at: 2016-04-06 08:30:41.874176000 Z
+Instrument_281:
+  id: 1071
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_54_ar
+  label: nshd_54_ar_instr01
+  created_at: 2016-04-06 08:30:41.963176000 Z
+  updated_at: 2016-04-06 08:30:41.963176000 Z
+Instrument_282:
+  id: 1072
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_55_iwm
+  label: School Nurse's Interview with Mother 1955
+  created_at: 2016-04-06 08:30:42.166176000 Z
+  updated_at: 2016-04-06 08:30:42.166176000 Z
+Instrument_283:
+  id: 1073
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs_75_mcs
+  label: Maternal Self Completion
+  created_at: 2016-04-06 08:30:45.756176000 Z
+  updated_at: 2016-04-06 08:30:45.756176000 Z
+Instrument_284:
+  id: 1074
+  agency: uk.cls
+  version: '1.0'
+  prefix: nshd_53_ar
+  label: nshd_53_ar_instr01
+  created_at: 2016-04-06 08:30:49.469176000 Z
+  updated_at: 2016-04-06 08:30:49.469176000 Z
+Instrument_285:
+  id: 1075
+  agency: uk.lha
+  version: '1.0'
+  prefix: nshd_53_sd
+  label: School Doctor
+  created_at: 2016-04-06 08:30:49.661176000 Z
+  updated_at: 2016-04-06 08:30:49.661176000 Z
+Instrument_286:
+  id: 1076
+  agency: uk.cls.bcs70
+  version: '1.0'
+  prefix: bcs9_sc
+  label: Age 42 Self-Completion Questionnaire
+  created_at: 2016-04-06 08:30:55.422176000 Z
+  updated_at: 2016-04-06 08:30:55.422176000 Z
+Instrument_287:
+  id: 1077
+  agency: uk.cls.mcs
+  version: '1.0'
+  prefix: mcs5_teacher_survey
+  label: Teacher Paper Questionnaire
+  created_at: 2016-04-06 08:31:01.538176000 Z
+  updated_at: 2016-04-06 08:31:01.538176000 Z
+Instrument_288:
+  id: 1078
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_16year_cc
+  label: Life of a 16+ Teenager
+  created_at: 2016-04-06 08:31:07.257176000 Z
+  updated_at: 2016-04-06 08:31:07.257176000 Z
+Instrument_289:
+  id: 1079
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_12weeks
+  label: About Yourself
+  created_at: 2016-04-06 08:31:24.615176000 Z
+  updated_at: 2016-04-06 08:31:24.615176000 Z
+Instrument_290:
+  id: 1080
+  agency: uk.cls
+  version: '1.0'
+  prefix: mcs5_pq_ch
+  label: mcs5_pq_ch_instr01
+  created_at: 2016-04-06 08:31:35.431176000 Z
+  updated_at: 2016-04-06 08:31:35.431176000 Z
+Instrument_291:
+  id: 1081
+  agency: uk.cls.ncds
+  version: '1.0'
+  prefix: ncds8_sc
+  label: Cohort Member Paper Self Completion
+  created_at: 2016-04-06 08:31:59.577176000 Z
+  updated_at: 2016-04-06 08:31:59.577176000 Z

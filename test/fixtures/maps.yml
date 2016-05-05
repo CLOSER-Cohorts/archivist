@@ -1,15 +1,1 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-#one:
-#  source_id: 
-#  source_type: Source
-#  variable_id: 
-#  x: 1
-#  'y': 1
-
-#two:
-#  source_id: 
-#  source_type: Source
-#  variable_id: 
-#  x: 1
-#  'y': 1
+--- {}

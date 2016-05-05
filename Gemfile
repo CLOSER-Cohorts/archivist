@@ -56,6 +56,8 @@ gem 'bower-rails'
 gem 'angular-rails-templates', '0.2.0'
 gem 'skylight'
 gem 'parallel'
+gem 'oj'
+gem 'jbuilder_cache_multi'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -70,10 +72,14 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
+  gem 'rails-erd'
+  gem 'db_fixtures_dump'
+end
+
+group :test do
   # Performance testing
   gem 'rails-perftest'
   gem 'ruby-prof'
-  gem 'rails-erd'
 end
 
 gem 'coveralls', require: false
