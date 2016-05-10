@@ -58,6 +58,7 @@ gem 'skylight'
 gem 'parallel'
 gem 'oj'
 gem 'jbuilder_cache_multi'
+gem 'postmark-rails', '>= 0.10.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

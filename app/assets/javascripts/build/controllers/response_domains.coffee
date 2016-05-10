@@ -48,6 +48,8 @@ angular.module('archivist.build').controller(
 
               $scope.current = angular.copy rd
               $scope.editMode = false
+              if $scope.current?
+                RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
               break
 
         null

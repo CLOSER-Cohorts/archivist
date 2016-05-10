@@ -49,6 +49,9 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
       that.data[@index 'get', parameters] = null
       that.get(parameters, success, error)
 
+    @clearCache = ->
+      that.data = {}
+
     this
 ])
 

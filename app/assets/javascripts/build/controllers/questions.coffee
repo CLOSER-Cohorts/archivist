@@ -57,9 +57,13 @@ angular.module('archivist.build').controller(
             $scope.current = angular.copy $scope.instrument.Questions.Grids.select_resource_by_id parseInt $routeParams.question_id
             $scope.title = 'Question Grid'
           $scope.editMode = false
-          RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
+          if $scope.current?
+            RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
 
         null
+
+      $scope.new = ->
+        $scope.change_panel {type: null, id: 'new'}
 
       $scope.after_instrument_loaded = ->
         console.log 'here'

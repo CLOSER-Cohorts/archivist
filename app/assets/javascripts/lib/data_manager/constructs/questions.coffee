@@ -22,6 +22,11 @@ questions.factory(
           'instruments/:instrument_id/question_grids/:id.json',
           {id: '@id', instrument_id: '@instrument_id'}
         )
+
+        clearCache: ->
+          cc.clearCache() if cc?
+          item.clearCache() if item?
+          grid.clearCache() if grid?
       }
   ]
 )

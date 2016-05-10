@@ -19,11 +19,16 @@ angular.module('archivist.build').controller(
 
       $scope.reset = () ->
         console.log "reset called"
-        if $routeParams.code_list_id?
+        if not isNaN($routeParams.code_list_id)
           $scope.current = angular.copy $scope.instrument.CodeLists.select_resource_by_id parseInt $routeParams.code_list_id
           $scope.editMode = false
-          RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
-        null
+          if $scope.current?
+            RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
+        if $routeParams.code_list_id == 'new'
+          $scope.editMode = true
+
+      $scope.new = ->
+        $scope.change_panel {type: 'CodeList', id: 'new'}
 
       $scope.after_instrument_loaded = ->
         get_count_from_used_by = (cl)->

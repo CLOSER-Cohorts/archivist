@@ -1,7 +1,8 @@
 module BaseController
   extend ActiveSupport::Concern
   included do
-
+    after_action :verify_policy_scoped, only: :index
+    before_action :authenticate_user!
   end
   module ClassMethods
     def add_basic_actions(options = {})
