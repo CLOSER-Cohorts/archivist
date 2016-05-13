@@ -12,6 +12,18 @@ angular.module('archivist.build').controller(
     'RealTimeLocking',
     ($controller, $scope, $routeParams, $location, $filter, Flash, DataManager, RealTimeListener, RealTimeLocking)->
 
+      $scope.save =  ->
+        angular.copy $scope.current, $scope.instrument.CodeLists.select_resource_by_id(parseInt($routeParams.code_list_id))
+        $scope.instrument.CodeLists.select_resource_by_id(parseInt($routeParams.code_list_id)).$save(
+          {}
+        ,(value, rh)->
+          value['instrument_id'] = $scope.instrument.id
+          Flash.add('success', 'Code list updated successfully!')
+          $scope.reset()
+        ,->
+          console.log("error")
+        )
+
       $scope.title = 'Code Lists'
       $scope.instrument_options = {
         codes: true
