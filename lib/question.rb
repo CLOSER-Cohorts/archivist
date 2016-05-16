@@ -1,4 +1,7 @@
 module Question
+end
+
+module Question::Model
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
@@ -17,6 +20,47 @@ module Question
     def response_domains
       self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
           self.response_domain_numerics.to_a + self.response_domain_texts.to_a
+    end
+
+    def instruction=(text)
+      if text.nil?
+        self.instruction = nil
+      else
+        if self.instruction.nil?
+          association(:instruction).writer Instruction.new text: text, instrument: self.instrument
+        else
+          association(:instruction).reader().text = text
+        end
+      end
+    end
+  end
+end
+
+module Question::Controller
+  extend ActiveSupport::Concern
+  include BaseInstrumentController
+  included do
+  end
+
+  module ClassMethods
+    def add_basic_actions(options = {})
+      super options
+      include Question::Controller::Actions
+    end
+  end
+
+  module Actions
+    def create
+      @object = collection.new(safe_params)
+      if @object.save
+        if params.has_key? :instruction
+          @object.instruction = params[:instruction]
+          @object.save!
+        end
+        render :show, status: :created
+      else
+        render json: @object.errors, status: :unprocessable_entity
+      end
     end
   end
 end

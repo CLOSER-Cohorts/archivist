@@ -60,7 +60,7 @@ class CodeList < ActiveRecord::Base
         new_code = Code.new
         new_code.order = new_code_values[:order]
         new_code.value = new_code_values[:value]
-        new_code.set_label new_code_values[:label], self.instrument.id
+        new_code.set_label new_code_values[:label], self.instrument
         self.codes << new_code
       end
 

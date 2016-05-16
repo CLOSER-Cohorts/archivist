@@ -6,11 +6,15 @@ angular.module('archivist.build').controller(
     '$routeParams',
     '$location',
     '$filter',
+    '$timeout',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+
+      $scope.load_sidebar = ->
+        $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains)
 
       $scope.title = 'Response Domains'
       $scope.extra_url_parameters = [
@@ -19,6 +23,31 @@ angular.module('archivist.build').controller(
       $scope.instrument_options = {
         rds: true
       }
+
+      $scope.delete = ->
+        switch $routeParams.response_domain_type
+          when 'response_domain_texts' then rd_type = 'ResponseDomainText'
+          when 'response_domain_datetimes' then rd_type = 'ResponseDomainDatetime'
+          when 'response_domain_numerics' then rd_type = 'ResponseDomainNumeric'
+          else rd_type = false
+
+        if rd_type?
+          index = $scope.instrument.ResponseDomains.get_index_by_id_and_type(parseInt($routeParams.response_domain_id, rd_type))
+          if index?
+            $scope.instrument.ResponseDomains[index].$delete(
+              {},
+              ->
+                $scope.instrument.ResponseDomains.splice index, 1
+                $scope.load_sidebar()
+                $timeout(
+                  ->
+                    if $scope.instrument.ResponseDomains.length > 0
+                      $scope.change_panel $scope.instrument.ResponseDomains[0]
+                    else
+                      $scope.change_panel {type: rd_type, id: 'new'}
+                ,0
+                )
+            )
 
       $scope.save = ->
         switch $routeParams.response_domain_type
@@ -51,11 +80,21 @@ angular.module('archivist.build').controller(
               if $scope.current?
                 RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
               break
+        if $routeParams.response_domain_type == 'new'
+          $scope.editMode = true
+          $scope.current = new DataManager.Codes.CodeLists.resource({codes: []});
+        null
 
+      $scope.new = ->
+        $timeout(
+          ->
+            $scope.change_panel {type: null, id: 'new'}
+        ,0
+        )
         null
 
       $scope.after_instrument_loaded = ->
-        $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains)
+        $scope.load_sidebar()
 
       $controller(
         'BaseBuildController',
@@ -63,6 +102,7 @@ angular.module('archivist.build').controller(
           $scope: $scope,
           $routeParams: $routeParams,
           $location: $location,
+          $timeout: $timeout,
           Flash: Flash,
           DataManager: DataManager,
           RealTimeListener: RealTimeListener,

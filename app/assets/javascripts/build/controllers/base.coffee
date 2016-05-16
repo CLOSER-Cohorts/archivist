@@ -4,11 +4,12 @@ angular.module('archivist.build').controller(
     '$scope',
     '$routeParams',
     '$location',
+    '$timeout',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($scope, $routeParams, $location, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($scope, $routeParams, $location, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
 
       $scope.page['title'] = $scope.title
       $scope.underscored = $scope.title.toLowerCase().replaceAll(' ','_')
@@ -32,12 +33,19 @@ angular.module('archivist.build').controller(
             {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
             {label: $scope.title, link: false, active: true}
           ]
+
+          $timeout(
+            ->
+              #TODO: Remove DOM code from controllers
+              jQuery('.first-field').first().focus()
+            ,0
+          )
           $scope.after_instrument_loaded?()
           console.log $scope
       )
 
       if !$scope.cancel?
-        $scope.cancel = () ->
+        $scope.cancel = ->
           console.log "cancel called"
           if $scope.newMode
 

@@ -16,6 +16,15 @@
         <div class="edit-cancel-save" data-ng-if="!hide_edit_buttons">
             <button
                     type="button"
+                    class="btn btn-danger lockable"
+                    data-ng-show="!editMode"
+                    data-toggle="modal"
+                    data-target="#delete-confirm"
+            >
+                Delete
+            </button>
+            <button
+                    type="button"
                     class="btn btn-primary lockable"
                     data-ng-show="!editMode"
                     data-ng-click="startEditMode()"
@@ -48,3 +57,6 @@
 
     <div data-ng-if="details" data-ng-include="'partials/build/details.html'" class="col-sm-4 col-md-3 sidebar sidebar-right" data-resume-scroll="details"></div>
 </div>
+
+<div data-ng-include="'partials/build/modals/new-question.html'"></div>
+<div data-ng-include="'partials/build/modals/delete-confirm.html'"></div>

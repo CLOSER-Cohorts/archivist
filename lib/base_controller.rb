@@ -61,7 +61,7 @@ module BaseController
     def destroy
       begin
         @object.destroy
-        head :no_content
+        head :ok
       rescue
         head :bad_request
       end

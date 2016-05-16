@@ -5,7 +5,7 @@
         </label>
         <input
                 type="text"
-                class="form-control"
+                class="form-control first-field"
                 id="a-codelist-label"
                 placeholder="Label"
                 data-ng-model="current.label"
@@ -32,14 +32,14 @@
             <th>Category</th>
             <th></th>
         </tr>
-        <tr data-ng-repeat="code in current.codes | orderBy:'order'">
+        <tr data-ng-repeat="code in current.codes | orderBy:'order'" class="code">
             <td>
                 {{code.id}}
             </td>
             <td>
                 <input
                         type="text"
-                        class="form-control"
+                        class="form-control code-value"
                         placeholder="Value"
                         data-ng-model="code.value"
                         data-ng-disabled="!editMode"
@@ -48,7 +48,7 @@
             <td>
                 <input
                         type="text"
-                        class="form-control"
+                        class="form-control code-label"
                         placeholder="Category"
                         data-ng-model="code.label"
                         data-ng-disabled="!editMode"
@@ -63,6 +63,7 @@
                         class="btn btn-link"
                         data-ng-click="removeCode(code)"
                         data-ng-show="editMode"
+                        tabindex="-1"
                 >
                     Remove
                 </button>

@@ -106,7 +106,7 @@ angular.module('archivist.build').controller(
         console.time 'after instrument'
         constructSorter = (a, b)->
           a.position > b.position
-        if !DataManager.ConstructResolver?
+        if !$scope.instrument.topsequence.resolved
           DataManager.resolveConstructs()
           DataManager.resolveQuestions()
           sortChildren = (parent)->
@@ -125,19 +125,24 @@ angular.module('archivist.build').controller(
 
       $scope.new = ->
         $location.search {construct_type: null, construct_id: null}
-        $scope.current = {}
-        $scope.details = {fields: []}
-        $scope.details.fields.push {
-          label: 'Construct',
-          model: $scope.current.construct_type,
-          options:[
-            {value: 'condition', label: 'Condition'},
-            {value: 'loop', label: 'Loop'},
-            {value: 'quesiton', label: 'Question'},
-            {value: 'sequence', label: 'Sequence'},
-            {value: 'statement', label: 'Statement'}
-          ]
-        }
+        $scope.current = new DataManager.Constructs.Questions.cc.resource({
+          type: 'question',
+          label: ''
+        })
+        console.log $scope.current
+        $scope.reset()
+        #$scope.details = {fields: []}
+        #$scope.details.fields.push {
+        #  label: 'Construct',
+        #  model: $scope.current.construct_type,
+        #  options:[
+        #    {value: 'condition', label: 'Condition'},
+        #    {value: 'loop', label: 'Loop'},
+        #    {value: 'quesiton', label: 'Question'},
+        #    {value: 'sequence', label: 'Sequence'},
+        #    {value: 'statement', label: 'Statement'}
+        #  ]
+        #}
 
       console.time 'load base'
       $controller(
