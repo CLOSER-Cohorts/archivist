@@ -1,5 +1,5 @@
 class QuestionGrid < ActiveRecord::Base
-  include Question
+  include Question::Model
   belongs_to :vertical_code_list, class_name: 'CodeList'
   belongs_to :horizontal_code_list, class_name: 'CodeList'
 

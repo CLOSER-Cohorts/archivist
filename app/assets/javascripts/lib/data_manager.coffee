@@ -43,14 +43,21 @@ data_manager.factory(
 
       DataManager.Data = {}
 
-      DataManager.Data.ResponseDomains = {}
-      DataManager.Data.ResponseUnits = {}
-
-      DataManager.Data.InstrumentStats = {}
-
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
       DataManager.Codes = Codes
+
+      DataManager.clearCache = ->
+        DataManager.Data = {}
+        DataManager.Data.ResponseDomains = {}
+        DataManager.Data.ResponseUnits = {}
+        DataManager.Data.InstrumentStats = {}
+
+        DataManager.Instruments.clearCache()
+        DataManager.Constructs.clearCache()
+        DataManager.Codes.clearCache()
+
+      DataManager.clearCache()
 
       DataManager.getInstruments = (params, success, error)->
         DataManager.Data.Instruments = DataManager.Instruments.query params, success, error

@@ -3,7 +3,7 @@ class InstrumentsController < ApplicationController
 
   add_basic_actions require: ':instrument',
                     params: '[:agency, :version, :prefix, :label, :study]',
-                    collection: 'Instrument.all',
+                    collection: 'policy_scope(Instrument.all)',
                     only: [:copy, :response_domains, :reorder_ccs, :stats]
 
   def reorder_ccs

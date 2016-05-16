@@ -1,8 +1,8 @@
-asset 'angular'
-asset 'angular-route'
-asset 'angular-resource'
-asset 'angular-messages'
-asset 'angular-animate'
+asset 'angular', "1.4.10"
+asset 'angular-route', "1.4.10"
+asset 'angular-resource', "1.4.10"
+asset 'angular-messages', "1.4.10"
+asset 'angular-animate', "1.4.10"
 asset 'bootstrap-sass-official'
 asset 'angular-bootstrap'
 asset 'angular-ui-sortable'

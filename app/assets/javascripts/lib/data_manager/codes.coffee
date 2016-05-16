@@ -20,6 +20,10 @@ codes.factory(
       Codes.Categories      = Categories
       Codes.CodeResolver    = CodeResolver
 
+      Codes.clearCache = ->
+        Codes.CodeLists.clearCache()
+        Codes.Categories.clearCache()
+
       Codes
   ]
 )
