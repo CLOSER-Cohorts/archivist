@@ -42,7 +42,7 @@
                             class="form-control"
                             id="signup-email"
                             placeholder="Email"
-                            data-ng-model="newUser.email"
+                            data-ng-model="details.email"
                     >
                 </div>
                 <div class="form-group">
@@ -52,7 +52,7 @@
                             class="form-control"
                             id="signup-fname"
                             placeholder="First name"
-                            data-ng-model="newUser.fname"
+                            data-ng-model="details.fname"
                     >
                 </div>
                 <div class="form-group">
@@ -62,7 +62,7 @@
                             class="form-control"
                             id="signup-lname"
                             placeholder="Last name"
-                            data-ng-model="newUser.lname"
+                            data-ng-model="details.lname"
                     >
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@
                             class="form-control"
                             id="signup-password"
                             placeholder="Password"
-                            data-ng-model="newUser.password"
+                            data-ng-model="details.password"
                     >
                 </div>
                 <div class="form-group">
@@ -82,10 +82,20 @@
                             class="form-control"
                             id="signup-confirmation"
                             placeholder="Password again"
-                            data-ng-model="newUser.confirmation"
+                            data-ng-model="details.confirmation"
                     >
                 </div>
-                <button type="submit" class="btn btn-default">Sign Up</button>
+                <div class="form-group">
+                    <label for="signup-group">Group</label>
+                    <select
+                            class="form-control"
+                            id="signup-group"
+                            data-ng-model="details.group"
+                    >
+                        <option value="1" selected="selected">CLOSER</option>
+                    </select>
+                </div>
+                <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>
             </form>
         </div>
     </div>

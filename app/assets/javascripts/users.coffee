@@ -17,6 +17,19 @@ users.controller(
           $scope.publish_flash
           cred.password = ""
         )
+
+      $scope.sign_up = (details)->
+        $scope.user.set('email', details.email)
+        $scope.user.set('first_name', details.fname)
+        $scope.user.set('last_name', details.lname)
+        $scope.user.set('group_id', details.group)
+        $scope.user.sign_up(details.password, details.confirm).then(->
+          $location.path '/instruments'
+        ,->
+          $scope.publish_flash
+          details.password = ""
+          details.confirm = ""
+        )
   ]
 )
 
@@ -35,6 +48,7 @@ users.factory(
           'first_name'
           'last_name'
           'group',
+          'group_id',
           'role'
         ]
 
@@ -69,6 +83,7 @@ users.factory(
             self.logged_in = false
 
         sign_up: (password, confirmation)->
+          console.log @
           $http.post(
             '/users.json',
             {
