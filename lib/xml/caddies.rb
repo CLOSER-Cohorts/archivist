@@ -68,8 +68,8 @@ module XML::CADDIES
       @instruction_index = {}
       instructions.each do |instruction|
         instr = Instruction.new({text: instruction.at_xpath("d:InstructionText/d:LiteralText/d:Text").content})
-        @instruction_index[instruction.at_xpath("r:URN").content] = instr
         @instrument.instructions << instr
+        @instruction_index[instruction.at_xpath("r:URN").content] = instr
       end
     end
 
@@ -161,7 +161,7 @@ module XML::CADDIES
         #Adding instruction
         instr = question_item.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
-          qi.instruction = @instruction_index[instr.content]
+          qi.association(:instruction).writer @instruction_index[instr.content]
         end
         @instrument.question_items << qi
       end

@@ -9,13 +9,15 @@ class InstrumentsController < ApplicationController
   def reorder_ccs
     unless params[:updates].nil?
       params[:updates].each do |u|
-        cc = @object.send(u[:type] + 's').find(u[:id])
-        parent = @object.send(u[:parent][:type] + 's').find(u[:parent][:id])
-        unless cc.nil? or parent.nil?
-          cc.position = u[:position]
-          cc.parent = parent
-          cc.branch = u[:branch]
-          cc.cc.save!
+        unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
+          cc = @object.send(u[:type] + 's').find(u[:id])
+          parent = @object.send(u[:parent][:type] + 's').find(u[:parent][:id])
+          unless cc.nil? or parent.nil?
+            cc.position = u[:position]
+            cc.parent = parent
+            cc.branch = u[:branch]
+            cc.cc.save!
+          end
         end
       end
     end
