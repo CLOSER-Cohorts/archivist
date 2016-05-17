@@ -3,7 +3,7 @@
             href="#"
             data-toggle="modal"
             data-target="#new-construct"
-            data-ng-click="setIndex(obj.parent, obj.position)"
+            data-ng-click="setIndex(obj.id, obj.type, branch)"
     >
         Add New
         <span class="glyphicon glyphicon-plus" aria-hidden="true">
@@ -26,7 +26,7 @@
                 data-ng-include="'child_render.html'"
         >
         </li>
-        <div class="new-construct" data-ng-include="'add_new.html'"></div>
+        <div class="new-construct" data-ng-include="'add_new.html'" data-ng-controller="BuildConstructsFirstBranchController"></div>
     </ul>
     <ul
             class="a-construct-container list-group a-false-branch"
@@ -40,7 +40,7 @@
                 data-ng-include="'child_render.html'"
         >
         </li>
-        <div class="new-construct" data-ng-include="'add_new.html'"></div>
+        <div class="new-construct" data-ng-include="'add_new.html'" data-ng-controller="BuildConstructsSecondBranchController"></div>
     </ul>
 </script>
 

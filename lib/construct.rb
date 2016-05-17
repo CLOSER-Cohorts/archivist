@@ -48,7 +48,7 @@ module Construct::Model
   module ClassMethods
     def is_a_parent(options = {})
       include Linkable
-      include Construct::LocalInstanceMethods
+      include Construct::Model::LocalInstanceMethods
       delegate :children, to: :cc
     end
 
@@ -62,6 +62,13 @@ module Construct::Model
   end
 
   module LocalInstanceMethods
+    def first_child
+      children.min_by { |x| x.position}
+    end
+
+    def last_child
+      children.max_by { |x| x.position}
+    end
   end
 end
 
@@ -76,16 +83,13 @@ module Construct::Controller
       super options
       include Construct::Controller::Actions
     end
-
-    def safe_params
-      super.permit[:parent, :position]
-    end
   end
 
   module Actions
     def create
-      @object = collection.new(safe_params)
-      if @object.save
+      #TODO: Security issue
+      @object = collection.create_with_position(params)
+      if @object
         render :show, status: :created
       else
         render json: @object.errors, status: :unprocessable_entity
