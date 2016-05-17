@@ -1,5 +1,5 @@
 class CcSequence < ActiveRecord::Base
-  include Construct
+  include Construct::Model
   is_a_parent
 
   URN_TYPE = 'se'

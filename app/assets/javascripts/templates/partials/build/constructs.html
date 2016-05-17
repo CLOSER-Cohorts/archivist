@@ -1,7 +1,9 @@
 <script type="text/ng-template" id="add_new.html">
     <a
             href="#"
-            data-ng-click="new()"
+            data-toggle="modal"
+            data-target="#new-construct"
+            data-ng-click="setIndex(obj.parent, obj.position)"
     >
         Add New
         <span class="glyphicon glyphicon-plus" aria-hidden="true">

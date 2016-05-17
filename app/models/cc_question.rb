@@ -1,5 +1,5 @@
 class CcQuestion < ActiveRecord::Base
-  include Construct
+  include Construct::Model
   include Linkable
   belongs_to :question, polymorphic: true
   belongs_to :response_unit

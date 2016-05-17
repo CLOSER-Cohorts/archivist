@@ -1,5 +1,5 @@
 class CcCondition < ActiveRecord::Base
-  include Construct
+  include Construct::Model
   is_a_parent branches: 2
 
   URN_TYPE = 'if'

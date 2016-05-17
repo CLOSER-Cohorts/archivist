@@ -1,4 +1,7 @@
 module Construct
+end
+
+module Construct::Model
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
@@ -59,5 +62,34 @@ module Construct
   end
 
   module LocalInstanceMethods
+  end
+end
+
+module Construct::Controller
+  extend ActiveSupport::Concern
+  include BaseInstrumentController
+  included do
+  end
+
+  module ClassMethods
+    def add_basic_actions(options = {})
+      super options
+      include Construct::Controller::Actions
+    end
+
+    def safe_params
+      super.permit[:parent, :position]
+    end
+  end
+
+  module Actions
+    def create
+      @object = collection.new(safe_params)
+      if @object.save
+        render :show, status: :created
+      else
+        render json: @object.errors, status: :unprocessable_entity
+      end
+    end
   end
 end

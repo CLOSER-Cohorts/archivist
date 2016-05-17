@@ -23,12 +23,21 @@ angular.module('archivist.build').controller(
         constructs: true
         questions: true
       }
+      $scope.index = {}
+
+      $scope.details_path = ->
+        'partials/build/details/' + $routeParams.construct_type + '.html'
+
+      $scope.setIndex = (parent, position)->
+        $scope.index.parent = parent
+        $scope.index.position = position
 
       $scope.$on '$routeUpdate', (scope, next, current) ->
         $scope.reset()
 
       $scope.change_panel = (obj)->
         $location.search {construct_type: obj.type, construct_id: obj.id}
+        $scope.editMode = true
 
       $scope.sortableOptions = {
         placeholder: 'a-construct',
@@ -58,46 +67,46 @@ angular.module('archivist.build').controller(
           $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
       }
 
+      $scope.save =  ->
+        console.log $scope.current
+        arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
+        if $routeParams.construct_id == 'new'
+          arr.push $scope.current
+          index = arr.length - 1
+          arr[index].instrument_id = $routeParams.id
+        else
+          angular.copy $scope.current, arr.select_resource_by_id(parseInt($routeParams.construct_id))
+          index = arr.get_index_by_id parseInt($routeParams.construct_id)
+        arr[index].save(
+          {}
+        ,(value, rh)->
+          value['instrument_id'] = $scope.instrument.id
+          Flash.add('success', 'Construct updated successfully!')
+          $scope.reset()
+        ,->
+          console.log("error")
+        )
+
       $scope.reset = ->
         console.time 'reset'
         console.log $routeParams
-        if $routeParams.construct_type? and $routeParams.construct_id?
+        if $routeParams.construct_type? and !isNaN(parseInt($routeParams.construct_id))
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
             if cc.type.camel_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
 
               $scope.current = angular.copy cc
-              $scope.editMode = false
               break
 
         if $scope.current?
-          $scope.details = {fields: []}
-          for key of $scope.current
-            if ['label', 'literal'].indexOf(key) >= 0
-              $scope.details.fields.splice 0, 0, {label: key.capitalizeFirstLetter(), model: $scope.current[key]}
-
           if $scope.current.type == 'question'
-            $scope.details.fields.push {
-              label: 'Type',
-              model: $scope.current.question_type,
-              options:[
-                {value: 'QuestionItem', label: 'Item'},
-                {value: 'QuestionGrid', label: 'Grid'}
-              ]
-            }
-            $scope.details.fields.push {
-              label: 'Question',
-              model: $scope.current.question_id,
-              options: if $scope.current.question_type == 'QuestionItem' then DataManager.getQuestionItemIDs() else DataManager.getQuestionGridIDs()
-            }
+            $scope.details = {}
+            $scope.details.item_options = DataManager.getQuestionItemIDs()
+            $scope.details.grid_options = DataManager.getQuestionGridIDs()
+
             DataManager.getResponseUnits $scope.instrument.id, false, ()->
-              options = []
+              $scope.details.ru_options = []
               for ru in DataManager.Data.ResponseUnits[$scope.instrument.id]
-                options.push {value: ru.id, label: ru.label}
-              $scope.details.fields.push {
-                label: 'Interviewee',
-                model: $scope.current.response_unit_id,
-                options: options
-              }
+                $scope.details.ru_options.push {value: ru.id, label: ru.label}
 
         console.timeEnd 'reset'
         null
@@ -123,26 +132,21 @@ angular.module('archivist.build').controller(
         console.timeEnd 'after instrument'
         console.timeEnd 'end to end'
 
-      $scope.new = ->
-        $location.search {construct_type: null, construct_id: null}
-        $scope.current = new DataManager.Constructs.Questions.cc.resource({
-          type: 'question',
-          label: ''
+      $scope.new = (cc_type)->
+        if cc_type == 'question'
+          resource = DataManager.Constructs.Questions.cc.resource
+        else
+          resource = DataManager.Constructs[cc_type.capitalizeFirstLetter() + 's'].resource
+        $scope.current = new resource({
+          type: cc_type,
+          position: $scope.index.position,
+          parent: $scope.index.parent
         })
+        $location.search {construct_type: cc_type, construct_id: 'new'}
+
         console.log $scope.current
         $scope.reset()
-        #$scope.details = {fields: []}
-        #$scope.details.fields.push {
-        #  label: 'Construct',
-        #  model: $scope.current.construct_type,
-        #  options:[
-        #    {value: 'condition', label: 'Condition'},
-        #    {value: 'loop', label: 'Loop'},
-        #    {value: 'quesiton', label: 'Question'},
-        #    {value: 'sequence', label: 'Sequence'},
-        #    {value: 'statement', label: 'Statement'}
-        #  ]
-        #}
+        $scope.editMode = true
 
       console.time 'load base'
       $controller(

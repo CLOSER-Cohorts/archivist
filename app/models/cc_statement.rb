@@ -1,5 +1,5 @@
 class CcStatement < ActiveRecord::Base
-  include Construct
+  include Construct::Model
 
   URN_TYPE = 'si'
   TYPE = 'StatementItem'

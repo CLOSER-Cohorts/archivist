@@ -19,6 +19,10 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "jquery-ui/themes/base/theme";
 
+.monospaced {
+  font-family: menlo;
+}
+
 /* Sidebar navigation */
 .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */

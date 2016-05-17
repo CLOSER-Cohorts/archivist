@@ -3,7 +3,7 @@
 
     <div
             data-ng-if="current || overview || newMode"
-            data-ng-class="{'col-sm-4 col-md-6': sidebar_objs && details, 'col-sm-offset-4 col-md-offset-3': sidebar_objs, 'col-sm-8 col-md-9': (sidebar_objs ? !details : details)}"
+            data-ng-class="{'col-sm-4 col-md-6': sidebar_objs && editMode, 'col-sm-offset-4 col-md-offset-3': sidebar_objs, 'col-sm-8 col-md-9': (sidebar_objs ? !editMode : editMode)}"
             class="main"
     >
 
@@ -55,8 +55,9 @@
 
     </div>
 
-    <div data-ng-if="details" data-ng-include="'partials/build/details.html'" class="col-sm-4 col-md-3 sidebar sidebar-right" data-resume-scroll="details"></div>
+    <div data-ng-if="editMode" data-ng-include="'partials/build/details.html'" class="col-sm-4 col-md-3 sidebar sidebar-right" data-resume-scroll="details"></div>
 </div>
 
 <div data-ng-include="'partials/build/modals/new-question.html'"></div>
+<div data-ng-include="'partials/build/modals/new-construct.html'"></div>
 <div data-ng-include="'partials/build/modals/delete-confirm.html'"></div>
