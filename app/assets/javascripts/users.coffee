@@ -83,7 +83,7 @@ users.factory(
             self.logged_in = false
 
         sign_up: (password, confirmation)->
-          console.log @
+          self = this
           $http.post(
             '/users.json',
             {
@@ -92,6 +92,13 @@ users.factory(
                 password_confirmation: confirmation
               })
             }
+          ).then(
+            (res)->
+              self.logged_in = true
+              self.set 'role', res.data.role
+            ,(res)->
+              self.logged_in = false
+              Flash.add 'danger', res.errors
           )
 
         is_admin: ->

@@ -67,7 +67,7 @@
 			<th>Prefix</th>
             <th>Control Constructs</th>
 			<th>Study</th>
-            <th>Actions</th>
+            <th class="editor-min">Actions</th>
 		</tr>
 		<tr data-ng-repeat="instrument in
 		filteredInstruments = (instruments | filter:query |
@@ -82,7 +82,7 @@
             </td>
             <td>{{instrument.ccs}}</td>
 			<td>{{instrument.study}}</td>
-            <td>
+            <td class="editor-min">
                 <a data-ng-href="/instruments/{{instrument.id}}/edit">
                     <span class="edit">Edit</span>
                 </a>

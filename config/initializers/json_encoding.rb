@@ -6,5 +6,7 @@ module ActiveSupport::JSON::Encoding
   end
 end
 
+Oj.default_options = {time_format: :unix, mode: :compat}
+
 ActiveSupport.json_encoder = ActiveSupport::JSON::Encoding::Oj
 MultiJson.use :oj

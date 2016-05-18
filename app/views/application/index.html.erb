@@ -15,13 +15,13 @@
 				<li data-ng-class="{active: isActive('/instruments')}">
 					<a href="/instruments">Instruments</a>
 				</li>
-				<li data-ng-class="{active: isActive('/datasets')}">
+				<li data-ng-class="{active: isActive('/datasets')}" class="admin-min">
 					<a href="/datasets">Datasets</a>
 				</li>
-				<li data-ng-class="{active: isActive('/topics')}">
+				<li data-ng-class="{active: isActive('/topics')}" class="admin-min">
 					<a href="/topics">Topics</a>
 				</li>
-				<li data-ng-show="user.is_admin()" data-ng-class="{active: isActive('/admin')}" class="dropdown">
+				<li data-ng-class="{active: isActive('/admin')}" class="dropdown admin-min">
 					<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
 					data-toggle="dropdown" href="#" role="button">Admin <span class=
 					"caret"></span></a>
