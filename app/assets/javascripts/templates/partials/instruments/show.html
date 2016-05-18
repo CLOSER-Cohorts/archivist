@@ -27,6 +27,9 @@
         <div class="col-md-offset-1 col-md-11">
             <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:'position'" data-ng-include="'child_render.html'"></div>
         </div>
+        <div class="col-md-offset-1 col-md-11" data-ng-if="obj.fchildren">
+            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.fchildren | orderBy:'position'" data-ng-include="'child_render.html'"></div>
+        </div>
     </div>
 </script>
 

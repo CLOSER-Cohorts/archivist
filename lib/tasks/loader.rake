@@ -1,13 +1,13 @@
 desc 'Loads instrument'
 task :load_instruments => :environment do
-  Dir.chdir 'M:/bundles'
-  folders = Dir.entries(".").reject { |x| x[0,1] == "." }
+  Dir.chdir 'N:/CLOSER/Studies/XMLs/repo'
+  files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
-  folders.each do |folder|
+  files.each do |file|
 
-    if File.exist? folder + '/ddi.xml'
+    if File.exist? file
 
-      im = XML::CADDIES::Importer.new(folder + '/ddi.xml')
+      im = XML::CADDIES::Importer.new file
       im.parse
 
     end

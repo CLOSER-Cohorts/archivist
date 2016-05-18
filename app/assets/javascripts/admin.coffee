@@ -41,7 +41,7 @@ admin.controller('AdminInstrumentsController',
     'DataManager'
     ($scope, DataManager)->
       $scope.instruments = DataManager.Instruments.query()
-      $scope.pageSize = 8
+      $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
 
       $scope.prepareCopy = (id)->

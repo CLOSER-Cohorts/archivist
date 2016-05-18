@@ -1,7 +1,8 @@
 module BaseController
   extend ActiveSupport::Concern
   included do
-
+    after_action :verify_policy_scoped, only: :index
+    before_action :authenticate_user!
   end
   module ClassMethods
     def add_basic_actions(options = {})
@@ -60,7 +61,7 @@ module BaseController
     def destroy
       begin
         @object.destroy
-        head :no_content
+        head :ok
       rescue
         head :bad_request
       end

@@ -5,4 +5,47 @@ class CodeListsController < ApplicationController
                     params: '[:label, :codes]',
                     collection: 'Instrument.find(params[:instrument_id]).code_lists'
 
+  # POST /instruments/1/code_lists.json
+  def create
+    @object = collection.new(safe_params)
+
+    if @object.save
+      if params.has_key? :codes
+        @object.update_codes(params[:codes])
+      end
+      if params.has_key?(:rd) && params[:rd]
+        @object.response_domain = true
+      else
+        @object.response_domain = false
+      end
+      render :show, status: :created
+    else
+      render json: @object.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /code_lists/1.json
+  def update
+    parameters = safe_params
+
+    if params.has_key? :codes
+      @object.update_codes(params[:codes])
+      parameters.delete :codes
+    end
+    if params.has_key? :rd
+      if params[:rd]
+        @object.response_domain = true
+      else
+        @object.response_domain = false
+      end
+    end
+    respond_to do |format|
+      if @object.update(parameters)
+        format.json { render :show, status: :ok }
+      else
+        format.json { render json: @object.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end

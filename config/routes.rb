@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+      sessions: 'users/sessions',
+#      confirmations: 'users/confirmations',
+#      omiauth: 'users/omiauth',
+      passwords: 'users/passwords',
+      registrations: 'users/registrations',
+      unlocks: 'users/unlocks',
+  }
+  get '/users', to: 'users/admin#index', only: [:index], constraints: -> (r) { (r.format == :json) }
   root 'application#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}

@@ -1,4 +1,5 @@
 json.extract! @object, :id, :label, :created_at, :updated_at
+json.type 'CodeList'
 json.codes @object.codes do |code|
   json.id code.id
   json.category_id code.category.id

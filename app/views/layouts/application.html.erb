@@ -11,11 +11,12 @@
 
   <script>
     window.socket_url = "<%= ENV['REALTIME_URL'] || 'http://localhost:5000' %>";
+    window.current_user_email = "<%= current_user.nil? ? "" : current_user.email %>"
   </script>
 
   <base href="/">
 </head>
-<body data-ng-controller="RootController">
+<body data-ng-controller="RootController" data-ng-class="user.role">
 
 <%= yield %>
 

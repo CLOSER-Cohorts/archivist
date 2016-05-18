@@ -29,6 +29,13 @@ constructs.factory(
       Constructs.Sequences        = Sequences
       Constructs.Statements       = Statements
 
+      Constructs.clearCache = ->
+        Constructs.Conditions.clearCache()
+        Constructs.Loops.clearCache()
+        Constructs.Questions.clearCache()
+        Constructs.Sequences.clearCache()
+        Constructs.Statements.clearCache()
+
       Constructs
   ]
 )

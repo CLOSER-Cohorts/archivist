@@ -1,15 +1,13 @@
-<notices></notices>
-
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">Filters & Sorting<span class="glyphicon glyphicon-menu-down"></span></h3>
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-sm-4">
                 <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">
 			</div>
-            <div class="col-md-4">
+            <div class="col-sm-4 col-xs-6">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="sortInstrumentsBy"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,7 +38,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-4 col-xs-6">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="filterByStudy"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,9 +67,13 @@
 			<th>Prefix</th>
             <th>Control Constructs</th>
 			<th>Study</th>
-            <th>Actions</th>
+            <th class="editor-min">Actions</th>
 		</tr>
-		<tr data-ng-repeat="instrument in instruments | filter:query | filter:{study:filteredStudy} | orderBy:sortedBy">
+		<tr data-ng-repeat="instrument in
+		filteredInstruments = (instruments | filter:query |
+		filter:{study:filteredStudy}) |
+		orderBy:sortedBy |
+		limitTo:pageSize:(currentPage-1)*pageSize">
 			<td>{{instrument.id}}</td>
 			<td>
                 <a data-ng-href="/instruments/{{instrument.id}}">
@@ -80,7 +82,7 @@
             </td>
             <td>{{instrument.ccs}}</td>
 			<td>{{instrument.study}}</td>
-            <td>
+            <td class="editor-min">
                 <a data-ng-href="/instruments/{{instrument.id}}/edit">
                     <span class="edit">Edit</span>
                 </a>
@@ -95,4 +97,11 @@
             </td>
 		</tr>
 	</table>
+    <div class="panel-footer">
+        <uib-pagination
+                total-items="filteredInstruments.length"
+                ng-model="currentPage"
+                items-per-page="pageSize">
+        </uib-pagination>
+    </div>
 </div>

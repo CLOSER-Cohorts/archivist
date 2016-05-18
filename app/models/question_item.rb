@@ -1,5 +1,5 @@
 class QuestionItem < ActiveRecord::Base
-  include Question
+  include Question::Model
 
   URN_TYPE = 'qi'
   TYPE = 'QuestionItem'

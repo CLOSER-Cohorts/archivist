@@ -22,6 +22,12 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
       options
     )
 
+    @resource::save = (params, success, error)->
+      if @id?
+        @$save(params, success, error)
+      else
+        @$create(params, success, error)
+
     @query = (parameters, success, error)->
       if not that.data[@index 'query', parameters]?
         that.data[@index 'query', parameters] = that.resource.query parameters
@@ -48,6 +54,9 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
     @reget = (parameters, success, error)->
       that.data[@index 'get', parameters] = null
       that.get(parameters, success, error)
+
+    @clearCache = ->
+      that.data = {}
 
     this
 ])
