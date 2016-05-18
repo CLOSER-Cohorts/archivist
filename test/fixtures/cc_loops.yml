@@ -1,15 +1,887 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  loop_var: MyString
-  start_val: MyString
-  end_val: MyString
-  loop_while: MyString
-  instrument: :one
-
-two:
-  loop_var: MyString
-  start_val: MyString
-  end_val: MyString
-  loop_while: MyString
-  instrument: :one
+---
+CcLoop_1:
+  id: 290
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 16
+  created_at: 2016-04-06 08:05:34.995034000 Z
+  updated_at: 2016-04-06 08:05:35.013036000 Z
+  instrument_id: 792
+CcLoop_2:
+  id: 291
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 31
+  created_at: 2016-04-06 08:05:35.469082000 Z
+  updated_at: 2016-04-06 08:05:35.485083000 Z
+  instrument_id: 792
+CcLoop_3:
+  id: 292
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 31
+  created_at: 2016-04-06 08:05:35.787113000 Z
+  updated_at: 2016-04-06 08:05:35.802115000 Z
+  instrument_id: 792
+CcLoop_4:
+  id: 293
+  loop_var: i
+  start_val: '2'
+  loop_while: i < 16
+  created_at: 2016-04-06 08:05:35.964131000 Z
+  updated_at: 2016-04-06 08:05:35.977132000 Z
+  instrument_id: 792
+CcLoop_5:
+  id: 294
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 16
+  created_at: 2016-04-06 08:05:37.039239000 Z
+  updated_at: 2016-04-06 08:05:37.113246000 Z
+  instrument_id: 792
+CcLoop_6:
+  id: 295
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 9
+  created_at: 2016-04-06 08:05:38.693404000 Z
+  updated_at: 2016-04-06 08:05:38.705405000 Z
+  instrument_id: 792
+CcLoop_7:
+  id: 296
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumPAux
+  created_at: 2016-04-06 08:05:38.729408000 Z
+  updated_at: 2016-04-06 08:05:38.740409000 Z
+  instrument_id: 792
+CcLoop_8:
+  id: 297
+  loop_var: i
+  start_val: '1'
+  loop_while: i < QHGrid.NumAdCh
+  created_at: 2016-04-06 08:05:39.277462000 Z
+  updated_at: 2016-04-06 08:05:39.295464000 Z
+  instrument_id: 792
+CcLoop_9:
+  id: 298
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 31
+  created_at: 2016-04-06 08:05:39.389474000 Z
+  updated_at: 2016-04-06 08:05:39.402475000 Z
+  instrument_id: 792
+CcLoop_10:
+  id: 299
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 11
+  created_at: 2016-04-06 08:05:40.185553000 Z
+  updated_at: 2016-04-06 08:05:40.198554000 Z
+  instrument_id: 792
+CcLoop_11:
+  id: 300
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumGCSE1
+  created_at: 2016-04-06 08:05:42.061741000 Z
+  updated_at: 2016-04-06 08:05:42.074742000 Z
+  instrument_id: 792
+CcLoop_12:
+  id: 301
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumGCSE2
+  created_at: 2016-04-06 08:05:42.145749000 Z
+  updated_at: 2016-04-06 08:05:42.157750000 Z
+  instrument_id: 792
+CcLoop_13:
+  id: 302
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumAS1
+  created_at: 2016-04-06 08:05:42.227757000 Z
+  updated_at: 2016-04-06 08:05:42.241759000 Z
+  instrument_id: 792
+CcLoop_14:
+  id: 303
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumAS2
+  created_at: 2016-04-06 08:05:42.425777000 Z
+  updated_at: 2016-04-06 08:05:42.441779000 Z
+  instrument_id: 792
+CcLoop_15:
+  id: 304
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumGCEA1
+  created_at: 2016-04-06 08:05:42.511786000 Z
+  updated_at: 2016-04-06 08:05:42.524787000 Z
+  instrument_id: 792
+CcLoop_16:
+  id: 305
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumGCEA2
+  created_at: 2016-04-06 08:05:42.594794000 Z
+  updated_at: 2016-04-06 08:05:42.607795000 Z
+  instrument_id: 792
+CcLoop_17:
+  id: 306
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumAcc
+  created_at: 2016-04-06 08:05:42.688803000 Z
+  updated_at: 2016-04-06 08:05:42.707805000 Z
+  instrument_id: 792
+CcLoop_18:
+  id: 307
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumStan
+  created_at: 2016-04-06 08:05:42.776812000 Z
+  updated_at: 2016-04-06 08:05:42.801815000 Z
+  instrument_id: 792
+CcLoop_19:
+  id: 308
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumInt1
+  created_at: 2016-04-06 08:05:42.877822000 Z
+  updated_at: 2016-04-06 08:05:42.902825000 Z
+  instrument_id: 792
+CcLoop_20:
+  id: 309
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumInt2
+  created_at: 2016-04-06 08:05:42.986833000 Z
+  updated_at: 2016-04-06 08:05:42.999835000 Z
+  instrument_id: 792
+CcLoop_21:
+  id: 310
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumHigh
+  created_at: 2016-04-06 08:05:43.069842000 Z
+  updated_at: 2016-04-06 08:05:43.099845000 Z
+  instrument_id: 792
+CcLoop_22:
+  id: 311
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumAdHi
+  created_at: 2016-04-06 08:05:43.182853000 Z
+  updated_at: 2016-04-06 08:05:43.191854000 Z
+  instrument_id: 792
+CcLoop_23:
+  id: 312
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumCSYS
+  created_at: 2016-04-06 08:05:43.278862000 Z
+  updated_at: 2016-04-06 08:05:43.291864000 Z
+  instrument_id: 792
+CcLoop_24:
+  id: 313
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumDeg
+  created_at: 2016-04-06 08:05:43.378872000 Z
+  updated_at: 2016-04-06 08:05:43.391874000 Z
+  instrument_id: 792
+CcLoop_25:
+  id: 314
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumODeg
+  created_at: 2016-04-06 08:05:43.503885000 Z
+  updated_at: 2016-04-06 08:05:43.522887000 Z
+  instrument_id: 792
+CcLoop_26:
+  id: 315
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumHDeg
+  created_at: 2016-04-06 08:05:43.594894000 Z
+  updated_at: 2016-04-06 08:05:43.608895000 Z
+  instrument_id: 792
+CcLoop_27:
+  id: 316
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumParaM
+  created_at: 2016-04-06 08:05:43.677902000 Z
+  updated_at: 2016-04-06 08:05:43.691904000 Z
+  instrument_id: 792
+CcLoop_28:
+  id: 317
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumOTea
+  created_at: 2016-04-06 08:05:43.744909000 Z
+  updated_at: 2016-04-06 08:05:43.758910000 Z
+  instrument_id: 792
+CcLoop_29:
+  id: 318
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumBTEC
+  created_at: 2016-04-06 08:05:43.828917000 Z
+  updated_at: 2016-04-06 08:05:43.841919000 Z
+  instrument_id: 792
+CcLoop_30:
+  id: 319
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumCity
+  created_at: 2016-04-06 08:05:43.936928000 Z
+  updated_at: 2016-04-06 08:05:43.950930000 Z
+  instrument_id: 792
+CcLoop_31:
+  id: 320
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumRSA
+  created_at: 2016-04-06 08:05:44.036938000 Z
+  updated_at: 2016-04-06 08:05:44.049940000 Z
+  instrument_id: 792
+CcLoop_32:
+  id: 321
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumPit
+  created_at: 2016-04-06 08:05:44.137948000 Z
+  updated_at: 2016-04-06 08:05:44.150950000 Z
+  instrument_id: 792
+CcLoop_33:
+  id: 322
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumNVQ
+  created_at: 2016-04-06 08:05:44.236958000 Z
+  updated_at: 2016-04-06 08:05:44.249960000 Z
+  instrument_id: 792
+CcLoop_34:
+  id: 323
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumGNVQ
+  created_at: 2016-04-06 08:05:44.336968000 Z
+  updated_at: 2016-04-06 08:05:44.350970000 Z
+  instrument_id: 792
+CcLoop_35:
+  id: 324
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumONC
+  created_at: 2016-04-06 08:05:44.443979000 Z
+  updated_at: 2016-04-06 08:05:44.458980000 Z
+  instrument_id: 792
+CcLoop_36:
+  id: 325
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumHNC
+  created_at: 2016-04-06 08:05:44.561991000 Z
+  updated_at: 2016-04-06 08:05:44.575992000 Z
+  instrument_id: 792
+CcLoop_37:
+  id: 326
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumApp
+  created_at: 2016-04-06 08:05:44.688003000 Z
+  updated_at: 2016-04-06 08:05:44.701005000 Z
+  instrument_id: 792
+CcLoop_38:
+  id: 327
+  loop_var: i
+  start_val: '1'
+  loop_while: i < NumOthV
+  created_at: 2016-04-06 08:05:44.908025000 Z
+  updated_at: 2016-04-06 08:05:44.920027000 Z
+  instrument_id: 792
+CcLoop_39:
+  id: 328
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 11
+  created_at: 2016-04-06 08:05:46.596194000 Z
+  updated_at: 2016-04-06 08:05:46.610196000 Z
+  instrument_id: 792
+CcLoop_40:
+  id: 329
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 4
+  created_at: 2016-04-06 08:07:51.972731000 Z
+  updated_at: 2016-04-06 08:07:51.985732000 Z
+  instrument_id: 798
+CcLoop_41:
+  id: 330
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 23
+  created_at: 2016-04-06 08:07:52.442778000 Z
+  updated_at: 2016-04-06 08:07:52.452779000 Z
+  instrument_id: 798
+CcLoop_42:
+  id: 331
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 3
+  created_at: 2016-04-06 08:07:53.124846000 Z
+  updated_at: 2016-04-06 08:07:53.152849000 Z
+  instrument_id: 798
+CcLoop_43:
+  id: 332
+  loop_var: i
+  start_val: '1'
+  loop_while: i < 6
+  created_at: 2016-04-06 08:07:55.625096000 Z
+  updated_at: 2016-04-06 08:07:55.638097000 Z
+  instrument_id: 798
+CcLoop_44:
+  id: 333
+  loop_var: _site
+  start_val: '1'
+  loop_while: _site < 8
+  created_at: 2016-04-06 08:08:17.887322000 Z
+  updated_at: 2016-04-06 08:08:17.899323000 Z
+  instrument_id: 806
+CcLoop_45:
+  id: 334
+  loop_var: _medication
+  start_val: '1'
+  loop_while: _medication < 13
+  created_at: 2016-04-06 08:08:20.260559000 Z
+  updated_at: 2016-04-06 08:08:20.272560000 Z
+  instrument_id: 806
+CcLoop_46:
+  id: 335
+  loop_var: _cereal
+  start_val: '1'
+  loop_while: _cereal < 5
+  created_at: 2016-04-06 08:08:26.821215000 Z
+  updated_at: 2016-04-06 08:08:26.845217000 Z
+  instrument_id: 812
+CcLoop_47:
+  id: 336
+  loop_var: _supplements
+  start_val: '1'
+  loop_while: _supplements < 6
+  created_at: 2016-04-06 08:08:27.280261000 Z
+  updated_at: 2016-04-06 08:08:27.293262000 Z
+  instrument_id: 812
+CcLoop_48:
+  id: 337
+  loop_var: _entry
+  start_val: '1'
+  loop_while: _entry < 42
+  created_at: 2016-04-06 08:08:31.522685000 Z
+  updated_at: 2016-04-06 08:08:31.537687000 Z
+  instrument_id: 816
+CcLoop_49:
+  id: 338
+  loop_var: _medicine
+  start_val: '1'
+  loop_while: _medicine < 4
+  created_at: 2016-04-06 08:09:24.773010000 Z
+  updated_at: 2016-04-06 08:09:24.782011000 Z
+  instrument_id: 832
+CcLoop_50:
+  id: 339
+  loop_var: _medicine
+  start_val: '1'
+  loop_while: _medicine < 4
+  created_at: 2016-04-06 08:09:25.018034000 Z
+  updated_at: 2016-04-06 08:09:25.031035000 Z
+  instrument_id: 832
+CcLoop_51:
+  id: 340
+  loop_var: _friend
+  start_val: '1'
+  loop_while: _friend < 6
+  created_at: 2016-04-06 08:10:16.129145000 Z
+  updated_at: 2016-04-06 08:10:16.142146000 Z
+  instrument_id: 844
+CcLoop_52:
+  id: 341
+  loop_var: _person
+  start_val: '1'
+  loop_while: _person < 4
+  created_at: 2016-04-06 08:10:29.513483000 Z
+  updated_at: 2016-04-06 08:10:29.525484000 Z
+  instrument_id: 847
+CcLoop_53:
+  id: 342
+  loop_var: _job
+  start_val: '1'
+  loop_while: _job < 7
+  created_at: 2016-04-06 08:12:32.541785000 Z
+  updated_at: 2016-04-06 08:12:32.552786000 Z
+  instrument_id: 896
+CcLoop_54:
+  id: 343
+  loop_var: _timecircumstances
+  start_val: '1'
+  loop_while: _timecircumstances  5
+  created_at: 2016-04-06 08:12:33.908921000 Z
+  updated_at: 2016-04-06 08:12:33.920923000 Z
+  instrument_id: 896
+CcLoop_55:
+  id: 344
+  loop_var: _occupationrecommended
+  start_val: '1'
+  loop_while: _occupationrecommended  4
+  created_at: 2016-04-06 08:12:34.951026000 Z
+  updated_at: 2016-04-06 08:12:34.963027000 Z
+  instrument_id: 896
+CcLoop_56:
+  id: 345
+  loop_var: _time
+  start_val: '1'
+  loop_while: "(_time <= qc_A2_b) AND (_time < 4)"
+  created_at: 2016-04-06 08:13:25.746105000 Z
+  updated_at: 2016-04-06 08:13:25.758106000 Z
+  instrument_id: 905
+CcLoop_57:
+  id: 346
+  loop_var: _result
+  start_val: '1'
+  loop_while: _result < 3
+  created_at: 2016-04-06 08:14:01.188648000 Z
+  updated_at: 2016-04-06 08:14:01.204650000 Z
+  instrument_id: 909
+CcLoop_58:
+  id: 347
+  loop_var: _admission
+  start_val: '1'
+  loop_while: _admission < 7
+  created_at: 2016-04-06 08:14:02.669797000 Z
+  updated_at: 2016-04-06 08:14:02.680798000 Z
+  instrument_id: 909
+CcLoop_59:
+  id: 348
+  loop_var: _time
+  start_val: '1'
+  loop_while: "(_time <= qc_A2_b) AND (_time < 4)"
+  created_at: 2016-04-06 08:14:55.607090000 Z
+  updated_at: 2016-04-06 08:14:55.619091000 Z
+  instrument_id: 913
+CcLoop_60:
+  id: 349
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(qc_A6_b <= _hospitalstay) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:16:15.076036000 Z
+  updated_at: 2016-04-06 08:16:15.090037000 Z
+  instrument_id: 932
+CcLoop_61:
+  id: 350
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_B8_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:16:56.578186000 Z
+  updated_at: 2016-04-06 08:16:56.587187000 Z
+  instrument_id: 948
+CcLoop_62:
+  id: 351
+  loop_var: _food
+  start_val: '1'
+  loop_while: _food < 4
+  created_at: 2016-04-06 08:17:13.227850000 Z
+  updated_at: 2016-04-06 08:17:13.238852000 Z
+  instrument_id: 950
+CcLoop_63:
+  id: 352
+  loop_var: _food
+  start_val: '1'
+  loop_while: _food < 4
+  created_at: 2016-04-06 08:17:43.668894000 Z
+  updated_at: 2016-04-06 08:17:43.676895000 Z
+  instrument_id: 952
+CcLoop_64:
+  id: 353
+  loop_var: _food
+  start_val: '1'
+  loop_while: _food < 4
+  created_at: 2016-04-06 08:17:47.637291000 Z
+  updated_at: 2016-04-06 08:17:47.648292000 Z
+  instrument_id: 952
+CcLoop_65:
+  id: 354
+  loop_var: _shampoo
+  start_val: '1'
+  loop_while: _shampoo < 4
+  created_at: 2016-04-06 08:18:00.880615000 Z
+  updated_at: 2016-04-06 08:18:00.891616000 Z
+  instrument_id: 953
+CcLoop_66:
+  id: 355
+  loop_var: _ointment
+  start_val: '1'
+  loop_while: _ointment < 5
+  created_at: 2016-04-06 08:18:00.986626000 Z
+  updated_at: 2016-04-06 08:18:00.995627000 Z
+  instrument_id: 953
+CcLoop_67:
+  id: 356
+  loop_var: _child
+  start_val: '1'
+  loop_while: _child < 4
+  created_at: 2016-04-06 08:18:45.192046000 Z
+  updated_at: 2016-04-06 08:18:45.205047000 Z
+  instrument_id: 958
+CcLoop_68:
+  id: 357
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: "(_pregnancy <= qc_A9_a) AND (_pregnancy < 7)"
+  created_at: 2016-04-06 08:19:26.391165000 Z
+  updated_at: 2016-04-06 08:19:26.404167000 Z
+  instrument_id: 962
+CcLoop_69:
+  id: 358
+  loop_var: _visit
+  start_val: '1'
+  loop_while: _visit < 13
+  created_at: 2016-04-06 08:19:47.350261000 Z
+  updated_at: 2016-04-06 08:19:47.359262000 Z
+  instrument_id: 964
+CcLoop_70:
+  id: 359
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: "(_pregnancy <= qc_A9_b) AND (_pregnancy < 7)"
+  created_at: 2016-04-06 08:20:14.722998000 Z
+  updated_at: 2016-04-06 08:20:14.733999000 Z
+  instrument_id: 966
+CcLoop_71:
+  id: 360
+  loop_while: NRANY != 2 && CRLIVEPA != 1
+  created_at: 2016-04-06 08:21:38.216347000 Z
+  updated_at: 2016-04-06 08:21:38.235349000 Z
+  instrument_id: 978
+CcLoop_72:
+  id: 361
+  loop_var: _activity
+  start_val: '1'
+  loop_while: "(qc_CLCURACTST!=1) AND (_activity < 16)"
+  created_at: 2016-04-06 08:21:43.096835000 Z
+  updated_at: 2016-04-06 08:21:43.105836000 Z
+  instrument_id: 978
+CcLoop_73:
+  id: 362
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_C5_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:21:58.874412000 Z
+  updated_at: 2016-04-06 08:21:58.884413000 Z
+  instrument_id: 979
+CcLoop_74:
+  id: 363
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_A6_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:23:12.469771000 Z
+  updated_at: 2016-04-06 08:23:12.481772000 Z
+  instrument_id: 992
+CcLoop_75:
+  id: 364
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_A5_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:25:19.885511000 Z
+  updated_at: 2016-04-06 08:25:19.903513000 Z
+  instrument_id: 1005
+CcLoop_76:
+  id: 365
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: "(_pregnancy <= qc_A10_b) AND (_pregnancy < 7)"
+  created_at: 2016-04-06 08:25:20.445567000 Z
+  updated_at: 2016-04-06 08:25:20.460569000 Z
+  instrument_id: 1005
+CcLoop_77:
+  id: 366
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_C5_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:26:14.046176000 Z
+  updated_at: 2016-04-06 08:26:14.059176000 Z
+  instrument_id: 1010
+CcLoop_78:
+  id: 367
+  loop_var: _hospitalstay
+  start_val: '1'
+  loop_while: "(_hospitalstay <= qc_A5_b) AND (_hospitalstay < 6)"
+  created_at: 2016-04-06 08:26:46.091176000 Z
+  updated_at: 2016-04-06 08:26:46.104176000 Z
+  instrument_id: 1013
+CcLoop_79:
+  id: 368
+  loop_var: _sunblock
+  start_val: '1'
+  loop_while: _sunblock < 7
+  created_at: 2016-04-06 08:26:58.197176000 Z
+  updated_at: 2016-04-06 08:26:58.210176000 Z
+  instrument_id: 1014
+CcLoop_80:
+  id: 369
+  loop_var: _item
+  start_val: '1'
+  loop_while: _item < 34
+  created_at: 2016-04-06 08:27:33.850176000 Z
+  updated_at: 2016-04-06 08:27:33.863176000 Z
+  instrument_id: 1024
+CcLoop_81:
+  id: 370
+  loop_var: _supplements
+  start_val: '1'
+  loop_while: _supplements < 6
+  created_at: 2016-04-06 08:27:59.538176000 Z
+  updated_at: 2016-04-06 08:27:59.553176000 Z
+  instrument_id: 1028
+CcLoop_82:
+  id: 371
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: _pregnancy < 11
+  created_at: 2016-04-06 08:28:00.204176000 Z
+  updated_at: 2016-04-06 08:28:00.220176000 Z
+  instrument_id: 1028
+CcLoop_83:
+  id: 372
+  loop_var: _ultrasound
+  start_val: '1'
+  loop_while: _ultrasound < 6
+  created_at: 2016-04-06 08:28:00.456176000 Z
+  updated_at: 2016-04-06 08:28:00.469176000 Z
+  instrument_id: 1028
+CcLoop_84:
+  id: 373
+  loop_var: _notes
+  start_val: '1'
+  loop_while: _notes < 26
+  created_at: 2016-04-06 08:28:00.621176000 Z
+  updated_at: 2016-04-06 08:28:00.637176000 Z
+  instrument_id: 1028
+CcLoop_85:
+  id: 374
+  loop_var: _MSU
+  start_val: '1'
+  loop_while: _MSU < 9
+  created_at: 2016-04-06 08:28:00.874176000 Z
+  updated_at: 2016-04-06 08:28:00.904176000 Z
+  instrument_id: 1028
+CcLoop_86:
+  id: 375
+  loop_var: _admissions
+  start_val: '1'
+  loop_while: _admissions < 6
+  created_at: 2016-04-06 08:28:01.773176000 Z
+  updated_at: 2016-04-06 08:28:01.787176000 Z
+  instrument_id: 1028
+CcLoop_87:
+  id: 376
+  loop_var: I
+  start_val: '1'
+  loop_while: I < 11
+  created_at: 2016-04-06 08:31:47.105176000 Z
+  updated_at: 2016-04-06 08:31:47.114176000 Z
+  instrument_id: 1080
+CcLoop_88:
+  id: 377
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:50.567176000 Z
+  updated_at: 2016-04-06 08:31:50.585176000 Z
+  instrument_id: 1080
+CcLoop_89:
+  id: 378
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:50.613176000 Z
+  updated_at: 2016-04-06 08:31:50.622176000 Z
+  instrument_id: 1080
+CcLoop_90:
+  id: 379
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:50.652176000 Z
+  updated_at: 2016-04-06 08:31:50.665176000 Z
+  instrument_id: 1080
+CcLoop_91:
+  id: 380
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:50.702176000 Z
+  updated_at: 2016-04-06 08:31:50.713176000 Z
+  instrument_id: 1080
+CcLoop_92:
+  id: 381
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:50.740176000 Z
+  updated_at: 2016-04-06 08:31:50.749176000 Z
+  instrument_id: 1080
+CcLoop_93:
+  id: 382
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:50.895176000 Z
+  updated_at: 2016-04-06 08:31:50.905176000 Z
+  instrument_id: 1080
+CcLoop_94:
+  id: 383
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:50.930176000 Z
+  updated_at: 2016-04-06 08:31:50.940176000 Z
+  instrument_id: 1080
+CcLoop_95:
+  id: 384
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:50.967176000 Z
+  updated_at: 2016-04-06 08:31:50.977176000 Z
+  instrument_id: 1080
+CcLoop_96:
+  id: 385
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:51.003176000 Z
+  updated_at: 2016-04-06 08:31:51.012176000 Z
+  instrument_id: 1080
+CcLoop_97:
+  id: 386
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:51.037176000 Z
+  updated_at: 2016-04-06 08:31:51.047176000 Z
+  instrument_id: 1080
+CcLoop_98:
+  id: 387
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:51.072176000 Z
+  updated_at: 2016-04-06 08:31:51.081176000 Z
+  instrument_id: 1080
+CcLoop_99:
+  id: 388
+  loop_var: I
+  start_val: '1'
+  loop_while: I < 7
+  created_at: 2016-04-06 08:31:52.097176000 Z
+  updated_at: 2016-04-06 08:31:52.111176000 Z
+  instrument_id: 1080
+CcLoop_100:
+  id: 389
+  loop_var: I
+  start_val: '1'
+  loop_while: I < 7
+  created_at: 2016-04-06 08:31:52.137176000 Z
+  updated_at: 2016-04-06 08:31:52.147176000 Z
+  instrument_id: 1080
+CcLoop_101:
+  id: 390
+  loop_var: 'Person '
+  start_val: '2'
+  loop_while: Person  < 11
+  created_at: 2016-04-06 08:31:53.376176000 Z
+  updated_at: 2016-04-06 08:31:53.385176000 Z
+  instrument_id: 1080
+CcLoop_102:
+  id: 391
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:55.566176000 Z
+  updated_at: 2016-04-06 08:31:55.575176000 Z
+  instrument_id: 1080
+CcLoop_103:
+  id: 392
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:55.602176000 Z
+  updated_at: 2016-04-06 08:31:55.611176000 Z
+  instrument_id: 1080
+CcLoop_104:
+  id: 393
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:55.637176000 Z
+  updated_at: 2016-04-06 08:31:55.646176000 Z
+  instrument_id: 1080
+CcLoop_105:
+  id: 394
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:55.671176000 Z
+  updated_at: 2016-04-06 08:31:55.680176000 Z
+  instrument_id: 1080
+CcLoop_106:
+  id: 395
+  loop_var: Eye Problem
+  start_val: '1'
+  loop_while: Eye Problem < 4
+  created_at: 2016-04-06 08:31:55.705176000 Z
+  updated_at: 2016-04-06 08:31:55.714176000 Z
+  instrument_id: 1080
+CcLoop_107:
+  id: 396
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:55.797176000 Z
+  updated_at: 2016-04-06 08:31:55.806176000 Z
+  instrument_id: 1080
+CcLoop_108:
+  id: 397
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:55.831176000 Z
+  updated_at: 2016-04-06 08:31:55.843176000 Z
+  instrument_id: 1080
+CcLoop_109:
+  id: 398
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:55.869176000 Z
+  updated_at: 2016-04-06 08:31:55.878176000 Z
+  instrument_id: 1080
+CcLoop_110:
+  id: 399
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:55.903176000 Z
+  updated_at: 2016-04-06 08:31:55.915176000 Z
+  instrument_id: 1080
+CcLoop_111:
+  id: 400
+  loop_var: Ear Problem
+  start_val: '1'
+  loop_while: Ear Problem < 4
+  created_at: 2016-04-06 08:31:55.939176000 Z
+  updated_at: 2016-04-06 08:31:55.948176000 Z
+  instrument_id: 1080

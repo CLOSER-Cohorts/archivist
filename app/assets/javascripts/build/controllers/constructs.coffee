@@ -7,11 +7,12 @@ angular.module('archivist.build').controller(
     '$location',
     '$filter',
     '$http',
+    '$timeout',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $http, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
       console.time 'end to end'
       $scope.title = 'Constructs'
       $scope.overview = true
@@ -23,12 +24,26 @@ angular.module('archivist.build').controller(
         constructs: true
         questions: true
       }
+      $scope.index = {}
+
+      $scope.details_path = ->
+        'partials/build/details/' + $routeParams.construct_type + '.html'
+
+      $scope.setIndex = (parent_id, parent_type, branch = null)->
+        if parent_id?
+          $scope.index.parent_id = parent_id
+          $scope.index.parent_type = parent_type
+        else
+          $scope.index.parent_id = $scope.instrument.topsequence.id
+          $scope.index.parent_type = 'sequence'
+        $scope.index.branch = branch
 
       $scope.$on '$routeUpdate', (scope, next, current) ->
         $scope.reset()
 
       $scope.change_panel = (obj)->
         $location.search {construct_type: obj.type, construct_id: obj.id}
+        $scope.editMode = obj.type? and obj.id?
 
       $scope.sortableOptions = {
         placeholder: 'a-construct',
@@ -58,46 +73,62 @@ angular.module('archivist.build').controller(
           $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
       }
 
+      $scope.delete = ->
+        arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
+        index = arr.get_index_by_id parseInt($routeParams.construct_id)
+        if index?
+          arr[index].$delete(
+            {},
+            ->
+              arr.splice index, 1
+              $timeout(
+                ->
+                  $scope.change_panel {type: null, id: null}
+              ,0
+              )
+          )
+
+      $scope.save =  ->
+        console.log $scope.current
+        arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
+        console.log arr
+        if $routeParams.construct_id == 'new'
+          arr.push $scope.current
+          index = arr.length - 1
+          arr[index].instrument_id = $routeParams.id
+        else
+          angular.copy $scope.current, arr.select_resource_by_id(parseInt($routeParams.construct_id))
+          index = arr.get_index_by_id parseInt($routeParams.construct_id)
+        arr[index].save(
+          {}
+        ,(value, rh)->
+          value['instrument_id'] = $scope.instrument.id
+          value['type'] = $routeParams.construct_type
+          Flash.add('success', 'Construct updated successfully!')
+
+          if $routeParams.construct_id == 'new'
+            parent = DataManager.Data.Instrument.Constructs[$scope.index.parent_type.capitalizeFirstLetter() + 's'].select_resource_by_id($scope.index.parent_id)
+            if $scope.index.branch == 0 or $scope.index.branch == null
+              parent.children.push arr[index]
+            else
+              parent.fchildren.push arr[index]
+
+            $scope.change_panel arr[index]
+
+          $scope.reset()
+        ,->
+          console.log("error")
+        )
+
       $scope.reset = ->
         console.time 'reset'
         console.log $routeParams
-        if $routeParams.construct_type? and $routeParams.construct_id?
+        if $routeParams.construct_type? and !isNaN(parseInt($routeParams.construct_id))
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
             if cc.type.camel_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
 
               $scope.current = angular.copy cc
-              $scope.editMode = false
               break
-
-        if $scope.current?
-          $scope.details = {fields: []}
-          for key of $scope.current
-            if ['label', 'literal'].indexOf(key) >= 0
-              $scope.details.fields.splice 0, 0, {label: key.capitalizeFirstLetter(), model: $scope.current[key]}
-
-          if $scope.current.type == 'question'
-            $scope.details.fields.push {
-              label: 'Type',
-              model: $scope.current.question_type,
-              options:[
-                {value: 'QuestionItem', label: 'Item'},
-                {value: 'QuestionGrid', label: 'Grid'}
-              ]
-            }
-            $scope.details.fields.push {
-              label: 'Question',
-              model: $scope.current.question_id,
-              options: if $scope.current.question_type == 'QuestionItem' then DataManager.getQuestionItemIDs() else DataManager.getQuestionGridIDs()
-            }
-            DataManager.getResponseUnits $scope.instrument.id, false, ()->
-              options = []
-              for ru in DataManager.Data.ResponseUnits[$scope.instrument.id]
-                options.push {value: ru.id, label: ru.label}
-              $scope.details.fields.push {
-                label: 'Interviewee',
-                model: $scope.current.response_unit_id,
-                options: options
-              }
 
         console.timeEnd 'reset'
         null
@@ -106,7 +137,7 @@ angular.module('archivist.build').controller(
         console.time 'after instrument'
         constructSorter = (a, b)->
           a.position > b.position
-        if !DataManager.ConstructResolver?
+        if !$scope.instrument.topsequence.resolved
           DataManager.resolveConstructs()
           DataManager.resolveQuestions()
           sortChildren = (parent)->
@@ -120,24 +151,33 @@ angular.module('archivist.build').controller(
                   sortChildren child
           sortChildren $scope.instrument.topsequence
 
+        $scope.details = {}
+        $scope.details.item_options = DataManager.getQuestionItemIDs()
+        $scope.details.grid_options = DataManager.getQuestionGridIDs()
+
+        DataManager.getResponseUnits $scope.instrument.id, false, ()->
+          $scope.details.ru_options = []
+          for ru in DataManager.Data.ResponseUnits[$scope.instrument.id]
+            $scope.details.ru_options.push {value: ru.id, label: ru.label}
+
         console.timeEnd 'after instrument'
         console.timeEnd 'end to end'
 
-      $scope.new = ->
-        $location.search {construct_type: null, construct_id: null}
-        $scope.current = {}
-        $scope.details = {fields: []}
-        $scope.details.fields.push {
-          label: 'Construct',
-          model: $scope.current.construct_type,
-          options:[
-            {value: 'condition', label: 'Condition'},
-            {value: 'loop', label: 'Loop'},
-            {value: 'quesiton', label: 'Question'},
-            {value: 'sequence', label: 'Sequence'},
-            {value: 'statement', label: 'Statement'}
-          ]
-        }
+      $scope.new = (cc_type)->
+        if cc_type == 'question'
+          resource = DataManager.Constructs.Questions.cc.resource
+        else
+          resource = DataManager.Constructs[cc_type.capitalizeFirstLetter() + 's'].resource
+        $scope.current = new resource({
+          type: cc_type,
+          parent: {id: $scope.index.parent_id, type: $scope.index.parent_type}
+          branch: $scope.index.branch
+        })
+        $location.search {construct_type: cc_type, construct_id: 'new'}
+
+        console.log $scope.current
+        $scope.reset()
+        $scope.editMode = true
 
       console.time 'load base'
       $controller(
@@ -154,5 +194,23 @@ angular.module('archivist.build').controller(
       )
       console.timeEnd 'load base'
       console.log $scope
+  ]
+)
+
+angular.module('archivist.build').controller(
+  'BuildConstructsFirstBranchController',
+  [
+    '$scope',
+    ($scope)->
+      $scope.branch = if $scope.obj.type == 'condition' then  0 else null
+  ]
+)
+
+angular.module('archivist.build').controller(
+  'BuildConstructsSecondBranchController',
+  [
+    '$scope',
+    ($scope)->
+      $scope.branch = 1
   ]
 )

@@ -1,7 +1,743 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-
-two:
-  name: MyString
+---
+Dataset_1:
+  id: 281
+  name: ALSPAC About Your Class Questionnaire for teachers Dataset
+  doi: ''
+  filename: alspac_00_ayc.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:14.417047000 Z
+  updated_at: 2016-04-05 11:19:14.417047000 Z
+Dataset_2:
+  id: 282
+  name: ALSPAC About Your School Questionnaire for head teachers Dataset
+  doi: ''
+  filename: alspac_00_ays.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:19.392052000 Z
+  updated_at: 2016-04-05 11:19:19.392052000 Z
+Dataset_3:
+  id: 283
+  name: ALSPAC My Hands My Feet and Me Questionnaire Dataset
+  doi: ''
+  filename: alspac_00_mhmfam.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:21.735583000 Z
+  updated_at: 2016-04-05 11:19:21.735583000 Z
+Dataset_4:
+  id: 284
+  name: ALSPAC Mother of a Nine Year Old Questionnaire Dataset
+  doi: ''
+  filename: alspac_00_moa9yo.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:24.068117000 Z
+  updated_at: 2016-04-05 11:19:24.068117000 Z
+Dataset_5:
+  id: 285
+  name: ALSPAC My Son/Daughter's Health Questionnaire Dataset
+  doi: ''
+  filename: alspac_00_msdh.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:27.219486000 Z
+  updated_at: 2016-04-05 11:19:27.219486000 Z
+Dataset_6:
+  id: 286
+  name: ALSPAC My Son/Daughter at Home and at School Questionnaire Dataset
+  doi: ''
+  filename: alspac_00_msdhs.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:30.444841000 Z
+  updated_at: 2016-04-05 11:19:30.444841000 Z
+Dataset_7:
+  id: 287
+  name: ALSPAC My World Questionnaire Dataset
+  doi: ''
+  filename: alspac_00_mw.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:31.833563000 Z
+  updated_at: 2016-04-05 11:19:31.833563000 Z
+Dataset_8:
+  id: 288
+  name: Your Son/Daughter at 9 Dataset
+  doi: ''
+  filename: alspac_01_msdms.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:34.583013000 Z
+  updated_at: 2016-04-05 11:19:34.583013000 Z
+Dataset_9:
+  id: 289
+  name: ALSPAC Rings and Things Questionnaire Dataset
+  doi: ''
+  filename: alspac_01_rat.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:36.884553000 Z
+  updated_at: 2016-04-05 11:19:36.884553000 Z
+Dataset_10:
+  id: 290
+  name: ALSPAC You and Your Surroundings Questionnaire Dataset
+  doi: ''
+  filename: alspac_01_yays.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:39.047120000 Z
+  updated_at: 2016-04-05 11:19:39.047120000 Z
+Dataset_11:
+  id: 291
+  name: ALSPAC Lifestyle and Health of Mother Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_lahom.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:43.264277000 Z
+  updated_at: 2016-04-05 11:19:43.264277000 Z
+Dataset_12:
+  id: 292
+  name: ALSPAC Questionnaire For Class Teacher School Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_qct.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:47.594411000 Z
+  updated_at: 2016-04-05 11:19:47.594411000 Z
+Dataset_13:
+  id: 293
+  name: ALSPAC Questionnaire For Head Teacher School Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_qht.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:52.679393000 Z
+  updated_at: 2016-04-05 11:19:52.679393000 Z
+Dataset_14:
+  id: 294
+  name: ALSPAC School Life and Me Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_slam.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:55.171895000 Z
+  updated_at: 2016-04-05 11:19:55.171895000 Z
+Dataset_15:
+  id: 295
+  name: ALSPAC The Developing Child School Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_tdc.ddi32.rp.xml
+  created_at: 2016-04-05 11:19:57.958337000 Z
+  updated_at: 2016-04-05 11:19:57.958337000 Z
+Dataset_16:
+  id: 296
+  name: ALSPAC Watches and Funny Feelings Questionnaire Dataset
+  doi: ''
+  filename: alspac_02_waff.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:00.721785000 Z
+  updated_at: 2016-04-05 11:20:00.721785000 Z
+Dataset_17:
+  id: 297
+  name: ALSPAC All Around Me Questionnaire Dataset
+  doi: ''
+  filename: alspac_03_aam.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:01.475634000 Z
+  updated_at: 2016-04-05 11:20:01.475634000 Z
+Dataset_18:
+  id: 298
+  name: ALSPAC Twelve Years On Questionnaire Dataset
+  doi: ''
+  filename: alspac_03_tyo.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:03.477233000 Z
+  updated_at: 2016-04-05 11:20:03.477233000 Z
+Dataset_19:
+  id: 299
+  name: ALSPAC Food and Things Questionnaire Dataset
+  doi: ''
+  filename: alspac_04_fat.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:05.849759000 Z
+  updated_at: 2016-04-05 11:20:05.849759000 Z
+Dataset_20:
+  id: 300
+  name: ALSPAC Reading and Singing Questionnaire Dataset
+  doi: ''
+  filename: alspac_04_ras.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:06.669595000 Z
+  updated_at: 2016-04-05 11:20:06.669595000 Z
+Dataset_21:
+  id: 301
+  name: ALSPAC Year 11 Questionnaire For Young People Dataset
+  doi: ''
+  filename: alspac_07_y11qfyp.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:07.200489000 Z
+  updated_at: 2016-04-05 11:20:07.200489000 Z
+Dataset_22:
+  id: 302
+  name: ALSPAC You and Your Friends Questionnaire Dataset
+  doi: ''
+  filename: alspac_08_yayf.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:08.460237000 Z
+  updated_at: 2016-04-05 11:20:08.460237000 Z
+Dataset_23:
+  id: 303
+  name: ALSPAC About Yourself Questionnaire Dataset
+  doi: ''
+  filename: alspac_12weeks.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:10.762776000 Z
+  updated_at: 2016-04-05 11:20:10.762776000 Z
+Dataset_24:
+  id: 304
+  name: ALSPAC Being a Father Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_baf.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:13.494230000 Z
+  updated_at: 2016-04-05 11:20:13.494230000 Z
+Dataset_25:
+  id: 305
+  name: ALSPAC Having a Baby Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_hab.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:15.621804000 Z
+  updated_at: 2016-04-05 11:20:15.621804000 Z
+Dataset_26:
+  id: 306
+  name: ALSPAC Me and My Baby Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_mamb.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:18.536221000 Z
+  updated_at: 2016-04-05 11:20:18.536221000 Z
+Dataset_27:
+  id: 307
+  name: ALSPAC My Son/Daughter Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_msd.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:21.873553000 Z
+  updated_at: 2016-04-05 11:20:21.873553000 Z
+Dataset_28:
+  id: 308
+  name: ALSPAC My Young Baby Boy/Girl Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_mybbg.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:24.831962000 Z
+  updated_at: 2016-04-05 11:20:24.831962000 Z
+Dataset_29:
+  id: 309
+  name: ALSPAC Partners Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_pq.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:27.419444000 Z
+  updated_at: 2016-04-05 11:20:27.419444000 Z
+Dataset_30:
+  id: 310
+  name: ALSPAC You and Your Environment Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_yaye.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:30.902747000 Z
+  updated_at: 2016-04-05 11:20:30.902747000 Z
+Dataset_31:
+  id: 311
+  name: ALSPAC Your Environment Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_ye.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:33.872153000 Z
+  updated_at: 2016-04-05 11:20:33.872153000 Z
+Dataset_32:
+  id: 312
+  name: ALSPAC Your Home and Lifestyle Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_yhal.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:36.138700000 Z
+  updated_at: 2016-04-05 11:20:36.138700000 Z
+Dataset_33:
+  id: 313
+  name: ALSPAC Your Pregnancy Questionnaire Dataset
+  doi: ''
+  filename: alspac_91_yp.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:38.700187000 Z
+  updated_at: 2016-04-05 11:20:38.700187000 Z
+Dataset_34:
+  id: 314
+  name: ALSPAC Looking After the Baby Questionnaire Dataset
+  doi: ''
+  filename: alspac_92_latb.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:42.991329000 Z
+  updated_at: 2016-04-05 11:20:42.991329000 Z
+Dataset_35:
+  id: 315
+  name: ALSPAC My Infant Son/Daughter Dataset
+  doi: ''
+  filename: alspac_92_misd.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:46.470633000 Z
+  updated_at: 2016-04-05 11:20:46.470633000 Z
+Dataset_36:
+  id: 316
+  name: ALSPAC The Baby and Me (Partners) Questionnaire Dataset
+  doi: ''
+  filename: alspac_92_tbamp.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:49.606006000 Z
+  updated_at: 2016-04-05 11:20:49.606006000 Z
+Dataset_37:
+  id: 317
+  name: ALSPAC A Toddler in the House Questionnaire Dataset
+  doi: ''
+  filename: alspac_93_atith.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:52.108505000 Z
+  updated_at: 2016-04-05 11:20:52.108505000 Z
+Dataset_38:
+  id: 318
+  name: ALSPAC Caring For a Toddler Questionnaire Dataset
+  doi: ''
+  filename: alspac_93_cfat.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:55.598807000 Z
+  updated_at: 2016-04-05 11:20:55.598807000 Z
+Dataset_39:
+  id: 319
+  name: ALSPAC My Little Boy/Girl Questionnaire Dataset
+  doi: ''
+  filename: alspac_93_mlbg.ddi32.rp.xml
+  created_at: 2016-04-05 11:20:59.494028000 Z
+  updated_at: 2016-04-05 11:20:59.494028000 Z
+Dataset_40:
+  id: 320
+  name: ALSPAC My Study Son/Daughter Questionnaire Dataset
+  doi: ''
+  filename: alspac_93_mssd.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:02.298467000 Z
+  updated_at: 2016-04-05 11:21:02.298467000 Z
+Dataset_41:
+  id: 321
+  name: ALSPAC My Sons/Daughters Health and Behaviour Questionnaire Dataset
+  doi: ''
+  filename: alspac_94_msdhab.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:04.777971000 Z
+  updated_at: 2016-04-05 11:21:04.777971000 Z
+Dataset_42:
+  id: 322
+  name: ALSPAC My Three Year Old Boy/Girl Questionnaire Dataset
+  doi: ''
+  filename: alspac_94_mtyobg.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:08.708185000 Z
+  updated_at: 2016-04-05 11:21:08.708185000 Z
+Dataset_43:
+  id: 323
+  name: ALSPAC Partners Health Events and Feelings Questionnaire Dataset
+  doi: ''
+  filename: alspac_94_pheaf.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:13.130300000 Z
+  updated_at: 2016-04-05 11:21:13.130300000 Z
+Dataset_44:
+  id: 324
+  name: ALSPAC Your Health Events and Feelings Questionnaire Dataset
+  doi: ''
+  filename: alspac_94_yheaf.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:17.330460000 Z
+  updated_at: 2016-04-05 11:21:17.330460000 Z
+Dataset_45:
+  id: 325
+  name: ALSPAC Development and Health of My Son/Daughter Questionnaire Dataset
+  doi: ''
+  filename: alspac_95_dahomsd.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:22.297466000 Z
+  updated_at: 2016-04-05 11:21:22.297466000 Z
+Dataset_46:
+  id: 326
+  name: ALSPAC Mothers New Questionnaire Dataset
+  doi: ''
+  filename: alspac_95_mnq.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:25.839315000 Z
+  updated_at: 2016-04-05 11:21:25.839315000 Z
+Dataset_47:
+  id: 327
+  name: ALSPAC My Young Four Year Old Boy/Girl Questionnaire Dataset
+  doi: ''
+  filename: alspac_95_myfyobg.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:30.396315000 Z
+  updated_at: 2016-04-05 11:21:30.396315000 Z
+Dataset_48:
+  id: 328
+  name: ALSPAC My Five Year Old Son/Daughter Dataset
+  doi: ''
+  filename: alspac_96_mfyosd.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:34.745315000 Z
+  updated_at: 2016-04-05 11:21:34.745315000 Z
+Dataset_49:
+  id: 329
+  name: ALSPAC Mothers Lifestyle Questionnaire Dataset
+  doi: ''
+  filename: alspac_96_ml.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:38.359315000 Z
+  updated_at: 2016-04-05 11:21:38.359315000 Z
+Dataset_50:
+  id: 330
+  name: ALSPAC My School Boy/Girl Questionnaire Dataset
+  doi: ''
+  filename: alspac_96_msbg.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:41.595315000 Z
+  updated_at: 2016-04-05 11:21:41.595315000 Z
+Dataset_51:
+  id: 331
+  name: ALSPAC Study Mothers Questionnaire Dataset
+  doi: ''
+  filename: alspac_96_smq.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:45.194315000 Z
+  updated_at: 2016-04-05 11:21:45.194315000 Z
+Dataset_52:
+  id: 332
+  name: ALSPAC Study Partners Questionnaire Dataset
+  doi: ''
+  filename: alspac_96_spq.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:47.809315000 Z
+  updated_at: 2016-04-05 11:21:47.809315000 Z
+Dataset_53:
+  id: 333
+  name: ALSPAC My Son/Daughter Growing Up Questionnaire Dataset
+  doi: ''
+  filename: alspac_97_msdgu.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:51.326315000 Z
+  updated_at: 2016-04-05 11:21:51.326315000 Z
+Dataset_54:
+  id: 334
+  name: ALSPAC Partners Lifestyle Questionnaire Dataset
+  doi: ''
+  filename: alspac_97_pl.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:54.537315000 Z
+  updated_at: 2016-04-05 11:21:54.537315000 Z
+Dataset_55:
+  id: 335
+  name: ALSPAC My Son/Daughter at School Questionnaire Dataset
+  doi: ''
+  filename: alspac_98_msdas.ddi32.rp.xml
+  created_at: 2016-04-05 11:21:58.187315000 Z
+  updated_at: 2016-04-05 11:21:58.187315000 Z
+Dataset_56:
+  id: 336
+  name: ALSPAC Partner and Home Questionnaire Dataset
+  doi: ''
+  filename: alspac_98_pah.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:03.127315000 Z
+  updated_at: 2016-04-05 11:22:03.127315000 Z
+Dataset_57:
+  id: 337
+  name: ALSPAC Childs Behaviour and Abilities Schools Questionnaire for teachers Dataset
+  doi: ''
+  filename: alspac_99_cba.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:07.848315000 Z
+  updated_at: 2016-04-05 11:22:07.848315000 Z
+Dataset_58:
+  id: 338
+  name: ALSPAC Father and Family Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_fatf.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:12.246315000 Z
+  updated_at: 2016-04-05 11:22:12.246315000 Z
+Dataset_59:
+  id: 339
+  name: ALSPAC Mother and Family Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_maf.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:16.966315000 Z
+  updated_at: 2016-04-05 11:22:16.966315000 Z
+Dataset_60:
+  id: 340
+  name: ALSPAC Me and My School Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_mams.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:19.437315000 Z
+  updated_at: 2016-04-05 11:22:19.437315000 Z
+Dataset_61:
+  id: 341
+  name: ALSPAC My Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_mq.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:19.739315000 Z
+  updated_at: 2016-04-05 11:22:19.739315000 Z
+Dataset_62:
+  id: 342
+  name: ALSPAC My Sons/Daughters Well-being Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_msdw.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:23.824315000 Z
+  updated_at: 2016-04-05 11:22:23.824315000 Z
+Dataset_63:
+  id: 343
+  name: ALSPAC My Teeth Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_mt.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:26.554315000 Z
+  updated_at: 2016-04-05 11:22:26.554315000 Z
+Dataset_64:
+  id: 344
+  name: ALSPAC Things For You To Do Questionnaire Dataset
+  doi: ''
+  filename: alspac_99_ttd.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:27.268315000 Z
+  updated_at: 2016-04-05 11:22:27.268315000 Z
+Dataset_65:
+  id: 345
+  name: BCS70 Paper Self Completion (2012) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-7473-1
+  filename: bcs9_sc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:28.454315000 Z
+  updated_at: 2016-04-05 11:22:28.454315000 Z
+Dataset_66:
+  id: 346
+  name: BCS70 Birth Survey (1970) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-2666-2
+  filename: bcs_1970.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:30.952315000 Z
+  updated_at: 2016-04-05 11:22:30.952315000 Z
+Dataset_67:
+  id: 347
+  name: BCS70 Home Interview (1975) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-2699-3
+  filename: bcs_75_hi.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:33.757315000 Z
+  updated_at: 2016-04-05 11:22:33.757315000 Z
+Dataset_68:
+  id: 348
+  name: BCS70 Maternal Self-Completion (1975) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-2699-3
+  filename: bcs_75_mcs.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:35.292315000 Z
+  updated_at: 2016-04-05 11:22:35.292315000 Z
+Dataset_69:
+  id: 349
+  name: BCS70 Parent Interview  (1980) Dataset
+  doi: http://dx/doi.org/10.5255/UKDA-SN-3723-3
+  filename: bcs_80_pi.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:38.495315000 Z
+  updated_at: 2016-04-05 11:22:38.495315000 Z
+Dataset_70:
+  id: 350
+  name: BCS70 Pupil Question Form (1980) Dataset
+  doi: http://dx/doi.org/10.5255/UKDA-SN-3723-3
+  filename: bcs_80_pqf.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:40.856315000 Z
+  updated_at: 2016-04-05 11:22:40.856315000 Z
+Dataset_71:
+  id: 351
+  name: Anthropometry 2 Dataset
+  doi: ''
+  filename: hcs_1_home_1.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:41.178315000 Z
+  updated_at: 2016-04-05 11:22:41.178315000 Z
+Dataset_72:
+  id: 352
+  name: Health questionnaire Dataset
+  doi: ''
+  filename: hcs_1_home_2.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:42.869315000 Z
+  updated_at: 2016-04-05 11:22:42.869315000 Z
+Dataset_73:
+  id: 353
+  name: Social questionnaire Dataset
+  doi: ''
+  filename: hcs_1_home_3.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:45.031315000 Z
+  updated_at: 2016-04-05 11:22:45.031315000 Z
+Dataset_74:
+  id: 354
+  name: Dietary food questionnaire Dataset
+  doi: ''
+  filename: hcs_2_clinic_1.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:45.923315000 Z
+  updated_at: 2016-04-05 11:22:45.923315000 Z
+Dataset_75:
+  id: 355
+  name: Smallpox vaccination status Dataset
+  doi: ''
+  filename: hcs_2_clinic_12.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.364315000 Z
+  updated_at: 2016-04-05 11:22:46.364315000 Z
+Dataset_76:
+  id: 356
+  name: Prostate questionnaire Dataset
+  doi: ''
+  filename: hcs_2_clinic_13.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.423315000 Z
+  updated_at: 2016-04-05 11:22:46.423315000 Z
+Dataset_77:
+  id: 357
+  name: Spirometry questionnaire Dataset
+  doi: ''
+  filename: hcs_2_clinic_14.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.519315000 Z
+  updated_at: 2016-04-05 11:22:46.519315000 Z
+Dataset_78:
+  id: 358
+  name: Timed up and go Dataset
+  doi: ''
+  filename: hcs_2_clinic_15.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.595315000 Z
+  updated_at: 2016-04-05 11:22:46.595315000 Z
+Dataset_79:
+  id: 359
+  name: Blood pressure 2 Dataset
+  doi: ''
+  filename: hcs_2_clinic_16.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.741315000 Z
+  updated_at: 2016-04-05 11:22:46.741315000 Z
+Dataset_80:
+  id: 360
+  name: Blood pressure 1 Dataset
+  doi: ''
+  filename: hcs_2_clinic_3.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:46.909315000 Z
+  updated_at: 2016-04-05 11:22:46.909315000 Z
+Dataset_81:
+  id: 361
+  name: Chair rises and flamingo stands Dataset
+  doi: ''
+  filename: hcs_2_clinic_4.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:47.055315000 Z
+  updated_at: 2016-04-05 11:22:47.055315000 Z
+Dataset_82:
+  id: 362
+  name: Manual muscle testing (MMT) Dataset
+  doi: ''
+  filename: hcs_2_clinic_7.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:47.171315000 Z
+  updated_at: 2016-04-05 11:22:47.171315000 Z
+Dataset_83:
+  id: 363
+  name: Birth Collection Dataset
+  doi: ''
+  filename: hcs_birth.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:47.640315000 Z
+  updated_at: 2016-04-05 11:22:47.640315000 Z
+Dataset_84:
+  id: 364
+  name: MCS4 Teacher Survey Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-6848-1
+  filename: mcs4_teacher.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:48.407315000 Z
+  updated_at: 2016-04-05 11:22:48.407315000 Z
+Dataset_85:
+  id: 365
+  name: MCS5 Child Paper Self-Completion Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-7464-2
+  filename: mcs5_sc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:49.432315000 Z
+  updated_at: 2016-04-05 11:22:49.432315000 Z
+Dataset_86:
+  id: 366
+  name: MCS5 Teacher Survey Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-7464-2
+  filename: mcs5_teacher_survey.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:50.439315000 Z
+  updated_at: 2016-04-05 11:22:50.439315000 Z
+Dataset_87:
+  id: 367
+  name: MCS2 Neighbourhood Assessment Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5350-3
+  filename: mcs_03_na.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:51.067315000 Z
+  updated_at: 2016-04-05 11:22:51.067315000 Z
+Dataset_88:
+  id: 368
+  name: MCS2 Older Sibling Self-Completion Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5350-3
+  filename: mcs_03_ossc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:51.324315000 Z
+  updated_at: 2016-04-05 11:22:51.324315000 Z
+Dataset_89:
+  id: 369
+  name: MCS3 Older Sibling Self-Completion Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5795-3
+  filename: mcs_05_ossc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:51.996315000 Z
+  updated_at: 2016-04-05 11:22:51.996315000 Z
+Dataset_90:
+  id: 370
+  name: MCS4 Child Paper Self-Completion Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-6411-5
+  filename: mcs_07_csc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:52.306315000 Z
+  updated_at: 2016-04-05 11:22:52.306315000 Z
+Dataset_91:
+  id: 371
+  name: NCDS8 Paper Self-Completion (2012) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-6137-2
+  filename: ncds8_sc.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:53.061315000 Z
+  updated_at: 2016-04-05 11:22:53.061315000 Z
+Dataset_92:
+  id: 372
+  name: NCDS Biomedical Paper Self-Completion 1 (2002) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5594-2
+  filename: ncds_02_sc_1.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:54.056315000 Z
+  updated_at: 2016-04-05 11:22:54.056315000 Z
+Dataset_93:
+  id: 373
+  name: NCDS Biomedical Paper Self-Completion 2 (2002) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5594-2
+  filename: ncds_02_sc_2.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:55.511315000 Z
+  updated_at: 2016-04-05 11:22:55.511315000 Z
+Dataset_94:
+  id: 374
+  name: NCDS1 Parental Questionnaire (1965) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5565-2
+  filename: ncds_65_pq.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:56.798315000 Z
+  updated_at: 2016-04-05 11:22:56.798315000 Z
+Dataset_95:
+  id: 375
+  name: NCDS2 Parental Interview Form (1969) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5565-2
+  filename: ncds_69_pq.ddi32.rp.xml
+  created_at: 2016-04-05 11:22:58.745315000 Z
+  updated_at: 2016-04-05 11:22:58.745315000 Z
+Dataset_96:
+  id: 376
+  name: NCDS Biomedical Interview (2002) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5594-2
+  filename: ncds_biomed.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:01.988315000 Z
+  updated_at: 2016-04-05 11:23:01.988315000 Z
+Dataset_97:
+  id: 377
+  name: The Cost Study Dataset
+  doi: ''
+  filename: nshd_46_tcs.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:03.960315000 Z
+  updated_at: 2016-04-05 11:23:03.960315000 Z
+Dataset_98:
+  id: 378
+  name: The Maternity Services Study Dataset
+  doi: ''
+  filename: nshd_46_tms.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:04.066315000 Z
+  updated_at: 2016-04-05 11:23:04.066315000 Z
+Dataset_99:
+  id: 379
+  name: 1948 Questionnaire Dataset
+  doi: ''
+  filename: nshd_48.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:04.269315000 Z
+  updated_at: 2016-04-05 11:23:04.269315000 Z
+Dataset_100:
+  id: 380
+  name: 1950 Questionnaire Dataset
+  doi: ''
+  filename: nshd_50.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:04.907315000 Z
+  updated_at: 2016-04-05 11:23:04.907315000 Z
+Dataset_101:
+  id: 381
+  name: School Nurse's Interview with Mother Dataset
+  doi: ''
+  filename: nshd_52_iwm.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:05.642315000 Z
+  updated_at: 2016-04-05 11:23:05.642315000 Z
+Dataset_102:
+  id: 382
+  name: 1952 Examination by the school doctor Dataset
+  doi: ''
+  filename: nshd_52_sd.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:05.970315000 Z
+  updated_at: 2016-04-05 11:23:05.970315000 Z
+Dataset_103:
+  id: 383
+  name: 1953 School Doctor Dataset
+  doi: ''
+  filename: nshd_53_sd.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:06.269315000 Z
+  updated_at: 2016-04-05 11:23:06.269315000 Z
+Dataset_104:
+  id: 384
+  name: 1953 School questionnaire Dataset
+  doi: ''
+  filename: nshd_53_sq.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:06.609315000 Z
+  updated_at: 2016-04-05 11:23:06.609315000 Z
+Dataset_105:
+  id: 385
+  name: Perinatal Mortality Study (1958) Dataset
+  doi: http://dx.doi.org/10.5255/UKDA-SN-5565-2
+  filename: pms.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:07.196315000 Z
+  updated_at: 2016-04-05 11:23:07.196315000 Z
+Dataset_106:
+  id: 386
+  name: 6 Month Dataset
+  doi: ''
+  filename: sws_2_visit.ddi32.rp.xml
+  created_at: 2016-04-05 11:23:08.948315000 Z
+  updated_at: 2016-04-05 11:23:08.948315000 Z

@@ -6,7 +6,9 @@ archivist = angular.module('archivist', [
   'archivist.instruments',
   'archivist.build',
   'archivist.admin',
-  'archivist.realtime'
+  'archivist.realtime',
+  'archivist.users',
+  'archivist.data_manager'
 ])
 
 archivist.config([ '$routeProvider', '$locationProvider',
@@ -19,12 +21,26 @@ archivist.config([ '$routeProvider', '$locationProvider',
     $locationProvider.html5Mode true
 ])
 
-archivist.controller('RootController', [ '$scope', '$location', 'Flash'
-  ($scope, $location, Flash)->
+archivist.controller('RootController',
+  [
+    '$scope',
+    '$location',
+    'DataManager'
+    'Flash',
+    'User',
+  ($scope, $location, DataManager, Flash, User)->
     $scope.softwareName = 'Archivist'
     $scope.page['title'] = 'Home'
     $scope.isActive = (viewLocation) ->
       viewLocation == $location.path()
+
+    $scope.user = new User(window.current_user_email)
+    if $scope.user.email.length > 0
+      $scope.user.sign_in()
+
+    $scope.sign_out = ->
+      $scope.user.sign_out().finally ->
+        DataManager.clearCache()
 ])
 
 archivist.directive 'notices', ->
@@ -42,8 +58,14 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     Array::select_resource_by_id = (ref_id)->
       output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 
+    Array::get_index_by_id = (ref_id)->
+      (key for key in [0...@length] when @[key].id == ref_id)[0]
+
     Array::select_resource_by_id_and_type = (ref_id, ref_type)->
       output = (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
+
+      Array::get_index_by_id_and_type = (ref_id, ref_type)->
+      (key for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
 
     String::replaceAll = (search, replacement) ->
       target = this
@@ -57,10 +79,13 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
       target = this
       target.charAt(0).toUpperCase() + target.slice(1)
 
-    $rootScope.$on('$routeChangeSuccess', ->
+    $rootScope.publish_flash = ->
       Flash.publish($rootScope)
+
+    $rootScope.$on('$routeChangeSuccess', ->
+      $rootScope.publish_flash
     )
-    Flash.publish($rootScope)
+    $rootScope.publish_flash
 
     $rootScope.page = {title: 'Home'}
 

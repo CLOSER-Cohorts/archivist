@@ -1,4 +1,7 @@
 module Construct
+end
+
+module Construct::Model
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
@@ -45,7 +48,7 @@ module Construct
   module ClassMethods
     def is_a_parent(options = {})
       include Linkable
-      include Construct::LocalInstanceMethods
+      include Construct::Model::LocalInstanceMethods
       delegate :children, to: :cc
     end
 
@@ -59,5 +62,38 @@ module Construct
   end
 
   module LocalInstanceMethods
+    def first_child
+      children.min_by { |x| x.position}
+    end
+
+    def last_child
+      children.max_by { |x| x.position}
+    end
+  end
+end
+
+module Construct::Controller
+  extend ActiveSupport::Concern
+  include BaseInstrumentController
+  included do
+  end
+
+  module ClassMethods
+    def add_basic_actions(options = {})
+      super options
+      include Construct::Controller::Actions
+    end
+  end
+
+  module Actions
+    def create
+      #TODO: Security issue
+      @object = collection.create_with_position(params)
+      if @object
+        render :show, status: :created
+      else
+        render json: @object.errors, status: :unprocessable_entity
+      end
+    end
   end
 end

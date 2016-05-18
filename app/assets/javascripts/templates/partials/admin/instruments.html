@@ -30,8 +30,8 @@
                     <th>Actions</th>
                 </tr>
                 <tr data-ng-repeat="
-                    instrument in instruments |
-                    filter:query |
+                    instrument in filteredInstruments = (instruments |
+                    filter:query) |
                     orderBy:'id' |
                     limitTo:pageSize:(currentPage-1)*pageSize">
                     <td>{{instrument.id}}</td>
@@ -70,7 +70,7 @@
             </table>
             <div class="panel-footer">
                 <uib-pagination
-                        total-items="instruments.length"
+                        total-items="filteredInstruments.length"
                         ng-model="currentPage"
                         items-per-page="pageSize">
                 </uib-pagination>

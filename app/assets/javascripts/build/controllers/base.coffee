@@ -4,15 +4,18 @@ angular.module('archivist.build').controller(
     '$scope',
     '$routeParams',
     '$location',
+    '$timeout',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($scope, $routeParams, $location, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($scope, $routeParams, $location, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
 
       $scope.page['title'] = $scope.title
       $scope.underscored = $scope.title.toLowerCase().replaceAll(' ','_')
       $scope.main_panel = "partials/build/" + $scope.underscored + ".html"
+      $scope.url_path_args = $location.path().split('/')
+      $scope.newMode = $scope.url_path_args[..].pop() == 'new'
 
       $scope.before_instrument_loaded?()
 
@@ -30,30 +33,42 @@ angular.module('archivist.build').controller(
             {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
             {label: $scope.title, link: false, active: true}
           ]
+
+          $timeout(
+            ->
+              #TODO: Remove DOM code from controllers
+              jQuery('.first-field').first().focus()
+            ,0
+          )
           $scope.after_instrument_loaded?()
           console.log $scope
       )
 
       if !$scope.cancel?
-        $scope.cancel = () ->
+        $scope.cancel = ->
           console.log "cancel called"
-          $scope.reset()
+          if $scope.newMode
+
+            $scope.editMode = $scope.newMode = false
+          else
+            $scope.reset()
           null
 
       if !$scope.edit_path?
         $scope.edit_path = (obj)->
-          if obj?
-            terms = [
-              'instruments',
-              $scope.instrument.id,
-              'build'
-            ]
-            if $scope.extra_url_parameters
-              terms = terms.concat $scope.extra_url_parameters
+          terms = [
+            'instruments',
+            $scope.instrument.id,
+            'build'
+          ]
+          if $scope.extra_url_parameters
+            terms = terms.concat $scope.extra_url_parameters
 
-            terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
+          if obj?
+            if obj.type?
+              terms.push (obj.type.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, '') + 's'
             terms.push obj.id
-            terms.join('/')
+          terms.join('/')
 
       if !$scope.startEditMode?
         $scope.startEditMode = () ->

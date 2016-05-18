@@ -8,20 +8,20 @@
 			"icon-bar"></span></button> <a class="navbar-brand" href="#">{{softwareName}}</a>
 		</div>
 		<div class="navbar-collapse collapse" id="navbar">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav" data-ng-show="user.logged_in">
 				<li data-ng-class="{active: isActive('/')}">
 					<a href="/">Home</a>
 				</li>
 				<li data-ng-class="{active: isActive('/instruments')}">
 					<a href="/instruments">Instruments</a>
 				</li>
-				<li data-ng-class="{active: isActive('/datasets')}">
+				<li data-ng-class="{active: isActive('/datasets')}" class="admin-min">
 					<a href="/datasets">Datasets</a>
 				</li>
-				<li data-ng-class="{active: isActive('/topics')}">
+				<li data-ng-class="{active: isActive('/topics')}" class="admin-min">
 					<a href="/topics">Topics</a>
 				</li>
-				<li data-ng-class="{active: isActive('/admin')}" class="dropdown">
+				<li data-ng-class="{active: isActive('/admin')}" class="dropdown admin-min">
 					<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
 					data-toggle="dropdown" href="#" role="button">Admin <span class=
 					"caret"></span></a>
@@ -54,7 +54,7 @@
 					<a href="/help">Help</a>
 				</li>
 				<li>
-					<a href="/logout">Logout</a>
+					<a href="#" data-ng-show="user.logged_in" data-ng-click="sign_out()">Logout</a>
 				</li>
 			</ul>
       <p class="a-navbar-text navbar-right" data-ng-class="{'text-success': realtimeStatus, 'text-danger': !realtimeStatus}">
@@ -64,7 +64,9 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
+<div data-ng-if="!user.logged_in" data-ng-include="'sign_up_in.html'" data-ng-class="row"></div>
+
+<div data-ng-if="user.logged_in" class="container-fluid">
   <div class="view-container">
     <div data-ng-view class="view-frame animate-view"></div>
   </div>
