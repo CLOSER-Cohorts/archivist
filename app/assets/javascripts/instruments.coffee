@@ -65,17 +65,16 @@ instruments.controller('InstrumentsController',
               $scope.loading.state = "Done"
             , 100)
 
-        #TODO: Move to DataManager at some point
-        if loadStudies
-          $http.get('/studies.json').success((data)->
-            $scope.studies = data
-          )
-
       else
         $scope.instruments = DataManager.getInstruments()
         $scope.pageSize = 20
         $scope.filterStudy = (study)->
           $scope.filteredStudy = study
+
+        #TODO: Move to DataManager at some point
+        $http.get('/studies.json').success((data)->
+          $scope.studies = data
+        )
 
       $scope.updateInstrument = ->
         $scope.instrument.$save(

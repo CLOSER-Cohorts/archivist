@@ -16,9 +16,7 @@ json.array!(@collection) do |question_grid|
     json.label y.category.label
     json.order y.order
   end
-  json.corner_label (question_grid.corner_label == 'Vertical') ?
-                        question_grid.vertical_code_list.label :
-                        ((question_grid.corner_label == 'Horizontal') ? question_grid.horizontal_code_list.label : nil)
+  json.corner_label question_grid.corner_label
   rescue
   end
 end

@@ -42,6 +42,60 @@
                 data-ng-disabled="!editMode"
         />
     </div>
+    <div data-ng-if="current.type == 'QuestionGrid'">
+        <div class="form-group">
+            <label for="a-question-haxis">
+                Horizontal (X)
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-haxis"
+                    data-ng-model="current.horizontal_code_list_id"
+                    data-ng-disabled="!editMode"
+                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"
+            />
+        </div>
+        <div class="form-group">
+            <label for="a-question-haxis">
+                Vertical (Y)
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-vaxis"
+                    data-ng-model="current.vertical_code_list_id"
+                    data-ng-disabled="!editMode"
+                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"
+            />
+        </div>
+        <div class="form-group" data-ng-if="current.horizontal_code_list_id && current.vertical_code_list_id">
+            <label for="a-question-corner">
+                Corner Label
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-corner"
+                    data-ng-model="current.corner_label"
+                    data-ng-disabled="!editMode"
+            >
+                <option value="">(None)</option>
+                <option value="H">Horizontal</option>
+                <option value="V">Vertical</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="a-question-roster-label">
+                Roster Label
+            </label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="a-question-roster-label"
+                    placeholder="Roster Label"
+                    data-ng-model="current.literal"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+    </div>
 </form>
 
 <h3 class="sub-header">
