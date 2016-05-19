@@ -42,6 +42,45 @@
                 data-ng-disabled="!editMode"
         />
     </div>
+    <div data-ng-if="current.type == 'QuestionGrid'">
+        <div class="form-group">
+            <label for="a-question-haxis">
+                Horizonal (X)
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-haxis"
+                    data-ng-model="current.haxis"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+        <div class="form-group">
+            <label for="a-question-haxis">
+                Vertical (Y)
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-vaxis"
+                    data-ng-model="current.vaxis"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+        <div class="form-group" data-ng-if="current.haxis && current.vaxis">
+            <label for="a-question-corner">
+                Corner Label
+            </label>
+            <select
+                    class="form-control"
+                    id="a-question-corner"
+                    data-ng-model="current.corner"
+                    data-ng-disabled="!editMode"
+            >
+                <option value="">(None)</option>
+                <option value="haxis">{{current.haxis}}</option>
+                <option value="vaxis">{{current.vaxis}}</option>
+            </select>
+        </div>
+    </div>
 </form>
 
 <h3 class="sub-header">
