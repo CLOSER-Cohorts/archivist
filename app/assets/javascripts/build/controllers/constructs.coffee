@@ -15,7 +15,7 @@ angular.module('archivist.build').controller(
     ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
       console.time 'end to end'
       $scope.title = 'Constructs'
-      $scope.overview = true
+      $scope.details_bar = true
       $scope.hide_edit_buttons = true
       $scope.extra_url_parameters = [
         'constructs'
