@@ -81,7 +81,8 @@ angular.module('archivist.build').controller(
       ]
       $scope.instrument_options = {
         questions: true,
-        rds: true
+        rds: true,
+        codes: true
       }
 
       $scope.reset = () ->
@@ -96,6 +97,8 @@ angular.module('archivist.build').controller(
           $scope.editMode = false
           if $scope.current?
             RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
+
+
 
           if $routeParams.question_id == 'new'
             $scope.editMode = true
@@ -120,6 +123,7 @@ angular.module('archivist.build').controller(
       $scope.after_instrument_loaded = ->
         console.log 'here'
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
+        DataManager.resolveCodes()
         console.log $scope.sidebar_objs
 
       $controller(

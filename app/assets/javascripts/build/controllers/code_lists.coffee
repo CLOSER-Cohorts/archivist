@@ -78,7 +78,11 @@ angular.module('archivist.build').controller(
       $scope.new = ->
         $scope.change_panel {type: 'CodeList', id: 'new'}
 
+      $scope.removeCode = (code) ->
+        $scope.current.codes = (c for c in $scope.current.codes when c.$$hashKey != code.$$hashKey)
+
       $scope.after_instrument_loaded = ->
+        $scope.categories = DataManager.Data.Codes.Categories
         $scope.load_sidebar()
         if !DataManager.CodeResolver?
           DataManager.resolveCodes()
