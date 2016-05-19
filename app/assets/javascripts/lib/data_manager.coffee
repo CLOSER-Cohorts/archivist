@@ -237,7 +237,7 @@ data_manager.factory(
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.resolve options
 
-      DataManager.resolveQuestions = ()->
+      DataManager.resolveQuestions = ->
         DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
         DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
 

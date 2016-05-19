@@ -178,7 +178,12 @@ module XML::CADDIES
         qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference/r:URN")
         qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference/r:URN")
         qg.horizontal_code_list = @code_list_index[qg_X.content]
-        if not qg_Y.nil?
+        roster = question_grid.at_xpath("./d:GridDimension[@rank='2']/d:Roster")
+        unless roster.nil?
+          qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
+          qg.roster_rows = roster.attribute('minimumRequired')
+        end
+        unless qg_Y.nil?
           qg.vertical_code_list = @code_list_index[qg_Y.content]
         end
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
