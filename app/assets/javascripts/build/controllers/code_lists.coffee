@@ -66,6 +66,8 @@ angular.module('archivist.build').controller(
 
       $scope.reset = () ->
         console.log "reset called"
+        if !DataManager.CodeResolver?
+          DataManager.resolveCodes()
         if not isNaN($routeParams.code_list_id)
           $scope.current = angular.copy $scope.instrument.CodeLists.select_resource_by_id parseInt $routeParams.code_list_id
           $scope.editMode = false
@@ -84,8 +86,6 @@ angular.module('archivist.build').controller(
       $scope.after_instrument_loaded = ->
         $scope.categories = DataManager.Data.Codes.Categories
         $scope.load_sidebar()
-        if !DataManager.CodeResolver?
-          DataManager.resolveCodes()
 
         $scope.$watch('current.newValue', (newVal, oldVal, scope)->
           console.log newVal, oldVal, scope

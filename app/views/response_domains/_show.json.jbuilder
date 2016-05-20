@@ -1,4 +1,5 @@
 if not rd.nil?
+  json.id rd.id
   json.type rd.class.name
   json.label rd.label
   if rd.class == ResponseDomainCode

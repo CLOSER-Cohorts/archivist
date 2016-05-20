@@ -76,10 +76,10 @@
                 Min:
             </label>
             <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="a-n-min-i"
-                    data-ng-model="current.min | number: 0"
+                    data-ng-model="current.min"
                     data-ng-disabled="!editMode"
                     data-ng-show="current.subtype == 'Integer'"
             />
@@ -87,7 +87,7 @@
                 Min:
             </label>
             <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="a-n-min-ii"
                     data-ng-model="current.min"
@@ -100,10 +100,10 @@
                 Max:
             </label>
             <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="a-n-max-i"
-                    data-ng-model="current.max | number: 0"
+                    data-ng-model="current.max"
                     data-ng-disabled="!editMode"
                     data-ng-show="current.subtype == 'Integer'"
             />
@@ -111,7 +111,7 @@
                 Max:
             </label>
             <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="a-n-max-ii"
                     data-ng-model="current.max"
