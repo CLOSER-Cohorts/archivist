@@ -18,7 +18,7 @@ class CodeList < ActiveRecord::Base
     end
 
     if !(be_code_answer || response_domain.nil?)
-      self.response_domain_code.destroy
+      self.response_domain_code = nil
     end
   end
 
