@@ -25,6 +25,9 @@ angular.module('archivist.build').controller(
       $scope.load_sidebar = ->
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
 
+      $scope.add_rd = (rd)->
+        $scope.current.rds.push rd
+
       $scope.delete = ->
         if $routeParams.question_type == 'question_items'
           qtype = 'Items'

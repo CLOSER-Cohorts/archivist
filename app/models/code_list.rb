@@ -18,7 +18,7 @@ class CodeList < ActiveRecord::Base
     end
 
     if !(be_code_answer || response_domain.nil?)
-      self.response_domain_code.destroy
+      self.response_domain_code = nil
     end
   end
 
@@ -53,19 +53,21 @@ class CodeList < ActiveRecord::Base
       end
     end
 
-    if self.codes.length < codes.length
-      # There are codes to add
-      new_codes_values = codes.select { |x| x[:id].nil? }
-      new_codes_values.each do |new_code_values|
-        new_code = Code.new
-        new_code.order = new_code_values[:order]
-        new_code.value = new_code_values[:value]
-        new_code.set_label new_code_values[:label], self.instrument
-        self.codes << new_code
-      end
+    unless codes.nil?
+      if self.codes.length < codes.length
+        # There are codes to add
+        new_codes_values = codes.select { |x| x[:id].nil? }
+        new_codes_values.each do |new_code_values|
+          new_code = Code.new
+          new_code.order = new_code_values[:order]
+          new_code.value = new_code_values[:value]
+          new_code.set_label new_code_values[:label], self.instrument
+          self.codes << new_code
+        end
 
-    elsif self.codes.length > codes.length
-      #TODO: Throw a massive wobbler
+      elsif self.codes.length > codes.length
+        #TODO: Throw a massive wobbler
+      end
     end
     self.reload
   end
