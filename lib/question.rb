@@ -24,7 +24,7 @@ module Question::Model
 
     def instruction=(text)
       if text.nil?
-        self.instruction = nil
+        association(:instruction).writer nil
       else
         if self.instruction.nil?
           association(:instruction).writer Instruction.new text: text, instrument: self.instrument
@@ -32,6 +32,34 @@ module Question::Model
           association(:instruction).reader().text = text
         end
       end
+    end
+
+    def update_rds(rds)
+      self.response_domains.each do |rd|
+        matching = rds.select { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
+        if matching.count == 0
+          #ResponseDomain is no longer included
+          rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
+        else
+          #TODO: Throw a wobbler
+        end
+      end
+      self.reload
+
+      unless rds.nil?
+        if self.response_domains.length < rds.length
+          # There are rds to add
+          o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
+          new_rds = o_rds.reject { |x| self.response_domains.include? x }
+          new_rds.each do |new_rd|
+            association(new_rd.class.name.tableize).reader << new_rd
+          end
+
+        elsif self.response_domains.length > rds.length
+          #TODO: Throw a massive wobbler
+        end
+      end
+      self.reload
     end
   end
 end
@@ -58,6 +86,22 @@ module Question::Controller
           @object.save!
         end
         render :show, status: :created
+      else
+        render json: @object.errors, status: :unprocessable_entity
+      end
+    end
+
+    def update
+      if @object.update(safe_params)
+        if params.has_key? :instruction
+          @object.instruction = params[:instruction]
+          @object.save!
+        end
+        if params.has_key? :rds
+          @object.update_rds params[:rds]
+          @object.save!
+        end
+        render :show, status: :ok
       else
         render json: @object.errors, status: :unprocessable_entity
       end

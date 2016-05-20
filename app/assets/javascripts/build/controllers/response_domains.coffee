@@ -54,6 +54,7 @@ angular.module('archivist.build').controller(
           when 'response_domain_texts' then rd_type = 'ResponseDomainText'
           when 'response_domain_datetimes' then rd_type = 'ResponseDomainDatetime'
           when 'response_domain_numerics' then rd_type = 'ResponseDomainNumeric'
+          when 'new'  then rd_type = 'new'
           else rd_type = false
 
         if rd_type
