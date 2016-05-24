@@ -59,6 +59,8 @@ angular.module('archivist.build').controller(
           console.log("error")
         )
 
+        DataManager.Data.ResponseDomains[$routeParams.id] = null
+
       $scope.title = 'Code Lists'
       $scope.instrument_options = {
         codes: true

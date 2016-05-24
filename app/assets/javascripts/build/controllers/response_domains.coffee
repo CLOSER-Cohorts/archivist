@@ -70,6 +70,7 @@ angular.module('archivist.build').controller(
           ,->
             console.log("error")
           )
+          DataManager.Data.ResponseDomains[$routeParams.id] = null
 
       $scope.reset = ->
         if $routeParams.response_domain_type? and $routeParams.response_domain_id?
