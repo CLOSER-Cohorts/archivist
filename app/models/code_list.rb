@@ -54,6 +54,7 @@ class CodeList < ActiveRecord::Base
     end
 
     unless codes.nil?
+      self.codes.reload
       if self.codes.length < codes.length
         # There are codes to add
         new_codes_values = codes.select { |x| x[:id].nil? }
