@@ -23,6 +23,7 @@ angular.module('archivist.build').controller(
       $scope.instrument_options = {
         constructs: true
         questions: true
+        rus: true
       }
       $scope.index = {}
 
@@ -115,6 +116,7 @@ angular.module('archivist.build').controller(
 
             $scope.change_panel arr[index]
 
+          $scope.change_panel {type: null, id: null}
           $scope.reset()
         ,->
           console.log("error")
@@ -132,6 +134,11 @@ angular.module('archivist.build').controller(
 
         console.timeEnd 'reset'
         null
+
+      $scope.build_ru_options = ->
+        $scope.details.ru_options = []
+        for ru in $scope.instrument.ResponseUnits
+          $scope.details.ru_options.push {value: ru.id, label: ru.label}
 
       $scope.after_instrument_loaded = ->
         console.time 'after instrument'
@@ -155,13 +162,22 @@ angular.module('archivist.build').controller(
         $scope.details.item_options = DataManager.getQuestionItemIDs()
         $scope.details.grid_options = DataManager.getQuestionGridIDs()
 
-        DataManager.getResponseUnits $scope.instrument.id, false, ()->
-          $scope.details.ru_options = []
-          for ru in DataManager.Data.ResponseUnits[$scope.instrument.id]
-            $scope.details.ru_options.push {value: ru.id, label: ru.label}
+        $scope.build_ru_options()
 
         console.timeEnd 'after instrument'
         console.timeEnd 'end to end'
+
+      $scope.save_ru = (new_interviewee)->
+        DataManager.Data.ResponseUnits.push new DataManager.ResponseUnits.resource({
+          label: new_interviewee.label,
+          instrument_id: $routeParams.id
+        })
+        DataManager.Data.ResponseUnits[DataManager.Data.ResponseUnits.length - 1].save(
+          {}
+        ,(value, rh)->
+          value['instrument_id'] = $scope.instrument.id
+          $scope.build_ru_options()
+        )
 
       $scope.new = (cc_type)->
         if cc_type == 'question'

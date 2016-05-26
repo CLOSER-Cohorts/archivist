@@ -5,6 +5,7 @@ data_manager = angular.module(
     'archivist.data_manager.instruments',
     'archivist.data_manager.constructs',
     'archivist.data_manager.codes',
+    'archivist.data_manager.response_units',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.realtime',
@@ -21,6 +22,7 @@ data_manager.factory(
     'Instruments',
     'Constructs',
     'Codes',
+    'ResponseUnits',
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
@@ -33,6 +35,7 @@ data_manager.factory(
       Instruments,
       Constructs,
       Codes,
+      ResponseUnits,
       ResolutionService,
       RealTimeListener,
       GetResource,
@@ -46,6 +49,7 @@ data_manager.factory(
       DataManager.Instruments = Instruments
       DataManager.Constructs = Constructs
       DataManager.Codes = Codes
+      DataManager.ResponseUnits = ResponseUnits
 
       DataManager.clearCache = ->
         DataManager.Data = {}
@@ -56,6 +60,7 @@ data_manager.factory(
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
         DataManager.Codes.clearCache()
+        DataManager.ResponseUnits.clearCache()
 
       DataManager.clearCache()
 
@@ -74,6 +79,7 @@ data_manager.factory(
         options.constructs ?= false
         options.questions ?= false
         options.rds ?= false
+        options.rus ?= false
         options.instrument ?= true
         options.topsequence ?= true
 
@@ -152,6 +158,11 @@ data_manager.factory(
           promises.push DataManager.Data.Questions.Grids.$promise
 
 
+        if options.rus
+          DataManager.Data.ResponseUnits =
+            DataManager.ResponseUnits.query instrument_id: instrument_id
+          promises.push DataManager.Data.ResponseUnits.$promise
+
         chunk_size = 100 / promises.length
         for promise in promises
           promise.finally ()->
@@ -181,6 +192,9 @@ data_manager.factory(
 
               if options.codes
                 DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists
+
+              if options.rus
+                DataManager.Data.Instrument.ResponseUnits = DataManager.Data.ResponseUnits
 
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence

@@ -43,7 +43,7 @@ module BaseController
 
     def create
       @object = collection.new(safe_params)
-      if @object.save
+      if @object.save!
         render :show, status: :created
       else
         render json: @object.errors, status: :unprocessable_entity

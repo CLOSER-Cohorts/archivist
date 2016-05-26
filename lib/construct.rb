@@ -69,6 +69,10 @@ module Construct::Model
     def last_child
       children.max_by { |x| x.position}
     end
+
+    def has_children?
+      children.count > 0
+    end
   end
 end
 

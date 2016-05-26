@@ -56,6 +56,8 @@ class Instrument < ActiveRecord::Base
 
   include Realtime
 
+  after_create :add_top_sequence
+
   def conditions
     self.cc_conditions
   end
@@ -112,6 +114,10 @@ class Instrument < ActiveRecord::Base
     end
     harvest.call self.top_sequence
     output
+  end
+
+  def add_top_sequence
+    self.cc_sequences.create
   end
 
   def copy

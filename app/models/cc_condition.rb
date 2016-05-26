@@ -12,15 +12,19 @@ class CcCondition < ActiveRecord::Base
 
     parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
     unless parent.nil?
-      obj.position = parent.last_child.position + 1
+      if parent.has_children?
+        obj.position = parent.last_child.position + 1
+      else
+        obj.position = 1
+      end
 
       unless params[:branch].nil?
         obj.branch = params[:branch]
       end
     end
     obj.label = params[:label]
-    obj.label = params[:literal]
-    obj.label = params[:logic]
+    obj.literal = params[:literal]
+    obj.logic = params[:logic]
     parent.children << obj.cc
     obj.save!
     obj

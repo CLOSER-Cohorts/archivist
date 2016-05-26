@@ -20,7 +20,11 @@ class CcQuestion < ActiveRecord::Base
     parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
     Rails.logger.debug params
     unless parent.nil?
-      obj.position = if parent.last_child.nil? then 0 else parent.last_child.position + 1 end
+      if parent.has_children?
+        obj.position = parent.last_child.position + 1
+      else
+        obj.position = 1
+      end
 
       unless params[:branch].nil?
         obj.branch = params[:branch]
