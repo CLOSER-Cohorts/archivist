@@ -26,6 +26,8 @@ angular.module('archivist.build').controller(
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
 
       $scope.add_rd = (rd)->
+        if !$scope.current.rds?
+          $scope.current.rds = []
         $scope.current.rds.push rd
 
       $scope.delete = ->
