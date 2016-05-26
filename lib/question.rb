@@ -23,14 +23,10 @@ module Question::Model
     end
 
     def instruction=(text)
-      if text.nil?
+      if text.nil? || text == ""
         association(:instruction).writer nil
       else
-        if self.instruction.nil?
-          association(:instruction).writer Instruction.new text: text, instrument: self.instrument
-        else
-          association(:instruction).reader().text = text
-        end
+        association(:instruction).writer Instruction.new text: text, instrument: self.instrument
       end
     end
 
