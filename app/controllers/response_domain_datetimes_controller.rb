@@ -5,4 +5,11 @@ class ResponseDomainDatetimesController < ApplicationController
                     params: '[:datetime_type, :label, :format]',
                     collection: 'Instrument.find(params[:instrument_id]).response_domain_datetimes'
 
+  before_action :subtype_shim, only: [:create, :update]
+
+  private
+  def subtype_shim
+    params[:response_domain_datetime][:datetime_type] = params[:subtype]
+  end
+
 end

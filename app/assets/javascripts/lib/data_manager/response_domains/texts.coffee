@@ -3,7 +3,7 @@ texts = angular.module('archivist.data_manager.response_domains.texts', [
 ])
 
 texts.factory(
-  'Texts',
+  'ResponseDomainTexts',
   [
     'WrappedResource',
     (WrappedResource)->

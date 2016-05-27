@@ -1,14 +1,14 @@
-numerics = angular.module('archivist.data_manager.response_domains.numerics', [
+codes = angular.module('archivist.data_manager.response_domains.codes', [
   'archivist.resource',
 ])
 
-numerics.factory(
-  'ResponseDomainNumerics',
+codes.factory(
+  'ResponseDomainCodes',
   [
     'WrappedResource',
     (WrappedResource)->
       new WrappedResource(
-        'instruments/:instrument_id/response_domain_numerics/:id.json',
+        'instruments/:instrument_id/response_domain_codes/:id.json',
         {
           id: '@id',
           instrument_id: '@instrument_id'

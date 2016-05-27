@@ -1,4 +1,5 @@
 rds = angular.module('archivist.data_manager.response_domains', [
+  'archivist.data_manager.response_domains.codes',
   'archivist.data_manager.response_domains.datetimes',
   'archivist.data_manager.response_domains.numerics',
   'archivist.data_manager.response_domains.texts'
@@ -7,24 +8,28 @@ rds = angular.module('archivist.data_manager.response_domains', [
 rds.factory(
   'ResponseDomains',
   [
-    'Datetimes',
-    'Numerics',
-    'Texts',
+    'ResponseDomainDatetimes',
+    'ResponseDomainNumerics',
+    'ResponseDomainTexts',
+    'ResponseDomainCodes',
     (
-      Datetimes,
-      Numerics,
-      Texts
+      ResponseDomainDatetimes,
+      ResponseDomainNumerics,
+      ResponseDomainTexts,
+      ResponseDomainCodes
     )->
       ResponseDomains = {}
 
-      ResponseDomains.Datetimes        = Datetimes
-      ResponseDomains.Numerics         = Numerics
-      ResponseDomains.Texts            = Texts
+      ResponseDomains.Datetimes        = ResponseDomainDatetimes
+      ResponseDomains.Numerics         = ResponseDomainNumerics
+      ResponseDomains.Texts            = ResponseDomainTexts
+      ResponseDomains.Codes            = ResponseDomainCodes
 
       ResponseDomains.clearCache = ->
         ResponseDomains.Datetimes.clearCache()
         ResponseDomains.Numerics.clearCache()
         ResponseDomains.Texts.clearCache()
+        ResponseDomains.Codes.clearCache()
 
       ResponseDomains
   ]

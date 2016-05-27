@@ -42,6 +42,8 @@ module BaseController
     end
 
     def create
+      Rails.logger.debug safe_params
+      Rails.logger.debug params
       @object = collection.new(safe_params)
       if @object.save!
         render :show, status: :created

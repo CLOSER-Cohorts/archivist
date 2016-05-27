@@ -164,6 +164,10 @@ data_manager.factory(
         if options.rds
           DataManager.Data.ResponseDomains = {}
 
+          DataManager.Data.ResponseDomains.Codes =
+            DataManager.ResponseDomains.Codes.query instrument_id: instrument_id
+          promises.push DataManager.Data.ResponseDomains.Codes.$promise
+
           DataManager.Data.ResponseDomains.Datetimes =
             DataManager.ResponseDomains.Datetimes.query instrument_id: instrument_id
           promises.push DataManager.Data.ResponseDomains.Datetimes.$promise
@@ -232,7 +236,8 @@ data_manager.factory(
       DataManager.groupResponseDomains = ->
         DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(
           DataManager.Data.ResponseDomains.Numerics,
-          DataManager.Data.ResponseDomains.Texts
+          DataManager.Data.ResponseDomains.Texts,
+          DataManager.Data.ResponseDomains.Codes
         )
 
       DataManager.getResponseUnits = (instrument_id, force = false, cb)->

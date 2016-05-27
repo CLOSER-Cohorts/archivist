@@ -3,7 +3,7 @@ datetimes = angular.module('archivist.data_manager.response_domains.datetimes', 
 ])
 
 datetimes.factory(
-  'Datetimes',
+  'ResponseDomainDatetimes',
   [
     'WrappedResource',
     (WrappedResource)->

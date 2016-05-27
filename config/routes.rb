@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     member do
       post 'copy', to: 'instruments#copy'
       get 'response_domains', to: 'instruments#response_domains'
+      get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
     end

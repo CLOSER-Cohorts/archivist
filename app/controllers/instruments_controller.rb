@@ -4,7 +4,7 @@ class InstrumentsController < ApplicationController
   add_basic_actions require: ':instrument',
                     params: '[:agency, :version, :prefix, :label, :study]',
                     collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :reorder_ccs, :stats]
+                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats]
 
   def reorder_ccs
     unless params[:updates].nil?
@@ -25,6 +25,9 @@ class InstrumentsController < ApplicationController
   end
 
   def response_domains
+  end
+
+  def response_domain_codes
   end
 
   def import
