@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ResponseDomainTextsControllerTest < ActionController::TestCase
   setup do
-    @response_domain_text = response_domain_texts(:one)
-    @instrument = instruments(:one)
+    @response_domain_text = response_domain_texts(:ResponseDomainText_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class CodeListsControllerTest < ActionController::TestCase
   setup do
-    @code_list = code_lists(:one)
-    @instrument = instruments(:one)
+    @code_list = code_lists(:CodeList_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

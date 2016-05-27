@@ -2,8 +2,8 @@ require 'test_helper'
 
 class CcSequencesControllerTest < ActionController::TestCase
   setup do
-    @cc_sequence = cc_sequences(:one)
-    @instrument = instruments(:one)
+    @cc_sequence = cc_sequences(:CcSequence_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

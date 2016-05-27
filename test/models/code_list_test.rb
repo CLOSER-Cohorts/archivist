@@ -5,7 +5,7 @@ class CodeListTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @code_list = code_lists :one
+    @code_list = code_lists :CodeList_1
   end
 
   test "belongs to an instrument" do

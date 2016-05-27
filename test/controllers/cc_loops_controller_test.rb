@@ -2,8 +2,8 @@ require 'test_helper'
 
 class CcLoopsControllerTest < ActionController::TestCase
   setup do
-    @cc_loop = cc_loops(:one)
-    @instrument = instruments(:one)
+    @cc_loop = cc_loops(:CcLoop_1)
+    @instrument = instruments(:Instrument_5)
   end
 
   test "should get index" do

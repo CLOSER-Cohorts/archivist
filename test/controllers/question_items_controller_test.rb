@@ -2,8 +2,8 @@ require 'test_helper'
 
 class QuestionItemsControllerTest < ActionController::TestCase
   setup do
-    @question_item = question_items(:one)
-    @instrument = instruments(:one)
+    @question_item = question_items(:QuestionItem_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcQuestionTest < ActiveSupport::TestCase
   setup do
-    @cc_question = cc_questions :one
+    @cc_question = cc_questions :CcQuestion_1
   end
 
   test "belongs to an instrument" do

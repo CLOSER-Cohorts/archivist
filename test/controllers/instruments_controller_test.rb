@@ -2,7 +2,7 @@ require 'test_helper'
 
 class InstrumentsControllerTest < ActionController::TestCase
   setup do
-    @instrument = instruments(:one)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

@@ -1,1 +1,9 @@
---- {}
+one:
+  name: TopLevelTopic
+  parent_id: 
+  code: 101
+
+two:
+  name: MiddleLevelTopic
+  parent: :one 
+  code: 10101

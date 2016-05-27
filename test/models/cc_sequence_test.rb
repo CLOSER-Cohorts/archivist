@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcSequenceTest < ActiveSupport::TestCase
   setup do
-    @cc_sequence = cc_sequences :two
+    @cc_sequence = cc_sequences :CcSequence_1
   end
 
   test "belongs to an instrument" do

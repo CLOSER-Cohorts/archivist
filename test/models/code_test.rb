@@ -6,7 +6,7 @@ class CodeTest < ActiveSupport::TestCase
   # end
 
   setup do
-    @code = codes :one
+    @code = codes :Code_1
   end
 
   test "can read label" do

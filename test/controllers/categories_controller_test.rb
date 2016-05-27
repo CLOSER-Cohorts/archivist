@@ -2,8 +2,8 @@ require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
   setup do
-    @category = categories(:one)
-    @instrument = instruments(:two)
+    @category = categories(:Category_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

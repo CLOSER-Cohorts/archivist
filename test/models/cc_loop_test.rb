@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcLoopTest < ActiveSupport::TestCase
   setup do
-    @cc_loop = cc_loops :one
+    @cc_loop = cc_loops :CcLoop_1
   end
 
   test "belongs to an instrument" do

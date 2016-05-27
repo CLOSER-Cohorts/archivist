@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcStatementTest < ActiveSupport::TestCase
   setup do
-    @cc_statement = cc_statements :one
+    @cc_statement = cc_statements :CcStatement_1
   end
 
   test "belongs to an instrument" do

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ResponseDomainDatetimesControllerTest < ActionController::TestCase
   setup do
-    @response_domain_datetime = response_domain_datetimes(:one)
-    @instrument = instruments(:one)
+    @response_domain_datetime = response_domain_datetimes(:ResponseDomainDatetime_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ResponseUnitsControllerTest < ActionController::TestCase
   setup do
-    @response_unit = response_units(:one)
-    @instrument = instruments(:one)
+    @response_unit = response_units(:ResponseUnit_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

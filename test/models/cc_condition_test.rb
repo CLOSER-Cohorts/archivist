@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcConditionTest < ActiveSupport::TestCase
   setup do
-    @cc_condition = cc_conditions :one
+    @cc_condition = cc_conditions :CcCondition_1
   end
 
   test "has one cc" do
