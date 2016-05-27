@@ -9,9 +9,10 @@ angular.module('archivist.build').controller(
     '$timeout',
     'Flash',
     'DataManager',
+    'Map',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, Map, RealTimeListener, RealTimeLocking)->
 
       $scope.load_sidebar = ->
         $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains)
@@ -58,19 +59,33 @@ angular.module('archivist.build').controller(
           else rd_type = false
 
         if rd_type
-          console.log $scope.current
-          angular.copy $scope.current, $scope.instrument.ResponseDomains.select_resource_by_id_and_type(parseInt($routeParams.response_domain_id, rd_type))
-          console.log $scope.instrument.ResponseDomains.select_resource_by_id_and_type(parseInt($routeParams.response_domain_id), rd_type)
-          $scope.instrument.ResponseDomains.select_resource_by_id_and_type(parseInt($routeParams.response_domain_id), rd_type).$save(
+          if rd_type == 'new'
+            res = Map.find DataManager, $scope.current.type
+            arr = Map.find DataManager.Data, $scope.current.type
+            console.log arr
+            arr.push(
+              new res.resource()
+            )
+            index = arr.length - 1
+            for key of $scope.current
+              arr[index][key] = $scope.current[key]
+            arr[index]['instrument_id'] = $routeParams.id
+          else
+            arr = $scope.instrument.ResponseDomains
+            index = arr.get_index_by_id_and_type parseInt($routeParams.response_domain_id), rd_type
+            angular.copy $scope.current, arr[index]
+
+          arr[index].save(
             {}
           ,(value, rh)->
             value['instrument_id'] = $scope.instrument.id
             Flash.add('success', 'Response Domain updated successfully!')
+            DataManager.groupResponseDomains()
             $scope.reset()
+            $scope.load_sidebar()
           ,->
             console.log("error")
           )
-          DataManager.Data.ResponseDomains[$routeParams.id] = null
 
       $scope.reset = ->
         if $routeParams.response_domain_type? and $routeParams.response_domain_id?
@@ -84,7 +99,7 @@ angular.module('archivist.build').controller(
               break
         if $routeParams.response_domain_type == 'new'
           $scope.editMode = true
-          $scope.current = new DataManager.Codes.CodeLists.resource({codes: []});
+          $scope.current = {}
         null
 
       $scope.new = ->

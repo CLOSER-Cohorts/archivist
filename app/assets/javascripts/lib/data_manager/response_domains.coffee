@@ -1,15 +1,31 @@
 rds = angular.module('archivist.data_manager.response_domains', [
-  'archivist.resource'
+  'archivist.data_manager.response_domains.datetimes',
+  'archivist.data_manager.response_domains.numerics',
+  'archivist.data_manager.response_domains.texts'
 ])
 
 rds.factory(
   'ResponseDomains',
   [
-    'WrappedResource',
-    (WrappedResource)->
-      new WrappedResource(
-        'instruments/:id/response_domains.json',
-        {id: '@id'}
-      )
+    'Datetimes',
+    'Numerics',
+    'Texts',
+    (
+      Datetimes,
+      Numerics,
+      Texts
+    )->
+      ResponseDomains = {}
+
+      ResponseDomains.Datetimes        = Datetimes
+      ResponseDomains.Numerics         = Numerics
+      ResponseDomains.Texts            = Texts
+
+      ResponseDomains.clearCache = ->
+        ResponseDomains.Datetimes.clearCache()
+        ResponseDomains.Numerics.clearCache()
+        ResponseDomains.Texts.clearCache()
+
+      ResponseDomains
   ]
 )

@@ -6,6 +6,7 @@ data_manager = angular.module(
     'archivist.data_manager.constructs',
     'archivist.data_manager.codes',
     'archivist.data_manager.response_units',
+    'archivist.data_manager.response_domains',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.realtime',
@@ -23,6 +24,7 @@ data_manager.factory(
     'Constructs',
     'Codes',
     'ResponseUnits',
+    'ResponseDomains',
     'ResolutionService',
     'RealTimeListener',
     'GetResource',
@@ -36,6 +38,7 @@ data_manager.factory(
       Constructs,
       Codes,
       ResponseUnits,
+      ResponseDomains,
       ResolutionService,
       RealTimeListener,
       GetResource,
@@ -50,6 +53,7 @@ data_manager.factory(
       DataManager.Constructs = Constructs
       DataManager.Codes = Codes
       DataManager.ResponseUnits = ResponseUnits
+      DataManager.ResponseDomains = ResponseDomains
 
       DataManager.clearCache = ->
         DataManager.Data = {}
@@ -157,6 +161,20 @@ data_manager.factory(
             DataManager.Constructs.Questions.grid.query instrument_id: instrument_id
           promises.push DataManager.Data.Questions.Grids.$promise
 
+        if options.rds
+          DataManager.Data.ResponseDomains = {}
+
+          DataManager.Data.ResponseDomains.Datetimes =
+            DataManager.ResponseDomains.Datetimes.query instrument_id: instrument_id
+          promises.push DataManager.Data.ResponseDomains.Datetimes.$promise
+
+          DataManager.Data.ResponseDomains.Numerics =
+            DataManager.ResponseDomains.Numerics.query instrument_id: instrument_id
+          promises.push DataManager.Data.ResponseDomains.Numerics.$promise
+
+          DataManager.Data.ResponseDomains.Texts =
+            DataManager.ResponseDomains.Texts.query instrument_id: instrument_id
+          promises.push DataManager.Data.ResponseDomains.Texts.$promise
 
         if options.rus
           DataManager.Data.ResponseUnits =
@@ -193,6 +211,9 @@ data_manager.factory(
               if options.codes
                 DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists
 
+              if options.rds
+                DataManager.groupResponseDomains()
+
               if options.rus
                 DataManager.Data.Instrument.ResponseUnits = DataManager.Data.ResponseUnits
 
@@ -200,22 +221,7 @@ data_manager.factory(
             if options.constructs and options.instrument and options.topsequence
               DataManager.Data.Instrument.topsequence = (s for s in DataManager.Data.Instrument.Constructs.Sequences when s.top)[0]
 
-
-            defer = $.Deferred()
-            if options.rds
-              rds = DataManager.getResponseDomains instrument_id, false, defer.resolve
-              if options.instrument
-                DataManager.Data.Instrument.ResponseDomains = rds
-
-            else
-              defer.resolve()
-
-            defer.then(
-              ->
-                console.log DataManager.Data.Instrument.Questions
-                success?()
-            )
-
+            success?()
 
             #if error?
             #  error()
@@ -223,18 +229,11 @@ data_manager.factory(
 
         return DataManager.Data.Instrument
 
-      DataManager.getResponseDomains = (instrument_id, force = false, cb)->
-        if (not DataManager.Data.ResponseDomains[instrument_id]?) or force
-          DataManager.Data.ResponseDomains[instrument_id] =
-            GetResource(
-              '/instruments/' + instrument_id + '/response_domains.json',
-              true,
-              cb
-            )
-        else
-          cb?()
-
-        DataManager.Data.ResponseDomains[instrument_id]
+      DataManager.groupResponseDomains = ->
+        DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(
+          DataManager.Data.ResponseDomains.Numerics,
+          DataManager.Data.ResponseDomains.Texts
+        )
 
       DataManager.getResponseUnits = (instrument_id, force = false, cb)->
         if (not DataManager.Data.ResponseUnits[instrument_id]?) or force

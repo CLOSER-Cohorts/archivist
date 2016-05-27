@@ -22,6 +22,12 @@ map.factory(
           Questions:  'Items'
         QuestionGrid:
           Questions:  'Grids'
+        ResponseDomainText:
+          ResponseDomains: 'Texts'
+        ResponseDomainNumeric:
+          ResponseDomains: 'Numerics'
+        ResponseDomainDatetime:
+          ResponseDomains: 'Datetimes'
 
       service.find = (obj, ident)->
 
