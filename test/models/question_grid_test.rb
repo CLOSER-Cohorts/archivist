@@ -5,7 +5,7 @@ class QuestionGridTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @question_grid = question_grids :QuestionGrid_1
+    @question_grid = question_grids :QuestionGrid_3
   end
 
   test "belongs to an instrument" do

@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ResponseDomainTextsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @response_domain_text = response_domain_texts(:ResponseDomainText_1)
     @instrument = instruments(:Instrument_1)
   end

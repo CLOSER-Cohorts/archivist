@@ -22,7 +22,7 @@ class CcQuestionTest < ActiveSupport::TestCase
   end
 
   test "can read parent construct" do
-    assert_kind_of Construct, @cc_question.parent
+    assert_kind_of Construct::Model, @cc_question.parent
   end
 
   test "set a new parent" do

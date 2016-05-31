@@ -2,6 +2,8 @@ require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @category = categories(:Category_1)
     @instrument = instruments(:Instrument_1)
   end
@@ -31,9 +33,10 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should destroy category" do
-    category = categories :three
+    category = categories :Category_1375
+    instrument = instruments :Instrument_5
     assert_difference('Category.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: category
+      delete :destroy, format: :json, instrument_id: instrument.id, id: category
     end
 
     assert_response :success

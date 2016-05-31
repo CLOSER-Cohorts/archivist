@@ -2,6 +2,8 @@ require 'test_helper'
 
 class VariablesControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @variable = variables(:one)
     @dataset = datasets(:one)
   end

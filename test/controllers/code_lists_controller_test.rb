@@ -2,6 +2,8 @@ require 'test_helper'
 
 class CodeListsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @code_list = code_lists(:CodeList_1)
     @instrument = instruments(:Instrument_1)
   end

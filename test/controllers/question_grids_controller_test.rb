@@ -2,7 +2,9 @@ require 'test_helper'
 
 class QuestionGridsControllerTest < ActionController::TestCase
   setup do
-    @question_grid = question_grids(:QuestionGrid_1)
+    @user = users :User_1
+    sign_in @user
+    @question_grid = question_grids(:QuestionGrid_3)
     @instrument = instruments(:Instrument_1)
     @xaxis = code_lists(:CodeList_11)
     @yaxis = code_lists(:CodeList_14)

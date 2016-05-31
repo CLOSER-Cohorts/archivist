@@ -21,7 +21,7 @@ class CodeTest < ActiveSupport::TestCase
 
   test "can write to label with existing category" do
     assert_difference 'Category.count', 0 do
-      @code.label = 'CategoryOne'
+      @code.label = 'Yes'
     end
   end
 end

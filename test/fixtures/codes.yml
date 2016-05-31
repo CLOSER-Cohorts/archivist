@@ -13127,14 +13127,6 @@ Code_1641:
   category_id: 1374
   created_at: 2016-05-27 16:09:45.072706000 Z
   updated_at: 2016-05-27 16:09:45.072706000 Z
-Code_1642:
-  id: 1642
-  value: '2'
-  order: 2
-  code_list_id: 343
-  category_id: 1375
-  created_at: 2016-05-27 16:09:45.077706000 Z
-  updated_at: 2016-05-27 16:09:45.077706000 Z
 Code_1643:
   id: 1643
   value: '1'
@@ -13239,11 +13231,3 @@ Code_1655:
   category_id: 1357
   created_at: 2016-05-27 16:09:45.192718000 Z
   updated_at: 2016-05-27 16:09:45.192718000 Z
-Code_1656:
-  id: 1656
-  value: '14'
-  order: 14
-  code_list_id: 344
-  category_id: 1358
-  created_at: 2016-05-27 16:09:45.197718000 Z
-  updated_at: 2016-05-27 16:09:45.197718000 Z

@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ResponseDomainNumericsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @response_domain_numeric = response_domain_numerics(:ResponseDomainNumeric_1)
     @instrument = instruments(:Instrument_1)
   end

@@ -2,6 +2,8 @@ require 'test_helper'
 
 class CcConditionsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @cc_condition = cc_conditions(:CcCondition_1)
     @instrument = instruments(:Instrument_1)
   end
@@ -14,7 +16,15 @@ class CcConditionsControllerTest < ActionController::TestCase
 
   test "should create cc_condition" do
     assert_difference('CcCondition.count') do
-      post :create, format: :json, instrument_id: @instrument.id, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic, instrument_id: @instrument.id}
+      post :create, format: :json,
+          instrument_id: @instrument.id,
+          literal: @cc_condition.literal,
+          logic: @cc_condition.logic,
+          type: 'condition',
+          parent: {
+              id: @cc_condition.parent.id,
+              type: 'sequence'
+          }
     end
 
     assert_response :success

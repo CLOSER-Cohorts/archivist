@@ -5,7 +5,7 @@ class QuestionItemTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @question_item = question_items :QuestionItem_1
+    @question_item = question_items :QuestionItem_145
   end
 
   test "belongs to an instrument" do

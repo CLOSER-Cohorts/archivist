@@ -2,6 +2,8 @@ require 'test_helper'
 
 class CcSequencesControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @cc_sequence = cc_sequences(:CcSequence_1)
     @instrument = instruments(:Instrument_1)
   end
@@ -14,7 +16,14 @@ class CcSequencesControllerTest < ActionController::TestCase
 
   test "should create cc_sequence" do
     assert_difference('CcSequence.count') do
-      post :create, format: :json, instrument_id: @instrument.id, cc_sequence: {literal: @cc_sequence.literal, instrument_id: @instrument.id}
+      post :create, format: :json,
+          instrument_id: @instrument.id,
+          literal: @cc_sequence.literal,
+          type: 'sequence',
+          parent: {
+              id: 1,
+              type: 'sequence'
+          }
     end
 
     assert_response :success

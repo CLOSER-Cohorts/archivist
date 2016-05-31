@@ -2,7 +2,9 @@ require 'test_helper'
 
 class QuestionItemsControllerTest < ActionController::TestCase
   setup do
-    @question_item = question_items(:QuestionItem_1)
+    @user = users :User_1
+    sign_in @user
+    @question_item = question_items(:QuestionItem_145)
     @instrument = instruments(:Instrument_1)
   end
 

@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ResponseDomainDatetimesControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @response_domain_datetime = response_domain_datetimes(:ResponseDomainDatetime_1)
     @instrument = instruments(:Instrument_1)
   end
