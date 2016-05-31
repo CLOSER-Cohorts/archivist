@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'setup', to: 'application#setup'
+
   devise_for :users, controllers: {
       sessions: 'users/sessions',
 #      confirmations: 'users/confirmations',
