@@ -55,6 +55,10 @@ angular.module('archivist.build').controller(
           Flash.add('success', 'Code list updated successfully!')
           $scope.reset()
           $scope.load_sidebar()
+          DataManager.Data.Codes.Categories =
+            DataManager.Codes.Categories.requery instrument_id: $scope.instrument.id
+          DataManager.Data.Codes.Categories.$promise.then ->
+            $scope.categories = DataManager.Data.Codes.Categories
         ,->
           console.log("error")
         )
