@@ -82,6 +82,7 @@ instruments.controller('InstrumentsController',
           ,->
             Flash.add('success', 'Instrument updated successfully!')
             $location.path('/instruments')
+            DataManager.clearCache()
           ,->
             console.log("error")
         )
