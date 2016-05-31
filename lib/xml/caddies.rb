@@ -261,8 +261,7 @@ module XML::CADDIES
 
     def read_constructs
       seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
-      cc_seq = CcSequence.new
-      @instrument.sequences << cc_seq
+      cc_seq = @instrument.top_sequence
       cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
       @response_unit_index = {}
       read_sequence_children(seq, cc_seq)
