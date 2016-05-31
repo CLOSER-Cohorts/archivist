@@ -89,6 +89,22 @@ angular.module('archivist.build').controller(
       $scope.removeCode = (code) ->
         $scope.current.codes = (c for c in $scope.current.codes when c.$$hashKey != code.$$hashKey)
 
+      $scope.moveUp = (code)->
+        $scope.moveCode code, -1
+
+      $scope.moveDown = (code)->
+        $scope.moveCode code, 1
+
+      $scope.moveCode = (code, shift)->
+        original_index = $scope.current.codes.findIndex (c)->
+          c.$$hashKey == code.$$hashKey
+        if original_index + shift < 0 or original_index + shift >= $scope.current.codes.length
+          return false
+        being_moved = $scope.current.codes.splice original_index, 1
+        $scope.current.codes.splice original_index + shift, 0, being_moved...
+        for i of $scope.current.codes
+          $scope.current.codes[i].order = i
+
       $scope.after_instrument_loaded = ->
         $scope.categories = DataManager.Data.Codes.Categories
         $scope.load_sidebar()
