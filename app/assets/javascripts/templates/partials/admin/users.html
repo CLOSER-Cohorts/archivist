@@ -1,0 +1,144 @@
+<div class="row admin">
+    <div data-ng-include="'partials/admin/sidebar.html'" class="col-sm-3 col-md-2 sidebar"></div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">
+            Users
+        </h1>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Groups
+                        <button type="button" class="btn btn-primary" data-ng-click="newGroup()">
+                            <span
+                                    class="glyphicon glyphicon-plus"
+                                    aria-hidden="true"
+                                    aria-label="Add new group"
+                            ></span>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <button
+                                type="button"
+                                class="list-group-item"
+                                data-ng-repeat="group in groups"
+                                data-ng-click="selectGroup(group)"
+                        >
+                            {{group.label}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Users
+                        <button type="button" class="btn btn-primary" data-ng-click="newUser()">
+                            <span
+                                    class="glyphicon glyphicon-plus"
+                                    aria-hidden="true"
+                                    aria-label="Add new user"
+                            ></span>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <button
+                                type="button"
+                                class="list-group-item"
+                                data-ng-repeat="user in users"
+                                data-ng-click="selectUser(user)"
+                        >
+                            {{user.first_name}} {{user.last_name}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Details
+                    </div>
+                    <div class="panel-body">
+                        <div data-ng-if="mode == 'group'">
+                            <form>
+                                <div class="form-group">
+                                    <label for="g-name">Name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="g-name"
+                                            placeholder="Name"
+                                            data-ng-model="current.label"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-type">Type</label>
+                                    <select class="form-control" data-ng-model="current.group_type" id="g-type">
+                                        <option>Centre</option>
+                                        <option>Study</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" data-ng-if="current.study == '*'">
+                                    <label >Studies</label>
+                                    <p class="form-control-static">All</p>
+                                </div>
+                                <div data-ng-if="current.study != '*'">
+                                    <label><ng-pluralize count="current.study.length" when="{'1':'Study','other':'Studies'}"></ng-pluralize></label>
+                                    <div class="form-group" data-ng-repeat="study in current.study track by $index">
+                                        <input type="text"
+                                               class="form-control study"
+                                               data-ng-model="study"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <a data-ng-click="addStudy()">Add another</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div data-ng-if="mode == 'user'">
+                            <form>
+                                <div class="form-group">
+                                    <label >Email</label>
+                                    <p class="form-control-static">{{current.email}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="u-fname">First name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="u-fname"
+                                            placeholder="First name"
+                                            data-ng-model="current.first_name"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="u-lname">Last name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="u-lname"
+                                            placeholder="Last name"
+                                            data-ng-model="current.last_name"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="u-role">Role</label>
+                                    <select class="form-control" data-ng-model="current.role" id="u-role">
+                                        <option value="reader">Reader</option>
+                                        <option value="editor">Editor</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

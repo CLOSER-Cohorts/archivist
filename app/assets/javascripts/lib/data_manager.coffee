@@ -9,6 +9,7 @@ data_manager = angular.module(
     'archivist.data_manager.response_domains',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
+    'archivist.data_manager.users',
     'archivist.realtime',
     'archivist.resource'
   ]
@@ -29,7 +30,8 @@ data_manager.factory(
     'RealTimeListener',
     'GetResource',
     'ApplicationStats',
-    'InstrumentStats'
+    'InstrumentStats',
+    'Users',
     (
       $http,
       $q,
@@ -43,23 +45,25 @@ data_manager.factory(
       RealTimeListener,
       GetResource,
       ApplicationStats,
-      InstrumentStats
+      InstrumentStats,
+      Users
     )->
       DataManager = {}
 
       DataManager.Data = {}
 
-      DataManager.Instruments = Instruments
-      DataManager.Constructs = Constructs
-      DataManager.Codes = Codes
-      DataManager.ResponseUnits = ResponseUnits
-      DataManager.ResponseDomains = ResponseDomains
+      DataManager.Instruments       = Instruments
+      DataManager.Constructs        = Constructs
+      DataManager.Codes             = Codes
+      DataManager.ResponseUnits     = ResponseUnits
+      DataManager.ResponseDomains   = ResponseDomains
+      DataManager.Users             = Users
 
       DataManager.clearCache = ->
-        DataManager.Data = {}
-        DataManager.Data.ResponseDomains = {}
-        DataManager.Data.ResponseUnits = {}
-        DataManager.Data.InstrumentStats = {}
+        DataManager.Data                    = {}
+        DataManager.Data.ResponseDomains    = {}
+        DataManager.Data.ResponseUnits      = {}
+        DataManager.Data.InstrumentStats    = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
@@ -74,7 +78,6 @@ data_manager.factory(
 
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
-
         console.log 'getInstrument'
 
         DataManager.progress = 0
@@ -266,7 +269,7 @@ data_manager.factory(
         )
         DataManager.CodeResolver.resolve()
 
-      DataManager.getApplicationStats = ()->
+      DataManager.getApplicationStats = ->
         DataManager.Data.AppStats = {$resolved: false}
         DataManager.Data.AppStats.$promise = ApplicationStats
         DataManager.Data.AppStats.$promise.then (res)->
@@ -286,17 +289,36 @@ data_manager.factory(
           DataManager.Data.InstrumentStats[id].$resolved = true
         DataManager.Data.InstrumentStats[id]
 
-      DataManager.getQuestionItemIDs = ()->
+      DataManager.getQuestionItemIDs = ->
         output = []
         for qi in DataManager.Data.Questions.Items
           output.push {value: qi.id, label: qi.label}
         output
 
-      DataManager.getQuestionGridIDs = ()->
+      DataManager.getQuestionGridIDs = ->
         output = []
         for qg in DataManager.Data.Questions.Grids
           output.push {value: qg.id, label: qg.label}
         output
+
+      DataManager.getUsers = ->
+        promises = []
+
+        DataManager.Data.Users = DataManager.Users.Admin
+        promises.push DataManager.Data.Users.$promise
+
+        DataManager.Data.Groups = DataManager.Users.Groups.query()
+        promises.push DataManager.Data.Groups.$promise
+
+        $q.all(
+          promises
+        )
+        .then ->
+          DataManager.GroupResolver ?= new ResolutionService.GroupResolver(
+            DataManager.Data.Groups,
+            DataManager.Data.Users
+          )
+          DataManager.GroupResolver.resolve()
 
       DataManager.listener = RealTimeListener (event, message)->
         if message.data?

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
 
   resources :topics, constraints: -> (r) { (r.format == :json) }
-
+  resources :groups, constraints: -> (r) { (r.format == :json) }
   resources :datasets, constraints: -> (r) { (r.format == :json) } do
     resources :variables
   end

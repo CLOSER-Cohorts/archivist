@@ -16,6 +16,10 @@ admin.config(['$routeProvider',
         templateUrl: 'partials/admin/instruments.html'
         controller: 'AdminInstrumentsController'
       )
+      .when('/admin/users',
+        templateUrl: 'partials/admin/users.html'
+        controller: 'AdminUsersController'
+      )
       .when('/admin/import',
         templateUrl: 'partials/admin/import.html'
         controller: 'AdminImportController'
@@ -29,11 +33,37 @@ admin.controller('AdminDashController',
     ($scope, DataManager)->
       $scope.counts = DataManager.getApplicationStats()
       console.log $scope.counts
-      #$scope.counts.instruments = 68
-      #$scope.counts.questions = 3021
-      #$scope.counts.variables = 687
-      #$scope.counts.users = 1
 ])
+
+admin.controller('AdminUsersController',
+  [
+    '$scope',
+    'DataManager'
+    ($scope, DataManager)->
+      DataManager.getUsers()
+      $scope.groups = DataManager.Data.Groups
+      $scope.users = []
+      $scope.mode = false
+
+      $scope.selectGroup = (group)->
+        $scope.users = group.users
+        $scope.current = group
+        $scope.mode = 'group'
+
+      $scope.selectUser = (user)->
+        $scope.current = user
+        $scope.mode = 'user'
+
+      $scope.newGroup = ->
+        $scope.current = new DataManager.Users.Groups.resource()
+        $scope.current.study = ['']
+        $scope.current.new_study = null
+        $scope.mode = 'group'
+
+      $scope.addStudy = ->
+        $scope.current.study.push ''
+
+  ])
 
 admin.controller('AdminInstrumentsController',
   [
