@@ -1,13 +1,13 @@
-groups = angular.module('archivist.data_manager.users.groups', [
+users = angular.module('archivist.data_manager.auth.users', [
   'archivist.resource'
 ])
 
-groups.factory(
-  'Groups',
+users.factory(
+  'Users',
   [ 'WrappedResource',
     (WrappedResource)->
       new WrappedResource(
-        'groups/:id.json',
+        'users/admin/:id.json',
         {
           id: '@id'
         }

@@ -9,13 +9,19 @@ Rails.application.routes.draw do
       registrations: 'users/registrations',
       unlocks: 'users/unlocks',
   }
-  get '/users', to: 'users/admin#index', only: [:index], constraints: -> (r) { (r.format == :json) }
+  namespace :users do
+    resources :admin, constraints: -> (r) { (r.format == :json) }
+  end
   root 'application#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
 
   resources :topics, constraints: -> (r) { (r.format == :json) }
-  resources :groups, constraints: -> (r) { (r.format == :json) }
+  resources :groups, constraints: -> (r) { (r.format == :json) } do
+    collection do
+      get 'external'
+    end
+  end
   resources :datasets, constraints: -> (r) { (r.format == :json) } do
     resources :variables
   end

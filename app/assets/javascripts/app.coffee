@@ -91,3 +91,7 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
 
     $rootScope.realtimeStatus = true
 ])
+
+archivist.filter 'capitalize', ->
+  (input)->
+    if (!!input) then input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() else ''

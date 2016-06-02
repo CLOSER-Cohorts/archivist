@@ -9,7 +9,7 @@ data_manager = angular.module(
     'archivist.data_manager.response_domains',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
-    'archivist.data_manager.users',
+    'archivist.data_manager.auth',
     'archivist.realtime',
     'archivist.resource'
   ]
@@ -31,7 +31,7 @@ data_manager.factory(
     'GetResource',
     'ApplicationStats',
     'InstrumentStats',
-    'Users',
+    'Auth',
     (
       $http,
       $q,
@@ -46,7 +46,7 @@ data_manager.factory(
       GetResource,
       ApplicationStats,
       InstrumentStats,
-      Users
+      Auth
     )->
       DataManager = {}
 
@@ -57,18 +57,21 @@ data_manager.factory(
       DataManager.Codes             = Codes
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
-      DataManager.Users             = Users
+      DataManager.Auth              = Auth
 
       DataManager.clearCache = ->
         DataManager.Data                    = {}
         DataManager.Data.ResponseDomains    = {}
         DataManager.Data.ResponseUnits      = {}
         DataManager.Data.InstrumentStats    = {}
+        DataManager.Data.Users              = {}
+        DataManager.Data.Groups             = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
         DataManager.Codes.clearCache()
         DataManager.ResponseUnits.clearCache()
+        DataManager.Auth.clearCache()
 
       DataManager.clearCache()
 
@@ -304,10 +307,10 @@ data_manager.factory(
       DataManager.getUsers = ->
         promises = []
 
-        DataManager.Data.Users = DataManager.Users.Admin
+        DataManager.Data.Users = DataManager.Auth.Users.query()
         promises.push DataManager.Data.Users.$promise
 
-        DataManager.Data.Groups = DataManager.Users.Groups.query()
+        DataManager.Data.Groups = DataManager.Auth.Groups.query()
         promises.push DataManager.Data.Groups.$promise
 
         $q.all(
