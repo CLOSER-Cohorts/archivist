@@ -7,7 +7,7 @@
         </h1>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" data-ng-show="groups.length > 1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Groups
@@ -59,11 +59,11 @@
 
             <div class="col-md-6">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
+                    <div class="panel-heading" style="height:55px">
                         Details
                     </div>
                     <div class="panel-body">
-                        <div data-ng-if="mode == 'group'">
+                        <div class="panel-content" data-ng-if="mode == 'group'">
                             <form>
                                 <div class="form-group">
                                     <label for="g-name">Name</label>
@@ -73,14 +73,17 @@
                                             id="g-name"
                                             placeholder="Name"
                                             data-ng-model="current.label"
+                                            data-ng-show="editing"
                                     >
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.label}}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="g-type">Type</label>
-                                    <select class="form-control" data-ng-model="current.group_type" id="g-type">
+                                    <select class="form-control" data-ng-model="current.group_type" id="g-type" data-ng-show="editing">
                                         <option>Centre</option>
                                         <option>Study</option>
                                     </select>
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.group_type}}</p>
                                 </div>
                                 <div class="form-group" data-ng-if="current.study == '*'">
                                     <label >Studies</label>
@@ -88,23 +91,33 @@
                                 </div>
                                 <div data-ng-if="current.study != '*'">
                                     <label><ng-pluralize count="current.study.length" when="{'1':'Study','other':'Studies'}"></ng-pluralize></label>
-                                    <div class="form-group" data-ng-repeat="study in current.study track by $index">
+                                    <div class="form-group" data-ng-repeat="study in current.study">
                                         <input type="text"
                                                class="form-control study"
-                                               data-ng-model="study"
+                                               data-ng-model="study.label"
+                                               data-ng-show="editing"
                                         />
+                                        <p class="form-control-static" data-ng-show="!editing">{{study.label}}</p>
                                     </div>
                                     <div class="form-group">
-                                        <a data-ng-click="addStudy()">Add another</a>
+                                        <a data-ng-click="addStudy()" data-ng-show="editing">Add another</a>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div data-ng-if="mode == 'user'">
+                        <div class="panel-content" data-ng-if="mode == 'user'">
                             <form>
                                 <div class="form-group">
-                                    <label >Email</label>
-                                    <p class="form-control-static">{{current.email}}</p>
+                                    <label for="u-email">Email</label>
+                                    <input
+                                            type="email"
+                                            class="form-control"
+                                            id="u-email"
+                                            placeholder="Email"
+                                            data-ng-model="current.first_name"
+                                            data-ng-show="editing && !current.id"
+                                    >
+                                    <p class="form-control-static" data-ng-show="current.id">{{current.email}}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="u-fname">First name</label>
@@ -114,7 +127,9 @@
                                             id="u-fname"
                                             placeholder="First name"
                                             data-ng-model="current.first_name"
+                                            data-ng-show="editing"
                                     >
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.first_name}}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="u-lname">Last name</label>
@@ -124,17 +139,37 @@
                                             id="u-lname"
                                             placeholder="Last name"
                                             data-ng-model="current.last_name"
+                                            data-ng-show="editing"
                                     >
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.last_name}}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="u-role">Role</label>
-                                    <select class="form-control" data-ng-model="current.role" id="u-role">
+                                    <select class="form-control" data-ng-model="current.role" id="u-role" data-ng-show="editing">
                                         <option value="reader">Reader</option>
                                         <option value="editor">Editor</option>
                                         <option value="admin">Admin</option>
                                     </select>
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>
+                                </div>
+                                <div class="form-group" data-ng-show="editing && !current.id">
+                                    <label for="u-group">Group</label>
+                                    <select
+                                            class="form-control"
+                                            data-ng-model="current.group_id"
+                                            id="u-group"
+                                            data-ng-options="group as group.label for group in groups track by group.id"
+                                    >
+                                    </select>
+                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>
                                 </div>
                             </form>
+                        </div>
+                        <div data-ng-show="mode" class="buttons">
+                            <button class="btn btn-danger" data-ng-show="!editing" data-ng-click="delete()">Delete</button>
+                            <button class="btn btn-primary" data-ng-show="!editing" data-ng-click="edit()">Edit</button>
+                            <button class="btn btn-default" data-ng-show="editing" data-ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" data-ng-show="editing" data-ng-click="save()">Save</button>
                         </div>
                     </div>
                 </div>
