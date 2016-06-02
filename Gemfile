@@ -1,15 +1,18 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.1'
 
-gem 'rails', '4.2.5.1'
-gem 'json', '1.8.2'
+gem 'rails', '>= 5.0.0.rc1', '< 5.1'
+gem 'json'
+
+#gem 'sprockets', '~> 3.6.0'
+#gem 'rack', '~> 2.0.0.rc1'
 
 # Use Puma as the web server
-gem 'puma', '~>2.16.0'
+gem 'puma', '~> 3.0'
 
 # Use Postgres as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 0.18'
 
 # Use Redis for caching
 gem 'redis'
@@ -52,7 +55,7 @@ gem "pundit"
 gem 'bower-rails'
 
 # TODO: Should this be managed through Bower
-gem 'angular-rails-templates', '0.2.0'
+gem 'angular-rails-templates', '1.0.0'
 
 # TODO: Are we using this?
 gem 'parallel'
