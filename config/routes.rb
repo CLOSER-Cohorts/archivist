@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
       sessions: 'users/sessions',
-#      confirmations: 'users/confirmations',
+      confirmations: 'users/confirmations',
 #      omiauth: 'users/omiauth',
       passwords: 'users/passwords',
       registrations: 'users/registrations',
