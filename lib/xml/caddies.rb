@@ -6,12 +6,14 @@ module XML::CADDIES
     end
 
     def parse
-      @instrument = Importer.build_instrument @doc
-      read_code_lists
-      read_instructions
-      read_response_domains
-      read_questions
-      read_constructs
+      Realtime.do_silently do
+        @instrument = Importer.build_instrument @doc
+        read_code_lists
+        read_instructions
+        read_response_domains
+        read_questions
+        read_constructs
+      end
     end
 
     def read_code_lists

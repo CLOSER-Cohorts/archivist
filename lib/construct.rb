@@ -8,7 +8,7 @@ module Construct::Model
     has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
 
     include Comparable
-    include Realtime
+    include Realtime::RtUpdate
 
     before_create :create_control_construct
 

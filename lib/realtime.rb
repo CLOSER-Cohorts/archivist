@@ -16,21 +16,57 @@
 # * Potentially provide option for pre/post publish filter with stopping option
 #
 module Realtime
-  extend ActiveSupport::Concern
-  included do
-    after_commit :rt_update
+  module RtUpdate
+    extend ActiveSupport::Concern
+    included do
+      after_commit :rt_update
 
-    private
-    def rt_update
-      output = {}
-      #Create JSON from model
-      data = self.as_json except: [:created_at, :updated_at]
-      #Attach the Class as type
-      data[:type] = self.class.name
-      #Place the data in the output object
-      output[:data] = [data]
-      #Publish the output as JSON to the rt-update channel
-      $redis.publish 'rt-update', output.to_json
+      private
+      def rt_update
+        Realtime::Publisher.instance.update self
+      end
     end
+  end
+  class Publisher
+    include Singleton
+    def initialize
+      @quiet = false
+    end
+
+    def go_quiet
+      @quiet = true
+    end
+
+    def go_loud
+      @quiet = false
+    end
+
+    def update(obj)
+      unless @quiet
+        output = {}
+        #Create JSON from model
+        data = obj.as_json except: [:created_at, :updated_at]
+        #Attach the Class as type
+        data[:type] = obj.class.name
+        #Place the data in the output object
+        output[:data] = [data]
+        #Publish the output as JSON to the rt-update channel
+        $redis.publish 'rt-update', output.to_json
+      end
+    end
+  end
+
+  def self.go_quiet
+    Realtime::Publisher.instance.go_quiet
+  end
+
+  def self.go_loud
+    Realtime::Publisher.instance.go_loud
+  end
+
+  def self.do_silently
+    go_quiet
+    yield
+    go_loud
   end
 end
