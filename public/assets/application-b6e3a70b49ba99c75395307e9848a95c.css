@@ -123,6 +123,27 @@
 .reader .admin-min {
   display: none;
 }
+
+/* line 24, C:/CLOSER/Code/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body, .users .main .list-group {
+  height: calc(100vh - 220px);
+  max-height: 600px;
+  position: relative;
+}
+/* line 29, C:/CLOSER/Code/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body .panel-content, .users .main .list-group .panel-content {
+  height: calc(100% - 48px);
+  overflow-y: auto;
+}
+/* line 33, C:/CLOSER/Code/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body .buttons, .users .main .list-group .buttons {
+  position: absolute;
+  bottom: 20px;
+}
+/* line 37, C:/CLOSER/Code/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .list-group {
+  overflow-y: auto;
+}
 /* line 1, C:/CLOSER/Code/archivist/app/assets/stylesheets/build.css.sass */
 .edit-cancel-save {
   float: right;
@@ -273,7 +294,6 @@ body {
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
-  line-height: 18px;
 }
 
 /* line 15, C:/CLOSER/Code/archivist/app/assets/stylesheets/scaffolds.scss */
