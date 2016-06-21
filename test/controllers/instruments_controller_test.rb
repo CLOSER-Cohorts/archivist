@@ -2,7 +2,9 @@ require 'test_helper'
 
 class InstrumentsControllerTest < ActionController::TestCase
   setup do
-    @instrument = instruments(:one)
+    @user = users :User_1
+    sign_in @user
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do
@@ -38,8 +40,8 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should reorder control constructs" do
-    q = cc_questions(:one)
-    seq = cc_sequences(:one)
+    q = cc_questions(:CcQuestion_1)
+    seq = cc_sequences(:CcSequence_1)
     payload = [
         {
             type: 'cc_question',

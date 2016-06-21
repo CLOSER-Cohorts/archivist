@@ -16,6 +16,10 @@ admin.config(['$routeProvider',
         templateUrl: 'partials/admin/instruments.html'
         controller: 'AdminInstrumentsController'
       )
+      .when('/admin/users',
+        templateUrl: 'partials/admin/users.html'
+        controller: 'AdminUsersController'
+      )
       .when('/admin/import',
         templateUrl: 'partials/admin/import.html'
         controller: 'AdminImportController'
@@ -29,11 +33,89 @@ admin.controller('AdminDashController',
     ($scope, DataManager)->
       $scope.counts = DataManager.getApplicationStats()
       console.log $scope.counts
-      #$scope.counts.instruments = 68
-      #$scope.counts.questions = 3021
-      #$scope.counts.variables = 687
-      #$scope.counts.users = 1
 ])
+
+admin.controller('AdminUsersController',
+  [
+    '$scope',
+    'DataManager'
+    ($scope, DataManager)->
+      DataManager.getUsers()
+      $scope.groups = DataManager.Data.Groups
+      $scope.users = []
+      $scope.mode = false
+      $scope.editing = false
+
+      $scope.selectGroup = (group)->
+        $scope.users = group.users
+        $scope.current = group
+        $scope.mode = 'group'
+        $scope.editing = false
+
+      $scope.selectUser = (user)->
+        $scope.current = user
+        $scope.mode = 'user'
+        $scope.editing = false
+
+      $scope.newGroup = ->
+        $scope.original = null
+        $scope.current = new DataManager.Auth.Groups.resource()
+        $scope.current.study = [{label:''}]
+        $scope.mode = 'group'
+        $scope.editing = true
+
+      $scope.newUser = ->
+        $scope.original = null
+        $scope.current = new DataManager.Auth.Users.resource()
+        $scope.mode = 'user'
+        $scope.editing = true
+
+      $scope.addStudy = ->
+        $scope.current.study.push {label:''}
+
+      $scope.edit = ->
+        $scope.original = $scope.current
+        $scope.current = null
+        $scope.current = angular.copy $scope.original
+        $scope.editing = true
+
+      $scope.cancel = ->
+        if $scope.original?
+          $scope.current = $scope.original
+        else
+          $scope.current = null
+          $scope.mode = false
+        $scope.editing = false
+
+      $scope.save = ->
+        console.log $scope
+        if $scope.original?
+          angular.copy $scope.current, $scope.original
+        else
+          (if $scope.mode = 'group' then $scope.groups else DataManager.Data.Users).push $scope.current
+          $scope.original = $scope.current
+        $scope.original.save(
+          {},
+          ->
+            $scope.editing = false
+        )
+
+      $scope.delete = ->
+        arr = if $scope.mode = 'group' then $scope.groups else DataManager.Data.Users
+        index = arr.indexOf $scope.current
+        arr[index].$delete(
+          {},
+          ->
+            arr.splice index, 1
+        )
+
+      $scope.only_group_check = ->
+        if $scope.groups.length == 1
+          $scope.selectGroup $scope.groups[$scope.groups.length - 1]
+
+      $scope.groups.$promise.then ->
+        $scope.only_group_check()
+  ])
 
 admin.controller('AdminInstrumentsController',
   [

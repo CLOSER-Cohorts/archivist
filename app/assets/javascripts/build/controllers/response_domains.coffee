@@ -33,7 +33,7 @@ angular.module('archivist.build').controller(
           else rd_type = false
 
         if rd_type?
-          index = $scope.instrument.ResponseDomains.get_index_by_id_and_type(parseInt($routeParams.response_domain_id, rd_type))
+          index = $scope.instrument.ResponseDomains.get_index_by_id_and_type(parseInt($routeParams.response_domain_id), rd_type)
           if index?
             $scope.instrument.ResponseDomains[index].$delete(
               {},

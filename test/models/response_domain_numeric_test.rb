@@ -5,7 +5,7 @@ class ResponseDomainNumericTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @response_domain_numeric = response_domain_numerics :one
+    @response_domain_numeric = response_domain_numerics :ResponseDomainNumeric_1
   end
 
   test "belongs to an instrument" do

@@ -295,14 +295,14 @@ module XML::DDI
                          {text: qgrid.literal}
         qgn.add_next_sibling qt
 
-        add_grid_dimension = lambda do |rank, axis, urn|
+        add_grid_dimension = lambda do |rank, axis, cl_urn|
           gd = Nokogiri::XML::Node.new 'd:GridDimension', @doc
           gd['rank'] = rank
           gd['displayCode'] = 'false'
           gd['displayLabel'] = if qgrid.corner_label == axis then 'true' else 'false' end
 
           gd.add_child '<d:CodeDomain><r:CodeListReference>' +
-            "<r:URN>%{urn}</r:URN>" % {urn: urn} +
+            "<r:URN>%{urn}</r:URN>" % {urn: cl_urn} +
             '<r:TypeOfObject>CodeList</r:TypeOfObject>' +
               '</r:CodeListReference></d:CodeDomain>'
           return gd
@@ -398,30 +398,30 @@ module XML::DDI
             prev.add_next_sibling con
             prev = con
 
-            if cc.children.where(branch: 0).count > 0
-              tcr = Nokogiri::XML::Node.new 'd:ThenConstructReference', @doc
-              tcr.add_child '<r:URN>' + @urn_prefix + 'seth-%06d:1.0.0' % cc.id + '</r:URN>'
+            process_condition_branch = lambda do |branch, prefix, construct_ref|
+              tcr = Nokogiri::XML::Node.new 'd:' + construct_ref.humanize + 'ConstructReference', @doc
+              tcr.add_child '<r:URN>' + @urn_prefix + prefix + '-%06d:1.0.0' % cc.id + '</r:URN>'
               tcr.add_child '<r:TypeOfObject>Sequence</r:TypeOfObject>'
-              con.add_child tcr
+              prev.add_child tcr
 
               seth = Nokogiri::XML::Node.new 'd:Sequence', @doc
-              seth.add_child '<r:URN>' + @urn_prefix + 'seth-%06d:1.0.0' % cc.id + '</r:URN>'
+              seth.add_child '<r:URN>' + @urn_prefix + prefix + '-%06d:1.0.0' % cc.id + '</r:URN>'
               seth_cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
               seth_s = Nokogiri::XML::Node.new 'r:String', @doc
               seth_s['xml:lang'] = 'en-GB'
-              seth_s.content = 'then_seq_' + cc.label
+              seth_s.content = construct_ref + '_seq_' + cc.label
               seth_cn.add_child seth_s
               seth.add_child seth_cn
 
               seth_l = Nokogiri::XML::Node.new 'r:Label', @doc
               seth_c = Nokogiri::XML::Node.new 'r:Content', @doc
               seth_c['xml:lang'] = 'en-GB'
-              seth_c.content = 'then_seq_' + cc.label
+              seth_c.content = construct_ref + '_seq_' + cc.label
               seth_l.add_child seth_c
               seth_cn.add_next_sibling seth_l
 
               seth_inner_prev = seth_l
-              cc.children.where(branch: 0).each do |child|
+              cc.children.where(branch: branch).each do |child|
                 ccf = Nokogiri::XML::Node.new 'd:ControlConstructReference', @doc
                 ccf_urn = Nokogiri::XML::Node.new 'r:URN', @doc
                 ccf_urn.content = @urn_prefix + child.construct.class::URN_TYPE + '-%06d:1.0.0' % child.construct.id
@@ -430,44 +430,19 @@ module XML::DDI
                 seth_inner_prev.add_next_sibling ccf
                 seth_inner_prev = ccf
               end
+              return seth
+            end
+
+            if cc.children.where(branch: 0).count > 0
+              seth = process_condition_branch.call(0, 'seth', 'then')
               prev.add_next_sibling seth
               prev = seth
             end
 
             if cc.children.where(branch: 1).count > 0
-              tcr = Nokogiri::XML::Node.new 'd:ElseConstructReference', @doc
-              tcr.add_child '<r:URN>' + @urn_prefix + 'seel-%06d:1.0.0' % cc.id + '</r:URN>'
-              tcr.add_child '<r:TypeOfObject>Sequence</r:TypeOfObject>'
-              con.add_child tcr
-
-              seel = Nokogiri::XML::Node.new 'd:Sequence', @doc
-              seel.add_child '<r:URN>' + @urn_prefix + 'seel-%06d:1.0.0' % cc.id + '</r:URN>'
-              seel_cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
-              seel_s = Nokogiri::XML::Node.new 'r:String', @doc
-              seel_s['xml:lang'] = 'en-GB'
-              seel_s.content = 'then_seq_' + cc.label
-              seel_cn.add_child seel_s
-              seel.add_child seel_cn
-
-              seel_l = Nokogiri::XML::Node.new 'r:Label', @doc
-              seel_c = Nokogiri::XML::Node.new 'r:Content', @doc
-              seel_c['xml:lang'] = 'en-GB'
-              seel_c.content = 'then_seq_' + cc.label
-              seel_l.add_child seel_c
-              seel_cn.add_next_sibling seel_l
-
-              seel_inner_prev = seel_l
-              cc.children.where(branch: 0).each do |child|
-                ccf = Nokogiri::XML::Node.new 'd:ControlConstructReference', @doc
-                ccf_urn = Nokogiri::XML::Node.new 'r:URN', @doc
-                ccf_urn.content = @urn_prefix + child.construct.class::URN_TYPE + '-%06d:1.0.0' % child.construct.id
-                ccf.add_child ccf_urn
-                ccf.add_child '<r:TypeOfObject>' + child.construct.class::TYPE + '</r:TypeOfObject>'
-                seel_inner_prev.add_next_sibling ccf
-                seel_inner_prev = ccf
-              end
-              prev.add_next_sibling seel
-              prev = seel
+              seth = process_condition_branch.call(1, 'seel', 'else')
+              prev.add_next_sibling seth
+              prev = seth
             end
 
           when CcQuestion

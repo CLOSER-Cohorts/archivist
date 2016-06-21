@@ -5,7 +5,7 @@ class ResponseDomainTextTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @response_domain_text = response_domain_texts :one
+    @response_domain_text = response_domain_texts :ResponseDomainText_1
   end
 
   test "belongs to an instrument" do

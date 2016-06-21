@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcSequenceTest < ActiveSupport::TestCase
   setup do
-    @cc_sequence = cc_sequences :two
+    @cc_sequence = cc_sequences :CcSequence_3
   end
 
   test "belongs to an instrument" do
@@ -14,7 +14,7 @@ class CcSequenceTest < ActiveSupport::TestCase
   end
 
   test "can read parent construct" do
-    assert_kind_of Construct, @cc_sequence.parent
+    assert_kind_of Construct::Model, @cc_sequence.parent
   end
 
   test "set a new parent" do

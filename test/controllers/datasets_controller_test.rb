@@ -2,6 +2,8 @@ require 'test_helper'
 
 class DatasetsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @dataset = datasets(:one)
   end
 

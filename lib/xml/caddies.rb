@@ -6,12 +6,14 @@ module XML::CADDIES
     end
 
     def parse
-      @instrument = Importer.build_instrument @doc
-      read_code_lists
-      read_instructions
-      read_response_domains
-      read_questions
-      read_constructs
+      Realtime.do_silently do
+        @instrument = Importer.build_instrument @doc
+        read_code_lists
+        read_instructions
+        read_response_domains
+        read_questions
+        read_constructs
+      end
     end
 
     def read_code_lists
@@ -261,8 +263,7 @@ module XML::CADDIES
 
     def read_constructs
       seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
-      cc_seq = CcSequence.new
-      @instrument.sequences << cc_seq
+      cc_seq = @instrument.top_sequence
       cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
       @response_unit_index = {}
       read_sequence_children(seq, cc_seq)

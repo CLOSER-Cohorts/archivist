@@ -107,10 +107,12 @@ angular.module('archivist.build').controller(
 
           if $routeParams.question_id == 'new'
             $scope.editMode = true
-            if $routeParams.question_type = 'question_items'
-              $scope.current = new DataManager.Constructs.Questions.item.resource({});
-            else if $routeParams.question_type = 'question_grids'
-              $scope.current = new DataManager.Constructs.Questions.grid.resource({});
+            if $routeParams.question_type == 'question_items'
+              $scope.current = new DataManager.Constructs.Questions.item.resource {}
+              $scope.current.type = 'QuestionItem'
+            else if $routeParams.question_type == 'question_grids'
+              $scope.current = new DataManager.Constructs.Questions.grid.resource {}
+              $scope.current.type = 'QuestionGrid'
 
         null
 
@@ -126,7 +128,6 @@ angular.module('archivist.build').controller(
         null
 
       $scope.after_instrument_loaded = ->
-        console.log 'here'
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
         DataManager.resolveCodes()
         console.log $scope.sidebar_objs

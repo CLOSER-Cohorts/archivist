@@ -5,7 +5,7 @@ class ResponseDomainCodeTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @response_domain_code = response_domain_codes :one
+    @response_domain_code = response_domain_codes :ResponseDomainCode_1
   end
 
   test "belongs to an instrument" do

@@ -3,6 +3,6 @@ class DatasetsController < ApplicationController
 
   add_basic_actions require: ':dataset',
                     params: '[:name]',
-                    collection: 'Dataset.all'
+                    collection: 'policy_scope(Dataset.all)'
 
 end

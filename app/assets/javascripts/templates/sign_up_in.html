@@ -91,8 +91,8 @@
                             class="form-control"
                             id="signup-group"
                             data-ng-model="details.group"
+                            data-ng-options="group.id as group.label for group in sign_up_groups"
                     >
-                        <option value="1" selected="selected">CLOSER</option>
                     </select>
                 </div>
                 <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>

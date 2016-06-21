@@ -7,8 +7,9 @@ users.controller(
   [
     '$scope',
     '$location',
+    '$http',
     'User',
-    ($scope, $location, User)->
+    ($scope, $location, $http, User)->
       $scope.sign_in = (cred)->
         $scope.user.set('email', cred.email)
         $scope.user.sign_in(cred.password).then(->
@@ -30,6 +31,10 @@ users.controller(
           details.password = ""
           details.confirm = ""
         )
+
+      $http.get('/groups/external.json').then (res)->
+        $scope.sign_up_groups = res.data
+      console.log $scope
   ]
 )
 

@@ -2,12 +2,8 @@ require 'test_helper'
 
 class ControlConstructTest < ActiveSupport::TestCase
   setup do
-    @cc_qi = control_constructs :qi
-    @cc_qg = control_constructs :qg
-    #@cc_co = control_constructs :co
-    #@cc_se = control_constructs :se
-    #@cc_st = control_constructs :st
-    #@cc_lo = control_constructs :lo
+    @cc_qi = control_constructs :ControlConstruct_12
+    @cc_qg = control_constructs :ControlConstruct_13
   end
 
   test "has one construct" do

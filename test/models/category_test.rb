@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
   setup do
-    @category = categories :one
+    @category = categories :Category_1
   end
 
   test "belongs to an instrument" do

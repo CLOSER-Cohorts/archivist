@@ -54,7 +54,7 @@ class Instrument < ActiveRecord::Base
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
   has_many :datasets, through: :instruments_datasets
 
-  include Realtime
+  include Realtime::RtUpdate
 
   after_create :add_top_sequence
 
