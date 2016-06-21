@@ -2,8 +2,10 @@ require 'test_helper'
 
 class CcStatementsControllerTest < ActionController::TestCase
   setup do
-    @cc_statement = cc_statements(:one)
-    @instrument = instruments(:one)
+    @user = users :User_1
+    sign_in @user
+    @cc_statement = cc_statements(:CcStatement_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do
@@ -14,7 +16,14 @@ class CcStatementsControllerTest < ActionController::TestCase
 
   test "should create cc_statement" do
     assert_difference('CcStatement.count') do
-      post :create, format: :json, instrument_id: @instrument.id, cc_statement: {literal: @cc_statement.literal, instrument_id: @instrument.id}
+      post :create, format: :json,
+          instrument_id: @instrument.id,
+          literal: @cc_statement.literal,
+          type: 'statement',
+          parent: {
+              id: 1,
+              type: 'sequence'
+          }
     end
 
     assert_response :success

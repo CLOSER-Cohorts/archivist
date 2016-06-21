@@ -45,7 +45,7 @@ class InstrumentsController < ApplicationController
       im = XML::CADDIES::Importer.new filepath
       im.parse
     end
-    redirect_to '/admin/import'
+    head :ok, format: :json
   end
 
   def copy

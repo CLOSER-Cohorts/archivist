@@ -13,7 +13,7 @@ module Question::Model
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
     has_many :cc_questions, as: :question
 
-    include Realtime
+    include Realtime::RtUpdate
 
     alias constructs cc_questions
 

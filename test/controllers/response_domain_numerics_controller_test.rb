@@ -2,8 +2,10 @@ require 'test_helper'
 
 class ResponseDomainNumericsControllerTest < ActionController::TestCase
   setup do
-    @response_domain_numeric = response_domain_numerics(:one)
-    @instrument = instruments(:one)
+    @user = users :User_1
+    sign_in @user
+    @response_domain_numeric = response_domain_numerics(:ResponseDomainNumeric_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

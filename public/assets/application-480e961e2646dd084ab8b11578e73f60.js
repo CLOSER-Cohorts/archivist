@@ -77884,6 +77884,9 @@ function toArray(list, index) {
       }).when('/admin/instruments', {
         templateUrl: 'partials/admin/instruments.html',
         controller: 'AdminInstrumentsController'
+      }).when('/admin/users', {
+        templateUrl: 'partials/admin/users.html',
+        controller: 'AdminUsersController'
       }).when('/admin/import', {
         templateUrl: 'partials/admin/import.html',
         controller: 'AdminImportController'
@@ -77895,6 +77898,92 @@ function toArray(list, index) {
     '$scope', 'DataManager', function($scope, DataManager) {
       $scope.counts = DataManager.getApplicationStats();
       return console.log($scope.counts);
+    }
+  ]);
+
+  admin.controller('AdminUsersController', [
+    '$scope', 'DataManager', function($scope, DataManager) {
+      DataManager.getUsers();
+      $scope.groups = DataManager.Data.Groups;
+      $scope.users = [];
+      $scope.mode = false;
+      $scope.editing = false;
+      $scope.selectGroup = function(group) {
+        $scope.users = group.users;
+        $scope.current = group;
+        $scope.mode = 'group';
+        return $scope.editing = false;
+      };
+      $scope.selectUser = function(user) {
+        $scope.current = user;
+        $scope.mode = 'user';
+        return $scope.editing = false;
+      };
+      $scope.newGroup = function() {
+        $scope.original = null;
+        $scope.current = new DataManager.Auth.Groups.resource();
+        $scope.current.study = [
+          {
+            label: ''
+          }
+        ];
+        $scope.mode = 'group';
+        return $scope.editing = true;
+      };
+      $scope.newUser = function() {
+        $scope.original = null;
+        $scope.current = new DataManager.Auth.Users.resource();
+        $scope.mode = 'user';
+        return $scope.editing = true;
+      };
+      $scope.addStudy = function() {
+        return $scope.current.study.push({
+          label: ''
+        });
+      };
+      $scope.edit = function() {
+        $scope.original = $scope.current;
+        $scope.current = null;
+        $scope.current = angular.copy($scope.original);
+        return $scope.editing = true;
+      };
+      $scope.cancel = function() {
+        if ($scope.original != null) {
+          $scope.current = $scope.original;
+        } else {
+          $scope.current = null;
+          $scope.mode = false;
+        }
+        return $scope.editing = false;
+      };
+      $scope.save = function() {
+        console.log($scope);
+        if ($scope.original != null) {
+          angular.copy($scope.current, $scope.original);
+        } else {
+          (($scope.mode = 'group') ? $scope.groups : DataManager.Data.Users).push($scope.current);
+          $scope.original = $scope.current;
+        }
+        return $scope.original.save({}, function() {
+          return $scope.editing = false;
+        });
+      };
+      $scope["delete"] = function() {
+        var arr, index;
+        arr = ($scope.mode = 'group') ? $scope.groups : DataManager.Data.Users;
+        index = arr.indexOf($scope.current);
+        return arr[index].$delete({}, function() {
+          return arr.splice(index, 1);
+        });
+      };
+      $scope.only_group_check = function() {
+        if ($scope.groups.length === 1) {
+          return $scope.selectGroup($scope.groups[$scope.groups.length - 1]);
+        }
+      };
+      return $scope.groups.$promise.then(function() {
+        return $scope.only_group_check();
+      });
     }
   ]);
 
@@ -78120,6 +78209,16 @@ function toArray(list, index) {
     }
   ]);
 
+  archivist.filter('capitalize', function() {
+    return function(input) {
+      if (!!input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+      } else {
+        return '';
+      }
+    };
+  });
+
 }).call(this);
 (function() {
   var build;
@@ -78245,6 +78344,8 @@ function toArray(list, index) {
 
 }).call(this);
 (function() {
+  var slice = [].slice;
+
   angular.module('archivist.build').controller('BuildCodeListsController', [
     '$controller', '$scope', '$routeParams', '$location', '$filter', '$timeout', 'Flash', 'DataManager', 'RealTimeListener', 'RealTimeLocking', function($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking) {
       console.log('called code_list controller');
@@ -78255,11 +78356,11 @@ function toArray(list, index) {
           return cl;
         };
         return $scope.sidebar_objs = (function() {
-          var i, len, ref, results;
+          var j, len, ref, results;
           ref = $scope.instrument.CodeLists;
           results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            obj = ref[i];
+          for (j = 0, len = ref.length; j < len; j++) {
+            obj = ref[j];
             results.push(get_count_from_used_by(obj));
           }
           return results;
@@ -78300,7 +78401,13 @@ function toArray(list, index) {
           value['instrument_id'] = $scope.instrument.id;
           Flash.add('success', 'Code list updated successfully!');
           $scope.reset();
-          return $scope.load_sidebar();
+          $scope.load_sidebar();
+          DataManager.Data.Codes.Categories = DataManager.Codes.Categories.requery({
+            instrument_id: $scope.instrument.id
+          });
+          return DataManager.Data.Codes.Categories.$promise.then(function() {
+            return $scope.categories = DataManager.Data.Codes.Categories;
+          });
         }, function() {
           return console.log("error");
         });
@@ -78339,19 +78446,54 @@ function toArray(list, index) {
         });
       };
       $scope.removeCode = function(code) {
-        var c;
-        return $scope.current.codes = (function() {
-          var i, len, ref, results;
+        var c, i;
+        $scope.current.codes = (function() {
+          var j, len, ref, results;
           ref = $scope.current.codes;
           results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            c = ref[i];
+          for (j = 0, len = ref.length; j < len; j++) {
+            c = ref[j];
             if (c.$$hashKey !== code.$$hashKey) {
               results.push(c);
             }
           }
           return results;
         })();
+        $scope.current.codes.sort(function(a, b) {
+          return a.order - b.order;
+        });
+        return $scope.current.codes = (function() {
+          var j, len, ref, results;
+          ref = $scope.current.codes;
+          results = [];
+          for (i = j = 0, len = ref.length; j < len; i = ++j) {
+            c = ref[i];
+            results.push(c.order = i);
+          }
+          return results;
+        })();
+      };
+      $scope.moveUp = function(code) {
+        return $scope.moveCode(code, -1);
+      };
+      $scope.moveDown = function(code) {
+        return $scope.moveCode(code, 1);
+      };
+      $scope.moveCode = function(code, shift) {
+        var being_moved, i, original_index, ref, results;
+        original_index = $scope.current.codes.findIndex(function(c) {
+          return c.$$hashKey === code.$$hashKey;
+        });
+        if (original_index + shift < 0 || original_index + shift >= $scope.current.codes.length) {
+          return false;
+        }
+        being_moved = $scope.current.codes.splice(original_index, 1);
+        (ref = $scope.current.codes).splice.apply(ref, [original_index + shift, 0].concat(slice.call(being_moved)));
+        results = [];
+        for (i in $scope.current.codes) {
+          results.push($scope.current.codes[i].order = i);
+        }
+        return results;
       };
       $scope.after_instrument_loaded = function() {
         $scope.categories = DataManager.Data.Codes.Categories;
@@ -78765,10 +78907,12 @@ function toArray(list, index) {
           }
           if ($routeParams.question_id === 'new') {
             $scope.editMode = true;
-            if ($routeParams.question_type = 'question_items') {
+            if ($routeParams.question_type === 'question_items') {
               $scope.current = new DataManager.Constructs.Questions.item.resource({});
-            } else if ($routeParams.question_type = 'question_grids') {
+              $scope.current.type = 'QuestionItem';
+            } else if ($routeParams.question_type === 'question_grids') {
               $scope.current = new DataManager.Constructs.Questions.grid.resource({});
+              $scope.current.type = 'QuestionGrid';
             }
           }
         }
@@ -78791,7 +78935,6 @@ function toArray(list, index) {
         return null;
       };
       $scope.after_instrument_loaded = function() {
-        console.log('here');
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat($scope.instrument.Questions.Grids);
         DataManager.resolveCodes();
         return console.log($scope.sidebar_objs);
@@ -78837,7 +78980,7 @@ function toArray(list, index) {
             rd_type = false;
         }
         if (rd_type != null) {
-          index = $scope.instrument.ResponseDomains.get_index_by_id_and_type(parseInt($routeParams.response_domain_id, rd_type));
+          index = $scope.instrument.ResponseDomains.get_index_by_id_and_type(parseInt($routeParams.response_domain_id), rd_type);
           if (index != null) {
             return $scope.instrument.ResponseDomains[index].$delete({}, function() {
               $scope.instrument.ResponseDomains.splice(index, 1);
@@ -79088,7 +79231,8 @@ function toArray(list, index) {
       return $scope.updateInstrument = function() {
         return $scope.instrument.$save({}, function() {
           Flash.add('success', 'Instrument updated successfully!');
-          return $location.path('/instruments');
+          $location.path('/instruments');
+          return DataManager.clearCache();
         }, function() {
           return console.log("error");
         });
@@ -79100,10 +79244,10 @@ function toArray(list, index) {
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.realtime', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.auth', 'archivist.realtime', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'InstrumentStats', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, InstrumentStats) {
+    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'InstrumentStats', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, InstrumentStats, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -79112,15 +79256,19 @@ function toArray(list, index) {
       DataManager.Codes = Codes;
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
+      DataManager.Auth = Auth;
       DataManager.clearCache = function() {
         DataManager.Data = {};
         DataManager.Data.ResponseDomains = {};
         DataManager.Data.ResponseUnits = {};
         DataManager.Data.InstrumentStats = {};
+        DataManager.Data.Users = {};
+        DataManager.Data.Groups = {};
         DataManager.Instruments.clearCache();
         DataManager.Constructs.clearCache();
         DataManager.Codes.clearCache();
-        return DataManager.ResponseUnits.clearCache();
+        DataManager.ResponseUnits.clearCache();
+        return DataManager.Auth.clearCache();
       };
       DataManager.clearCache();
       DataManager.getInstruments = function(params, success, error) {
@@ -79429,6 +79577,20 @@ function toArray(list, index) {
         }
         return output;
       };
+      DataManager.getUsers = function() {
+        var promises;
+        promises = [];
+        DataManager.Data.Users = DataManager.Auth.Users.query();
+        promises.push(DataManager.Data.Users.$promise);
+        DataManager.Data.Groups = DataManager.Auth.Groups.query();
+        promises.push(DataManager.Data.Groups.$promise);
+        return $q.all(promises).then(function() {
+          if (DataManager.GroupResolver == null) {
+            DataManager.GroupResolver = new ResolutionService.GroupResolver(DataManager.Data.Groups, DataManager.Data.Users);
+          }
+          return DataManager.GroupResolver.resolve();
+        });
+      };
       DataManager.listener = RealTimeListener(function(event, message) {
         var i, key, len, obj, ref, results, row, value;
         if (message.data != null) {
@@ -79467,6 +79629,54 @@ function toArray(list, index) {
         }
       });
       return DataManager;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var auth;
+
+  auth = angular.module('archivist.data_manager.auth', ['archivist.data_manager.auth.groups', 'archivist.data_manager.auth.users']);
+
+  auth.factory('Auth', [
+    'Groups', 'Users', function(Groups, Users) {
+      var Auth;
+      Auth = {};
+      Auth.Groups = Groups;
+      Auth.Users = Users;
+      Auth.clearCache = function() {
+        Auth.Groups.clearCache();
+        return Auth.Users.clearCache();
+      };
+      return Auth;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var groups;
+
+  groups = angular.module('archivist.data_manager.auth.groups', ['archivist.resource']);
+
+  groups.factory('Groups', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('groups/:id.json', {
+        id: '@id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var users;
+
+  users = angular.module('archivist.data_manager.auth.users', ['archivist.resource']);
+
+  users.factory('Users', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('users/admin/:id.json', {
+        id: '@id'
+      });
     }
   ]);
 
@@ -79897,6 +80107,41 @@ function toArray(list, index) {
         return _Class;
 
       })();
+      service.GroupResolver = (function() {
+        function _Class(groups, users) {
+          this.groups = groups;
+          this.users = users;
+        }
+
+        _Class.prototype.resolve = function() {
+          var group, group_index, i, len, ref, results, user, user_index;
+          ref = this.groups;
+          results = [];
+          for (group_index = i = 0, len = ref.length; i < len; group_index = ++i) {
+            group = ref[group_index];
+            this.groups[group_index].users = [];
+            results.push((function() {
+              var j, len1, ref1, results1;
+              ref1 = this.users;
+              results1 = [];
+              for (user_index = j = 0, len1 = ref1.length; j < len1; user_index = ++j) {
+                user = ref1[user_index];
+                if (group.id === user.group_id) {
+                  this.users[user_index].group = group.label;
+                  results1.push(this.groups[group_index].users.push(user));
+                } else {
+                  results1.push(void 0);
+                }
+              }
+              return results1;
+            }).call(this));
+          }
+          return results;
+        };
+
+        return _Class;
+
+      })();
       return service;
     }
   ]);
@@ -80268,7 +80513,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/import.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/import.html", '<div class="row">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <form data-ng-submit="uploadImport(\'files\')">\n            <div class="form-group">\n                <label for="instrument-files">\n                    Upload DDI files\n                </label>\n                <input id="instrument-files" file-model="files" name="files[]" type="file" multiple required />\n                <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n            </div>\n            <button type="submit" class="btn btn-default">Import</button>\n        </form>\n    </div>\n</div>')
+  $templateCache.put("partials/admin/import.html", '<div class="row import">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <form data-ng-submit="uploadImport(\'files\')">\n            <div class="form-group">\n                <label for="instrument-files">\n                    Upload DDI files\n                </label>\n                <input id="instrument-files" file-model="files" name="files[]" type="file" multiple required />\n                <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n            </div>\n            <button type="submit" class="btn btn-default">Import</button>\n        </form>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80282,7 +80527,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/instruments.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/instruments.html", '<div class="row">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instruments\n        </h1>\n\n        <div class="panel panel-default">\n            <div class="panel-body row">\n                <div class="col-md-4">\n                    <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                </div>\n                <div class="col-md-8">\n                    <button\n                            type="button"\n                            class="btn btn-primary"\n                            data-toggle="modal"\n                            data-target="#new-instrument"\n                            data-ng-click="prepareNew()"\n                            style="float: right;"\n                    >Add new</button>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Prefix</th>\n                    <th>Study</th>\n                    <th>Actions</th>\n                </tr>\n                <tr data-ng-repeat="\n                    instrument in filteredInstruments = (instruments |\n                    filter:query) |\n                    orderBy:\'id\' |\n                    limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{instrument.id}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.id}}">\n                            {{instrument.prefix}}\n                        </a>\n                    </td>\n                    <td>{{instrument.study}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.id}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#copy-instrument"\n                                data-ng-click="prepareCopy(instrument.id)"\n                        >\n                            Copy\n                        </button>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-instrument"\n                                data-ng-click="prepareDelete(instrument.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <uib-pagination\n                        total-items="filteredInstruments.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </uib-pagination>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/copy.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/new.html\'"></div>')
+  $templateCache.put("partials/admin/instruments.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instruments\n        </h1>\n\n        <div class="panel panel-default">\n            <div class="panel-body row">\n                <div class="col-md-4">\n                    <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                </div>\n                <div class="col-md-8">\n                    <button\n                            type="button"\n                            class="btn btn-primary"\n                            data-toggle="modal"\n                            data-target="#new-instrument"\n                            data-ng-click="prepareNew()"\n                            style="float: right;"\n                    >Add new</button>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Prefix</th>\n                    <th>Study</th>\n                    <th>Actions</th>\n                </tr>\n                <tr data-ng-repeat="\n                    instrument in filteredInstruments = (instruments |\n                    filter:query) |\n                    orderBy:\'id\' |\n                    limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{instrument.id}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.id}}">\n                            {{instrument.prefix}}\n                        </a>\n                    </td>\n                    <td>{{instrument.study}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.id}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#copy-instrument"\n                                data-ng-click="prepareCopy(instrument.id)"\n                        >\n                            Copy\n                        </button>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-instrument"\n                                data-ng-click="prepareDelete(instrument.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <uib-pagination\n                        total-items="filteredInstruments.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </uib-pagination>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/copy.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/new.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -80310,7 +80555,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/sidebar.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/sidebar.html", ' <ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin\')}">\n        <a href="/admin">\n            Overview <span class="sr-only">(current)</span>\n        </a>\n    </li>\n     <li data-ng-class="{active: isActive(\'/admin/users\')}">\n         <a href="/admin/instruments">\n             Instruments\n         </a>\n     </li>\n    <li data-ng-class="{active: isActive(\'/admin/users\')}">\n        <a href="/admin/users">\n            Users\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/reporting\')}">\n        <a href="/admin/reporting">\n            Reporting\n        </a>\n    </li>\n</ul>\n<ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin/import\')}">\n        <a href="/admin/import">\n            Import\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/export\')}">\n        <a href="/admin/export">\n            Export\n        </a>\n    </li>\n</ul>')
+  $templateCache.put("partials/admin/sidebar.html", ' <ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin\')}">\n        <a href="/admin">\n            Overview <span class="sr-only">(current)</span>\n        </a>\n    </li>\n     <li data-ng-class="{active: isActive(\'/admin/instruments\')}">\n         <a href="/admin/instruments">\n             Instruments\n         </a>\n     </li>\n    <li data-ng-class="{active: isActive(\'/admin/users\')}">\n        <a href="/admin/users">\n            Users\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/reporting\')}">\n        <a href="/admin/reporting">\n            Reporting\n        </a>\n    </li>\n</ul>\n<ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin/import\')}">\n        <a href="/admin/import">\n            Import\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/export\')}">\n        <a href="/admin/export">\n            Export\n        </a>\n    </li>\n</ul>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/admin/users.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/admin/users.html", '<div class="row users">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Users\n        </h1>\n\n        <div class="row">\n            <div class="col-md-3" data-ng-show="groups.length > 1">\n                <div class="panel panel-primary">\n                    <div class="panel-heading">\n                        Groups\n                        <button type="button" class="btn btn-primary" data-ng-click="newGroup()">\n                            <span\n                                    class="glyphicon glyphicon-plus"\n                                    aria-hidden="true"\n                                    aria-label="Add new group"\n                            ></span>\n                        </button>\n                    </div>\n                    <div class="list-group">\n                        <button\n                                type="button"\n                                class="list-group-item"\n                                data-ng-repeat="group in groups"\n                                data-ng-click="selectGroup(group)"\n                        >\n                            {{group.label}}\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class="col-md-3">\n                <div class="panel panel-primary">\n                    <div class="panel-heading">\n                        Users\n                        <button type="button" class="btn btn-primary" data-ng-click="newUser()">\n                            <span\n                                    class="glyphicon glyphicon-plus"\n                                    aria-hidden="true"\n                                    aria-label="Add new user"\n                            ></span>\n                        </button>\n                    </div>\n                    <div class="list-group">\n                        <button\n                                type="button"\n                                class="list-group-item"\n                                data-ng-repeat="user in users"\n                                data-ng-click="selectUser(user)"\n                        >\n                            {{user.first_name}} {{user.last_name}}\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class="col-md-6">\n                <div class="panel panel-primary">\n                    <div class="panel-heading" style="height:55px">\n                        Details\n                    </div>\n                    <div class="panel-body">\n                        <div class="panel-content" data-ng-if="mode == \'group\'">\n                            <form>\n                                <div class="form-group">\n                                    <label for="g-name">Name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="g-name"\n                                            placeholder="Name"\n                                            data-ng-model="current.label"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.label}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="g-type">Type</label>\n                                    <select class="form-control" data-ng-model="current.group_type" id="g-type" data-ng-show="editing">\n                                        <option>Centre</option>\n                                        <option>Study</option>\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.group_type}}</p>\n                                </div>\n                                <div class="form-group" data-ng-if="current.study == \'*\'">\n                                    <label >Studies</label>\n                                    <p class="form-control-static">All</p>\n                                </div>\n                                <div data-ng-if="current.study != \'*\'">\n                                    <label><ng-pluralize count="current.study.length" when="{\'1\':\'Study\',\'other\':\'Studies\'}"></ng-pluralize></label>\n                                    <div class="form-group" data-ng-repeat="study in current.study">\n                                        <input type="text"\n                                               class="form-control study"\n                                               data-ng-model="study.label"\n                                               data-ng-show="editing"\n                                        />\n                                        <p class="form-control-static" data-ng-show="!editing">{{study.label}}</p>\n                                    </div>\n                                    <div class="form-group">\n                                        <a data-ng-click="addStudy()" data-ng-show="editing">Add another</a>\n                                    </div>\n                                </div>\n                            </form>\n                        </div>\n                        <div class="panel-content" data-ng-if="mode == \'user\'">\n                            <form>\n                                <div class="form-group">\n                                    <label for="u-email">Email</label>\n                                    <input\n                                            type="email"\n                                            class="form-control"\n                                            id="u-email"\n                                            placeholder="Email"\n                                            data-ng-model="current.first_name"\n                                            data-ng-show="editing && !current.id"\n                                    >\n                                    <p class="form-control-static" data-ng-show="current.id">{{current.email}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-fname">First name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="u-fname"\n                                            placeholder="First name"\n                                            data-ng-model="current.first_name"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.first_name}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-lname">Last name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="u-lname"\n                                            placeholder="Last name"\n                                            data-ng-model="current.last_name"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.last_name}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-role">Role</label>\n                                    <select class="form-control" data-ng-model="current.role" id="u-role" data-ng-show="editing">\n                                        <option value="reader">Reader</option>\n                                        <option value="editor">Editor</option>\n                                        <option value="admin">Admin</option>\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>\n                                </div>\n                                <div class="form-group" data-ng-show="editing && !current.id">\n                                    <label for="u-group">Group</label>\n                                    <select\n                                            class="form-control"\n                                            data-ng-model="current.group_id"\n                                            id="u-group"\n                                            data-ng-options="group as group.label for group in groups track by group.id"\n                                    >\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>\n                                </div>\n                            </form>\n                        </div>\n                        <div data-ng-show="mode" class="buttons">\n                            <button class="btn btn-danger" data-ng-show="!editing" data-ng-click="delete()">Delete</button>\n                            <button class="btn btn-primary" data-ng-show="!editing" data-ng-click="edit()">Edit</button>\n                            <button class="btn btn-default" data-ng-show="editing" data-ng-click="cancel()">Cancel</button>\n                            <button class="btn btn-primary" data-ng-show="editing" data-ng-click="save()">Save</button>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80324,7 +80576,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/code_lists.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/code_lists.html", '<form>\n    <div class="form-group">\n        <label for="a-codelist-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control first-field"\n                id="a-codelist-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n\n    <div class="checkbox">\n        <label>\n            <input\n                    type="checkbox"\n                    id="a-codelist-rd"\n                    data-ng-model="current.rd"\n                    data-ng-disabled="!editMode"\n            />\n            Response Domain\n        </label>\n    </div>\n\n    <table class="table table-striped table-condensed">\n        <tr>\n            <th>ID</th>\n            <th>Value</th>\n            <th>Category</th>\n            <th></th>\n        </tr>\n        <tr data-ng-repeat="code in current.codes | orderBy:\'order\'" class="code">\n            <td>\n                {{code.id}}\n            </td>\n            <td>\n                <input\n                        type="text"\n                        class="form-control code-value"\n                        placeholder="Value"\n                        data-ng-model="code.value"\n                        data-ng-disabled="!editMode"\n                />\n            </td>\n            <td>\n                <input\n                        type="text"\n                        class="form-control code-label"\n                        placeholder="Category"\n                        data-ng-model="code.label"\n                        data-ng-disabled="!editMode"\n                        data-uib-typeahead="category.label for category in categories | filter:$viewValue | orderBy:\'label\'"\n                        data-typeahead-show-hint="true"\n                        data-typeahead-min-length="2"\n                        autocomplete="off"\n                />\n            </td>\n            <td>\n                <button\n                        class="btn btn-link"\n                        data-ng-click="removeCode(code)"\n                        data-ng-show="editMode"\n                        tabindex="-1"\n                >\n                    Remove\n                </button>\n            </td>\n        </tr>\n        <tr>\n            <td></td>\n            <td>\n                <input\n                    type="text"\n                    class="form-control"\n                    placeholder="Value"\n                    data-ng-model="current.newValue"\n                    data-ng-disabled="!editMode"\n            />\n            </td>\n            <td>\n                <input\n                    type="text"\n                    class="form-control"\n                    placeholder="Category"\n                    data-ng-model="newCategory"\n                    data-ng-disabled="!editMode"\n                />\n            </td>\n        </tr>\n    </table>\n</form>\n\n<div data-ng-if="!newMode">\n    <h3 class="sub-header">\n        Used by\n    </h3>\n\n    <table class="table table-striped table-condensed">\n        <tr>\n            <th>\n                ID\n            </th>\n            <th>\n                Type\n            </th>\n            <th>\n                Label\n            </th>\n        </tr>\n        <tr data-ng-repeat="obj in current.used_by">\n            <td>\n                {{obj.id}}\n            </td>\n            <td>\n                {{obj.type}}\n            </td>\n            <td>\n                {{obj.label}}\n            </td>\n        </tr>\n    </table>\n</div>')
+  $templateCache.put("partials/build/code_lists.html", '<form>\n    <div class="form-group">\n        <label for="a-codelist-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control first-field"\n                id="a-codelist-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n\n    <div class="checkbox">\n        <label>\n            <input\n                    type="checkbox"\n                    id="a-codelist-rd"\n                    data-ng-model="current.rd"\n                    data-ng-disabled="!editMode"\n            />\n            Response Domain\n        </label>\n    </div>\n\n    <table class="table table-striped table-condensed">\n        <tr>\n            <th>ID</th>\n            <th>Value</th>\n            <th>Category</th>\n            <th colspan="3" data-ng-show="editMode"></th>\n        </tr>\n        <tr data-ng-repeat="code in current.codes | orderBy:\'order\'" class="code">\n            <td>\n                {{code.id}}\n            </td>\n            <td>\n                <input\n                        type="text"\n                        class="form-control code-value"\n                        placeholder="Value"\n                        data-ng-model="code.value"\n                        data-ng-disabled="!editMode"\n                />\n            </td>\n            <td>\n                <input\n                        type="text"\n                        class="form-control code-label"\n                        placeholder="Category"\n                        data-ng-model="code.label"\n                        data-ng-disabled="!editMode"\n                        data-uib-typeahead="category.label for category in categories | filter:$viewValue | orderBy:\'label\'"\n                        data-typeahead-show-hint="true"\n                        data-typeahead-min-length="2"\n                        autocomplete="off"\n                />\n            </td>\n            <td>\n                <button\n                        class="btn btn-link"\n                        data-ng-click="removeCode(code)"\n                        data-ng-show="editMode"\n                        tabindex="-1"\n                >\n                    Remove\n                </button>\n            </td>\n            <td>\n                <button\n                        class="btn btn-link"\n                        data-ng-click="moveUp(code)"\n                        data-ng-show="editMode"\n                        tabindex="-1"\n                >\n                    Up\n                </button>\n            </td>\n            <td>\n                <button\n                        class="btn btn-link"\n                        data-ng-click="moveDown(code)"\n                        data-ng-show="editMode"\n                        tabindex="-1"\n                >\n                    Down\n                </button>\n            </td>\n        </tr>\n        <tr>\n            <td></td>\n            <td>\n                <input\n                    type="text"\n                    class="form-control"\n                    placeholder="Value"\n                    data-ng-model="current.newValue"\n                    data-ng-disabled="!editMode"\n            />\n            </td>\n            <td>\n                <input\n                    type="text"\n                    class="form-control"\n                    placeholder="Category"\n                    data-ng-model="newCategory"\n                    data-ng-disabled="!editMode"\n                />\n            </td>\n        </tr>\n    </table>\n</form>\n\n<div data-ng-if="!newMode">\n    <h3 class="sub-header">\n        Used by\n    </h3>\n\n    <table class="table table-striped table-condensed">\n        <tr>\n            <th>\n                ID\n            </th>\n            <th>\n                Type\n            </th>\n            <th>\n                Label\n            </th>\n        </tr>\n        <tr data-ng-repeat="obj in current.used_by">\n            <td>\n                {{obj.id}}\n            </td>\n            <td>\n                {{obj.type}}\n            </td>\n            <td>\n                {{obj.label}}\n            </td>\n        </tr>\n    </table>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80345,7 +80597,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/details/condition.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/details/condition.html", '<div class="form-group">\n    <label>Label</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.label"\n    />\n</div>\n\n<div class="form-group">\n    <label>Literal</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.literal"\n    />\n</div>\n\n<div class="form-group">\n    <label>Logic</label>\n    <input\n            type="text"\n            class="form-control monospaced"\n            data-ng-model="current.logic"\n    />\n    <span class="help-block">There is no need for square brackets.</span>\n</div>')
+  $templateCache.put("partials/build/details/condition.html", '<div class="form-group">\n    <label>Label</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.label"\n    />\n</div>\n\n<div class="form-group">\n    <label>Literal</label>\n    <textarea\n            class="form-control"\n            rows="6"\n            data-ng-model="current.literal"\n    ></textarea>\n</div>\n\n<div class="form-group">\n    <label>Logic</label>\n    <input\n            type="text"\n            class="form-control monospaced"\n            data-ng-model="current.logic"\n    />\n    <span class="help-block">There is no need for square brackets.</span>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80366,14 +80618,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/details/sequence.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/details/sequence.html", '<div class="form-group">\n    <label>Label</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.label"\n    />\n</div>')
+  $templateCache.put("partials/build/details/sequence.html", '<div class="form-group">\n    <label>Label</label>\n    <textarea\n            class="form-control"\n            rows="6"\n            data-ng-model="current.literal"\n    ></textarea>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/partials/build/details/statement.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/details/statement.html", '<div class="form-group">\n    <label>Label</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.label"\n    />\n</div>\n<div class="form-group">\n    <label>Literal</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.literal"\n    />\n</div>')
+  $templateCache.put("partials/build/details/statement.html", '<div class="form-group">\n    <label>Label</label>\n    <input\n            type="text"\n            class="form-control"\n            data-ng-model="current.label"\n    />\n</div>\n<div class="form-group">\n    <label>Literal</label>\n    <textarea\n            class="form-control"\n            rows="6"\n            data-ng-model="current.literal"\n    ></textarea>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80450,7 +80702,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/questions.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/questions.html", '<form>\n    <div class="form-group">\n        <label for="a-question-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-instruction">\n            Instruction\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-instruction"\n                placeholder="Interviewer Instruction"\n                data-ng-model="current.instruction"\n                data-ng-disabled="!editMode"\n                data-uib-typeahead="instruction.text for instruction in instructions | filter:$viewValue | orderBy:\'text\'"\n                data-typeahead-show-hint="true"\n                data-typeahead-min-length="2"\n                autocomplete="off"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-literal">\n            Literal\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-literal"\n                placeholder="Literal"\n                data-ng-model="current.literal"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div data-ng-if="current.type == \'QuestionGrid\'">\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Horizontal (X)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-haxis"\n                    data-ng-model="current.horizontal_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Vertical (Y)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-vaxis"\n                    data-ng-model="current.vertical_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group" data-ng-if="current.horizontal_code_list_id && current.vertical_code_list_id">\n            <label for="a-question-corner">\n                Corner Label\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-corner"\n                    data-ng-model="current.corner_label"\n                    data-ng-disabled="!editMode"\n            >\n                <option value="">(None)</option>\n                <option value="H">Horizontal</option>\n                <option value="V">Vertical</option>\n            </select>\n        </div>\n        <div class="form-group">\n            <label for="a-question-roster-label">\n                Roster Label\n            </label>\n            <input\n                    type="text"\n                    class="form-control"\n                    id="a-question-roster-label"\n                    placeholder="Roster Label"\n                    data-ng-model="current.literal"\n                    data-ng-disabled="!editMode"\n            />\n        </div>\n    </div>\n</form>\n\n<h3 class="sub-header">\n    Response Domains\n    <a\n            href="#"\n            data-ng-show="editMode"\n            data-toggle="modal"\n            data-target="#add-rd"\n    >\n        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>\n    </a>\n</h3>\n\n<table class="table table-striped table-condensed">\n    <tr>\n        <th>\n            Type\n        </th>\n        <th>\n            Label\n        </th>\n        <th data-ng-show="editMode">\n\n        </th>\n    </tr>\n    <tbody data-ui-sortable data-ng-model="current.rds">\n        <tr\n                data-ng-repeat="rd in current.rds"\n                data-uib-popover-template="\'partials/build/popover/response_domain.html\'"\n                data-popover-trigger="mouseenter"\n                data-popover-title="{{rd.label}}"\n                data-ng-if="rd.type == \'ResponseDomainCode\'"\n        >\n            <td>\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n        <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != \'ResponseDomainCode\'">\n            <td data-ng-strip="ResponseDomain">\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n    </tbody>\n</table>\n\n<div data-ng-include="\'partials/build/modals/add_rd.html\'"></div>')
+  $templateCache.put("partials/build/questions.html", '<form>\n    <div class="form-group">\n        <label for="a-question-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-instruction">\n            Instruction\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-instruction"\n                placeholder="Interviewer Instruction"\n                data-ng-model="current.instruction"\n                data-ng-disabled="!editMode"\n                data-uib-typeahead="instruction.text for instruction in instructions | filter:$viewValue | orderBy:\'text\'"\n                data-typeahead-show-hint="true"\n                data-typeahead-min-length="2"\n                autocomplete="off"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-literal">\n            Literal\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-literal"\n                placeholder="Literal"\n                data-ng-model="current.literal"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div data-ng-if="current.type == \'QuestionGrid\'">\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Horizontal (X)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-haxis"\n                    data-ng-model="current.horizontal_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Vertical (Y)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-vaxis"\n                    data-ng-model="current.vertical_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group" data-ng-if="current.horizontal_code_list_id && current.vertical_code_list_id">\n            <label for="a-question-corner">\n                Corner Label\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-corner"\n                    data-ng-model="current.corner_label"\n                    data-ng-disabled="!editMode"\n            >\n                <option value="">(None)</option>\n                <option value="H">Horizontal</option>\n                <option value="V">Vertical</option>\n            </select>\n        </div>\n        <div class="form-group">\n            <label for="a-question-roster-label">\n                Roster Label\n            </label>\n            <input\n                    type="text"\n                    class="form-control"\n                    id="a-question-roster-label"\n                    placeholder="Roster Label"\n                    data-ng-model="current.roster_label"\n                    data-ng-disabled="!editMode"\n            />\n        </div>\n    </div>\n</form>\n\n<h3 class="sub-header">\n    Response Domains\n    <a\n            href="#"\n            data-ng-show="editMode"\n            data-toggle="modal"\n            data-target="#add-rd"\n    >\n        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>\n    </a>\n</h3>\n\n<table class="table table-striped table-condensed">\n    <tr>\n        <th>\n            Type\n        </th>\n        <th>\n            Label\n        </th>\n        <th data-ng-show="editMode">\n\n        </th>\n    </tr>\n    <tbody data-ui-sortable data-ng-model="current.rds">\n        <tr\n                data-ng-repeat="rd in current.rds"\n                data-uib-popover-template="\'partials/build/popover/response_domain.html\'"\n                data-popover-trigger="mouseenter"\n                data-popover-title="{{rd.label}}"\n                data-ng-if="rd.type == \'ResponseDomainCode\'"\n        >\n            <td>\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n        <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != \'ResponseDomainCode\'">\n            <td data-ng-strip="ResponseDomain">\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n    </tbody>\n</table>\n\n<div data-ng-include="\'partials/build/modals/add_rd.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -80506,14 +80758,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/response_domains/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/response_domains/show.html", '<ul data-ng-if="rd.type == \'ResponseDomainCode\'">\n    <li data-ng-repeat="code in rd.codes | orderBy:\'order\'">\n        <span class="a-code-value">\n            {{code.value}}\n        </span>\n        <span class="a-code-category">\n            {{code.label}}\n        </span>\n    </li>\n</ul>\n<span data-ng-if="rd.type != \'ResponseDomainCode\'" class="a-response-domain">\n    {{rd.label}}\n</span>')
+  $templateCache.put("partials/response_domains/show.html", '<ul data-ng-if="rd.type == \'ResponseDomainCode\'">\n    <li data-ng-repeat="code in rd.codes | orderBy:\'order\'">\n        <span class="a-code-value">\n            {{code.value}}\n        </span>\n        <span class="a-code-category">\n            {{code.label}}\n        </span>\n    </li>\n</ul>\n<span data-ng-if="rd.type != \'ResponseDomainCode\'" class="a-response-domain">\n    <span data-ng-if="rd.subtype">\n        {{rd.subtype}}{{rd.params}}:\n    </span>\n    {{rd.label}}\n</span>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/sign_up_in.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("sign_up_in.html", '<div data-ng-controller="UserController" class="col-md-4 col-md-offset-4">\n\n    <!-- Nav tabs -->\n    <ul class="nav nav-tabs" role="tablist">\n        <li role="presentation" class="active"><a href="#sign-in" aria-controls="sign-in" role="tab" data-toggle="tab">Sign In</a></li>\n        <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign Up</a></li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class="tab-content">\n        <div role="tabpanel" class="tab-pane active" id="sign-in">\n            <form>\n                <div class="form-group">\n                    <label for="login-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="login-email"\n                            placeholder="Email"\n                            data-ng-model="creds.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="login-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="login-password"\n                            placeholder="Password"\n                            data-ng-model="creds.password"\n                    >\n                </div>\n                <button data-ng-click="sign_in(creds)" type="submit" class="btn btn-default">Log in</button>\n            </form>\n        </div>\n        <div role="tabpanel" class="tab-pane" id="sign-up">\n            <form>\n                <div class="form-group">\n                    <label for="signup-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="signup-email"\n                            placeholder="Email"\n                            data-ng-model="details.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-fname">First name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-fname"\n                            placeholder="First name"\n                            data-ng-model="details.fname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-lname">Last name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-lname"\n                            placeholder="Last name"\n                            data-ng-model="details.lname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-password"\n                            placeholder="Password"\n                            data-ng-model="details.password"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-confirmation">Confirmation</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-confirmation"\n                            placeholder="Password again"\n                            data-ng-model="details.confirm"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-group">Group</label>\n                    <select\n                            class="form-control"\n                            id="signup-group"\n                            data-ng-model="details.group"\n                    >\n                        <option value="1" selected="selected">CLOSER</option>\n                    </select>\n                </div>\n                <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>\n            </form>\n        </div>\n    </div>\n\n</div>')
+  $templateCache.put("sign_up_in.html", '<div data-ng-controller="UserController" class="col-md-4 col-md-offset-4">\n\n    <!-- Nav tabs -->\n    <ul class="nav nav-tabs" role="tablist">\n        <li role="presentation" class="active"><a href="#sign-in" aria-controls="sign-in" role="tab" data-toggle="tab">Sign In</a></li>\n        <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign Up</a></li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class="tab-content">\n        <div role="tabpanel" class="tab-pane active" id="sign-in">\n            <form>\n                <div class="form-group">\n                    <label for="login-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="login-email"\n                            placeholder="Email"\n                            data-ng-model="creds.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="login-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="login-password"\n                            placeholder="Password"\n                            data-ng-model="creds.password"\n                    >\n                </div>\n                <button data-ng-click="sign_in(creds)" type="submit" class="btn btn-default">Log in</button>\n            </form>\n        </div>\n        <div role="tabpanel" class="tab-pane" id="sign-up">\n            <form>\n                <div class="form-group">\n                    <label for="signup-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="signup-email"\n                            placeholder="Email"\n                            data-ng-model="details.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-fname">First name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-fname"\n                            placeholder="First name"\n                            data-ng-model="details.fname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-lname">Last name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-lname"\n                            placeholder="Last name"\n                            data-ng-model="details.lname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-password"\n                            placeholder="Password"\n                            data-ng-model="details.password"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-confirmation">Confirmation</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-confirmation"\n                            placeholder="Password again"\n                            data-ng-model="details.confirm"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-group">Group</label>\n                    <select\n                            class="form-control"\n                            id="signup-group"\n                            data-ng-model="details.group"\n                            data-ng-options="group.id as group.label for group in sign_up_groups"\n                    >\n                    </select>\n                </div>\n                <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>\n            </form>\n        </div>\n    </div>\n\n</div>')
 }]);
 
 (function() {
@@ -80522,7 +80774,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
   users = angular.module('archivist.users', ['archivist.flash']);
 
   users.controller('UserController', [
-    '$scope', '$location', 'User', function($scope, $location, User) {
+    '$scope', '$location', '$http', 'User', function($scope, $location, $http, User) {
       $scope.sign_in = function(cred) {
         $scope.user.set('email', cred.email);
         return $scope.user.sign_in(cred.password).then(function() {
@@ -80532,7 +80784,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           return cred.password = "";
         });
       };
-      return $scope.sign_up = function(details) {
+      $scope.sign_up = function(details) {
         $scope.user.set('email', details.email);
         $scope.user.set('first_name', details.fname);
         $scope.user.set('last_name', details.lname);
@@ -80545,6 +80797,10 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           return details.confirm = "";
         });
       };
+      $http.get('/groups/external.json').then(function(res) {
+        return $scope.sign_up_groups = res.data;
+      });
+      return console.log($scope);
     }
   ]);
 

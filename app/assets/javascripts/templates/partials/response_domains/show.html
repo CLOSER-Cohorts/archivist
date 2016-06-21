@@ -9,5 +9,8 @@
     </li>
 </ul>
 <span data-ng-if="rd.type != 'ResponseDomainCode'" class="a-response-domain">
+    <span data-ng-if="rd.subtype">
+        {{rd.subtype}}{{rd.params}}:
+    </span>
     {{rd.label}}
 </span>

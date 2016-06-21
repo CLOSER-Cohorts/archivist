@@ -9,4 +9,15 @@ if not rd.nil?
       json.order code.order
     end
   end
+  if rd.class == ResponseDomainDatetime
+    json.subtype rd.datetime_type
+    json.params '(' + rd.format.to_s + ')'
+  end
+  if rd.class == ResponseDomainNumeric
+    json.subtype rd.numeric_type
+    json.params '(' + (rd.min.nil? ? '~' : '%g' % rd.min) + ',' + (rd.max.nil? ? '~' : '%g' % rd.max) + ')'
+  end
+  if rd.class == ResponseDomainText
+    json.params rd.maxlen.nil? ? '' : '(' + '%g' % rd.maxlen + ')'
+  end
 end

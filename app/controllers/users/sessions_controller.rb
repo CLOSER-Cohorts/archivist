@@ -4,19 +4,19 @@ class Users::SessionsController < Devise::SessionsController
 # before_filter :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
-  def new
-    super #{UserMailer.welcome(self.resource).deliver_now}
-  end
+  #def new
+  #  super #{UserMailer.welcome(self.resource).deliver_now}
+  #end
 
   # POST /resource/sign_in
-  def create
-    super #{UserMailer.welcome(self.resource).deliver_now}
-  end
+  #def create
+  #  super #{UserMailer.welcome(self.resource).deliver_now}
+  #end
 
   # DELETE /resource/sign_out
-  def destroy
-    super {head :no_content and return}
-  end
+  #def destroy
+  #  super {head :no_content and return}
+  #end
 
   # protected
 

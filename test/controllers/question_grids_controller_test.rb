@@ -2,10 +2,12 @@ require 'test_helper'
 
 class QuestionGridsControllerTest < ActionController::TestCase
   setup do
-    @question_grid = question_grids(:one)
-    @instrument = instruments(:one)
-    @xaxis = code_lists(:axisx)
-    @yaxis = code_lists(:axisy)
+    @user = users :User_1
+    sign_in @user
+    @question_grid = question_grids(:QuestionGrid_3)
+    @instrument = instruments(:Instrument_1)
+    @xaxis = code_lists(:CodeList_11)
+    @yaxis = code_lists(:CodeList_14)
   end
 
   test "should get index" do

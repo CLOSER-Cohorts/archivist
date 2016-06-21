@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ResponseUnitTest < ActiveSupport::TestCase
   setup do
-    @response_unit = response_units :one
+    @response_unit = response_units :ResponseUnit_1
   end
 
   test "belongs to an instrument" do

@@ -67,6 +67,19 @@ resolution.factory(
             for code, index in code_list.codes
               code_list.codes[index].label = @category(code)['label']
 
+      service.GroupResolver = class
+        constructor: (groups, users)->
+          @groups = groups
+          @users = users
+
+        resolve: ->
+          for group, group_index in @groups
+            @groups[group_index].users = []
+            for user, user_index in @users
+              if group.id == user.group_id
+                @users[user_index].group = group.label
+                @groups[group_index].users.push user
+
       service
   ]
 )
