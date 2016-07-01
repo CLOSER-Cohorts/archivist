@@ -80618,7 +80618,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/details/sequence.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/details/sequence.html", '<div class="form-group">\n    <label>Label</label>\n    <textarea\n            class="form-control"\n            rows="6"\n            data-ng-model="current.literal"\n    ></textarea>\n</div>')
+  $templateCache.put("partials/build/details/sequence.html", '<div class="form-group">\n    <label>Label</label>\n    <textarea\n            class="form-control"\n            rows="6"\n            data-ng-model="current.label"\n    ></textarea>\n</div>')
 }]);
 
 // Angular Rails Template
