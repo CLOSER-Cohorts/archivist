@@ -20,7 +20,7 @@ json.array!(@collection) do |question_grid|
     json.label y.category.label
     json.order y.order
   end
-  json.corner_label question_grid.corner_label
+  json.corner_label question_grid.pretty_corner_label
   rescue
     json.error true
   end
