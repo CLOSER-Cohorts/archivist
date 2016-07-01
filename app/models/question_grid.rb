@@ -5,4 +5,14 @@ class QuestionGrid < ActiveRecord::Base
 
   URN_TYPE = 'qg'
   TYPE = 'QuestionGrid'
+
+  def pretty_corner_label
+    if corner_label == 'V'
+      vertical_code_list.label
+    elsif corner_label == 'H'
+      horizontal_code_list.label
+    else
+      nil
+    end
+  end
 end
