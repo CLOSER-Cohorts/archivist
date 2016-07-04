@@ -83,9 +83,9 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
       Flash.publish($rootScope)
 
     $rootScope.$on('$routeChangeSuccess', ->
-      $rootScope.publish_flash
+      $rootScope.publish_flash()
     )
-    $rootScope.publish_flash
+    $rootScope.publish_flash()
 
     $rootScope.page = {title: 'Home'}
 

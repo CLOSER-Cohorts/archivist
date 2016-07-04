@@ -15,7 +15,7 @@ users.controller(
         $scope.user.sign_in(cred.password).then(->
             $location.path '/instruments'
         ,->
-          $scope.publish_flash
+          $scope.publish_flash()
           cred.password = ""
         )
 
@@ -26,10 +26,12 @@ users.controller(
         $scope.user.set('group_id', details.group)
         $scope.user.sign_up(details.password, details.confirm).then(->
           $location.path '/instruments'
+	  true
         ,->
-          $scope.publish_flash
+          $scope.publish_flash()
           details.password = ""
           details.confirm = ""
+          false
         )
 
       $http.get('/groups/external.json').then (res)->
@@ -75,9 +77,11 @@ users.factory(
               self.set 'last_name', res.data.last_name
               self.set 'group', res.data.group
               self.set 'role', res.data.role
+              true
             ,(res)->
               self.logged_in = false
               Flash.add 'danger', res.data.error
+              false
           )
 
         sign_out: ->
