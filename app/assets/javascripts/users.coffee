@@ -13,7 +13,7 @@ users.controller(
       $scope.sign_in = (cred)->
         $scope.user.set('email', cred.email)
         $scope.user.sign_in(cred.password).then(->
-            $location.path '/instruments'
+          $location.path '/instruments'
         ,->
           $scope.publish_flash()
           cred.password = ""
@@ -26,7 +26,7 @@ users.controller(
         $scope.user.set('group_id', details.group)
         $scope.user.sign_up(details.password, details.confirm).then(->
           $location.path '/instruments'
-	  true
+          true
         ,->
           $scope.publish_flash()
           details.password = ""
@@ -44,8 +44,9 @@ users.factory(
   'User',
   [
     '$http',
+    '$q',
     'Flash'
-    ($http, Flash)->
+    ($http, $q, Flash)->
       class
         constructor: (@email)->
           @logged_in = false
@@ -81,7 +82,7 @@ users.factory(
             ,(res)->
               self.logged_in = false
               Flash.add 'danger', res.data.error
-              false
+              $q.reject res.data.error
           )
 
         sign_out: ->
