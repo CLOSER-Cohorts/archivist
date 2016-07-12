@@ -26,23 +26,34 @@ module Question::Model
       if text.nil? || text == ""
         association(:instruction).writer nil
       else
-        association(:instruction).writer Instruction.new text: text, instrument: self.instrument
+        if association(:instruction).reader.nil? || association(:instruction).reader.text != text
+          if (instruction = self.instrument.instructions.find_by_text(text)).nil?
+            association(:instruction).writer Instruction.new text: text, instrument: self.instrument
+          else
+            association(:instruction).writer instruction
+          end
+        end
       end
     end
 
     def update_rds(rds)
-      self.response_domains.each do |rd|
-        matching = rds.select { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
-        if matching.count == 0
-          #ResponseDomain is no longer included
-          rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
-        else
-          #TODO: Throw a wobbler
+      if rds.nil?
+        self.response_domain_codes =
+        self.response_domain_datetimes =
+        self.response_domain_numerics =
+        self.response_domain_texts = []
+      else
+        self.response_domains.each do |rd|
+          matching = rds.select { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
+          if matching.count == 0
+            #ResponseDomain is no longer included
+            rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
+          else
+            #TODO: Throw a wobbler
+          end
         end
-      end
-      self.reload
+        self.reload
 
-      unless rds.nil?
         if self.response_domains.length < rds.length
           # There are rds to add
           o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
@@ -79,6 +90,10 @@ module Question::Controller
       if @object.save
         if params.has_key? :instruction
           @object.instruction = params[:instruction]
+          @object.save!
+        end
+        if params.has_key? :rds
+          @object.update_rds params[:rds]
           @object.save!
         end
         render :show, status: :created
