@@ -79,11 +79,11 @@ class Instrument < ActiveRecord::Base
   end
 
   def codes
-    Code.joins(:code_list).where('instrument_id = ?', id)
+    Code.joins(:code_list).where instrument_id: id
   end
 
   def response_domain_codes
-    ResponseDomainCode.includes(:code_list).joins(:code_list).where('instrument_id = ?', id)
+    ResponseDomainCode.includes(:code_list).joins(:code_list).where instrument_id: id
   end
 
   def response_domains

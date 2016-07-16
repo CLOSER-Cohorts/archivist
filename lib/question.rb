@@ -18,8 +18,12 @@ module Question::Model
     alias constructs cc_questions
 
     def response_domains
-      self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
-          self.response_domain_numerics.to_a + self.response_domain_texts.to_a
+      (self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
+          self.response_domain_numerics.to_a + self.response_domain_texts.to_a).sort do |a,b|
+            alpha = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: a.id, response_domain_type: a.class.name).rd_order
+            beta = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: b.id, response_domain_type: b.class.name).rd_order
+            alpha <=> beta
+          end
     end
 
     def instruction=(text)
@@ -43,23 +47,34 @@ module Question::Model
         self.response_domain_numerics =
         self.response_domain_texts = []
       else
-        self.response_domains.each do |rd|
-          matching = rds.select { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
-          if matching.count == 0
-            #ResponseDomain is no longer included
-            rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
-          else
-            #TODO: Throw a wobbler
+        rds.each_index { |i| rds[i][:rd_order] = i + 1 }
+        self.transaction do
+          self.response_domains.each do |rd|
+            index = rds.index { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
+            if index.nil?
+              #ResponseDomain is no longer included
+              rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
+            else
+              joint = rd.rds_qs.where(question_type: self.class.name, question_id: self.id).first
+              joint.rd_order = rds[index][:rd_order]
+              joint.save!
+            end
           end
         end
         self.reload
 
         if self.response_domains.length < rds.length
           # There are rds to add
+          highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
           o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
           new_rds = o_rds.reject { |x| self.response_domains.include? x }
           new_rds.each do |new_rd|
-            association(new_rd.class.name.tableize).reader << new_rd
+            highest_rd_order += 1
+            RdsQs.create instrument_id: self.instrument_id,
+                         response_domain: new_rd,
+                         question: self,
+                         rd_order: highest_rd_order
+            #association(new_rd.class.name.tableize).reader << new_rd
           end
 
         elsif self.response_domains.length > rds.length

@@ -1,261 +1,277 @@
 ---
 CcSequence_1:
-  id: 1
-  created_at: 2016-05-27 15:28:29.002100000 Z
-  updated_at: 2016-05-27 15:28:29.002100000 Z
-  instrument_id: 1
+  id: 77
+  created_at: 2016-06-20 13:51:39.060457000 Z
+  updated_at: 2016-06-20 13:51:39.060457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_2:
-  id: 2
-  created_at: 2016-05-27 15:28:39.476147000 Z
-  updated_at: 2016-05-27 15:28:39.476147000 Z
-  instrument_id: 1
+  id: 78
+  created_at: 2016-06-20 13:51:39.085457000 Z
+  updated_at: 2016-06-20 13:51:39.085457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_3:
-  id: 3
-  created_at: 2016-05-27 15:28:39.497149000 Z
-  updated_at: 2016-05-27 15:28:39.497149000 Z
-  instrument_id: 1
+  id: 79
+  created_at: 2016-06-20 13:51:39.378457000 Z
+  updated_at: 2016-06-20 13:51:39.378457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_4:
-  id: 4
-  created_at: 2016-05-27 15:28:40.681268000 Z
-  updated_at: 2016-05-27 15:28:40.681268000 Z
-  instrument_id: 1
+  id: 80
+  created_at: 2016-06-20 13:51:44.655457000 Z
+  updated_at: 2016-06-20 13:51:44.655457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_5:
-  id: 5
-  created_at: 2016-05-27 15:28:41.711371000 Z
-  updated_at: 2016-05-27 15:28:41.711371000 Z
-  instrument_id: 1
+  id: 81
+  created_at: 2016-06-20 13:51:47.762457000 Z
+  updated_at: 2016-06-20 13:51:47.762457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_6:
-  id: 6
-  created_at: 2016-05-27 15:28:43.126512000 Z
-  updated_at: 2016-05-27 15:28:43.126512000 Z
-  instrument_id: 1
+  id: 82
+  created_at: 2016-06-20 13:51:50.324457000 Z
+  updated_at: 2016-06-20 13:51:50.324457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_7:
-  id: 7
-  created_at: 2016-05-27 15:28:43.145514000 Z
-  updated_at: 2016-05-27 15:28:43.145514000 Z
-  instrument_id: 1
+  id: 83
+  created_at: 2016-06-20 13:51:52.392457000 Z
+  updated_at: 2016-06-20 13:51:52.392457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_8:
-  id: 8
-  created_at: 2016-05-27 15:28:44.144614000 Z
-  updated_at: 2016-05-27 15:28:44.144614000 Z
-  instrument_id: 1
+  id: 84
+  created_at: 2016-06-20 13:51:52.954457000 Z
+  updated_at: 2016-06-20 13:51:52.954457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_9:
-  id: 9
-  created_at: 2016-05-27 15:28:45.097709000 Z
-  updated_at: 2016-05-27 15:28:45.097709000 Z
-  instrument_id: 1
+  id: 85
+  created_at: 2016-06-20 13:51:53.034457000 Z
+  updated_at: 2016-06-20 13:51:53.034457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_10:
-  id: 10
-  created_at: 2016-05-27 15:28:45.529752000 Z
-  updated_at: 2016-05-27 15:28:45.529752000 Z
-  instrument_id: 1
+  id: 86
+  created_at: 2016-06-20 13:51:53.169457000 Z
+  updated_at: 2016-06-20 13:51:53.169457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_11:
-  id: 11
-  created_at: 2016-05-27 15:29:13.145514000 Z
-  updated_at: 2016-05-27 15:29:13.145514000 Z
-  instrument_id: 2
+  id: 87
+  created_at: 2016-06-20 13:51:57.130457000 Z
+  updated_at: 2016-06-20 13:51:57.130457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_12:
-  id: 12
-  created_at: 2016-05-27 15:29:17.653965000 Z
-  updated_at: 2016-05-27 15:29:17.653965000 Z
-  instrument_id: 2
+  id: 88
+  created_at: 2016-06-20 13:51:57.556457000 Z
+  updated_at: 2016-06-20 13:51:57.556457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_13:
-  id: 13
-  created_at: 2016-05-27 15:29:17.661965000 Z
-  updated_at: 2016-05-27 15:29:17.661965000 Z
-  instrument_id: 2
+  id: 89
+  created_at: 2016-06-20 13:51:59.255457000 Z
+  updated_at: 2016-06-20 13:51:59.255457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_14:
-  id: 14
-  created_at: 2016-05-27 15:29:18.171016000 Z
-  updated_at: 2016-05-27 15:29:18.171016000 Z
-  instrument_id: 2
+  id: 90
+  created_at: 2016-06-20 13:51:59.657457000 Z
+  updated_at: 2016-06-20 13:51:59.657457000 Z
+  instrument_id: 10
+  construct_type: CcSequence
 CcSequence_15:
-  id: 15
-  created_at: 2016-05-27 15:29:18.435043000 Z
-  updated_at: 2016-05-27 15:29:18.435043000 Z
-  instrument_id: 2
+  id: 91
+  created_at: 2016-06-21 13:18:23.943983000 Z
+  updated_at: 2016-06-21 13:18:23.943983000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_16:
-  id: 16
-  created_at: 2016-05-27 15:29:18.866086000 Z
-  updated_at: 2016-05-27 15:29:18.866086000 Z
-  instrument_id: 2
+  id: 92
+  created_at: 2016-06-21 13:18:41.470736000 Z
+  updated_at: 2016-06-21 13:18:41.470736000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_17:
-  id: 17
-  created_at: 2016-05-27 15:29:19.033102000 Z
-  updated_at: 2016-05-27 15:29:19.033102000 Z
-  instrument_id: 2
+  id: 93
+  created_at: 2016-06-21 13:18:41.683757000 Z
+  updated_at: 2016-06-21 13:18:41.683757000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_18:
-  id: 18
-  created_at: 2016-05-27 15:29:19.184118000 Z
-  updated_at: 2016-05-27 15:29:19.184118000 Z
-  instrument_id: 2
+  id: 94
+  created_at: 2016-06-21 13:18:42.754864000 Z
+  updated_at: 2016-06-21 13:18:42.754864000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_19:
-  id: 19
-  created_at: 2016-05-27 15:29:19.416141000 Z
-  updated_at: 2016-05-27 15:29:19.416141000 Z
-  instrument_id: 2
+  id: 95
+  created_at: 2016-06-21 13:18:42.766865000 Z
+  updated_at: 2016-06-21 13:18:42.766865000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_20:
-  id: 20
-  created_at: 2016-05-27 15:29:19.568156000 Z
-  updated_at: 2016-05-27 15:29:19.568156000 Z
-  instrument_id: 2
+  id: 96
+  created_at: 2016-06-21 13:18:42.992888000 Z
+  updated_at: 2016-06-21 13:18:42.992888000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_21:
-  id: 21
-  created_at: 2016-05-27 15:29:19.616161000 Z
-  updated_at: 2016-05-27 15:29:19.616161000 Z
-  instrument_id: 2
+  id: 97
+  created_at: 2016-06-21 13:18:43.084897000 Z
+  updated_at: 2016-06-21 13:18:43.084897000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_22:
-  id: 22
-  created_at: 2016-05-27 15:29:20.034203000 Z
-  updated_at: 2016-05-27 15:29:20.034203000 Z
-  instrument_id: 2
+  id: 98
+  created_at: 2016-06-21 13:18:43.644953000 Z
+  updated_at: 2016-06-21 13:18:43.644953000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_23:
-  id: 23
-  created_at: 2016-05-27 15:29:20.383237000 Z
-  updated_at: 2016-05-27 15:29:20.383237000 Z
-  instrument_id: 2
+  id: 99
+  created_at: 2016-06-21 13:18:43.874976000 Z
+  updated_at: 2016-06-21 13:18:43.874976000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_24:
-  id: 24
-  created_at: 2016-05-27 15:29:20.877287000 Z
-  updated_at: 2016-05-27 15:29:20.877287000 Z
-  instrument_id: 2
+  id: 100
+  created_at: 2016-06-21 13:18:44.388027000 Z
+  updated_at: 2016-06-21 13:18:44.388027000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_25:
-  id: 25
-  created_at: 2016-05-27 15:29:21.263325000 Z
-  updated_at: 2016-05-27 15:29:21.263325000 Z
-  instrument_id: 2
+  id: 101
+  created_at: 2016-06-21 13:18:44.628051000 Z
+  updated_at: 2016-06-21 13:18:44.628051000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_26:
-  id: 26
-  created_at: 2016-05-27 15:29:21.334333000 Z
-  updated_at: 2016-05-27 15:29:21.334333000 Z
-  instrument_id: 2
+  id: 102
+  created_at: 2016-06-21 13:18:45.470135000 Z
+  updated_at: 2016-06-21 13:18:45.470135000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_27:
-  id: 27
-  created_at: 2016-05-27 15:29:49.241123000 Z
-  updated_at: 2016-05-27 15:29:49.241123000 Z
-  instrument_id: 3
+  id: 103
+  created_at: 2016-06-21 13:18:46.495238000 Z
+  updated_at: 2016-06-21 13:18:46.495238000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_28:
-  id: 28
-  created_at: 2016-05-27 15:29:52.191418000 Z
-  updated_at: 2016-05-27 15:29:52.191418000 Z
-  instrument_id: 3
+  id: 104
+  created_at: 2016-06-21 13:18:47.728361000 Z
+  updated_at: 2016-06-21 13:18:47.728361000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_29:
-  id: 29
-  created_at: 2016-05-27 15:29:52.200419000 Z
-  updated_at: 2016-05-27 15:29:52.200419000 Z
-  instrument_id: 3
+  id: 105
+  created_at: 2016-06-21 13:18:48.646453000 Z
+  updated_at: 2016-06-21 13:18:48.646453000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_30:
-  id: 30
-  created_at: 2016-05-27 15:30:07.065905000 Z
-  updated_at: 2016-05-27 15:30:07.065905000 Z
-  instrument_id: 4
+  id: 106
+  created_at: 2016-06-21 13:18:48.816470000 Z
+  updated_at: 2016-06-21 13:18:48.816470000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_31:
-  id: 31
-  created_at: 2016-05-27 15:30:12.570456000 Z
-  updated_at: 2016-05-27 15:30:12.570456000 Z
-  instrument_id: 4
+  id: 107
+  created_at: 2016-06-21 13:18:50.039592000 Z
+  updated_at: 2016-06-21 13:18:50.039592000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_32:
-  id: 32
-  created_at: 2016-05-27 15:30:12.579457000 Z
-  updated_at: 2016-05-27 15:30:12.579457000 Z
-  instrument_id: 4
+  id: 108
+  created_at: 2016-06-21 13:18:50.221611000 Z
+  updated_at: 2016-06-21 13:18:50.221611000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_33:
-  id: 33
-  created_at: 2016-05-27 15:30:12.626461000 Z
-  updated_at: 2016-05-27 15:30:12.626461000 Z
-  instrument_id: 4
+  id: 109
+  created_at: 2016-06-21 13:18:50.501639000 Z
+  updated_at: 2016-06-21 13:18:50.501639000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_34:
-  id: 34
-  created_at: 2016-05-27 15:30:12.758474000 Z
-  updated_at: 2016-05-27 15:30:12.758474000 Z
-  instrument_id: 4
+  id: 110
+  created_at: 2016-06-21 13:18:50.632652000 Z
+  updated_at: 2016-06-21 13:18:50.632652000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_35:
-  id: 35
-  created_at: 2016-05-27 15:30:12.911490000 Z
-  updated_at: 2016-05-27 15:30:12.911490000 Z
-  instrument_id: 4
+  id: 111
+  created_at: 2016-06-21 13:18:50.791668000 Z
+  updated_at: 2016-06-21 13:18:50.791668000 Z
+  instrument_id: 11
+  construct_type: CcSequence
 CcSequence_36:
-  id: 36
-  created_at: 2016-05-27 15:30:13.816580000 Z
-  updated_at: 2016-05-27 15:30:13.816580000 Z
-  instrument_id: 4
+  id: 112
+  created_at: 2016-07-01 11:34:26.834913000 Z
+  updated_at: 2016-07-01 11:34:26.834913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_37:
-  id: 37
-  created_at: 2016-05-27 15:30:14.177616000 Z
-  updated_at: 2016-05-27 15:30:14.177616000 Z
-  instrument_id: 4
+  id: 113
+  created_at: 2016-07-01 11:34:36.200913000 Z
+  updated_at: 2016-07-01 11:34:36.200913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_38:
-  id: 38
-  created_at: 2016-05-27 15:30:15.254724000 Z
-  updated_at: 2016-05-27 15:30:15.254724000 Z
-  instrument_id: 4
+  id: 114
+  created_at: 2016-07-01 11:34:36.338913000 Z
+  updated_at: 2016-07-01 11:34:36.338913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_39:
-  id: 39
-  created_at: 2016-05-27 15:30:15.932792000 Z
-  updated_at: 2016-05-27 15:30:15.932792000 Z
-  instrument_id: 4
+  id: 115
+  created_at: 2016-07-01 11:34:37.495913000 Z
+  updated_at: 2016-07-01 11:34:37.495913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_40:
-  id: 40
-  created_at: 2016-05-27 15:30:16.258824000 Z
-  updated_at: 2016-05-27 15:30:16.258824000 Z
-  instrument_id: 4
+  id: 116
+  created_at: 2016-07-01 11:34:37.714913000 Z
+  updated_at: 2016-07-01 11:34:37.714913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_41:
-  id: 41
-  created_at: 2016-05-27 16:09:36.731872000 Z
-  updated_at: 2016-05-27 16:09:36.731872000 Z
-  instrument_id: 5
+  id: 117
+  created_at: 2016-07-01 11:34:37.917913000 Z
+  updated_at: 2016-07-01 11:34:37.917913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_42:
-  id: 42
-  created_at: 2016-05-27 16:09:49.980196000 Z
-  updated_at: 2016-05-27 16:09:49.980196000 Z
-  instrument_id: 5
+  id: 118
+  created_at: 2016-07-01 11:34:38.540913000 Z
+  updated_at: 2016-07-01 11:34:38.540913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_43:
-  id: 43
-  created_at: 2016-05-27 16:09:49.992198000 Z
-  updated_at: 2016-05-27 16:09:49.992198000 Z
-  instrument_id: 5
+  id: 119
+  created_at: 2016-07-01 11:34:38.997913000 Z
+  updated_at: 2016-07-01 11:34:38.997913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_44:
-  id: 44
-  created_at: 2016-05-27 16:09:50.146213000 Z
-  updated_at: 2016-05-27 16:09:50.146213000 Z
-  instrument_id: 5
+  id: 120
+  created_at: 2016-07-01 11:34:39.551913000 Z
+  updated_at: 2016-07-01 11:34:39.551913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_45:
-  id: 45
-  created_at: 2016-05-27 16:09:51.524351000 Z
-  updated_at: 2016-05-27 16:09:51.524351000 Z
-  instrument_id: 5
+  id: 121
+  created_at: 2016-07-01 11:34:40.515913000 Z
+  updated_at: 2016-07-01 11:34:40.515913000 Z
+  instrument_id: 12
+  construct_type: CcSequence
 CcSequence_46:
-  id: 46
-  created_at: 2016-05-27 16:09:51.757374000 Z
-  updated_at: 2016-05-27 16:09:51.757374000 Z
-  instrument_id: 5
-CcSequence_47:
-  id: 47
-  created_at: 2016-05-27 16:09:52.275426000 Z
-  updated_at: 2016-05-27 16:09:52.275426000 Z
-  instrument_id: 5
-CcSequence_48:
-  id: 48
-  created_at: 2016-05-27 16:09:52.533452000 Z
-  updated_at: 2016-05-27 16:09:52.533452000 Z
-  instrument_id: 5
-CcSequence_49:
-  id: 49
-  created_at: 2016-05-27 16:09:52.689467000 Z
-  updated_at: 2016-05-27 16:09:52.689467000 Z
-  instrument_id: 5
-CcSequence_50:
-  id: 50
-  created_at: 2016-05-27 16:09:53.646563000 Z
-  updated_at: 2016-05-27 16:09:53.646563000 Z
-  instrument_id: 5
-CcSequence_51:
-  id: 51
-  created_at: 2016-05-27 16:09:55.785777000 Z
-  updated_at: 2016-05-27 16:09:55.785777000 Z
-  instrument_id: 5
-CcSequence_52:
-  id: 52
-  created_at: 2016-05-27 16:09:56.078806000 Z
-  updated_at: 2016-05-27 16:09:56.078806000 Z
-  instrument_id: 5
+  id: 122
+  created_at: 2016-07-01 11:34:40.795913000 Z
+  updated_at: 2016-07-01 11:34:40.795913000 Z
+  instrument_id: 12
+  construct_type: CcSequence

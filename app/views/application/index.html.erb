@@ -50,16 +50,27 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href="/help">Help</a>
+				<li class="dropdown">
+          <a
+          href="#"
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false">Info <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <p class="navbar-text" data-ng-class="{'rt-online': realtimeStatus, 'rt-offline': !realtimeStatus}">Realtime</p>
+            </li>
+            <li>
+              <a href="/help">Help</a>
+            </li>
+          </ul>
 				</li>
 				<li>
 					<a href="#" data-ng-show="user.logged_in" data-ng-click="sign_out()">Logout</a>
 				</li>
 			</ul>
-      <p class="a-navbar-text navbar-right" data-ng-class="{'text-success': realtimeStatus, 'text-danger': !realtimeStatus}">
-        Realtime
-      </p>
 		</div><!--/.nav-collapse -->
 	</div>
 </nav>

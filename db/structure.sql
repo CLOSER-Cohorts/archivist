@@ -89,7 +89,8 @@ CREATE TABLE cc_conditions (
     logic character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcCondition'::character varying
 );
 
 
@@ -124,7 +125,8 @@ CREATE TABLE cc_loops (
     loop_while character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcLoop'::character varying
 );
 
 
@@ -158,7 +160,8 @@ CREATE TABLE cc_questions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcQuestion'::character varying
 );
 
 
@@ -190,7 +193,8 @@ CREATE TABLE cc_sequences (
     literal character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcSequence'::character varying
 );
 
 
@@ -222,7 +226,8 @@ CREATE TABLE cc_statements (
     literal character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcStatement'::character varying
 );
 
 
@@ -288,7 +293,8 @@ CREATE TABLE codes (
     code_list_id integer NOT NULL,
     category_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
 );
 
 
@@ -324,7 +330,8 @@ CREATE TABLE control_constructs (
     "position" integer,
     branch integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
 );
 
 
@@ -598,7 +605,8 @@ CREATE TABLE question_grids (
     corner_label character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    question_type character varying DEFAULT 'QuestionGrid'::character varying
 );
 
 
@@ -632,7 +640,8 @@ CREATE TABLE question_items (
     instruction_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    question_type character varying DEFAULT 'QuestionItem'::character varying
 );
 
 
@@ -667,7 +676,9 @@ CREATE TABLE rds_qs (
     question_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    code_id integer
+    code_id integer,
+    instrument_id integer NOT NULL,
+    rd_order integer
 );
 
 
@@ -698,7 +709,9 @@ CREATE TABLE response_domain_codes (
     id integer NOT NULL,
     code_list_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainCode'::character varying,
+    instrument_id integer NOT NULL
 );
 
 
@@ -732,7 +745,8 @@ CREATE TABLE response_domain_datetimes (
     format character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainDatetime'::character varying
 );
 
 
@@ -767,7 +781,8 @@ CREATE TABLE response_domain_numerics (
     max numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainNumeric'::character varying
 );
 
 
@@ -800,7 +815,8 @@ CREATE TABLE response_domain_texts (
     maxlen integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainText'::character varying
 );
 
 
@@ -1252,6 +1268,54 @@ ALTER TABLE ONLY datasets
 
 
 --
+-- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT encapsulate_unique_for_categories UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY code_lists
+    ADD CONSTRAINT encapsulate_unique_for_code_lists UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_unique_for_control_constructs UNIQUE (construct_id, construct_type, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_unique_for_control_constructs_internally UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY instructions
+    ADD CONSTRAINT encapsulate_unique_for_instructions UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY response_units
+    ADD CONSTRAINT encapsulate_unique_for_response_units UNIQUE (id, instrument_id);
+
+
+--
 -- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1372,6 +1436,14 @@ ALTER TABLE ONLY topics
 
 
 --
+-- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rds_qs
+    ADD CONSTRAINT unique_for_rd_order_within_question UNIQUE (question_id, question_type, rd_order) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1472,10 +1544,24 @@ CREATE INDEX index_codes_on_code_list_id ON codes USING btree (code_list_id);
 
 
 --
+-- Name: index_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_codes_on_instrument_id ON codes USING btree (instrument_id);
+
+
+--
 -- Name: index_control_constructs_on_construct_type_and_construct_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_control_constructs_on_construct_type_and_construct_id ON control_constructs USING btree (construct_type, construct_id);
+
+
+--
+-- Name: index_control_constructs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_control_constructs_on_instrument_id ON control_constructs USING btree (instrument_id);
 
 
 --
@@ -1584,6 +1670,13 @@ CREATE INDEX index_rds_qs_on_code_id ON rds_qs USING btree (code_id);
 
 
 --
+-- Name: index_rds_qs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rds_qs_on_instrument_id ON rds_qs USING btree (instrument_id);
+
+
+--
 -- Name: index_rds_qs_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1602,6 +1695,13 @@ CREATE INDEX index_rds_qs_on_response_domain_type_and_response_domain_id ON rds_
 --
 
 CREATE INDEX index_response_domain_codes_on_code_list_id ON response_domain_codes USING btree (code_list_id);
+
+
+--
+-- Name: index_response_domain_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_response_domain_codes_on_instrument_id ON response_domain_codes USING btree (instrument_id);
 
 
 --
@@ -1710,11 +1810,115 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
--- Name: fk_rails_21c0390148; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_conditions
+    ADD CONSTRAINT encapsulate_cc_conditions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_loops
+    ADD CONSTRAINT encapsulate_cc_loops_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id);
+
+
+--
+-- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_sequences
+    ADD CONSTRAINT encapsulate_cc_sequences_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_statements
+    ADD CONSTRAINT encapsulate_cc_statements_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES categories(id, instrument_id);
+
+
+--
+-- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+
+
+--
+-- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_control_constructs_to_its_self FOREIGN KEY (parent_id, instrument_id) REFERENCES control_constructs(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_21c0390148 FOREIGN KEY (horizontal_code_list_id) REFERENCES code_lists(id);
+    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+
+
+--
+-- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id);
+
+
+--
+-- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+
+
+--
+-- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_items
+    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id);
+
+
+--
+-- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT fk_rails_1d78394359 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1750,11 +1954,27 @@ ALTER TABLE ONLY topics
 
 
 --
+-- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY response_domain_codes
+    ADD CONSTRAINT fk_rails_948d561862 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+
+
+--
 -- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
     ADD CONSTRAINT fk_rails_9e38e93f70 FOREIGN KEY (topic_id) REFERENCES topics(id);
+
+
+--
+-- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT fk_rails_aebc678501 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1782,19 +2002,11 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_e0f057a9d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_e0f057a9d7 FOREIGN KEY (instruction_id) REFERENCES instructions(id);
-
-
---
--- Name: fk_rails_effac2db69; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_effac2db69 FOREIGN KEY (vertical_code_list_id) REFERENCES code_lists(id);
+ALTER TABLE ONLY rds_qs
+    ADD CONSTRAINT fk_rails_e49dc1bfb6 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1803,14 +2015,6 @@ ALTER TABLE ONLY question_grids
 
 ALTER TABLE ONLY control_constructs
     ADD CONSTRAINT fk_rails_f312241fda FOREIGN KEY (parent_id) REFERENCES control_constructs(id);
-
-
---
--- Name: fk_rails_f3b15ab029; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY question_items
-    ADD CONSTRAINT fk_rails_f3b15ab029 FOREIGN KEY (instruction_id) REFERENCES instructions(id);
 
 
 --
@@ -1910,4 +2114,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160419094600');
 INSERT INTO schema_migrations (version) VALUES ('20160419165130');
 
 INSERT INTO schema_migrations (version) VALUES ('20160603113436');
+
+INSERT INTO schema_migrations (version) VALUES ('20160712131146');
+
+INSERT INTO schema_migrations (version) VALUES ('20160716150053');
+
+INSERT INTO schema_migrations (version) VALUES ('20160716164426');
 

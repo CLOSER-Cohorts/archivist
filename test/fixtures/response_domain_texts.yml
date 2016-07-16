@@ -1,102 +1,86 @@
 ---
 ResponseDomainText_1:
-  id: 1
-  label: Other
+  id: 25
+  label: Generic text
   maxlen: 255
-  created_at: 2016-05-27 15:28:33.526552000 Z
-  updated_at: 2016-05-27 15:28:33.526552000 Z
-  instrument_id: 1
+  created_at: 2016-06-20 13:51:24.329457000 Z
+  updated_at: 2016-06-20 13:51:24.329457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
 ResponseDomainText_2:
-  id: 2
-  label: Generic text
+  id: 26
+  label: Other
   maxlen: 255
-  created_at: 2016-05-27 15:28:33.537553000 Z
-  updated_at: 2016-05-27 15:28:33.537553000 Z
-  instrument_id: 1
+  created_at: 2016-06-20 13:51:24.339457000 Z
+  updated_at: 2016-06-20 13:51:24.339457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
 ResponseDomainText_3:
-  id: 3
+  id: 27
   label: Long text
-  created_at: 2016-05-27 15:28:33.543554000 Z
-  updated_at: 2016-05-27 15:28:33.543554000 Z
-  instrument_id: 1
+  created_at: 2016-06-20 13:51:24.366457000 Z
+  updated_at: 2016-06-20 13:51:24.366457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
 ResponseDomainText_4:
-  id: 4
-  label: Generic text
+  id: 28
+  label: Other
   maxlen: 255
-  created_at: 2016-05-27 15:29:15.448744000 Z
-  updated_at: 2016-05-27 15:29:15.448744000 Z
-  instrument_id: 2
+  created_at: 2016-06-21 13:18:34.734062000 Z
+  updated_at: 2016-06-21 13:18:34.734062000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
 ResponseDomainText_5:
-  id: 5
-  label: Other
+  id: 29
+  label: Generic text
   maxlen: 255
-  created_at: 2016-05-27 15:29:15.452744000 Z
-  updated_at: 2016-05-27 15:29:15.452744000 Z
-  instrument_id: 2
+  created_at: 2016-06-21 13:18:34.769065000 Z
+  updated_at: 2016-06-21 13:18:34.769065000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
 ResponseDomainText_6:
-  id: 6
-  label: Generic text
-  maxlen: 255
-  created_at: 2016-05-27 15:29:51.044303000 Z
-  updated_at: 2016-05-27 15:29:51.044303000 Z
-  instrument_id: 3
+  id: 30
+  label: Long text
+  created_at: 2016-06-21 13:18:34.773066000 Z
+  updated_at: 2016-06-21 13:18:34.773066000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
 ResponseDomainText_7:
-  id: 7
-  label: Other
+  id: 31
+  label: Generic text 1
   maxlen: 255
-  created_at: 2016-05-27 15:29:51.049304000 Z
-  updated_at: 2016-05-27 15:29:51.049304000 Z
-  instrument_id: 3
+  created_at: 2016-06-21 13:18:34.776066000 Z
+  updated_at: 2016-06-21 13:18:34.776066000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
 ResponseDomainText_8:
-  id: 8
-  label: Long text
-  created_at: 2016-05-27 15:29:51.057305000 Z
-  updated_at: 2016-05-27 15:29:51.057305000 Z
-  instrument_id: 3
+  id: 32
+  label: Text
+  maxlen: 255
+  created_at: 2016-06-21 14:08:35.695152000 Z
+  updated_at: 2016-06-21 14:08:35.695152000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
 ResponseDomainText_9:
-  id: 9
-  label: Generic text
+  id: 33
+  label: Other
   maxlen: 255
-  created_at: 2016-05-27 15:30:09.932192000 Z
-  updated_at: 2016-05-27 15:30:09.932192000 Z
-  instrument_id: 4
+  created_at: 2016-07-01 11:34:32.901913000 Z
+  updated_at: 2016-07-01 11:34:32.901913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText
 ResponseDomainText_10:
-  id: 10
-  label: Other
-  maxlen: 255
-  created_at: 2016-05-27 15:30:09.937192000 Z
-  updated_at: 2016-05-27 15:30:09.937192000 Z
-  instrument_id: 4
-ResponseDomainText_11:
-  id: 11
-  label: Place (address)
-  maxlen: 255
-  created_at: 2016-05-27 15:30:09.942193000 Z
-  updated_at: 2016-05-27 15:30:09.942193000 Z
-  instrument_id: 4
-ResponseDomainText_12:
-  id: 12
-  label: Long text
-  created_at: 2016-05-27 15:30:09.947193000 Z
-  updated_at: 2016-05-27 15:30:09.947193000 Z
-  instrument_id: 4
-ResponseDomainText_13:
-  id: 13
-  label: Other
-  maxlen: 255
-  created_at: 2016-05-27 16:09:46.167815000 Z
-  updated_at: 2016-05-27 16:09:46.167815000 Z
-  instrument_id: 5
-ResponseDomainText_14:
-  id: 14
+  id: 34
   label: Generic text
   maxlen: 255
-  created_at: 2016-05-27 16:09:46.172816000 Z
-  updated_at: 2016-05-27 16:09:46.172816000 Z
-  instrument_id: 5
-ResponseDomainText_15:
-  id: 15
+  created_at: 2016-07-01 11:34:32.940913000 Z
+  updated_at: 2016-07-01 11:34:32.940913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText
+ResponseDomainText_11:
+  id: 35
   label: Long text
-  created_at: 2016-05-27 16:09:46.179816000 Z
-  updated_at: 2016-05-27 16:09:46.179816000 Z
-  instrument_id: 5
+  created_at: 2016-07-01 11:34:32.946913000 Z
+  updated_at: 2016-07-01 11:34:32.946913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText
