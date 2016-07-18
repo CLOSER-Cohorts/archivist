@@ -15,11 +15,6 @@
 * dataset.rb
 * instruments_datasets.rb
 
-#### User
-* user.rb
-* role.rb     (probably)
-* group.rb    (probably)
-
 ### Model Relationship Diagram
 Run `rake generate_erd` to regenerate (must have graphvis).
 ![](/app/assets/images/diagrams/erd.png)
