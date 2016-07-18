@@ -14,11 +14,11 @@ class CodeList < ActiveRecord::Base
 
   def response_domain=(be_code_answer)
     if be_code_answer && response_domain.nil?
-      self.response_domain_code = ResponseDomainCode.new
+      self.response_domain_code = ResponseDomainCode.new instrument_id: self.instrument_id
     end
 
     if !(be_code_answer || response_domain.nil?)
-      self.response_domain_code = nil
+      self.response_domain_code.delete
     end
   end
 

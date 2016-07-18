@@ -1,12 +1,14 @@
 {
   "name": "archivist",
-  "description": "",
+  "description": "Archivist is a cutting edge tool for documenting data collection in DDI.",
+  "repository": "https://github.com/CLOSER-Cohorts/archivist",
   "scripts": {
     "postdeploy": "rake db:setup"
   },
   "env": {},
   "addons": [
     "heroku-postgresql",
-    "heroku-redis"
+    "heroku-redis",
+    "postmark"
   ]
 }

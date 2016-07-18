@@ -229,30 +229,35 @@ ul.nav-sidebar li.new a:hover {
   color: white;
 }
 /* line 22, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
-#tree .a-label, #tree .a-literal {
+#tree .a-label, #tree .a-literal, #tree .a-instruction {
   padding: 6px 12px;
   display: block;
 }
 /* line 26, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-instruction {
+  font-style: italic;
+  color: #777;
+}
+/* line 30, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-literal {
   padding-left: 0;
 }
-/* line 30, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 34, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-literal span {
   margin-left: 22px;
 }
-/* line 33, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 37, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .tree-item {
   margin: 12px auto;
 }
-/* line 36, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 40, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .tree-container {
   background: rgba(0, 0, 0, 0.05);
   border-right: 3px solid rgba(0, 0, 0, 0.1);
   margin-right: -3px;
   margin-top: 2px;
 }
-/* line 42, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 46, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-condition .a-label,
 #tree .a-loop .a-label,
 #tree .a-question .a-label,
@@ -260,24 +265,24 @@ ul.nav-sidebar li.new a:hover {
   color: #777;
   font-style: italic;
 }
-/* line 49, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 53, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-icon, #tree .a-statement > .tree-container > .a-label:before, #tree .a-condition > .tree-container > .a-label:before, #tree .a-question > .tree-container > .a-label:before, #tree .a-loop > .tree-container > .a-label:before {
   margin-right: 10px;
   color: #333;
 }
-/* line 53, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 57, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-statement > .tree-container > .a-label:before {
   content: "";
 }
-/* line 58, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 62, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-condition > .tree-container > .a-label:before {
   content: "";
 }
-/* line 63, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 67, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-question > .tree-container > .a-label:before {
   content: "";
 }
-/* line 68, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
+/* line 72, C:/CLOSER/Code/archivist/app/assets/stylesheets/instruments.sass */
 #tree .a-loop > .tree-container > .a-label:before {
   content: "";
 }
@@ -10438,4 +10443,14 @@ button.close {
 /* line 96, C:/CLOSER/Code/archivist/app/assets/stylesheets/application.css.scss */
 .bg-orange {
   background: #FBAF3F;
+}
+
+/* line 100, C:/CLOSER/Code/archivist/app/assets/stylesheets/application.css.scss */
+p.rt-online {
+  color: #3c763d !important;
+}
+
+/* line 104, C:/CLOSER/Code/archivist/app/assets/stylesheets/application.css.scss */
+p.rt-offline {
+  color: #a94442 !important;
 }

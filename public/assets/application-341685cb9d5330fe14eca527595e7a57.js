@@ -78199,13 +78199,13 @@ function toArray(list, index) {
         return Flash.publish($rootScope);
       };
       $rootScope.$on('$routeChangeSuccess', function() {
-        return $rootScope.publish_flash;
+        return $rootScope.publish_flash();
       });
-      $rootScope.publish_flash;
+      $rootScope.publish_flash();
       $rootScope.page = {
         title: 'Home'
       };
-      return $rootScope.realtimeStatus = true;
+      return $rootScope.realtimeStatus = false;
     }
   ]);
 
@@ -78446,7 +78446,7 @@ function toArray(list, index) {
         });
       };
       $scope.removeCode = function(code) {
-        var c, i;
+        var c, i, results;
         $scope.current.codes = (function() {
           var j, len, ref, results;
           ref = $scope.current.codes;
@@ -78462,16 +78462,11 @@ function toArray(list, index) {
         $scope.current.codes.sort(function(a, b) {
           return a.order - b.order;
         });
-        return $scope.current.codes = (function() {
-          var j, len, ref, results;
-          ref = $scope.current.codes;
-          results = [];
-          for (i = j = 0, len = ref.length; j < len; i = ++j) {
-            c = ref[i];
-            results.push(c.order = i);
-          }
-          return results;
-        })();
+        results = [];
+        for (i in $scope.current.codes) {
+          results.push($scope.current.codes[i].order = i);
+        }
+        return results;
       };
       $scope.moveUp = function(code) {
         return $scope.moveCode(code, -1);
@@ -78827,6 +78822,14 @@ function toArray(list, index) {
           $scope.current.rds = [];
         }
         return $scope.current.rds.push(rd);
+      };
+      $scope.remove_rd = function(rd) {
+        var index;
+        console.log(rd);
+        console.log($scope.current.rds);
+        index = $scope.current.rds.indexOf(rd);
+        console.log(index);
+        return $scope.current.rds.splice(index, 1);
       };
       $scope["delete"] = function() {
         var index, qtype;
@@ -80318,7 +80321,14 @@ function toArray(list, index) {
       service = {};
       service.socket = io(window.socket_url);
       service.socket.on('disconnect', function() {
-        return $rootScope.realtimeStatus = false;
+        return $rootScope.$apply(function() {
+          return $rootScope.realtimeStatus = false;
+        });
+      });
+      service.socket.on('connect', function() {
+        return $rootScope.$apply(function() {
+          return $rootScope.realtimeStatus = true;
+        });
       });
       service.socket.on('rt-update', function(message) {
         return $rootScope.$emit('rt-update', message);
@@ -80702,7 +80712,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/questions.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/questions.html", '<form>\n    <div class="form-group">\n        <label for="a-question-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-instruction">\n            Instruction\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-instruction"\n                placeholder="Interviewer Instruction"\n                data-ng-model="current.instruction"\n                data-ng-disabled="!editMode"\n                data-uib-typeahead="instruction.text for instruction in instructions | filter:$viewValue | orderBy:\'text\'"\n                data-typeahead-show-hint="true"\n                data-typeahead-min-length="2"\n                autocomplete="off"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-literal">\n            Literal\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-literal"\n                placeholder="Literal"\n                data-ng-model="current.literal"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div data-ng-if="current.type == \'QuestionGrid\'">\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Horizontal (X)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-haxis"\n                    data-ng-model="current.horizontal_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Vertical (Y)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-vaxis"\n                    data-ng-model="current.vertical_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group" data-ng-if="current.horizontal_code_list_id && current.vertical_code_list_id">\n            <label for="a-question-corner">\n                Corner Label\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-corner"\n                    data-ng-model="current.corner_label"\n                    data-ng-disabled="!editMode"\n            >\n                <option value="">(None)</option>\n                <option value="H">Horizontal</option>\n                <option value="V">Vertical</option>\n            </select>\n        </div>\n        <div class="form-group">\n            <label for="a-question-roster-label">\n                Roster Label\n            </label>\n            <input\n                    type="text"\n                    class="form-control"\n                    id="a-question-roster-label"\n                    placeholder="Roster Label"\n                    data-ng-model="current.roster_label"\n                    data-ng-disabled="!editMode"\n            />\n        </div>\n    </div>\n</form>\n\n<h3 class="sub-header">\n    Response Domains\n    <a\n            href="#"\n            data-ng-show="editMode"\n            data-toggle="modal"\n            data-target="#add-rd"\n    >\n        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>\n    </a>\n</h3>\n\n<table class="table table-striped table-condensed">\n    <tr>\n        <th>\n            Type\n        </th>\n        <th>\n            Label\n        </th>\n        <th data-ng-show="editMode">\n\n        </th>\n    </tr>\n    <tbody data-ui-sortable data-ng-model="current.rds">\n        <tr\n                data-ng-repeat="rd in current.rds"\n                data-uib-popover-template="\'partials/build/popover/response_domain.html\'"\n                data-popover-trigger="mouseenter"\n                data-popover-title="{{rd.label}}"\n                data-ng-if="rd.type == \'ResponseDomainCode\'"\n        >\n            <td>\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n        <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != \'ResponseDomainCode\'">\n            <td data-ng-strip="ResponseDomain">\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#">\n                    Remove\n                </a>\n            </td>\n        </tr>\n    </tbody>\n</table>\n\n<div data-ng-include="\'partials/build/modals/add_rd.html\'"></div>')
+  $templateCache.put("partials/build/questions.html", '<form>\n    <div class="form-group">\n        <label for="a-question-label">\n            Label\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-label"\n                placeholder="Label"\n                data-ng-model="current.label"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-instruction">\n            Instruction\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-instruction"\n                placeholder="Interviewer Instruction"\n                data-ng-model="current.instruction"\n                data-ng-disabled="!editMode"\n                data-uib-typeahead="instruction.text for instruction in instructions | filter:$viewValue | orderBy:\'text\'"\n                data-typeahead-show-hint="true"\n                data-typeahead-min-length="2"\n                autocomplete="off"\n        />\n    </div>\n    <div class="form-group">\n        <label for="a-question-literal">\n            Literal\n        </label>\n        <input\n                type="text"\n                class="form-control"\n                id="a-question-literal"\n                placeholder="Literal"\n                data-ng-model="current.literal"\n                data-ng-disabled="!editMode"\n        />\n    </div>\n    <div data-ng-if="current.type == \'QuestionGrid\'">\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Horizontal (X)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-haxis"\n                    data-ng-model="current.horizontal_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group">\n            <label for="a-question-haxis">\n                Vertical (Y)\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-vaxis"\n                    data-ng-model="current.vertical_code_list_id"\n                    data-ng-disabled="!editMode"\n                    data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"\n            />\n        </div>\n        <div class="form-group" data-ng-if="current.horizontal_code_list_id && current.vertical_code_list_id">\n            <label for="a-question-corner">\n                Corner Label\n            </label>\n            <select\n                    class="form-control"\n                    id="a-question-corner"\n                    data-ng-model="current.corner_label"\n                    data-ng-disabled="!editMode"\n            >\n                <option value="">(None)</option>\n                <option value="H">Horizontal</option>\n                <option value="V">Vertical</option>\n            </select>\n        </div>\n        <div class="form-group">\n            <label for="a-question-roster-label">\n                Roster Label\n            </label>\n            <input\n                    type="text"\n                    class="form-control"\n                    id="a-question-roster-label"\n                    placeholder="Roster Label"\n                    data-ng-model="current.roster_label"\n                    data-ng-disabled="!editMode"\n            />\n        </div>\n    </div>\n</form>\n\n<h3 class="sub-header">\n    Response Domains\n    <a\n            href="#"\n            data-ng-show="editMode"\n            data-toggle="modal"\n            data-target="#add-rd"\n    >\n        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>\n    </a>\n</h3>\n\n<table class="table table-striped table-condensed">\n    <tr>\n        <th>\n            Type\n        </th>\n        <th>\n            Label\n        </th>\n        <th data-ng-show="editMode">\n\n        </th>\n    </tr>\n    <tbody data-ui-sortable="{disabled: !editMode}" data-ng-model="current.rds">\n        <tr\n                data-ng-repeat="rd in current.rds"\n                data-uib-popover-template="\'partials/build/popover/response_domain.html\'"\n                data-popover-trigger="mouseenter"\n                data-popover-title="{{rd.label}}"\n                data-popover-enable="rd.type == \'ResponseDomainCode\'"\n        >\n            <td>\n                {{rd.type}}\n            </td>\n            <td>\n                {{rd.label}}\n            </td>\n            <td data-ng-show="editMode">\n                <a data-ng-href="#" data-ng-click="remove_rd(rd)">\n                    Remove\n                </a>\n            </td>\n        </tr>\n    </tbody>\n</table>\n\n<div data-ng-include="\'partials/build/modals/add_rd.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -80751,7 +80761,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/questions/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/questions/show.html", '<span data-ng-bind="obj.base.literal" class="a-literal"></span>\n<div data-ng-if="obj.base.rds" class="row a-response-domains">\n    <div data-ng-repeat="rd in obj.base.rds" data-ng-include="\'partials/response_domains/show.html\'" class="col-md-10"></div>\n</div>\n<div data-ng-if="obj.base.cols">\n    <table class="table a-question-grid">\n        <tr>\n            <th>\n                {{obj.base.corner_label}}\n            </th>\n            <th data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                {{col.label}}\n            </th>\n        </tr>\n        <tr class="a-response-domains">\n            <td></td>\n            <td data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                <div data-ng-init="rd = col.rd" data-ng-include="\'partials/response_domains/show.html\'"></div>\n            </td>\n        </tr>\n        <tr data-ng-repeat="row in obj.base.rows | orderBy:\'order\'">\n            <td>\n                {{row.label}}\n            </td>\n            <td data-ng-repeat="col in obj.base.cols"></td>\n        </tr>\n    </table>\n</div>')
+  $templateCache.put("partials/questions/show.html", '<span data-ng-bind="obj.base.literal" class="a-literal"></span>\n<span data-ng-bind="obj.base.instruction" class="a-instruction"></span>\n<div data-ng-if="obj.base.rds" class="row a-response-domains">\n    <div data-ng-repeat="rd in obj.base.rds" data-ng-include="\'partials/response_domains/show.html\'" class="col-md-10"></div>\n</div>\n<div data-ng-if="obj.base.cols">\n    <table class="table a-question-grid">\n        <tr>\n            <th>\n                {{obj.base.corner_label}}\n            </th>\n            <th data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                {{col.label}}\n            </th>\n        </tr>\n        <tr class="a-response-domains">\n            <td></td>\n            <td data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                <div data-ng-init="rd = col.rd" data-ng-include="\'partials/response_domains/show.html\'"></div>\n            </td>\n        </tr>\n        <tr data-ng-repeat="row in obj.base.rows | orderBy:\'order\'">\n            <td>\n                {{row.label}}\n            </td>\n            <td data-ng-repeat="col in obj.base.cols"></td>\n        </tr>\n    </table>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -80765,7 +80775,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/sign_up_in.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("sign_up_in.html", '<div data-ng-controller="UserController" class="col-md-4 col-md-offset-4">\n\n    <!-- Nav tabs -->\n    <ul class="nav nav-tabs" role="tablist">\n        <li role="presentation" class="active"><a href="#sign-in" aria-controls="sign-in" role="tab" data-toggle="tab">Sign In</a></li>\n        <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign Up</a></li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class="tab-content">\n        <div role="tabpanel" class="tab-pane active" id="sign-in">\n            <form>\n                <div class="form-group">\n                    <label for="login-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="login-email"\n                            placeholder="Email"\n                            data-ng-model="creds.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="login-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="login-password"\n                            placeholder="Password"\n                            data-ng-model="creds.password"\n                    >\n                </div>\n                <button data-ng-click="sign_in(creds)" type="submit" class="btn btn-default">Log in</button>\n            </form>\n        </div>\n        <div role="tabpanel" class="tab-pane" id="sign-up">\n            <form>\n                <div class="form-group">\n                    <label for="signup-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="signup-email"\n                            placeholder="Email"\n                            data-ng-model="details.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-fname">First name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-fname"\n                            placeholder="First name"\n                            data-ng-model="details.fname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-lname">Last name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-lname"\n                            placeholder="Last name"\n                            data-ng-model="details.lname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-password"\n                            placeholder="Password"\n                            data-ng-model="details.password"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-confirmation">Confirmation</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-confirmation"\n                            placeholder="Password again"\n                            data-ng-model="details.confirm"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-group">Group</label>\n                    <select\n                            class="form-control"\n                            id="signup-group"\n                            data-ng-model="details.group"\n                            data-ng-options="group.id as group.label for group in sign_up_groups"\n                    >\n                    </select>\n                </div>\n                <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>\n            </form>\n        </div>\n    </div>\n\n</div>')
+  $templateCache.put("sign_up_in.html", '<div class="row">\n    <notices class="col-md-10 col-md-offset-1"></notices>\n</div>\n\n<div data-ng-controller="UserController" class="col-md-4 col-md-offset-4">\n\n    <!-- Nav tabs -->\n    <ul class="nav nav-tabs" role="tablist">\n        <li role="presentation" class="active"><a href="#sign-in" aria-controls="sign-in" role="tab" data-toggle="tab">Sign In</a></li>\n        <li role="presentation"><a href="#sign-up" aria-controls="sign-up" role="tab" data-toggle="tab">Sign Up</a></li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class="tab-content">\n        <div role="tabpanel" class="tab-pane active" id="sign-in">\n            <form>\n                <div class="form-group">\n                    <label for="login-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="login-email"\n                            placeholder="Email"\n                            data-ng-model="creds.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="login-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="login-password"\n                            placeholder="Password"\n                            data-ng-model="creds.password"\n                    >\n                </div>\n                <button data-ng-click="sign_in(creds)" type="submit" class="btn btn-default">Log in</button>\n            </form>\n        </div>\n        <div role="tabpanel" class="tab-pane" id="sign-up">\n            <form>\n                <div class="form-group">\n                    <label for="signup-email">Email address</label>\n                    <input\n                            type="email"\n                            class="form-control"\n                            id="signup-email"\n                            placeholder="Email"\n                            data-ng-model="details.email"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-fname">First name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-fname"\n                            placeholder="First name"\n                            data-ng-model="details.fname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-lname">Last name</label>\n                    <input\n                            type="text"\n                            class="form-control"\n                            id="signup-lname"\n                            placeholder="Last name"\n                            data-ng-model="details.lname"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-password">Password</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-password"\n                            placeholder="Password"\n                            data-ng-model="details.password"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-confirmation">Confirmation</label>\n                    <input\n                            type="password"\n                            class="form-control"\n                            id="signup-confirmation"\n                            placeholder="Password again"\n                            data-ng-model="details.confirm"\n                    >\n                </div>\n                <div class="form-group">\n                    <label for="signup-group">Group</label>\n                    <select\n                            class="form-control"\n                            id="signup-group"\n                            data-ng-model="details.group"\n                            data-ng-options="group.id as group.label for group in sign_up_groups"\n                    >\n                    </select>\n                </div>\n                <button data-ng-click="sign_up(details)" type="submit" class="btn btn-default">Sign Up</button>\n            </form>\n        </div>\n    </div>\n\n</div>')
 }]);
 
 (function() {
@@ -80780,7 +80790,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
         return $scope.user.sign_in(cred.password).then(function() {
           return $location.path('/instruments');
         }, function() {
-          $scope.publish_flash;
+          $scope.publish_flash();
           return cred.password = "";
         });
       };
@@ -80790,11 +80800,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
         $scope.user.set('last_name', details.lname);
         $scope.user.set('group_id', details.group);
         return $scope.user.sign_up(details.password, details.confirm).then(function() {
-          return $location.path('/instruments');
+          $location.path('/instruments');
+          return true;
         }, function() {
-          $scope.publish_flash;
+          $scope.publish_flash();
           details.password = "";
-          return details.confirm = "";
+          details.confirm = "";
+          return false;
         });
       };
       $http.get('/groups/external.json').then(function(res) {
@@ -80805,7 +80817,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
   ]);
 
   users.factory('User', [
-    '$http', 'Flash', function($http, Flash) {
+    '$http', '$q', 'Flash', function($http, $q, Flash) {
       return (function() {
         function _Class(email) {
           this.email = email;
@@ -80828,10 +80840,12 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
             self.set('first_name', res.data.first_name);
             self.set('last_name', res.data.last_name);
             self.set('group', res.data.group);
-            return self.set('role', res.data.role);
+            self.set('role', res.data.role);
+            return true;
           }, function(res) {
             self.logged_in = false;
-            return Flash.add('danger', res.data.error);
+            Flash.add('danger', res.data.error);
+            return $q.reject(res.data.error);
           });
         };
 
