@@ -1,444 +1,138 @@
 ---
 ResponseDomainNumeric_1:
-  id: 1
+  id: 74
   numeric_type: Integer
   label: How many
   min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:28:33.562556000 Z
-  updated_at: 2016-05-27 15:28:33.562556000 Z
-  instrument_id: 1
+  created_at: 2016-06-20 13:51:24.417457000 Z
+  updated_at: 2016-06-20 13:51:24.417457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainNumeric
 ResponseDomainNumeric_2:
-  id: 2
+  id: 75
   numeric_type: Integer
-  label: Age in months
-  min: !ruby/object:BigDecimal 18:0.1E1
-  created_at: 2016-05-27 15:28:33.573557000 Z
-  updated_at: 2016-05-27 15:28:33.573557000 Z
-  instrument_id: 1
+  label: Age
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-20 13:51:24.427457000 Z
+  updated_at: 2016-06-20 13:51:24.427457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainNumeric
 ResponseDomainNumeric_3:
-  id: 3
+  id: 76
   numeric_type: Integer
-  label: Hours in day
+  label: How many
   min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.24E2
-  created_at: 2016-05-27 15:29:15.457745000 Z
-  updated_at: 2016-05-27 15:29:15.457745000 Z
-  instrument_id: 2
+  created_at: 2016-06-21 13:18:34.787067000 Z
+  updated_at: 2016-06-21 13:18:34.787067000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
 ResponseDomainNumeric_4:
-  id: 4
+  id: 77
   numeric_type: Integer
-  label: mins
+  label: Age in years
   min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.59E2
-  created_at: 2016-05-27 15:29:15.467746000 Z
-  updated_at: 2016-05-27 15:29:15.467746000 Z
-  instrument_id: 2
+  created_at: 2016-06-21 13:18:34.830072000 Z
+  updated_at: 2016-06-21 13:18:34.830072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
 ResponseDomainNumeric_5:
-  id: 5
-  numeric_type: Float
-  label: How many F
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.471746000 Z
-  updated_at: 2016-05-27 15:29:15.471746000 Z
-  instrument_id: 2
+  id: 78
+  numeric_type: Integer
+  label: Floor number
+  min: !ruby/object:BigDecimal 18:0.2E1
+  created_at: 2016-06-21 13:18:34.834072000 Z
+  updated_at: 2016-06-21 13:18:34.834072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
 ResponseDomainNumeric_6:
-  id: 6
-  numeric_type: Integer
-  label: How many I
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.475747000 Z
-  updated_at: 2016-05-27 15:29:15.475747000 Z
-  instrument_id: 2
-ResponseDomainNumeric_7:
-  id: 7
-  numeric_type: Integer
-  label: ft
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.479747000 Z
-  updated_at: 2016-05-27 15:29:15.479747000 Z
-  instrument_id: 2
-ResponseDomainNumeric_8:
-  id: 8
-  numeric_type: Float
-  label: ins in ft
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.12E2
-  created_at: 2016-05-27 15:29:15.483748000 Z
-  updated_at: 2016-05-27 15:29:15.483748000 Z
-  instrument_id: 2
-ResponseDomainNumeric_9:
-  id: 9
-  numeric_type: Float
-  label: cm
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.487748000 Z
-  updated_at: 2016-05-27 15:29:15.487748000 Z
-  instrument_id: 2
-ResponseDomainNumeric_10:
-  id: 10
-  numeric_type: Integer
-  label: st
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.490748000 Z
-  updated_at: 2016-05-27 15:29:15.490748000 Z
-  instrument_id: 2
-ResponseDomainNumeric_11:
-  id: 11
-  numeric_type: Integer
-  label: lb in st I
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.13E2
-  created_at: 2016-05-27 15:29:15.493749000 Z
-  updated_at: 2016-05-27 15:29:15.493749000 Z
-  instrument_id: 2
-ResponseDomainNumeric_12:
-  id: 12
-  numeric_type: Float
-  label: kg
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.497749000 Z
-  updated_at: 2016-05-27 15:29:15.497749000 Z
-  instrument_id: 2
-ResponseDomainNumeric_13:
-  id: 13
-  numeric_type: Integer
-  label: lbs
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.500749000 Z
-  updated_at: 2016-05-27 15:29:15.500749000 Z
-  instrument_id: 2
-ResponseDomainNumeric_14:
-  id: 14
-  numeric_type: Integer
-  label: oz in lbs
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.15E2
-  created_at: 2016-05-27 15:29:15.504750000 Z
-  updated_at: 2016-05-27 15:29:15.504750000 Z
-  instrument_id: 2
-ResponseDomainNumeric_15:
-  id: 15
-  numeric_type: Integer
-  label: grams
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.507750000 Z
-  updated_at: 2016-05-27 15:29:15.507750000 Z
-  instrument_id: 2
-ResponseDomainNumeric_16:
-  id: 16
-  numeric_type: Integer
-  label: Part-time work hours
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.3E2
-  created_at: 2016-05-27 15:29:15.511750000 Z
-  updated_at: 2016-05-27 15:29:15.511750000 Z
-  instrument_id: 2
-ResponseDomainNumeric_17:
-  id: 17
-  numeric_type: Float
-  label: lbs in st F
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.14E2
-  created_at: 2016-05-27 15:29:15.515751000 Z
-  updated_at: 2016-05-27 15:29:15.515751000 Z
-  instrument_id: 2
-ResponseDomainNumeric_18:
-  id: 18
-  numeric_type: Float
-  label: Temperature
-  created_at: 2016-05-27 15:29:15.519751000 Z
-  updated_at: 2016-05-27 15:29:15.519751000 Z
-  instrument_id: 2
-ResponseDomainNumeric_19:
-  id: 19
-  numeric_type: Integer
-  label: ">x1"
-  min: !ruby/object:BigDecimal 18:0.2E1
-  created_at: 2016-05-27 15:29:15.524752000 Z
-  updated_at: 2016-05-27 15:29:15.524752000 Z
-  instrument_id: 2
-ResponseDomainNumeric_20:
-  id: 20
-  numeric_type: Integer
-  label: Days in last 90
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.9E2
-  created_at: 2016-05-27 15:29:15.528752000 Z
-  updated_at: 2016-05-27 15:29:15.528752000 Z
-  instrument_id: 2
-ResponseDomainNumeric_21:
-  id: 21
-  numeric_type: Integer
-  label: hrs
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.531752000 Z
-  updated_at: 2016-05-27 15:29:15.531752000 Z
-  instrument_id: 2
-ResponseDomainNumeric_22:
-  id: 22
-  numeric_type: Float
-  label: mm
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:15.536753000 Z
-  updated_at: 2016-05-27 15:29:15.536753000 Z
-  instrument_id: 2
-ResponseDomainNumeric_23:
-  id: 23
-  numeric_type: Integer
-  label: lbs
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:51.063305000 Z
-  updated_at: 2016-05-27 15:29:51.063305000 Z
-  instrument_id: 3
-ResponseDomainNumeric_24:
-  id: 24
-  numeric_type: Integer
-  label: oz in pounds
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.15E2
-  created_at: 2016-05-27 15:29:51.073306000 Z
-  updated_at: 2016-05-27 15:29:51.073306000 Z
-  instrument_id: 3
-ResponseDomainNumeric_25:
-  id: 25
-  numeric_type: Integer
-  label: gm
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:51.077307000 Z
-  updated_at: 2016-05-27 15:29:51.077307000 Z
-  instrument_id: 3
-ResponseDomainNumeric_26:
-  id: 26
-  numeric_type: Integer
-  label: wks
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:51.082307000 Z
-  updated_at: 2016-05-27 15:29:51.082307000 Z
-  instrument_id: 3
-ResponseDomainNumeric_27:
-  id: 27
-  numeric_type: Integer
-  label: How many
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:29:51.086307000 Z
-  updated_at: 2016-05-27 15:29:51.086307000 Z
-  instrument_id: 3
-ResponseDomainNumeric_28:
-  id: 28
-  numeric_type: Integer
-  label: Age
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.11E3
-  created_at: 2016-05-27 15:30:09.954194000 Z
-  updated_at: 2016-05-27 15:30:09.954194000 Z
-  instrument_id: 4
-ResponseDomainNumeric_29:
-  id: 29
-  numeric_type: Float
-  label: hours per week
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.168E3
-  created_at: 2016-05-27 15:30:09.961195000 Z
-  updated_at: 2016-05-27 15:30:09.961195000 Z
-  instrument_id: 4
-ResponseDomainNumeric_30:
-  id: 30
-  numeric_type: Integer
-  label: Generic number
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 15:30:09.964195000 Z
-  updated_at: 2016-05-27 15:30:09.964195000 Z
-  instrument_id: 4
-ResponseDomainNumeric_31:
-  id: 31
-  numeric_type: Integer
-  label: Week of pregnancy
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.43E2
-  created_at: 2016-05-27 15:30:09.969196000 Z
-  updated_at: 2016-05-27 15:30:09.969196000 Z
-  instrument_id: 4
-ResponseDomainNumeric_32:
-  id: 32
-  numeric_type: Integer
-  label: stones
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.31E2
-  created_at: 2016-05-27 15:30:09.974196000 Z
-  updated_at: 2016-05-27 15:30:09.974196000 Z
-  instrument_id: 4
-ResponseDomainNumeric_33:
-  id: 33
-  numeric_type: Integer
-  label: lbs
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.13E2
-  created_at: 2016-05-27 15:30:09.978196000 Z
-  updated_at: 2016-05-27 15:30:09.978196000 Z
-  instrument_id: 4
-ResponseDomainNumeric_34:
-  id: 34
-  numeric_type: Integer
-  label: feet
-  min: !ruby/object:BigDecimal 18:0.1E1
-  max: !ruby/object:BigDecimal 18:0.9E1
-  created_at: 2016-05-27 15:30:09.982197000 Z
-  updated_at: 2016-05-27 15:30:09.982197000 Z
-  instrument_id: 4
-ResponseDomainNumeric_35:
-  id: 35
-  numeric_type: Integer
-  label: inches
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.12E2
-  created_at: 2016-05-27 15:30:09.986197000 Z
-  updated_at: 2016-05-27 15:30:09.986197000 Z
-  instrument_id: 4
-ResponseDomainNumeric_36:
-  id: 36
-  numeric_type: Integer
-  label: Systolic
-  min: !ruby/object:BigDecimal 18:0.5E2
-  max: !ruby/object:BigDecimal 18:0.25E3
-  created_at: 2016-05-27 15:30:09.990198000 Z
-  updated_at: 2016-05-27 15:30:09.990198000 Z
-  instrument_id: 4
-ResponseDomainNumeric_37:
-  id: 37
-  numeric_type: Integer
-  label: Diastolic
-  min: !ruby/object:BigDecimal 18:0.5E2
-  max: !ruby/object:BigDecimal 18:0.25E3
-  created_at: 2016-05-27 15:30:09.995198000 Z
-  updated_at: 2016-05-27 15:30:09.995198000 Z
-  instrument_id: 4
-ResponseDomainNumeric_38:
-  id: 38
-  numeric_type: Float
-  label: Percentage
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.1E3
-  created_at: 2016-05-27 15:30:09.999199000 Z
-  updated_at: 2016-05-27 15:30:09.999199000 Z
-  instrument_id: 4
-ResponseDomainNumeric_39:
-  id: 39
-  numeric_type: Integer
-  label: Birth Weight (lbs)
-  min: !ruby/object:BigDecimal 18:0.1E1
-  max: !ruby/object:BigDecimal 18:0.12E2
-  created_at: 2016-05-27 15:30:10.004199000 Z
-  updated_at: 2016-05-27 15:30:10.004199000 Z
-  instrument_id: 4
-ResponseDomainNumeric_40:
-  id: 40
-  numeric_type: Integer
-  label: Birth Weight (ozs)
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.15E2
-  created_at: 2016-05-27 15:30:10.010200000 Z
-  updated_at: 2016-05-27 15:30:10.010200000 Z
-  instrument_id: 4
-ResponseDomainNumeric_41:
-  id: 41
-  numeric_type: Integer
-  label: How many
-  created_at: 2016-05-27 15:30:10.014200000 Z
-  updated_at: 2016-05-27 15:30:10.014200000 Z
-  instrument_id: 4
-ResponseDomainNumeric_42:
-  id: 42
-  numeric_type: Integer
-  label: 0 to 12
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.12E2
-  created_at: 2016-05-27 15:30:10.019201000 Z
-  updated_at: 2016-05-27 15:30:10.019201000 Z
-  instrument_id: 4
-ResponseDomainNumeric_43:
-  id: 43
-  numeric_type: Integer
-  label: Year of delivery
-  min: !ruby/object:BigDecimal 18:0.19E4
-  max: !ruby/object:BigDecimal 18:0.1958E4
-  created_at: 2016-05-27 15:30:10.024201000 Z
-  updated_at: 2016-05-27 15:30:10.024201000 Z
-  instrument_id: 4
-ResponseDomainNumeric_44:
-  id: 44
-  numeric_type: Integer
-  label: Days in ward
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.28E3
-  created_at: 2016-05-27 15:30:10.029202000 Z
-  updated_at: 2016-05-27 15:30:10.029202000 Z
-  instrument_id: 4
-ResponseDomainNumeric_45:
-  id: 45
-  numeric_type: Integer
-  label: How many
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 16:09:46.186817000 Z
-  updated_at: 2016-05-27 16:09:46.186817000 Z
-  instrument_id: 5
-ResponseDomainNumeric_46:
-  id: 46
-  numeric_type: Integer
-  label: Floor
-  min: !ruby/object:BigDecimal 18:0.2E1
-  created_at: 2016-05-27 16:09:46.191818000 Z
-  updated_at: 2016-05-27 16:09:46.191818000 Z
-  instrument_id: 5
-ResponseDomainNumeric_47:
-  id: 47
-  numeric_type: Integer
-  label: Age
-  min: !ruby/object:BigDecimal 18:0.0
-  created_at: 2016-05-27 16:09:46.196818000 Z
-  updated_at: 2016-05-27 16:09:46.196818000 Z
-  instrument_id: 5
-ResponseDomainNumeric_48:
-  id: 48
+  id: 79
   numeric_type: Integer
   label: Age in months
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.837072000 Z
+  updated_at: 2016-06-21 13:18:34.837072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_7:
+  id: 80
+  numeric_type: Integer
+  label: Years
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.841073000 Z
+  updated_at: 2016-06-21 13:18:34.841073000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_8:
+  id: 81
+  numeric_type: Integer
+  label: Months
   min: !ruby/object:BigDecimal 18:0.0
   max: !ruby/object:BigDecimal 18:0.11E2
-  created_at: 2016-05-27 16:09:46.201819000 Z
-  updated_at: 2016-05-27 16:09:46.201819000 Z
-  instrument_id: 5
-ResponseDomainNumeric_49:
-  id: 49
+  created_at: 2016-06-21 13:18:34.844073000 Z
+  updated_at: 2016-06-21 13:18:34.844073000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_9:
+  id: 82
   numeric_type: Integer
-  label: Hours per week
-  min: !ruby/object:BigDecimal 18:0.0
-  max: !ruby/object:BigDecimal 18:0.168E3
-  created_at: 2016-05-27 16:09:46.206819000 Z
-  updated_at: 2016-05-27 16:09:46.206819000 Z
-  instrument_id: 5
-ResponseDomainNumeric_50:
-  id: 50
-  numeric_type: Integer
-  label: Month
+  label: Integer
   min: !ruby/object:BigDecimal 18:0.1E1
-  max: !ruby/object:BigDecimal 18:0.12E2
-  created_at: 2016-05-27 16:09:46.211820000 Z
-  updated_at: 2016-05-27 16:09:46.211820000 Z
-  instrument_id: 5
-ResponseDomainNumeric_51:
-  id: 51
+  max: !ruby/object:BigDecimal 18:0.5E1
+  created_at: 2016-06-21 14:09:01.568739000 Z
+  updated_at: 2016-06-21 14:09:01.568739000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_10:
+  id: 83
   numeric_type: Integer
-  label: Year
-  min: !ruby/object:BigDecimal 18:0.199E4
-  max: !ruby/object:BigDecimal 18:0.1999E4
-  created_at: 2016-05-27 16:09:46.215820000 Z
-  updated_at: 2016-05-27 16:09:46.215820000 Z
-  instrument_id: 5
-ResponseDomainNumeric_52:
-  id: 52
+  label: How many
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:32.954913000 Z
+  updated_at: 2016-07-01 11:34:32.954913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_11:
+  id: 84
+  numeric_type: Integer
+  label: Hours
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.020913000 Z
+  updated_at: 2016-07-01 11:34:33.020913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_12:
+  id: 85
   numeric_type: Integer
   label: Minutes
-  min: !ruby/object:BigDecimal 18:0.0
   max: !ruby/object:BigDecimal 18:0.59E2
-  created_at: 2016-05-27 16:09:46.219820000 Z
-  updated_at: 2016-05-27 16:09:46.219820000 Z
-  instrument_id: 5
+  created_at: 2016-07-01 11:34:33.024913000 Z
+  updated_at: 2016-07-01 11:34:33.024913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_13:
+  id: 86
+  numeric_type: Integer
+  label: Years
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.028913000 Z
+  updated_at: 2016-07-01 11:34:33.028913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_14:
+  id: 87
+  numeric_type: Integer
+  label: Months
+  max: !ruby/object:BigDecimal 18:0.11E2
+  created_at: 2016-07-01 11:34:33.032913000 Z
+  updated_at: 2016-07-01 11:34:33.032913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_15:
+  id: 88
+  numeric_type: Integer
+  label: Age
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.035913000 Z
+  updated_at: 2016-07-01 11:34:33.035913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric

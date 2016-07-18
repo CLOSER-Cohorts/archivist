@@ -13,7 +13,12 @@ realtime.factory('RealTimeConnection',
       service.socket = io window.socket_url
 
       service.socket.on 'disconnect', ()->
-        $rootScope.realtimeStatus = false
+        $rootScope.$apply ->
+          $rootScope.realtimeStatus = false
+
+      service.socket.on 'connect', ()->
+        $rootScope.$apply ->
+          $rootScope.realtimeStatus = true
 
       service.socket.on 'rt-update', (message)->
         $rootScope.$emit('rt-update', message)

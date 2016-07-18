@@ -1,1129 +1,992 @@
 ---
 CcStatement_1:
-  id: 1
-  literal: PARTNER'S NEW QUESTIONNAIRE
-  created_at: 2016-05-27 15:28:39.557155000 Z
-  updated_at: 2016-05-27 15:28:39.645164000 Z
-  instrument_id: 1
+  id: 211
+  literal: BEING A GIRL
+  created_at: 2016-06-20 13:51:39.148457000 Z
+  updated_at: 2016-06-20 13:51:39.185457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
 CcStatement_2:
-  id: 2
-  literal: This questionnaire aims to find out what problems parents have. Your answers
-    will help us to identify those problems that may be solved by changes in the health
-    care system. It should be filled in by the mother's partner.
-  created_at: 2016-05-27 15:28:39.705170000 Z
-  updated_at: 2016-05-27 15:28:39.773177000 Z
-  instrument_id: 1
+  id: 212
+  literal: This questionnaire is for the study child's mother or the person taking
+    the role of the mother.
+  created_at: 2016-06-20 13:51:39.191457000 Z
+  updated_at: 2016-06-20 13:51:39.215457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
 CcStatement_3:
-  id: 3
-  literal: To answer simply tick the box which is most accurate in your opinion.
-  created_at: 2016-05-27 15:28:39.815181000 Z
-  updated_at: 2016-05-27 15:28:39.870187000 Z
-  instrument_id: 1
-CcStatement_4:
-  id: 4
-  literal: Some questions are the same as those you have answered before. This is
-    so that we can tell what changes have happened to you.
-  created_at: 2016-05-27 15:28:39.892189000 Z
-  updated_at: 2016-05-27 15:28:40.129212000 Z
-  instrument_id: 1
-CcStatement_5:
-  id: 5
-  literal: Please answer all questions if you can, even if they are similar . If you
-    cannot answer a question or if it does not apply to you, put a line through it.
-    There are no good or bad answers. Just tell us what you really think.
-  created_at: 2016-05-27 15:28:40.256225000 Z
-  updated_at: 2016-05-27 15:28:40.481248000 Z
-  instrument_id: 1
-CcStatement_6:
-  id: 6
-  literal: All answers are confidential.
-  created_at: 2016-05-27 15:28:40.547254000 Z
-  updated_at: 2016-05-27 15:28:40.614261000 Z
-  instrument_id: 1
-CcStatement_7:
-  id: 7
-  literal: THANK YOU VERY MUCH
-  created_at: 2016-05-27 15:28:40.619261000 Z
-  updated_at: 2016-05-27 15:28:40.656265000 Z
-  instrument_id: 1
-CcStatement_8:
-  id: 8
-  literal: If no, go to A6 below
-  created_at: 2016-05-27 15:28:41.285328000 Z
-  updated_at: 2016-05-27 15:28:41.339333000 Z
-  instrument_id: 1
-CcStatement_9:
-  id: 9
-  literal: If no, go to B16 below
-  created_at: 2016-05-27 15:28:42.761476000 Z
-  updated_at: 2016-05-27 15:28:42.773477000 Z
-  instrument_id: 1
-CcStatement_10:
-  id: 10
-  literal: If yes, go to B22 below
-  created_at: 2016-05-27 15:28:43.049504000 Z
-  updated_at: 2016-05-27 15:28:43.059505000 Z
-  instrument_id: 1
-CcStatement_11:
-  id: 11
-  literal: If no, go to C44a below
-  created_at: 2016-05-27 15:28:43.944594000 Z
-  updated_at: 2016-05-27 15:28:43.957595000 Z
-  instrument_id: 1
-CcStatement_12:
-  id: 12
-  literal: If no, go to section D on page 23
-  created_at: 2016-05-27 15:28:44.033603000 Z
-  updated_at: 2016-05-27 15:28:44.043604000 Z
-  instrument_id: 1
-CcStatement_13:
-  id: 13
-  literal: If no, go to D7 below
-  created_at: 2016-05-27 15:28:44.518651000 Z
-  updated_at: 2016-05-27 15:28:44.531653000 Z
-  instrument_id: 1
-CcStatement_14:
-  id: 14
-  literal: If no, go to D8 on page 26
-  created_at: 2016-05-27 15:28:44.585658000 Z
-  updated_at: 2016-05-27 15:28:44.604660000 Z
-  instrument_id: 1
-CcStatement_15:
-  id: 15
-  literal: Below are questions about financial matters. We realise this may be a sensitive
-    subject. As with all our questions you may leave this section out if you want
-    to.[If you can complete it though it will be of great help to the study].
-  created_at: 2016-05-27 15:28:44.826682000 Z
-  updated_at: 2016-05-27 15:28:44.841684000 Z
-  instrument_id: 1
-CcStatement_16:
-  id: 16
-  literal: 'You and your study child:'
-  created_at: 2016-05-27 15:28:44.977697000 Z
-  updated_at: 2016-05-27 15:28:44.999699000 Z
-  instrument_id: 1
-CcStatement_17:
-  id: 17
-  literal: 'Your partner and your study child:'
-  created_at: 2016-05-27 15:28:45.020702000 Z
-  updated_at: 2016-05-27 15:28:45.041704000 Z
-  instrument_id: 1
-CcStatement_18:
-  id: 18
-  literal: This section below is concerned with your relationship with your partner.
-    (The partner will be referred to as 'she', although the questions refer to all
-    partners).
-  created_at: 2016-05-27 15:28:45.107710000 Z
-  updated_at: 2016-05-27 15:28:45.124712000 Z
-  instrument_id: 1
-CcStatement_19:
-  id: 19
-  literal: If no, go to E4a on page 31
-  created_at: 2016-05-27 15:28:45.176717000 Z
-  updated_at: 2016-05-27 15:28:45.191719000 Z
-  instrument_id: 1
-CcStatement_20:
-  id: 20
-  literal: "[*by glass we mean a pub measure (1oz) of spirits or 1/2 pint of beer
-    or cider, a wine glass of wine etc.]"
-  created_at: 2016-05-27 15:28:45.494749000 Z
-  updated_at: 2016-05-27 15:28:45.507750000 Z
-  instrument_id: 1
-CcStatement_21:
-  id: 21
-  literal: THANK YOU VERY MUCH FOR YOUR HELP
-  created_at: 2016-05-27 15:28:45.784778000 Z
-  updated_at: 2016-05-27 15:28:45.809780000 Z
-  instrument_id: 1
-CcStatement_22:
-  id: 22
-  literal: NB Please remember that we cannot respond personally to your comments unless
-    they are signed.
-  created_at: 2016-05-27 15:28:45.944794000 Z
-  updated_at: 2016-05-27 15:28:45.959795000 Z
-  instrument_id: 1
-CcStatement_23:
-  id: 23
-  literal: 'When completed, please return the questionnaire to: Dr. Jean Golding,
-    Children of the Nineties - ALSPAC Institute of Child Health'
-  created_at: 2016-05-27 15:28:45.986798000 Z
-  updated_at: 2016-05-27 15:28:46.001800000 Z
-  instrument_id: 1
-CcStatement_24:
-  id: 24
-  literal: EARLY PREGNANCY QUESTIONNAIRE
-  created_at: 2016-05-27 15:29:17.673967000 Z
-  updated_at: 2016-05-27 15:29:17.687968000 Z
-  instrument_id: 2
-CcStatement_25:
-  id: 25
-  literal: 'Can I firstly ask you about your activity and exercise patterns over the
-    last three months? As before, we would like you to divide up a "typical" day into
-    three types of activity. These are: (1) sleeping or lying, (2) sitting, (3) standing
-    or walking.'
-  created_at: 2016-05-27 15:29:18.208020000 Z
-  updated_at: 2016-05-27 15:29:18.303029000 Z
-  instrument_id: 2
-CcStatement_26:
-  id: 26
-  literal: This would indicate xx hours sitting or on your feet.
-  created_at: 2016-05-27 15:29:18.324032000 Z
-  updated_at: 2016-05-27 15:29:18.343033000 Z
-  instrument_id: 2
-CcStatement_27:
-  id: 27
-  literal: Now I would like to ask in more detail about some specific foods
-  created_at: 2016-05-27 15:29:18.734073000 Z
-  updated_at: 2016-05-27 15:29:18.746074000 Z
-  instrument_id: 2
-CcStatement_28:
-  id: 28
-  literal: I'd like to ask you a few questions about your drinking and smoking habits.
-  created_at: 2016-05-27 15:29:19.197119000 Z
-  updated_at: 2016-05-27 15:29:19.213120000 Z
-  instrument_id: 2
-CcStatement_29:
-  id: 29
-  literal: Go to Section 7
-  created_at: 2016-05-27 15:29:19.533152000 Z
-  updated_at: 2016-05-27 15:29:19.546154000 Z
-  instrument_id: 2
-CcStatement_30:
-  id: 30
-  literal: I would like to ask you now about any medicines you may have taken.
-  created_at: 2016-05-27 15:29:19.580157000 Z
-  updated_at: 2016-05-27 15:29:19.598159000 Z
-  instrument_id: 2
-CcStatement_31:
-  id: 31
-  literal: 'I would now like  to ask you a few questions about any ILLNESSES you may
-    have suffered from:'
-  created_at: 2016-05-27 15:29:19.649164000 Z
-  updated_at: 2016-05-27 15:29:19.664166000 Z
-  instrument_id: 2
-CcStatement_32:
-  id: 32
-  literal: 'Now I would like to ask some questions about the baby''s natural father:'
-  created_at: 2016-05-27 15:29:20.048204000 Z
-  updated_at: 2016-05-27 15:29:20.063205000 Z
-  instrument_id: 2
-CcStatement_33:
-  id: 33
-  literal: if working part-time go to 10.6a
-  created_at: 2016-05-27 15:29:20.492248000 Z
-  updated_at: 2016-05-27 15:29:20.505250000 Z
-  instrument_id: 2
-CcStatement_34:
-  id: 34
-  literal: if not working go to 10.5
-  created_at: 2016-05-27 15:29:20.508250000 Z
-  updated_at: 2016-05-27 15:29:20.522251000 Z
-  instrument_id: 2
-CcStatement_35:
-  id: 35
-  literal: If working part time go to 10.7
-  created_at: 2016-05-27 15:29:20.558255000 Z
-  updated_at: 2016-05-27 15:29:20.572256000 Z
-  instrument_id: 2
-CcStatement_36:
-  id: 36
-  literal: If not working go to section 11
-  created_at: 2016-05-27 15:29:20.575257000 Z
-  updated_at: 2016-05-27 15:29:20.589258000 Z
-  instrument_id: 2
-CcStatement_37:
-  id: 37
-  literal: Then if currently working part time go to 10.7, otherwise go to section
-    11
-  created_at: 2016-05-27 15:29:20.691268000 Z
-  updated_at: 2016-05-27 15:29:20.705270000 Z
-  instrument_id: 2
-CcStatement_38:
-  id: 38
-  literal: "(Then go to section 11)"
-  created_at: 2016-05-27 15:29:20.774277000 Z
-  updated_at: 2016-05-27 15:29:20.789278000 Z
-  instrument_id: 2
-CcStatement_39:
-  id: 39
-  literal: If not done before get consent here
-  created_at: 2016-05-27 15:29:20.889288000 Z
-  updated_at: 2016-05-27 15:29:20.898289000 Z
-  instrument_id: 2
-CcStatement_40:
-  id: 40
-  literal: 'Mark and measure up the non-dominant arm and side of the body (measure
-    the left if completely ambidextrous) '
-  created_at: 2016-05-27 15:29:20.991298000 Z
-  updated_at: 2016-05-27 15:29:21.006300000 Z
-  instrument_id: 2
-CcStatement_41:
-  id: 41
-  literal: THANK YOU VERY MUCH
-  created_at: 2016-05-27 15:29:21.385338000 Z
-  updated_at: 2016-05-27 15:29:21.398339000 Z
-  instrument_id: 2
-CcStatement_42:
-  id: 42
-  literal: Child Health and Education in the Seventies
-  created_at: 2016-05-27 15:29:52.210420000 Z
-  updated_at: 2016-05-27 15:29:52.226421000 Z
-  instrument_id: 3
-CcStatement_43:
-  id: 43
-  literal: Under the auspices of the University of Bristol and the National Birthday
-    Trust Fund
-  created_at: 2016-05-27 15:29:52.229422000 Z
-  updated_at: 2016-05-27 15:29:52.242423000 Z
-  instrument_id: 3
-CcStatement_44:
-  id: 44
-  literal: 'Director: Professor Neville R. Butler, MD, FRCP, DCH'
-  created_at: 2016-05-27 15:29:52.246423000 Z
-  updated_at: 2016-05-27 15:29:52.259425000 Z
-  instrument_id: 3
-CcStatement_45:
-  id: 45
-  literal: Department of Child Health Research Unit University of Bristol
-  created_at: 2016-05-27 15:29:52.262425000 Z
-  updated_at: 2016-05-27 15:29:52.275426000 Z
-  instrument_id: 3
-CcStatement_46:
-  id: 46
-  literal: CONFIDENTIAL
-  created_at: 2016-05-27 15:29:52.279427000 Z
-  updated_at: 2016-05-27 15:29:52.293428000 Z
-  instrument_id: 3
-CcStatement_47:
-  id: 47
-  literal: DEVELOPMENTAL HISTORY SCHEDULE
-  created_at: 2016-05-27 15:29:52.296428000 Z
-  updated_at: 2016-05-27 15:29:52.309430000 Z
-  instrument_id: 3
-CcStatement_48:
-  id: 48
-  literal: Notes for Completion of Schedule
-  created_at: 2016-05-27 15:29:52.513450000 Z
-  updated_at: 2016-05-27 15:29:52.527452000 Z
-  instrument_id: 3
-CcStatement_49:
-  id: 49
-  literal: 1. Aims
-  created_at: 2016-05-27 15:29:52.531452000 Z
-  updated_at: 2016-05-27 15:29:52.544453000 Z
-  instrument_id: 3
-CcStatement_50:
-  id: 50
-  literal: The purpose of this Schedule is to obtain data on the utilisation by the
-    study child of child health clinics, health visiting facilities, developmental
-    screening tests and other important aspects of the community health services.
-    As parental recall of past events is often incomplete, reference to pre-school
-    child health records is also essential as a means of confirming and supplementing
-    information obtained by the Health Visitor in the home interview.
-  created_at: 2016-05-27 15:29:52.549454000 Z
-  updated_at: 2016-05-27 15:29:52.560455000 Z
-  instrument_id: 3
-CcStatement_51:
-  id: 51
-  literal: 2. Person(s) Completing Schedule
-  created_at: 2016-05-27 15:29:52.563455000 Z
-  updated_at: 2016-05-27 15:29:52.576456000 Z
-  instrument_id: 3
-CcStatement_52:
-  id: 52
-  literal: Ideally the Health Visitor who is carrying out the home interview should
-    also complete this schedule. Some of the information may require access to records
-    usually held centrally, such as in Area or Distict Offices or in Health Boards
-    (Scotland), e.g. special handicap records, centrally held registers. The personnel
-    used and arrangements made for completion will doubtless be decided by the Area
-    or District officer responsible according to local contingency.
-  created_at: 2016-05-27 15:29:52.579457000 Z
-  updated_at: 2016-05-27 15:29:52.593458000 Z
-  instrument_id: 3
-CcStatement_53:
-  id: 53
-  literal: 3. Records Required
-  created_at: 2016-05-27 15:29:52.598459000 Z
-  updated_at: 2016-05-27 15:29:52.616460000 Z
-  instrument_id: 3
-CcStatement_54:
-  id: 54
-  literal: "(a) The following basic types of records are essential for the main part
-    of this schedule."
-  created_at: 2016-05-27 15:29:52.621461000 Z
-  updated_at: 2016-05-27 15:29:52.634462000 Z
-  instrument_id: 3
-CcStatement_55:
-  id: 55
-  literal: "(i) Records used by health visitor to record health visiting, e.g. Home
-    Visiting records, Consultation Record Cards and, where available, Family Records.
-    These will be referred to as H.V. records,"
-  created_at: 2016-05-27 15:29:52.639463000 Z
-  updated_at: 2016-05-27 15:29:52.651464000 Z
-  instrument_id: 3
-CcStatement_56:
-  id: 56
-  literal: "(ii) Records used in Child Health Clinics or Child Welfare Clinics by
-    doctors to record developmental screening and other health care, e.g. MCW 46.
-    These will be referred to as C.H.C. records."
-  created_at: 2016-05-27 15:29:52.657465000 Z
-  updated_at: 2016-05-27 15:29:52.671466000 Z
-  instrument_id: 3
-CcStatement_57:
-  id: 57
-  literal: "(b)Some questions require reference to other sources, in addition to the
-    above basic records - for children for whom there may be letters or reports indicating
-    past hospital outpatient attendances or inpatient care, children who are on observation
-    or other registers, children who have been assessed for special educational treatment
-    and other children who have handicaps or disabilites. In some instances, this
-    information will be available in H.V.'s or C.H.C. records, but arrangements will
-    probably be necessary for this to be supplemented from records or information
-    held centrally."
-  created_at: 2016-05-27 15:29:52.677467000 Z
-  updated_at: 2016-05-27 15:29:52.694468000 Z
-  instrument_id: 3
-CcStatement_58:
-  id: 58
-  literal: "(c) Records about developmental screening are needed for question 4. The
-    majority of general developmental check-ups and specific screening tests will
-    be recorded on records used by doctors in Child Health Clinics and on H.V. records.
-    Additional information about any developmental check-ups at G.P. practices or
-    health centres would be valuable, and may be readily available to health visitors
-    attached to G.P. practices. Developmental check-ups are sometimes carried out
-    elsewhere, e.g. at hospital birth follow-up clinics, and vision and hearing are
-    often screened during routine medical examination at day nursery, nursery and
-    infant school. This information would be appreciated if it is readily available."
-  created_at: 2016-05-27 15:29:52.701469000 Z
-  updated_at: 2016-05-27 15:29:52.712470000 Z
-  instrument_id: 3
-CcStatement_59:
-  id: 59
-  literal: 4. Developmental Screening & Assessment
-  created_at: 2016-05-27 15:29:52.718471000 Z
-  updated_at: 2016-05-27 15:29:52.729472000 Z
-  instrument_id: 3
-CcStatement_60:
-  id: 60
-  literal: Developmental screening in Q.4 refers to check-ups usually routinely performed
-    on all pre-school children to identify those who may be developmentally delayed
-    or have a suspected vision or hearing defect.
-  created_at: 2016-05-27 15:29:52.735472000 Z
-  updated_at: 2016-05-27 15:29:52.756474000 Z
-  instrument_id: 3
-CcStatement_61:
-  id: 61
-  literal: Developmental assessment in Q.5 refers to a much more detailed examination
-    of development, which is usually only performed on children who have already been
-    identified as having a possible delay or defect in hearing, vision or other aspect
-    of development.
-  created_at: 2016-05-27 15:29:52.761475000 Z
-  updated_at: 2016-05-27 15:29:52.777477000 Z
-  instrument_id: 3
-CcStatement_62:
-  id: 62
-  literal: What to include as Developmental Screening in Q.4 Part I
-  created_at: 2016-05-27 15:29:52.784477000 Z
-  updated_at: 2016-05-27 15:29:52.797479000 Z
-  instrument_id: 3
-CcStatement_63:
-  id: 63
-  literal: "(a) Any record of a routine general developmental examination or a check-up
-    of overall developmental progress."
-  created_at: 2016-05-27 15:29:52.803479000 Z
-  updated_at: 2016-05-27 15:29:52.819481000 Z
-  instrument_id: 3
-CcStatement_64:
-  id: 64
-  literal: This term does not refer to an isolated single screening test, though specific
-    screening tests may often be included in the general observations and examination
-    made of the child's developmental achievements. General developmental examinations
-    or check-ups of overall developmental progress are usually carried out at or near
-    prescribed ages in C.H.C, home or G.P.'s practices by doctor or health visitor.
-    The result is often entered on C.H.C. or H.V. records under several headings of
-    'developmental' function e.g. hearing and language, posture and locomotion, vision,
-    social behaviour, or may be entered in the form of observations of individual
-    developmental achievements of the child, e.g. sitting, smiling, saying single
-    words, etc. If neither of these forms of recording are present in the notes, but
-    it is definitely indicated that a general developmental check-up was made, this
-    should be included.  Please include also any record you may have of a general
-    medical examination or check-up carried out by a doctor at nursery or infant school.
-  created_at: 2016-05-27 15:29:52.822481000 Z
-  updated_at: 2016-05-27 15:29:52.831482000 Z
-  instrument_id: 3
-CcStatement_65:
-  id: 65
-  literal: "(b)Any record of tests for vision, hearing or squint."
-  created_at: 2016-05-27 15:29:52.835482000 Z
-  updated_at: 2016-05-27 15:29:52.851484000 Z
-  instrument_id: 3
-CcStatement_66:
-  id: 66
-  literal: Vision and hearing may be tested on their own or as part of a general developmental
-    examination or check-up of overall developmental progress. They are routine clinical
-    procedures used for testing these special functions, e.g. routine testing of hearing
-    by rattle, paper etc. by H.V. at 7-9 months, screening of vision by Stycar 5-letter
-    test at age 3 years. If the details of the type of test used are not clear but
-    the records indicate that vision, hearing or both have been checked, such entries
-    should be included as vision or hearing tests.
-  created_at: 2016-05-27 15:29:52.854484000 Z
-  updated_at: 2016-05-27 15:29:52.863485000 Z
-  instrument_id: 3
-CcStatement_67:
-  id: 67
-  literal: Any record that there has been a check-up for a squint should be entered
-    separately as "examination for squint" and not be entered as a vision test in
-    section b of the table in Q.4. Include as "examination for squint" any occasion
-    where records indicate a specific test was made, e.g. cover test or light reflection
-    test, or where the records indicate only if a squint was, or was not, evident
-    in the course of a general examination. Records of any such test(s) for vision,
-    hearing or squint carried out at nursery or infant school should also be included.
-  created_at: 2016-05-27 15:29:52.883487000 Z
-  updated_at: 2016-05-27 15:29:52.893488000 Z
-  instrument_id: 3
-CcStatement_68:
-  id: 68
-  literal: "(c) Please exclude from Q.4 Part I any remarks or observations of developmental
-    progress made at times other than the developmental screening examinations and
-    tests described above. Details of these should be entered in Q.4 Part II."
-  created_at: 2016-05-27 15:29:52.896488000 Z
-  updated_at: 2016-05-27 15:29:52.910490000 Z
-  instrument_id: 3
-CcStatement_69:
-  id: 69
-  literal: 5. General Notes
-  created_at: 2016-05-27 15:29:52.915490000 Z
-  updated_at: 2016-05-27 15:29:52.940493000 Z
-  instrument_id: 3
-CcStatement_70:
-  id: 70
-  literal: "(a) Every question should be answered."
-  created_at: 2016-05-27 15:29:52.944493000 Z
-  updated_at: 2016-05-27 15:29:52.962495000 Z
-  instrument_id: 3
-CcStatement_71:
-  id: 71
-  literal: "(b)Please base your answers only on information which is contained in
-    the record form(s), registers etc. There is space provided below each question
-    for you to add any information known to you from other sources."
-  created_at: 2016-05-27 15:29:52.967496000 Z
-  updated_at: 2016-05-27 15:29:52.982497000 Z
-  instrument_id: 3
-CcStatement_72:
-  id: 72
-  literal: (c) If you have any difficulty in interpreting or reading the relevant
-    entry on records, ring code marked "records unclear" and give details in the space
-    for "comments" at the end of the question.
-  created_at: 2016-05-27 15:29:52.986497000 Z
-  updated_at: 2016-05-27 15:29:53.006499000 Z
-  instrument_id: 3
-CcStatement_73:
-  id: 73
-  literal: (d)If you do not have the relevant record(s) at all when answering a question,
-    please ring code marked "No records".
-  created_at: 2016-05-27 15:29:53.009500000 Z
-  updated_at: 2016-05-27 15:29:53.026501000 Z
-  instrument_id: 3
-CcStatement_74:
-  id: 74
-  literal: "(e) Allowance should be made for the fact that the format of every question
-    inevitably cannot correspond with all the different recording systems in use throughout
-    the country. Space is therefore provided at the end of each question for comments,
-    and for supplying extra data such as:"
-  created_at: 2016-05-27 15:29:53.029502000 Z
-  updated_at: 2016-05-27 15:29:53.043503000 Z
-  instrument_id: 3
-CcStatement_75:
-  id: 75
-  literal: "(i) additional information known to you but not on the records;"
-  created_at: 2016-05-27 15:29:53.046503000 Z
-  updated_at: 2016-05-27 15:29:53.059505000 Z
-  instrument_id: 3
-CcStatement_76:
-  id: 76
-  literal: "(ii) details of any difficulties with obtaining or interpreting the data
-    on the relevant record;"
-  created_at: 2016-05-27 15:29:53.062505000 Z
-  updated_at: 2016-05-27 15:29:53.076506000 Z
-  instrument_id: 3
-CcStatement_77:
-  id: 77
-  literal: "(iii) other observations, e.g. where the information given on records
-    is considered not to reflect a true picture of the actual events."
-  created_at: 2016-05-27 15:29:53.079507000 Z
-  updated_at: 2016-05-27 15:29:53.092508000 Z
-  instrument_id: 3
-CcStatement_78:
-  id: 78
-  literal: "(f) Some abbreviations are used in this schedule, e.g."
-  created_at: 2016-05-27 15:29:53.096508000 Z
-  updated_at: 2016-05-27 15:29:53.110510000 Z
-  instrument_id: 3
-CcStatement_79:
-  id: 79
-  literal: Study Child ... ... ... ... ... ... N
-  created_at: 2016-05-27 15:29:53.114510000 Z
-  updated_at: 2016-05-27 15:29:53.126511000 Z
-  instrument_id: 3
-CcStatement_80:
-  id: 80
-  literal: Health Vistor records ... ... ... ... ... H.V. records
-  created_at: 2016-05-27 15:29:53.129512000 Z
-  updated_at: 2016-05-27 15:29:53.142513000 Z
-  instrument_id: 3
-CcStatement_81:
-  id: 81
-  literal: Child Health Clinic records used by doctor ... C.H.C. records
-  created_at: 2016-05-27 15:29:53.145513000 Z
-  updated_at: 2016-05-27 15:29:53.159515000 Z
-  instrument_id: 3
-CcStatement_82:
-  id: 82
-  literal: Local Health Authority ... ... ... ... L.H.A.
-  created_at: 2016-05-27 15:29:53.162515000 Z
-  updated_at: 2016-05-27 15:29:53.175516000 Z
-  instrument_id: 3
-CcStatement_83:
-  id: 83
-  literal: Area Health Authority ... ... ... ... A.H.A.
-  created_at: 2016-05-27 15:29:53.178517000 Z
-  updated_at: 2016-05-27 15:29:53.192518000 Z
-  instrument_id: 3
-CcStatement_84:
-  id: 84
-  literal: Phenylketonuria ... ... ... ... ... P.K.U.
-  created_at: 2016-05-27 15:29:53.195518000 Z
-  updated_at: 2016-05-27 15:29:53.209520000 Z
-  instrument_id: 3
-CcStatement_85:
-  id: 85
-  literal: Question ... ... ... ... ... ... Q
-  created_at: 2016-05-27 15:29:53.211520000 Z
-  updated_at: 2016-05-27 15:29:53.226521000 Z
-  instrument_id: 3
-CcStatement_86:
-  id: 86
-  literal: (g) Further details about C.H.E.S. and on the completion of questions are
-    given in "Survey Notes and Information".
-  created_at: 2016-05-27 15:29:53.229522000 Z
-  updated_at: 2016-05-27 15:29:53.290528000 Z
-  instrument_id: 3
-CcStatement_87:
-  id: 87
-  literal: ALL INFORMATION RECORDED ON THIS SCHEDULE WILL BE TREATED AS STRICTLY CONFIDENTIAL
-    IN ACCORDANCE WITH MEDICAL RESEARCH COUNCIL REGULATIONS AND NO CHILD WILL BE IDENTIFIED
-    OR REFERRED TO IN ANY REPORT BY NAME.
-  created_at: 2016-05-27 15:29:53.300529000 Z
-  updated_at: 2016-05-27 15:29:53.365535000 Z
-  instrument_id: 3
-CcStatement_88:
-  id: 88
-  literal: '* Exclude any visit where no access gained to home and note such visits
-    in "comments" below.'
-  created_at: 2016-05-27 15:29:53.505549000 Z
-  updated_at: 2016-05-27 15:29:53.518551000 Z
-  instrument_id: 3
-CcStatement_89:
-  id: 89
-  literal: Please state if H.V. or C.H.C. records indicate that N's history contains
-    any risk factors - either as a complication or condition which occurred during
-    the perinatal period (pregnancy, labour, or postnatal in first week), or as a
-    genetic, social or environmental factor.
-  created_at: 2016-05-27 15:29:53.537553000 Z
-  updated_at: 2016-05-27 15:29:53.551554000 Z
-  instrument_id: 3
-CcStatement_90:
-  id: 90
-  literal: Include the following type of entries as risk factors.
-  created_at: 2016-05-27 15:29:53.554554000 Z
-  updated_at: 2016-05-27 15:29:53.568556000 Z
-  instrument_id: 3
-CcStatement_91:
-  id: 91
-  literal: "(i) Any entry of a condition of N in space specially provided on the H.V.
-    or C.H.C. record form for risk (or similarly named) factors, or any entry of a
-    condition specified on the H.V. or C.H.C. record as reasons for inclusion in at
-    risk/observation register."
-  created_at: 2016-05-27 15:29:53.571556000 Z
-  updated_at: 2016-05-27 15:29:53.584557000 Z
-  instrument_id: 3
-CcStatement_92:
-  id: 92
-  literal: "(ii) Any condition which, though not directly labelled as a risk-factor
-    in the above records, is implied to be a risk factor by virtue of being printed
-    in a check-list of abnormal conditions on the H.V. or C.H.C. record form. One
-    example of such a list is on the front page of C.H.C. record MCW 46."
-  created_at: 2016-05-27 15:29:53.588558000 Z
-  updated_at: 2016-05-27 15:29:53.602559000 Z
-  instrument_id: 3
-CcStatement_93:
-  id: 93
-  literal: Include all above conditions, irrespective of whether N's name was actually
-    placed on a Register or not.
-  created_at: 2016-05-27 15:29:53.607560000 Z
-  updated_at: 2016-05-27 15:29:53.619561000 Z
-  instrument_id: 3
-CcStatement_94:
-  id: 94
-  literal: Where "combined" record used, with both H.V. and C.H.C. doctor's entries,
-    ring both columns and note "combined record" in comments below.
-  created_at: 2016-05-27 15:29:53.688568000 Z
-  updated_at: 2016-05-27 15:29:53.701569000 Z
-  instrument_id: 3
-CcStatement_95:
-  id: 95
-  literal: Please refer to notes 3(c) and 4(a-c) at the beginning of this schedule
-    concerning Q.s 3-4.
-  created_at: 2016-05-27 15:29:53.721571000 Z
-  updated_at: 2016-05-27 15:29:53.735572000 Z
-  instrument_id: 3
-CcStatement_96:
-  id: 96
-  literal: If yes to (f), (g), (h) or (i), please ensure that each test or check-up
-    is entered in Q.4.
-  created_at: 2016-05-27 15:29:53.953594000 Z
-  updated_at: 2016-05-27 15:29:53.962595000 Z
-  instrument_id: 3
-CcStatement_97:
-  id: 97
-  literal: Note that only the fact that N was tested is to be entered in the answer
-    to this question; details of any referral for assessment or for further investigations
-    for suspected delay or abnormality should be recorded in Q.5.
-  created_at: 2016-05-27 15:29:54.012600000 Z
-  updated_at: 2016-05-27 15:29:54.034602000 Z
-  instrument_id: 3
-CcStatement_98:
-  id: 98
-  literal: Notes for completion of section (b) in table below.
-  created_at: 2016-05-27 15:29:54.038603000 Z
-  updated_at: 2016-05-27 15:29:54.051604000 Z
-  instrument_id: 3
-CcStatement_99:
-  id: 99
-  literal: Whenever records indicate that a routine general developmental check-up
-    or examination was made, ring 1. If a hearing test, a vision test and/or an examination
-    for squint was included as part of this general developmental check-up, ring 2,
-    3 and/or 4 as appropriate. If a comprehensive developmental scale, e.g. Denver
-    or Griffiths, was used, ring 1, 2 and 3 even though individual components may
-    not be specified; please name any such scale used in "comments" below the table.
-    Ring 2, 3 and/or 4 in section (b) if screening for hearing, vision and/or squint
-    was done on occasion(s) separate from a general developmental check-up.
-  created_at: 2016-05-27 15:29:54.054604000 Z
-  updated_at: 2016-05-27 15:29:54.068606000 Z
-  instrument_id: 3
-CcStatement_100:
-  id: 100
-  literal: In answering section (c) below, give the main person responsible if more
-    than one person carried out tests or made observations on any one occasion.
-  created_at: 2016-05-27 15:29:54.071606000 Z
-  updated_at: 2016-05-27 15:29:54.085607000 Z
-  instrument_id: 3
-CcStatement_101:
-  id: 101
-  literal: "*e.g. delay in motor, intellectual, mental, language, social or emotional
-    development."
-  created_at: 2016-05-27 15:29:54.140613000 Z
-  updated_at: 2016-05-27 15:29:54.151614000 Z
-  instrument_id: 3
-CcStatement_102:
-  id: 102
-  literal: A register is a means of identifying children with special needs or those
-    who require follow-up. It is usually kept in the form of a list, card index, master
-    file or on a computer.
-  created_at: 2016-05-27 15:29:54.345633000 Z
-  updated_at: 2016-05-27 15:29:54.360635000 Z
-  instrument_id: 3
-CcStatement_103:
-  id: 103
-  literal: '* Indicate if "peripheral" register, e.g. initiated by and confined in
-    use to a particular clinic; or if a "central" register, e.g. initiated and kept
-    by L.H.A./Area/District or Board.'
-  created_at: 2016-05-27 15:29:54.412640000 Z
-  updated_at: 2016-05-27 15:29:54.439643000 Z
-  instrument_id: 3
-CcStatement_104:
-  id: 104
-  literal: Please use this page to give further details of any questions if insufficient
-    space in the questionnaire.
-  created_at: 2016-05-27 15:29:54.895688000 Z
-  updated_at: 2016-05-27 15:29:54.910690000 Z
-  instrument_id: 3
-CcStatement_105:
-  id: 105
-  literal: THANK YOU VERY MUCH FOR ALL YOUR HELP
-  created_at: 2016-05-27 15:29:54.931692000 Z
-  updated_at: 2016-05-27 15:29:54.943693000 Z
-  instrument_id: 3
-CcStatement_106:
-  id: 106
-  literal: One of these questionnaires to be filled in for each baby born during the
-    period of the main survey (first minute March 3rd-last minute 9th, 1958, inclusive)
-    and sent in as instructed.
-  created_at: 2016-05-27 15:30:12.592458000 Z
-  updated_at: 2016-05-27 15:30:12.608459000 Z
-  instrument_id: 4
-CcStatement_107:
-  id: 107
-  literal: In addition, during the months of March, April, May 1958, a questionnaire
-    is required for all still births and each infant dying before the age of 28 days,
-    and sent in as instructed as soon as possible after death.
-  created_at: 2016-05-27 15:30:12.611460000 Z
-  updated_at: 2016-05-27 15:30:12.623461000 Z
-  instrument_id: 4
-CcStatement_108:
-  id: 108
-  literal: 1. Where the questions have been pre-coded, i.e. the possible answers are
-    listed and a code number or letter attached (e.g. Questions 6, 9, 11a)- indicate
-    the answer by ringing the code of the answer that applies.
-  created_at: 2016-05-27 15:30:12.641463000 Z
-  updated_at: 2016-05-27 15:30:12.657464000 Z
-  instrument_id: 4
-CcStatement_109:
-  id: 109
-  literal: 2. Ignore the small boxes placed alongside some questions, e.g. Questions
-    10 and 11; these are to be used in analysis at Headquarters.
-  created_at: 2016-05-27 15:30:12.660465000 Z
-  updated_at: 2016-05-27 15:30:12.678466000 Z
-  instrument_id: 4
-CcStatement_110:
-  id: 110
-  literal: 3. If you are unable to record an answer to any question because the details
-    are not known or available, please DO NOT LEAVE A BLANK but record "doesn't remember,"
-    or "don't know," "no records," etc.
-  created_at: 2016-05-27 15:30:12.682467000 Z
-  updated_at: 2016-05-27 15:30:12.697468000 Z
-  instrument_id: 4
-CcStatement_111:
-  id: 111
-  literal: Note.-If baby delivered on way to hospital, in ambulance, taxi, street,
-    etc., this should be classified below as "elsewhere."
-  created_at: 2016-05-27 15:30:12.845483000 Z
-  updated_at: 2016-05-27 15:30:12.856484000 Z
-  instrument_id: 4
-CcStatement_112:
-  id: 112
-  literal: One code only see note above
-  created_at: 2016-05-27 15:30:12.860485000 Z
-  updated_at: 2016-05-27 15:30:12.869486000 Z
-  instrument_id: 4
-CcStatement_113:
-  id: 113
-  literal: "* G.P. unit where there is no resident Medical Officer."
-  created_at: 2016-05-27 15:30:12.873486000 Z
-  updated_at: 2016-05-27 15:30:12.891488000 Z
-  instrument_id: 4
-CcStatement_114:
-  id: 114
-  literal: "(Questions 8--22 inclusive)"
-  created_at: 2016-05-27 15:30:12.937492000 Z
-  updated_at: 2016-05-27 15:30:12.947493000 Z
-  instrument_id: 4
-CcStatement_115:
-  id: 115
-  literal: The information required for the questions in this section should be got
-    from the mother only. If the mother cannot be questioned, refer to instructions.
-  created_at: 2016-05-27 15:30:12.950494000 Z
-  updated_at: 2016-05-27 15:30:13.016500000 Z
-  instrument_id: 4
-CcStatement_116:
-  id: 116
-  literal: IF NOT MARRIED, OMIT Qns. 10-12 inclusive
-  created_at: 2016-05-27 15:30:13.052504000 Z
-  updated_at: 2016-05-27 15:30:13.062505000 Z
-  instrument_id: 4
-CcStatement_117:
-  id: 117
-  literal: Please note carefully; the information in this section is to be got from
-    records if at all possible. If this is not possible, get details from mother.
-  created_at: 2016-05-27 15:30:13.888587000 Z
-  updated_at: 2016-05-27 15:30:13.936592000 Z
-  instrument_id: 4
-CcStatement_118:
-  id: 118
-  literal: 'Past Obstetric History.- Exclude present pregnancy. '
-  created_at: 2016-05-27 15:30:13.940593000 Z
-  updated_at: 2016-05-27 15:30:13.949594000 Z
-  instrument_id: 4
-CcStatement_119:
-  id: 119
-  literal: PRESENT PREGNANCY
-  created_at: 2016-05-27 15:30:14.009600000 Z
-  updated_at: 2016-05-27 15:30:14.023601000 Z
-  instrument_id: 4
-CcStatement_120:
-  id: 120
-  literal: The information for this section is to be got from records or notes only.
-    Where records are not available, mark questions "no records."
-  created_at: 2016-05-27 15:30:14.190618000 Z
-  updated_at: 2016-05-27 15:30:14.199619000 Z
-  instrument_id: 4
-CcStatement_121:
-  id: 121
-  literal: Ring code if condition encountered
-  created_at: 2016-05-27 15:30:14.886687000 Z
-  updated_at: 2016-05-27 15:30:14.898688000 Z
-  instrument_id: 4
-CcStatement_122:
-  id: 122
-  literal: The information for this section should be got from records, notes or the
-    experience of the person(s) who actually delivered the infant.
-  created_at: 2016-05-27 15:30:15.265725000 Z
-  updated_at: 2016-05-27 15:30:15.275726000 Z
-  instrument_id: 4
-CcStatement_123:
-  id: 123
-  literal: Note.-For multiple births, a separate schedule is required for each child,
-    but Sections II, III and IV need only be completed for the first birth. Clip questionnaires
-    together when despatching.
-  created_at: 2016-05-27 15:30:15.979797000 Z
-  updated_at: 2016-05-27 15:30:15.993798000 Z
-  instrument_id: 4
-CcStatement_124:
-  id: 124
-  literal: The remainder of this questionnaire applies ONLY to stillbirth or neonatal
-    deaths. Information should be got from records, notes or experience of person(s)
-    attending the patient or infant
-  created_at: 2016-05-27 15:30:16.269826000 Z
-  updated_at: 2016-05-27 15:30:16.279827000 Z
-  instrument_id: 4
-CcStatement_125:
-  id: 125
-  literal: TO BE FILLED IN BY M.O.H.
-  created_at: 2016-05-27 15:30:16.444843000 Z
-  updated_at: 2016-05-27 15:30:16.457844000 Z
-  instrument_id: 4
-CcStatement_126:
-  id: 126
-  literal: SECTION VII. (Contd.) PLEASE FILL IN THIS SECTION IF THE BABY WAS STILLBORN
-    OR DIED UNDER 28 DAYS.
-  created_at: 2016-05-27 15:30:16.477846000 Z
-  updated_at: 2016-05-27 15:30:16.490848000 Z
-  instrument_id: 4
-CcStatement_127:
-  id: 127
-  literal: " \tPlease use an extra sheet if short of space"
-  created_at: 2016-05-27 15:30:16.494848000 Z
-  updated_at: 2016-05-27 15:30:16.508849000 Z
-  instrument_id: 4
-CcStatement_128:
-  id: 128
-  literal: STUDY MOTHER'S QUESTIONNAIRE
-  created_at: 2016-05-27 16:09:50.008199000 Z
-  updated_at: 2016-05-27 16:09:50.020200000 Z
-  instrument_id: 5
-CcStatement_129:
-  id: 129
-  literal: This questionnaire is for you, the mother, whether or not you are the main
-    carer. Its purpose is to find out what health and other problems you have. Your
-    answers will help us to identify those problems that may be helped by changes
-    in the health care system.
-  created_at: 2016-05-27 16:09:50.025201000 Z
-  updated_at: 2016-05-27 16:09:50.035202000 Z
-  instrument_id: 5
-CcStatement_130:
-  id: 130
-  literal: To answer please tick the box which is most accurate in your opinion.
-  created_at: 2016-05-27 16:09:50.040202000 Z
-  updated_at: 2016-05-27 16:09:50.064205000 Z
-  instrument_id: 5
-CcStatement_131:
-  id: 131
-  literal: Some questions are the same as those you have answered before. This is
-    so that we can tell what changes have happened to you over time.
-  created_at: 2016-05-27 16:09:50.069205000 Z
-  updated_at: 2016-05-27 16:09:50.090207000 Z
-  instrument_id: 5
-CcStatement_132:
-  id: 132
-  literal: Please answer all questions if you can, even if they seem similar. If you
-    do not want to answer a question or if it does not apply to you, put a line through
-    it. There are no good or bad answers. Just tell us what you really think.
-  created_at: 2016-05-27 16:09:50.095208000 Z
-  updated_at: 2016-05-27 16:09:50.107209000 Z
-  instrument_id: 5
-CcStatement_133:
-  id: 133
+  id: 213
   literal: All answers are confidential
-  created_at: 2016-05-27 16:09:50.111209000 Z
-  updated_at: 2016-05-27 16:09:50.124211000 Z
-  instrument_id: 5
-CcStatement_134:
-  id: 134
+  created_at: 2016-06-20 13:51:39.221457000 Z
+  updated_at: 2016-06-20 13:51:39.245457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_4:
+  id: 214
+  literal: This questionnaire is for the study child's mother or person taking the
+    role of mother.
+  created_at: 2016-06-20 13:51:39.250457000 Z
+  updated_at: 2016-06-20 13:51:39.276457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_5:
+  id: 215
+  literal: To answer simply tick the box which is most accurate in your opinion.
+  created_at: 2016-06-20 13:51:39.282457000 Z
+  updated_at: 2016-06-20 13:51:39.312457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_6:
+  id: 216
+  literal: If you do not want to answer a question or if it does not apply to you,
+    put a line through it. There are no good or bad answers. Just tell us what is
+    true for you.
+  created_at: 2016-06-20 13:51:39.318457000 Z
+  updated_at: 2016-06-20 13:51:39.343457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_7:
+  id: 217
+  literal: THANK YOU FOR YOUR HELP
+  created_at: 2016-06-20 13:51:39.349457000 Z
+  updated_at: 2016-06-20 13:51:39.373457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_8:
+  id: 218
+  literal: The health of your study child is still of great importance to us. We would
+    like to know about any recent illnesses or medical treatments.
+  created_at: 2016-06-20 13:51:39.405457000 Z
+  updated_at: 2016-06-20 13:51:39.429457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_9:
+  id: 219
+  literal: If no, go to A3 below
+  created_at: 2016-06-20 13:51:39.643457000 Z
+  updated_at: 2016-06-20 13:51:39.667457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_10:
+  id: 220
+  literal: If no, go to A6 below
+  created_at: 2016-06-20 13:51:40.304457000 Z
+  updated_at: 2016-06-20 13:51:40.327457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_11:
+  id: 221
+  literal: If no, go to A7a on page 6
+  created_at: 2016-06-20 13:51:40.532457000 Z
+  updated_at: 2016-06-20 13:51:40.558457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_12:
+  id: 222
+  literal: If no, go to A8a below
+  created_at: 2016-06-20 13:51:40.829457000 Z
+  updated_at: 2016-06-20 13:51:40.854457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_13:
+  id: 223
+  literal: If no, go to A9 below
+  created_at: 2016-06-20 13:51:41.013457000 Z
+  updated_at: 2016-06-20 13:51:41.037457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_14:
+  id: 224
+  literal: If no, go to A13a on page 8
+  created_at: 2016-06-20 13:51:41.392457000 Z
+  updated_at: 2016-06-20 13:51:41.417457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_15:
+  id: 225
+  literal: If no, go to A14a below
+  created_at: 2016-06-20 13:51:41.792457000 Z
+  updated_at: 2016-06-20 13:51:41.817457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_16:
+  id: 226
+  literal: If no, or not known, go to A15a on page 10
+  created_at: 2016-06-20 13:51:42.100457000 Z
+  updated_at: 2016-06-20 13:51:42.124457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_17:
+  id: 227
+  literal: If no, go to A15k on page 11
+  created_at: 2016-06-20 13:51:43.034457000 Z
+  updated_at: 2016-06-20 13:51:43.058457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_18:
+  id: 228
+  literal: If no, go to A17a below
+  created_at: 2016-06-20 13:51:43.755457000 Z
+  updated_at: 2016-06-20 13:51:43.778457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_19:
+  id: 229
+  literal: If no, go to A17c on page 13
+  created_at: 2016-06-20 13:51:44.113457000 Z
+  updated_at: 2016-06-20 13:51:44.139457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_20:
+  id: 230
+  literal: This question is about problems which occur when your child does not have
+    a cold or the flu.
+  created_at: 2016-06-20 13:51:44.307457000 Z
+  updated_at: 2016-06-20 13:51:44.335457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_21:
+  id: 231
+  literal: If no, go to B2a below
+  created_at: 2016-06-20 13:51:44.767457000 Z
+  updated_at: 2016-06-20 13:51:44.802457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_22:
+  id: 232
+  literal: If no, go to B3a below
+  created_at: 2016-06-20 13:51:44.978457000 Z
+  updated_at: 2016-06-20 13:51:45.002457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_23:
+  id: 233
+  literal: If no, go to B4a on page 16
+  created_at: 2016-06-20 13:51:45.203457000 Z
+  updated_at: 2016-06-20 13:51:45.226457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_24:
+  id: 234
+  literal: If no, go to B3c below
+  created_at: 2016-06-20 13:51:45.305457000 Z
+  updated_at: 2016-06-20 13:51:45.335457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_25:
+  id: 235
+  literal: If no, go to B5a on page 17
+  created_at: 2016-06-20 13:51:45.619457000 Z
+  updated_at: 2016-06-20 13:51:45.660457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_26:
+  id: 236
+  literal: If no, go to B4e below
+  created_at: 2016-06-20 13:51:45.761457000 Z
+  updated_at: 2016-06-20 13:51:45.833457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_27:
+  id: 237
+  literal: If no, go to B6a below
+  created_at: 2016-06-20 13:51:46.120457000 Z
+  updated_at: 2016-06-20 13:51:46.152457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_28:
+  id: 238
+  literal: If no, go to B5e below
+  created_at: 2016-06-20 13:51:46.256457000 Z
+  updated_at: 2016-06-20 13:51:46.280457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_29:
+  id: 239
+  literal: If no, go to B7a on page 18
+  created_at: 2016-06-20 13:51:46.604457000 Z
+  updated_at: 2016-06-20 13:51:46.632457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_30:
+  id: 240
+  literal: If no, go to B6e on page 18
+  created_at: 2016-06-20 13:51:46.715457000 Z
+  updated_at: 2016-06-20 13:51:46.741457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_31:
+  id: 241
+  literal: If no, go to B8a on page 19
+  created_at: 2016-06-20 13:51:47.065457000 Z
+  updated_at: 2016-06-20 13:51:47.146457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_32:
+  id: 242
+  literal: If no, go to B7e below
+  created_at: 2016-06-20 13:51:47.243457000 Z
+  updated_at: 2016-06-20 13:51:47.283457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_33:
+  id: 243
+  literal: If no, go to section C on page 20
+  created_at: 2016-06-20 13:51:47.578457000 Z
+  updated_at: 2016-06-20 13:51:47.604457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_34:
+  id: 244
+  literal: If more than 3 problems, continue below or on a separate sheet.
+  created_at: 2016-06-20 13:51:47.729457000 Z
+  updated_at: 2016-06-20 13:51:47.754457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_35:
+  id: 245
+  literal: However careful a parent is, most children have accidents at some time
+    or other. Please list on the next pages the times your child has had an accident,
+    whether or not she was injured as a result.
+  created_at: 2016-06-20 13:51:47.790457000 Z
+  updated_at: 2016-06-20 13:51:47.816457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_36:
+  id: 246
+  literal: If no, go to C2a on page 21
+  created_at: 2016-06-20 13:51:47.877457000 Z
+  updated_at: 2016-06-20 13:51:47.904457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_37:
+  id: 247
+  literal: If no, go to C3a on page 22
+  created_at: 2016-06-20 13:51:48.219457000 Z
+  updated_at: 2016-06-20 13:51:48.246457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_38:
+  id: 248
+  literal: If no, go to C4a on page 23
+  created_at: 2016-06-20 13:51:48.557457000 Z
+  updated_at: 2016-06-20 13:51:48.583457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_39:
+  id: 249
+  literal: If no, go to C5a on page 24
+  created_at: 2016-06-20 13:51:48.911457000 Z
+  updated_at: 2016-06-20 13:51:48.944457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_40:
+  id: 250
+  literal: If no, go to C6a on page 25
+  created_at: 2016-06-20 13:51:49.267457000 Z
+  updated_at: 2016-06-20 13:51:49.302457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_41:
+  id: 251
+  literal: If no, go to C7 on page 26
+  created_at: 2016-06-20 13:51:49.595457000 Z
+  updated_at: 2016-06-20 13:51:49.620457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_42:
+  id: 252
+  literal: Include medicines prescribed by your doctor and those you may have bought
+    over the counter. If you need more lines for a particular category please include
+    the additional medicines under the 'Other conditions' section at the end of the
+    question on Page 36.
+  created_at: 2016-06-20 13:51:52.505457000 Z
+  updated_at: 2016-06-20 13:51:52.530457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_43:
+  id: 253
+  literal: Try to give the full name of the medicine and say how often it was used.
+  created_at: 2016-06-20 13:51:52.535457000 Z
+  updated_at: 2016-06-20 13:51:52.560457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_44:
+  id: 254
+  literal: 'Regularly: most days for at least 3 months, or several times every month'
+  created_at: 2016-06-20 13:51:52.566457000 Z
+  updated_at: 2016-06-20 13:51:52.591457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_45:
+  id: 255
+  literal: 'Few days: for a few days at a time for one or more episodes'
+  created_at: 2016-06-20 13:51:52.597457000 Z
+  updated_at: 2016-06-20 13:51:52.624457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_46:
+  id: 256
+  literal: 'Odd occasions: on a few odd occasions'
+  created_at: 2016-06-20 13:51:52.630457000 Z
+  updated_at: 2016-06-20 13:51:52.656457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_47:
+  id: 257
+  literal: 'Once or twice: on one or two isolated occasions only'
+  created_at: 2016-06-20 13:51:52.662457000 Z
+  updated_at: 2016-06-20 13:51:52.703457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_48:
+  id: 258
+  literal: To describe supplements containing a mixture of things e.g. calcium and
+    vitamins, or vitamins and iron etc., please write them under "Other" in part d)
+    below.
+  created_at: 2016-06-20 13:51:52.881457000 Z
+  updated_at: 2016-06-20 13:51:52.907457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_49:
+  id: 259
+  literal: It's two years since we asked you about your daughter's school days, so
+    now we need to update our information
+  created_at: 2016-06-20 13:51:53.106457000 Z
+  updated_at: 2016-06-20 13:51:53.132457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_50:
+  id: 260
+  literal: Thank you so much for helping us with this questionnaire. We really do
+    appreciate all the help you are giving to the Study
+  created_at: 2016-06-20 13:51:53.138457000 Z
+  updated_at: 2016-06-20 13:51:53.162457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_51:
+  id: 261
+  literal: We would like to know what happens after school.
+  created_at: 2016-06-20 13:51:53.914457000 Z
+  updated_at: 2016-06-20 13:51:53.944457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_52:
+  id: 262
+  literal: If yes always, go to H4c below
+  created_at: 2016-06-20 13:51:53.999457000 Z
+  updated_at: 2016-06-20 13:51:54.025457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_53:
+  id: 263
+  literal: If no, go to H11 on page 46
+  created_at: 2016-06-20 13:51:55.678457000 Z
+  updated_at: 2016-06-20 13:51:55.712457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_54:
+  id: 264
+  literal: If no, go to H11 on page 46
+  created_at: 2016-06-20 13:51:56.124457000 Z
+  updated_at: 2016-06-20 13:51:56.150457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_55:
+  id: 265
+  literal: If no, go to H11 on page 46
+  created_at: 2016-06-20 13:51:56.499457000 Z
+  updated_at: 2016-06-20 13:51:56.517457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_56:
+  id: 266
+  literal: If no, go to H12 below
+  created_at: 2016-06-20 13:51:56.615457000 Z
+  updated_at: 2016-06-20 13:51:56.634457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_57:
+  id: 267
+  literal: If no, go to H13 below
+  created_at: 2016-06-20 13:51:56.734457000 Z
+  updated_at: 2016-06-20 13:51:56.767457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_58:
+  id: 268
+  literal: If no, go to H14 below
+  created_at: 2016-06-20 13:51:56.886457000 Z
+  updated_at: 2016-06-20 13:51:56.909457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_59:
+  id: 269
+  literal: If no, go to K7 on page 57
+  created_at: 2016-06-20 13:51:58.560457000 Z
+  updated_at: 2016-06-20 13:51:58.581457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_60:
+  id: 270
+  literal: In order to help us find out why some children are healthier than others
+    we are looking at many aspects of their development. So far however, we have not
+    looked at the way this may be affected by their cultural background. We'd be grateful
+    if you could answer these questions as best you can.
+  created_at: 2016-06-20 13:51:59.286457000 Z
+  updated_at: 2016-06-20 13:51:59.311457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_61:
+  id: 271
+  literal: Many thanks for the time you have taken to fill in this questionnaire
+  created_at: 2016-06-20 13:51:59.593457000 Z
+  updated_at: 2016-06-20 13:51:59.619457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_62:
+  id: 272
+  literal: There is only the back page to complete now
+  created_at: 2016-06-20 13:51:59.625457000 Z
+  updated_at: 2016-06-20 13:51:59.650457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_63:
+  id: 273
   literal: THANK YOU VERY MUCH FOR YOUR HELP
-  created_at: 2016-05-27 16:09:50.128211000 Z
-  updated_at: 2016-05-27 16:09:50.141212000 Z
-  instrument_id: 5
-CcStatement_135:
-  id: 135
-  literal: If no, go to A6 on page 7
-  created_at: 2016-05-27 16:09:50.294228000 Z
-  updated_at: 2016-05-27 16:09:50.308229000 Z
-  instrument_id: 5
-CcStatement_136:
-  id: 136
-  literal: If no, go to A8 on page 9
-  created_at: 2016-05-27 16:09:50.513250000 Z
-  updated_at: 2016-05-27 16:09:50.535252000 Z
-  instrument_id: 5
-CcStatement_137:
-  id: 137
-  literal: go to A10 on page 11
-  created_at: 2016-05-27 16:09:50.691267000 Z
-  updated_at: 2016-05-27 16:09:50.701268000 Z
-  instrument_id: 5
-CcStatement_138:
-  id: 138
-  literal: go to A10 on page 11
-  created_at: 2016-05-27 16:09:50.744273000 Z
-  updated_at: 2016-05-27 16:09:50.758274000 Z
-  instrument_id: 5
-CcStatement_139:
-  id: 139
-  literal: If no, go to A11 on Page 13
-  created_at: 2016-05-27 16:09:50.842283000 Z
-  updated_at: 2016-05-27 16:09:50.852284000 Z
-  instrument_id: 5
-CcStatement_140:
-  id: 140
-  literal: If more than 6 pregnancies, please describe others on a separate page.
-  created_at: 2016-05-27 16:09:51.177316000 Z
-  updated_at: 2016-05-27 16:09:51.210319000 Z
-  instrument_id: 5
-CcStatement_141:
-  id: 141
-  literal: Below are some statements. Please say how true they are of you.
-  created_at: 2016-05-27 16:09:51.536352000 Z
-  updated_at: 2016-05-27 16:09:51.555354000 Z
-  instrument_id: 5
-CcStatement_142:
-  id: 142
-  literal: The questions in this section ask you about your feelings and the way you
-    behave. You have answered these questions in other questionnaires, but you might
-    be feeling differently now.
-  created_at: 2016-05-27 16:09:51.770375000 Z
-  updated_at: 2016-05-27 16:09:51.789377000 Z
-  instrument_id: 5
-CcStatement_143:
-  id: 143
-  literal: Please indicate the way you feel.
-  created_at: 2016-05-27 16:09:51.793378000 Z
-  updated_at: 2016-05-27 16:09:51.809379000 Z
-  instrument_id: 5
-CcStatement_144:
-  id: 144
-  literal: 'In the past week:'
-  created_at: 2016-05-27 16:09:52.355434000 Z
-  updated_at: 2016-05-27 16:09:52.368435000 Z
-  instrument_id: 5
-CcStatement_145:
-  id: 145
-  literal: 'In the past week:'
-  created_at: 2016-05-27 16:09:52.453444000 Z
-  updated_at: 2016-05-27 16:09:52.463445000 Z
-  instrument_id: 5
-CcStatement_146:
-  id: 146
-  literal: If no, go to E1 on page 24
-  created_at: 2016-05-27 16:09:52.614460000 Z
-  updated_at: 2016-05-27 16:09:52.627461000 Z
-  instrument_id: 5
-CcStatement_147:
-  id: 147
-  literal: Below are a number of questions about your home. They are similar to some
-    you answered 2 years ago, and will be used to see how your circumstances might
-    have changed.
-  created_at: 2016-05-27 16:09:52.703469000 Z
-  updated_at: 2016-05-27 16:09:52.717470000 Z
-  instrument_id: 5
-CcStatement_148:
-  id: 148
-  literal: If no, go to E12a on page 27
-  created_at: 2016-05-27 16:09:53.068505000 Z
-  updated_at: 2016-05-27 16:09:53.079506000 Z
-  instrument_id: 5
-CcStatement_149:
-  id: 149
-  literal: If no, go to E13a on page 28
-  created_at: 2016-05-27 16:09:53.186517000 Z
-  updated_at: 2016-05-27 16:09:53.198518000 Z
-  instrument_id: 5
-CcStatement_150:
-  id: 150
-  literal: If no, go to Question F9 on page 35
-  created_at: 2016-05-27 16:09:53.698568000 Z
-  updated_at: 2016-05-27 16:09:53.709569000 Z
-  instrument_id: 5
-CcStatement_151:
-  id: 151
-  literal: Now go to F9 on page 35
-  created_at: 2016-05-27 16:09:53.833582000 Z
-  updated_at: 2016-05-27 16:09:53.856584000 Z
-  instrument_id: 5
-CcStatement_152:
-  id: 152
-  literal: If you are working please now go to Question F10 below
-  created_at: 2016-05-27 16:09:54.532652000 Z
-  updated_at: 2016-05-27 16:09:54.543653000 Z
-  instrument_id: 5
-CcStatement_153:
-  id: 153
-  literal: If yes, go to F10 below
-  created_at: 2016-05-27 16:09:54.586657000 Z
-  updated_at: 2016-05-27 16:09:54.597658000 Z
-  instrument_id: 5
-CcStatement_154:
-  id: 154
-  literal: If no, go to F10 below
-  created_at: 2016-05-27 16:09:54.644663000 Z
-  updated_at: 2016-05-27 16:09:54.655664000 Z
-  instrument_id: 5
-CcStatement_155:
-  id: 155
-  literal: If no, go to F10d on page 36
-  created_at: 2016-05-27 16:09:54.762675000 Z
-  updated_at: 2016-05-27 16:09:54.776676000 Z
-  instrument_id: 5
-CcStatement_156:
-  id: 156
-  literal: If no, go to F10f below
-  created_at: 2016-05-27 16:09:54.832682000 Z
-  updated_at: 2016-05-27 16:09:54.843683000 Z
-  instrument_id: 5
-CcStatement_157:
-  id: 157
-  literal: "(* by glass we mean a pub measure (1oz) of spirits, half a pint (1/4 litre)
-    of lager or cider, a wine glass of wine, etc)"
-  created_at: 2016-05-27 16:09:54.983697000 Z
-  updated_at: 2016-05-27 16:09:54.993698000 Z
-  instrument_id: 5
-CcStatement_158:
-  id: 158
-  literal: "[* Count time on Saturday and on Sunday added together]"
-  created_at: 2016-05-27 16:09:56.063805000 Z
-  updated_at: 2016-05-27 16:09:56.073806000 Z
-  instrument_id: 5
-CcStatement_159:
-  id: 159
-  literal: The following statements are about the help and support you have.
-  created_at: 2016-05-27 16:09:56.512850000 Z
-  updated_at: 2016-05-27 16:09:56.538852000 Z
-  instrument_id: 5
-CcStatement_160:
-  id: 160
-  literal: THANK YOU VERY MUCH FOR YOUR HELP
-  created_at: 2016-05-27 16:09:56.818880000 Z
-  updated_at: 2016-05-27 16:09:56.829881000 Z
-  instrument_id: 5
-CcStatement_161:
-  id: 161
-  literal: NB Please remember we cannot reply personally to your comments unless they
-    are signed.
-  created_at: 2016-05-27 16:09:56.850883000 Z
-  updated_at: 2016-05-27 16:09:56.861884000 Z
-  instrument_id: 5
-CcStatement_162:
-  id: 162
+  created_at: 2016-06-20 13:52:00.024457000 Z
+  updated_at: 2016-06-20 13:52:00.049457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_64:
+  id: 274
+  literal: NB. Please remember we cannot reply to any comment unless you sign it.
+  created_at: 2016-06-20 13:52:00.097457000 Z
+  updated_at: 2016-06-20 13:52:00.121457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_65:
+  id: 275
   literal: 'When completed, please return the questionnaire to: Professor Jean Golding
     Children of the Nineties - ALSPAC Institute of Child Health'
-  created_at: 2016-05-27 16:09:56.865885000 Z
-  updated_at: 2016-05-27 16:09:56.878886000 Z
-  instrument_id: 5
+  created_at: 2016-06-20 13:52:00.127457000 Z
+  updated_at: 2016-06-20 13:52:00.150457000 Z
+  instrument_id: 10
+  construct_type: CcStatement
+CcStatement_66:
+  id: 276
+  literal: YOUR HEALTH, EVENTS AND FEELINGS
+  created_at: 2016-06-21 13:18:41.484737000 Z
+  updated_at: 2016-06-21 13:18:41.540743000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_67:
+  id: 277
+  literal: This questionnaire aims to find out what problems parents have. Your answers
+    will help us to identify those problems that may be solved by changes in the health
+    care system, or in society. It should be filled in by the mother or person taking
+    the place of the mother.
+  created_at: 2016-06-21 13:18:41.544743000 Z
+  updated_at: 2016-06-21 13:18:41.562745000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_68:
+  id: 278
+  literal: To answer simply tick the box which is most accurate in your opinion.
+  created_at: 2016-06-21 13:18:41.566745000 Z
+  updated_at: 2016-06-21 13:18:41.600749000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_69:
+  id: 279
+  literal: Some questions are the same as those you have answered before. This is
+    so that we can tell what changes have happened to you.
+  created_at: 2016-06-21 13:18:41.604749000 Z
+  updated_at: 2016-06-21 13:18:41.629751000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_70:
+  id: 280
+  literal: Please answer all questions if you can, even if they are similar. If you
+    cannot answer a question or if it does not apply to you, put a line through it.
+    There are no good or bad answers. Just tell us what you really think.
+  created_at: 2016-06-21 13:18:41.633752000 Z
+  updated_at: 2016-06-21 13:18:41.645753000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_71:
+  id: 281
+  literal: All answers are confidential.
+  created_at: 2016-06-21 13:18:41.649753000 Z
+  updated_at: 2016-06-21 13:18:41.662755000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_72:
+  id: 282
+  literal: THANK YOU FOR YOUR HELP
+  created_at: 2016-06-21 13:18:41.667755000 Z
+  updated_at: 2016-06-21 13:18:41.678756000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_73:
+  id: 283
+  literal: If no, go to A6 below
+  created_at: 2016-06-21 13:18:41.942783000 Z
+  updated_at: 2016-06-21 13:18:41.951784000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_74:
+  id: 284
+  literal: If no, go to A10 on Page 10
+  created_at: 2016-06-21 13:18:42.249813000 Z
+  updated_at: 2016-06-21 13:18:42.276816000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_75:
+  id: 285
+  literal: 'For these pregnancies please give: (If you have had more than 3 pregnancies,
+    please continue on the next page).'
+  created_at: 2016-06-21 13:18:42.320821000 Z
+  updated_at: 2016-06-21 13:18:42.330822000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_76:
+  id: 286
+  literal: If more than 6 pregnancies, please describe others on a separate page.
+  created_at: 2016-06-21 13:18:42.488837000 Z
+  updated_at: 2016-06-21 13:18:42.499838000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_77:
+  id: 287
+  literal: Read each of the questions below. Decide which hand you use for each activity.
+    If you are unsure, try it out.
+  created_at: 2016-06-21 13:18:42.781867000 Z
+  updated_at: 2016-06-21 13:18:42.796868000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_78:
+  id: 288
+  literal: 'Thinking back to your childhood, (i.e. up to the age of 16) please answer
+    the following questions:'
+  created_at: 2016-06-21 13:18:43.183907000 Z
+  updated_at: 2016-06-21 13:18:43.193908000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_79:
+  id: 289
+  literal: Below are some statements. Please say how true they are of you.
+  created_at: 2016-06-21 13:18:43.658954000 Z
+  updated_at: 2016-06-21 13:18:43.673956000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_80:
+  id: 290
+  literal: The questions in this section ask you about your feelings and the way you
+    behave. You have answered these questions in other questionnaires, but you may
+    be feeling differently now.
+  created_at: 2016-06-21 13:18:43.886977000 Z
+  updated_at: 2016-06-21 13:18:43.912980000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_81:
+  id: 291
+  literal: Please indicate the way you feel.
+  created_at: 2016-06-21 13:18:43.918980000 Z
+  updated_at: 2016-06-21 13:18:43.927981000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_82:
+  id: 292
+  literal: 'In the past week:'
+  created_at: 2016-06-21 13:18:44.469035000 Z
+  updated_at: 2016-06-21 13:18:44.483037000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_83:
+  id: 293
+  literal: 'In the past week:'
+  created_at: 2016-06-21 13:18:44.563045000 Z
+  updated_at: 2016-06-21 13:18:44.573046000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_84:
+  id: 294
+  literal: Listed below are a number of events which may have brought changes in your
+    life. Have any of these occurred since the study child was 18 months old? If so,
+    please assess how much effect it had on you.
+  created_at: 2016-06-21 13:18:44.643053000 Z
+  updated_at: 2016-06-21 13:18:44.658054000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_85:
+  id: 295
+  literal: Below are a number of questions about your home. They are similar to some
+    you answered a year ago, and will be used to see how your circumstances might
+    have changed.
+  created_at: 2016-06-21 13:18:45.484137000 Z
+  updated_at: 2016-06-21 13:18:45.501139000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_86:
+  id: 296
+  literal: If no, go to F19 below
+  created_at: 2016-06-21 13:18:46.206209000 Z
+  updated_at: 2016-06-21 13:18:46.216210000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_87:
+  id: 297
+  literal: If no, go to F20 on page 31
+  created_at: 2016-06-21 13:18:46.269215000 Z
+  updated_at: 2016-06-21 13:18:46.282217000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_88:
+  id: 298
+  literal: If yes, or don't know go to G4c below
+  created_at: 2016-06-21 13:18:46.799268000 Z
+  updated_at: 2016-06-21 13:18:46.809269000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_89:
+  id: 299
+  literal: If yes, go to G5 on page 36
+  created_at: 2016-06-21 13:18:46.992288000 Z
+  updated_at: 2016-06-21 13:18:47.008289000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_90:
+  id: 300
+  literal: If no, go to G8 below
+  created_at: 2016-06-21 13:18:47.211310000 Z
+  updated_at: 2016-06-21 13:18:47.224311000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_91:
+  id: 301
+  literal: If no, go to G10 on page 38
+  created_at: 2016-06-21 13:18:47.321321000 Z
+  updated_at: 2016-06-21 13:18:47.333322000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_92:
+  id: 302
+  literal: Below are questions about financial matters. We realise this may be a sensitive
+    subject. As with all our questions you may leave this section out if you want
+    to. [However, if you can complete it, it will be of great importance to us].
+  created_at: 2016-06-21 13:18:47.616350000 Z
+  updated_at: 2016-06-21 13:18:47.625351000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_93:
+  id: 303
+  literal: If no, go to Section I on Page 49
+  created_at: 2016-06-21 13:18:47.763365000 Z
+  updated_at: 2016-06-21 13:18:47.776366000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_94:
+  id: 304
+  literal: If no, go to H2 below
+  created_at: 2016-06-21 13:18:47.837372000 Z
+  updated_at: 2016-06-21 13:18:47.850373000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_95:
+  id: 305
+  literal: The section below is concerned with your relationship with your partner.(The
+    partner will be referred to as 'he', although the questions refer to all partners.)
+  created_at: 2016-06-21 13:18:47.888377000 Z
+  updated_at: 2016-06-21 13:18:47.900378000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_96:
+  id: 306
+  literal: If no, go to Question H7 on Page 43
+  created_at: 2016-06-21 13:18:48.005389000 Z
+  updated_at: 2016-06-21 13:18:48.017390000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_97:
+  id: 307
+  literal: "[*by glass we mean pub measures (1oz) of spirits or 1/2 pints (1/4 litre)
+    of beer or cider]"
+  created_at: 2016-06-21 13:18:48.594448000 Z
+  updated_at: 2016-06-21 13:18:48.608449000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_98:
+  id: 308
+  literal: "(* If all sockets, windows, doors in the home are protected put 66)"
+  created_at: 2016-06-21 13:18:48.678456000 Z
+  updated_at: 2016-06-21 13:18:48.692458000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_99:
+  id: 309
+  literal: If no, go to J1 on page 50
+  created_at: 2016-06-21 13:18:48.762465000 Z
+  updated_at: 2016-06-21 13:18:48.775466000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_100:
+  id: 310
+  literal: If no, go to Question J11 on Page 53
+  created_at: 2016-06-21 13:18:48.915480000 Z
+  updated_at: 2016-06-21 13:18:48.925481000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_101:
+  id: 311
+  literal: Now go to J13 on Page 53
+  created_at: 2016-06-21 13:18:49.016490000 Z
+  updated_at: 2016-06-21 13:18:49.026491000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_102:
+  id: 312
+  literal: If you are working please now go to Question J13 on page 53
+  created_at: 2016-06-21 13:18:49.457534000 Z
+  updated_at: 2016-06-21 13:18:49.467535000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_103:
+  id: 313
+  literal: If yes, go to Question J12 below
+  created_at: 2016-06-21 13:18:49.506539000 Z
+  updated_at: 2016-06-21 13:18:49.517540000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_104:
+  id: 314
+  literal: If no, go to J12 below
+  created_at: 2016-06-21 13:18:49.555544000 Z
+  updated_at: 2016-06-21 13:18:49.567545000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_105:
+  id: 315
+  literal: "(* by glass we mean a pub measure (1oz) of spirits, half a pint (1/4 litre)
+    of lager or cider, a wine glass of wine, etc)"
+  created_at: 2016-06-21 13:18:49.737562000 Z
+  updated_at: 2016-06-21 13:18:49.751564000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_106:
+  id: 316
+  literal: You and your study child.
+  created_at: 2016-06-21 13:18:50.005589000 Z
+  updated_at: 2016-06-21 13:18:50.018590000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_107:
+  id: 317
+  literal: It is now a long time since your study baby was born, but as the result
+    of our research so far there are some more questions we would like to ask about
+    that time.
+  created_at: 2016-06-21 13:18:50.237612000 Z
+  updated_at: 2016-06-21 13:18:50.252614000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_108:
+  id: 318
+  literal: If yes, put a * by each such scan above.
+  created_at: 2016-06-21 13:18:50.546643000 Z
+  updated_at: 2016-06-21 13:18:50.559644000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_109:
+  id: 319
+  literal: If your child has had earache or ear infections, please answer the following
+    questions.
+  created_at: 2016-06-21 13:18:50.852674000 Z
+  updated_at: 2016-06-21 13:18:50.862675000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_110:
+  id: 320
+  literal: THANK YOU VERY MUCH FOR YOUR HELP
+  created_at: 2016-06-21 13:18:51.625751000 Z
+  updated_at: 2016-06-21 13:18:51.635752000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_111:
+  id: 321
+  literal: NB Please remember that we cannot respond personally to your comments unless
+    they are signed.
+  created_at: 2016-06-21 13:18:51.756764000 Z
+  updated_at: 2016-06-21 13:18:51.770765000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_112:
+  id: 322
+  literal: 'When completed, please return the questionnaire to: Dr. Jean Golding,
+    Children of the Nineties - ALSPAC, Institute of Child Health,'
+  created_at: 2016-06-21 13:18:51.774766000 Z
+  updated_at: 2016-06-21 13:18:51.806769000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_113:
+  id: 323
+  literal: This is a statment
+  created_at: 2016-06-21 13:59:28.236411000 Z
+  updated_at: 2016-06-21 13:59:28.275415000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_114:
+  id: 324
+  literal: One two three four
+  created_at: 2016-06-21 14:35:02.374804000 Z
+  updated_at: 2016-06-21 14:35:02.402806000 Z
+  instrument_id: 11
+  construct_type: CcStatement
+CcStatement_115:
+  id: 325
+  literal: YOUR HOME & LIFESTYLE
+  created_at: 2016-07-01 11:34:36.212913000 Z
+  updated_at: 2016-07-01 11:34:36.262913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_116:
+  id: 326
+  literal: 'Finding out how the environment and lifestyle affects mothers and their
+    babies will help us to make the environment and lifestyle a healthier place. '
+  created_at: 2016-07-01 11:34:36.266913000 Z
+  updated_at: 2016-07-01 11:34:36.278913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_117:
+  id: 327
+  literal: This questionnaire asks about your environment and lifestyle. It asks about
+    where you live and work, and about what you do.
+  created_at: 2016-07-01 11:34:36.280913000 Z
+  updated_at: 2016-07-01 11:34:36.291913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_118:
+  id: 328
+  literal: All the answers you give are confidential. We would be grateful if you
+    would answer as many questions as you can.
+  created_at: 2016-07-01 11:34:36.296913000 Z
+  updated_at: 2016-07-01 11:34:36.307913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_119:
+  id: 329
+  literal: If there is any question you don't want to answer just leave it blank.
+  created_at: 2016-07-01 11:34:36.310913000 Z
+  updated_at: 2016-07-01 11:34:36.320913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_120:
+  id: 330
+  literal: THANK YOU VERY MUCH FOR YOUR HELP
+  created_at: 2016-07-01 11:34:36.324913000 Z
+  updated_at: 2016-07-01 11:34:36.335913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_121:
+  id: 331
+  literal: If no, go to A17, on page 9.
+  created_at: 2016-07-01 11:34:37.180913000 Z
+  updated_at: 2016-07-01 11:34:37.189913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_122:
+  id: 332
+  literal: If no, go to A19.a, on page 11.
+  created_at: 2016-07-01 11:34:37.345913000 Z
+  updated_at: 2016-07-01 11:34:37.355913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_123:
+  id: 333
+  literal: If no, go to D4, on page 22.
+  created_at: 2016-07-01 11:34:38.090913000 Z
+  updated_at: 2016-07-01 11:34:38.098913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_124:
+  id: 334
+  literal: If no, go to D9, on page 24.
+  created_at: 2016-07-01 11:34:38.405913000 Z
+  updated_at: 2016-07-01 11:34:38.414913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_125:
+  id: 335
+  literal: If no, go to Section F, on page 29.
+  created_at: 2016-07-01 11:34:38.568913000 Z
+  updated_at: 2016-07-01 11:34:38.577913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_126:
+  id: 336
+  literal: If no, please go to G2, on page 33.
+  created_at: 2016-07-01 11:34:39.585913000 Z
+  updated_at: 2016-07-01 11:34:39.594913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_127:
+  id: 337
+  literal: Please send us an empty packet/carton of the brand you usually smoke.
+  created_at: 2016-07-01 11:34:39.885913000 Z
+  updated_at: 2016-07-01 11:34:39.893913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_128:
+  id: 338
+  literal: If no, or don't have a partner, go to G4, on page 34.
+  created_at: 2016-07-01 11:34:39.963913000 Z
+  updated_at: 2016-07-01 11:34:39.974913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_129:
+  id: 339
+  literal: Go to G4, on page 34.
+  created_at: 2016-07-01 11:34:39.977913000 Z
+  updated_at: 2016-07-01 11:34:39.990913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_130:
+  id: 340
+  literal: N.B. Have you remembered to enclose an empty cigarette packet?
+  created_at: 2016-07-01 11:34:40.845913000 Z
+  updated_at: 2016-07-01 11:34:40.865913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_131:
+  id: 341
+  literal: VERY MANY THANKS FOR ALL YOUR HELP
+  created_at: 2016-07-01 11:34:40.886913000 Z
+  updated_at: 2016-07-01 11:34:40.899913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_132:
+  id: 342
+  literal: 'When completed, put in the envelope provided and either bring to the clinic
+    or post to:'
+  created_at: 2016-07-01 11:34:40.902913000 Z
+  updated_at: 2016-07-01 11:34:40.915913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_133:
+  id: 343
+  literal: Dr. Jean Golding, Children of the Nineties - ALSPAC, Institute of Child
+    Health, 24 Tyndall Avenue, Bristol. BS8 1BR.
+  created_at: 2016-07-01 11:34:40.919913000 Z
+  updated_at: 2016-07-01 11:34:40.932913000 Z
+  instrument_id: 12
+  construct_type: CcStatement
+CcStatement_134:
+  id: 344
+  literal: Please remember, because this is strictly confidential, the people who
+    look at this booklet will not know your name. They will be unable to give you
+    any help or contact anyone after reading what you have written. If you feel you
+    need advice, please feel free to contact our hotline (Bristol 256260, during office
+    hours). Alternatively your General Practitioner should be able to advise you.
+  created_at: 2016-07-01 11:34:40.935913000 Z
+  updated_at: 2016-07-01 11:34:40.949913000 Z
+  instrument_id: 12
+  construct_type: CcStatement

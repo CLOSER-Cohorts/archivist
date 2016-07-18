@@ -15,11 +15,6 @@
 * dataset.rb
 * instruments_datasets.rb
 
-#### User
-* user.rb
-* role.rb     (probably)
-* group.rb    (probably)
-
 ### Model Relationship Diagram
 Run `rake generate_erd` to regenerate (must have graphvis).
 ![](/app/assets/images/diagrams/erd.png)
@@ -32,6 +27,9 @@ Run `rake generate_erd` to regenerate (must have graphvis).
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CLOSER-Cohorts/archivist/tree/master)
+
 #### Some basic steps
 1. `git clone -b master --single-branch https://github.com/CLOSER-Cohorts/archivist.git`
 2. `cd archivist`
@@ -50,16 +48,16 @@ To run the test suite just call `rake test`. Currently 196 tests and 263 asserti
 ## Stats
 | Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |
 |----------------------|-------|-------|---------|---------|-----|-------|
-| Controllers          |   835 |   581 |      19 |      92 |   4 |     4 |
-| Models               |   329 |   278 |      25 |      22 |   0 |    10 |
-| Javascripts          |  1627 |  1336 |       0 |     172 |   0 |     5 |
-| Libraries            |  1304 |  1145 |       6 |      52 |   8 |    20 |
-| Controller tests     |   760 |   609 |      18 |       0 |   0 |     0 |
-| Model tests          |   649 |   478 |      25 |       0 |   0 |     0 |
-| **Total**            |**5504**|**4427**| **93**| **338** |**3**| **11**|
+| Controllers          |   576 |   328 |      27 |      27 |   1 |    10 |
+| Models               |   479 |   404 |      27 |      34 |   1 |     9 |
+| Javascripts          |  2527 |  2167 |       0 |     287 |   0 |     5 |
+| Libraries            |  1647 |  1437 |       7 |      76 |  10 |    16 |
+| Controller tests     |   835 |   684 |      18 |       0 |   0 |     0 |
+| Model tests          |   659 |   484 |      27 |       0 |   0 |     0 |
+| **Total**            |**6746**|**5520**|**110**| **425** |**3**| **10**|
 
-  - Code LOC: 3340
-  - Test LOC: 1087
+  - Code LOC: 4347
+  - Test LOC: 1173
   - Code to Test Ratio: 1:0.3
 
 ## Archivist Realtime

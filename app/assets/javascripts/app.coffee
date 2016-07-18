@@ -89,7 +89,7 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
 
     $rootScope.page = {title: 'Home'}
 
-    $rootScope.realtimeStatus = true
+    $rootScope.realtimeStatus = false
 ])
 
 archivist.filter 'capitalize', ->
