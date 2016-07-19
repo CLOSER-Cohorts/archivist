@@ -105,31 +105,27 @@ module Question::Controller
 
   module Actions
     def create
-      @object = collection.new(safe_params)
-      if @object.save
-        if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
-        end
-        if params.has_key? :rds
-          @object.update_rds params[:rds]
-          @object.save!
-        end
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
+      update_question @object = collection.new(safe_params) do |obj|
+        obj.save
       end
     end
 
     def update
-      if @object.update(safe_params)
+      update_question @object do |obj|
+        obj.update(safe_params)
+      end
+    end
+
+    private
+    def update_question object, &block
+      if block.call object
         if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
+          object.instruction = params[:instruction]
+          object.save!
         end
         if params.has_key? :rds
-          @object.update_rds params[:rds]
-          @object.save!
+          object.update_rds params[:rds]
+          @objectt.save!
         end
         render :show, status: :ok
       else
