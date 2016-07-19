@@ -7,6 +7,7 @@ class CcLoop < ActiveRecord::Base
 
   def self.create_with_position(params)
     super do |obj|
+      obj.label = params[:label]
       obj.end_val = params[:end_val]
       obj.loop_var = params[:loop_var]
       obj.loop_while = params[:loop_while]
