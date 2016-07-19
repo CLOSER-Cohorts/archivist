@@ -65,7 +65,11 @@ module Question::Model
 
         if self.response_domains.length < rds.length
           # There are rds to add
-          highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
+          if self.rds_qs.nil?
+            highest_rd_order = 0
+          else
+            highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
+          end
           o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
           new_rds = o_rds.reject { |x| self.response_domains.include? x }
           new_rds.each do |new_rd|
