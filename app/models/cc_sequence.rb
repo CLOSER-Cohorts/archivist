@@ -7,6 +7,7 @@ class CcSequence < ActiveRecord::Base
 
   def self.create_with_position(params)
     super do |obj|
+      obj.label = params[:label]
     end
   end
 end

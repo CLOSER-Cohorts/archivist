@@ -19,7 +19,7 @@
 Run `rake generate_erd` to regenerate (must have graphvis).
 ![](/app/assets/images/diagrams/erd.png)
 
-## Configuation
+## Configuration
 * Ruby: 2.2.3
 * Rails: 4.2.5.1
 * Postgres: 9.4.5
