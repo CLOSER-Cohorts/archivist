@@ -65,7 +65,7 @@ module Question::Model
 
         if self.response_domains.length < rds.length
           # There are rds to add
-          if self.rds_qs.nil?
+          if self.rds_qs.length < 1
             highest_rd_order = 0
           else
             highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
