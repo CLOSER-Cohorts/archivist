@@ -40,6 +40,7 @@ module Construct::Model
     end
 
     def <=> other
+      return unless other.is_a? self.class
       if (self.cc.parent_id == other.cc.parent_id)
         return self.cc.position <=> other.cc.position
       else

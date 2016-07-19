@@ -99,7 +99,7 @@ class Instrument < ActiveRecord::Base
   def top_sequence
     self
         .cc_sequences
-        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = construct_id AND construct_type = \'CcSequence\'')
+        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
         .where('cc.parent_id IS NULL')
         .first
   end
