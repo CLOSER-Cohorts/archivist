@@ -5,6 +5,22 @@ class CcLoop < ActiveRecord::Base
   URN_TYPE = 'lp'
   TYPE = 'Loop'
 
+  def rt_attributes
+    {
+        id: self.id,
+        label: self.label,
+        type: 'CcLoop',
+        parent: self.parent.nil? ? nil : self.parent.id,
+        position: self.position,
+        literal: self.literal,
+        loop_var: self.loop_var,
+        start_val: self.start_val,
+        end_val: self.end_val,
+        loop_while: self.loop_while,
+        children: self.children.map { |x| {id: x.construct.id, type: x.construct.class.name} }
+    }
+  end
+
   def self.create_with_position(params)
     super do |obj|
       obj.label = params[:label]

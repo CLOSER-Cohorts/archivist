@@ -95,8 +95,10 @@ module Construct::Model
 
       yield obj
 
-      obj.save!
-      parent.children << obj.cc
+      obj.transaction do
+        obj.save!
+        parent.children << obj.cc
+      end
       obj
     end
   end

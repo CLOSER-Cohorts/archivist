@@ -9,6 +9,19 @@ class CcQuestion < ActiveRecord::Base
   URN_TYPE = 'qc'
   TYPE = 'QuestionConstruct'
 
+  def rt_attributes
+    {
+        id: self.id,
+        label: self.label,
+        type: 'CcQuestion',
+        parent: self.parent.nil? ? nil : self.parent.id,
+        position: self.position,
+        question_id: self.question_id,
+        question_type: self.question_type,
+        response_unit_id: self.response_unit_id
+    }
+  end
+
   def self.create_with_position(params)
     obj = new()
     obj.question_id = params[:question_id]
