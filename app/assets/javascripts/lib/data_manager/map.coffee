@@ -13,11 +13,16 @@ map.factory(
 
       service.map =
         Instrument:   'Instruments'
-        CcCondition:  'Conditions'
-        CcLoop:       'Loops'
-        CcQuestion:   'Questions'
-        CcSequence:   'Sequences'
-        CcStatement:  'Statements'
+        CcCondition:
+          Constructs: 'Conditions'
+        CcLoop:
+          Constructs: 'Loops'
+        CcQuestion:
+          Constructs: 'Questions'
+        CcSequence:
+          Constructs: 'Sequences'
+        CcStatement:
+          Constructs: 'Statements'
         QuestionItem:
           Questions:  'Items'
         QuestionGrid:
@@ -43,6 +48,16 @@ map.factory(
           output
 
         dig(obj, service.map[ident])
+
+      service.translate = (ident)->
+
+        dig = (lookup)->
+          if typeof lookup == "object"
+            return dig(lookup[Object.keys(lookup)[0]])
+          else
+            return lookup
+
+        dig service.map[ident]
 
       service
   ]

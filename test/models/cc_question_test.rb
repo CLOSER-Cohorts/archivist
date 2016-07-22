@@ -25,6 +25,11 @@ class CcQuestionTest < ActiveSupport::TestCase
     assert_kind_of Construct::Model, @cc_question.parent
   end
 
+  test "can create cc_question" do
+    i = instruments :Instrument_1
+    assert_kind_of CcStatement, i.cc_statements.create
+  end
+
   test "set a new parent" do
     seq = @cc_question.instrument.cc_sequences.create
     @cc_question.parent = seq

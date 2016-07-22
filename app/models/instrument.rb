@@ -79,11 +79,11 @@ class Instrument < ActiveRecord::Base
   end
 
   def codes
-    Code.joins(:code_list).where('instrument_id = ?', id)
+    Code.joins(:code_list).where instrument_id: id
   end
 
   def response_domain_codes
-    ResponseDomainCode.includes(:code_list).joins(:code_list).where('instrument_id = ?', id)
+    ResponseDomainCode.includes(:code_list).joins(:code_list).where instrument_id: id
   end
 
   def response_domains
@@ -99,7 +99,7 @@ class Instrument < ActiveRecord::Base
   def top_sequence
     self
         .cc_sequences
-        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = construct_id AND construct_type = \'CcSequence\'')
+        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
         .where('cc.parent_id IS NULL')
         .first
   end

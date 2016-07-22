@@ -30,6 +30,13 @@ angular.module('archivist.build').controller(
           $scope.current.rds = []
         $scope.current.rds.push rd
 
+      $scope.remove_rd = (rd)->
+        console.log rd
+        console.log $scope.current.rds
+        index = $scope.current.rds.indexOf rd
+        console.log index
+        $scope.current.rds.splice index, 1
+
       $scope.delete = ->
         if $routeParams.question_type == 'question_items'
           qtype = 'Items'

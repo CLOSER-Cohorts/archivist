@@ -122,13 +122,13 @@
 
         </th>
     </tr>
-    <tbody data-ui-sortable data-ng-model="current.rds">
+    <tbody data-ui-sortable="{disabled: !editMode}" data-ng-model="current.rds">
         <tr
                 data-ng-repeat="rd in current.rds"
                 data-uib-popover-template="'partials/build/popover/response_domain.html'"
                 data-popover-trigger="mouseenter"
                 data-popover-title="{{rd.label}}"
-                data-ng-if="rd.type == 'ResponseDomainCode'"
+                data-popover-enable="rd.type == 'ResponseDomainCode'"
         >
             <td>
                 {{rd.type}}
@@ -137,20 +137,7 @@
                 {{rd.label}}
             </td>
             <td data-ng-show="editMode">
-                <a data-ng-href="#">
-                    Remove
-                </a>
-            </td>
-        </tr>
-        <tr data-ng-repeat="rd in current.rds" data-ng-if="rd.type != 'ResponseDomainCode'">
-            <td data-ng-strip="ResponseDomain">
-                {{rd.type}}
-            </td>
-            <td>
-                {{rd.label}}
-            </td>
-            <td data-ng-show="editMode">
-                <a data-ng-href="#">
+                <a data-ng-href="#" data-ng-click="remove_rd(rd)">
                     Remove
                 </a>
             </td>

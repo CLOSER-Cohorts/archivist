@@ -1,356 +1,196 @@
 ---
 Instruction_1:
-  id: 1
-  text: |-
-    Check Have you included iron tablets, laxatives, vitamins, sleeping tablets, aspirin, cough
-
-    mixtures, pain killers, herbal medicine, homeopathic medicine and ointments?
-  created_at: 2016-05-27 15:28:33.483548000 Z
-  updated_at: 2016-05-27 15:28:33.483548000 Z
-  instrument_id: 1
+  id: 68
+  text: "(Please tick all that apply)"
+  created_at: 2016-06-20 13:51:24.225457000 Z
+  updated_at: 2016-06-20 13:51:24.225457000 Z
+  instrument_id: 10
 Instruction_2:
-  id: 2
-  text: "(If still pregnant put 77 77 7)"
-  created_at: 2016-05-27 15:28:33.489549000 Z
-  updated_at: 2016-05-27 15:28:33.489549000 Z
-  instrument_id: 1
+  id: 69
+  text: "[If you can't remember, make a guess and tick the guess box as well]"
+  created_at: 2016-06-20 13:51:24.234457000 Z
+  updated_at: 2016-06-20 13:51:24.234457000 Z
+  instrument_id: 10
 Instruction_3:
-  id: 3
-  text: "(put 00 if the father never lived with the child)"
-  created_at: 2016-05-27 15:28:33.493549000 Z
-  updated_at: 2016-05-27 15:28:33.493549000 Z
-  instrument_id: 1
+  id: 70
+  text: "(tick all that apply)"
+  created_at: 2016-06-20 13:51:24.243457000 Z
+  updated_at: 2016-06-20 13:51:24.243457000 Z
+  instrument_id: 10
 Instruction_4:
-  id: 4
-  text: "(put 00 for from birth)"
-  created_at: 2016-05-27 15:28:33.496549000 Z
-  updated_at: 2016-05-27 15:28:33.496549000 Z
-  instrument_id: 1
+  id: 71
+  text: "(If less than 12 months put 00)"
+  created_at: 2016-06-20 13:51:24.258457000 Z
+  updated_at: 2016-06-20 13:51:24.258457000 Z
+  instrument_id: 10
 Instruction_5:
-  id: 5
-  text: "(If this older child is a pair of twins, put the name of the oldest/first
-    born)"
-  created_at: 2016-05-27 15:28:33.499550000 Z
-  updated_at: 2016-05-27 15:28:33.499550000 Z
-  instrument_id: 1
+  id: 72
+  text: "(tick all questions and all time periods that apply)"
+  created_at: 2016-06-20 13:51:24.273457000 Z
+  updated_at: 2016-06-20 13:51:24.273457000 Z
+  instrument_id: 10
 Instruction_6:
-  id: 6
-  text: "(If none, put 00)"
-  created_at: 2016-05-27 15:28:33.502550000 Z
-  updated_at: 2016-05-27 15:28:33.502550000 Z
-  instrument_id: 1
+  id: 73
+  text: "(Please say which and give brand name)"
+  created_at: 2016-06-20 13:51:24.283457000 Z
+  updated_at: 2016-06-20 13:51:24.283457000 Z
+  instrument_id: 10
 Instruction_7:
-  id: 7
-  text: "(Please total it up over 6 months; if more than 99, put 99)"
-  created_at: 2016-05-27 15:28:33.505550000 Z
-  updated_at: 2016-05-27 15:28:33.505550000 Z
-  instrument_id: 1
+  id: 74
+  text: "#<Instruction:0x0000000def4a40>"
+  created_at: 2016-06-20 13:51:36.621457000 Z
+  updated_at: 2016-06-20 13:51:36.621457000 Z
+  instrument_id: 10
 Instruction_8:
-  id: 8
-  text: "(If your study child is a twin, answer for the oldest/first born)"
-  created_at: 2016-05-27 15:28:33.508550000 Z
-  updated_at: 2016-05-27 15:28:33.508550000 Z
-  instrument_id: 1
+  id: 75
+  text: "#<Instruction:0x0000000def4a40>"
+  created_at: 2016-06-20 13:51:36.686457000 Z
+  updated_at: 2016-06-20 13:51:36.686457000 Z
+  instrument_id: 10
 Instruction_9:
-  id: 9
-  text: "#<Instruction:0x0000000bbcab50>"
-  created_at: 2016-05-27 15:28:38.482048000 Z
-  updated_at: 2016-05-27 15:28:38.482048000 Z
-  instrument_id: 1
+  id: 76
+  text: "#<Instruction:0x000000139c08e8>"
+  created_at: 2016-06-20 13:51:36.747457000 Z
+  updated_at: 2016-06-20 13:51:36.747457000 Z
+  instrument_id: 10
 Instruction_10:
-  id: 10
-  text: "(ask time usually go to bed & wake up, including any at work!)"
-  created_at: 2016-05-27 15:29:15.414741000 Z
-  updated_at: 2016-05-27 15:29:15.414741000 Z
-  instrument_id: 2
+  id: 77
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.147457000 Z
+  updated_at: 2016-06-20 13:51:38.147457000 Z
+  instrument_id: 10
 Instruction_11:
-  id: 11
-  text: |+
-    Rolls (count as 2 slices) French bread (2" counts as 1 slice)
-
-  created_at: 2016-05-27 15:29:15.417741000 Z
-  updated_at: 2016-05-27 15:29:15.417741000 Z
-  instrument_id: 2
+  id: 78
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.209457000 Z
+  updated_at: 2016-06-20 13:51:38.209457000 Z
+  instrument_id: 10
 Instruction_12:
-  id: 12
-  text: Rolls (count as 2 slices)
-  created_at: 2016-05-27 15:29:15.419741000 Z
-  updated_at: 2016-05-27 15:29:15.419741000 Z
-  instrument_id: 2
+  id: 79
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.282457000 Z
+  updated_at: 2016-06-20 13:51:38.282457000 Z
+  instrument_id: 10
 Instruction_13:
-  id: 13
-  text: Large baking (count as 3)/new (count as 0.5)
-  created_at: 2016-05-27 15:29:15.422741000 Z
-  updated_at: 2016-05-27 15:29:15.422741000 Z
-  instrument_id: 2
+  id: 80
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.347457000 Z
+  updated_at: 2016-06-20 13:51:38.347457000 Z
+  instrument_id: 10
 Instruction_14:
-  id: 14
-  text: "(for number per day, record number of tablets/capsules/teaspoons per day,
-    as appropriate) "
-  created_at: 2016-05-27 15:29:15.424742000 Z
-  updated_at: 2016-05-27 15:29:15.424742000 Z
-  instrument_id: 2
+  id: 81
+  text: Check Have you included the contraceptive pill, iron tablets, laxatives, v
+    itamins, sleeping tablets, aspirin, cough mixture, pain killers, herbal medicine,
+    homeopathic medicine?
+  created_at: 2016-06-21 13:18:34.671056000 Z
+  updated_at: 2016-06-21 13:18:34.671056000 Z
+  instrument_id: 11
 Instruction_15:
-  id: 15
-  text: "(don't include alcohol free lager etc)"
-  created_at: 2016-05-27 15:29:15.426742000 Z
-  updated_at: 2016-05-27 15:29:15.426742000 Z
-  instrument_id: 2
-Instruction_16:
-  id: 16
-  text: "(if range given code mid-point)"
-  created_at: 2016-05-27 15:29:15.429742000 Z
-  updated_at: 2016-05-27 15:29:15.429742000 Z
-  instrument_id: 2
-Instruction_17:
-  id: 17
-  text: USE BLOCK CAPITALS & COPY NAMES DIRECTLY OFF BOTTLES IF POSSIBLE
-  created_at: 2016-05-27 15:29:15.431742000 Z
-  updated_at: 2016-05-27 15:29:15.431742000 Z
-  instrument_id: 2
-Instruction_18:
-  id: 18
-  text: If only ever part-time give last part time job.
-  created_at: 2016-05-27 15:29:15.434743000 Z
-  updated_at: 2016-05-27 15:29:15.434743000 Z
-  instrument_id: 2
-Instruction_19:
-  id: 19
-  text: Probe industry & self-employed/manager/foreman/employee
-  created_at: 2016-05-27 15:29:15.437743000 Z
-  updated_at: 2016-05-27 15:29:15.437743000 Z
-  instrument_id: 2
-Instruction_20:
-  id: 20
-  text: "(Double the value to give pulse for 1 minute)\t"
-  created_at: 2016-05-27 15:29:15.439743000 Z
-  updated_at: 2016-05-27 15:29:15.439743000 Z
-  instrument_id: 2
-Instruction_21:
-  id: 21
-  text: "Mark and measure up the non-dominant arm and side of the body\n\n(measure
-    the left if completely ambidextrous)   \n\n"
-  created_at: 2016-05-27 15:29:15.442743000 Z
-  updated_at: 2016-05-27 15:29:15.442743000 Z
-  instrument_id: 2
-Instruction_22:
-  id: 22
-  text: "(Define the 3 month period)"
-  created_at: 2016-05-27 15:29:15.444744000 Z
-  updated_at: 2016-05-27 15:29:15.444744000 Z
-  instrument_id: 2
-Instruction_23:
-  id: 23
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.146914000 Z
-  updated_at: 2016-05-27 15:29:17.146914000 Z
-  instrument_id: 2
-Instruction_24:
-  id: 24
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.171916000 Z
-  updated_at: 2016-05-27 15:29:17.171916000 Z
-  instrument_id: 2
-Instruction_25:
-  id: 25
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.188918000 Z
-  updated_at: 2016-05-27 15:29:17.188918000 Z
-  instrument_id: 2
-Instruction_26:
-  id: 26
-  text: "#<Instruction:0x0000000e1ab568>"
-  created_at: 2016-05-27 15:29:17.279927000 Z
-  updated_at: 2016-05-27 15:29:17.279927000 Z
-  instrument_id: 2
-Instruction_27:
-  id: 27
-  text: "#<Instruction:0x0000000e021f30>"
-  created_at: 2016-05-27 15:29:17.300929000 Z
-  updated_at: 2016-05-27 15:29:17.300929000 Z
-  instrument_id: 2
-Instruction_28:
-  id: 28
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.363936000 Z
-  updated_at: 2016-05-27 15:29:17.363936000 Z
-  instrument_id: 2
-Instruction_29:
-  id: 29
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.383938000 Z
-  updated_at: 2016-05-27 15:29:17.383938000 Z
-  instrument_id: 2
-Instruction_30:
-  id: 30
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.404940000 Z
-  updated_at: 2016-05-27 15:29:17.404940000 Z
-  instrument_id: 2
-Instruction_31:
-  id: 31
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.432942000 Z
-  updated_at: 2016-05-27 15:29:17.432942000 Z
-  instrument_id: 2
-Instruction_32:
-  id: 32
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.459945000 Z
-  updated_at: 2016-05-27 15:29:17.459945000 Z
-  instrument_id: 2
-Instruction_33:
-  id: 33
-  text: "#<Instruction:0x0000000df30068>"
-  created_at: 2016-05-27 15:29:17.478947000 Z
-  updated_at: 2016-05-27 15:29:17.478947000 Z
-  instrument_id: 2
-Instruction_34:
-  id: 34
-  text: "#<Instruction:0x0000000c6cc6c0>"
-  created_at: 2016-05-27 15:29:17.496949000 Z
-  updated_at: 2016-05-27 15:29:17.496949000 Z
-  instrument_id: 2
-Instruction_35:
-  id: 35
-  text: If none, enter NONE.
-  created_at: 2016-05-27 15:29:51.018301000 Z
-  updated_at: 2016-05-27 15:29:51.018301000 Z
-  instrument_id: 3
-Instruction_36:
-  id: 36
-  text: Ring all that apply in each column
-  created_at: 2016-05-27 15:29:51.022301000 Z
-  updated_at: 2016-05-27 15:29:51.022301000 Z
-  instrument_id: 3
-Instruction_37:
-  id: 37
-  text: If assessed as result of developmental screening mentioned in Q.4 ring code
-    2. If referred from other source or if not known who referred N, ring code 3.
-  created_at: 2016-05-27 15:29:51.025301000 Z
-  updated_at: 2016-05-27 15:29:51.025301000 Z
-  instrument_id: 3
-Instruction_38:
-  id: 38
-  text: If records indicate more than three, please continue on back page.
-  created_at: 2016-05-27 15:29:51.028302000 Z
-  updated_at: 2016-05-27 15:29:51.028302000 Z
-  instrument_id: 3
-Instruction_39:
-  id: 39
-  text: In answering this question, reference should be made, where possible, to information
-    contained in the register concerned in addition to details from C.H.C. or H.V.
-    records or reports.
-  created_at: 2016-05-27 15:29:51.030302000 Z
-  updated_at: 2016-05-27 15:29:51.030302000 Z
-  instrument_id: 3
-Instruction_40:
-  id: 40
-  text: Ring all that apply
-  created_at: 2016-05-27 15:29:51.034302000 Z
-  updated_at: 2016-05-27 15:29:51.034302000 Z
-  instrument_id: 3
-Instruction_41:
-  id: 41
-  text: If insufficient space, please continue on back page.
-  created_at: 2016-05-27 15:29:51.038303000 Z
-  updated_at: 2016-05-27 15:29:51.038303000 Z
-  instrument_id: 3
-Instruction_42:
-  id: 42
-  text: Ring all that apply in both columns
-  created_at: 2016-05-27 15:29:51.040303000 Z
-  updated_at: 2016-05-27 15:29:51.040303000 Z
-  instrument_id: 3
-Instruction_43:
-  id: 43
-  text: "#<Instruction:0x0000000dd78e78>"
-  created_at: 2016-05-27 15:29:51.873386000 Z
-  updated_at: 2016-05-27 15:29:51.873386000 Z
-  instrument_id: 3
-Instruction_44:
-  id: 44
-  text: "#<Instruction:0x0000000dd49588>"
-  created_at: 2016-05-27 15:29:51.922391000 Z
-  updated_at: 2016-05-27 15:29:51.922391000 Z
-  instrument_id: 3
-Instruction_45:
-  id: 45
-  text: "#<Instruction:0x0000000dc93738>"
-  created_at: 2016-05-27 15:29:52.040403000 Z
-  updated_at: 2016-05-27 15:29:52.040403000 Z
-  instrument_id: 3
-Instruction_46:
-  id: 46
-  text: "#<Instruction:0x0000000dbe2fa0>"
-  created_at: 2016-05-27 15:29:52.072406000 Z
-  updated_at: 2016-05-27 15:29:52.072406000 Z
-  instrument_id: 3
-Instruction_47:
-  id: 47
-  text: "#<Instruction:0x0000000dbe2fa0>"
-  created_at: 2016-05-27 15:29:52.127412000 Z
-  updated_at: 2016-05-27 15:29:52.127412000 Z
-  instrument_id: 3
-Instruction_48:
-  id: 48
-  text: "#<Instruction:0x0000000da98848>"
-  created_at: 2016-05-27 15:29:52.164415000 Z
-  updated_at: 2016-05-27 15:29:52.164415000 Z
-  instrument_id: 3
-Instruction_49:
-  id: 49
-  text: Check Have you included the contraceptive pill, iron tablets, laxatives, vitamins,
-    sleeping tablets, aspirin, cough mixture, pain killers, herbal medicine, homeopathic
-    remedies?
-  created_at: 2016-05-27 16:09:46.147813000 Z
-  updated_at: 2016-05-27 16:09:46.147813000 Z
-  instrument_id: 5
-Instruction_50:
-  id: 50
+  id: 82
   text: "(If still pregnant put 77 77 7)"
-  created_at: 2016-05-27 16:09:46.151814000 Z
-  updated_at: 2016-05-27 16:09:46.151814000 Z
-  instrument_id: 5
-Instruction_51:
-  id: 51
-  text: "(If never, please put 00 in the boxes)"
-  created_at: 2016-05-27 16:09:46.158814000 Z
-  updated_at: 2016-05-27 16:09:46.158814000 Z
-  instrument_id: 5
-Instruction_52:
-  id: 52
-  text: Please tick all that apply.
-  created_at: 2016-05-27 16:09:46.162815000 Z
-  updated_at: 2016-05-27 16:09:46.162815000 Z
-  instrument_id: 5
-Instruction_53:
-  id: 53
-  text: "#<Instruction:0x00000007712058>"
-  created_at: 2016-05-27 16:09:49.529151000 Z
-  updated_at: 2016-05-27 16:09:49.529151000 Z
-  instrument_id: 5
-Instruction_54:
-  id: 54
-  text: "#<Instruction:0x0000000766fb00>"
-  created_at: 2016-05-27 16:09:49.857184000 Z
-  updated_at: 2016-05-27 16:09:49.857184000 Z
-  instrument_id: 5
-Instruction_55:
-  id: 55
-  text: "#<Instruction:0x0000000766fb00>"
-  created_at: 2016-05-27 16:09:49.889187000 Z
-  updated_at: 2016-05-27 16:09:49.889187000 Z
-  instrument_id: 5
-Instruction_56:
-  id: 56
-  text: "#<Instruction:0x0000000766fb00>"
-  created_at: 2016-05-27 16:09:49.921190000 Z
-  updated_at: 2016-05-27 16:09:49.921190000 Z
-  instrument_id: 5
-Instruction_57:
-  id: 57
-  text: "#<Instruction:0x000000075bf3b8>"
-  created_at: 2016-05-27 16:09:49.972196000 Z
-  updated_at: 2016-05-27 16:09:49.972196000 Z
-  instrument_id: 5
+  created_at: 2016-06-21 13:18:34.707059000 Z
+  updated_at: 2016-06-21 13:18:34.707059000 Z
+  instrument_id: 11
+Instruction_16:
+  id: 83
+  text: "(tick all that apply)"
+  created_at: 2016-06-21 13:18:34.710060000 Z
+  updated_at: 2016-06-21 13:18:34.710060000 Z
+  instrument_id: 11
+Instruction_17:
+  id: 84
+  text: "(If you don't keep to any particular temperature put 87)"
+  created_at: 2016-06-21 13:18:34.713060000 Z
+  updated_at: 2016-06-21 13:18:34.713060000 Z
+  instrument_id: 11
+Instruction_18:
+  id: 85
+  text: "(put 00 for from birth or before birth)"
+  created_at: 2016-06-21 13:18:34.715060000 Z
+  updated_at: 2016-06-21 13:18:34.715060000 Z
+  instrument_id: 11
+Instruction_19:
+  id: 86
+  text: "(put 00 for from birth)"
+  created_at: 2016-06-21 13:18:34.718060000 Z
+  updated_at: 2016-06-21 13:18:34.718060000 Z
+  instrument_id: 11
+Instruction_20:
+  id: 87
+  text: "(If none, put 00)"
+  created_at: 2016-06-21 13:18:34.721061000 Z
+  updated_at: 2016-06-21 13:18:34.721061000 Z
+  instrument_id: 11
+Instruction_21:
+  id: 88
+  text: "(tick all those who really understand)"
+  created_at: 2016-06-21 13:18:34.724061000 Z
+  updated_at: 2016-06-21 13:18:34.724061000 Z
+  instrument_id: 11
+Instruction_22:
+  id: 89
+  text: "(tick as many as apply)"
+  created_at: 2016-06-21 13:18:34.726061000 Z
+  updated_at: 2016-06-21 13:18:34.726061000 Z
+  instrument_id: 11
+Instruction_23:
+  id: 90
+  text: "#<Instruction:0x0000000d6e2a28>"
+  created_at: 2016-06-21 13:18:40.614650000 Z
+  updated_at: 2016-06-21 13:18:40.614650000 Z
+  instrument_id: 11
+Instruction_24:
+  id: 91
+  text: "#<Instruction:0x0000000dc58980>"
+  created_at: 2016-06-21 13:18:41.375726000 Z
+  updated_at: 2016-06-21 13:18:41.375726000 Z
+  instrument_id: 11
+Instruction_25:
+  id: 92
+  text: "#<Instruction:0x0000000dbd20d8>"
+  created_at: 2016-06-21 13:18:41.402729000 Z
+  updated_at: 2016-06-21 13:18:41.402729000 Z
+  instrument_id: 11
+Instruction_26:
+  id: 93
+  text: Check Have you included the contraceptive pill, iron tablets, laxatives, vitamins,
+    sleeping tablets, aspirin, cough mixture, pain killers, herbal medicine?
+  created_at: 2016-07-01 11:34:32.775913000 Z
+  updated_at: 2016-07-01 11:34:32.775913000 Z
+  instrument_id: 12
+Instruction_27:
+  id: 94
+  text: "[Please make sure you have answered each of the three columns]"
+  created_at: 2016-07-01 11:34:32.887913000 Z
+  updated_at: 2016-07-01 11:34:32.887913000 Z
+  instrument_id: 12
+Instruction_28:
+  id: 95
+  text: If there is not enough space please continue on the back cover.
+  created_at: 2016-07-01 11:34:32.890913000 Z
+  updated_at: 2016-07-01 11:34:32.890913000 Z
+  instrument_id: 12
+Instruction_29:
+  id: 96
+  text: "(tick one only)"
+  created_at: 2016-07-01 11:34:32.893913000 Z
+  updated_at: 2016-07-01 11:34:32.893913000 Z
+  instrument_id: 12
+Instruction_30:
+  id: 97
+  text: "#<Instruction:0x0000000c575bc8>"
+  created_at: 2016-07-01 11:34:35.976913000 Z
+  updated_at: 2016-07-01 11:34:35.976913000 Z
+  instrument_id: 12
+Instruction_31:
+  id: 98
+  text: "#<Instruction:0x0000000b56b070>"
+  created_at: 2016-07-01 11:34:36.028913000 Z
+  updated_at: 2016-07-01 11:34:36.028913000 Z
+  instrument_id: 12
+Instruction_32:
+  id: 99
+  text: "#<Instruction:0x0000000d157798>"
+  created_at: 2016-07-01 11:34:36.052913000 Z
+  updated_at: 2016-07-01 11:34:36.052913000 Z
+  instrument_id: 12

@@ -18,37 +18,67 @@ module Question::Model
     alias constructs cc_questions
 
     def response_domains
-      self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
-          self.response_domain_numerics.to_a + self.response_domain_texts.to_a
+      (self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
+          self.response_domain_numerics.to_a + self.response_domain_texts.to_a).sort do |a,b|
+            alpha = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: a.id, response_domain_type: a.class.name).rd_order
+            beta = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: b.id, response_domain_type: b.class.name).rd_order
+            alpha <=> beta
+          end
     end
 
     def instruction=(text)
       if text.nil? || text == ""
         association(:instruction).writer nil
       else
-        association(:instruction).writer Instruction.new text: text, instrument: self.instrument
+        if association(:instruction).reader.nil? || association(:instruction).reader.text != text
+          if (instruction = self.instrument.instructions.find_by_text(text)).nil?
+            association(:instruction).writer Instruction.new text: text, instrument: self.instrument
+          else
+            association(:instruction).writer instruction
+          end
+        end
       end
     end
 
     def update_rds(rds)
-      self.response_domains.each do |rd|
-        matching = rds.select { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
-        if matching.count == 0
-          #ResponseDomain is no longer included
-          rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
-        else
-          #TODO: Throw a wobbler
+      if rds.nil?
+        self.response_domain_codes =
+        self.response_domain_datetimes =
+        self.response_domain_numerics =
+        self.response_domain_texts = []
+      else
+        rds.each_index { |i| rds[i][:rd_order] = i + 1 }
+        self.transaction do
+          self.response_domains.each do |rd|
+            index = rds.index { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
+            if index.nil?
+              #ResponseDomain is no longer included
+              rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
+            else
+              joint = rd.rds_qs.where(question_type: self.class.name, question_id: self.id).first
+              joint.rd_order = rds[index][:rd_order]
+              joint.save!
+            end
+          end
         end
-      end
-      self.reload
+        self.reload
 
-      unless rds.nil?
         if self.response_domains.length < rds.length
           # There are rds to add
+          if self.rds_qs.length < 1
+            highest_rd_order = 0
+          else
+            highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
+          end
           o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
           new_rds = o_rds.reject { |x| self.response_domains.include? x }
           new_rds.each do |new_rd|
-            association(new_rd.class.name.tableize).reader << new_rd
+            highest_rd_order += 1
+            RdsQs.create instrument_id: self.instrument_id,
+                         response_domain: new_rd,
+                         question: self,
+                         rd_order: highest_rd_order
+            #association(new_rd.class.name.tableize).reader << new_rd
           end
 
         elsif self.response_domains.length > rds.length
@@ -75,27 +105,27 @@ module Question::Controller
 
   module Actions
     def create
-      @object = collection.new(safe_params)
-      if @object.save
-        if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
-        end
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
+      update_question @object = collection.new(safe_params) do |obj|
+        obj.save
       end
     end
 
     def update
-      if @object.update(safe_params)
+      update_question @object do |obj|
+        obj.update(safe_params)
+      end
+    end
+
+    private
+    def update_question object, &block
+      if block.call object
         if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
+          object.instruction = params[:instruction]
+          object.save!
         end
         if params.has_key? :rds
-          @object.update_rds params[:rds]
-          @object.save!
+          object.update_rds params[:rds]
+          @objectt.save!
         end
         render :show, status: :ok
       else

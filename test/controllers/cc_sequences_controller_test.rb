@@ -4,7 +4,7 @@ class CcSequencesControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @cc_sequence = cc_sequences(:CcSequence_1)
+    @cc_sequence = cc_sequences(:CcSequence_6)
     @instrument = instruments(:Instrument_1)
   end
 
@@ -21,7 +21,7 @@ class CcSequencesControllerTest < ActionController::TestCase
           literal: @cc_sequence.literal,
           type: 'sequence',
           parent: {
-              id: 1,
+              id: @instrument.cc_sequences.first.id,
               type: 'sequence'
           }
     end

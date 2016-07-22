@@ -5,7 +5,7 @@ class CcLoopsControllerTest < ActionController::TestCase
     @user = users :User_1
     sign_in @user
     @cc_loop = cc_loops(:CcLoop_1)
-    @instrument = instruments(:Instrument_5)
+    @instrument = instruments(:Instrument_2)
   end
 
   test "should get index" do
@@ -44,7 +44,7 @@ class CcLoopsControllerTest < ActionController::TestCase
 
   test "should destroy cc_loop" do
     assert_difference('CcLoop.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: @cc_loop
+      delete :destroy, format: :json, instrument_id: @instrument.id, id: @cc_loop.id
     end
 
     assert_response :success

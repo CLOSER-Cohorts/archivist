@@ -90,7 +90,8 @@ angular.module('archivist.build').controller(
         $scope.current.codes = (c for c in $scope.current.codes when c.$$hashKey != code.$$hashKey)
         $scope.current.codes.sort (a,b)->
           a.order - b.order
-        $scope.current.codes = (c.order = i for c, i in $scope.current.codes)
+        for i of $scope.current.codes
+          $scope.current.codes[i].order = i
 
       $scope.moveUp = (code)->
         $scope.moveCode code, -1
