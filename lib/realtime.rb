@@ -26,14 +26,18 @@ module Realtime
       private
       def rt_create
         Realtime::Publisher.instance.update self, 'ADD'
-        Realtime::Publisher.instance.update self.parent
+        if self.is_a? Construct::Model
+          Realtime::Publisher.instance.update self.parent
+        end
       end
       def rt_update
         Realtime::Publisher.instance.update self
       end
       def rt_destroy
         Realtime::Publisher.instance.update self, 'DEL'
-        Realtime::Publisher.instance.update self.parent
+        if self.is_a? Construct::Model
+          Realtime::Publisher.instance.update self.parent
+        end
       end
     end
   end

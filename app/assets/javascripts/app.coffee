@@ -30,6 +30,7 @@ archivist.controller('RootController',
     'User',
   ($scope, $location, DataManager, Flash, User)->
     $scope.softwareName = 'Archivist'
+    $scope.softwareVersion = window.app_version
     $scope.page['title'] = 'Home'
     $scope.isActive = (viewLocation) ->
       viewLocation == $location.path()

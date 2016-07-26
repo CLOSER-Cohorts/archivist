@@ -61,6 +61,9 @@ angular.module('archivist.build').controller(
                 )
             )
 
+      $scope.select_x_axis = ->
+        $scope.x_axis_cl = DataManager.Codes.CodeLists.get id: $scope.horizontal_code_list_id
+
       $scope.save =  ->
         if $routeParams.question_type == 'question_items'
           qtype = 'Items'

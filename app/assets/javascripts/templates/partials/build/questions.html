@@ -50,9 +50,10 @@
             <select
                     class="form-control"
                     id="a-question-haxis"
-                    data-ng-model="current.horizontal_code_list_id"
+                    data-ng-model="current."
                     data-ng-disabled="!editMode"
                     data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"
+                    data-ng-change="select_x_axis()"
             />
         </div>
         <div class="form-group">
@@ -105,12 +106,13 @@
             data-ng-show="editMode"
             data-toggle="modal"
             data-target="#add-rd"
+            data-ng-if="current.type == 'QuestionItem'"
     >
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </a>
 </h3>
 
-<table class="table table-striped table-condensed">
+<table class="table table-striped table-condensed" data-ng-if="current.type == 'QuestionItem'">
     <tr>
         <th>
             Type
@@ -143,6 +145,48 @@
             </td>
         </tr>
     </tbody>
+</table>
+
+<table class="table table-striped table-condensed" data-ng-if="current.type == 'QuestionGrid'">
+    <tr>
+        <th>
+            Column
+        </th>
+        <th>
+            Response Domain
+        </th>
+        <th data-ng-show="editMode">
+
+        </th>
+    </tr>
+    <tr
+            data-ng-repeat="col in current.cols"
+            data-uib-popover-template="'partials/build/popover/response_domain.html'"
+            data-popover-trigger="mouseenter"
+            data-popover-title="{{rd.label}}"
+            data-popover-enable="rd.type == 'ResponseDomainCode'"
+    >
+        <td>
+            {{col.label}}
+        </td>
+        <td>
+            {{col.rd.label}}
+        </td>
+        <td data-ng-show="editMode">
+            <a
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#add-rd"
+                    data-ng-if="!col.rd"
+                    data-code-id=""
+            >
+                Add
+            </a>
+            <a data-ng-href="#" data-ng-click="remove_rd(rd)" data-ng-if="col.rd">
+                Remove
+            </a>
+        </td>
+    </tr>
 </table>
 
 <div data-ng-include="'partials/build/modals/add_rd.html'"></div>
