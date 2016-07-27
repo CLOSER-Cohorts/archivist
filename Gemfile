@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 ruby '2.2.3'
 
-gem 'rails', '4.2.5.1'
-gem 'json', '1.8.2'
+gem 'rails', '~>5.0.0'
+gem 'json'
 
 # Use Puma as the web server
 gem 'puma', '~>2.16.0'
@@ -29,7 +29,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -51,8 +51,7 @@ gem "pundit"
 # Use Bower to manage JavaScript assets
 gem 'bower-rails'
 
-# TODO: Should this be managed through Bower
-gem 'angular-rails-templates', '0.2.0'
+gem 'angular-rails-templates', '~> 1.0'
 
 # TODO: Are we using this?
 gem 'parallel'
@@ -84,6 +83,7 @@ group :test do
   # Performance testing
   gem 'rails-perftest'
   gem 'ruby-prof'
+  gem 'rails-controller-testing'
 end
 
 gem 'coveralls', require: false

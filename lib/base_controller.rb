@@ -64,7 +64,7 @@ module BaseController
       begin
         @object.destroy
         head :ok
-      rescue
+      rescue Exception => e
         head :bad_request
       end
     end

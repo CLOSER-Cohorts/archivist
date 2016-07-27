@@ -2,7 +2,7 @@ class InstrumentsController < ApplicationController
   include BaseController
 
   add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study]',
+                    params: '[:agency, :version, :prefix, :label, :study, :files]',
                     collection: 'policy_scope(Instrument.all)',
                     only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats]
 

@@ -12,7 +12,6 @@ class CcLoop < ActiveRecord::Base
         type: 'CcLoop',
         parent: self.parent.nil? ? nil : self.parent.id,
         position: self.position,
-        literal: self.literal,
         loop_var: self.loop_var,
         start_val: self.start_val,
         end_val: self.end_val,

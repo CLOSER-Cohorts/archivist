@@ -13,7 +13,7 @@ class CcCondition < ActiveRecord::Base
         parent: self.parent.nil? ? nil : self.parent.id,
         position: self.position,
         literal: self.literal,
-        logic: self.loop_var,
+        logic: self.logic,
         children: self.children.where(branch: 0).map { |x| {id: x.construct.id, type: x.construct.class.name} },
         fchildren: self.children.where(branch: 1).map { |x| {id: x.construct.id, type: x.construct.class.name} }
     }
