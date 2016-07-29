@@ -136,7 +136,13 @@ admin.controller('AdminInstrumentsController',
 
       $scope.copy = ->
         $scope.copiedInstrument.$save()
-        $scope.copiedInstrument.copy($scope.original.id)
+        $scope.copiedInstrument.copy $scope.original.id,
+          ->
+            Flash.add 'success', 'Instrument copied successfully'
+        ,
+          (response)->
+            Flash.add 'danger', 'Instrument failed to copy - ' + response.message
+
 
       $scope.prepareDelete = (id)->
         $scope.instrument = $scope.instruments.select_resource_by_id(id)
@@ -155,7 +161,12 @@ admin.controller('AdminInstrumentsController',
         $scope.newInstrument = new DataManager.Instruments.resource()
 
       $scope.new = ->
-        $scope.newInstrument.$create()
+        $scope.newInstrument.$create {},
+          ->
+            Flash.add 'success', 'New instrument created successfully'
+        ,
+          (response)->
+            Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
 ])
 
