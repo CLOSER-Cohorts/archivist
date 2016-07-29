@@ -79,6 +79,8 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
       target = this
       target.charAt(0).toUpperCase() + target.slice(1)
 
+    Flash.set_scope $rootScope
+
     $rootScope.publish_flash = ->
       Flash.publish($rootScope)
 

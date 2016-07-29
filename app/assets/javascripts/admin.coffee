@@ -149,13 +149,19 @@ admin.controller('AdminInstrumentsController',
 
       $scope.delete = ->
         if $scope.confirmation.prefix == $scope.instrument.prefix
-          $scope.instrument.$delete {}, ->
-            DataManager.Data = {}
-            $scope.instruments = DataManager.Instruments.requery()
+          $scope.instrument.$delete {},
+            ->
+              DataManager.Data = {}
+              $scope.instruments = DataManager.Instruments.requery()
+              Flash.add 'success', 'Instrument deleted successfully'
+          ,
+            (response)->
+              console.log response
+              Flash.add 'danger', 'Failed to delete instrument - ' + response.message
         else
-          $scope.confirmation.prefix = ''
           Flash.add 'danger', 'The prefixes did not match. The instrument was not deleted.'
-          $scope.publish_flash()
+
+        $scope.confirmation.prefix = ''
 
       $scope.prepareNew = ->
         $scope.newInstrument = new DataManager.Instruments.resource()

@@ -26,7 +26,7 @@ module Realtime
       private
       def rt_create
         Realtime::Publisher.instance.update self, 'ADD'
-        if self.is_a? Construct::Model
+        if self.is_a?(Construct::Model) && !self.parent.nil?
           Realtime::Publisher.instance.update self.parent
         end
       end
@@ -35,7 +35,7 @@ module Realtime
       end
       def rt_destroy
         Realtime::Publisher.instance.update self, 'DEL'
-        if self.is_a? Construct::Model
+        if (self.is_a? Construct::Model) && !self.parent.nil?
           Realtime::Publisher.instance.update self.parent
         end
       end
