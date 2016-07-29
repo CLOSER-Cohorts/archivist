@@ -120,8 +120,9 @@ admin.controller('AdminUsersController',
 admin.controller('AdminInstrumentsController',
   [
     '$scope',
-    'DataManager'
-    ($scope, DataManager)->
+    'DataManager',
+    'Flash',
+    ($scope, DataManager, Flash)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
@@ -146,7 +147,9 @@ admin.controller('AdminInstrumentsController',
             DataManager.Data = {}
             $scope.instruments = DataManager.Instruments.requery()
         else
-          #TODO: Add Flash that says the delete failed
+          $scope.confirmation.prefix = ''
+          Flash.add 'danger', 'The prefixes did not match. The instrument was not deleted.'
+          $scope.publish_flash()
 
       $scope.prepareNew = ->
         $scope.newInstrument = new DataManager.Instruments.resource()

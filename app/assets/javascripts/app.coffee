@@ -26,9 +26,8 @@ archivist.controller('RootController',
     '$scope',
     '$location',
     'DataManager'
-    'Flash',
     'User',
-  ($scope, $location, DataManager, Flash, User)->
+  ($scope, $location, DataManager, User)->
     $scope.softwareName = 'Archivist'
     $scope.softwareVersion = window.app_version
     $scope.page['title'] = 'Home'
