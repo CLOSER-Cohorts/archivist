@@ -57,8 +57,14 @@ angular.module('archivist.build').controller(
           $scope.load_sidebar()
           DataManager.Data.Codes.Categories =
             DataManager.Codes.Categories.requery instrument_id: $scope.instrument.id
+          DataManager.Data.ResponseDomains.Codes =
+            DataManager.ResponseDomains.Codes.requery instrument_id: $scope.instrument.id
+
           DataManager.Data.Codes.Categories.$promise.then ->
             $scope.categories = DataManager.Data.Codes.Categories
+
+          DataManager.Data.ResponseDomains.Codes.$promise.then ->
+            DataManager.groupResponseDomains()
         ,->
           console.log("error")
         )
