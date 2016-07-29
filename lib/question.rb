@@ -40,6 +40,23 @@ module Question::Model
       end
     end
 
+    def update_cols(cols)
+      if cols.nil? || cols.empty?
+        self.rds_qs.delete_all
+      else
+        cols.sort_by! { |x| x[:order] }
+        cols.each do |col|
+          if col[:rd].nil?
+            rd = self.rds_qs.find_by_code_id col[:value]
+            rd.delete unless rd.nil?
+          else
+            rd = self.instrument.association(col[:rd][:type].tableize).reader.find col[:rd][:id]
+            self.rds_qs.create question: self, response_domain: rd, code_id: col[:value], instrument_id: self.instrument_id
+          end
+        end
+      end
+    end
+
     def update_rds(rds)
       if rds.nil?
         self.response_domain_codes =
@@ -125,7 +142,11 @@ module Question::Controller
         end
         if params.has_key? :rds
           object.update_rds params[:rds]
-          @objectt.save!
+          object.save!
+        end
+        if params.has_key? :cols
+          object.update_cols params[:cols]
+          object.save!
         end
         render :show, status: :ok
       else
