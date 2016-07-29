@@ -65,7 +65,7 @@ module BaseController
         @object.destroy
         head :ok
       rescue => e
-        render json: e.to_json, status: :bad_request
+        render json: {message: e}, status: :bad_request
       end
     end
   end

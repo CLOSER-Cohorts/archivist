@@ -32,7 +32,7 @@ class InstrumentsController < ApplicationController
 
   def import
     FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
-    logger.debug params
+    head :ok, format: :json if params[:files].empty?
     params[:files].each do |file|
       filepath = Rails.root.join(
           'tmp',
@@ -42,10 +42,14 @@ class InstrumentsController < ApplicationController
       File.open(filepath, 'wb') do |f|
         f.write(file.read)
       end
-      im = XML::CADDIES::Importer.new filepath
-      im.parse
+      begin
+        im = XML::CADDIES::Importer.new filepath
+        im.parse
+        head :ok, format: :json
+      rescue  => e
+        render json: {message: e}, status: :bad_request
+      end
     end
-    head :ok, format: :json
   end
 
   def copy

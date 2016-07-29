@@ -186,18 +186,18 @@ admin.controller('AdminImportController',
         console.log $scope
         fd = new FormData()
         fd.append model+'[]', $scope[model]
-        $http({
+        $http {
           method: 'POST'
           url: '/admin/import/instruments'
           data: fd
           transformRequest: angular.identity
           headers :
             'Content-Type': undefined
-        }).success(->
-          Flash.add('success', 'Instrument imported.')
-        ).error(->
-          Flash.add('danger', 'Instrument failed to import.')
-        )
+        }
+        .success ->
+          Flash.add 'success', 'Instrument imported.'
+        .error (res)->
+          Flash.add 'danger', 'Instrument failed to import - ' + res.message
 ])
 
 admin.directive('fileModel',
