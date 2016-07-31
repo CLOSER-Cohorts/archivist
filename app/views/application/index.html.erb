@@ -60,6 +60,9 @@
           aria-expanded="false">Info <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
+              <p class="navbar-text">Version: {{softwareVersion}}</p>
+            </li>
+            <li>
               <p class="navbar-text" data-ng-class="{'rt-online': realtimeStatus, 'rt-offline': !realtimeStatus}">Realtime</p>
             </li>
             <li>

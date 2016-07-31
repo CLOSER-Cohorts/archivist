@@ -120,8 +120,9 @@ admin.controller('AdminUsersController',
 admin.controller('AdminInstrumentsController',
   [
     '$scope',
-    'DataManager'
-    ($scope, DataManager)->
+    'DataManager',
+    'Flash',
+    ($scope, DataManager, Flash)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
@@ -135,24 +136,43 @@ admin.controller('AdminInstrumentsController',
 
       $scope.copy = ->
         $scope.copiedInstrument.$save()
-        $scope.copiedInstrument.copy($scope.original.id)
+        $scope.copiedInstrument.copy $scope.original.id,
+          ->
+            Flash.add 'success', 'Instrument copied successfully'
+        ,
+          (response)->
+            Flash.add 'danger', 'Instrument failed to copy - ' + response.message
+
 
       $scope.prepareDelete = (id)->
         $scope.instrument = $scope.instruments.select_resource_by_id(id)
 
       $scope.delete = ->
         if $scope.confirmation.prefix == $scope.instrument.prefix
-          $scope.instrument.$delete {}, ->
-            DataManager.Data = {}
-            $scope.instruments = DataManager.Instruments.requery()
+          $scope.instrument.$delete {},
+            ->
+              DataManager.Data = {}
+              $scope.instruments = DataManager.Instruments.requery()
+              Flash.add 'success', 'Instrument deleted successfully'
+          ,
+            (response)->
+              console.log response
+              Flash.add 'danger', 'Failed to delete instrument - ' + response.message
         else
-          #TODO: Add Flash that says the delete failed
+          Flash.add 'danger', 'The prefixes did not match. The instrument was not deleted.'
+
+        $scope.confirmation.prefix = ''
 
       $scope.prepareNew = ->
         $scope.newInstrument = new DataManager.Instruments.resource()
 
       $scope.new = ->
-        $scope.newInstrument.$create()
+        $scope.newInstrument.$create {},
+          ->
+            Flash.add 'success', 'New instrument created successfully'
+        ,
+          (response)->
+            Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
 ])
 
@@ -166,18 +186,18 @@ admin.controller('AdminImportController',
         console.log $scope
         fd = new FormData()
         fd.append model+'[]', $scope[model]
-        $http({
+        $http {
           method: 'POST'
           url: '/admin/import/instruments'
           data: fd
           transformRequest: angular.identity
           headers :
             'Content-Type': undefined
-        }).success(->
-          Flash.add('success', 'Instrument imported.')
-        ).error(->
-          Flash.add('danger', 'Instrument failed to import.')
-        )
+        }
+        .success ->
+          Flash.add 'success', 'Instrument imported.'
+        .error (res)->
+          Flash.add 'danger', 'Instrument failed to import - ' + res.message
 ])
 
 admin.directive('fileModel',

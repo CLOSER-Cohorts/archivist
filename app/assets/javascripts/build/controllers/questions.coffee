@@ -26,16 +26,22 @@ angular.module('archivist.build').controller(
         $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
 
       $scope.add_rd = (rd)->
-        if !$scope.current.rds?
-          $scope.current.rds = []
-        $scope.current.rds.push rd
+        if $routeParams.question_type == 'question_items'
+          if !$scope.current.rds?
+            $scope.current.rds = []
+          $scope.current.rds.push rd
+        else
+          $scope.current_grid_column.rd = rd
+          #TODO: Remore DOM code from controller
+          jQuery('#add-rd').modal 'hide'
+          true
 
-      $scope.remove_rd = (rd)->
-        console.log rd
-        console.log $scope.current.rds
-        index = $scope.current.rds.indexOf rd
-        console.log index
-        $scope.current.rds.splice index, 1
+      $scope.remove_rd = (rd_or_col)->
+        if $routeParams.question_type == 'question_items'
+          index = $scope.current.rds.indexOf rd_or_col
+          $scope.current.rds.splice index, 1
+        else
+          rd_or_col.rd = null
 
       $scope.delete = ->
         if $routeParams.question_type == 'question_items'
@@ -60,6 +66,12 @@ angular.module('archivist.build').controller(
                 ,0
                 )
             )
+
+      $scope.select_x_axis = ->
+        $scope.x_axis_cl = DataManager.Codes.CodeLists.get id: $scope.horizontal_code_list_id
+
+      $scope.set_grid_column = (col)->
+        $scope.current_grid_column = col
 
       $scope.save =  ->
         if $routeParams.question_type == 'question_items'
