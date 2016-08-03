@@ -131,4 +131,12 @@ class Instrument < ActiveRecord::Base
     stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
         stats['cc_sequences'] + stats['cc_statements']
   end
+
+  def last_export_time
+    begin
+      File.mtime 'tmp/exports/' + prefix + '.xml'
+    rescue
+      false
+    end
+  end
 end

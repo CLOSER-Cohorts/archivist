@@ -50,7 +50,7 @@
             <select
                     class="form-control"
                     id="a-question-haxis"
-                    data-ng-model="current."
+                    data-ng-model="current.horizontal_code_list_id"
                     data-ng-disabled="!editMode"
                     data-ng-options="cl.id as cl.label for cl in instrument.CodeLists"
                     data-ng-change="select_x_axis()"
@@ -178,11 +178,11 @@
                     data-toggle="modal"
                     data-target="#add-rd"
                     data-ng-if="!col.rd"
-                    data-code-id=""
+                    data-ng-click="set_grid_column(col)"
             >
                 Add
             </a>
-            <a data-ng-href="#" data-ng-click="remove_rd(rd)" data-ng-if="col.rd">
+            <a data-ng-href="#" data-ng-click="remove_rd(col)" data-ng-if="col.rd">
                 Remove
             </a>
         </td>

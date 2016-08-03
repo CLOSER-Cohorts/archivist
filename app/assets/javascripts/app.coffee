@@ -26,9 +26,8 @@ archivist.controller('RootController',
     '$scope',
     '$location',
     'DataManager'
-    'Flash',
     'User',
-  ($scope, $location, DataManager, Flash, User)->
+  ($scope, $location, DataManager, User)->
     $scope.softwareName = 'Archivist'
     $scope.softwareVersion = window.app_version
     $scope.page['title'] = 'Home'
@@ -80,6 +79,8 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
       target = this
       target.charAt(0).toUpperCase() + target.slice(1)
 
+    Flash.set_scope $rootScope
+
     $rootScope.publish_flash = ->
       Flash.publish($rootScope)
 
@@ -96,3 +97,27 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
 archivist.filter 'capitalize', ->
   (input)->
     if (!!input) then input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() else ''
+
+archivist.filter 'prettytype', ->
+  ref = {
+    'ResponseDomainCode': 'Code',
+    'ResponseDomainDatetime': 'Datetime',
+    'ResponseDomainNumeric': 'Numeric',
+    'ResponseDomainText': 'Text',
+    'Category'          : 'Category',
+    'Cateogie'          : 'Categorie',
+    'CodeList'          : 'Code List',
+    'QuestionGrid'      : 'Grid',
+    'QuestionItem'      : 'Item'
+  }
+  (input)->
+    if input.charAt(input.length - 1) == 's'
+      plural = true
+      input = input.slice 0, -1
+    else
+      plural = false
+
+    if plural
+      ref[input] + 's'
+    else
+      ref[input]

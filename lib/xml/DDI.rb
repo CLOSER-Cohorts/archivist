@@ -19,6 +19,24 @@ module XML::DDI
       @doc.root['xmlns:r'] = 'ddi:reusable:3_2'
     end
 
+    def run(instrument)
+      export_instrument instrument
+
+      build_rp
+      build_iis
+      build_cs
+      build_cls
+      build_qis
+      build_qgs
+      build_is
+      build_ccs
+
+      FileUtils.mkdir_p Rails.root.join('tmp', 'exports')
+      f = File.new 'tmp/exports/' + i.prefix + '.xml', "w"
+      f.write(exp.doc.to_xml &:no_empty_tags)
+      f.close
+    end
+
     def export_instrument(instrument)
       @instrument = instrument
       @urn_prefix = "urn:ddi:%{agency}:%{prefix}-" %
