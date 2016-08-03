@@ -32,8 +32,8 @@ module Archivist
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.action_mailer.delivery_method = :postmark
-    config.action_mailer.postmark_settings = { :api_token => ENV['POSTMARK_API_KEY'] }
-    config.action_mailer.default_url_options = {host: 'archivist.closer.ac.uk'}
+    config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_KEY'] }
+    config.action_mailer.default_url_options = {host: (ENV['HOSTNAME'] || 'localhost')}
 
     config.after_initialize do
       begin

@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
           u.group = g
           u.save!
           u.admin!
+          u.confirm
         end
 
       end
