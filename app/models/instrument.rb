@@ -2,9 +2,12 @@ class Instrument < ActiveRecord::Base
 
   has_many :cc_conditions, -> { includes :cc }, dependent: :destroy
   has_many :cc_loops, -> { includes :cc }, dependent: :destroy
-  has_many :cc_questions, -> { includes :cc }, dependent: :destroy
   has_many :cc_sequences, -> { includes :cc }, dependent: :destroy
   has_many :cc_statements, -> { includes :cc }, dependent: :destroy
+
+  has_many :code_lists, dependent: :destroy
+  has_many :categories, dependent: :destroy
+  has_many :codes, dependent: :destroy
 
   has_many :question_grids, -> { includes [
                                               :response_domain_datetimes,
@@ -41,8 +44,8 @@ class Instrument < ActiveRecord::Base
                                               ]
                                           ] }, dependent: :destroy
 
-  has_many :code_lists, dependent: :destroy
-  has_many :categories, dependent: :destroy
+  has_many :cc_questions, -> { includes :cc }, dependent: :destroy
+  has_many :control_constructs, dependent: :destroy
 
   has_many :instructions, dependent: :destroy
 
@@ -50,6 +53,8 @@ class Instrument < ActiveRecord::Base
   has_many :response_domain_datetimes, dependent: :destroy
   has_many :response_domain_numerics, dependent: :destroy
   has_many :response_domain_texts, dependent: :destroy
+  has_many :rds_qs, class_name: 'RdsQs', dependent: :destroy
+
   has_many :response_units, dependent: :destroy
 
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
@@ -77,14 +82,6 @@ class Instrument < ActiveRecord::Base
 
   def statements
     self.cc_statements
-  end
-
-  def codes
-    Code.joins(:code_list).where instrument_id: id
-  end
-
-  def response_domain_codes
-    ResponseDomainCode.includes(:code_list).joins(:code_list).where instrument_id: id
   end
 
   def response_domains
@@ -121,10 +118,49 @@ class Instrument < ActiveRecord::Base
     self.cc_sequences.create
   end
 
-  def copy
-    #original = Instrument.find original_id
-    #Deep copy all components, including those not directly
-    #referenced like ResponseDomainCodes
+  def copy(new_prefix)
+    new_i = self.dup
+    new_i.prefix = new_prefix
+    new_i.save!
+
+    ref = {}
+    [
+        :categories,
+        :code_lists,
+        :codes,
+        :response_domain_codes,
+        :response_domain_datetimes,
+        :response_domain_numerics,
+        :response_domain_texts,
+        :response_units,
+        :instructions,
+        :question_items,
+        :question_grids,
+        :cc_conditions,
+        :cc_loops,
+        :cc_questions,
+        :cc_sequences,
+        :cc_statements,
+        :control_constructs,
+        :rds_qs
+    ].each do |key|
+      ref[key] = {}
+      self.__send__(key).find_each do |obj|
+        new_obj = obj.dup
+        ref[key][obj.id] = new_obj
+
+        obj.class.reflections.select do |association_name, reflection|
+          if association_name.to_s != 'instrument' && reflection.macro == :belongs_to
+            unless obj.__send__(association_name).nil?
+              new_obj.association(association_name).writer(ref[obj.class.name.tableize.to_sym][obj.__send__(association_name).id])
+            end
+          end
+        end
+
+        new_i.__send__(key) << new_obj
+      end
+    end
+    new_i
   end
 
   def cc_count
