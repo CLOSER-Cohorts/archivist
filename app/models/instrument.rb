@@ -119,11 +119,15 @@ class Instrument < ActiveRecord::Base
   end
 
   def copy(new_prefix)
+
     new_i = self.dup
     new_i.prefix = new_prefix
     new_i.save!
+    new_i.cc_sequences.first.destroy
 
     ref = {}
+    ref[:control_constructs] = {}
+    ccs = {}
     [
         :categories,
         :code_lists,
@@ -141,7 +145,6 @@ class Instrument < ActiveRecord::Base
         :cc_questions,
         :cc_sequences,
         :cc_statements,
-        :control_constructs,
         :rds_qs
     ].each do |key|
       ref[key] = {}
@@ -152,14 +155,28 @@ class Instrument < ActiveRecord::Base
         obj.class.reflections.select do |association_name, reflection|
           if association_name.to_s != 'instrument' && reflection.macro == :belongs_to
             unless obj.__send__(association_name).nil?
-              new_obj.association(association_name).writer(ref[obj.class.name.tableize.to_sym][obj.__send__(association_name).id])
+              new_obj.association(association_name).writer(ref[obj.__send__(association_name).class.name.tableize.to_sym][obj.__send__(association_name).id])
             end
           end
         end
-
         new_i.__send__(key) << new_obj
+        if new_obj.is_a? Construct::Model
+          ccs[new_obj.cc.id] = obj.cc
+          ref[:control_constructs][obj.cc.id] = new_obj.cc
+        end
       end
     end
+
+    ### Rebuild the control construct tree
+    new_i.control_constructs.find_each do |cc|
+      cc.position = ccs[cc.id].position
+      cc.branch = ccs[cc.id].branch
+      cc.label = ccs[cc.id].label
+
+      cc.parent = ref[:control_constructs][ccs[cc.id].parent_id]
+      cc.save!
+    end
+
     new_i
   end
 
