@@ -96,6 +96,19 @@
                     data-ng-disabled="!editMode"
             />
         </div>
+        <div class="form-group">
+            <label for="a-question-roster-row-number">
+                Roster Row Number
+            </label>
+            <input
+                    type="number"
+                    class="form-control"
+                    id="a-question-roster-row-number"
+                    data-ng-model="current.roster_rows"
+                    data-ng-disabled="!editMode"
+                    min="0"
+            >
+        </div>
     </div>
 </form>
 
