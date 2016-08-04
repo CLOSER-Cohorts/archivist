@@ -46,6 +46,7 @@ class Instrument < ActiveRecord::Base
 
   has_many :instructions, dependent: :destroy
 
+  has_many :response_domain_codes, dependent: :destroy
   has_many :response_domain_datetimes, dependent: :destroy
   has_many :response_domain_numerics, dependent: :destroy
   has_many :response_domain_texts, dependent: :destroy
