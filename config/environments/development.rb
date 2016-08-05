@@ -39,5 +39,5 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
 end

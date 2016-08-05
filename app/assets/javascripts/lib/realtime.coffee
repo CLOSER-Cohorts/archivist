@@ -6,8 +6,9 @@ realtime = angular.module('archivist.realtime', [
 realtime.factory('RealTimeConnection',
   [
     '$rootScope',
+    '$timeout',
     'Flash'
-    ($rootScope, Flash)->
+    ($rootScope, $timeout, Flash)->
       service = {}
 
       service.socket = io window.socket_url
@@ -17,7 +18,7 @@ realtime.factory('RealTimeConnection',
           $rootScope.realtimeStatus = false
 
       service.socket.on 'connect', ()->
-        $rootScope.$apply ->
+        $timeout ->
           $rootScope.realtimeStatus = true
 
       service.socket.on 'rt-update', (message)->
@@ -28,13 +29,18 @@ realtime.factory('RealTimeConnection',
 
 realtime.factory('RealTimeListener',
   [
-    '$rootScope',
-    ($rootScope)->
+    '$rootScope', '$http'
+    ($rootScope, $http)->
       listener = class
         constructor: ($rootScope, callback)->
           @handler = $rootScope.$on('rt-update', (event, message)->
             $rootScope.$apply () ->
-              callback event, JSON.parse message
+              no_more_pending_requests = $rootScope.$watch ->
+                $http.pendingRequests.length
+              , ->
+                if $http.pendingRequests.length < 1
+                  callback event, JSON.parse message
+                  no_more_pending_requests()
           )
 
       listener.prototype.stop = ()->

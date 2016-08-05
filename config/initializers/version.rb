@@ -1,6 +1,6 @@
 module Archivist
   class Application
-    VERSION = "3.1.0"
+    VERSION = "5.0.0"
     BETA = true
   end
 end

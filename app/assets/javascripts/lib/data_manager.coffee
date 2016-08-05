@@ -324,17 +324,47 @@ data_manager.factory(
           DataManager.GroupResolver.resolve()
 
       DataManager.listener = RealTimeListener (event, message)->
+        console.log "Rt update"
         if message.data?
+          reresolve_constructs = false
+          reresolve_questions = false
           for row in message.data
             obj = Map.find(DataManager.Data, row.type).select_resource_by_id row.id
             if obj?
+              if obj['type'] == 'question'
+                old_q_id = obj['question_id']
+                old_q_type = obj['question_type']
               for key, value of row
                 if ['id','type'].indexOf(key) == -1
+                  if ['children','fchildren'].indexOf(key) != -1
+                    old_children = obj['children']
+                    old_fchildren = obj['fchildren']
                   obj[key] = row[key]
+                  if ['children','fchildren'].indexOf(key) != -1 && (old_children != obj['children'] || old_fchildren != obj['fchildren'])
+                    reresolve_constructs = true
+              if obj['type'] == 'question' && (old_q_id != obj['question_id'] || old_q_type != obj['question_type'])
+                obj.base = null
+                reresolve_questions = true
+            else if row.type != "Instrument" && row.action? && row.action == "ADD"
+              if row.instrument_id? && row.instrument_id == DataManager.Data.Instrument.id
+                arr = Map.find(DataManager.Data, row.type)
+                resource = Map.find(DataManager, row.type).resource
+                obj = new resource({})
+                console.log obj
+                for key, value of row
+                  obj[key] = row[key]
+                console.log obj
+                arr.push obj
+
             if row.type == 'Instrument' and row.id == DataManager.Data.Instrument.id
               for key, value of row
                 if ['id','type'].indexOf(key) == -1
                   DataManager.Data.Instrument[key] = row[key]
+
+          if reresolve_questions
+            DataManager.resolveQuestions()
+          if reresolve_constructs
+            DataManager.resolveConstructs()
 
       DataManager
   ]

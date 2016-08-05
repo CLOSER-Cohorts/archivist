@@ -6,6 +6,7 @@ json.array!(@collection) do |question_grid|
   json.cols question_grid.horizontal_code_list.codes do |x|
     json.label x.category.label
     json.order x.order
+    json.value x.value
     json.rd do
       if question_grid.horizontal_code_list.codes.length > 1
         json.partial! 'response_domains/show',
@@ -20,7 +21,7 @@ json.array!(@collection) do |question_grid|
     json.label y.category.label
     json.order y.order
   end
-  json.corner_label question_grid.pretty_corner_label
+  json.pretty_corner_label question_grid.pretty_corner_label
   rescue
     json.error true
   end

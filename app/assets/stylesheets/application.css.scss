@@ -76,6 +76,22 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
   margin-top: 15px;
 }
 
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.transparent {
+  color: transparent;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 .bg-purple {
   background: #652C90;
 }

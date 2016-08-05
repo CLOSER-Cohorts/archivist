@@ -7,7 +7,7 @@
     <table class="table a-question-grid">
         <tr>
             <th>
-                {{obj.base.corner_label}}
+                {{obj.base.pretty_corner_label}}
             </th>
             <th data-ng-repeat="col in obj.base.cols | orderBy:'order'">
                 {{col.label}}
@@ -22,6 +22,17 @@
         <tr data-ng-repeat="row in obj.base.rows | orderBy:'order'">
             <td>
                 {{row.label}}
+            </td>
+            <td data-ng-repeat="col in obj.base.cols"></td>
+        </tr>
+        <tr data-ng-if="obj.base.roster_rows > 0" style="background: rgba(0,0,0,0.15)">
+            <td colspan="0" style="text-align: center">
+                {{obj.base.roster_label}}
+            </td>
+        </tr>
+        <tr data-ng-repeat="row in range(obj.base.roster_rows)" data-ng-if="obj.base.roster_rows > 0">
+            <td class="invisible">
+                X
             </td>
             <td data-ng-repeat="col in obj.base.cols"></td>
         </tr>
