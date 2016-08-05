@@ -65,11 +65,11 @@ class InstrumentsControllerTest < ActionController::TestCase
   test "should import an instrument" do
     post :import, files: []
 
-    assert_redirected_to '/admin/import'
+    assert_response :success
   end
 
   test "should deep copy an instrument" do
-    post :copy, format: :json, id: @instrument
+    post :copy, format: :json, id: @instrument, new_prefix: 'new_one'
 
     assert_response :success
   end

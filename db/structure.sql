@@ -48,6 +48,18 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1188,6 +1200,14 @@ ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq
 
 
 --
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
 -- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1838,7 +1858,7 @@ ALTER TABLE ONLY cc_questions
 --
 
 ALTER TABLE ONLY cc_questions
-    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id);
+    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1862,7 +1882,7 @@ ALTER TABLE ONLY cc_statements
 --
 
 ALTER TABLE ONLY codes
-    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES categories(id, instrument_id);
+    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES categories(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1870,7 +1890,7 @@ ALTER TABLE ONLY codes
 --
 
 ALTER TABLE ONLY codes
-    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1886,7 +1906,7 @@ ALTER TABLE ONLY control_constructs
 --
 
 ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1894,7 +1914,7 @@ ALTER TABLE ONLY question_grids
 --
 
 ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id);
+    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1902,7 +1922,7 @@ ALTER TABLE ONLY question_grids
 --
 
 ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id);
+    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1910,7 +1930,7 @@ ALTER TABLE ONLY question_grids
 --
 
 ALTER TABLE ONLY question_items
-    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id);
+    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -2039,85 +2059,6 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547');
+INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216');
 
-INSERT INTO schema_migrations (version) VALUES ('20151129204534');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129204903');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129205538');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129205758');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129210043');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062018');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062219');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062608');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130063811');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130142555');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130143016');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130143420');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201094202');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201094926');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095143');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095347');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095532');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095541');
-
-INSERT INTO schema_migrations (version) VALUES ('20151203122424');
-
-INSERT INTO schema_migrations (version) VALUES ('20151204181052');
-
-INSERT INTO schema_migrations (version) VALUES ('20151204193654');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206105535');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206110030');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165407');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165603');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165726');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206185120');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206185659');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206205100');
-
-INSERT INTO schema_migrations (version) VALUES ('20151211153924');
-
-INSERT INTO schema_migrations (version) VALUES ('20160121070958');
-
-INSERT INTO schema_migrations (version) VALUES ('20160216154523');
-
-INSERT INTO schema_migrations (version) VALUES ('20160413095800');
-
-INSERT INTO schema_migrations (version) VALUES ('20160413100019');
-
-INSERT INTO schema_migrations (version) VALUES ('20160419094600');
-
-INSERT INTO schema_migrations (version) VALUES ('20160419165130');
-
-INSERT INTO schema_migrations (version) VALUES ('20160603113436');
-
-INSERT INTO schema_migrations (version) VALUES ('20160712131146');
-
-INSERT INTO schema_migrations (version) VALUES ('20160716150053');
-
-INSERT INTO schema_migrations (version) VALUES ('20160716164426');
 

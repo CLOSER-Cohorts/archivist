@@ -2,7 +2,7 @@ class InstrumentsController < ApplicationController
   include BaseController
 
   add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study]',
+                    params: '[:agency, :version, :prefix, :label, :study, :files]',
                     collection: 'policy_scope(Instrument.all)',
                     only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats]
 
@@ -32,8 +32,9 @@ class InstrumentsController < ApplicationController
 
   def import
     FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
-    logger.debug params
-    params[:files].each do |file|
+    files = params[:files].nil? ? [] : params[:files]
+    head :ok, format: :json if files.empty?
+    files.each do |file|
       filepath = Rails.root.join(
           'tmp',
           'uploads',
@@ -42,14 +43,21 @@ class InstrumentsController < ApplicationController
       File.open(filepath, 'wb') do |f|
         f.write(file.read)
       end
-      im = XML::CADDIES::Importer.new filepath
-      im.parse
+      begin
+        im = XML::CADDIES::Importer.new filepath
+        im.parse
+        head :ok, format: :json
+      rescue  => e
+        render json: {message: e}, status: :bad_request
+      end
     end
-    head :ok, format: :json
   end
 
   def copy
-    @object.copy
+    new_details = params.select {
+        |k, v| ['new_prefix', 'new_label', 'new_agency', 'new_version', 'new_study'].include? k.to_s
+    }
+    new_instrument = @object.copy new_details
     head :ok, format: :json
   end
 

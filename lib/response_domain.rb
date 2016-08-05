@@ -4,7 +4,7 @@ module ResponseDomain
     has_many :rds_qs, class_name: 'RdsQs', as: :response_domain, dependent: :destroy
     has_many :question_items, through: :rds_qs, source: :question, source_type: 'QuestionItem'
     has_many :question_grids, through: :rds_qs, source: :question, source_type: 'QuestionGrid'
-
+    belongs_to :instrument
     include Realtime::RtUpdate
 
     def questions

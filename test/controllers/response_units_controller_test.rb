@@ -4,7 +4,7 @@ class ResponseUnitsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @response_unit = response_units(:ResponseUnit_1)
+    @response_unit = response_units(:ResponseUnit_4)
     @instrument = instruments(:Instrument_1)
   end
 

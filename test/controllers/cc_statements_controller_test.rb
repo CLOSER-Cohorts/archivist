@@ -21,7 +21,7 @@ class CcStatementsControllerTest < ActionController::TestCase
           literal: @cc_statement.literal,
           type: 'statement',
           parent: {
-              id: 1,
+              id: @instrument.cc_sequences.first.id,
               type: 'sequence'
           }
     end

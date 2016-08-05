@@ -40,6 +40,23 @@ module Question::Model
       end
     end
 
+    def update_cols(cols)
+      if cols.nil? || cols.empty?
+        self.rds_qs.delete_all
+      else
+        cols.sort_by! { |x| x[:order] }
+        cols.each do |col|
+          if col[:rd].nil?
+            rd = self.rds_qs.find_by_code_id col[:value]
+            rd.delete unless rd.nil?
+          else
+            rd = self.instrument.association(col[:rd][:type].tableize).reader.find col[:rd][:id]
+            self.rds_qs.create question: self, response_domain: rd, code_id: col[:value], instrument_id: self.instrument_id
+          end
+        end
+      end
+    end
+
     def update_rds(rds)
       if rds.nil?
         self.response_domain_codes =
@@ -105,31 +122,31 @@ module Question::Controller
 
   module Actions
     def create
-      @object = collection.new(safe_params)
-      if @object.save
-        if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
-        end
-        if params.has_key? :rds
-          @object.update_rds params[:rds]
-          @object.save!
-        end
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
+      update_question @object = collection.new(safe_params) do |obj|
+        obj.save
       end
     end
 
     def update
-      if @object.update(safe_params)
+      update_question @object do |obj|
+        obj.update(safe_params)
+      end
+    end
+
+    private
+    def update_question object, &block
+      if block.call object
         if params.has_key? :instruction
-          @object.instruction = params[:instruction]
-          @object.save!
+          object.instruction = params[:instruction]
+          object.save!
         end
         if params.has_key? :rds
-          @object.update_rds params[:rds]
-          @object.save!
+          object.update_rds params[:rds]
+          object.save!
+        end
+        if params.has_key? :cols
+          object.update_cols params[:cols]
+          object.save!
         end
         render :show, status: :ok
       else

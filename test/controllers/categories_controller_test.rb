@@ -33,8 +33,8 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should destroy category" do
-    category = categories :Category_1375
-    instrument = instruments :Instrument_5
+    category = categories :Category_1572
+    instrument = instruments :Instrument_3
     assert_difference('Category.count', -1) do
       delete :destroy, format: :json, instrument_id: instrument.id, id: category
     end
