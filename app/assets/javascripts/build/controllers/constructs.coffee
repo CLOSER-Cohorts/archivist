@@ -103,6 +103,7 @@ angular.module('archivist.build').controller(
         arr[index].save(
           {}
         ,(value, rh)->
+          console.log "save returned"
           value['instrument_id'] = $scope.instrument.id
           value['type'] = $routeParams.construct_type
           Flash.add('success', 'Construct updated successfully!')

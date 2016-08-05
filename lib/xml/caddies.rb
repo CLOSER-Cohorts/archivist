@@ -384,8 +384,9 @@ module XML::CADDIES
     end
 
     def self.build_instrument(doc, options= {})
-      save = defined? options[:save] ? true : options[:save]
-      duplicate = defined? options[:duplicate] ? :do_nothing : options[:duplicate]
+      save = defined?(options[:save]) ? true : options[:save]
+      duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
+      Rails.logger.debug duplicate
 
       i = Instrument.new
       i.label = doc.xpath("//d:InstrumentName//r:String").first.content
@@ -395,8 +396,7 @@ module XML::CADDIES
       if instruments.length > 0
         Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
         if duplicate == :do_nothing
-          Rails.logger.info 'Aborting XML import. Consider passing a duplicate option to importer.'
-          return
+          raise Exceptions::ImportError, 'Aborting XML import. Consider passing a duplicate option to importer.'
         else
           if duplicate == :update || duplicate == :replace
             if instruments.length == 1
@@ -406,8 +406,7 @@ module XML::CADDIES
                 instruments.first.destroy
               end
             else
-              Rails.logger.error 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
-              return
+              raise Exceptions::ImportError, 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
             end
           end
         end

@@ -19,11 +19,25 @@ module Realtime
   module RtUpdate
     extend ActiveSupport::Concern
     included do
-      after_commit :rt_update
+      after_commit :rt_create, on: :create
+      after_commit :rt_update, on: :update
+      after_commit :rt_destroy, on: :destroy
 
       private
+      def rt_create
+        Realtime::Publisher.instance.update self, 'ADD'
+        if self.is_a?(Construct::Model) && !self.parent.nil?
+          Realtime::Publisher.instance.update self.parent
+        end
+      end
       def rt_update
         Realtime::Publisher.instance.update self
+      end
+      def rt_destroy
+        Realtime::Publisher.instance.update self, 'DEL'
+        if self.is_a?(Construct::Model) && !self.parent.nil?
+          Realtime::Publisher.instance.update self.parent
+        end
       end
     end
   end
@@ -41,15 +55,20 @@ module Realtime
       @quiet = false
     end
 
-    def update(obj)
+    def update(obj, action = '')
       unless @quiet
         output = {}
         #Create JSON from model
-        data = obj.as_json except: [:created_at, :updated_at]
+        if obj.class.method_defined? :rt_attributes
+          data = obj.rt_attributes
+        else
+          data = obj.as_json except: [:created_at, :updated_at]
+        end
         #Attach the Class as type
         data[:type] = obj.class.name
         #Place the data in the output object
         output[:data] = [data]
+        output[:data][0][:action] = action
         #Publish the output as JSON to the rt-update channel
         $redis.publish 'rt-update', output.to_json
       end

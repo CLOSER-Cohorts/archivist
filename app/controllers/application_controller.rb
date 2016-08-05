@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
           u.group = g
           u.save!
           u.admin!
+          u.confirm
         end
 
       end
@@ -52,7 +53,7 @@ class ApplicationController < ActionController::Base
         instruments: Instrument.all.count,
         questions: CcQuestion.all.count,
         variables: Variable.all.count,
-        users: 0
+        users: User.all.count
     }
     render json: counts
   end
