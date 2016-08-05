@@ -63,6 +63,7 @@ class Instrument < ActiveRecord::Base
   include Realtime::RtUpdate
 
   after_create :add_top_sequence
+  around_destroy :pause_rt
 
   def conditions
     self.cc_conditions
@@ -116,6 +117,12 @@ class Instrument < ActiveRecord::Base
 
   def add_top_sequence
     self.cc_sequences.create
+  end
+
+  def pause_rt
+    Realtime.do_silently do
+      yield
+    end
   end
 
   def copy(new_prefix, other_vals = {})

@@ -81,8 +81,8 @@ end
 
 group :test do
   # Performance testing
-  gem 'rails-perftest'
-  gem 'ruby-prof'
+  #gem 'rails-perftest'
+  #gem 'ruby-prof'
   gem 'rails-controller-testing'
 end
 

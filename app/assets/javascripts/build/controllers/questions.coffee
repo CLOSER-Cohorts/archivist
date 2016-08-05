@@ -68,7 +68,7 @@ angular.module('archivist.build').controller(
             )
 
       $scope.select_x_axis = ->
-        $scope.current.cols = $scope.instrument.CodeLists.select_resource_by_id($scope.current.horizontal_code_list_id).codes
+        $scope.current.cols = angular.copy($scope.instrument.CodeLists.select_resource_by_id($scope.current.horizontal_code_list_id).codes)
 
       $scope.set_grid_column = (col)->
         $scope.current_grid_column = col
