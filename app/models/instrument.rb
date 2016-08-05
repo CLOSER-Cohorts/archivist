@@ -118,10 +118,13 @@ class Instrument < ActiveRecord::Base
     self.cc_sequences.create
   end
 
-  def copy(new_prefix)
+  def copy(new_prefix, other_vals = {})
 
     new_i = self.dup
     new_i.prefix = new_prefix
+    other_vals.select do |key, val|
+      new_i[key] = val
+    end
     new_i.save!
     new_i.cc_sequences.first.destroy
 

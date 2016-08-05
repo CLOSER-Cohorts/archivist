@@ -129,15 +129,14 @@ admin.controller('AdminInstrumentsController',
 
       $scope.prepareCopy = (id)->
         $scope.original = $scope.instruments.select_resource_by_id(id)
-        $scope.copiedInstrument = new DataManager.Instruments.resource()
-        $scope.copiedInstrument.study = $scope.original.study
-        $scope.copiedInstrument.agency = $scope.original.agency
-        $scope.copiedInstrument.version = $scope.original.version
+        $scope.copiedInstrument = {}
+        $scope.copiedInstrument['new_study'] = $scope.original.study
+        $scope.copiedInstrument['new_agency'] = $scope.original.agency
+        $scope.copiedInstrument['new_version'] = $scope.original.version
 
       $scope.copy = ->
-        $scope.copiedInstrument.$save()
-        $scope.copiedInstrument.copy $scope.original.id,
-          ->
+        $scope.copiedInstrument = $scope.original.$copy $scope.copiedInstrument
+        ,  ->
             Flash.add 'success', 'Instrument copied successfully'
         ,
           (response)->

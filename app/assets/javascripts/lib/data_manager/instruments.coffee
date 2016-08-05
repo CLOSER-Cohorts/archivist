@@ -9,7 +9,12 @@ instruments.factory(
     (WrappedResource)->
       new WrappedResource(
         'instruments/:id.json',
-        {id: '@id'}
+        {id: '@id'},
+        {
+          save: {method: 'PUT'},
+          create: {method: 'POST'}
+          copy: {method: 'POST', url: 'instruments/:id/copy/:prefix.json'}
+        }
       )
   ]
 )

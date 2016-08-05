@@ -24,8 +24,8 @@
                 </code>
             </span>
             <div data-ng-if="obj.type=='question'" class="col-md-8" data-ng-include="'partials/questions/show.html'"></div>
-	<div class="col-md-offset-1 col-md-11">
-	    <span class="a-branch-label">True:</span>
+	<div class="col-md-offset-1 col-md-11" data-ng-if="obj.children">
+	    <span class="a-branch-label" data-ng-if="obj.type == 'condition'">True:</span>
             <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:'position'" data-ng-include="'child_render.html'"></div>
         </div>
 	<div class="col-md-offset-1 col-md-11" data-ng-if="obj.fchildren">
@@ -48,7 +48,6 @@
             </div>
         </div>
         <div data-ng-show="loading.state == 'Downloading' || loading.state == 'Processing'">
-            {{loading.progress}}
             <uib-progressbar type="{{loading.type}}" class="progress-striped active" value="loading.progress">{{loading.state}}</uib-progressbar>
         </div>
     </div>
