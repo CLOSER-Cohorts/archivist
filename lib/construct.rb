@@ -23,13 +23,37 @@ module Construct::Model
     end
 
     def parent
-      if not self.cc.parent.nil?
+      unless self.cc.parent.nil?
+        begin
+          $redis.hset 'parents', self.id, self.cc.parent.construct.id
+          $redis.hset 'is_top', self.id, self.cc.parent.nil?
+        rescue
+        end
         self.cc.parent.construct
       end
     end
 
     def parent=(new_parent)
       self.cc.parent = new_parent.cc
+    end
+
+    def parent_id
+      begin
+        pid = $redis.hget 'parents', self.id
+      rescue
+      end
+      if pid.nil?
+        pid = self.parent.nil? ? nil : self.parent.id
+      end
+      pid.to_i
+    end
+
+    def is_top?
+      begin
+        top = $redis.hget 'is_top', self.id
+      rescue
+      end
+      top.nil? ? self.parent.nil? : top
     end
 
     def create_control_construct
@@ -67,7 +91,7 @@ module Construct::Model
     def find_by_label(label)
         self
           .where(nil)
-          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND construct_type = \'CcQuestion\'')
+          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND control_constructs.construct_type = \'CcQuestion\'')
           .where('label = ?', label)
           .first
     end
@@ -99,6 +123,7 @@ module Construct::Model
         obj.save!
         parent.children << obj.cc
       end
+      obj.cc.clear_cache
       obj
     end
   end
@@ -114,6 +139,34 @@ module Construct::Model
 
     def has_children?
       children.count > 0
+    end
+
+    def construct_children(branch = nil)
+      begin
+        cs = $redis.hget 'construct_children:' +
+                             self.class.to_s +
+                             (branch.nil? ? '' : (':' + branch.to_s)), self.id
+
+        if cs.nil?
+          if branch.nil?
+            cs = self.cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
+          else
+            cs = self.cc.children.where(branch: branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
+          end
+          $redis.hset 'construct_children:' +
+                          self.class.to_s +
+                          (branch.nil? ? '' : (':' + branch.to_s)), self.id,  cs.to_json
+        else
+          cs = JSON.parse cs
+        end
+      rescue
+        if branch.nil?
+          cs = self.cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        else
+          cs = self.cc.children.where(branch: branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        end
+      end
+      cs
     end
   end
 end
