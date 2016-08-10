@@ -24,6 +24,34 @@
             Response Domain
         </label>
     </div>
+    <div data-ng-show="current.rd">
+        <div class="form-group">
+            <label for="a-codelist-min">
+                Min Responses:
+            </label>
+            <input
+                    type="number"
+                    class="form-control"
+                    id="a-codelist-min"
+                    placeholder="1"
+                    data-ng-model="current.min_responses"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+        <div class="form-group">
+            <label for="a-codelist-max">
+                Max Responses:
+            </label>
+            <input
+                    type="number"
+                    class="form-control"
+                    id="a-codelist-max"
+                    placeholder="1"
+                    data-ng-model="current.max_responses"
+                    data-ng-disabled="!editMode"
+            />
+        </div>
+    </div>
 
     <table class="table table-striped table-condensed">
         <tr>
