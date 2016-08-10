@@ -70,7 +70,10 @@ module Realtime
         output[:data] = [data]
         output[:data][0][:action] = action
         #Publish the output as JSON to the rt-update channel
-        $redis.publish 'rt-update', output.to_json
+        begin
+          $redis.publish 'rt-update', output.to_json
+        rescue
+        end
       end
     end
   end
