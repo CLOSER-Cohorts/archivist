@@ -6,6 +6,18 @@ class InstrumentsController < ApplicationController
                     collection: 'policy_scope(Instrument.all)',
                     only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats]
 
+  def show
+    respond_to do |f|
+      f.json {render json: @object}
+      f.xml do
+        exp = XML::DDI::Exporter.new
+        exp.add_root_attributes
+        filename = exp.run @object
+        render file: filename
+      end
+    end
+  end
+
   def reorder_ccs
     unless params[:updates].nil?
       params[:updates].each do |u|
