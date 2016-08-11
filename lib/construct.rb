@@ -25,7 +25,7 @@ module Construct::Model
     def parent
       unless self.cc.parent.nil?
         begin
-          $redis.hset 'parents', self.id, self.cc.parent.construct.id
+          $redis.hset 'parents', self.id, self.cc.parent.id
           $redis.hset 'is_top', self.id, self.cc.parent.nil?
         rescue
         end
