@@ -255,7 +255,7 @@ module XML::CADDIES
         #Adding instruction
         instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
-          qg.instruction = @instruction_index[instr.content]
+          qg.association(:instruction).writer @instruction_index[instr.content]
         end
         qg.save!
       end
