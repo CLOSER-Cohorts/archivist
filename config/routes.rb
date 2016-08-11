@@ -22,11 +22,11 @@ Rails.application.routes.draw do
       get 'external'
     end
   end
-  resources :datasets, constraints: -> (r) { (r.format == :json) } do
+  resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :variables
   end
 
-  resources :instruments, constraints: -> (r) { (r.format == :json) } do
+  resources :instruments, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :cc_sequences
     resources :cc_statements
     resources :cc_questions
