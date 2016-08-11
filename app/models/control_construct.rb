@@ -8,6 +8,7 @@ class ControlConstruct < ActiveRecord::Base
   after_destroy :clear_cache
 
   def clear_cache
+    begin
     unless self.parent.nil?
       if self.parent.construct_type == 'CcCondition'
         $redis.hdel 'construct_children:CcCondition:0', self.parent.construct_id
@@ -18,5 +19,7 @@ class ControlConstruct < ActiveRecord::Base
     end
     $redis.hdel 'parents', self.construct_id
     $redis.hdel 'is_top', self.construct_id
+    rescue
+    end
   end
 end
