@@ -1,3 +1,6 @@
+require 'lib/xml/ddi'
+require 'lib/xml/caddies'
+
 class InstrumentsController < ApplicationController
   include BaseController
 
