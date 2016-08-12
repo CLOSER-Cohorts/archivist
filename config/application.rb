@@ -1,8 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require '../lib/xml/DDI'
-require '../lib/xml/caddies'
+require 'lib/xml/DDI.rb'
+require 'lib/xml/caddies.rb'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
