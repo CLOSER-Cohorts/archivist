@@ -56,8 +56,7 @@ class InstrumentsController < ApplicationController
         f.write(file.read)
       end
       begin
-        im = XML::CADDIES::Importer.new filepath
-        im.parse
+        Resque.enqueue Import, filepath
         head :ok, format: :json
       rescue  => e
         render json: {message: e}, status: :bad_request
