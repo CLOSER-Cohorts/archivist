@@ -2,7 +2,11 @@ class Import
   @queue = :in_and_out
 
   def self.perform filepath
-    im = XML::CADDIES::Importer.new filepath
-    im.parse
+    begin
+      im = XML::CADDIES::Importer.new filepath
+      im.parse
+    rescue => e
+      Rails.logger.fatal e
+    end
   end
 end
