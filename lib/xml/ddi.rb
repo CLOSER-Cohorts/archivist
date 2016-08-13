@@ -32,7 +32,11 @@ module XML::DDI
       build_ccs
 
       FileUtils.mkdir_p Rails.root.join('tmp', 'exports')
-      filename = 'tmp/exports/' + instrument.prefix + '.xml'
+      filename = Rails.root.join(
+          'tmp',
+          'uploads',
+          instrument.prefix + '.xml'
+      )
       f = File.new filename, "w"
       f.write(@doc.to_xml &:no_empty_tags)
       f.close

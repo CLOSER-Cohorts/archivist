@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
+      get 'export', to: 'instruments#export'
     end
   end
 
