@@ -63,6 +63,7 @@ gem 'postmark-rails', '>= 0.10.0'
 gem 'rack-timeout'
 gem 'resque'
 gem "hirefire-resource"
+gem 'aws-sdk', '~> 2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
