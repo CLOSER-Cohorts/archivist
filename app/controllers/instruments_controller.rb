@@ -52,9 +52,10 @@ class InstrumentsController < ApplicationController
           'uploads',
           (0...8).map { (65 + rand(26)).chr }.join + '-' + file.original_filename
       )
-      puts $s3_bucket
+      File.open(filepath, 'wb') do |f|
+        f.write(file.read)
+      end
       obj = $s3_bucket.object filepath.basename.to_s
-      puts filepath.to_s
       obj.upload_file filepath.to_s, acl:'public-read'
       begin
         puts obj.public_url.to_s
