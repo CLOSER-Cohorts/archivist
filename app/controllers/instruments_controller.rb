@@ -52,9 +52,12 @@ class InstrumentsController < ApplicationController
           'uploads',
           (0...8).map { (65 + rand(26)).chr }.join + '-' + file.original_filename
       )
+      puts $s3_bucket
       obj = $s3_bucket.object filepath.basename.to_s
+      puts filepath.to_s
       obj.upload_file filepath.to_s, acl:'public-read'
       begin
+        puts obj.public_url.to_s
         Resque.enqueue Import, obj.public_url.to_s
         head :ok, format: :json
       rescue  => e

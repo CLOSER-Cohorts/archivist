@@ -1,7 +1,7 @@
 module XML::CADDIES
   class Importer
     def initialize(filepath)
-      @doc = File.open(filepath) { |f| Nokogiri::XML(f) }
+      @doc = open(filepath) { |f| Nokogiri::XML(f) }
       @counters = {}
     end
 
