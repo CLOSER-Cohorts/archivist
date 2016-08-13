@@ -3,8 +3,6 @@ class Import
 
   def self.perform filepath
     begin
-      puts 'Starting importer'
-      puts filepath
       im = XML::CADDIES::Importer.new filepath
       im.parse
       puts 'Finished importer'

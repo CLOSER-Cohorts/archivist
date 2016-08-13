@@ -56,7 +56,7 @@ class InstrumentsController < ApplicationController
         f.write(file.read)
       end
       begin
-        Resque.enqueue Import, filepath
+        Resque.enqueue Import, filepath[:path]
         head :ok, format: :json
       rescue  => e
         render json: {message: e}, status: :bad_request
