@@ -10,6 +10,7 @@ class Import
     rescue => e
       Rails.logger.fatal e
       puts e
+      puts caller
     end
   end
 end
