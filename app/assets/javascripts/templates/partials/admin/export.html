@@ -19,6 +19,8 @@
                     <th>ID</th>
                     <th>Prefix</th>
                     <th>Study</th>
+                    <th>Last edit</th>
+                    <th>Export date</th>
                     <th>Status</th>
                 </tr>
                 <tr data-ng-repeat="
@@ -33,6 +35,8 @@
                         </a>
                     </td>
                     <td>{{instrument.study}}</td>
+                    <td>{{instrument.last_edited_time}}</td>
+                    <td>{{instrument.export_time}}</td>
                     <td>
                         <a data-ng-href="{{instrument.export_url}}" data-ng-show="instrument.export_url != null">Download</a>
                         <a data-ng-click="export(instrument)" data-ng-show="instrument.export_url == null">Export</a>

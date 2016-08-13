@@ -8,7 +8,8 @@ class ExportJob
       filename = exp.run Instrument.find(id)
       obj = $s3_bucket.object filename.basename.to_s
       obj.upload_file filename.to_s, acl:'public-read'
-      $redis.hset 'export:instruments', id, obj.public_url.to_s
+      $redis.hset 'export:instrument:' + id.to_s, 'time', Time.now.to_s
+      $redis.hset 'export:instrument:' + id.to_s, 'url', obj.public_url.to_s
     rescue => e
       Rails.logger.fatal e
     end

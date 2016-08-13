@@ -6,6 +6,7 @@ module ActiveRecordExtension
 
     after_create :clear_cached_stats
     after_destroy :clear_cached_stats
+    after_update :update_last_edit_time
 
     # Instance methods
     def association_stats
@@ -40,6 +41,16 @@ module ActiveRecordExtension
             rescue Redis::CannotConnectError
             end
           end
+        end
+      end
+    end
+
+    def update_last_edit_time
+      begin
+        if self.is_a? Instrument
+          $redis.hset 'last_edit:instrument', self.id, self.updated_at
+        elsif self.instrument.is_a? Instrument
+          $redis.hset 'last_edit:instrument', self.instrument.id, self.updated_at
         end
       end
     end
