@@ -9,7 +9,7 @@ class Import
       puts 'Finished importer'
     rescue => e
       Rails.logger.fatal e
-      puts 'Failed to import'
+      puts e
     end
   end
 end
