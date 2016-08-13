@@ -34,7 +34,7 @@ module XML::DDI
       FileUtils.mkdir_p Rails.root.join('tmp', 'exports')
       filename = Rails.root.join(
           'tmp',
-          'uploads',
+          'exports',
           instrument.prefix + '.xml'
       )
       f = File.new filename, "w"
