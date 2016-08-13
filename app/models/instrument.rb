@@ -127,7 +127,7 @@ class Instrument < ActiveRecord::Base
 
   def export_time
     begin
-      $redis.hget 'export:instruments:' + self.id.to_s, 'time'
+      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
     rescue
       nil
     end
@@ -135,7 +135,7 @@ class Instrument < ActiveRecord::Base
 
   def export_url
     begin
-      $redis.hget 'export:instruments:' + self.id.to_s, 'url'
+      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
     rescue
       nil
     end
