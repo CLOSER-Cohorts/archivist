@@ -125,6 +125,14 @@ class Instrument < ActiveRecord::Base
     end
   end
 
+  def export_url
+    begin
+      $redis.hget 'export:instruments', self.id
+    rescue
+      nil
+    end
+  end
+
   def copy(new_prefix, other_vals = {})
 
     new_i = self.dup

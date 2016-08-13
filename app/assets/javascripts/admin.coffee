@@ -24,6 +24,10 @@ admin.config(['$routeProvider',
         templateUrl: 'partials/admin/import.html'
         controller: 'AdminImportController'
       )
+      .when('/admin/export',
+        templateUrl: 'partials/admin/export.html'
+        controller: 'AdminExportController'
+      )
 ])
 
 admin.controller('AdminDashController',
@@ -198,6 +202,21 @@ admin.controller('AdminImportController',
         .error (res)->
           Flash.add 'danger', 'Instrument failed to import - ' + res.message
 ])
+
+admin.controller('AdminExportController',
+  [
+    '$scope',
+    '$http',
+    'DataManager'
+    ($scope, $http, DataManager)->
+      $scope.instruments = DataManager.Instruments.query()
+      $scope.pageSize = 16
+
+      console.log $scope
+
+      $scope.export = (instrument)->
+        $http.get '/instruments/' + instrument.id.toString() + '/export.json'
+  ])
 
 admin.directive('fileModel',
   [

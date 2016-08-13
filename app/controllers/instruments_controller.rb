@@ -4,7 +4,7 @@ class InstrumentsController < ApplicationController
   add_basic_actions require: ':instrument',
                     params: '[:agency, :version, :prefix, :label, :study, :files]',
                     collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats]
+                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export]
 
   def show
     respond_to do |f|
@@ -42,6 +42,11 @@ class InstrumentsController < ApplicationController
   def response_domain_codes
   end
 
+  def export
+      Resque.enqueue ExportJob, @object.id
+      head :ok, format: :json
+  end
+
   def import
     FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
     files = params[:files].nil? ? [] : params[:files]
@@ -55,9 +60,10 @@ class InstrumentsController < ApplicationController
       File.open(filepath, 'wb') do |f|
         f.write(file.read)
       end
+      obj = $s3_bucket.object filepath.basename.to_s
+      obj.upload_file filepath.to_s, acl:'public-read'
       begin
-        im = XML::CADDIES::Importer.new filepath
-        im.parse
+        Resque.enqueue ImportJob, obj.public_url.to_s
         head :ok, format: :json
       rescue  => e
         render json: {message: e}, status: :bad_request

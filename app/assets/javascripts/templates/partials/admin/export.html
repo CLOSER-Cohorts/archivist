@@ -34,6 +34,8 @@
                     </td>
                     <td>{{instrument.study}}</td>
                     <td>
+                        <a data-ng-href="{{instrument.export_url}}" data-ng-show="instrument.export_url != null">Download</a>
+                        <a data-ng-click="export(instrument)" data-ng-show="instrument.export_url == null">Export</a>
                     </td>
                 </tr>
             </table>
