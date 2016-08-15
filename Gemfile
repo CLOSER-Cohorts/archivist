@@ -56,15 +56,28 @@ gem 'angular-rails-templates', '~> 1.0'
 # TODO: Are we using this?
 gem 'parallel'
 
-#
+# Faster JavaScript/JSON converter
 gem 'oj'
 gem 'jbuilder_cache_multi'
+
+# Heroku email service
 gem 'postmark-rails', '>= 0.10.0'
+
+# Limits processing time in rack layer for added loading protection
 gem 'rack-timeout'
+
+# Create background workers
 gem 'resque'
+
+# Automatically scales dynos
 gem "hirefire-resource"
+
+# Allows the attaching of AWS buckets
 gem 'aws-sdk', '~> 2'
+
+# To search for memory leaks and memory bloat
 gem 'derailed'
+gem 'sys-proctable'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
