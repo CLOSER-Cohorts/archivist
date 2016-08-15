@@ -49,7 +49,7 @@ module ActiveRecordExtension
       begin
         if self.is_a? Instrument
           $redis.hset 'last_edit:instrument', self.id, self.updated_at
-        elsif self.instrument.is_a? Instrument
+        elsif self.class.method_defined?(:instrument) && self.instrument.is_a?(Instrument)
           $redis.hset 'last_edit:instrument', self.instrument.id, self.updated_at
         end
       end
