@@ -73,9 +73,11 @@ class InstrumentsController < ApplicationController
 
   def copy
     new_details = params.select {
-        |k, v| ['new_prefix', 'new_label', 'new_agency', 'new_version', 'new_study'].include? k.to_s
+        |k, v| ['new_label', 'new_agency', 'new_version', 'new_study'].include? k.to_s
     }
-    new_instrument = @object.copy new_details
+    new_prefix = params['new_prefix']
+
+    Resque.enqueue CopyJob, @object.id, new_prefix, new_details
     head :ok, format: :json
   end
 

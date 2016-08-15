@@ -37,6 +37,7 @@ class CodeListsController < ApplicationController
         @object.response_domain = true
         @object.response_domain.min_responses = params[:min_responses]
         @object.response_domain.max_responses = params[:max_responses]
+        @object.response_domain.save!
       else
         @object.response_domain = false
       end
