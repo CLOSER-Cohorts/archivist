@@ -11,7 +11,7 @@ module Question::Model
     has_many :response_domain_datetimes, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainDatetime'
     has_many :response_domain_numerics, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainNumeric'
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
-    has_many :cc_questions, as: :question
+    has_many :cc_questions, as: :question, dependent: :destroy
 
     include Realtime::RtUpdate
 
