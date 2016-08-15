@@ -7,4 +7,14 @@ class ResponseDomainCode < ActiveRecord::Base
   def set_instrument
     instrument_id = code_list.instrument_id
   end
+
+  def codes
+    self.code_list.codes.map do |x|
+      {
+          label: x.category.label,
+          value: x.value,
+          order: x.order
+      }
+    end
+  end
 end
