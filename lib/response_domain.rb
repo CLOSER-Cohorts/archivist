@@ -10,5 +10,13 @@ module ResponseDomain
     def questions
       self.question_items.to_a + self.question_grids.to_a
     end
+
+    def subtype
+      nil
+    end
+
+    def params
+      nil
+    end
   end
 end
