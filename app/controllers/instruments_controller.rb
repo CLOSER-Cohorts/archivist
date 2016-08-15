@@ -77,8 +77,12 @@ class InstrumentsController < ApplicationController
     }
     new_prefix = params['new_prefix']
 
-    Resque.enqueue CopyJob, @object.id, new_prefix, new_details
-    head :ok, format: :json
+    begin
+      Resque.enqueue CopyJob, @object.id, new_prefix, new_details
+      head :ok, format: :json
+    rescue => e
+      render json: {message: e}, status: :internal_server_error
+    end
   end
 
   def stats
