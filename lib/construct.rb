@@ -151,11 +151,11 @@ module Construct::Model
                              self.class.to_s +
                              (branch.nil? ? '' : (':' + branch.to_s)), self.id
 
-        query_children = lambda do |branch, cc|
-          if branch.nil?
+        query_children = lambda do |query_branch, cc|
+          if query_branch.nil?
             return cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
           else
-            return cc.children.where(branch: branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
+            return cc.children.where(branch: query_branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
           end
         end
 

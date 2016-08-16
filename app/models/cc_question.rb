@@ -29,31 +29,4 @@ class CcQuestion < ActiveRecord::Base
       obj.response_unit_id = params[:response_unit_id]
     end
   end
-
-  def self.creates_with_position(params)
-    obj = new()
-    obj.question_id = params[:question_id]
-    obj.question_type = params[:question_type]
-    obj.response_unit_id = params[:response_unit_id]
-    i = Instrument.find(params[:instrument_id])
-    i.send('cc_' + params[:type].pluralize) << obj
-
-    parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
-    Rails.logger.debug params
-    unless parent.nil?
-      if parent.has_children?
-        obj.position = parent.last_child.position + 1
-      else
-        obj.position = 1
-      end
-
-      unless params[:branch].nil?
-        obj.branch = params[:branch]
-      end
-    end
-    obj.label = params[:label]
-    parent.children << obj.cc
-    obj.save!
-    obj
-  end
 end
