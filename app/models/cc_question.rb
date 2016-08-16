@@ -23,6 +23,14 @@ class CcQuestion < ActiveRecord::Base
   end
 
   def self.create_with_position(params)
+    super params, true do |obj|
+      obj.question_id = params[:question_id]
+      obj.question_type = params[:question_type]
+      obj.response_unit_id = params[:response_unit_id]
+    end
+  end
+
+  def self.creates_with_position(params)
     obj = new()
     obj.question_id = params[:question_id]
     obj.question_type = params[:question_type]

@@ -110,7 +110,6 @@ module Question::Model
                      response_domain: new_rd,
                      question: self,
                      rd_order: highest_rd_order
-        #association(new_rd.class.name.tableize).reader << new_rd
       end
     end
   end
