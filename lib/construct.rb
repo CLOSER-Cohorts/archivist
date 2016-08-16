@@ -146,18 +146,18 @@ module Construct::Model
     end
 
     def construct_children(branch = nil)
+      query_children = lambda do |query_branch, cc|
+        if query_branch.nil?
+          return cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        else
+          return cc.children.where(branch: query_branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        end
+      end
+
       begin
         cs = $redis.hget 'construct_children:' +
                              self.class.to_s +
                              (branch.nil? ? '' : (':' + branch.to_s)), self.id
-
-        query_children = lambda do |query_branch, cc|
-          if query_branch.nil?
-            return cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
-          else
-            return cc.children.where(branch: query_branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
-          end
-        end
 
         if cs.nil?
           cs = query_children.call branch, self.cc
