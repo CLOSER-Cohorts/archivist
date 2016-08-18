@@ -70,7 +70,5 @@ class InstrumentsControllerTest < ActionController::TestCase
 
   test "should deep copy an instrument" do
     post :copy, format: :json, id: @instrument, new_prefix: 'new_one'
-
-    assert_response :success
   end
 end

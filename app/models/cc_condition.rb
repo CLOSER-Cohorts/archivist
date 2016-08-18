@@ -1,6 +1,6 @@
 class CcCondition < ActiveRecord::Base
   include Construct::Model
-  is_a_parent branches: 2
+  is_a_parent
 
   URN_TYPE = 'if'
   TYPE = 'IfThenElse'

@@ -46,19 +46,23 @@ This could cause the webserver to start...
 To run the test suite just call `rake test`. Currently 196 tests and 263 assertions.
 
 ## Stats
-| Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |
-|----------------------|-------|-------|---------|---------|-----|-------|
-| Controllers          |   576 |   328 |      27 |      27 |   1 |    10 |
-| Models               |   479 |   404 |      27 |      34 |   1 |     9 |
-| Javascripts          |  2527 |  2167 |       0 |     287 |   0 |     5 |
-| Libraries            |  1647 |  1437 |       7 |      76 |  10 |    16 |
-| Controller tests     |   835 |   684 |      18 |       0 |   0 |     0 |
-| Model tests          |   659 |   484 |      27 |       0 |   0 |     0 |
-| **Total**            |**6746**|**5520**|**110**| **425** |**3**| **10**|
+| Name                 |  Lines |     LOC | Classes | Methods | M/C | LOC/M |
+|----------------------|--------|---------|---------|---------|-----|-------|
+| Controllers          |    605 |     358 |      27 |      28 |   1 |    10 |
+| Jobs                 |     41 |     38  |       3 |       3 |   1 |    10 |
+| Models               |    712 |     614 |      27 |      50 |   1 |    10 |
+| Mailers              |     12 |      11 |       2 |       1 |   0 |     9 |
+| Javascripts          |   2677 |    2296 |       0 |     305 |   0 |     5 |
+| Libraries            |   2001 |    1734 |       8 |      88 |  11 |    17 |
+| Tasks                |    209 |     163 |       0 |       1 |   0 |   161 |
+| Controller tests     |    835 |     684 |      18 |      93 |   5 |     5 |
+| Model tests          |    664 |     488 |      27 |     104 |   3 |     2 |
+| Mailer tests         |     11 |       5 |       2 |       0 |   0 |     0 |
+| **Total**            |**7767**| **6391**|  **114**| **673** |**5**|  **7**|
 
-  - Code LOC: 4347
-  - Test LOC: 1173
-  - Code to Test Ratio: 1:0.3
+  - Code LOC: 5214
+  - Test LOC: 1177
+  - Code to Test Ratio: 1:0.2
 
 ## Archivist Realtime
 Archivist is both a module within Archivist and an entirely separate webapp. [Archivist-realtime][realtime] is very slim Node.js app that provides a communications channel between the [Redis][redis] cache and all active users via websockets (Socket.io). The purpose of this is to be able to lock objects while editing them and to update a users screen as changes are made to an instrument.

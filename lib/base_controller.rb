@@ -1,10 +1,24 @@
+# Sets up basic actions for all controllers
+#
+# This module once included in any controller adds the basic
+# CRUD actions to create a JSON API to communicate with the
+# front end. It also sets up the basic filters to get the
+# collection of objects, individual objects and controls the
+# params.
 module BaseController
   extend ActiveSupport::Concern
   included do
     after_action :verify_policy_scoped, only: :index
     before_action :authenticate_user!, except: :external
   end
+
+  # Define the class methods
+  #
+  # This does not define actions
   module ClassMethods
+    # Includes the actions to the controller
+    #
+    #
     def add_basic_actions(options = {})
       options[:only] ||= []
       before_action :set_object, only: [:show, :update, :destroy] + options[:only]

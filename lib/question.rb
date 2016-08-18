@@ -11,7 +11,7 @@ module Question::Model
     has_many :response_domain_datetimes, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainDatetime'
     has_many :response_domain_numerics, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainNumeric'
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
-    has_many :cc_questions, as: :question
+    has_many :cc_questions, as: :question, dependent: :destroy
 
     include Realtime::RtUpdate
 
@@ -20,9 +20,18 @@ module Question::Model
     def response_domains
       (self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
           self.response_domain_numerics.to_a + self.response_domain_texts.to_a).sort do |a,b|
-            alpha = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: a.id, response_domain_type: a.class.name).rd_order
-            beta = RdsQs.find_by(question_id: self.id, question_type: self.class.name, response_domain_id: b.id, response_domain_type: b.class.name).rd_order
-            alpha <=> beta
+
+            RdsQs.find_by(
+                question_id: self.id,
+                question_type: self.class.name,
+                response_domain_id: a.id,
+                response_domain_type: a.class.name
+            ).rd_order <=> RdsQs.find_by(
+                question_id: self.id,
+                question_type: self.class.name,
+                response_domain_id: b.id,
+                response_domain_type: b.class.name
+            ).rd_order
           end
     end
 
@@ -81,28 +90,27 @@ module Question::Model
         self.reload
 
         if self.response_domains.length < rds.length
-          # There are rds to add
-          if self.rds_qs.length < 1
-            highest_rd_order = 0
-          else
-            highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
-          end
-          o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
-          new_rds = o_rds.reject { |x| self.response_domains.include? x }
-          new_rds.each do |new_rd|
-            highest_rd_order += 1
-            RdsQs.create instrument_id: self.instrument_id,
-                         response_domain: new_rd,
-                         question: self,
-                         rd_order: highest_rd_order
-            #association(new_rd.class.name.tableize).reader << new_rd
-          end
-
-        elsif self.response_domains.length > rds.length
-          #TODO: Throw a massive wobbler
+          add_rds rds
         end
       end
       self.reload
+    end
+
+    def add_rds(rds)
+      if self.rds_qs.length < 1
+        highest_rd_order = 0
+      else
+        highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
+      end
+      o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
+      new_rds = o_rds.reject { |x| self.response_domains.include? x }
+      new_rds.each do |new_rd|
+        highest_rd_order += 1
+        RdsQs.create instrument_id: self.instrument_id,
+                     response_domain: new_rd,
+                     question: self,
+                     rd_order: highest_rd_order
+      end
     end
   end
 end
