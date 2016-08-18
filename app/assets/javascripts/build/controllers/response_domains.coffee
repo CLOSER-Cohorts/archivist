@@ -90,7 +90,7 @@ angular.module('archivist.build').controller(
       $scope.reset = ->
         if $routeParams.response_domain_type? and $routeParams.response_domain_id?
           for rd in $scope.instrument.ResponseDomains
-            if rd.type.camel_case_to_underscore() + 's' == $routeParams.response_domain_type and rd.id.toString() == $routeParams.response_domain_id
+            if rd.type.pascal_case_to_underscore() + 's' == $routeParams.response_domain_type and rd.id.toString() == $routeParams.response_domain_id
 
               $scope.current = angular.copy rd
               $scope.editMode = false

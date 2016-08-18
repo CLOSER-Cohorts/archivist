@@ -128,7 +128,7 @@ angular.module('archivist.build').controller(
         console.log $routeParams
         if $routeParams.construct_type? and !isNaN(parseInt($routeParams.construct_id))
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
-            if cc.type.camel_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
+            if cc.type.pascal_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
 
               $scope.current = angular.copy cc
               break
