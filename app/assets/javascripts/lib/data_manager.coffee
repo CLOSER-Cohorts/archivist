@@ -112,42 +112,49 @@ data_manager.factory(
         if options.constructs
 
           DataManager.Data.Constructs ?= {}
-          DataManager.Data.Constructs.Conditions  =
-            DataManager.Constructs.Conditions.query instrument_id: instrument_id
-          promises.push DataManager.Data.Constructs.Conditions.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'condition'
+          if options.constructs == true || options.constructs.conditions
 
-          DataManager.Data.Constructs.Loops  =
-            DataManager.Constructs.Loops.query instrument_id: instrument_id
-          promises.push DataManager.Data.Constructs.Loops.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'loop'
+            DataManager.Data.Constructs.Conditions  =
+              DataManager.Constructs.Conditions.query instrument_id: instrument_id
+            promises.push DataManager.Data.Constructs.Conditions.$promise.then (collection)->
+              for obj, index in collection
+                collection[index].type = 'condition'
 
+          if options.constructs == true || options.constructs.loops
 
-          # Load Questions
-          DataManager.Data.Constructs.Questions   =
-            DataManager.Constructs.Questions.cc.query instrument_id: instrument_id
-          promises.push DataManager.Data.Constructs.Questions.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'question'
+            DataManager.Data.Constructs.Loops  =
+              DataManager.Constructs.Loops.query instrument_id: instrument_id
+            promises.push DataManager.Data.Constructs.Loops.$promise.then (collection)->
+              for obj, index in collection
+                collection[index].type = 'loop'
 
+          if options.constructs == true || options.constructs.questions
 
-          # Load Statements
-          DataManager.Data.Constructs.Statements  =
-            DataManager.Constructs.Statements.query instrument_id: instrument_id
-          promises.push DataManager.Data.Constructs.Statements.$promise.then (collection)->
-            for obj, index in collection
-              collection[index].type = 'statement'
+            # Load Questions
+            DataManager.Data.Constructs.Questions   =
+              DataManager.Constructs.Questions.cc.query instrument_id: instrument_id
+            promises.push DataManager.Data.Constructs.Questions.$promise.then (collection)->
+              for obj, index in collection
+                collection[index].type = 'question'
 
+          if options.constructs == true || options.constructs.statements
 
-          # Load Sequences
-          DataManager.Data.Constructs.Sequences   =
-            DataManager.Constructs.Sequences.query instrument_id: instrument_id
-          promises.push DataManager.Data.Constructs.Sequences.$promise.then (collection)->
-            console.log 'seqeunce altering'
-            for obj, index in collection
-              collection[index].type = 'sequence'
+            # Load Statements
+            DataManager.Data.Constructs.Statements  =
+              DataManager.Constructs.Statements.query instrument_id: instrument_id
+            promises.push DataManager.Data.Constructs.Statements.$promise.then (collection)->
+              for obj, index in collection
+                collection[index].type = 'statement'
+
+          if options.constructs == true || options.constructs.sequences
+
+            # Load Sequences
+            DataManager.Data.Constructs.Sequences   =
+              DataManager.Constructs.Sequences.query instrument_id: instrument_id
+            promises.push DataManager.Data.Constructs.Sequences.$promise.then (collection)->
+              console.log 'seqeunce altering'
+              for obj, index in collection
+                collection[index].type = 'sequence'
 
             if options.instrument
               if typeof DataManager.Data.Instrument.Constructs == 'undefined'
