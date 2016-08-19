@@ -6,7 +6,6 @@ class ImportJob
       im = XML::CADDIES::Importer.new filepath
 
       trap 'TERM' do
-        Rails.logger.warn 'Import of ' + filepath + ' is incomplete.'
 
         im.instrument.destroy
         Resque.enqueue ImportJob, filepath
