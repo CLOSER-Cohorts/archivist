@@ -4,6 +4,16 @@ class ImportJob
   def self.perform filepath
     begin
       im = XML::CADDIES::Importer.new filepath
+
+      trap 'TERM' do
+        Rails.logger.warn 'Import of ' + filepath + ' is incomplete.'
+
+        im.instrument.destroy
+        Resque.enqueue ImportJob, filepath
+
+        exit 0
+      end
+
       im.parse
     rescue => e
       Rails.logger.fatal e
