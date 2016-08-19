@@ -48,6 +48,29 @@ archivist.directive 'notices', ->
     templateUrl: 'partials/notices.html'
   }
 
+archivist.directive 'ngFileModel', [
+  '$parse'
+  ($parse) ->
+    {
+      restrict: 'A'
+      link: (scope, element, attrs) ->
+        model = $parse(attrs.ngFileModel)
+        isMultiple = attrs.multiple
+        modelSetter = model.assign
+        element.bind 'change', ->
+          values = []
+          angular.forEach element[0].files, (item) ->
+            values.push item
+
+          scope.$apply ->
+            if isMultiple
+              modelSetter scope, values
+            else
+              modelSetter scope, values[0]
+
+    }
+]
+
 archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
   ($rootScope, Flash, RealTimeConnection)->
     Array::unique = ->
