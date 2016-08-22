@@ -40,4 +40,9 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.public_file_server.enabled = false
+
+  config.action_dispatch.rack_cache = {
+      metastore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/metastore',
+      entitystore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/entitystore'
+  }
 end
