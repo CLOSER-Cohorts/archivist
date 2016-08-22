@@ -185,10 +185,14 @@ admin.controller('AdminImportController',
     '$http',
     'Flash'
     ($scope, $http, Flash)->
-      $scope.uploadImport = (model)->
-        console.log $scope
+      $scope.files = []
+
+      $scope.uploadImport = ()->
+        $scope.publish_flash()
         fd = new FormData()
-        fd.append model+'[]', $scope[model]
+        angular.forEach $scope.files, (item) ->
+          fd.append 'files[]', item
+
         $http {
           method: 'POST'
           url: '/admin/import/instruments'
@@ -217,19 +221,3 @@ admin.controller('AdminExportController',
       $scope.export = (instrument)->
         $http.get '/instruments/' + instrument.id.toString() + '/export.json'
   ])
-
-admin.directive('fileModel',
-  [
-    '$parse',
-    ($parse)->
-      {
-        restrict: 'A',
-        link: (scope, element, attrs)->
-          model = $parse(attrs.fileModel)
-          modelSetter = model.assign
-
-          element.bind 'change', ->
-            scope.$apply ->
-              modelSetter(scope, element[0].files[0])
-      }
-])
