@@ -280,7 +280,12 @@ module XML::DDI
           inner_prev.add_next_sibling build_response_domain.call qitem.response_domains.first
         end
 
-
+        unless qitem.instruction.nil?
+          iif = Nokogiri::XML::Node.new 'd:InterviewerInstructionReference', @doc
+          iif.add_child "<r:URN>%{urn}</r:URN><r:TypeOfObject>Instruction</r:TypeOfObject>" % {urn: @urns[:instructions][qitem.instruction_id]}
+          inner_prev.add_next_sibling iif
+          inner_prev = iif
+        end
 
         prev = qi
       end
@@ -373,6 +378,13 @@ module XML::DDI
 
           inner_prev.add_next_sibling nd
           inner_prev = nd
+        end
+
+        unless qgrid.instruction.nil?
+          iif = Nokogiri::XML::Node.new 'd:InterviewerInstructionReference', @doc
+          iif.add_child "<r:URN>%{urn}</r:URN><r:TypeOfObject>Instruction</r:TypeOfObject>" % {urn: @urns[:instructions][qgrid.instruction_id]}
+          inner_prev.add_next_sibling iif
+          inner_prev = iif
         end
 
         prev = qg
