@@ -1,3 +1,6 @@
+#= require_self
+#= require_tree .
+
 build = angular.module('archivist.summary', [
   'templates',
   'ngRoute'
