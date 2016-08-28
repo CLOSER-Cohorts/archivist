@@ -34,10 +34,10 @@ module Realtime
         Realtime::Publisher.instance.update self
       end
       def rt_destroy
-        Realtime::Publisher.instance.update self, 'DEL'
-        if self.is_a?(Construct::Model) && !self.parent.nil?
-          Realtime::Publisher.instance.update self.parent
-        end
+        #Realtime::Publisher.instance.update self, 'DEL'
+        #if self.is_a?(Construct::Model) && !self.parent.nil?
+        #  Realtime::Publisher.instance.update self.parent
+        #end
       end
     end
   end

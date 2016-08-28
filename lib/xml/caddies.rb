@@ -180,7 +180,7 @@ module XML::CADDIES
         qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference/r:URN")
         qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference/r:URN")
         qg.horizontal_code_list = @code_list_index[qg_X.content]
-        roster = question_grid.at_xpath("./d:GridDimension[@rank='2']/d:Roster")
+        roster = question_grid.at_xpath("./d:GridDimension[@rank='1']/d:Roster")
         unless roster.nil?
           qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
           qg.roster_rows = roster.attribute('minimumRequired')
@@ -392,7 +392,8 @@ module XML::CADDIES
       i.label = doc.xpath("//d:InstrumentName//r:String").first.content
       urn_pieces = doc.xpath("//r:URN").first.content.split(":")
       i.agency = urn_pieces[2]
-      instruments = Instrument.where({label: i.label, agency: i.agency})
+      i.prefix = urn_pieces[3].split('-ddi-')[0]
+      instruments = Instrument.where({prefix: i.prefix})
       if instruments.length > 0
         Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
         if duplicate == :do_nothing
@@ -412,7 +413,6 @@ module XML::CADDIES
         end
       end
       i.version = "1.0"
-      i.prefix = urn_pieces[3].split('-ddi-')[0]
       if save
         i.save!
       end
