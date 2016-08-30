@@ -56,14 +56,19 @@ instruments.controller('InstrumentsController',
           },
           ()->
             $scope.page['title'] = $scope.instrument.prefix + ' | Edit'
-            $timeout(->
-              if loadStructure
-                $scope.page['title'] = $scope.instrument.prefix + ' | View'
-                DataManager.resolveConstructs()
-                DataManager.resolveQuestions()
+            #$timeout(->
+            if loadStructure
+              $scope.page['title'] = $scope.instrument.prefix + ' | View'
+              #DataManager.resolveQuestions()
+
+              DataManager.resolve().then ->
+                $scope.instrument = DataManager.Data.Instrument
+                $scope.instrument.visible = {topsequence: null}
+                $scope.instrument.visible.topsequence = $scope.instrument.topsequence
+                $scope.instrument.visible.topsequence.ch
+                $scope.loading.state = "Done"
                 console.log $scope
-              $scope.loading.state = "Done"
-            , 100)
+           #, 100)
 
       else
         $scope.instruments = DataManager.getInstruments()
