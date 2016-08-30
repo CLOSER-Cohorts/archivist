@@ -22,4 +22,16 @@
 //= require angular-ui-sortable/sortable
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 //= require socket.io-client/socket.io
-//= require_tree .
+//
+//= require admin
+//= require app
+//= require build
+//= require datasets
+//= require instruments
+//= require summary
+//= require users
+//
+//= require_tree ./build
+//= require_tree ./lib
+//= require_tree ./summary
+//= require_tree ./templates
