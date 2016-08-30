@@ -37,7 +37,7 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 4. `bundler install`
 5. Set the environment variable  `RAILS_ENV=production` (e.g. `export RAILS_ENV=production`)
 6. Set the environment variable  `ARCHIVIST_DATABASE_PASSWORD=secure_password`
-7. `rake db:setup`
+7. `rails db:migrate`
 8. Start server: `bundle exec puma -C config/puma.rb`
 
 This could cause the webserver to start...
