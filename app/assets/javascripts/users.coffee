@@ -108,7 +108,7 @@ users.factory(
               self.set 'role', res.data.role
             ,(res)->
               self.logged_in = false
-              Flash.add 'danger', res.errors
+              Flash.add 'danger', res.data.error
           )
 
         is_admin: ->
