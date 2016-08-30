@@ -1,3 +1,6 @@
+#= require_self
+#= require ./modules
+
 instruments = angular.module('archivist.instruments', [
   'templates',
   'ngRoute',
