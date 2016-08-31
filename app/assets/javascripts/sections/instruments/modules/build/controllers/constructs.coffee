@@ -146,8 +146,7 @@ angular.module('archivist.build').controller(
         constructSorter = (a, b)->
           a.position > b.position
         if !$scope.instrument.topsequence.resolved
-          DataManager.resolveQuestions()
-          DataManager.resolveConstructs().then ->
+          DataManager.resolve().then ->
             sortChildren = (parent)->
               if parent.children?
                 parent.children.sort constructSorter
