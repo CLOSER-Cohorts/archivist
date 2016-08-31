@@ -197,7 +197,7 @@ module XML::CADDIES
         roster = question_grid.at_xpath("./d:GridDimension[@rank='1']/d:Roster")
         unless roster.nil?
           qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
-          qg.roster_rows = roster.attribute('minimumRequired')
+          qg.roster_rows = roster.attribute('minimumRequired').to_i
         end
         unless qg_Y.nil?
           qg.vertical_code_list = @code_list_index[qg_Y.content]
