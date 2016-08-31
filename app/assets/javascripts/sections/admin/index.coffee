@@ -8,26 +8,26 @@ admin = angular.module('archivist.admin', [
 admin.config(['$routeProvider',
   ($routeProvider)->
     $routeProvider
-      .when('/admin',
-        templateUrl: 'partials/admin/index.html'
-        controller: 'AdminDashController'
-      )
-      .when('/admin/instruments',
-        templateUrl: 'partials/admin/instruments.html'
-        controller: 'AdminInstrumentsController'
-      )
-      .when('/admin/users',
-        templateUrl: 'partials/admin/users.html'
-        controller: 'AdminUsersController'
-      )
-      .when('/admin/import',
-        templateUrl: 'partials/admin/import.html'
-        controller: 'AdminImportController'
-      )
-      .when('/admin/export',
-        templateUrl: 'partials/admin/export.html'
-        controller: 'AdminExportController'
-      )
+    .when('/admin',
+      templateUrl: 'partials/admin/index.html'
+      controller: 'AdminDashController'
+    )
+    .when('/admin/instruments',
+      templateUrl: 'partials/admin/instruments.html'
+      controller: 'AdminInstrumentsController'
+    )
+    .when('/admin/users',
+      templateUrl: 'partials/admin/users.html'
+      controller: 'AdminUsersController'
+    )
+    .when('/admin/import',
+      templateUrl: 'partials/admin/import.html'
+      controller: 'AdminImportController'
+    )
+    .when('/admin/export',
+      templateUrl: 'partials/admin/export.html'
+      controller: 'AdminExportController'
+    )
 ])
 
 admin.controller('AdminDashController',
@@ -37,7 +37,7 @@ admin.controller('AdminDashController',
     ($scope, DataManager)->
       $scope.counts = DataManager.getApplicationStats()
       console.log $scope.counts
-])
+  ])
 
 admin.controller('AdminUsersController',
   [
@@ -141,7 +141,7 @@ admin.controller('AdminInstrumentsController',
       $scope.copy = ->
         $scope.copiedInstrument = $scope.original.$copy $scope.copiedInstrument
         ,  ->
-            Flash.add 'success', 'Instrument copied successfully'
+          Flash.add 'success', 'Instrument copied successfully'
         ,
           (response)->
             Flash.add 'danger', 'Instrument failed to copy - ' + response.message
@@ -177,7 +177,7 @@ admin.controller('AdminInstrumentsController',
           (response)->
             Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
-])
+  ])
 
 admin.controller('AdminImportController',
   [
@@ -185,10 +185,14 @@ admin.controller('AdminImportController',
     '$http',
     'Flash'
     ($scope, $http, Flash)->
-      $scope.uploadImport = (model)->
-        console.log $scope
+      $scope.files = []
+
+      $scope.uploadImport = ()->
+        $scope.publish_flash()
         fd = new FormData()
-        fd.append model+'[]', $scope[model]
+        angular.forEach $scope.files, (item) ->
+          fd.append 'files[]', item
+
         $http {
           method: 'POST'
           url: '/admin/import/instruments'
@@ -201,7 +205,7 @@ admin.controller('AdminImportController',
           Flash.add 'success', 'Instrument imported.'
         .error (res)->
           Flash.add 'danger', 'Instrument failed to import - ' + res.message
-])
+  ])
 
 admin.controller('AdminExportController',
   [
@@ -217,19 +221,3 @@ admin.controller('AdminExportController',
       $scope.export = (instrument)->
         $http.get '/instruments/' + instrument.id.toString() + '/export.json'
   ])
-
-admin.directive('fileModel',
-  [
-    '$parse',
-    ($parse)->
-      {
-        restrict: 'A',
-        link: (scope, element, attrs)->
-          model = $parse(attrs.fileModel)
-          modelSetter = model.assign
-
-          element.bind 'change', ->
-            scope.$apply ->
-              modelSetter(scope, element[0].files[0])
-      }
-])
