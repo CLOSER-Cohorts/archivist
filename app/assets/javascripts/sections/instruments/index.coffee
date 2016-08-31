@@ -59,15 +59,15 @@ instruments.controller('InstrumentsController',
           },
           ()->
             $scope.page['title'] = $scope.instrument.prefix + ' | Edit'
-            #$timeout(->
-            if loadStructure
-              $scope.page['title'] = $scope.instrument.prefix + ' | View'
+            $timeout(->
+              if loadStructure
+                $scope.page['title'] = $scope.instrument.prefix + ' | View'
 
-              DataManager.resolve().then ->
-                $scope.instrument = DataManager.Data.Instrument
-                $scope.loading.state = "Done"
-                console.log $scope
-           #, 100)
+                DataManager.resolve().then ->
+                  $scope.instrument = DataManager.Data.Instrument
+                  $scope.loading.state = "Done"
+                  console.log $scope
+            , 100)
 
       else
         $scope.instruments = DataManager.getInstruments()
