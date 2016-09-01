@@ -77,12 +77,12 @@ gem 'aws-sdk', '~> 2'
 
 # To search for memory leaks and memory bloat
 gem 'derailed'
-gem 'sys-proctable'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+  gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
 end
 
 group :development do

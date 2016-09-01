@@ -128,7 +128,7 @@ angular.module('archivist.build').controller(
         console.log $routeParams
         if $routeParams.construct_type? and !isNaN(parseInt($routeParams.construct_id))
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
-            if cc.type.camel_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
+            if cc.type.pascal_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
 
               $scope.current = angular.copy cc
               break
@@ -146,18 +146,17 @@ angular.module('archivist.build').controller(
         constructSorter = (a, b)->
           a.position > b.position
         if !$scope.instrument.topsequence.resolved
-          DataManager.resolveConstructs()
-          DataManager.resolveQuestions()
-          sortChildren = (parent)->
-            if parent.children?
-              parent.children.sort constructSorter
-              for child in parent.children
-                sortChildren child
-              if parent.fchildren?
-                parent.fchildren.sort constructSorter
-                for child in parent.fchildren
+          DataManager.resolve().then ->
+            sortChildren = (parent)->
+              if parent.children?
+                parent.children.sort constructSorter
+                for child in parent.children
                   sortChildren child
-          sortChildren $scope.instrument.topsequence
+                if parent.fchildren?
+                  parent.fchildren.sort constructSorter
+                  for child in parent.fchildren
+                    sortChildren child
+            sortChildren $scope.instrument.topsequence
 
         $scope.details = {}
         $scope.details.item_options = DataManager.getQuestionItemIDs()

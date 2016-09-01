@@ -59236,7 +59236,7 @@ angular.module('ngResource', ['ng']).
 
 
 })(window, window.angular);
-// Angular Rails Templates 1.0.0
+// Angular Rails Templates 1.0.1
 //
 // angular_templates.ignore_prefix: ["templates/"]
 // angular_templates.markups: ["erb", "str"]
@@ -76916,7 +76916,7 @@ function toArray(list, index) {
 (function() {
   var archivist;
 
-  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'archivist.flash', 'archivist.instruments', 'archivist.build', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
+  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'archivist.flash', 'archivist.instruments', 'archivist.build', 'archivist.summary', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
 
   archivist.config([
     '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
@@ -76951,6 +76951,12 @@ function toArray(list, index) {
   archivist.directive('notices', function() {
     return {
       templateUrl: 'partials/notices.html'
+    };
+  });
+
+  archivist.directive('breadcrumb', function() {
+    return {
+      templateUrl: 'partials/breadcrumb.html'
     };
   });
 
@@ -77021,17 +77027,38 @@ function toArray(list, index) {
           return results;
         }).call(this))[0];
       };
+      Object.lower_everything = function(obj) {
+        var k, target;
+        target = {};
+        for (k in obj) {
+          if (obj.hasOwnProperty(k)) {
+            if (typeof k === "string") {
+              target[k.toLowerCase()] = typeof obj[k] === 'string' ? obj[k].toLowerCase() : obj[k];
+            } else {
+              target[k] = typeof obj[k] === 'string' ? obj[k].toLowerCase() : obj[k];
+            }
+          }
+        }
+        return target;
+      };
       String.prototype.replaceAll = function(search, replacement) {
         var target;
         target = this;
         return target.replace(new RegExp(search, 'g'), replacement);
       };
-      String.prototype.camel_case_to_underscore = function() {
+      String.prototype.pascal_case_to_underscore = function() {
         var target;
         target = this;
         return target.replace(/([A-Z])/g, function(x, y) {
           return "_" + y.toLowerCase();
         }).replace(/^_/, '');
+      };
+      String.prototype.underscore_to_pascal_case = function() {
+        var target;
+        target = this.capitalizeFirstLetter();
+        return target.replace(/_(.)/g, function(x, y) {
+          return y.toUpperCase();
+        });
       };
       String.prototype.capitalizeFirstLetter = function() {
         var target;
@@ -77564,7 +77591,7 @@ function toArray(list, index) {
           ref = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's'];
           for (i = 0, len = ref.length; i < len; i++) {
             cc = ref[i];
-            if (cc.type.camel_case_to_underscore() === $routeParams.construct_type && cc.id.toString() === $routeParams.construct_id.toString()) {
+            if (cc.type.pascal_case_to_underscore() === $routeParams.construct_type && cc.id.toString() === $routeParams.construct_id.toString()) {
               $scope.current = angular.copy(cc);
               break;
             }
@@ -77694,6 +77721,9 @@ function toArray(list, index) {
       $scope.response_domains_url = '/instruments/' + $routeParams.id + '/build/response_domains';
       $scope.questions_url = '/instruments/' + $routeParams.id + '/build/questions';
       $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs';
+      $scope.summary_url = function(arg) {
+        return '/instruments/' + $routeParams.id + '/summary/' + arg;
+      };
       return $scope.stats = DataManager.getInstrumentStats($routeParams.id);
     }
   ]);
@@ -77954,7 +77984,7 @@ function toArray(list, index) {
           ref = $scope.instrument.ResponseDomains;
           for (i = 0, len = ref.length; i < len; i++) {
             rd = ref[i];
-            if (rd.type.camel_case_to_underscore() + 's' === $routeParams.response_domain_type && rd.id.toString() === $routeParams.response_domain_id) {
+            if (rd.type.pascal_case_to_underscore() + 's' === $routeParams.response_domain_type && rd.id.toString() === $routeParams.response_domain_id) {
               $scope.current = angular.copy(rd);
               $scope.editMode = false;
               if ($scope.current != null) {
@@ -78229,72 +78259,84 @@ function toArray(list, index) {
           if ((base1 = DataManager.Data).Constructs == null) {
             base1.Constructs = {};
           }
-          DataManager.Data.Constructs.Conditions = DataManager.Constructs.Conditions.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Conditions.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'condition');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Loops = DataManager.Constructs.Loops.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Loops.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'loop');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Questions = DataManager.Constructs.Questions.cc.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Questions.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'question');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Statements = DataManager.Constructs.Statements.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Statements.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'statement');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Sequences = DataManager.Constructs.Sequences.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Sequences.$promise.then(function(collection) {
-            var i, index, len, obj;
-            console.log('seqeunce altering');
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              collection[index].type = 'sequence';
-            }
+          if (options.constructs === true || options.constructs.conditions) {
+            DataManager.Data.Constructs.Conditions = DataManager.Constructs.Conditions.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Conditions.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'condition');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.loops) {
+            DataManager.Data.Constructs.Loops = DataManager.Constructs.Loops.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Loops.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'loop');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.questions) {
+            DataManager.Data.Constructs.Questions = DataManager.Constructs.Questions.cc.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Questions.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'question');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.statements) {
+            DataManager.Data.Constructs.Statements = DataManager.Constructs.Statements.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Statements.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'statement');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.sequences) {
+            DataManager.Data.Constructs.Sequences = DataManager.Constructs.Sequences.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Sequences.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              console.log('seqeunce altering');
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'sequence');
+              }
+              return results;
+            }));
             if (options.instrument) {
               if (typeof DataManager.Data.Instrument.Constructs === 'undefined') {
                 DataManager.Data.Instrument.Constructs = {};
               }
               DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences;
-              return true;
+              true;
             }
-          }));
+          }
         }
         if (options.questions) {
           if ((base2 = DataManager.Data).Questions == null) {
@@ -78913,7 +78955,9 @@ function toArray(list, index) {
           if (typeof lookup === "object") {
             for (k in lookup) {
               v = lookup[k];
-              output = dig(output[k], v);
+              if (lookup.hasOwnProperty(k)) {
+                output = dig(output[k], v);
+              }
             }
           } else {
             output = output[lookup];
@@ -79486,6 +79530,84 @@ function toArray(list, index) {
   ]);
 
 }).call(this);
+(function() {
+  var build;
+
+  build = angular.module('archivist.summary', ['templates', 'ngRoute']);
+
+  build.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments/:id/summary', {
+        templateUrl: 'partials/summary/index.html',
+        controller: 'SummaryIndexController'
+      }).when('/instruments/:id/summary/:object_type', {
+        templateUrl: 'partials/summary/show.html',
+        controller: 'SummaryShowController'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  angular.module('archivist.summary').controller('SummaryShowController', [
+    '$scope', '$routeParams', '$filter', 'DataManager', 'Map', 'RealTimeListener', function($scope, $routeParams, $filter, DataManager, Map, RealTimeListener) {
+      var k, options, v;
+      $scope.object_type = $routeParams.object_type.underscore_to_pascal_case();
+      options = Object.lower_everything(Map.map[$scope.object_type]);
+      for (k in options) {
+        v = options[k];
+        options[k] = {};
+        options[k][v] = true;
+      }
+      options['topsequence'] = false;
+      return $scope.instrument = DataManager.getInstrument($routeParams.id, options, function() {
+        var accepted_columns, data, i, index, j, key, len, obj, row;
+        accepted_columns = ['id', 'label', 'literal', 'base_label', 'response_unit_label', 'logic'];
+        data = Map.find(DataManager.Data, $scope.object_type);
+        $scope.data = [];
+        for (index = j = 0, len = data.length; j < len; index = ++j) {
+          row = data[index];
+          obj = {};
+          for (i in row) {
+            if (accepted_columns.indexOf(i) !== -1) {
+              obj[i] = row[i];
+            }
+          }
+          $scope.data.push(obj);
+        }
+        $scope.cols = (function() {
+          var results;
+          results = [];
+          for (key in $scope.data[0]) {
+            results.push(key);
+          }
+          return results;
+        })();
+        $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.id.toString(),
+            active: false
+          }, {
+            label: 'Summary',
+            link: false,
+            active: false
+          }, {
+            label: $scope.object_type,
+            link: false,
+            active: true
+          }
+        ];
+        return console.log($scope);
+      });
+    }
+  ]);
+
+}).call(this);
 // Angular Rails Template
 // source: app/assets/javascripts/templates/index.html
 
@@ -79554,6 +79676,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
   $templateCache.put("partials/admin/users.html", '<div class="row users">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Users\n        </h1>\n\n        <notices></notices>\n\n        <div class="row">\n            <div class="col-md-3" data-ng-show="groups.length > 1">\n                <div class="panel panel-primary">\n                    <div class="panel-heading">\n                        Groups\n                        <button type="button" class="btn btn-primary" data-ng-click="newGroup()">\n                            <span\n                                    class="glyphicon glyphicon-plus"\n                                    aria-hidden="true"\n                                    aria-label="Add new group"\n                            ></span>\n                        </button>\n                    </div>\n                    <div class="list-group">\n                        <button\n                                type="button"\n                                class="list-group-item"\n                                data-ng-repeat="group in groups"\n                                data-ng-click="selectGroup(group)"\n                        >\n                            {{group.label}}\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class="col-md-3">\n                <div class="panel panel-primary">\n                    <div class="panel-heading">\n                        Users\n                        <button type="button" class="btn btn-primary" data-ng-click="newUser()">\n                            <span\n                                    class="glyphicon glyphicon-plus"\n                                    aria-hidden="true"\n                                    aria-label="Add new user"\n                            ></span>\n                        </button>\n                    </div>\n                    <div class="list-group">\n                        <button\n                                type="button"\n                                class="list-group-item"\n                                data-ng-repeat="user in users"\n                                data-ng-click="selectUser(user)"\n                        >\n                            {{user.first_name}} {{user.last_name}}\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class="col-md-6">\n                <div class="panel panel-primary">\n                    <div class="panel-heading" style="height:55px">\n                        Details\n                    </div>\n                    <div class="panel-body">\n                        <div class="panel-content" data-ng-if="mode == \'group\'">\n                            <form>\n                                <div class="form-group">\n                                    <label for="g-name">Name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="g-name"\n                                            placeholder="Name"\n                                            data-ng-model="current.label"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.label}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="g-type">Type</label>\n                                    <select class="form-control" data-ng-model="current.group_type" id="g-type" data-ng-show="editing">\n                                        <option>Centre</option>\n                                        <option>Study</option>\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.group_type}}</p>\n                                </div>\n                                <div class="form-group" data-ng-if="current.study == \'*\'">\n                                    <label >Studies</label>\n                                    <p class="form-control-static">All</p>\n                                </div>\n                                <div data-ng-if="current.study != \'*\'">\n                                    <label><ng-pluralize count="current.study.length" when="{\'1\':\'Study\',\'other\':\'Studies\'}"></ng-pluralize></label>\n                                    <div class="form-group" data-ng-repeat="study in current.study">\n                                        <input type="text"\n                                               class="form-control study"\n                                               data-ng-model="study.label"\n                                               data-ng-show="editing"\n                                        />\n                                        <p class="form-control-static" data-ng-show="!editing">{{study.label}}</p>\n                                    </div>\n                                    <div class="form-group">\n                                        <a data-ng-click="addStudy()" data-ng-show="editing">Add another</a>\n                                    </div>\n                                </div>\n                            </form>\n                        </div>\n                        <div class="panel-content" data-ng-if="mode == \'user\'">\n                            <form>\n                                <div class="form-group">\n                                    <label for="u-email">Email</label>\n                                    <input\n                                            type="email"\n                                            class="form-control"\n                                            id="u-email"\n                                            placeholder="Email"\n                                            data-ng-model="current.first_name"\n                                            data-ng-show="editing && !current.id"\n                                    >\n                                    <p class="form-control-static" data-ng-show="current.id">{{current.email}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-fname">First name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="u-fname"\n                                            placeholder="First name"\n                                            data-ng-model="current.first_name"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.first_name}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-lname">Last name</label>\n                                    <input\n                                            type="text"\n                                            class="form-control"\n                                            id="u-lname"\n                                            placeholder="Last name"\n                                            data-ng-model="current.last_name"\n                                            data-ng-show="editing"\n                                    >\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.last_name}}</p>\n                                </div>\n                                <div class="form-group">\n                                    <label for="u-role">Role</label>\n                                    <select class="form-control" data-ng-model="current.role" id="u-role" data-ng-show="editing">\n                                        <option value="reader">Reader</option>\n                                        <option value="editor">Editor</option>\n                                        <option value="admin">Admin</option>\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>\n                                </div>\n                                <div class="form-group" data-ng-show="editing && !current.id">\n                                    <label for="u-group">Group</label>\n                                    <select\n                                            class="form-control"\n                                            data-ng-model="current.group_id"\n                                            id="u-group"\n                                            data-ng-options="group as group.label for group in groups track by group.id"\n                                    >\n                                    </select>\n                                    <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>\n                                </div>\n                            </form>\n                        </div>\n                        <div data-ng-show="mode" class="buttons">\n                            <button class="btn btn-danger" data-ng-show="!editing" data-ng-click="delete()">Delete</button>\n                            <button class="btn btn-primary" data-ng-show="!editing" data-ng-click="edit()">Edit</button>\n                            <button class="btn btn-default" data-ng-show="editing" data-ng-click="cancel()">Cancel</button>\n                            <button class="btn btn-primary" data-ng-show="editing" data-ng-click="save()">Save</button>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/breadcrumb.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/breadcrumb.html", '<ol class="breadcrumb">\n    <li data-ng-repeat="crumb in breadcrumbs" data-ng-class="{active: crumb.active}" data-ng-switch="crumb.link">\n        <span data-ng-switch-when="false">\n            {{crumb.label}}\n        </span>\n        <a data-ng-href="{{crumb.link}}" data-ng-switch-default>\n            {{crumb.label}}\n        </a>\n    </li>\n</ol>')
 }]);
 
 // Angular Rails Template
@@ -79630,7 +79759,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/index.html", '<div class="row">\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{code_lists_url}}">\n                    <h3 class="panel-title">Code Lists</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.categories}}</span>\n                        Categories\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.code_lists}}</span>\n                        Code Lists\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{response_domains_url}}">\n                    <h3 class="panel-title">Response Domains</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_datetimes}}</span>\n                        Datetime Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_numerics}}</span>\n                        Numeric Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_texts}}</span>\n                        Text Answers\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{questions_url}}">\n                    <h3 class="panel-title">Questions</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_items}}</span>\n                        Question Items\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_grids}}</span>\n                        Question Grids\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.instructions}}</span>\n                        Instructions\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{constructs_url}}">\n                    <h3 class="panel-title">Constructs</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_conditions}}</span>\n                        Conditions\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_loops}}</span>\n                        Loops\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_questions}}</span>\n                        Questions\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_sequences}}</span>\n                        Sequences\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_statements}}</span>\n                        Statements\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/build/index.html", '<div class="row">\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{code_lists_url}}">\n                    <h3 class="panel-title">Code Lists</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.categories}}</span>\n                        Categories\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.code_lists}}</span>\n                        Code Lists\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{response_domains_url}}">\n                    <h3 class="panel-title">Response Domains</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_datetimes}}</span>\n                        Datetime Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_numerics}}</span>\n                        Numeric Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_texts}}</span>\n                        Text Answers\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{questions_url}}">\n                    <h3 class="panel-title">Questions</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_items}}</span>\n                        Question Items\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_grids}}</span>\n                        Question Grids\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.instructions}}</span>\n                        Instructions\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{constructs_url}}">\n                    <h3 class="panel-title">Constructs</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_conditions}}</span>\n                        <a href="{{summary_url(\'cc_condition\')}}">\n                            Conditions\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_loops}}</span>\n                        <a href="{{summary_url(\'cc_loop\')}}">\n                            Loops\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_questions}}</span>\n                        <a href="{{summary_url(\'cc_question\')}}">\n                            Questions\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_sequences}}</span>\n                        <a href="{{summary_url(\'cc_sequence\')}}">\n                            Sequences\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_statements}}</span>\n                        <a href="{{summary_url(\'cc_statement\')}}">\n                            Statements\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79644,7 +79773,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/modals/add_rd.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/modals/add_rd.html", '<div class="modal fade" id="add-rd" tabindex="-1" role="dialog" aria-labelledby="add-rd-title">\n    <div class="modal-dialog" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="add-rd-title">Add Response Domain</h4>\n            </div>\n            <div class="modal-body">\n                <table class="table table-hover">\n                    <tr>\n                        <th>\n                            Type\n                        </th>\n                        <th>\n                            Label\n                        </th>\n                        <th>\n\n                        </th>\n                    </tr>\n                    <tr data-ng-repeat="rd in instrument.ResponseDomains">\n                        <td>\n                            {{rd.type}}\n                        </td>\n                        <td>\n                            {{rd.label}}\n                        </td>\n                        <td>\n                            <a href="#" data-ng-click="add_rd(rd)">\n                                Add\n                            </a>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/build/modals/add_rd.html", '<div class="modal fade" id="add-rd" tabindex="-1" role="dialog" aria-labelledby="add-rd-title">\n    <div class="modal-dialog" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="add-rd-title">Add Response Domain</h4>\n            </div>\n            <div class="modal-body">\n                <div class="row">\n                    <input type="text" class="form-control col-md-12" placeholder="Search for..." data-ng-model="query">\n                    <table class="table table-hover">\n                    <tr>\n                        <th>\n                            Type\n                        </th>\n                        <th>\n                            Label\n                        </th>\n                        <th>\n\n                        </th>\n                    </tr>\n                    <tr data-ng-repeat="rd in instrument.ResponseDomains | filter:query">\n                        <td>\n                            {{rd.type}}\n                        </td>\n                        <td>\n                            {{rd.label}}\n                        </td>\n                        <td>\n                            <a href="#" data-ng-click="add_rd(rd)">\n                                Add\n                            </a>\n                        </td>\n                    </tr>\n                </table>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79750,6 +79879,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
   $templateCache.put("partials/response_domains/show.html", '<ul data-ng-if="rd.type == \'ResponseDomainCode\'">\n    <li data-ng-repeat="code in rd.codes | orderBy:\'order\'">\n        <span class="a-code-value">\n            {{code.value}}\n        </span>\n        <span class="a-code-category">\n            {{code.label}}\n        </span>\n    </li>\n</ul>\n<span data-ng-if="rd.type != \'ResponseDomainCode\'" class="a-response-domain">\n    <span data-ng-if="rd.subtype">\n        {{rd.subtype}}{{rd.params}}:\n    </span>\n    {{rd.label}}\n</span>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/summary/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/summary/index.html", "")
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/summary/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/summary/show.html", '<breadcrumb></breadcrumb>\n\n<div class="row">\n    <div class="col-md-10 col-md-offset-1">\n        <table class="table table-striped table-condensed">\n            <tr>\n                <th data-ng-repeat="col in cols">\n                    {{col}}\n                </th>\n            </tr>\n            <tr data-ng-repeat="row in data">\n                <td data-ng-repeat="col in cols">\n                    {{row[col]}}\n                </td>\n            </tr>\n        </table>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template

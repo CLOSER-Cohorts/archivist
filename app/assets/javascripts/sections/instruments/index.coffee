@@ -1,3 +1,6 @@
+#= require_self
+#= require ./modules
+
 instruments = angular.module('archivist.instruments', [
   'templates',
   'ngRoute',
@@ -59,10 +62,11 @@ instruments.controller('InstrumentsController',
             $timeout(->
               if loadStructure
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
-                DataManager.resolveConstructs()
-                DataManager.resolveQuestions()
-                console.log $scope
-              $scope.loading.state = "Done"
+
+                DataManager.resolve().then ->
+                  $scope.instrument = DataManager.Data.Instrument
+                  $scope.loading.state = "Done"
+                  console.log $scope
             , 100)
 
       else

@@ -78,25 +78,25 @@ module XML::CADDIES
     def read_response_domains
       text_domains = @doc.xpath("//d:TextDomain")
       @counters['response_domain_texts'] = text_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       text_domains.each do |text_domain|
         index_label = text_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "T" + index_label
+        if not @response_domain_index.has_key? "T" + index_label
           rdt = ResponseDomainText.new({label: index_label})
           if not text_domain["maxLength"].nil?
             rdt.maxlen = text_domain["maxLength"].to_i
           end
           @instrument.response_domain_texts << rdt
-          @reponse_domain_index["T" + index_label] = rdt
+          @response_domain_index["T" + index_label] = rdt
         end
       end
 
       numeric_domains = @doc.xpath("//d:NumericDomain")
       @counters['response_domain_numerics'] = numeric_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       numeric_domains.each do |numeric_domain|
         index_label = numeric_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "N" + index_label
+        if not @response_domain_index.has_key? "N" + index_label
           rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
           min = numeric_domain.at_xpath("r:NumberRange/r:Low")
           max = numeric_domain.at_xpath("r:NumberRange/r:High")
@@ -107,23 +107,23 @@ module XML::CADDIES
             rdn.max = max.content
           end
           @instrument.response_domain_numerics << rdn
-          @reponse_domain_index["N" + index_label] = rdn
+          @response_domain_index["N" + index_label] = rdn
         end
       end
 
       datetime_domains = @doc.xpath("//d:DateTimeDomain")
       @counters['response_domain_datetimes'] = datetime_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       datetime_domains.each do |datetime_domain|
         index_label = datetime_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "D" + index_label
+        if not @response_domain_index.has_key? "D" + index_label
           rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
           format = datetime_domain.at_xpath("r:DateFieldFormat").content
           if format.length > 0
             rdd.format = format
           end
           @instrument.response_domain_datetimes << rdd
-          @reponse_domain_index["D" + index_label] = rdd
+          @response_domain_index["D" + index_label] = rdd
         end
       end
     end
@@ -143,21 +143,36 @@ module XML::CADDIES
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
 
         #Adding response domains
-        rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
-        rdcs.each do |rdc|
-          qi.response_domain_codes << @code_list_index[rdc.content].response_domain
-        end
-        rdns = question_item.xpath("./d:NumericDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content")
-        rdns.each do |rdn|
-          qi.response_domain_numerics << @reponse_domain_index['N'+rdn.content]
-        end
-        rdts = question_item.xpath("./d:TextDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:TextDomain/r:Label/r:Content")
-        rdts.each do |rdt|
-          qi.response_domain_texts << @reponse_domain_index['T'+rdt.content]
-        end
-        rdds = question_item.xpath("./d:DateTimeDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:DateTimeDomain/r:Label/r:Content")
-        rdds.each do |rdd|
-          qi.response_domain_datetimes << @reponse_domain_index['D'+rdd.content]
+        rds = question_item.xpath('./d:CodeDomain/r:CodeListReference/r:URN | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | '\
+          './d:NumericDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content | '\
+          './d:TextDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:TextDomain/r:Label/r:Content | '\
+          './d:DateTimeDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:DateTimeDomain/r:Label/r:Content'
+        )
+
+        @instrument.question_items << qi
+
+        order_counter = 0
+        rds.each do |rd|
+          order_counter += 1
+          type = rd.parent.parent.name
+          if type == 'CodeDomain'
+            RdsQs.create({
+                             question: qi,
+                             response_domain: @code_list_index[rd.content].response_domain,
+                             rd_order: order_counter
+                         })
+          else
+            prefix_char = type == 'NumericDomain' ? 'N' : (type == 'TextDomain' ? 'T' : 'D')
+            RdsQs.create({
+                             question: qi,
+                             response_domain: @response_domain_index[prefix_char + rd.content],
+                             rd_order: order_counter
+                         })
+          end
         end
 
         #Adding instruction
@@ -165,7 +180,6 @@ module XML::CADDIES
         if not instr.nil?
           qi.association(:instruction).writer @instruction_index[instr.content]
         end
-        @instrument.question_items << qi
       end
     end
 
@@ -180,10 +194,10 @@ module XML::CADDIES
         qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference/r:URN")
         qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference/r:URN")
         qg.horizontal_code_list = @code_list_index[qg_X.content]
-        roster = question_grid.at_xpath("./d:GridDimension[@rank='2']/d:Roster")
+        roster = question_grid.at_xpath("./d:GridDimension[@rank='1']/d:Roster")
         unless roster.nil?
           qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
-          qg.roster_rows = roster.attribute('minimumRequired')
+          qg.roster_rows = roster.attribute('minimumRequired').value.to_i
         end
         unless qg_Y.nil?
           qg.vertical_code_list = @code_list_index[qg_Y.content]
@@ -200,7 +214,7 @@ module XML::CADDIES
             if x.parent.name == "GridResponseDomain"
               RdsQs.create({
                                question: obj,
-                               response_domain: @reponse_domain_index[
+                               response_domain: @response_domain_index[
                                    index_prefix +
                                        x
                                            .at_xpath("./r:Label/r:Content")
@@ -214,11 +228,12 @@ module XML::CADDIES
                                             .to_i
                            })
             else
-              obj.send(arr) << @reponse_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
+              obj.send(arr) << @response_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
             end
           end
         end
 
+        number_of_code_domains_as_axis = 0
         rdcs = question_grid.xpath(".//d:CodeDomain")
         rdcs.each do |rdc|
           if not rdc.parent.name == "GridDimension"
@@ -231,6 +246,8 @@ module XML::CADDIES
             else
               qg.response_domain_codes << @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain
             end
+          else
+            number_of_code_domains_as_axis += 1
           end
         end
         read_q_rds.call(
@@ -251,6 +268,20 @@ module XML::CADDIES
             'D',
             'response_domain_datetimes'
         )
+
+        collection = question_grid.xpath('.//d:CodeDomain | .//d:NumericDomain | .//d:TextDomain | .//d:DateTimeDomain')
+
+        if (collection.count - number_of_code_domains_as_axis) == 1 && qg.horizontal_code_list.codes.count > 1
+          base = qg.rds_qs.first.dup
+          qg.horizontal_code_list.codes.each_with_index do |c, i|
+            unless i == 0
+              qg.rds_qs << base.dup
+            end
+            newest_junction = qg.rds_qs.last
+            newest_junction.code_id = c.value.to_i
+            newest_junction.save!
+          end
+        end
 
         #Adding instruction
         instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
@@ -386,7 +417,6 @@ module XML::CADDIES
     def self.build_instrument(doc, options= {})
       save = defined?(options[:save]) ? true : options[:save]
       duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
-      Rails.logger.debug duplicate
 
       i = Instrument.new
       i.label = doc.xpath("//d:InstrumentName//r:String").first.content

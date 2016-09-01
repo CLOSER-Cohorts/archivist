@@ -1,3 +1,32 @@
+# This is a manifest file that'll be compiled into application.js, which will include all the files
+# listed below.
+#
+# Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+# or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+#
+# It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+# compiled file.
+#
+# Read Sprockets README (https:#github.com/rails/sprockets#sprockets-directives) for details
+# about supported directives.
+#
+#= require jquery
+#= require jquery_ujs
+#= require jquery-ui/jquery-ui
+#= require angular/angular
+#= require angular-route/angular-route
+#= require angular-messages/angular-messages
+#= require angular-resource/angular-resource
+#= require angular-rails-templates
+#= require angular-bootstrap/ui-bootstrap-tpls
+#= require angular-ui-sortable/sortable
+#= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
+#= require socket.io-client/socket.io
+#
+#= require lib
+#= require sections
+#= require_tree ./templates/
+
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
@@ -5,6 +34,7 @@ archivist = angular.module('archivist', [
   'archivist.flash',
   'archivist.instruments',
   'archivist.build',
+  'archivist.summary',
   'archivist.admin',
   'archivist.realtime',
   'archivist.users',
@@ -46,6 +76,11 @@ archivist.controller('RootController',
 archivist.directive 'notices', ->
   {
     templateUrl: 'partials/notices.html'
+  }
+
+archivist.directive 'breadcrumb', ->
+  {
+    templateUrl: 'partials/breadcrumb.html'
   }
 
 archivist.directive 'ngFileModel', [
@@ -90,13 +125,28 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     Array::get_index_by_id_and_type = (ref_id, ref_type)->
       (key for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
 
+    Object.lower_everything = (obj)->
+      target = {}
+      for k of obj
+        if obj.hasOwnProperty k
+          if typeof k == "string"
+            target[k.toLowerCase()] = if typeof obj[k] == 'string' then obj[k].toLowerCase() else obj[k]
+          else
+            target[k] = if typeof obj[k] == 'string' then obj[k].toLowerCase() else obj[k]
+      target
+
     String::replaceAll = (search, replacement) ->
       target = this
       target.replace(new RegExp(search, 'g'), replacement)
 
-    String::camel_case_to_underscore = ->
+    String::pascal_case_to_underscore = ->
       target = this
       target.replace(/([A-Z])/g, (x,y) -> "_"+y.toLowerCase()).replace /^_/, ''
+
+    String::underscore_to_pascal_case = ->
+      target = this.capitalizeFirstLetter()
+      target.replace /_(.)/g, (x,y) -> y.toUpperCase()
+
 
     String::capitalizeFirstLetter = ->
       target = this

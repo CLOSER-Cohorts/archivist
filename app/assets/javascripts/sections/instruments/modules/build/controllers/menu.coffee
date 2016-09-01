@@ -10,6 +10,9 @@ angular.module('archivist.build').controller(
       $scope.questions_url = '/instruments/' + $routeParams.id + '/build/questions'
       $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs'
 
+      $scope.summary_url = (arg)->
+        '/instruments/' + $routeParams.id + '/summary/' + arg
+
       $scope.stats = DataManager.getInstrumentStats($routeParams.id)
   ]
 )
