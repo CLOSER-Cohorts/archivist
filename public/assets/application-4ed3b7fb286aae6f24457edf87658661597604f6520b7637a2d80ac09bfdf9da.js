@@ -9891,7 +9891,7 @@ return jQuery;
     requiredInputSelector: 'input[name][required]:not([disabled]), textarea[name][required]:not([disabled])',
 
     // Form file input elements
-    fileInputSelector: 'input[type=file]:not([disabled])',
+    fileInputSelector: 'input[name][type=file]:not([disabled])',
 
     // Link onClick disable selector with possible reenable after remote submission
     linkDisableSelector: 'a[data-disable-with], a[data-disable]',
@@ -10259,15 +10259,15 @@ return jQuery;
       });
     });
 
-    $document.delegate(rails.linkDisableSelector, 'ajax:complete', function() {
+    $document.on('ajax:complete', rails.linkDisableSelector, function() {
         rails.enableElement($(this));
     });
 
-    $document.delegate(rails.buttonDisableSelector, 'ajax:complete', function() {
+    $document.on('ajax:complete', rails.buttonDisableSelector, function() {
         rails.enableFormElement($(this));
     });
 
-    $document.delegate(rails.linkClickSelector, 'click.rails', function(e) {
+    $document.on('click.rails', rails.linkClickSelector, function(e) {
       var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
       if (!rails.allowAction(link)) return rails.stopEverything(e);
 
@@ -10291,7 +10291,7 @@ return jQuery;
       }
     });
 
-    $document.delegate(rails.buttonClickSelector, 'click.rails', function(e) {
+    $document.on('click.rails', rails.buttonClickSelector, function(e) {
       var button = $(this);
 
       if (!rails.allowAction(button) || !rails.isRemote(button)) return rails.stopEverything(e);
@@ -10308,7 +10308,7 @@ return jQuery;
       return false;
     });
 
-    $document.delegate(rails.inputChangeSelector, 'change.rails', function(e) {
+    $document.on('change.rails', rails.inputChangeSelector, function(e) {
       var link = $(this);
       if (!rails.allowAction(link) || !rails.isRemote(link)) return rails.stopEverything(e);
 
@@ -10316,7 +10316,7 @@ return jQuery;
       return false;
     });
 
-    $document.delegate(rails.formSubmitSelector, 'submit.rails', function(e) {
+    $document.on('submit.rails', rails.formSubmitSelector, function(e) {
       var form = $(this),
         remote = rails.isRemote(form),
         blankRequiredInputs,
@@ -10361,7 +10361,7 @@ return jQuery;
       }
     });
 
-    $document.delegate(rails.formInputClickSelector, 'click.rails', function(event) {
+    $document.on('click.rails', rails.formInputClickSelector, function(event) {
       var button = $(this);
 
       if (!rails.allowAction(button)) return rails.stopEverything(event);
@@ -10382,11 +10382,11 @@ return jQuery;
       form.data('ujs:submit-button-formmethod', button.attr('formmethod'));
     });
 
-    $document.delegate(rails.formSubmitSelector, 'ajax:send.rails', function(event) {
+    $document.on('ajax:send.rails', rails.formSubmitSelector, function(event) {
       if (this === event.target) rails.disableFormElements($(this));
     });
 
-    $document.delegate(rails.formSubmitSelector, 'ajax:complete.rails', function(event) {
+    $document.on('ajax:complete.rails', rails.formSubmitSelector, function(event) {
       if (this === event.target) rails.enableFormElements($(this));
     });
 
@@ -59236,7 +59236,7 @@ angular.module('ngResource', ['ng']).
 
 
 })(window, window.angular);
-// Angular Rails Templates 1.0.0
+// Angular Rails Templates 1.0.2
 //
 // angular_templates.ignore_prefix: ["templates/"]
 // angular_templates.markups: ["erb", "str"]
@@ -76688,6 +76688,1276 @@ function toArray(list, index) {
 },{}]},{},[31])(31)
 });
 (function() {
+  var data_manager;
+
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.auth', 'archivist.realtime', 'archivist.resource']);
+
+  data_manager.factory('DataManager', [
+    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'InstrumentStats', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, InstrumentStats, Auth) {
+      var DataManager;
+      DataManager = {};
+      DataManager.Worker = new Worker(window.worker_js);
+      DataManager.Data = {};
+      DataManager.Instruments = Instruments;
+      DataManager.Constructs = Constructs;
+      DataManager.Codes = Codes;
+      DataManager.ResponseUnits = ResponseUnits;
+      DataManager.ResponseDomains = ResponseDomains;
+      DataManager.Auth = Auth;
+      DataManager.clearCache = function() {
+        DataManager.Data = {};
+        DataManager.Data.ResponseDomains = {};
+        DataManager.Data.ResponseUnits = {};
+        DataManager.Data.InstrumentStats = {};
+        DataManager.Data.Users = {};
+        DataManager.Data.Groups = {};
+        DataManager.Instruments.clearCache();
+        DataManager.Constructs.clearCache();
+        DataManager.Codes.clearCache();
+        DataManager.ResponseUnits.clearCache();
+        return DataManager.Auth.clearCache();
+      };
+      DataManager.clearCache();
+      DataManager.getInstruments = function(params, success, error) {
+        DataManager.Data.Instruments = DataManager.Instruments.query(params, success, error);
+        return DataManager.Data.Instruments;
+      };
+      DataManager.getInstrument = function(instrument_id, options, success, error) {
+        var base, base1, base2, chunk_size, i, len, promise, promises;
+        if (options == null) {
+          options = {};
+        }
+        console.log('getInstrument');
+        DataManager.progress = 0;
+        if (options.codes == null) {
+          options.codes = false;
+        }
+        if (options.constructs == null) {
+          options.constructs = false;
+        }
+        if (options.questions == null) {
+          options.questions = false;
+        }
+        if (options.rds == null) {
+          options.rds = false;
+        }
+        if (options.rus == null) {
+          options.rus = false;
+        }
+        if (options.instrument == null) {
+          options.instrument = true;
+        }
+        if (options.topsequence == null) {
+          options.topsequence = true;
+        }
+        promises = [];
+        DataManager.Data.Instrument = DataManager.Instruments.get({
+          id: instrument_id
+        });
+        promises.push(DataManager.Data.Instrument.$promise);
+        if (options.codes) {
+          if ((base = DataManager.Data).Codes == null) {
+            base.Codes = {};
+          }
+          DataManager.Data.Codes.CodeLists = DataManager.Codes.CodeLists.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.Codes.CodeLists.$promise);
+          DataManager.Data.Codes.Categories = DataManager.Codes.Categories.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.Codes.Categories.$promise);
+        }
+        if (options.constructs) {
+          if ((base1 = DataManager.Data).Constructs == null) {
+            base1.Constructs = {};
+          }
+          if (options.constructs === true || options.constructs.conditions) {
+            DataManager.Data.Constructs.Conditions = DataManager.Constructs.Conditions.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Conditions.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'condition');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.loops) {
+            DataManager.Data.Constructs.Loops = DataManager.Constructs.Loops.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Loops.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'loop');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.questions) {
+            DataManager.Data.Constructs.Questions = DataManager.Constructs.Questions.cc.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Questions.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'question');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.statements) {
+            DataManager.Data.Constructs.Statements = DataManager.Constructs.Statements.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Statements.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'statement');
+              }
+              return results;
+            }));
+          }
+          if (options.constructs === true || options.constructs.sequences) {
+            DataManager.Data.Constructs.Sequences = DataManager.Constructs.Sequences.query({
+              instrument_id: instrument_id
+            });
+            promises.push(DataManager.Data.Constructs.Sequences.$promise.then(function(collection) {
+              var i, index, len, obj, results;
+              console.log('seqeunce altering');
+              results = [];
+              for (index = i = 0, len = collection.length; i < len; index = ++i) {
+                obj = collection[index];
+                results.push(collection[index].type = 'sequence');
+              }
+              return results;
+            }));
+            if (options.instrument) {
+              if (typeof DataManager.Data.Instrument.Constructs === 'undefined') {
+                DataManager.Data.Instrument.Constructs = {};
+              }
+              DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences;
+              true;
+            }
+          }
+        }
+        if (options.questions) {
+          if ((base2 = DataManager.Data).Questions == null) {
+            base2.Questions = {};
+          }
+          DataManager.Data.Questions.Items = DataManager.Constructs.Questions.item.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.Questions.Items.$promise);
+          DataManager.Data.Questions.Grids = DataManager.Constructs.Questions.grid.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.Questions.Grids.$promise);
+        }
+        if (options.rds) {
+          DataManager.Data.ResponseDomains = {};
+          DataManager.Data.ResponseDomains.Codes = DataManager.ResponseDomains.Codes.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.ResponseDomains.Codes.$promise);
+          DataManager.Data.ResponseDomains.Datetimes = DataManager.ResponseDomains.Datetimes.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.ResponseDomains.Datetimes.$promise);
+          DataManager.Data.ResponseDomains.Numerics = DataManager.ResponseDomains.Numerics.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.ResponseDomains.Numerics.$promise);
+          DataManager.Data.ResponseDomains.Texts = DataManager.ResponseDomains.Texts.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.ResponseDomains.Texts.$promise);
+        }
+        if (options.rus) {
+          DataManager.Data.ResponseUnits = DataManager.ResponseUnits.query({
+            instrument_id: instrument_id
+          });
+          promises.push(DataManager.Data.ResponseUnits.$promise);
+        }
+        chunk_size = 100 / promises.length;
+        for (i = 0, len = promises.length; i < len; i++) {
+          promise = promises[i];
+          promise["finally"](function() {
+            DataManager.progress += chunk_size;
+            if (options.progress != null) {
+              return options.progress(DataManager.progress);
+            }
+          });
+        }
+        $q.all(promises).then(function() {
+          var base3, s;
+          console.log('All promises resolved');
+          if (options.instrument) {
+            if (options.constructs) {
+              DataManager.Data.Instrument.Constructs = {};
+              DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions;
+              DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops;
+              DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions;
+              DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences;
+              DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements;
+            }
+            if (options.questions) {
+              if ((base3 = DataManager.Data.Instrument).Questions == null) {
+                base3.Questions = {};
+              }
+              DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items;
+              DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids;
+            }
+            if (options.codes) {
+              DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists;
+            }
+            if (options.rds) {
+              DataManager.groupResponseDomains();
+            }
+            if (options.rus) {
+              DataManager.Data.Instrument.ResponseUnits = DataManager.Data.ResponseUnits;
+            }
+          }
+          console.log('callbacks called');
+          if (options.constructs && options.instrument && options.topsequence) {
+            DataManager.Data.Instrument.topsequence = ((function() {
+              var j, len1, ref, results;
+              ref = DataManager.Data.Instrument.Constructs.Sequences;
+              results = [];
+              for (j = 0, len1 = ref.length; j < len1; j++) {
+                s = ref[j];
+                if (s.top) {
+                  results.push(s);
+                }
+              }
+              return results;
+            })())[0];
+          }
+          return typeof success === "function" ? success() : void 0;
+        });
+        return DataManager.Data.Instrument;
+      };
+      DataManager.groupResponseDomains = function() {
+        return DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(DataManager.Data.ResponseDomains.Numerics, DataManager.Data.ResponseDomains.Texts, DataManager.Data.ResponseDomains.Codes);
+      };
+      DataManager.getResponseUnits = function(instrument_id, force, cb) {
+        if (force == null) {
+          force = false;
+        }
+        if ((DataManager.Data.ResponseUnits[instrument_id] == null) || force) {
+          return DataManager.Data.ResponseUnits[instrument_id] = GetResource('/instruments/' + instrument_id + '/response_units.json', true, cb);
+        } else {
+          return typeof cb === "function" ? cb() : void 0;
+        }
+      };
+      DataManager.resolve = function(options) {
+        var deferred;
+        deferred = $q.defer();
+        DataManager.Worker.addEventListener('message', function(e) {
+          DataManager.Data = e.data;
+          return deferred.resolve();
+        }, false);
+        DataManager.Worker.postMessage({
+          data: DataManager.Data,
+          options: options,
+          type: ['constructs', 'questions']
+        });
+        return deferred.promise;
+      };
+      DataManager.resolveCodes = function() {
+        if (DataManager.CodeResolver == null) {
+          DataManager.CodeResolver = new ResolutionService.CodeResolver(DataManager.Data.Codes.CodeLists, DataManager.Data.Codes.Categories);
+        }
+        return DataManager.CodeResolver.resolve();
+      };
+      DataManager.getApplicationStats = function() {
+        DataManager.Data.AppStats = {
+          $resolved: false
+        };
+        DataManager.Data.AppStats.$promise = ApplicationStats;
+        DataManager.Data.AppStats.$promise.then(function(res) {
+          var key;
+          for (key in res.data) {
+            if (res.data.hasOwnProperty(key)) {
+              DataManager.Data.AppStats[key] = res.data[key];
+            }
+          }
+          return DataManager.Data.AppStats.$resolved = true;
+        });
+        return DataManager.Data.AppStats;
+      };
+      DataManager.getInstrumentStats = function(id) {
+        DataManager.Data.InstrumentStats[id] = {
+          $resolved: false
+        };
+        DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id);
+        DataManager.Data.InstrumentStats[id].$promise.then(function(res) {
+          var key;
+          for (key in res.data) {
+            if (res.data.hasOwnProperty(key)) {
+              DataManager.Data.InstrumentStats[id][key] = res.data[key];
+            }
+          }
+          return DataManager.Data.InstrumentStats[id].$resolved = true;
+        });
+        return DataManager.Data.InstrumentStats[id];
+      };
+      DataManager.getQuestionItemIDs = function() {
+        var i, len, output, qi, ref;
+        output = [];
+        ref = DataManager.Data.Questions.Items;
+        for (i = 0, len = ref.length; i < len; i++) {
+          qi = ref[i];
+          output.push({
+            value: qi.id,
+            label: qi.label
+          });
+        }
+        return output;
+      };
+      DataManager.getQuestionGridIDs = function() {
+        var i, len, output, qg, ref;
+        output = [];
+        ref = DataManager.Data.Questions.Grids;
+        for (i = 0, len = ref.length; i < len; i++) {
+          qg = ref[i];
+          output.push({
+            value: qg.id,
+            label: qg.label
+          });
+        }
+        return output;
+      };
+      DataManager.getUsers = function() {
+        var promises;
+        promises = [];
+        DataManager.Data.Users = DataManager.Auth.Users.query();
+        promises.push(DataManager.Data.Users.$promise);
+        DataManager.Data.Groups = DataManager.Auth.Groups.query();
+        promises.push(DataManager.Data.Groups.$promise);
+        return $q.all(promises).then(function() {
+          if (DataManager.GroupResolver == null) {
+            DataManager.GroupResolver = new ResolutionService.GroupResolver(DataManager.Data.Groups, DataManager.Data.Users);
+          }
+          return DataManager.GroupResolver.resolve();
+        });
+      };
+      DataManager.listener = RealTimeListener(function(event, message) {
+        var arr, i, key, len, obj, old_children, old_fchildren, old_q_id, old_q_type, ref, reresolve_constructs, reresolve_questions, resource, row, value;
+        console.log("Rt update");
+        if (message.data != null) {
+          reresolve_constructs = false;
+          reresolve_questions = false;
+          ref = message.data;
+          for (i = 0, len = ref.length; i < len; i++) {
+            row = ref[i];
+            obj = Map.find(DataManager.Data, row.type).select_resource_by_id(row.id);
+            if (obj != null) {
+              if (obj['type'] === 'question') {
+                old_q_id = obj['question_id'];
+                old_q_type = obj['question_type'];
+              }
+              for (key in row) {
+                value = row[key];
+                if (['id', 'type'].indexOf(key) === -1) {
+                  if (['children', 'fchildren'].indexOf(key) !== -1) {
+                    old_children = obj['children'];
+                    old_fchildren = obj['fchildren'];
+                  }
+                  obj[key] = row[key];
+                  if (['children', 'fchildren'].indexOf(key) !== -1 && (old_children !== obj['children'] || old_fchildren !== obj['fchildren'])) {
+                    reresolve_constructs = true;
+                  }
+                }
+              }
+              if (obj['type'] === 'question' && (old_q_id !== obj['question_id'] || old_q_type !== obj['question_type'])) {
+                obj.base = null;
+                reresolve_questions = true;
+              }
+            } else if (row.type !== "Instrument" && (row.action != null) && row.action === "ADD") {
+              if ((row.instrument_id != null) && row.instrument_id === DataManager.Data.Instrument.id) {
+                arr = Map.find(DataManager.Data, row.type);
+                resource = Map.find(DataManager, row.type).resource;
+                obj = new resource({});
+                console.log(obj);
+                for (key in row) {
+                  value = row[key];
+                  obj[key] = row[key];
+                }
+                console.log(obj);
+                arr.push(obj);
+              }
+            }
+            if (row.type === 'Instrument' && row.id === DataManager.Data.Instrument.id) {
+              for (key in row) {
+                value = row[key];
+                if (['id', 'type'].indexOf(key) === -1) {
+                  DataManager.Data.Instrument[key] = row[key];
+                }
+              }
+            }
+          }
+          if (reresolve_questions || reresolve_constructs) {
+            return DataManager.resolve();
+          }
+        }
+      });
+      return DataManager;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var auth;
+
+  auth = angular.module('archivist.data_manager.auth', ['archivist.data_manager.auth.groups', 'archivist.data_manager.auth.users']);
+
+  auth.factory('Auth', [
+    'Groups', 'Users', function(Groups, Users) {
+      var Auth;
+      Auth = {};
+      Auth.Groups = Groups;
+      Auth.Users = Users;
+      Auth.clearCache = function() {
+        Auth.Groups.clearCache();
+        return Auth.Users.clearCache();
+      };
+      return Auth;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var groups;
+
+  groups = angular.module('archivist.data_manager.auth.groups', ['archivist.resource']);
+
+  groups.factory('Groups', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('groups/:id.json', {
+        id: '@id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var users;
+
+  users = angular.module('archivist.data_manager.auth.users', ['archivist.resource']);
+
+  users.factory('Users', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('users/admin/:id.json', {
+        id: '@id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var codes;
+
+  codes = angular.module('archivist.data_manager.codes', ['archivist.data_manager.codes.code_lists', 'archivist.data_manager.codes.categories']);
+
+  codes.factory('Codes', [
+    'CodeLists', 'Categories', 'CodeResolver', function(CodeLists, Categories, CodeResolver) {
+      var Codes;
+      Codes = {};
+      Codes.CodeLists = CodeLists;
+      Codes.Categories = Categories;
+      Codes.CodeResolver = CodeResolver;
+      Codes.clearCache = function() {
+        Codes.CodeLists.clearCache();
+        return Codes.Categories.clearCache();
+      };
+      return Codes;
+    }
+  ]);
+
+  codes.factory('CodeResolver', [
+    function() {
+      return {
+        code_list: function(scope, code) {
+          return scope.code_lists.select_resource_by_id(code.code_list_id);
+        },
+        category: function(scope, code) {
+          return scope.categories.select_resource_by_id(code.category_id);
+        },
+        code_lists: function(scope, category) {
+          var code, i, len, ref, results;
+          ref = scope.codes;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            code = ref[i];
+            if (code.category_id === category.id) {
+              results.push(this.code_list(scope, code));
+            }
+          }
+          return results;
+        },
+        categories: function(scope, code_list) {
+          var code, i, len, ref, results;
+          ref = code_list.codes;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            code = ref[i];
+            results.push(code.label = this.category(scope, code)['label']);
+          }
+          return results;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var categories;
+
+  categories = angular.module('archivist.data_manager.codes.categories', ['archivist.resource']);
+
+  categories.factory('Categories', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/categories/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var code_lists;
+
+  code_lists = angular.module('archivist.data_manager.codes.code_lists', ['archivist.resource']);
+
+  code_lists.factory('CodeLists', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/code_lists/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var constructs;
+
+  constructs = angular.module('archivist.data_manager.constructs', ['archivist.data_manager.constructs.conditions', 'archivist.data_manager.constructs.loops', 'archivist.data_manager.constructs.questions', 'archivist.data_manager.constructs.sequences', 'archivist.data_manager.constructs.statements']);
+
+  constructs.factory('Constructs', [
+    'Conditions', 'Loops', 'Questions', 'Sequences', 'Statements', function(Conditions, Loops, Questions, Sequences, Statements) {
+      var Constructs;
+      Constructs = {};
+      Constructs.Conditions = Conditions;
+      Constructs.Loops = Loops;
+      Constructs.Questions = Questions;
+      Constructs.Sequences = Sequences;
+      Constructs.Statements = Statements;
+      Constructs.clearCache = function() {
+        Constructs.Conditions.clearCache();
+        Constructs.Loops.clearCache();
+        Constructs.Questions.clearCache();
+        Constructs.Sequences.clearCache();
+        return Constructs.Statements.clearCache();
+      };
+      return Constructs;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var conditions;
+
+  conditions = angular.module('archivist.data_manager.constructs.conditions', ['archivist.resource']);
+
+  conditions.factory('Conditions', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/cc_conditions/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var loops;
+
+  loops = angular.module('archivist.data_manager.constructs.loops', ['ngResource']);
+
+  loops.factory('Loops', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/cc_loops/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var questions;
+
+  questions = angular.module('archivist.data_manager.constructs.questions', ['archivist.resource']);
+
+  questions.factory('Questions', [
+    'WrappedResource', function(WrappedResource) {
+      return {
+        cc: new WrappedResource('instruments/:instrument_id/cc_questions/:id.json', {
+          id: '@id',
+          instrument_id: '@instrument_id'
+        }),
+        item: new WrappedResource('instruments/:instrument_id/question_items/:id.json', {
+          id: '@id',
+          instrument_id: '@instrument_id'
+        }),
+        grid: new WrappedResource('instruments/:instrument_id/question_grids/:id.json', {
+          id: '@id',
+          instrument_id: '@instrument_id'
+        }),
+        clearCache: function() {
+          if (typeof cc !== "undefined" && cc !== null) {
+            cc.clearCache();
+          }
+          if (typeof item !== "undefined" && item !== null) {
+            item.clearCache();
+          }
+          if (typeof grid !== "undefined" && grid !== null) {
+            return grid.clearCache();
+          }
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var sequences;
+
+  sequences = angular.module('archivist.data_manager.constructs.sequences', ['ngResource']);
+
+  sequences.factory('Sequences', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/cc_sequences/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var statements;
+
+  statements = angular.module('archivist.data_manager.constructs.statements', ['ngResource']);
+
+  statements.factory('Statements', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/cc_statements/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var instruments;
+
+  instruments = angular.module('archivist.data_manager.instruments', ['archivist.resource']);
+
+  instruments.factory('Instruments', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:id.json', {
+        id: '@id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        },
+        copy: {
+          method: 'POST',
+          url: 'instruments/:id/copy/:prefix.json'
+        }
+      });
+    }
+  ]);
+
+  instruments.factory('InstrumentRelationshipResolver', [
+    function() {
+      return function(instruments, reference) {
+        switch (reference.type) {
+          case "CcCondition":
+            return instruments.conditions.select_resource_by_id(reference.id);
+          case "CcLoop":
+            return instruments.loops.select_resource_by_id(reference.id);
+          case "CcQuestion":
+            return instruments.questions.select_resource_by_id(reference.id);
+          case "CcSequence":
+            return instruments.sequences.select_resource_by_id(reference.id);
+          case "CcStatement":
+            return instruments.statements.select_resource_by_id(reference.id);
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var map;
+
+  map = angular.module('archivist.data_manager.map', []);
+
+  map.factory('Map', [
+    function() {
+      var service;
+      service = {};
+      service.map = {
+        Instrument: 'Instruments',
+        CcCondition: {
+          Constructs: 'Conditions'
+        },
+        CcLoop: {
+          Constructs: 'Loops'
+        },
+        CcQuestion: {
+          Constructs: 'Questions'
+        },
+        CcSequence: {
+          Constructs: 'Sequences'
+        },
+        CcStatement: {
+          Constructs: 'Statements'
+        },
+        QuestionItem: {
+          Questions: 'Items'
+        },
+        QuestionGrid: {
+          Questions: 'Grids'
+        },
+        ResponseDomainText: {
+          ResponseDomains: 'Texts'
+        },
+        ResponseDomainNumeric: {
+          ResponseDomains: 'Numerics'
+        },
+        ResponseDomainDatetime: {
+          ResponseDomains: 'Datetimes'
+        }
+      };
+      service.find = function(obj, ident) {
+        var dig;
+        dig = function(obj, lookup) {
+          var k, output, v;
+          output = obj;
+          if (typeof lookup === "object") {
+            for (k in lookup) {
+              v = lookup[k];
+              if (lookup.hasOwnProperty(k)) {
+                output = dig(output[k], v);
+              }
+            }
+          } else {
+            output = output[lookup];
+          }
+          return output;
+        };
+        return dig(obj, service.map[ident]);
+      };
+      service.translate = function(ident) {
+        var dig;
+        dig = function(lookup) {
+          if (typeof lookup === "object") {
+            return dig(lookup[Object.keys(lookup)[0]]);
+          } else {
+            return lookup;
+          }
+        };
+        return dig(service.map[ident]);
+      };
+      return service;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var resolution;
+
+  resolution = angular.module('archivist.data_manager.resolution', []);
+
+  resolution.factory('ResolutionService', [
+    function() {
+      var service;
+      service = {};
+      service.CodeResolver = (function() {
+        function _Class(codes_lists, categories) {
+          this.code_lists = codes_lists;
+          this.categories = categories;
+        }
+
+        _Class.prototype.category = function(code) {
+          return this.categories.select_resource_by_id(code.category_id);
+        };
+
+        _Class.prototype.resolve = function() {
+          var code, code_list, i, index, len, ref, results;
+          ref = this.code_lists;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            code_list = ref[i];
+            results.push((function() {
+              var j, len1, ref1, results1;
+              ref1 = code_list.codes;
+              results1 = [];
+              for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
+                code = ref1[index];
+                results1.push(code_list.codes[index].label = this.category(code)['label']);
+              }
+              return results1;
+            }).call(this));
+          }
+          return results;
+        };
+
+        return _Class;
+
+      })();
+      service.GroupResolver = (function() {
+        function _Class(groups, users) {
+          this.groups = groups;
+          this.users = users;
+        }
+
+        _Class.prototype.resolve = function() {
+          var group, group_index, i, len, ref, results, user, user_index;
+          ref = this.groups;
+          results = [];
+          for (group_index = i = 0, len = ref.length; i < len; group_index = ++i) {
+            group = ref[group_index];
+            this.groups[group_index].users = [];
+            results.push((function() {
+              var j, len1, ref1, results1;
+              ref1 = this.users;
+              results1 = [];
+              for (user_index = j = 0, len1 = ref1.length; j < len1; user_index = ++j) {
+                user = ref1[user_index];
+                if (group.id === user.group_id) {
+                  this.users[user_index].group = group.label;
+                  results1.push(this.groups[group_index].users.push(user));
+                } else {
+                  results1.push(void 0);
+                }
+              }
+              return results1;
+            }).call(this));
+          }
+          return results;
+        };
+
+        return _Class;
+
+      })();
+      return service;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var rds;
+
+  rds = angular.module('archivist.data_manager.response_domains', ['archivist.data_manager.response_domains.codes', 'archivist.data_manager.response_domains.datetimes', 'archivist.data_manager.response_domains.numerics', 'archivist.data_manager.response_domains.texts']);
+
+  rds.factory('ResponseDomains', [
+    'ResponseDomainDatetimes', 'ResponseDomainNumerics', 'ResponseDomainTexts', 'ResponseDomainCodes', function(ResponseDomainDatetimes, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainCodes) {
+      var ResponseDomains;
+      ResponseDomains = {};
+      ResponseDomains.Datetimes = ResponseDomainDatetimes;
+      ResponseDomains.Numerics = ResponseDomainNumerics;
+      ResponseDomains.Texts = ResponseDomainTexts;
+      ResponseDomains.Codes = ResponseDomainCodes;
+      ResponseDomains.clearCache = function() {
+        ResponseDomains.Datetimes.clearCache();
+        ResponseDomains.Numerics.clearCache();
+        ResponseDomains.Texts.clearCache();
+        return ResponseDomains.Codes.clearCache();
+      };
+      return ResponseDomains;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var codes;
+
+  codes = angular.module('archivist.data_manager.response_domains.codes', ['archivist.resource']);
+
+  codes.factory('ResponseDomainCodes', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/response_domain_codes/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var datetimes;
+
+  datetimes = angular.module('archivist.data_manager.response_domains.datetimes', ['archivist.resource']);
+
+  datetimes.factory('ResponseDomainDatetimes', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/response_domain_datetimes/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var numerics;
+
+  numerics = angular.module('archivist.data_manager.response_domains.numerics', ['archivist.resource']);
+
+  numerics.factory('ResponseDomainNumerics', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/response_domain_numerics/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var texts;
+
+  texts = angular.module('archivist.data_manager.response_domains.texts', ['archivist.resource']);
+
+  texts.factory('ResponseDomainTexts', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/response_domain_texts/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var conditions;
+
+  conditions = angular.module('archivist.data_manager.response_units', ['archivist.resource']);
+
+  conditions.factory('ResponseUnits', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/response_units/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var stats;
+
+  stats = angular.module('archivist.data_manager.stats', []);
+
+  stats.factory('ApplicationStats', [
+    '$http', function($http) {
+      return $http.get('/stats.json', {
+        cache: true
+      });
+    }
+  ]);
+
+  stats.factory('InstrumentStats', [
+    '$http', function($http) {
+      return function(id) {
+        return $http.get('/instruments/' + id + '/stats.json', {
+          cache: true
+        });
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var flash;
+
+  flash = angular.module('archivist.flash', ['ngMessages']);
+
+  flash.factory('Flash', [
+    '$interval', function($interval) {
+      var LOCAL_STORAGE_KEY, clear, notices, scope, store;
+      LOCAL_STORAGE_KEY = 'notices';
+      notices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+      scope = null;
+      store = function() {
+        return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notices));
+      };
+      clear = function() {
+        notices = [];
+        return store();
+      };
+      return {
+        add: function(type, message) {
+          notices.push({
+            type: type,
+            message: message
+          });
+          store();
+          if (document.getElementsByTagName(LOCAL_STORAGE_KEY)) {
+            return this.publish(scope);
+          }
+        },
+        publish: function(_scope) {
+          _scope.notices = notices;
+          return clear();
+        },
+        set_scope: function(_scope) {
+          return scope = _scope;
+        },
+        listen: function(scope) {},
+        clear: this.clear,
+        store: this.store
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var realtime;
+
+  realtime = angular.module('archivist.realtime', ['ngRoute', 'archivist.flash']);
+
+  realtime.factory('RealTimeConnection', [
+    '$rootScope', '$timeout', 'Flash', function($rootScope, $timeout, Flash) {
+      var service;
+      service = {};
+      service.socket = io(window.socket_url);
+      service.socket.on('disconnect', function() {
+        return $rootScope.$apply(function() {
+          return $rootScope.realtimeStatus = false;
+        });
+      });
+      service.socket.on('connect', function() {
+        return $timeout(function() {
+          return $rootScope.realtimeStatus = true;
+        });
+      });
+      service.socket.on('rt-update', function(message) {
+        return $rootScope.$emit('rt-update', message);
+      });
+      return service;
+    }
+  ]);
+
+  realtime.factory('RealTimeListener', [
+    '$rootScope', '$http', function($rootScope, $http) {
+      var listener;
+      listener = (function() {
+        function _Class($rootScope, callback) {
+          this.handler = $rootScope.$on('rt-update', function(event, message) {
+            return $rootScope.$apply(function() {
+              var no_more_pending_requests;
+              return no_more_pending_requests = $rootScope.$watch(function() {
+                return $http.pendingRequests.length;
+              }, function() {
+                if ($http.pendingRequests.length < 1) {
+                  callback(event, JSON.parse(message));
+                  return no_more_pending_requests();
+                }
+              });
+            });
+          });
+        }
+
+        return _Class;
+
+      })();
+      listener.prototype.stop = function() {
+        return this.handler();
+      };
+      return function(callback) {
+        return new listener($rootScope, callback);
+      };
+    }
+  ]);
+
+  realtime.factory('RealTimeLocking', [
+    '$rootScope', '$routeParams', 'RealTimeConnection', function($rootScope, $routeParams, RTC) {
+      var service;
+      service = {};
+      service.locks = [];
+      service.comparator = {
+        CodeList: function(id) {
+          return $routeParams['code_list_id'] === id.toString();
+        },
+        QuestionItem: function(id) {
+          return $routeParams['question_type'] === 'question-item' && $routeParams['question_id'] === id.toString();
+        },
+        QuestionGrid: function(id) {
+          return $routeParams['question_type'] === 'question-grid' && $routeParams['question_id'] === id.toString();
+        }
+      };
+      service.lock = function(obj) {
+        return RTC.socket.emit('lock', JSON.stringify(obj));
+      };
+      service.unlock = function(obj) {
+        return RTC.socket.emit('unlock', JSON.stringify(obj));
+      };
+      RTC.socket.on('locks-updated', function(message) {
+        var i, len, lock, locks, results;
+        locks = JSON.parse(message);
+        $('.lockable').prop('disabled', false);
+        results = [];
+        for (i = 0, len = locks.length; i < len; i++) {
+          lock = locks[i];
+          console.log(lock);
+          if (service.comparator[lock.type](lock.id)) {
+            results.push($('.lockable').prop('disabled', true));
+          } else {
+            results.push(void 0);
+          }
+        }
+        return results;
+      });
+      return service;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var resource;
+
+  resource = angular.module('archivist.resource', ['ngResource']);
+
+  resource.factory('WrappedResource', [
+    '$resource', function($resource) {
+      return function(path, paramDefaults, actions, options) {
+        var that;
+        that = this;
+        this.data = {};
+        if (actions != null) {
+          this.actions = actions;
+        } else {
+          this.actions = {
+            save: {
+              method: 'PUT'
+            },
+            create: {
+              method: 'POST'
+            }
+          };
+        }
+        this.index = function(method, parameters) {
+          return path + method + JSON.stringify(parameters);
+        };
+        this.resource = $resource(path, paramDefaults, this.actions, options);
+        this.resource.prototype.save = function(params, success, error) {
+          if (this.id != null) {
+            return this.$save(params, success, error);
+          } else {
+            return this.$create(params, success, error);
+          }
+        };
+        this.query = function(parameters, success, error) {
+          if (that.data[this.index('query', parameters)] == null) {
+            that.data[this.index('query', parameters)] = that.resource.query(parameters, function(value, responseHeaders) {
+              var i, k, len, obj, v;
+              for (i = 0, len = value.length; i < len; i++) {
+                obj = value[i];
+                for (k in parameters) {
+                  v = parameters[k];
+                  obj[k] = v;
+                }
+              }
+              if (success != null) {
+                return success(value, responseHeaders);
+              }
+            }, error);
+          }
+          return that.data[this.index('query', parameters)];
+        };
+        this.requery = function(parameters, success, error) {
+          that.data[this.index('query', parameters)] = null;
+          return that.query(parameters, success, error);
+        };
+        this.get = function(parameters, success, error) {
+          if (that.data[this.index('get', parameters)] == null) {
+            that.data[this.index('get', parameters)] = that.resource.get(parameters, success, error);
+          }
+          return that.data[this.index('get', parameters)];
+        };
+        this.reget = function(parameters, success, error) {
+          that.data[this.index('get', parameters)] = null;
+          return that.get(parameters, success, error);
+        };
+        this.clearCache = function() {
+          return that.data = {};
+        };
+        return this;
+      };
+    }
+  ]);
+
+  resource.factory('GetResource', [
+    '$http', function($http) {
+      return function(url, isArray, cb) {
+        var rsrc, sub_promise;
+        if (isArray == null) {
+          isArray = false;
+        }
+        if (isArray) {
+          rsrc = [];
+        } else {
+          rsrc = {};
+        }
+        rsrc.$resolved = false;
+        rsrc.$promise = $http.get(url, {
+          cache: true
+        });
+        sub_promise = rsrc.$promise.then(function(res) {
+          var key;
+          for (key in res.data) {
+            if (res.data.hasOwnProperty(key)) {
+              rsrc[key] = res.data[key];
+            }
+          }
+          return rsrc.$resolved = true;
+        });
+        if (typeof cb === 'function') {
+          sub_promise.then(cb);
+        }
+        return rsrc;
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
   var admin;
 
   admin = angular.module('archivist.admin', ['templates', 'ngRoute', 'archivist.data_manager', 'archivist.flash']);
@@ -76864,6 +78134,7 @@ function toArray(list, index) {
       $scope.files = [];
       return $scope.uploadImport = function() {
         var fd;
+        $scope.publish_flash();
         fd = new FormData();
         angular.forEach($scope.files, function(item) {
           return fd.append('files[]', item);
@@ -76898,219 +78169,222 @@ function toArray(list, index) {
 
 }).call(this);
 (function() {
-  var archivist;
+  var users;
 
-  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'archivist.flash', 'archivist.instruments', 'archivist.build', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
+  users = angular.module('archivist.users', ['archivist.flash']);
 
-  archivist.config([
-    '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-      $routeProvider.when('/', {
-        templateUrl: 'index.html',
-        controller: 'RootController'
+  users.controller('UserController', [
+    '$scope', '$location', '$http', 'User', function($scope, $location, $http, User) {
+      $scope.sign_in = function(cred) {
+        $scope.user.set('email', cred.email);
+        return $scope.user.sign_in(cred.password).then(function() {
+          return $location.path('/instruments');
+        }, function() {
+          $scope.publish_flash();
+          return cred.password = "";
+        });
+      };
+      $scope.sign_up = function(details) {
+        $scope.user.set('email', details.email);
+        $scope.user.set('first_name', details.fname);
+        $scope.user.set('last_name', details.lname);
+        $scope.user.set('group_id', details.group);
+        return $scope.user.sign_up(details.password, details.confirm).then(function() {
+          $location.path('/instruments');
+          return true;
+        }, function() {
+          $scope.publish_flash();
+          details.password = "";
+          details.confirm = "";
+          return false;
+        });
+      };
+      $http.get('/groups/external.json').then(function(res) {
+        return $scope.sign_up_groups = res.data;
       });
-      return $locationProvider.html5Mode(true);
+      return console.log($scope);
     }
   ]);
 
-  archivist.controller('RootController', [
-    '$scope', '$location', 'DataManager', 'User', function($scope, $location, DataManager, User) {
-      $scope.softwareName = 'Archivist';
-      $scope.softwareVersion = window.app_version;
-      $scope.page['title'] = 'Home';
-      $scope.isActive = function(viewLocation) {
-        return viewLocation === $location.path();
-      };
-      $scope.user = new User(window.current_user_email);
-      if ($scope.user.email.length > 0) {
-        $scope.user.sign_in();
+  users.factory('User', [
+    '$http', '$q', 'Flash', function($http, $q, Flash) {
+      return (function() {
+        function _Class(email) {
+          this.email = email;
+          this.logged_in = false;
+        }
+
+        _Class.attributes = ['email', 'first_name', 'last_name', 'group', 'group_id', 'role'];
+
+        _Class.prototype.sign_in = function(password) {
+          var self;
+          self = this;
+          return $http.post('/users/sign_in.json', {
+            user: {
+              email: this.email,
+              password: password,
+              remember_me: 1
+            }
+          }).then(function(res) {
+            self.logged_in = true;
+            self.set('first_name', res.data.first_name);
+            self.set('last_name', res.data.last_name);
+            self.set('group', res.data.group);
+            self.set('role', res.data.role);
+            return true;
+          }, function(res) {
+            self.logged_in = false;
+            Flash.add('danger', res.data.error);
+            return $q.reject(res.data.error);
+          });
+        };
+
+        _Class.prototype.sign_out = function() {
+          var self;
+          self = this;
+          return $http["delete"]('/users/sign_out.json')["finally"](function() {
+            return self.logged_in = false;
+          });
+        };
+
+        _Class.prototype.sign_up = function(password, confirmation) {
+          var self;
+          self = this;
+          return $http.post('/users.json', {
+            user: this.get_all_data({
+              password: password,
+              password_confirmation: confirmation
+            })
+          }).then(function(res) {
+            self.logged_in = true;
+            return self.set('role', res.data.role);
+          }, function(res) {
+            self.logged_in = false;
+            return Flash.add('danger', res.errors);
+          });
+        };
+
+        _Class.prototype.is_admin = function() {
+          return this.get('role') === 'admin';
+        };
+
+        _Class.prototype.is_editor = function() {
+          return this.get('role') === 'admin' || this.get('role') === 'editor';
+        };
+
+        _Class.prototype.get = function(attribute) {
+          return this[attribute];
+        };
+
+        _Class.prototype.set = function(attribute, val) {
+          return this[attribute] = val;
+        };
+
+        _Class.prototype.get_all_data = function(extra) {
+          var attribute, i, key, len, output, ref;
+          if (extra == null) {
+            extra = {};
+          }
+          output = {};
+          ref = this.constructor.attributes;
+          for (i = 0, len = ref.length; i < len; i++) {
+            attribute = ref[i];
+            output[attribute] = this.get(attribute);
+          }
+          for (key in extra) {
+            output[key] = extra[key];
+          }
+          return output;
+        };
+
+        return _Class;
+
+      })();
+    }
+  ]);
+
+}).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
+  var instruments;
+
+  instruments = angular.module('archivist.instruments', ['templates', 'ngRoute', 'ngResource', 'ui.bootstrap', 'archivist.flash', 'archivist.data_manager']);
+
+  instruments.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments', {
+        templateUrl: 'partials/instruments/index.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id', {
+        templateUrl: 'partials/instruments/show.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/edit', {
+        templateUrl: 'partials/instruments/edit.html',
+        controller: 'InstrumentsController'
+      });
+    }
+  ]);
+
+  instruments.controller('InstrumentsController', [
+    '$scope', '$routeParams', '$location', '$q', '$http', '$timeout', 'Flash', 'DataManager', function($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager) {
+      var loadStructure, loadStudies, progressUpdate;
+      $scope.page['title'] = 'Instruments';
+      if ($routeParams.id) {
+        loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() !== 'edit';
+        loadStudies = !loadStructure;
+        $scope.loading = {
+          state: "Downloading",
+          progress: 0,
+          type: "info"
+        };
+        progressUpdate = function(newValue) {
+          $scope.loading.progress = newValue;
+          if ($scope.loading.progress > 99) {
+            $scope.loading.state = "Processing";
+            return $scope.loading.type = "success";
+          }
+        };
+        $scope.instrument = DataManager.getInstrument($routeParams.id, {
+          constructs: loadStructure,
+          questions: loadStructure,
+          progress: progressUpdate
+        }, function() {
+          $scope.page['title'] = $scope.instrument.prefix + ' | Edit';
+          return $timeout(function() {
+            if (loadStructure) {
+              $scope.page['title'] = $scope.instrument.prefix + ' | View';
+              return DataManager.resolve().then(function() {
+                $scope.instrument = DataManager.Data.Instrument;
+                $scope.loading.state = "Done";
+                return console.log($scope);
+              });
+            }
+          }, 100);
+        });
+      } else {
+        $scope.instruments = DataManager.getInstruments();
+        $scope.pageSize = 20;
+        $scope.filterStudy = function(study) {
+          return $scope.filteredStudy = study;
+        };
+        $http.get('/studies.json').success(function(data) {
+          return $scope.studies = data;
+        });
       }
-      return $scope.sign_out = function() {
-        return $scope.user.sign_out()["finally"](function() {
+      return $scope.updateInstrument = function() {
+        return $scope.instrument.$save({}, function() {
+          Flash.add('success', 'Instrument updated successfully!');
+          $location.path('/instruments');
           return DataManager.clearCache();
+        }, function() {
+          return console.log("error");
         });
       };
     }
   ]);
-
-  archivist.directive('notices', function() {
-    return {
-      templateUrl: 'partials/notices.html'
-    };
-  });
-
-  archivist.directive('ngFileModel', [
-    '$parse', function($parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var isMultiple, model, modelSetter;
-          model = $parse(attrs.ngFileModel);
-          isMultiple = attrs.multiple;
-          modelSetter = model.assign;
-          return element.bind('change', function() {
-            var values;
-            values = [];
-            angular.forEach(element[0].files, function(item) {
-              return values.push(item);
-            });
-            return scope.$apply(function() {
-              if (isMultiple) {
-                return modelSetter(scope, values);
-              } else {
-                return modelSetter(scope, values[0]);
-              }
-            });
-          });
-        }
-      };
-    }
-  ]);
-
-  archivist.run([
-    '$rootScope', 'Flash', 'RealTimeConnection', function($rootScope, Flash, RealTimeConnection) {
-      Array.prototype.unique = function() {
-        var j, key, output, ref1, results, value;
-        output = {};
-        for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
-          output[this[key]] = this[key];
-        }
-        results = [];
-        for (key in output) {
-          value = output[key];
-          results.push(value);
-        }
-        return results;
-      };
-      Array.prototype.select_resource_by_id = function(ref_id) {
-        var key, output;
-        return output = ((function() {
-          var j, ref1, results;
-          results = [];
-          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
-            if (this[key].id === ref_id) {
-              results.push(this[key]);
-            }
-          }
-          return results;
-        }).call(this))[0];
-      };
-      Array.prototype.get_index_by_id = function(ref_id) {
-        var key;
-        return ((function() {
-          var j, ref1, results;
-          results = [];
-          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
-            if (this[key].id === ref_id) {
-              results.push(key);
-            }
-          }
-          return results;
-        }).call(this))[0];
-      };
-      Array.prototype.select_resource_by_id_and_type = function(ref_id, ref_type) {
-        var key, output;
-        return output = ((function() {
-          var j, ref1, results;
-          results = [];
-          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
-            if (this[key].id === ref_id && this[key].type === ref_type) {
-              results.push(this[key]);
-            }
-          }
-          return results;
-        }).call(this))[0];
-      };
-      Array.prototype.get_index_by_id_and_type = function(ref_id, ref_type) {
-        var key;
-        return ((function() {
-          var j, ref1, results;
-          results = [];
-          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
-            if (this[key].id === ref_id && this[key].type === ref_type) {
-              results.push(key);
-            }
-          }
-          return results;
-        }).call(this))[0];
-      };
-      String.prototype.replaceAll = function(search, replacement) {
-        var target;
-        target = this;
-        return target.replace(new RegExp(search, 'g'), replacement);
-      };
-      String.prototype.camel_case_to_underscore = function() {
-        var target;
-        target = this;
-        return target.replace(/([A-Z])/g, function(x, y) {
-          return "_" + y.toLowerCase();
-        }).replace(/^_/, '');
-      };
-      String.prototype.capitalizeFirstLetter = function() {
-        var target;
-        target = this;
-        return target.charAt(0).toUpperCase() + target.slice(1);
-      };
-      Flash.set_scope($rootScope);
-      $rootScope.publish_flash = function() {
-        return Flash.publish($rootScope);
-      };
-      $rootScope.$on('$routeChangeSuccess', function() {
-        return $rootScope.publish_flash();
-      });
-      $rootScope.publish_flash();
-      $rootScope.page = {
-        title: 'Home'
-      };
-      $rootScope.realtimeStatus = false;
-      return $rootScope.range = function(i) {
-        var j, num, ref1, results;
-        results = [];
-        for (num = j = 1, ref1 = i; 1 <= ref1 ? j <= ref1 : j >= ref1; num = 1 <= ref1 ? ++j : --j) {
-          results.push(num);
-        }
-        return results;
-      };
-    }
-  ]);
-
-  archivist.filter('capitalize', function() {
-    return function(input) {
-      if (!!input) {
-        return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-      } else {
-        return '';
-      }
-    };
-  });
-
-  archivist.filter('prettytype', function() {
-    var ref;
-    ref = {
-      'ResponseDomainCode': 'Code',
-      'ResponseDomainDatetime': 'Datetime',
-      'ResponseDomainNumeric': 'Numeric',
-      'ResponseDomainText': 'Text',
-      'Category': 'Category',
-      'Cateogie': 'Categorie',
-      'CodeList': 'Code List',
-      'QuestionGrid': 'Grid',
-      'QuestionItem': 'Item'
-    };
-    return function(input) {
-      var plural;
-      if (input.charAt(input.length - 1) === 's') {
-        plural = true;
-        input = input.slice(0, -1);
-      } else {
-        plural = false;
-      }
-      if (plural) {
-        return ref[input] + 's';
-      } else {
-        return ref[input];
-      }
-    };
-  });
 
 }).call(this);
 (function() {
@@ -77576,7 +78850,7 @@ function toArray(list, index) {
           ref = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's'];
           for (i = 0, len = ref.length; i < len; i++) {
             cc = ref[i];
-            if (cc.type.camel_case_to_underscore() === $routeParams.construct_type && cc.id.toString() === $routeParams.construct_id.toString()) {
+            if (cc.type.pascal_case_to_underscore() === $routeParams.construct_type && cc.id.toString() === $routeParams.construct_id.toString()) {
               $scope.current = angular.copy(cc);
               break;
             }
@@ -77600,36 +78874,37 @@ function toArray(list, index) {
         return results;
       };
       $scope.after_instrument_loaded = function() {
-        var constructSorter, sortChildren;
+        var constructSorter;
         console.time('after instrument');
         constructSorter = function(a, b) {
           return a.position > b.position;
         };
         if (!$scope.instrument.topsequence.resolved) {
-          DataManager.resolveConstructs();
-          DataManager.resolveQuestions();
-          sortChildren = function(parent) {
-            var child, i, j, len, len1, ref, ref1, results;
-            if (parent.children != null) {
-              parent.children.sort(constructSorter);
-              ref = parent.children;
-              for (i = 0, len = ref.length; i < len; i++) {
-                child = ref[i];
-                sortChildren(child);
-              }
-              if (parent.fchildren != null) {
-                parent.fchildren.sort(constructSorter);
-                ref1 = parent.fchildren;
-                results = [];
-                for (j = 0, len1 = ref1.length; j < len1; j++) {
-                  child = ref1[j];
-                  results.push(sortChildren(child));
+          DataManager.resolve().then(function() {
+            var sortChildren;
+            sortChildren = function(parent) {
+              var child, i, j, len, len1, ref, ref1, results;
+              if (parent.children != null) {
+                parent.children.sort(constructSorter);
+                ref = parent.children;
+                for (i = 0, len = ref.length; i < len; i++) {
+                  child = ref[i];
+                  sortChildren(child);
                 }
-                return results;
+                if (parent.fchildren != null) {
+                  parent.fchildren.sort(constructSorter);
+                  ref1 = parent.fchildren;
+                  results = [];
+                  for (j = 0, len1 = ref1.length; j < len1; j++) {
+                    child = ref1[j];
+                    results.push(sortChildren(child));
+                  }
+                  return results;
+                }
               }
-            }
-          };
-          sortChildren($scope.instrument.topsequence);
+            };
+            return sortChildren($scope.instrument.topsequence);
+          });
         }
         $scope.details = {};
         $scope.details.item_options = DataManager.getQuestionItemIDs();
@@ -77706,6 +78981,9 @@ function toArray(list, index) {
       $scope.response_domains_url = '/instruments/' + $routeParams.id + '/build/response_domains';
       $scope.questions_url = '/instruments/' + $routeParams.id + '/build/questions';
       $scope.constructs_url = '/instruments/' + $routeParams.id + '/build/constructs';
+      $scope.summary_url = function(arg) {
+        return '/instruments/' + $routeParams.id + '/summary/' + arg;
+      };
       return $scope.stats = DataManager.getInstrumentStats($routeParams.id);
     }
   ]);
@@ -77966,7 +79244,7 @@ function toArray(list, index) {
           ref = $scope.instrument.ResponseDomains;
           for (i = 0, len = ref.length; i < len; i++) {
             rd = ref[i];
-            if (rd.type.camel_case_to_underscore() + 's' === $routeParams.response_domain_type && rd.id.toString() === $routeParams.response_domain_id) {
+            if (rd.type.pascal_case_to_underscore() + 's' === $routeParams.response_domain_type && rd.id.toString() === $routeParams.response_domain_id) {
               $scope.current = angular.copy(rd);
               $scope.editMode = false;
               if ($scope.current != null) {
@@ -78076,1426 +79354,89 @@ function toArray(list, index) {
 
 }).call(this);
 (function() {
+  var build;
 
+  build = angular.module('archivist.summary', ['templates', 'ngRoute']);
 
-}).call(this);
-(function() {
-  var instruments;
-
-  instruments = angular.module('archivist.instruments', ['templates', 'ngRoute', 'ngResource', 'ui.bootstrap', 'archivist.flash', 'archivist.data_manager']);
-
-  instruments.config([
+  build.config([
     '$routeProvider', function($routeProvider) {
-      return $routeProvider.when('/instruments', {
-        templateUrl: 'partials/instruments/index.html',
-        controller: 'InstrumentsController'
-      }).when('/instruments/:id', {
-        templateUrl: 'partials/instruments/show.html',
-        controller: 'InstrumentsController'
-      }).when('/instruments/:id/edit', {
-        templateUrl: 'partials/instruments/edit.html',
-        controller: 'InstrumentsController'
+      return $routeProvider.when('/instruments/:id/summary', {
+        templateUrl: 'partials/summary/index.html',
+        controller: 'SummaryIndexController'
+      }).when('/instruments/:id/summary/:object_type', {
+        templateUrl: 'partials/summary/show.html',
+        controller: 'SummaryShowController'
       });
     }
   ]);
 
-  instruments.controller('InstrumentsController', [
-    '$scope', '$routeParams', '$location', '$q', '$http', '$timeout', 'Flash', 'DataManager', function($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager) {
-      var loadStructure, loadStudies, progressUpdate;
-      $scope.page['title'] = 'Instruments';
-      if ($routeParams.id) {
-        loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() !== 'edit';
-        loadStudies = !loadStructure;
-        $scope.loading = {
-          state: "Downloading",
-          progress: 0,
-          type: "info"
-        };
-        progressUpdate = function(newValue) {
-          $scope.loading.progress = newValue;
-          if ($scope.loading.progress > 99) {
-            $scope.loading.state = "Processing";
-            return $scope.loading.type = "success";
-          }
-        };
-        $scope.instrument = DataManager.getInstrument($routeParams.id, {
-          constructs: loadStructure,
-          questions: loadStructure,
-          progress: progressUpdate
-        }, function() {
-          $scope.page['title'] = $scope.instrument.prefix + ' | Edit';
-          return $timeout(function() {
-            if (loadStructure) {
-              $scope.page['title'] = $scope.instrument.prefix + ' | View';
-              DataManager.resolveConstructs();
-              DataManager.resolveQuestions();
-              console.log($scope);
-            }
-            return $scope.loading.state = "Done";
-          }, 100);
-        });
-      } else {
-        $scope.instruments = DataManager.getInstruments();
-        $scope.pageSize = 20;
-        $scope.filterStudy = function(study) {
-          return $scope.filteredStudy = study;
-        };
-        $http.get('/studies.json').success(function(data) {
-          return $scope.studies = data;
-        });
+}).call(this);
+(function() {
+  angular.module('archivist.summary').controller('SummaryShowController', [
+    '$scope', '$routeParams', '$filter', 'DataManager', 'Map', 'RealTimeListener', function($scope, $routeParams, $filter, DataManager, Map, RealTimeListener) {
+      var k, options, v;
+      $scope.object_type = $routeParams.object_type.underscore_to_pascal_case();
+      options = Object.lower_everything(Map.map[$scope.object_type]);
+      for (k in options) {
+        v = options[k];
+        options[k] = {};
+        options[k][v] = true;
       }
-      return $scope.updateInstrument = function() {
-        return $scope.instrument.$save({}, function() {
-          Flash.add('success', 'Instrument updated successfully!');
-          $location.path('/instruments');
-          return DataManager.clearCache();
-        }, function() {
-          return console.log("error");
-        });
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var data_manager;
-
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.auth', 'archivist.realtime', 'archivist.resource']);
-
-  data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'InstrumentStats', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, InstrumentStats, Auth) {
-      var DataManager;
-      DataManager = {};
-      DataManager.Data = {};
-      DataManager.Instruments = Instruments;
-      DataManager.Constructs = Constructs;
-      DataManager.Codes = Codes;
-      DataManager.ResponseUnits = ResponseUnits;
-      DataManager.ResponseDomains = ResponseDomains;
-      DataManager.Auth = Auth;
-      DataManager.clearCache = function() {
-        DataManager.Data = {};
-        DataManager.Data.ResponseDomains = {};
-        DataManager.Data.ResponseUnits = {};
-        DataManager.Data.InstrumentStats = {};
-        DataManager.Data.Users = {};
-        DataManager.Data.Groups = {};
-        DataManager.Instruments.clearCache();
-        DataManager.Constructs.clearCache();
-        DataManager.Codes.clearCache();
-        DataManager.ResponseUnits.clearCache();
-        return DataManager.Auth.clearCache();
-      };
-      DataManager.clearCache();
-      DataManager.getInstruments = function(params, success, error) {
-        DataManager.Data.Instruments = DataManager.Instruments.query(params, success, error);
-        return DataManager.Data.Instruments;
-      };
-      DataManager.getInstrument = function(instrument_id, options, success, error) {
-        var base, base1, base2, chunk_size, i, len, promise, promises;
-        if (options == null) {
-          options = {};
-        }
-        console.log('getInstrument');
-        DataManager.progress = 0;
-        if (options.codes == null) {
-          options.codes = false;
-        }
-        if (options.constructs == null) {
-          options.constructs = false;
-        }
-        if (options.questions == null) {
-          options.questions = false;
-        }
-        if (options.rds == null) {
-          options.rds = false;
-        }
-        if (options.rus == null) {
-          options.rus = false;
-        }
-        if (options.instrument == null) {
-          options.instrument = true;
-        }
-        if (options.topsequence == null) {
-          options.topsequence = true;
-        }
-        promises = [];
-        DataManager.Data.Instrument = DataManager.Instruments.get({
-          id: instrument_id
-        });
-        promises.push(DataManager.Data.Instrument.$promise);
-        if (options.codes) {
-          if ((base = DataManager.Data).Codes == null) {
-            base.Codes = {};
-          }
-          DataManager.Data.Codes.CodeLists = DataManager.Codes.CodeLists.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Codes.CodeLists.$promise);
-          DataManager.Data.Codes.Categories = DataManager.Codes.Categories.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Codes.Categories.$promise);
-        }
-        if (options.constructs) {
-          if ((base1 = DataManager.Data).Constructs == null) {
-            base1.Constructs = {};
-          }
-          DataManager.Data.Constructs.Conditions = DataManager.Constructs.Conditions.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Conditions.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'condition');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Loops = DataManager.Constructs.Loops.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Loops.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'loop');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Questions = DataManager.Constructs.Questions.cc.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Questions.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'question');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Statements = DataManager.Constructs.Statements.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Statements.$promise.then(function(collection) {
-            var i, index, len, obj, results;
-            results = [];
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              results.push(collection[index].type = 'statement');
-            }
-            return results;
-          }));
-          DataManager.Data.Constructs.Sequences = DataManager.Constructs.Sequences.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Constructs.Sequences.$promise.then(function(collection) {
-            var i, index, len, obj;
-            console.log('seqeunce altering');
-            for (index = i = 0, len = collection.length; i < len; index = ++i) {
-              obj = collection[index];
-              collection[index].type = 'sequence';
-            }
-            if (options.instrument) {
-              if (typeof DataManager.Data.Instrument.Constructs === 'undefined') {
-                DataManager.Data.Instrument.Constructs = {};
-              }
-              DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences;
-              return true;
-            }
-          }));
-        }
-        if (options.questions) {
-          if ((base2 = DataManager.Data).Questions == null) {
-            base2.Questions = {};
-          }
-          DataManager.Data.Questions.Items = DataManager.Constructs.Questions.item.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Questions.Items.$promise);
-          DataManager.Data.Questions.Grids = DataManager.Constructs.Questions.grid.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.Questions.Grids.$promise);
-        }
-        if (options.rds) {
-          DataManager.Data.ResponseDomains = {};
-          DataManager.Data.ResponseDomains.Codes = DataManager.ResponseDomains.Codes.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.ResponseDomains.Codes.$promise);
-          DataManager.Data.ResponseDomains.Datetimes = DataManager.ResponseDomains.Datetimes.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.ResponseDomains.Datetimes.$promise);
-          DataManager.Data.ResponseDomains.Numerics = DataManager.ResponseDomains.Numerics.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.ResponseDomains.Numerics.$promise);
-          DataManager.Data.ResponseDomains.Texts = DataManager.ResponseDomains.Texts.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.ResponseDomains.Texts.$promise);
-        }
-        if (options.rus) {
-          DataManager.Data.ResponseUnits = DataManager.ResponseUnits.query({
-            instrument_id: instrument_id
-          });
-          promises.push(DataManager.Data.ResponseUnits.$promise);
-        }
-        chunk_size = 100 / promises.length;
-        for (i = 0, len = promises.length; i < len; i++) {
-          promise = promises[i];
-          promise["finally"](function() {
-            DataManager.progress += chunk_size;
-            if (options.progress != null) {
-              return options.progress(DataManager.progress);
-            }
-          });
-        }
-        $q.all(promises).then(function() {
-          var base3, s;
-          console.log('All promises resolved');
-          if (options.instrument) {
-            if (options.constructs) {
-              DataManager.Data.Instrument.Constructs = {};
-              DataManager.Data.Instrument.Constructs.Conditions = DataManager.Data.Constructs.Conditions;
-              DataManager.Data.Instrument.Constructs.Loops = DataManager.Data.Constructs.Loops;
-              DataManager.Data.Instrument.Constructs.Questions = DataManager.Data.Constructs.Questions;
-              DataManager.Data.Instrument.Constructs.Sequences = DataManager.Data.Constructs.Sequences;
-              DataManager.Data.Instrument.Constructs.Statements = DataManager.Data.Constructs.Statements;
-            }
-            if (options.questions) {
-              if ((base3 = DataManager.Data.Instrument).Questions == null) {
-                base3.Questions = {};
-              }
-              DataManager.Data.Instrument.Questions.Items = DataManager.Data.Questions.Items;
-              DataManager.Data.Instrument.Questions.Grids = DataManager.Data.Questions.Grids;
-            }
-            if (options.codes) {
-              DataManager.Data.Instrument.CodeLists = DataManager.Data.Codes.CodeLists;
-            }
-            if (options.rds) {
-              DataManager.groupResponseDomains();
-            }
-            if (options.rus) {
-              DataManager.Data.Instrument.ResponseUnits = DataManager.Data.ResponseUnits;
+      options['topsequence'] = false;
+      return $scope.instrument = DataManager.getInstrument($routeParams.id, options, function() {
+        var accepted_columns, data, i, index, j, key, len, obj, row;
+        accepted_columns = ['id', 'label', 'literal', 'base_label', 'response_unit_label', 'logic'];
+        data = Map.find(DataManager.Data, $scope.object_type);
+        $scope.data = [];
+        for (index = j = 0, len = data.length; j < len; index = ++j) {
+          row = data[index];
+          obj = {};
+          for (i in row) {
+            if (accepted_columns.indexOf(i) !== -1) {
+              obj[i] = row[i];
             }
           }
-          console.log('callbacks called');
-          if (options.constructs && options.instrument && options.topsequence) {
-            DataManager.Data.Instrument.topsequence = ((function() {
-              var j, len1, ref, results;
-              ref = DataManager.Data.Instrument.Constructs.Sequences;
-              results = [];
-              for (j = 0, len1 = ref.length; j < len1; j++) {
-                s = ref[j];
-                if (s.top) {
-                  results.push(s);
-                }
-              }
-              return results;
-            })())[0];
-          }
-          return typeof success === "function" ? success() : void 0;
-        });
-        return DataManager.Data.Instrument;
-      };
-      DataManager.groupResponseDomains = function() {
-        return DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(DataManager.Data.ResponseDomains.Numerics, DataManager.Data.ResponseDomains.Texts, DataManager.Data.ResponseDomains.Codes);
-      };
-      DataManager.getResponseUnits = function(instrument_id, force, cb) {
-        if (force == null) {
-          force = false;
+          $scope.data.push(obj);
         }
-        if ((DataManager.Data.ResponseUnits[instrument_id] == null) || force) {
-          return DataManager.Data.ResponseUnits[instrument_id] = GetResource('/instruments/' + instrument_id + '/response_units.json', true, cb);
-        } else {
-          return typeof cb === "function" ? cb() : void 0;
-        }
-      };
-      DataManager.resolveConstructs = function(options) {
-        if (DataManager.ConstructResolver == null) {
-          DataManager.ConstructResolver = new ResolutionService.ConstructResolver(DataManager.Data.Constructs);
-        }
-        return DataManager.ConstructResolver.resolve(options);
-      };
-      DataManager.resolveQuestions = function() {
-        if (DataManager.QuestionResolver == null) {
-          DataManager.QuestionResolver = new ResolutionService.QuestionResolver(DataManager.Data.Questions);
-        }
-        return DataManager.QuestionResolver.resolve(DataManager.Data.Constructs.Questions);
-      };
-      DataManager.resolveCodes = function() {
-        if (DataManager.CodeResolver == null) {
-          DataManager.CodeResolver = new ResolutionService.CodeResolver(DataManager.Data.Codes.CodeLists, DataManager.Data.Codes.Categories);
-        }
-        return DataManager.CodeResolver.resolve();
-      };
-      DataManager.getApplicationStats = function() {
-        DataManager.Data.AppStats = {
-          $resolved: false
-        };
-        DataManager.Data.AppStats.$promise = ApplicationStats;
-        DataManager.Data.AppStats.$promise.then(function(res) {
-          var key;
-          for (key in res.data) {
-            if (res.data.hasOwnProperty(key)) {
-              DataManager.Data.AppStats[key] = res.data[key];
-            }
-          }
-          return DataManager.Data.AppStats.$resolved = true;
-        });
-        return DataManager.Data.AppStats;
-      };
-      DataManager.getInstrumentStats = function(id) {
-        DataManager.Data.InstrumentStats[id] = {
-          $resolved: false
-        };
-        DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id);
-        DataManager.Data.InstrumentStats[id].$promise.then(function(res) {
-          var key;
-          for (key in res.data) {
-            if (res.data.hasOwnProperty(key)) {
-              DataManager.Data.InstrumentStats[id][key] = res.data[key];
-            }
-          }
-          return DataManager.Data.InstrumentStats[id].$resolved = true;
-        });
-        return DataManager.Data.InstrumentStats[id];
-      };
-      DataManager.getQuestionItemIDs = function() {
-        var i, len, output, qi, ref;
-        output = [];
-        ref = DataManager.Data.Questions.Items;
-        for (i = 0, len = ref.length; i < len; i++) {
-          qi = ref[i];
-          output.push({
-            value: qi.id,
-            label: qi.label
-          });
-        }
-        return output;
-      };
-      DataManager.getQuestionGridIDs = function() {
-        var i, len, output, qg, ref;
-        output = [];
-        ref = DataManager.Data.Questions.Grids;
-        for (i = 0, len = ref.length; i < len; i++) {
-          qg = ref[i];
-          output.push({
-            value: qg.id,
-            label: qg.label
-          });
-        }
-        return output;
-      };
-      DataManager.getUsers = function() {
-        var promises;
-        promises = [];
-        DataManager.Data.Users = DataManager.Auth.Users.query();
-        promises.push(DataManager.Data.Users.$promise);
-        DataManager.Data.Groups = DataManager.Auth.Groups.query();
-        promises.push(DataManager.Data.Groups.$promise);
-        return $q.all(promises).then(function() {
-          if (DataManager.GroupResolver == null) {
-            DataManager.GroupResolver = new ResolutionService.GroupResolver(DataManager.Data.Groups, DataManager.Data.Users);
-          }
-          return DataManager.GroupResolver.resolve();
-        });
-      };
-      DataManager.listener = RealTimeListener(function(event, message) {
-        var arr, i, key, len, obj, old_children, old_fchildren, old_q_id, old_q_type, ref, reresolve_constructs, reresolve_questions, resource, row, value;
-        console.log("Rt update");
-        if (message.data != null) {
-          reresolve_constructs = false;
-          reresolve_questions = false;
-          ref = message.data;
-          for (i = 0, len = ref.length; i < len; i++) {
-            row = ref[i];
-            obj = Map.find(DataManager.Data, row.type).select_resource_by_id(row.id);
-            if (obj != null) {
-              if (obj['type'] === 'question') {
-                old_q_id = obj['question_id'];
-                old_q_type = obj['question_type'];
-              }
-              for (key in row) {
-                value = row[key];
-                if (['id', 'type'].indexOf(key) === -1) {
-                  if (['children', 'fchildren'].indexOf(key) !== -1) {
-                    old_children = obj['children'];
-                    old_fchildren = obj['fchildren'];
-                  }
-                  obj[key] = row[key];
-                  if (['children', 'fchildren'].indexOf(key) !== -1 && (old_children !== obj['children'] || old_fchildren !== obj['fchildren'])) {
-                    reresolve_constructs = true;
-                  }
-                }
-              }
-              if (obj['type'] === 'question' && (old_q_id !== obj['question_id'] || old_q_type !== obj['question_type'])) {
-                obj.base = null;
-                reresolve_questions = true;
-              }
-            } else if (row.type !== "Instrument" && (row.action != null) && row.action === "ADD") {
-              if ((row.instrument_id != null) && row.instrument_id === DataManager.Data.Instrument.id) {
-                arr = Map.find(DataManager.Data, row.type);
-                resource = Map.find(DataManager, row.type).resource;
-                obj = new resource({});
-                console.log(obj);
-                for (key in row) {
-                  value = row[key];
-                  obj[key] = row[key];
-                }
-                console.log(obj);
-                arr.push(obj);
-              }
-            }
-            if (row.type === 'Instrument' && row.id === DataManager.Data.Instrument.id) {
-              for (key in row) {
-                value = row[key];
-                if (['id', 'type'].indexOf(key) === -1) {
-                  DataManager.Data.Instrument[key] = row[key];
-                }
-              }
-            }
-          }
-          if (reresolve_questions) {
-            DataManager.resolveQuestions();
-          }
-          if (reresolve_constructs) {
-            return DataManager.resolveConstructs();
-          }
-        }
-      });
-      return DataManager;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var auth;
-
-  auth = angular.module('archivist.data_manager.auth', ['archivist.data_manager.auth.groups', 'archivist.data_manager.auth.users']);
-
-  auth.factory('Auth', [
-    'Groups', 'Users', function(Groups, Users) {
-      var Auth;
-      Auth = {};
-      Auth.Groups = Groups;
-      Auth.Users = Users;
-      Auth.clearCache = function() {
-        Auth.Groups.clearCache();
-        return Auth.Users.clearCache();
-      };
-      return Auth;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var groups;
-
-  groups = angular.module('archivist.data_manager.auth.groups', ['archivist.resource']);
-
-  groups.factory('Groups', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('groups/:id.json', {
-        id: '@id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var users;
-
-  users = angular.module('archivist.data_manager.auth.users', ['archivist.resource']);
-
-  users.factory('Users', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('users/admin/:id.json', {
-        id: '@id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var codes;
-
-  codes = angular.module('archivist.data_manager.codes', ['archivist.data_manager.codes.code_lists', 'archivist.data_manager.codes.categories']);
-
-  codes.factory('Codes', [
-    'CodeLists', 'Categories', 'CodeResolver', function(CodeLists, Categories, CodeResolver) {
-      var Codes;
-      Codes = {};
-      Codes.CodeLists = CodeLists;
-      Codes.Categories = Categories;
-      Codes.CodeResolver = CodeResolver;
-      Codes.clearCache = function() {
-        Codes.CodeLists.clearCache();
-        return Codes.Categories.clearCache();
-      };
-      return Codes;
-    }
-  ]);
-
-  codes.factory('CodeResolver', [
-    function() {
-      return {
-        code_list: function(scope, code) {
-          return scope.code_lists.select_resource_by_id(code.code_list_id);
-        },
-        category: function(scope, code) {
-          return scope.categories.select_resource_by_id(code.category_id);
-        },
-        code_lists: function(scope, category) {
-          var code, i, len, ref, results;
-          ref = scope.codes;
+        $scope.cols = (function() {
+          var results;
           results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            code = ref[i];
-            if (code.category_id === category.id) {
-              results.push(this.code_list(scope, code));
-            }
+          for (key in $scope.data[0]) {
+            results.push(key);
           }
           return results;
-        },
-        categories: function(scope, code_list) {
-          var code, i, len, ref, results;
-          ref = code_list.codes;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            code = ref[i];
-            results.push(code.label = this.category(scope, code)['label']);
+        })();
+        $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.id.toString(),
+            active: false
+          }, {
+            label: 'Summary',
+            link: false,
+            active: false
+          }, {
+            label: $scope.object_type,
+            link: false,
+            active: true
           }
-          return results;
-        }
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var categories;
-
-  categories = angular.module('archivist.data_manager.codes.categories', ['archivist.resource']);
-
-  categories.factory('Categories', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/categories/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
+        ];
+        return console.log($scope);
       });
     }
   ]);
 
 }).call(this);
 (function() {
-  var code_lists;
 
-  code_lists = angular.module('archivist.data_manager.codes.code_lists', ['archivist.resource']);
-
-  code_lists.factory('CodeLists', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/code_lists/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
 
 }).call(this);
 (function() {
-  var constructs;
 
-  constructs = angular.module('archivist.data_manager.constructs', ['archivist.data_manager.constructs.conditions', 'archivist.data_manager.constructs.loops', 'archivist.data_manager.constructs.questions', 'archivist.data_manager.constructs.sequences', 'archivist.data_manager.constructs.statements']);
-
-  constructs.factory('Constructs', [
-    'Conditions', 'Loops', 'Questions', 'Sequences', 'Statements', function(Conditions, Loops, Questions, Sequences, Statements) {
-      var Constructs;
-      Constructs = {};
-      Constructs.Conditions = Conditions;
-      Constructs.Loops = Loops;
-      Constructs.Questions = Questions;
-      Constructs.Sequences = Sequences;
-      Constructs.Statements = Statements;
-      Constructs.clearCache = function() {
-        Constructs.Conditions.clearCache();
-        Constructs.Loops.clearCache();
-        Constructs.Questions.clearCache();
-        Constructs.Sequences.clearCache();
-        return Constructs.Statements.clearCache();
-      };
-      return Constructs;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var conditions;
-
-  conditions = angular.module('archivist.data_manager.constructs.conditions', ['archivist.resource']);
-
-  conditions.factory('Conditions', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/cc_conditions/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var loops;
-
-  loops = angular.module('archivist.data_manager.constructs.loops', ['ngResource']);
-
-  loops.factory('Loops', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/cc_loops/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var questions;
-
-  questions = angular.module('archivist.data_manager.constructs.questions', ['archivist.resource']);
-
-  questions.factory('Questions', [
-    'WrappedResource', function(WrappedResource) {
-      return {
-        cc: new WrappedResource('instruments/:instrument_id/cc_questions/:id.json', {
-          id: '@id',
-          instrument_id: '@instrument_id'
-        }),
-        item: new WrappedResource('instruments/:instrument_id/question_items/:id.json', {
-          id: '@id',
-          instrument_id: '@instrument_id'
-        }),
-        grid: new WrappedResource('instruments/:instrument_id/question_grids/:id.json', {
-          id: '@id',
-          instrument_id: '@instrument_id'
-        }),
-        clearCache: function() {
-          if (typeof cc !== "undefined" && cc !== null) {
-            cc.clearCache();
-          }
-          if (typeof item !== "undefined" && item !== null) {
-            item.clearCache();
-          }
-          if (typeof grid !== "undefined" && grid !== null) {
-            return grid.clearCache();
-          }
-        }
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var sequences;
-
-  sequences = angular.module('archivist.data_manager.constructs.sequences', ['ngResource']);
-
-  sequences.factory('Sequences', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/cc_sequences/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var statements;
-
-  statements = angular.module('archivist.data_manager.constructs.statements', ['ngResource']);
-
-  statements.factory('Statements', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/cc_statements/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var instruments;
-
-  instruments = angular.module('archivist.data_manager.instruments', ['archivist.resource']);
-
-  instruments.factory('Instruments', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:id.json', {
-        id: '@id'
-      }, {
-        save: {
-          method: 'PUT'
-        },
-        create: {
-          method: 'POST'
-        },
-        copy: {
-          method: 'POST',
-          url: 'instruments/:id/copy/:prefix.json'
-        }
-      });
-    }
-  ]);
-
-  instruments.factory('InstrumentRelationshipResolver', [
-    function() {
-      return function(instruments, reference) {
-        switch (reference.type) {
-          case "CcCondition":
-            return instruments.conditions.select_resource_by_id(reference.id);
-          case "CcLoop":
-            return instruments.loops.select_resource_by_id(reference.id);
-          case "CcQuestion":
-            return instruments.questions.select_resource_by_id(reference.id);
-          case "CcSequence":
-            return instruments.sequences.select_resource_by_id(reference.id);
-          case "CcStatement":
-            return instruments.statements.select_resource_by_id(reference.id);
-        }
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var map;
-
-  map = angular.module('archivist.data_manager.map', []);
-
-  map.factory('Map', [
-    function() {
-      var service;
-      service = {};
-      service.map = {
-        Instrument: 'Instruments',
-        CcCondition: {
-          Constructs: 'Conditions'
-        },
-        CcLoop: {
-          Constructs: 'Loops'
-        },
-        CcQuestion: {
-          Constructs: 'Questions'
-        },
-        CcSequence: {
-          Constructs: 'Sequences'
-        },
-        CcStatement: {
-          Constructs: 'Statements'
-        },
-        QuestionItem: {
-          Questions: 'Items'
-        },
-        QuestionGrid: {
-          Questions: 'Grids'
-        },
-        ResponseDomainText: {
-          ResponseDomains: 'Texts'
-        },
-        ResponseDomainNumeric: {
-          ResponseDomains: 'Numerics'
-        },
-        ResponseDomainDatetime: {
-          ResponseDomains: 'Datetimes'
-        }
-      };
-      service.find = function(obj, ident) {
-        var dig;
-        dig = function(obj, lookup) {
-          var k, output, v;
-          output = obj;
-          if (typeof lookup === "object") {
-            for (k in lookup) {
-              v = lookup[k];
-              output = dig(output[k], v);
-            }
-          } else {
-            output = output[lookup];
-          }
-          return output;
-        };
-        return dig(obj, service.map[ident]);
-      };
-      service.translate = function(ident) {
-        var dig;
-        dig = function(lookup) {
-          if (typeof lookup === "object") {
-            return dig(lookup[Object.keys(lookup)[0]]);
-          } else {
-            return lookup;
-          }
-        };
-        return dig(service.map[ident]);
-      };
-      return service;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var resolution,
-    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-  resolution = angular.module('archivist.data_manager.resolution', []);
-
-  resolution.factory('ResolutionService', [
-    function() {
-      var service;
-      service = {};
-      service.ConstructResolver = (function() {
-        function _Class(constructs) {
-          this.constructs = constructs;
-        }
-
-        _Class.prototype.map = {
-          CcCondition: 'Conditions',
-          CcLoop: 'Loops',
-          CcQuestion: 'Questions',
-          CcSequence: 'Sequences',
-          CcStatement: 'Statements'
-        };
-
-        _Class.prototype.resolve = function(to_check, check_against) {
-          var child, collection, construct, index, key, ref, results;
-          if (to_check == null) {
-            to_check = ['Conditions', 'Loops', 'Sequences'];
-          }
-          if (check_against == null) {
-            check_against = ['Conditions', 'Loops', 'Questions', 'Sequences', 'Statements'];
-          }
-          ref = this.constructs;
-          results = [];
-          for (key in ref) {
-            collection = ref[key];
-            if (indexOf.call(to_check, key) >= 0) {
-              results.push((function() {
-                var i, j, k, len, len1, len2, ref1, ref2, results1;
-                results1 = [];
-                for (i = 0, len = collection.length; i < len; i++) {
-                  construct = collection[i];
-                  ref1 = construct.children;
-                  for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
-                    child = ref1[index];
-                    if (child.type != null) {
-                      if (child.type in this.map) {
-                        construct.children[index] = this.constructs[this.map[child.type]].select_resource_by_id(child.id);
-                      }
-                    }
-                  }
-                  if (construct.fchildren != null) {
-                    ref2 = construct.fchildren;
-                    for (index = k = 0, len2 = ref2.length; k < len2; index = ++k) {
-                      child = ref2[index];
-                      if (child.type != null) {
-                        if (child.type in this.map) {
-                          construct.fchildren[index] = this.constructs[this.map[child.type]].select_resource_by_id(child.id);
-                        }
-                      }
-                    }
-                  }
-                  results1.push(construct.resolved = true);
-                }
-                return results1;
-              }).call(this));
-            } else {
-              results.push(void 0);
-            }
-          }
-          return results;
-        };
-
-        return _Class;
-
-      })();
-      service.QuestionResolver = (function() {
-        function _Class(questions) {
-          this.questions = questions;
-        }
-
-        _Class.prototype.map = {
-          QuestionItem: 'Items',
-          QuestionGrid: 'Grids'
-        };
-
-        _Class.prototype.resolve = function(constructs) {
-          var base, construct, i, index, len, results;
-          results = [];
-          for (index = i = 0, len = constructs.length; i < len; index = ++i) {
-            construct = constructs[index];
-            results.push((base = constructs[index]).base != null ? base.base : base.base = this.questions[this.map[construct.question_type]].select_resource_by_id(construct.question_id));
-          }
-          return results;
-        };
-
-        return _Class;
-
-      })();
-      service.CodeResolver = (function() {
-        function _Class(codes_lists, categories) {
-          this.code_lists = codes_lists;
-          this.categories = categories;
-        }
-
-        _Class.prototype.category = function(code) {
-          return this.categories.select_resource_by_id(code.category_id);
-        };
-
-        _Class.prototype.resolve = function() {
-          var code, code_list, i, index, len, ref, results;
-          ref = this.code_lists;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            code_list = ref[i];
-            results.push((function() {
-              var j, len1, ref1, results1;
-              ref1 = code_list.codes;
-              results1 = [];
-              for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
-                code = ref1[index];
-                results1.push(code_list.codes[index].label = this.category(code)['label']);
-              }
-              return results1;
-            }).call(this));
-          }
-          return results;
-        };
-
-        return _Class;
-
-      })();
-      service.GroupResolver = (function() {
-        function _Class(groups, users) {
-          this.groups = groups;
-          this.users = users;
-        }
-
-        _Class.prototype.resolve = function() {
-          var group, group_index, i, len, ref, results, user, user_index;
-          ref = this.groups;
-          results = [];
-          for (group_index = i = 0, len = ref.length; i < len; group_index = ++i) {
-            group = ref[group_index];
-            this.groups[group_index].users = [];
-            results.push((function() {
-              var j, len1, ref1, results1;
-              ref1 = this.users;
-              results1 = [];
-              for (user_index = j = 0, len1 = ref1.length; j < len1; user_index = ++j) {
-                user = ref1[user_index];
-                if (group.id === user.group_id) {
-                  this.users[user_index].group = group.label;
-                  results1.push(this.groups[group_index].users.push(user));
-                } else {
-                  results1.push(void 0);
-                }
-              }
-              return results1;
-            }).call(this));
-          }
-          return results;
-        };
-
-        return _Class;
-
-      })();
-      return service;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var rds;
-
-  rds = angular.module('archivist.data_manager.response_domains', ['archivist.data_manager.response_domains.codes', 'archivist.data_manager.response_domains.datetimes', 'archivist.data_manager.response_domains.numerics', 'archivist.data_manager.response_domains.texts']);
-
-  rds.factory('ResponseDomains', [
-    'ResponseDomainDatetimes', 'ResponseDomainNumerics', 'ResponseDomainTexts', 'ResponseDomainCodes', function(ResponseDomainDatetimes, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainCodes) {
-      var ResponseDomains;
-      ResponseDomains = {};
-      ResponseDomains.Datetimes = ResponseDomainDatetimes;
-      ResponseDomains.Numerics = ResponseDomainNumerics;
-      ResponseDomains.Texts = ResponseDomainTexts;
-      ResponseDomains.Codes = ResponseDomainCodes;
-      ResponseDomains.clearCache = function() {
-        ResponseDomains.Datetimes.clearCache();
-        ResponseDomains.Numerics.clearCache();
-        ResponseDomains.Texts.clearCache();
-        return ResponseDomains.Codes.clearCache();
-      };
-      return ResponseDomains;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var codes;
-
-  codes = angular.module('archivist.data_manager.response_domains.codes', ['archivist.resource']);
-
-  codes.factory('ResponseDomainCodes', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/response_domain_codes/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var datetimes;
-
-  datetimes = angular.module('archivist.data_manager.response_domains.datetimes', ['archivist.resource']);
-
-  datetimes.factory('ResponseDomainDatetimes', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/response_domain_datetimes/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var numerics;
-
-  numerics = angular.module('archivist.data_manager.response_domains.numerics', ['archivist.resource']);
-
-  numerics.factory('ResponseDomainNumerics', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/response_domain_numerics/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var texts;
-
-  texts = angular.module('archivist.data_manager.response_domains.texts', ['archivist.resource']);
-
-  texts.factory('ResponseDomainTexts', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/response_domain_texts/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var conditions;
-
-  conditions = angular.module('archivist.data_manager.response_units', ['archivist.resource']);
-
-  conditions.factory('ResponseUnits', [
-    'WrappedResource', function(WrappedResource) {
-      return new WrappedResource('instruments/:instrument_id/response_units/:id.json', {
-        id: '@id',
-        instrument_id: '@instrument_id'
-      });
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var stats;
-
-  stats = angular.module('archivist.data_manager.stats', []);
-
-  stats.factory('ApplicationStats', [
-    '$http', function($http) {
-      return $http.get('/stats.json', {
-        cache: true
-      });
-    }
-  ]);
-
-  stats.factory('InstrumentStats', [
-    '$http', function($http) {
-      return function(id) {
-        return $http.get('/instruments/' + id + '/stats.json', {
-          cache: true
-        });
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var flash;
-
-  flash = angular.module('archivist.flash', ['ngMessages']);
-
-  flash.factory('Flash', [
-    '$interval', function($interval) {
-      var LOCAL_STORAGE_KEY, clear, notices, scope, store;
-      LOCAL_STORAGE_KEY = 'notices';
-      notices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-      scope = null;
-      store = function() {
-        return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notices));
-      };
-      clear = function() {
-        notices = [];
-        return store();
-      };
-      return {
-        add: function(type, message) {
-          notices.push({
-            type: type,
-            message: message
-          });
-          store();
-          if (document.getElementsByTagName(LOCAL_STORAGE_KEY)) {
-            return this.publish(scope);
-          }
-        },
-        publish: function(_scope) {
-          _scope.notices = notices;
-          return clear();
-        },
-        set_scope: function(_scope) {
-          return scope = _scope;
-        },
-        listen: function(scope) {},
-        clear: this.clear,
-        store: this.store
-      };
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var realtime;
-
-  realtime = angular.module('archivist.realtime', ['ngRoute', 'archivist.flash']);
-
-  realtime.factory('RealTimeConnection', [
-    '$rootScope', '$timeout', 'Flash', function($rootScope, $timeout, Flash) {
-      var service;
-      service = {};
-      service.socket = io(window.socket_url);
-      service.socket.on('disconnect', function() {
-        return $rootScope.$apply(function() {
-          return $rootScope.realtimeStatus = false;
-        });
-      });
-      service.socket.on('connect', function() {
-        return $timeout(function() {
-          return $rootScope.realtimeStatus = true;
-        });
-      });
-      service.socket.on('rt-update', function(message) {
-        return $rootScope.$emit('rt-update', message);
-      });
-      return service;
-    }
-  ]);
-
-  realtime.factory('RealTimeListener', [
-    '$rootScope', '$http', function($rootScope, $http) {
-      var listener;
-      listener = (function() {
-        function _Class($rootScope, callback) {
-          this.handler = $rootScope.$on('rt-update', function(event, message) {
-            return $rootScope.$apply(function() {
-              var no_more_pending_requests;
-              return no_more_pending_requests = $rootScope.$watch(function() {
-                return $http.pendingRequests.length;
-              }, function() {
-                if ($http.pendingRequests.length < 1) {
-                  callback(event, JSON.parse(message));
-                  return no_more_pending_requests();
-                }
-              });
-            });
-          });
-        }
-
-        return _Class;
-
-      })();
-      listener.prototype.stop = function() {
-        return this.handler();
-      };
-      return function(callback) {
-        return new listener($rootScope, callback);
-      };
-    }
-  ]);
-
-  realtime.factory('RealTimeLocking', [
-    '$rootScope', '$routeParams', 'RealTimeConnection', function($rootScope, $routeParams, RTC) {
-      var service;
-      service = {};
-      service.locks = [];
-      service.comparator = {
-        CodeList: function(id) {
-          return $routeParams['code_list_id'] === id.toString();
-        },
-        QuestionItem: function(id) {
-          return $routeParams['question_type'] === 'question-item' && $routeParams['question_id'] === id.toString();
-        },
-        QuestionGrid: function(id) {
-          return $routeParams['question_type'] === 'question-grid' && $routeParams['question_id'] === id.toString();
-        }
-      };
-      service.lock = function(obj) {
-        return RTC.socket.emit('lock', JSON.stringify(obj));
-      };
-      service.unlock = function(obj) {
-        return RTC.socket.emit('unlock', JSON.stringify(obj));
-      };
-      RTC.socket.on('locks-updated', function(message) {
-        var i, len, lock, locks, results;
-        locks = JSON.parse(message);
-        $('.lockable').prop('disabled', false);
-        results = [];
-        for (i = 0, len = locks.length; i < len; i++) {
-          lock = locks[i];
-          console.log(lock);
-          if (service.comparator[lock.type](lock.id)) {
-            results.push($('.lockable').prop('disabled', true));
-          } else {
-            results.push(void 0);
-          }
-        }
-        return results;
-      });
-      return service;
-    }
-  ]);
-
-}).call(this);
-(function() {
-  var resource;
-
-  resource = angular.module('archivist.resource', ['ngResource']);
-
-  resource.factory('WrappedResource', [
-    '$resource', function($resource) {
-      return function(path, paramDefaults, actions, options) {
-        var that;
-        that = this;
-        this.data = {};
-        if (actions != null) {
-          this.actions = actions;
-        } else {
-          this.actions = {
-            save: {
-              method: 'PUT'
-            },
-            create: {
-              method: 'POST'
-            }
-          };
-        }
-        this.index = function(method, parameters) {
-          return path + method + JSON.stringify(parameters);
-        };
-        this.resource = $resource(path, paramDefaults, this.actions, options);
-        this.resource.prototype.save = function(params, success, error) {
-          if (this.id != null) {
-            return this.$save(params, success, error);
-          } else {
-            return this.$create(params, success, error);
-          }
-        };
-        this.query = function(parameters, success, error) {
-          if (that.data[this.index('query', parameters)] == null) {
-            that.data[this.index('query', parameters)] = that.resource.query(parameters, function(value, responseHeaders) {
-              var i, k, len, obj, v;
-              for (i = 0, len = value.length; i < len; i++) {
-                obj = value[i];
-                for (k in parameters) {
-                  v = parameters[k];
-                  obj[k] = v;
-                }
-              }
-              if (success != null) {
-                return success(value, responseHeaders);
-              }
-            }, error);
-          }
-          return that.data[this.index('query', parameters)];
-        };
-        this.requery = function(parameters, success, error) {
-          that.data[this.index('query', parameters)] = null;
-          return that.query(parameters, success, error);
-        };
-        this.get = function(parameters, success, error) {
-          if (that.data[this.index('get', parameters)] == null) {
-            that.data[this.index('get', parameters)] = that.resource.get(parameters, success, error);
-          }
-          return that.data[this.index('get', parameters)];
-        };
-        this.reget = function(parameters, success, error) {
-          that.data[this.index('get', parameters)] = null;
-          return that.get(parameters, success, error);
-        };
-        this.clearCache = function() {
-          return that.data = {};
-        };
-        return this;
-      };
-    }
-  ]);
-
-  resource.factory('GetResource', [
-    '$http', function($http) {
-      return function(url, isArray, cb) {
-        var rsrc, sub_promise;
-        if (isArray == null) {
-          isArray = false;
-        }
-        if (isArray) {
-          rsrc = [];
-        } else {
-          rsrc = {};
-        }
-        rsrc.$resolved = false;
-        rsrc.$promise = $http.get(url, {
-          cache: true
-        });
-        sub_promise = rsrc.$promise.then(function(res) {
-          var key;
-          for (key in res.data) {
-            if (res.data.hasOwnProperty(key)) {
-              rsrc[key] = res.data[key];
-            }
-          }
-          return rsrc.$resolved = true;
-        });
-        if (typeof cb === 'function') {
-          sub_promise.then(cb);
-        }
-        return rsrc;
-      };
-    }
-  ]);
 
 }).call(this);
 // Angular Rails Template
@@ -79569,10 +79510,10 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 // Angular Rails Template
-// source: app/assets/javascripts/templates/partials/build/breadcrumb.html
+// source: app/assets/javascripts/templates/partials/breadcrumb.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/breadcrumb.html", '<ol class="breadcrumb">\n    <li data-ng-repeat="crumb in breadcrumbs" data-ng-class="{active: crumb.active}" data-ng-switch="crumb.link">\n        <span data-ng-switch-when="false">\n            {{crumb.label}}\n        </span>\n        <a data-ng-href="{{crumb.link}}" data-ng-switch-default>\n            {{crumb.label}}\n        </a>\n    </li>\n</ol>')
+  $templateCache.put("partials/breadcrumb.html", '<ol class="breadcrumb">\n    <li data-ng-repeat="crumb in breadcrumbs" data-ng-class="{active: crumb.active}" data-ng-switch="crumb.link">\n        <span data-ng-switch-when="false">\n            {{crumb.label}}\n        </span>\n        <a data-ng-href="{{crumb.link}}" data-ng-switch-default>\n            {{crumb.label}}\n        </a>\n    </li>\n</ol>')
 }]);
 
 // Angular Rails Template
@@ -79635,14 +79576,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/editor.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/editor.html", '<div class="row">\n    <div data-ng-if="sidebar_objs" data-ng-include="\'partials/build/sidebar.html\'" class="col-sm-4 col-md-3 sidebar sidebar-left" data-resume-scroll="sidebar"></div>\n\n    <div\n            data-ng-if="current || details_bar"\n            data-ng-class="{\'col-sm-4 col-md-6\': sidebar_objs && editMode && details_bar, \'col-sm-offset-4 col-md-offset-3\': sidebar_objs, \'col-sm-8 col-md-9\': (sidebar_objs ? !editMode : editMode)}"\n            class="main"\n    >\n\n        <h1 class="page-header">\n            {{title}}\n        </h1>\n\n        <notices></notices>\n\n        <div class="edit-cancel-save" data-ng-if="!hide_edit_buttons">\n            <button\n                    type="button"\n                    class="btn btn-danger lockable"\n                    data-ng-show="!editMode"\n                    data-toggle="modal"\n                    data-target="#delete-confirm"\n            >\n                Delete\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-primary lockable"\n                    data-ng-show="!editMode"\n                    data-ng-click="startEditMode()"\n            >\n                Edit\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-default"\n                    data-ng-show="editMode"\n                    data-ng-click="cancel()"\n            >\n                Cancel\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-primary"\n                    data-ng-show="editMode"\n                    data-ng-click="save()"\n            >\n                Save\n            </button>\n        </div>\n\n        <div data-ng-include="\'partials/build/breadcrumb.html\'"></div>\n\n        <div data-ng-include="main_panel"></div>\n\n    </div>\n\n    <div data-ng-if="editMode && details_bar" data-ng-include="\'partials/build/details.html\'" class="col-sm-4 col-md-3 sidebar sidebar-right" data-resume-scroll="details"></div>\n</div>\n\n<div data-ng-include="\'partials/build/modals/new-question.html\'"></div>\n<div data-ng-include="\'partials/build/modals/new-construct.html\'"></div>\n<div data-ng-include="\'partials/build/modals/new-interviewee.html\'"></div>\n<div data-ng-include="\'partials/build/modals/delete-confirm.html\'"></div>')
+  $templateCache.put("partials/build/editor.html", '<div class="row">\n    <div data-ng-if="sidebar_objs" data-ng-include="\'partials/build/sidebar.html\'" class="col-sm-4 col-md-3 sidebar sidebar-left" data-resume-scroll="sidebar"></div>\n\n    <breadcrumb data-ng-if="!(current || details_bar)" class="col-md-offset-3 col-sm-offset-4 col-md-9 col-sm-8"></breadcrumb>\n\n    <div\n            data-ng-if="current || details_bar"\n            data-ng-class="{\'col-sm-4 col-md-6\': sidebar_objs && editMode && details_bar, \'col-sm-offset-4 col-md-offset-3\': sidebar_objs, \'col-sm-8 col-md-9\': (sidebar_objs ? !editMode : editMode)}"\n            class="main"\n    >\n\n        <h1 class="page-header">\n            {{title}}\n        </h1>\n\n        <notices></notices>\n\n        <div class="edit-cancel-save" data-ng-if="!hide_edit_buttons">\n            <button\n                    type="button"\n                    class="btn btn-danger lockable"\n                    data-ng-show="!editMode"\n                    data-toggle="modal"\n                    data-target="#delete-confirm"\n            >\n                Delete\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-primary lockable"\n                    data-ng-show="!editMode"\n                    data-ng-click="startEditMode()"\n            >\n                Edit\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-default"\n                    data-ng-show="editMode"\n                    data-ng-click="cancel()"\n            >\n                Cancel\n            </button>\n            <button\n                    type="button"\n                    class="btn btn-primary"\n                    data-ng-show="editMode"\n                    data-ng-click="save()"\n            >\n                Save\n            </button>\n        </div>\n\n        <breadcrumb></breadcrumb>\n\n        <div data-ng-include="main_panel"></div>\n\n    </div>\n\n    <div data-ng-if="editMode && details_bar" data-ng-include="\'partials/build/details.html\'" class="col-sm-4 col-md-3 sidebar sidebar-right" data-resume-scroll="details"></div>\n</div>\n\n<div data-ng-include="\'partials/build/modals/new-question.html\'"></div>\n<div data-ng-include="\'partials/build/modals/new-construct.html\'"></div>\n<div data-ng-include="\'partials/build/modals/new-interviewee.html\'"></div>\n<div data-ng-include="\'partials/build/modals/delete-confirm.html\'"></div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/partials/build/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/index.html", '<div class="row">\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{code_lists_url}}">\n                    <h3 class="panel-title">Code Lists</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.categories}}</span>\n                        Categories\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.code_lists}}</span>\n                        Code Lists\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{response_domains_url}}">\n                    <h3 class="panel-title">Response Domains</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_datetimes}}</span>\n                        Datetime Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_numerics}}</span>\n                        Numeric Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_texts}}</span>\n                        Text Answers\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{questions_url}}">\n                    <h3 class="panel-title">Questions</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_items}}</span>\n                        Question Items\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_grids}}</span>\n                        Question Grids\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.instructions}}</span>\n                        Instructions\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{constructs_url}}">\n                    <h3 class="panel-title">Constructs</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_conditions}}</span>\n                        Conditions\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_loops}}</span>\n                        Loops\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_questions}}</span>\n                        Questions\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_sequences}}</span>\n                        Sequences\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_statements}}</span>\n                        Statements\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/build/index.html", '<div class="row">\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{code_lists_url}}">\n                    <h3 class="panel-title">Code Lists</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.categories}}</span>\n                        Categories\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.code_lists}}</span>\n                        Code Lists\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{response_domains_url}}">\n                    <h3 class="panel-title">Response Domains</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_datetimes}}</span>\n                        Datetime Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_numerics}}</span>\n                        Numeric Answers\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.response_domain_texts}}</span>\n                        Text Answers\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-lg-offset-2 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{questions_url}}">\n                    <h3 class="panel-title">Questions</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_items}}</span>\n                        Question Items\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.question_grids}}</span>\n                        Question Grids\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.instructions}}</span>\n                        Instructions\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class="col-lg-4 col-xl-3">\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <a data-ng-href="{{constructs_url}}">\n                    <h3 class="panel-title">Constructs</h3>\n                </a>\n            </div>\n            <div class="panel-body">\n                <ul class="list-group">\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_conditions}}</span>\n                        <a href="{{summary_url(\'cc_condition\')}}">\n                            Conditions\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_loops}}</span>\n                        <a href="{{summary_url(\'cc_loop\')}}">\n                            Loops\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_questions}}</span>\n                        <a href="{{summary_url(\'cc_question\')}}">\n                            Questions\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_sequences}}</span>\n                        <a href="{{summary_url(\'cc_sequence\')}}">\n                            Sequences\n                        </a>\n                    </li>\n                    <li class="list-group-item">\n                        <span class="badge">{{stats.cc_statements}}</span>\n                        <a href="{{summary_url(\'cc_statement\')}}">\n                            Statements\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79656,7 +79597,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/build/modals/add_rd.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/build/modals/add_rd.html", '<div class="modal fade" id="add-rd" tabindex="-1" role="dialog" aria-labelledby="add-rd-title">\n    <div class="modal-dialog" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="add-rd-title">Add Response Domain</h4>\n            </div>\n            <div class="modal-body">\n                <table class="table table-hover">\n                    <tr>\n                        <th>\n                            Type\n                        </th>\n                        <th>\n                            Label\n                        </th>\n                        <th>\n\n                        </th>\n                    </tr>\n                    <tr data-ng-repeat="rd in instrument.ResponseDomains">\n                        <td>\n                            {{rd.type}}\n                        </td>\n                        <td>\n                            {{rd.label}}\n                        </td>\n                        <td>\n                            <a href="#" data-ng-click="add_rd(rd)">\n                                Add\n                            </a>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/build/modals/add_rd.html", '<div class="modal fade" id="add-rd" tabindex="-1" role="dialog" aria-labelledby="add-rd-title">\n    <div class="modal-dialog" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="add-rd-title">Add Response Domain</h4>\n            </div>\n            <div class="modal-body">\n                <div class="row">\n                    <div class="col-md-10 col-md-offset-1">\n                        <input\n                                type="text"\n                                class="form-control"\n                                placeholder="Search for..."\n                                data-ng-model="query"\n                                style="margin-bottom: 15px;"\n                        >\n                    </div>\n                    <div class="col-md-12">\n                        <table class="table table-hover">\n                            <tr>\n                                <th>\n                                    Type\n                                </th>\n                                <th>\n                                    Label\n                                </th>\n                                <th>\n\n                                </th>\n                            </tr>\n                            <tr data-ng-repeat="rd in instrument.ResponseDomains | filter:query">\n                                <td>\n                                    {{rd.type}}\n                                </td>\n                                <td>\n                                    {{rd.label}}\n                                </td>\n                                <td>\n                                    <a href="#" data-ng-click="add_rd(rd)">\n                                        Add\n                                    </a>\n                                </td>\n                            </tr>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79726,7 +79667,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/instruments/edit.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/instruments/edit.html", '<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.prefix}}</h3>\n    </div>\n    <div class="panel-body">\n        <form data-ng-submit="updateInstrument()">\n            <div class="form-group">\n                <label for="edit-study">Study</label>\n                <input\n                        id="edit-study"\n                        class="form-control"\n                        data-ng-model="instrument.study"\n                        data-uib-typeahead="study.study for study in studies | filter:$viewValue | orderBy:\'study\'"\n                        data-typeahead-show-hint="true"\n                        data-typeahead-min-length="0"\n                        autocomplete="off"\n                />\n            </div>\n            <div class="form-group">\n                <label for="edit-title">Instrument Title</label>\n                <input id="edit-title" class="form-control" data-ng-model="instrument.label" />\n            </div>\n            <div class="form-group">\n                <label for="edit-agency">Agency</label>\n                <input id="edit-agency" class="form-control" data-ng-model="instrument.agency" readonly/>\n            </div>\n            <div class="form-group">\n                <label for="edit-version">Version</label>\n                <input id="edit-version" class="form-control" data-ng-model="instrument.version" />\n            </div>\n            <button type="submit" class="btn btn-default">Save</button>\n        </form>\n    </div>\n</div>')
+  $templateCache.put("partials/instruments/edit.html", '<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.prefix}}</h3>\n    </div>\n    <div class="panel-body">\n        <form data-ng-submit="updateInstrument()">\n            <div class="form-group">\n                <label for="edit-study">Study</label>\n                <input\n                        id="edit-study"\n                        class="form-control"\n                        data-ng-model="instrument.study"\n                        data-uib-typeahead="study.study for study in studies | filter:$viewValue | orderBy:\'study\'"\n                        data-typeahead-show-hint="true"\n                        data-typeahead-min-length="0"\n                        autocomplete="off"\n                />\n            </div>\n            <div class="form-group">\n                <label for="edit-title">Instrument Title</label>\n                <input id="edit-title" class="form-control" data-ng-model="instrument.label" />\n            </div>\n            <div class="form-group">\n                <label for="edit-agency">Agency</label>\n                <input id="edit-agency" class="form-control" data-ng-model="instrument.agency"/>\n            </div>\n            <div class="form-group">\n                <label for="edit-version">Version</label>\n                <input id="edit-version" class="form-control" data-ng-model="instrument.version" />\n            </div>\n            <button type="submit" class="btn btn-default">Save</button>\n        </form>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79765,6 +79706,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 // Angular Rails Template
+// source: app/assets/javascripts/templates/partials/summary/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/summary/index.html", "")
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/summary/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/summary/show.html", '<breadcrumb></breadcrumb>\n\n<div class="row">\n    <div class="col-md-10 col-md-offset-1">\n        <table class="table table-striped table-condensed">\n            <tr>\n                <th data-ng-repeat="col in cols">\n                    {{col}}\n                </th>\n            </tr>\n            <tr data-ng-repeat="row in data">\n                <td data-ng-repeat="col in cols">\n                    {{row[col]}}\n                </td>\n            </tr>\n        </table>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
 // source: app/assets/javascripts/templates/sign_up_in.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
@@ -79772,164 +79727,245 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 (function() {
-  var users;
+  var archivist;
 
-  users = angular.module('archivist.users', ['archivist.flash']);
+  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'archivist.flash', 'archivist.instruments', 'archivist.build', 'archivist.summary', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
 
-  users.controller('UserController', [
-    '$scope', '$location', '$http', 'User', function($scope, $location, $http, User) {
-      $scope.sign_in = function(cred) {
-        $scope.user.set('email', cred.email);
-        return $scope.user.sign_in(cred.password).then(function() {
-          return $location.path('/instruments');
-        }, function() {
-          $scope.publish_flash();
-          return cred.password = "";
-        });
-      };
-      $scope.sign_up = function(details) {
-        $scope.user.set('email', details.email);
-        $scope.user.set('first_name', details.fname);
-        $scope.user.set('last_name', details.lname);
-        $scope.user.set('group_id', details.group);
-        return $scope.user.sign_up(details.password, details.confirm).then(function() {
-          $location.path('/instruments');
-          return true;
-        }, function() {
-          $scope.publish_flash();
-          details.password = "";
-          details.confirm = "";
-          return false;
-        });
-      };
-      $http.get('/groups/external.json').then(function(res) {
-        return $scope.sign_up_groups = res.data;
+  archivist.config([
+    '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+      $routeProvider.when('/', {
+        templateUrl: 'index.html',
+        controller: 'RootController'
       });
-      return console.log($scope);
+      return $locationProvider.html5Mode(true);
     }
   ]);
 
-  users.factory('User', [
-    '$http', '$q', 'Flash', function($http, $q, Flash) {
-      return (function() {
-        function _Class(email) {
-          this.email = email;
-          this.logged_in = false;
+  archivist.controller('RootController', [
+    '$scope', '$location', 'DataManager', 'User', function($scope, $location, DataManager, User) {
+      $scope.softwareName = 'Archivist';
+      $scope.softwareVersion = window.app_version;
+      $scope.page['title'] = 'Home';
+      $scope.isActive = function(viewLocation) {
+        return viewLocation === $location.path();
+      };
+      $scope.user = new User(window.current_user_email);
+      if ($scope.user.email.length > 0) {
+        $scope.user.sign_in();
+      }
+      return $scope.sign_out = function() {
+        return $scope.user.sign_out()["finally"](function() {
+          return DataManager.clearCache();
+        });
+      };
+    }
+  ]);
+
+  archivist.directive('notices', function() {
+    return {
+      templateUrl: 'partials/notices.html'
+    };
+  });
+
+  archivist.directive('breadcrumb', function() {
+    return {
+      templateUrl: 'partials/breadcrumb.html'
+    };
+  });
+
+  archivist.directive('ngFileModel', [
+    '$parse', function($parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var isMultiple, model, modelSetter;
+          model = $parse(attrs.ngFileModel);
+          isMultiple = attrs.multiple;
+          modelSetter = model.assign;
+          return element.bind('change', function() {
+            var values;
+            values = [];
+            angular.forEach(element[0].files, function(item) {
+              return values.push(item);
+            });
+            return scope.$apply(function() {
+              if (isMultiple) {
+                return modelSetter(scope, values);
+              } else {
+                return modelSetter(scope, values[0]);
+              }
+            });
+          });
         }
-
-        _Class.attributes = ['email', 'first_name', 'last_name', 'group', 'group_id', 'role'];
-
-        _Class.prototype.sign_in = function(password) {
-          var self;
-          self = this;
-          return $http.post('/users/sign_in.json', {
-            user: {
-              email: this.email,
-              password: password,
-              remember_me: 1
-            }
-          }).then(function(res) {
-            self.logged_in = true;
-            self.set('first_name', res.data.first_name);
-            self.set('last_name', res.data.last_name);
-            self.set('group', res.data.group);
-            self.set('role', res.data.role);
-            return true;
-          }, function(res) {
-            self.logged_in = false;
-            Flash.add('danger', res.data.error);
-            return $q.reject(res.data.error);
-          });
-        };
-
-        _Class.prototype.sign_out = function() {
-          var self;
-          self = this;
-          return $http["delete"]('/users/sign_out.json')["finally"](function() {
-            return self.logged_in = false;
-          });
-        };
-
-        _Class.prototype.sign_up = function(password, confirmation) {
-          var self;
-          self = this;
-          return $http.post('/users.json', {
-            user: this.get_all_data({
-              password: password,
-              password_confirmation: confirmation
-            })
-          }).then(function(res) {
-            self.logged_in = true;
-            return self.set('role', res.data.role);
-          }, function(res) {
-            self.logged_in = false;
-            return Flash.add('danger', res.errors);
-          });
-        };
-
-        _Class.prototype.is_admin = function() {
-          return this.get('role') === 'admin';
-        };
-
-        _Class.prototype.is_editor = function() {
-          return this.get('role') === 'admin' || this.get('role') === 'editor';
-        };
-
-        _Class.prototype.get = function(attribute) {
-          return this[attribute];
-        };
-
-        _Class.prototype.set = function(attribute, val) {
-          return this[attribute] = val;
-        };
-
-        _Class.prototype.get_all_data = function(extra) {
-          var attribute, i, key, len, output, ref;
-          if (extra == null) {
-            extra = {};
-          }
-          output = {};
-          ref = this.constructor.attributes;
-          for (i = 0, len = ref.length; i < len; i++) {
-            attribute = ref[i];
-            output[attribute] = this.get(attribute);
-          }
-          for (key in extra) {
-            output[key] = extra[key];
-          }
-          return output;
-        };
-
-        return _Class;
-
-      })();
+      };
     }
   ]);
+
+  archivist.run([
+    '$rootScope', 'Flash', 'RealTimeConnection', function($rootScope, Flash, RealTimeConnection) {
+      Array.prototype.unique = function() {
+        var j, key, output, ref1, results, value;
+        output = {};
+        for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
+          output[this[key]] = this[key];
+        }
+        results = [];
+        for (key in output) {
+          value = output[key];
+          results.push(value);
+        }
+        return results;
+      };
+      Array.prototype.select_resource_by_id = function(ref_id) {
+        var key, output;
+        return output = ((function() {
+          var j, ref1, results;
+          results = [];
+          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
+            if (this[key].id === ref_id) {
+              results.push(this[key]);
+            }
+          }
+          return results;
+        }).call(this))[0];
+      };
+      Array.prototype.get_index_by_id = function(ref_id) {
+        var key;
+        return ((function() {
+          var j, ref1, results;
+          results = [];
+          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
+            if (this[key].id === ref_id) {
+              results.push(key);
+            }
+          }
+          return results;
+        }).call(this))[0];
+      };
+      Array.prototype.select_resource_by_id_and_type = function(ref_id, ref_type) {
+        var key, output;
+        return output = ((function() {
+          var j, ref1, results;
+          results = [];
+          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
+            if (this[key].id === ref_id && this[key].type === ref_type) {
+              results.push(this[key]);
+            }
+          }
+          return results;
+        }).call(this))[0];
+      };
+      Array.prototype.get_index_by_id_and_type = function(ref_id, ref_type) {
+        var key;
+        return ((function() {
+          var j, ref1, results;
+          results = [];
+          for (key = j = 0, ref1 = this.length; 0 <= ref1 ? j < ref1 : j > ref1; key = 0 <= ref1 ? ++j : --j) {
+            if (this[key].id === ref_id && this[key].type === ref_type) {
+              results.push(key);
+            }
+          }
+          return results;
+        }).call(this))[0];
+      };
+      Object.lower_everything = function(obj) {
+        var k, target;
+        target = {};
+        for (k in obj) {
+          if (obj.hasOwnProperty(k)) {
+            if (typeof k === "string") {
+              target[k.toLowerCase()] = typeof obj[k] === 'string' ? obj[k].toLowerCase() : obj[k];
+            } else {
+              target[k] = typeof obj[k] === 'string' ? obj[k].toLowerCase() : obj[k];
+            }
+          }
+        }
+        return target;
+      };
+      String.prototype.replaceAll = function(search, replacement) {
+        var target;
+        target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+      };
+      String.prototype.pascal_case_to_underscore = function() {
+        var target;
+        target = this;
+        return target.replace(/([A-Z])/g, function(x, y) {
+          return "_" + y.toLowerCase();
+        }).replace(/^_/, '');
+      };
+      String.prototype.underscore_to_pascal_case = function() {
+        var target;
+        target = this.capitalizeFirstLetter();
+        return target.replace(/_(.)/g, function(x, y) {
+          return y.toUpperCase();
+        });
+      };
+      String.prototype.capitalizeFirstLetter = function() {
+        var target;
+        target = this;
+        return target.charAt(0).toUpperCase() + target.slice(1);
+      };
+      Flash.set_scope($rootScope);
+      $rootScope.publish_flash = function() {
+        return Flash.publish($rootScope);
+      };
+      $rootScope.$on('$routeChangeSuccess', function() {
+        return $rootScope.publish_flash();
+      });
+      $rootScope.publish_flash();
+      $rootScope.page = {
+        title: 'Home'
+      };
+      $rootScope.realtimeStatus = false;
+      return $rootScope.range = function(i) {
+        var j, num, ref1, results;
+        results = [];
+        for (num = j = 1, ref1 = i; 1 <= ref1 ? j <= ref1 : j >= ref1; num = 1 <= ref1 ? ++j : --j) {
+          results.push(num);
+        }
+        return results;
+      };
+    }
+  ]);
+
+  archivist.filter('capitalize', function() {
+    return function(input) {
+      if (!!input) {
+        return input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+      } else {
+        return '';
+      }
+    };
+  });
+
+  archivist.filter('prettytype', function() {
+    var ref;
+    ref = {
+      'ResponseDomainCode': 'Code',
+      'ResponseDomainDatetime': 'Datetime',
+      'ResponseDomainNumeric': 'Numeric',
+      'ResponseDomainText': 'Text',
+      'Category': 'Category',
+      'Cateogie': 'Categorie',
+      'CodeList': 'Code List',
+      'QuestionGrid': 'Grid',
+      'QuestionItem': 'Item'
+    };
+    return function(input) {
+      var plural;
+      if (input.charAt(input.length - 1) === 's') {
+        plural = true;
+        input = input.slice(0, -1);
+      } else {
+        plural = false;
+      }
+      if (plural) {
+        return ref[input] + 's';
+      } else {
+        return ref[input];
+      }
+    };
+  });
 
 }).call(this);
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
