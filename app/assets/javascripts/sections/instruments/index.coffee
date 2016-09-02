@@ -62,11 +62,10 @@ instruments.controller('InstrumentsController',
             $timeout(->
               if loadStructure
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
-
-                DataManager.resolve().then ->
-                  $scope.instrument = DataManager.Data.Instrument
-                  $scope.loading.state = "Done"
-                  console.log $scope
+                DataManager.resolveConstructs()
+                DataManager.resolveQuestions()
+                console.log $scope
+              $scope.loading.state = "Done"
             , 100)
 
       else

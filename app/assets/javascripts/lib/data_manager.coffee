@@ -50,8 +50,6 @@ data_manager.factory(
     )->
       DataManager = {}
 
-      DataManager.Worker = new Worker window.worker_js
-
       DataManager.Data = {}
 
       DataManager.Instruments       = Instruments
@@ -266,24 +264,13 @@ data_manager.factory(
         else
           cb?()
 
-      DataManager.resolve = (options)->
+      DataManager.resolveConstructs = (options)->
+        DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
+        DataManager.ConstructResolver.resolve options
 
-        deferred = $q.defer()
-        DataManager.Worker.addEventListener 'message', (e)->
-          DataManager.Data = e.data
-          deferred.resolve()
-        , false
-        DataManager.Worker.postMessage
-          data: DataManager.Data,
-          options: options,
-          type: [
-            'constructs',
-            'questions'
-            ]
-
-        #promises.push DataManager.resolveCodes()
-
-        deferred.promise
+      DataManager.resolveQuestions = ->
+        DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
+        DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
 
       DataManager.resolveCodes = ->
         DataManager.CodeResolver ?= new ResolutionService.CodeResolver(
@@ -381,8 +368,10 @@ data_manager.factory(
                 if ['id','type'].indexOf(key) == -1
                   DataManager.Data.Instrument[key] = row[key]
 
-          if reresolve_questions || reresolve_constructs
-            DataManager.resolve()
+          if reresolve_questions
+            DataManager.resolveQuestions()
+          if reresolve_constructs
+            DataManager.resolveConstructs()
 
       DataManager
   ]
