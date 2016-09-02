@@ -270,7 +270,6 @@ data_manager.factory(
 
         deferred = $q.defer()
         DataManager.Worker.addEventListener 'message', (e)->
-          console.log e.data
           DataManager.Data = e.data
           deferred.resolve()
         , false
