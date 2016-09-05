@@ -1,28 +1,31 @@
-<div class="form-group">
+<div class="form-group" data-ng-class="{'has-success': detail.label.$valid, 'has-error': detail.label.$error.required}">
     <label>Label</label>
     <input
             type="text"
-            class="form-control"
+	    class="form-control"
+	    name="label"
             data-ng-model="current.label"
             required	
     />
 </div>
 
-<div class="form-group">
+<div class="form-group" data-ng-class="{'has-success': detail.variable.$valid, 'has-error': detail.variable.$error.required}">
     <label>Variable</label>
     <input
             type="text"
-            class="form-control"
+	    class="form-control"
+	    name="variable"
             data-ng-model="current.loop_var"
             required	
     />
 </div>
 
-<div class="form-group">
+<div class="form-group" data-ng-class="{'has-success': detail.start.$valid, 'has-error': detail.start.$error.required}">
     <label>Start Value</label>
     <input
             type="text"
-            class="form-control"
+	    class="form-control"
+	    name="start"
             data-ng-model="current.start_val"
             required	
     />
