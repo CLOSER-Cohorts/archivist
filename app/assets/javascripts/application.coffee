@@ -125,6 +125,61 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     Array::get_index_by_id_and_type = (ref_id, ref_type)->
       (key for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
 
+    Array::clean = ->
+      (val for val in @ when val? and val isnt '')
+
+    Array::label_sort = ->
+      sorter = (a, b)->
+        re = /([^-^_\d]+)|([^-^_\D]+)/
+        a_pieces = a.split(re).clean()
+        b_pieces = b.split(re).clean()
+        limit = if a_pieces.length > b_pieces.length then b_pieces.length else a_pieces.length
+
+        for i in [0...limit]
+          a_pieces[i] = parseInt a_pieces[i] if !isNaN a_pieces[i]
+          b_pieces[i] = parseInt b_pieces[i] if !isNaN b_pieces[i]
+          if a_pieces[i] == b_pieces[i]
+            continue
+          if a_pieces[i] > b_pieces[i]
+            return 1
+          else
+            return -1
+
+        if a_pieces.length > b_pieces.length
+          return 1
+        if a_pieces.length < b_pieces.length
+          return -1
+
+        return 0
+
+      return @concat().sort(sorter)
+
+    Array::sort_by_property = (prop = 'label')->
+      sorter = (a, b)->
+        re = /([^-^_\d]+)|([^-^_\D]+)/
+        a_pieces = a[prop].split(re).clean()
+        b_pieces = b[prop].split(re).clean()
+        limit = if a_pieces.length > b_pieces.length then b_pieces.length else a_pieces.length
+
+        for i in [0...limit]
+          a_pieces[i] = parseInt a_pieces[i] if !isNaN a_pieces[i]
+          b_pieces[i] = parseInt b_pieces[i] if !isNaN b_pieces[i]
+          if a_pieces[i] == b_pieces[i]
+            continue
+          if a_pieces[i] > b_pieces[i]
+            return 1
+          else
+            return -1
+
+        if a_pieces.length > b_pieces.length
+          return 1
+        if a_pieces.length < b_pieces.length
+          return -1
+
+        return 0
+
+      return @concat().sort(sorter)
+
     Object.lower_everything = (obj)->
       target = {}
       for k of obj
@@ -146,7 +201,6 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
     String::underscore_to_pascal_case = ->
       target = this.capitalizeFirstLetter()
       target.replace /_(.)/g, (x,y) -> y.toUpperCase()
-
 
     String::capitalizeFirstLetter = ->
       target = this

@@ -3,7 +3,7 @@
   "description": "Archivist is a cutting edge tool for documenting data collection in DDI.",
   "repository": "https://github.com/CLOSER-Cohorts/archivist",
   "scripts": {
-    "postdeploy": "rails db:setup"
+    "postdeploy": "rails db:migrate"
   },
   "env": {},
   "addons": [

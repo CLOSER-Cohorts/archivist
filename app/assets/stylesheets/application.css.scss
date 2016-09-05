@@ -92,6 +92,10 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
   visibility: hidden;
 }
 
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #eeeeee !important;
+}
+
 .bg-purple {
   background: #652C90;
 }
