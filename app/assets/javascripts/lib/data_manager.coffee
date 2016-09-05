@@ -302,14 +302,17 @@ data_manager.factory(
       DataManager.getQuestionItemIDs = ->
         output = []
         for qi in DataManager.Data.Questions.Items
-          output.push {value: qi.id, label: qi.label}
+          output.push {value: qi.id, label: qi.label, type: 'QuestionItem'}
         output
 
       DataManager.getQuestionGridIDs = ->
         output = []
         for qg in DataManager.Data.Questions.Grids
-          output.push {value: qg.id, label: qg.label}
+          output.push {value: qg.id, label: qg.label, type: 'QuestionGrid'}
         output
+
+      DataManager.getQuestionIDs = ->
+        DataManager.getQuestionItemIDs().concat DataManager.getQuestionGridIDs()
 
       DataManager.getUsers = ->
         promises = []

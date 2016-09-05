@@ -160,8 +160,7 @@ angular.module('archivist.build').controller(
           sortChildren $scope.instrument.topsequence
 
         $scope.details = {}
-        $scope.details.item_options = DataManager.getQuestionItemIDs()
-        $scope.details.grid_options = DataManager.getQuestionGridIDs()
+        $scope.details.options = DataManager.getQuestionIDs()
 
         $scope.build_ru_options()
 

@@ -4,6 +4,7 @@
             type="text"
             class="form-control"
             data-ng-model="current.label"
+            required	
     />
 </div>
 
@@ -23,14 +24,8 @@
     <select
             class="form-control"
             data-ng-model="current.question_id"
-            data-ng-if="current.question_type == 'QuestionItem'"
-            data-ng-options="option.value as option.label for option in details.item_options"
-    />
-    <select
-            class="form-control"
-            data-ng-model="current.question_id"
-            data-ng-if="current.question_type == 'QuestionGrid'"
-            data-ng-options="option.value as option.label for option in details.grid_options"
+	    data-ng-options="option.value as option.label for option in details.options | filter:chart.type=current.question_type"
+	    required
     />
 </div>
 
@@ -44,5 +39,6 @@
             class="form-control"
             data-ng-model="current.response_unit_id"
             data-ng-options="option.value as option.label for option in details.ru_options"
+            required	
     />
 </div>
