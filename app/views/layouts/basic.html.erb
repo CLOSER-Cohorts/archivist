@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Archivist</title>
+  <%= stylesheet_link_tag    'basic', media: 'all'%>
+  <%= javascript_include_tag 'basic' %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag %>
+
+  <script>
+    window.app_version = "<%= Archivist::Application::VERSION %>";
+  </script>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
