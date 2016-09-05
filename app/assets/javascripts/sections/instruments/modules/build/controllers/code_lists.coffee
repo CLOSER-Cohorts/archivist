@@ -19,7 +19,7 @@ angular.module('archivist.build').controller(
         get_count_from_used_by = (cl)->
           cl.count = cl.used_by.length
           cl
-        $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists)
+        $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists).sort_by_property()
 
       $scope.delete = ->
         index = $scope.instrument.CodeLists.get_index_by_id parseInt($routeParams.code_list_id)
