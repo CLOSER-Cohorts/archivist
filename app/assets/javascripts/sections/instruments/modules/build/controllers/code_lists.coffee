@@ -129,6 +129,8 @@ angular.module('archivist.build').controller(
               $timeout(
                 ->
                   jQuery('.code-value').last().focus()
+                  strLength = jQuery('.code-value').last().val().length * 2
+                  jQuery('.code-value').last()[0].setSelectionRange(strLength, strLength);
                 ,0
               )
         )
