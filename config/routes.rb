@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   post 'setup', to: 'application#setup'
 
+  as :user do
+    patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
+  end
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       confirmations: 'users/confirmations',
-#      omiauth: 'users/omiauth',
       passwords: 'users/passwords',
       registrations: 'users/registrations',
       unlocks: 'users/unlocks',

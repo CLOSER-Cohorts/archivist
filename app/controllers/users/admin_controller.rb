@@ -5,8 +5,13 @@ class Users::AdminController < ApplicationController
   end
 
   def create
-    logger.debug safe_params
-    head :ok
+    @user = User.new safe_params
+    logger.debug @user.to_json
+    if @user.save!
+      render :show, status: :created
+    else
+      render json: user.errors, status: :unprocessable_entity
+    end
   end
 
   def update

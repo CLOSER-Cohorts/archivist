@@ -96,7 +96,7 @@ admin.controller('AdminUsersController',
         if $scope.original?
           angular.copy $scope.current, $scope.original
         else
-          (if $scope.mode = 'group' then $scope.groups else DataManager.Data.Users).push $scope.current
+          (if $scope.mode == 'group' then $scope.groups else DataManager.Data.Users).push $scope.current
           $scope.original = $scope.current
         $scope.original.save(
           {},
