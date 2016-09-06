@@ -9,7 +9,7 @@
         <notices></notices>
 
         <div class="row">
-            <div class="col-md-3" data-ng-show="groups.length > 1">
+            <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Groups
@@ -160,7 +160,7 @@
                                             class="form-control"
                                             data-ng-model="current.group_id"
                                             id="u-group"
-                                            data-ng-options="group as group.label for group in groups track by group.id"
+                                            data-ng-options="group.id as group.label for group in groups track by group.id"
                                     >
                                     </select>
                                     <p class="form-control-static" data-ng-show="!editing">{{current.role | capitalize}}</p>
