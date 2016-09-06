@@ -46,4 +46,10 @@ class User < ActiveRecord::Base
       !password.nil? || !password_confirmation.nil?
     end
   end
+
+  def status
+    return 'unconfirmed' unless self.confirmed?
+    return 'locked' if self.access_locked?
+    return 'active'
+  end
 end
