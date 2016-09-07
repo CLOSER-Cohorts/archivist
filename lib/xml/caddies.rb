@@ -180,6 +180,7 @@ module XML::CADDIES
         if not instr.nil?
           qi.association(:instruction).writer @instruction_index[instr.content]
         end
+        qi.save!
       end
     end
 
