@@ -62,7 +62,7 @@ task :load_instrument_references, [:path] => [:environment] do |t, args|
       begin
         i = Instrument.find_by_prefix link['instrument']
         q = i.question_items.find_by_label link['question']
-        instruction = i.instructions.find_by_literal link['instruction']
+        instruction = i.instructions.find_by_text link['instruction']
         if q.nil? || instruction.nil?
           raise 'One of q or instruction could not be found'
         else
