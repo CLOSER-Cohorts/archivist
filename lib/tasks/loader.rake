@@ -64,12 +64,13 @@ task :load_instrument_references, [:path] => [:environment] do |t, args|
         q = i.question_items.find_by_label link['question']
         instruction = i.instructions.find_by_literal link['instruction']
         if q.nil? || instruction.nil?
-          raise
+          raise 'One of q or instruction could not be found'
         else
           q.association(:instruction).writer instruction
           q.save!
         end
-      rescue
+      rescue => e
+        puts e.message
         puts "Instrument: \t" + link['instrument']
         puts "Question: \t" + link['question']
         puts "Instruction: \t" + link['instruction']
