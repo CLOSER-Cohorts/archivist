@@ -66,7 +66,7 @@ task :load_instrument_references, [:path] => [:environment] do |t, args|
         if q.nil? || instruction.nil?
           raise 'One of q or instruction could not be found'
         else
-          q.association(:instruction).writer instruction
+          q.instruction_id = instruction.id
           q.save!
         end
       rescue => e
