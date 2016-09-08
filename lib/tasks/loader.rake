@@ -74,6 +74,7 @@ task :load_instrument_references, [:path] => [:environment] do |t, args|
         puts "Instrument: \t" + link['instrument']
         puts "Question: \t" + link['question']
         puts "Instruction: \t" + link['instruction']
+        byebug
       end
     end
   end
