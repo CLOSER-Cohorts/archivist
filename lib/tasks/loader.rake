@@ -53,3 +53,29 @@ task :load_mapping => :environment do
 
   end
 end
+
+desc 'Loads instrument_references.json'
+task :load_instrument_references, [:path] => [:environment] do |t, args|
+  open args.path do |f|
+    links = JSON.parse f.read
+    links.each do |link|
+      begin
+        i = Instrument.find_by_prefix link['instrument']
+        q = i.question_items.find_by_label link['question']
+        instruction = i.instructions.find_by_text link['instruction']
+        if q.nil? || instruction.nil?
+          raise 'One of q or instruction could not be found'
+        else
+          q.instruction_id = instruction.id
+          q.save!
+        end
+      rescue => e
+        puts e.message
+        puts "Instrument: \t" + link['instrument']
+        puts "Question: \t" + link['question']
+        puts "Instruction: \t" + link['instruction']
+        byebug
+      end
+    end
+  end
+end
