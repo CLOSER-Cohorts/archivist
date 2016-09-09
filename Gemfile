@@ -78,6 +78,9 @@ gem 'aws-sdk', '~> 2'
 # To search for memory leaks and memory bloat
 gem 'derailed'
 
+# To better enable custom configurations
+gem 'figaro'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
