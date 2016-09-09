@@ -239,8 +239,14 @@ module XML::DDI
           case rd
             when ResponseDomainCode
               cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
-              cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject></r:CodeListReference>" %
-                               {urn: @urns[:codes][rd.code_list_id]}
+              cd.add_child "<r:CodeListReference><r:URN>%{urn}</r:URN><r:TypeOfObject>CodeList</r:TypeOfObject>" +
+                               "</r:CodeListReference><r:ResponseCardinality minimumResponses=\"{min}\" " +
+                               "maximumResponses=\"{max}\"></r:ResponseCardinality>" %
+                               {
+                                   urn: @urns[:codes][rd.code_list_id],
+                                   min: rd.min_responses,
+                                   max: rd.max_responses
+                               }
 
               return cd
             when ResponseDomainDatetime
