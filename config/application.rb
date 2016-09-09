@@ -33,7 +33,7 @@ module Archivist
 
     config.enable_dependency_loading = true
 
-    config.action_mailer.delivery_method = ENV['mailer'].to_sym
+    config.action_mailer.delivery_method = (ENV['mailer'] || '').to_sym
     config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_KEY'] }
     config.action_mailer.smtp_settings = {
         address:                ENV['SMTP_ADDRESS'],
