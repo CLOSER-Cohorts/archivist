@@ -86,6 +86,6 @@ class InstrumentsController < ApplicationController
   end
 
   def stats
-    render json: @object.association_stats
+    render json: {stats: @object.association_stats, prefix: @object.prefix}
   end
 end

@@ -289,7 +289,7 @@ data_manager.factory(
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
 
-      DataManager.getInstrumentStats = (id)->
+      DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
         DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id)
         DataManager.Data.InstrumentStats[id].$promise.then (res)->
@@ -297,6 +297,8 @@ data_manager.factory(
             if res.data.hasOwnProperty key
               DataManager.Data.InstrumentStats[id][key] = res.data[key]
           DataManager.Data.InstrumentStats[id].$resolved = true
+          if cb?
+            cb.call()
         DataManager.Data.InstrumentStats[id]
 
       DataManager.getQuestionItemIDs = ->
