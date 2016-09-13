@@ -13,7 +13,7 @@ json.array!(@collection) do |question_grid|
                     rd: question_grid.rds_qs.find_by_code_id(x.value).nil? ?
                         nil : question_grid.rds_qs.find_by_code_id(x.value).response_domain
       else
-        json.partial! 'response_domains/show', rd: question_grid.rds_qs.first.response_domain
+        json.partial! 'response_domains/show', rd: question_grid.rds_qs.count < 1 ? nil : question_grid.rds_qs.first.response_domain
       end
     end
   end

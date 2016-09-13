@@ -41,7 +41,8 @@ map.factory(
 
           if typeof lookup == "object"
             for k,v of lookup
-              output = dig(output[k], v)
+              if lookup.hasOwnProperty k
+                output = dig(output[k], v)
           else
             output = output[lookup]
 

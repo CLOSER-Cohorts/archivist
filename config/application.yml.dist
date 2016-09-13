@@ -1,0 +1,44 @@
+# Make sure to copy this file to config/application.yml on installation
+#
+# The file has got a default setup, but certain elements, including mailing
+# and CDN features e.g. import, export and instrument copying will require
+# custom configuration.
+
+# All environments
+# Using a local Redis instance on the default port
+REDIS_URL: redis://127.0.0.1:6379/0
+
+# Sets the App hostname e.g. archivist.closer.ac.uk
+HOSTNAME: localhost
+
+# Mailer setup
+# Current options are either smtp or postmark (https://postmarkapp.com/)
+MAILER: smtp
+
+# If using SMTP
+# SMTP_ADDRESS: smtp.gmail.com
+# SMTP_PORT: 587
+# SMTP_DOMAIN: gmail.com
+# SMTP_USERNAME: email@gmail.com
+# SMTP_PASSWORD: password
+# STMP_AUTH: plain
+# STMP_TLSAUTO: true
+
+# If using Postmark
+# POSTMARK_API_KEY: 0123456789abcdef
+
+# Web server configuration
+WEB_CONCURRENCY: 1
+MAX_THREADS: 5
+PORT: 3000
+
+# AWS S3 CDN configuration
+# AWS_ACCESS_KEY_ID: 123456
+# AWS_SECRET_ACCESS_KEY: 0123456789abcdef
+# S3_BUCKET_NAME: archivist
+
+# development:
+#   S3_BUCKET_NAME: archivist-dev
+
+# production:
+#   ARCHIVIST_DATABASE_PASSWORD: strongpassword

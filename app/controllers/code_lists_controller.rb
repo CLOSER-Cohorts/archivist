@@ -2,7 +2,7 @@ class CodeListsController < ApplicationController
   include BaseInstrumentController
 
   add_basic_actions require: ':code_list',
-                    params: '[:label, :codes]',
+                    params: '[:label, :codes, :min_responses, :max_responses]',
                     collection: 'Instrument.find(params[:instrument_id]).code_lists'
 
   # POST /instruments/1/code_lists.json
@@ -35,6 +35,9 @@ class CodeListsController < ApplicationController
     if params.has_key? :rd
       if params[:rd]
         @object.response_domain = true
+        @object.response_domain.min_responses = params[:min_responses]
+        @object.response_domain.max_responses = params[:max_responses]
+        @object.response_domain.save!
       else
         @object.response_domain = false
       end

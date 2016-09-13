@@ -8,7 +8,8 @@ resolution = angular.module(
 resolution.factory(
   'ResolutionService'
   [
-    ()->
+    '$timeout',
+    ($timeout)->
       service = {}
 
       service.ConstructResolver = class
@@ -21,6 +22,47 @@ resolution.factory(
           CcQuestion:   'Questions'
           CcSequence:   'Sequences'
           CcStatement:  'Statements'
+
+        queue: []
+
+        added_to_queue: 0
+
+        resolve_children: (item)->
+          for child, index in item.children
+            if child.type?
+              if child.type of @map
+                item.children[index] = @constructs[@map[child.type]].select_resource_by_id child.id
+
+            if item.children[index].children?
+              @queue.push item.children[index]
+              @added_to_queue = @added_to_queue + 1
+
+          if item.fchildren?
+            for child, index in item.fchildren
+              if child.type?
+                if child.type of @map
+                  item.fchildren[index] = @constructs[@map[child.type]].select_resource_by_id child.id
+
+              if item.fchildren[index].children?
+                @queue.push item.fchildren[index]
+                @added_to_queue = @added_to_queue + 1
+
+          item.resolved = true
+
+          self = @
+          if @queue.length > 0
+            $timeout ->
+              self.resolve_children self.queue.shift()
+            , 5 + (@added_to_queue * 5)
+
+        broken_resolve: ->
+          self = @
+          @queue.push (seq for seq in @constructs.Sequences when seq.top)[0]
+          @added_to_queue = @added_to_queue + 1
+
+          $timeout ->
+            self.resolve_children self.queue.shift()
+          , 5 + (@added_to_queue * 5)
 
         resolve: (to_check, check_against)->
           to_check ?= ['Conditions','Loops','Sequences']

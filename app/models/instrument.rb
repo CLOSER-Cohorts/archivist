@@ -125,6 +125,30 @@ class Instrument < ActiveRecord::Base
     end
   end
 
+  def export_time
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
+    rescue
+      nil
+    end
+  end
+
+  def export_url
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
+    rescue
+      nil
+    end
+  end
+
+  def last_edited_time
+    begin
+      $redis.hget 'last_edit:instrument', self.id
+    rescue
+      nil
+    end
+  end
+
   def copy(new_prefix, other_vals = {})
 
     new_i = self.dup
@@ -201,6 +225,26 @@ class Instrument < ActiveRecord::Base
       File.mtime 'tmp/exports/' + prefix + '.xml'
     rescue
       false
+    end
+  end
+
+  def self.generate_last_edit_times
+    last_edit_times = {}
+    Instrument.reflections.keys.each do |r|
+      next if ['instruments_datasets', 'datasets'].include? r
+      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + r + ' GROUP BY instrument_id'
+      results = ActiveRecord::Base.connection.execute(sql)
+      results.each do |r|
+        last_edit_times[r['instrument_id']] = [last_edit_times[r['instrument_id']], r['max']].reject { |x| x.nil? }.max
+      end
+    end
+    sql = 'SELECT id, updated_at FROM instruments'
+    results = ActiveRecord::Base.connection.execute(sql)
+    results.each do |r|
+      last_edit_times[r['id']] = [last_edit_times[r['id']], r['updated_at']].reject { |x| x.nil? }.max
+    end
+    last_edit_times.select do |k, v|
+      $redis.hset 'last_edit:instrument', k, v
     end
   end
 end

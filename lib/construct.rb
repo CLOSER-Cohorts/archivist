@@ -23,13 +23,40 @@ module Construct::Model
     end
 
     def parent
-      if not self.cc.parent.nil?
+      unless self.cc.parent.nil?
+        begin
+          $redis.hset 'parents:' + self.class.to_s, self.id, self.cc.parent.construct.id
+          $redis.hset 'is_top:' + self.class.to_s, self.id, self.cc.parent.nil?
+        rescue
+          Rails.logger.warn 'Could not update parents and is_top to Redis cache.'
+        end
         self.cc.parent.construct
       end
     end
 
     def parent=(new_parent)
       self.cc.parent = new_parent.cc
+    end
+
+    def parent_id
+      begin
+        pid = $redis.hget 'parents', self.id
+      rescue
+        Rails.logger.warn 'Could not retrieve parents from Redis cache.'
+      end
+      if pid.nil?
+        pid = self.parent.nil? ? nil : self.parent.id
+      end
+      pid.to_i
+    end
+
+    def is_top?
+      begin
+        top = $redis.hget 'is_top', self.id
+      rescue
+        Rails.logger.warn 'Could not retrieve is_top from Redis cache.'
+      end
+      top.nil? ? self.parent.nil? : top
     end
 
     def create_control_construct
@@ -58,7 +85,7 @@ module Construct::Model
   end
 
   module ClassMethods
-    def is_a_parent(options = {})
+    def is_a_parent
       include Linkable
       include Construct::Model::LocalInstanceMethods
       delegate :children, to: :cc
@@ -67,16 +94,15 @@ module Construct::Model
     def find_by_label(label)
         self
           .where(nil)
-          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND construct_type = \'CcQuestion\'')
+          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND control_constructs.construct_type = \'CcQuestion\'')
           .where('label = ?', label)
           .first
     end
 
-    def create_with_position(params)
+    def create_with_position(params, defer = false)
       obj = new()
       i = Instrument.find(params[:instrument_id])
-      #i.send('cc_' + params[:type].pluralize) << obj
-      obj.instrument = i
+      obj.instrument = i unless defer
       obj.cc = ControlConstruct.new instrument_id: i.id
 
       parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
@@ -95,10 +121,13 @@ module Construct::Model
 
       yield obj
 
+      i.send('cc_' + params[:type].pluralize) << obj if defer
+
       obj.transaction do
         obj.save!
         parent.children << obj.cc
       end
+      obj.cc.clear_cache
       obj
     end
   end
@@ -114,6 +143,34 @@ module Construct::Model
 
     def has_children?
       children.count > 0
+    end
+
+    def construct_children(branch = nil)
+      query_children = lambda do |query_branch, cc|
+        if query_branch.nil?
+          return cc.children.map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        else
+          return cc.children.where(branch: query_branch).map { |c| {id: c.construct.id, type: c.construct.class.name } }
+        end
+      end
+
+      begin
+        cs = $redis.hget 'construct_children:' +
+                             self.class.to_s +
+                             (branch.nil? ? '' : (':' + branch.to_s)), self.id
+
+        if cs.nil?
+          cs = query_children.call branch, self.cc
+          $redis.hset 'construct_children:' +
+                          self.class.to_s +
+                          (branch.nil? ? '' : (':' + branch.to_s)), self.id,  cs.to_json
+        else
+          cs = JSON.parse cs
+        end
+      rescue
+        cs = query_children.call branch, self.cc
+      end
+      cs
     end
   end
 end

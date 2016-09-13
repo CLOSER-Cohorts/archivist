@@ -34,10 +34,10 @@ module Realtime
         Realtime::Publisher.instance.update self
       end
       def rt_destroy
-        Realtime::Publisher.instance.update self, 'DEL'
-        if self.is_a?(Construct::Model) && !self.parent.nil?
-          Realtime::Publisher.instance.update self.parent
-        end
+        #Realtime::Publisher.instance.update self, 'DEL'
+        #if self.is_a?(Construct::Model) && !self.parent.nil?
+        #  Realtime::Publisher.instance.update self.parent
+        #end
       end
     end
   end
@@ -70,7 +70,10 @@ module Realtime
         output[:data] = [data]
         output[:data][0][:action] = action
         #Publish the output as JSON to the rt-update channel
-        $redis.publish 'rt-update', output.to_json
+        begin
+          $redis.publish 'rt-update', output.to_json
+        rescue
+        end
       end
     end
   end
