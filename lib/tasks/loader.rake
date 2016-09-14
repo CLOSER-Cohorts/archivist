@@ -1,13 +1,13 @@
 desc 'Loads instrument'
 task :load_instruments => :environment do
-  Dir.chdir 'M:/bundles'
-  folders = Dir.entries(".").reject { |x| x[0,1] == "." }
+  Dir.chdir 'N:/CLOSER/Studies/XMLs/repo'
+  files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
-  folders.each do |folder|
+  files.each do |file|
 
-    if File.exist? folder + '/ddi.xml'
+    if File.exist? file
 
-      im = XML::CADDIES::Importer.new(folder + '/ddi.xml')
+      im = XML::CADDIES::Importer.new file
       im.parse
 
     end
@@ -51,5 +51,31 @@ task :load_mapping => :environment do
       end
     end
 
+  end
+end
+
+desc 'Loads instrument_references.json'
+task :load_instrument_references, [:path] => [:environment] do |t, args|
+  open args.path do |f|
+    links = JSON.parse f.read
+    links.each do |link|
+      begin
+        i = Instrument.find_by_prefix link['instrument']
+        q = i.question_items.find_by_label link['question']
+        instruction = i.instructions.find_by_text link['instruction']
+        if q.nil? || instruction.nil?
+          raise 'One of q or instruction could not be found'
+        else
+          q.instruction_id = instruction.id
+          q.save!
+        end
+      rescue => e
+        puts e.message
+        puts "Instrument: \t" + link['instrument']
+        puts "Question: \t" + link['question']
+        puts "Instruction: \t" + link['instruction']
+        byebug
+      end
+    end
   end
 end

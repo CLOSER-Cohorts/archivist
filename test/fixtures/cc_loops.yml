@@ -1,15 +1,20 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+---
+CcLoop_1:
+  id: 4
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: "(_pregnancy <= qc_A9_b) AND (_pregnancy < 7)"
+  created_at: 2016-06-21 13:18:42.335822000 Z
+  updated_at: 2016-06-21 13:18:42.361825000 Z
+  instrument_id: 11
+  construct_type: CcLoop
 
-one:
-  loop_var: MyString
-  start_val: MyString
-  end_val: MyString
-  loop_while: MyString
-  instrument: :one
-
-two:
-  loop_var: MyString
-  start_val: MyString
-  end_val: MyString
-  loop_while: MyString
-  instrument: :one
+CcLoop_2:
+  id: 5
+  loop_var: _pregnancy
+  start_val: '1'
+  loop_while: "(_pregnancy <= qc_A9_b) AND (_pregnancy < 7)"
+  created_at: 2016-06-21 13:18:42.335822000 Z
+  updated_at: 2016-06-21 13:18:42.361825000 Z
+  instrument_id: 11
+  construct_type: CcLoop

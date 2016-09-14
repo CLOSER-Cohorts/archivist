@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class CodeTest < ActiveSupport::TestCase
+class CodeJobTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
 
   setup do
-    @code = codes :one
+    @code = codes :Code_1
   end
 
   test "can read label" do
@@ -21,7 +21,7 @@ class CodeTest < ActiveSupport::TestCase
 
   test "can write to label with existing category" do
     assert_difference 'Category.count', 0 do
-      @code.label = 'CategoryOne'
+      @code.label = 'Yes'
     end
   end
 end

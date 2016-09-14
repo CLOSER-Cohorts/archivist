@@ -1,11 +1,963 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  literal: MyString
-  logic: MyString
-  instrument: :one
-
-two:
-  literal: MyString
-  logic: MyString
-  instrument: :two
+---
+CcCondition_1:
+  id: 155
+  literal: If yes,
+  logic: qc_A2_a == 1
+  created_at: 2016-06-20 13:51:39.698457000 Z
+  updated_at: 2016-06-20 13:51:39.732457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_2:
+  id: 156
+  literal: If yes,
+  logic: qc_A3_a == 1
+  created_at: 2016-06-20 13:51:39.822457000 Z
+  updated_at: 2016-06-20 13:51:39.846457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_3:
+  id: 157
+  literal: If yes,
+  logic: qc_A5 == 1
+  created_at: 2016-06-20 13:51:40.333457000 Z
+  updated_at: 2016-06-20 13:51:40.359457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_4:
+  id: 158
+  literal: If yes,
+  logic: qc_A6_a == 1
+  created_at: 2016-06-20 13:51:40.563457000 Z
+  updated_at: 2016-06-20 13:51:40.588457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_5:
+  id: 159
+  literal: If yes,
+  logic: qc_A7_a == 1
+  created_at: 2016-06-20 13:51:40.859457000 Z
+  updated_at: 2016-06-20 13:51:40.883457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_6:
+  id: 160
+  literal: If yes,
+  logic: qc_A8_a == 1
+  created_at: 2016-06-20 13:51:41.042457000 Z
+  updated_at: 2016-06-20 13:51:41.067457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_7:
+  id: 161
+  literal: If yes,
+  logic: qc_A12_a == 1
+  created_at: 2016-06-20 13:51:41.422457000 Z
+  updated_at: 2016-06-20 13:51:41.447457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_8:
+  id: 162
+  literal: If yes,
+  logic: qc_A13_a == 1 || qc_A13_a == 2 || qc_A13_a == 3
+  created_at: 2016-06-20 13:51:41.823457000 Z
+  updated_at: 2016-06-20 13:51:41.850457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_9:
+  id: 163
+  literal: If yes,
+  logic: qc_A13_a_iii == 1
+  created_at: 2016-06-20 13:51:41.984457000 Z
+  updated_at: 2016-06-20 13:51:42.009457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_10:
+  id: 164
+  literal: If yes,
+  logic: qc_A14_a == 1
+  created_at: 2016-06-20 13:51:42.130457000 Z
+  updated_at: 2016-06-20 13:51:42.153457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_11:
+  id: 165
+  literal: If yes,
+  logic: qc_A14_h == 1
+  created_at: 2016-06-20 13:51:42.611457000 Z
+  updated_at: 2016-06-20 13:51:42.642457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_12:
+  id: 166
+  literal: If yes,
+  logic: qc_A15_a == 1
+  created_at: 2016-06-20 13:51:43.064457000 Z
+  updated_at: 2016-06-20 13:51:43.089457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_13:
+  id: 167
+  literal: If yes,
+  logic: qc_A16_a == 1
+  created_at: 2016-06-20 13:51:43.783457000 Z
+  updated_at: 2016-06-20 13:51:43.807457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_14:
+  id: 168
+  literal: If yes,
+  logic: qc_A17_b == 1
+  created_at: 2016-06-20 13:51:44.145457000 Z
+  updated_at: 2016-06-20 13:51:44.169457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_15:
+  id: 169
+  literal: If no, go to A18c below
+  logic: qc_A18_a == 2
+  created_at: 2016-06-20 13:51:44.381457000 Z
+  updated_at: 2016-06-20 13:51:44.404457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_16:
+  id: 170
+  literal: If Hasn't had a nose or eye problem to question A18di go to Section B on
+    page 15
+  logic: qc_A18_d_i == 7
+  created_at: 2016-06-20 13:51:44.538457000 Z
+  updated_at: 2016-06-20 13:51:44.563457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_17:
+  id: 171
+  literal: If yes,
+  logic: qc_B1_b == 1
+  created_at: 2016-06-20 13:51:44.807457000 Z
+  updated_at: 2016-06-20 13:51:44.842457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_18:
+  id: 172
+  literal: If yes,
+  logic: qc_B2_a == 1
+  created_at: 2016-06-20 13:51:45.007457000 Z
+  updated_at: 2016-06-20 13:51:45.030457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_19:
+  id: 173
+  literal: If yes,
+  logic: qc_B3_a == 1
+  created_at: 2016-06-20 13:51:45.231457000 Z
+  updated_at: 2016-06-20 13:51:45.256457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_20:
+  id: 174
+  literal: If yes,
+  logic: qc_B3_b == 1
+  created_at: 2016-06-20 13:51:45.341457000 Z
+  updated_at: 2016-06-20 13:51:45.367457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_21:
+  id: 175
+  literal: If yes,
+  logic: qc_B3_c == 1
+  created_at: 2016-06-20 13:51:45.497457000 Z
+  updated_at: 2016-06-20 13:51:45.524457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_22:
+  id: 176
+  literal: If yes,
+  logic: qc_B4_a == 1
+  created_at: 2016-06-20 13:51:45.681457000 Z
+  updated_at: 2016-06-20 13:51:45.707457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_23:
+  id: 177
+  literal: If yes,
+  logic: qc_B4_b == 1
+  created_at: 2016-06-20 13:51:45.839457000 Z
+  updated_at: 2016-06-20 13:51:45.869457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_24:
+  id: 178
+  literal: If yes,
+  logic: qc_B4_e == 1
+  created_at: 2016-06-20 13:51:46.007457000 Z
+  updated_at: 2016-06-20 13:51:46.031457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_25:
+  id: 179
+  literal: If yes,
+  logic: qc_B5_a == 1
+  created_at: 2016-06-20 13:51:46.158457000 Z
+  updated_at: 2016-06-20 13:51:46.184457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_26:
+  id: 180
+  literal: If yes,
+  logic: qc_B5_b == 1
+  created_at: 2016-06-20 13:51:46.306457000 Z
+  updated_at: 2016-06-20 13:51:46.333457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_27:
+  id: 181
+  literal: If yes,
+  logic: qc_B5_e == 1
+  created_at: 2016-06-20 13:51:46.486457000 Z
+  updated_at: 2016-06-20 13:51:46.511457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_28:
+  id: 182
+  literal: If yes,
+  logic: qc_B6_a == 1
+  created_at: 2016-06-20 13:51:46.637457000 Z
+  updated_at: 2016-06-20 13:51:46.662457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_29:
+  id: 183
+  literal: If yes,
+  logic: qc_B6_b == 1
+  created_at: 2016-06-20 13:51:46.747457000 Z
+  updated_at: 2016-06-20 13:51:46.772457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_30:
+  id: 184
+  literal: If yes,
+  logic: qc_B6_e == 1
+  created_at: 2016-06-20 13:51:46.914457000 Z
+  updated_at: 2016-06-20 13:51:46.939457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_31:
+  id: 185
+  literal: If yes,
+  logic: qc_B7_a == 1
+  created_at: 2016-06-20 13:51:47.153457000 Z
+  updated_at: 2016-06-20 13:51:47.179457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_32:
+  id: 186
+  literal: If yes,
+  logic: qc_B7_b == 1
+  created_at: 2016-06-20 13:51:47.289457000 Z
+  updated_at: 2016-06-20 13:51:47.319457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_33:
+  id: 187
+  literal: If yes,
+  logic: qc_B7_e == 1
+  created_at: 2016-06-20 13:51:47.461457000 Z
+  updated_at: 2016-06-20 13:51:47.486457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_34:
+  id: 188
+  literal: If yes,
+  logic: qc_B8_a == 1
+  created_at: 2016-06-20 13:51:47.610457000 Z
+  updated_at: 2016-06-20 13:51:47.636457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_35:
+  id: 189
+  literal: If yes,
+  logic: qc_C1_a == 1
+  created_at: 2016-06-20 13:51:47.909457000 Z
+  updated_at: 2016-06-20 13:51:47.934457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_36:
+  id: 190
+  literal: If yes,
+  logic: qc_C2_a == 1
+  created_at: 2016-06-20 13:51:48.253457000 Z
+  updated_at: 2016-06-20 13:51:48.285457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_37:
+  id: 191
+  literal: If yes,
+  logic: qc_C3_a == 1
+  created_at: 2016-06-20 13:51:48.589457000 Z
+  updated_at: 2016-06-20 13:51:48.615457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_38:
+  id: 192
+  literal: If yes,
+  logic: qc_C4_a == 1
+  created_at: 2016-06-20 13:51:48.951457000 Z
+  updated_at: 2016-06-20 13:51:48.977457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_39:
+  id: 193
+  literal: If yes,
+  logic: qc_C5_a == 1
+  created_at: 2016-06-20 13:51:49.309457000 Z
+  updated_at: 2016-06-20 13:51:49.335457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_40:
+  id: 194
+  literal: If yes,
+  logic: qc_C6_a == 1
+  created_at: 2016-06-20 13:51:49.625457000 Z
+  updated_at: 2016-06-20 13:51:49.652457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_41:
+  id: 195
+  literal: For any of the above,
+  logic: qc_C8_a == 1 || qc_C8_b == 1 || qc_C8_c == 1
+  created_at: 2016-06-20 13:51:50.240457000 Z
+  updated_at: 2016-06-20 13:51:50.269457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_42:
+  id: 196
+  literal: If yes to any of the above,
+  logic: qc_D13_i_a == 1 || qc_D13_i_b == 1 || qc_D13_i_c == 1
+  created_at: 2016-06-20 13:51:52.228457000 Z
+  updated_at: 2016-06-20 13:51:52.254457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_43:
+  id: 197
+  literal: If no, go to H11a on page 46
+  logic: qc_H1_a == 2
+  created_at: 2016-06-20 13:51:53.242457000 Z
+  updated_at: 2016-06-20 13:51:53.268457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_44:
+  id: 198
+  literal: If Yes to question H1ciii
+  logic: qc_H1_c_iii == 1
+  created_at: 2016-06-20 13:51:53.449457000 Z
+  updated_at: 2016-06-20 13:51:53.476457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_45:
+  id: 199
+  literal: If Yes to question H1civ
+  logic: qc_H1_c_iv == 1
+  created_at: 2016-06-20 13:51:53.573457000 Z
+  updated_at: 2016-06-20 13:51:53.603457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_46:
+  id: 200
+  literal: If no, or most days,
+  logic: qc_H4_a == 1 || qc_H4_a == 2
+  created_at: 2016-06-20 13:51:54.030457000 Z
+  updated_at: 2016-06-20 13:51:54.056457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_47:
+  id: 201
+  literal: If yes,
+  logic: qc_H8 == 1
+  created_at: 2016-06-20 13:51:55.719457000 Z
+  updated_at: 2016-06-20 13:51:55.751457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_48:
+  id: 202
+  literal: If yes,
+  logic: qc_H10_a == 1
+  created_at: 2016-06-20 13:51:56.155457000 Z
+  updated_at: 2016-06-20 13:51:56.181457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_49:
+  id: 203
+  literal: If yes,
+  logic: qc_H10_b == 1
+  created_at: 2016-06-20 13:51:56.522457000 Z
+  updated_at: 2016-06-20 13:51:56.541457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_50:
+  id: 204
+  literal: If yes,
+  logic: qc_H11_a == 1
+  created_at: 2016-06-20 13:51:56.638457000 Z
+  updated_at: 2016-06-20 13:51:56.658457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_51:
+  id: 205
+  literal: If yes,
+  logic: qc_H12 == 1
+  created_at: 2016-06-20 13:51:56.773457000 Z
+  updated_at: 2016-06-20 13:51:56.803457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_52:
+  id: 206
+  literal: If yes,
+  logic: qc_H13 == 1
+  created_at: 2016-06-20 13:51:56.914457000 Z
+  updated_at: 2016-06-20 13:51:56.938457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_53:
+  id: 207
+  literal: If not allowed,
+  logic: qc_K4_a == 5
+  created_at: 2016-06-20 13:51:58.430457000 Z
+  updated_at: 2016-06-20 13:51:58.450457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_54:
+  id: 208
+  literal: If yes,
+  logic: qc_K6_a == 1
+  created_at: 2016-06-20 13:51:58.586457000 Z
+  updated_at: 2016-06-20 13:51:58.608457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_55:
+  id: 209
+  literal: If Mixed to question L1
+  logic: qc_L1 == 2
+  created_at: 2016-06-20 13:51:59.359457000 Z
+  updated_at: 2016-06-20 13:51:59.386457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_56:
+  id: 210
+  literal: If Asian to question L1
+  logic: qc_L1 == 3
+  created_at: 2016-06-20 13:51:59.441457000 Z
+  updated_at: 2016-06-20 13:51:59.468457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_57:
+  id: 211
+  literal: If Black to question L1
+  logic: qc_L1 == 4
+  created_at: 2016-06-20 13:51:59.518457000 Z
+  updated_at: 2016-06-20 13:51:59.542457000 Z
+  instrument_id: 10
+  construct_type: CcCondition
+CcCondition_58:
+  id: 212
+  literal: If yes,
+  logic: qc_A5_a == 1
+  created_at: 2016-06-21 13:18:41.956784000 Z
+  updated_at: 2016-06-21 13:18:42.026791000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_59:
+  id: 213
+  literal: If yes to these go to A9 on page 8
+  logic: qc_A8_a == 3 || qc_A8_a == 4
+  created_at: 2016-06-21 13:18:42.157804000 Z
+  updated_at: 2016-06-21 13:18:42.167805000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_60:
+  id: 214
+  literal: If yes,
+  logic: qc_A9_a == 1
+  created_at: 2016-06-21 13:18:42.279816000 Z
+  updated_at: 2016-06-21 13:18:42.296818000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_61:
+  id: 215
+  literal: If yes,
+  logic: qc_A9_c_iv == 1
+  created_at: 2016-06-21 13:18:42.444833000 Z
+  updated_at: 2016-06-21 13:18:42.455834000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_62:
+  id: 216
+  literal: If yes,
+  logic: qc_A11 == 1
+  created_at: 2016-06-21 13:18:42.589847000 Z
+  updated_at: 2016-06-21 13:18:42.604849000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_63:
+  id: 217
+  literal: If yes,
+  logic: qc_B5_f == 1 || qc_B5_f == 2
+  created_at: 2016-06-21 13:18:43.330922000 Z
+  updated_at: 2016-06-21 13:18:43.341923000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_64:
+  id: 218
+  literal: If Single parent family always to question B5g go to h below
+  logic: qc_B5_g == 7
+  created_at: 2016-06-21 13:18:43.442933000 Z
+  updated_at: 2016-06-21 13:18:43.456934000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_65:
+  id: 219
+  literal: If yes,
+  logic: qc_B8_a_i == 1 || qc_B8_a_ii == 1
+  created_at: 2016-06-21 13:18:43.592948000 Z
+  updated_at: 2016-06-21 13:18:43.606949000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_66:
+  id: 220
+  literal: If yes,
+  logic: qc_E44_a == 1
+  created_at: 2016-06-21 13:18:45.405129000 Z
+  updated_at: 2016-06-21 13:18:45.416130000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_67:
+  id: 221
+  literal: If no central heating to question F8a go to F9 below,
+  logic: qc_F8_a == 7
+  created_at: 2016-06-21 13:18:45.711160000 Z
+  updated_at: 2016-06-21 13:18:45.724161000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_68:
+  id: 222
+  literal: If yes,
+  logic: qc_F11 == 1
+  created_at: 2016-06-21 13:18:45.877176000 Z
+  updated_at: 2016-06-21 13:18:45.891178000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_69:
+  id: 223
+  literal: If yes,
+  logic: qc_F18_d == 1
+  created_at: 2016-06-21 13:18:46.220210000 Z
+  updated_at: 2016-06-21 13:18:46.233212000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_70:
+  id: 224
+  literal: If yes,
+  logic: qc_F19_a == 1
+  created_at: 2016-06-21 13:18:46.286217000 Z
+  updated_at: 2016-06-21 13:18:46.299218000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_71:
+  id: 225
+  literal: If married,
+  logic: qc_G3_a == 5 || qc_G3_a == 6
+  created_at: 2016-06-21 13:18:46.744263000 Z
+  updated_at: 2016-06-21 13:18:46.758264000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_72:
+  id: 226
+  literal: If no,
+  logic: qc_G4_a == 2 || qc_G4_a == 7
+  created_at: 2016-06-21 13:18:46.813270000 Z
+  updated_at: 2016-06-21 13:18:46.824271000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_73:
+  id: 227
+  literal: If no,
+  logic: qc_G4_c == 1
+  created_at: 2016-06-21 13:18:47.011290000 Z
+  updated_at: 2016-06-21 13:18:47.038292000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_74:
+  id: 228
+  literal: If yes,
+  logic: qc_G7 == 1
+  created_at: 2016-06-21 13:18:47.228311000 Z
+  updated_at: 2016-06-21 13:18:47.241313000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_75:
+  id: 229
+  literal: If yes,
+  logic: qc_G9_a == 1
+  created_at: 2016-06-21 13:18:47.337322000 Z
+  updated_at: 2016-06-21 13:18:47.346323000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_76:
+  id: 230
+  literal: If yes,
+  logic: qc_H1_a == 1 || qc_H1_a == 2
+  created_at: 2016-06-21 13:18:47.780366000 Z
+  updated_at: 2016-06-21 13:18:47.791368000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_77:
+  id: 231
+  literal: If yes,
+  logic: qc_H1_b == 1
+  created_at: 2016-06-21 13:18:47.854374000 Z
+  updated_at: 2016-06-21 13:18:47.867375000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_78:
+  id: 232
+  literal: If yes,
+  logic: qc_H6_a == 1
+  created_at: 2016-06-21 13:18:48.021391000 Z
+  updated_at: 2016-06-21 13:18:48.033392000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_79:
+  id: 233
+  literal: If yes,
+  logic: qc_I2_a == 1
+  created_at: 2016-06-21 13:18:48.712460000 Z
+  updated_at: 2016-06-21 13:18:48.725461000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_80:
+  id: 234
+  literal: If yes,
+  logic: qc_I3 == 1
+  created_at: 2016-06-21 13:18:48.779466000 Z
+  updated_at: 2016-06-21 13:18:48.792468000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_81:
+  id: 235
+  literal: If yes,
+  logic: qc_J2_a == 1
+  created_at: 2016-06-21 13:18:48.861475000 Z
+  updated_at: 2016-06-21 13:18:48.876476000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_82:
+  id: 236
+  literal: If yes,
+  logic: qc_J3_a == 2 || qc_J3_a == 3
+  created_at: 2016-06-21 13:18:48.929481000 Z
+  updated_at: 2016-06-21 13:18:48.942483000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_83:
+  id: 237
+  literal: If no,
+  logic: qc_J3_c == 2
+  created_at: 2016-06-21 13:18:48.980486000 Z
+  updated_at: 2016-06-21 13:18:48.992488000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_84:
+  id: 238
+  literal: If yes,
+  logic: qc_J3_c == 1
+  created_at: 2016-06-21 13:18:49.030491000 Z
+  updated_at: 2016-06-21 13:18:49.042493000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_85:
+  id: 239
+  literal: If Work at home to question J8a Go to J9 below
+  logic: qc_J8_a == 7
+  created_at: 2016-06-21 13:18:49.315520000 Z
+  updated_at: 2016-06-21 13:18:49.325521000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_86:
+  id: 240
+  literal: 'If you are not working:'
+  logic: qc_J3_a == 1
+  created_at: 2016-06-21 13:18:49.472536000 Z
+  updated_at: 2016-06-21 13:18:49.484537000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_87:
+  id: 241
+  literal: If no,
+  logic: qc_J11_a == 2
+  created_at: 2016-06-21 13:18:49.521541000 Z
+  updated_at: 2016-06-21 13:18:49.534542000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_88:
+  id: 242
+  literal: If yes,
+  logic: qc_J11_b == 1
+  created_at: 2016-06-21 13:18:49.571546000 Z
+  updated_at: 2016-06-21 13:18:49.584547000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_89:
+  id: 243
+  literal: If yes,
+  logic: qc_L1 == 1
+  created_at: 2016-06-21 13:18:50.287617000 Z
+  updated_at: 2016-06-21 13:18:50.301619000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_90:
+  id: 244
+  literal: If yes,
+  logic: qc_L1_e == 1
+  created_at: 2016-06-21 13:18:50.387627000 Z
+  updated_at: 2016-06-21 13:18:50.401629000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_91:
+  id: 245
+  literal: If yes,
+  logic: qc_L2_a == 1
+  created_at: 2016-06-21 13:18:50.449633000 Z
+  updated_at: 2016-06-21 13:18:50.460634000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_92:
+  id: 246
+  literal: If yes,
+  logic: qc_M2 == 1
+  created_at: 2016-06-21 13:18:50.697658000 Z
+  updated_at: 2016-06-21 13:18:50.710659000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_93:
+  id: 247
+  literal: If no, go to N19 on page 66
+  logic: qc_N0 == 2
+  created_at: 2016-06-21 13:18:50.831672000 Z
+  updated_at: 2016-06-21 13:18:50.843673000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_94:
+  id: 248
+  literal: If you have never taken your child to the doctor for an earache or ear
+    infection, please go to N6 on page 63.
+  logic: qc_N1_a-f$1;1 == 4
+  created_at: 2016-06-21 13:18:50.899678000 Z
+  updated_at: 2016-06-21 13:18:50.957684000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_95:
+  id: 249
+  literal: If No, go to N8a on page 64
+  logic: qc_N6 == 2
+  created_at: 2016-06-21 13:18:51.114700000 Z
+  updated_at: 2016-06-21 13:18:51.126701000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_96:
+  id: 250
+  literal: If no times go to N10a
+  logic: qc_N8_a_i == '0' && qc_N8_a_ii == '0'
+  created_at: 2016-06-21 13:18:51.229711000 Z
+  updated_at: 2016-06-21 13:18:51.243713000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_97:
+  id: 251
+  literal: If No to question N15 Go to N19 below
+  logic: qc_N15 == 2
+  created_at: 2016-06-21 13:18:51.468735000 Z
+  updated_at: 2016-06-21 13:18:51.484737000 Z
+  instrument_id: 11
+  construct_type: CcCondition
+CcCondition_98:
+  id: 252
+  literal: If yes,
+  logic: qc_A11_a_i == 1
+  created_at: 2016-07-01 11:34:36.810913000 Z
+  updated_at: 2016-07-01 11:34:36.908913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_99:
+  id: 253
+  literal: If no,
+  logic: qc_A13_a == 2
+  created_at: 2016-07-01 11:34:37.003913000 Z
+  updated_at: 2016-07-01 11:34:37.013913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_100:
+  id: 254
+  literal: If yes,
+  logic: qc_A14_a == 1
+  created_at: 2016-07-01 11:34:37.044913000 Z
+  updated_at: 2016-07-01 11:34:37.053913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_101:
+  id: 255
+  literal: If yes,,
+  logic: qc_A16_a == 1
+  created_at: 2016-07-01 11:34:37.192913000 Z
+  updated_at: 2016-07-01 11:34:37.202913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_102:
+  id: 256
+  literal: If yes,
+  logic: qc_A18_a == 1
+  created_at: 2016-07-01 11:34:37.358913000 Z
+  updated_at: 2016-07-01 11:34:37.368913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_103:
+  id: 257
+  literal: If yes,
+  logic: qc_B4_a == 1 || qc_B4_a == 2
+  created_at: 2016-07-01 11:34:37.661913000 Z
+  updated_at: 2016-07-01 11:34:37.670913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_104:
+  id: 258
+  literal: If no, go to D1, on page 21
+  logic: qc_C3 == 2
+  created_at: 2016-07-01 11:34:37.771913000 Z
+  updated_at: 2016-07-01 11:34:37.780913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_105:
+  id: 259
+  literal: If yes,
+  logic: qc_D2_a == 1 || qc_D2_a == 2 || qc_D2_a == 4
+  created_at: 2016-07-01 11:34:38.101913000 Z
+  updated_at: 2016-07-01 11:34:38.111913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_106:
+  id: 260
+  literal: 'If your partner does live with you:'
+  logic: qc_D2_c == 1
+  created_at: 2016-07-01 11:34:38.147913000 Z
+  updated_at: 2016-07-01 11:34:38.165913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_107:
+  id: 261
+  literal: If married,
+  logic: qc_D4_a == 5 || qc_D4_a == 6
+  created_at: 2016-07-01 11:34:38.220913000 Z
+  updated_at: 2016-07-01 11:34:38.230913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_108:
+  id: 262
+  literal: 'If yes, please describe:'
+  logic: qc_D7_a == 1
+  created_at: 2016-07-01 11:34:38.327913000 Z
+  updated_at: 2016-07-01 11:34:38.340913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_109:
+  id: 263
+  literal: If yes,
+  logic: qc_D8_a == 1
+  created_at: 2016-07-01 11:34:38.416913000 Z
+  updated_at: 2016-07-01 11:34:38.426913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_110:
+  id: 264
+  literal: If yes,
+  logic: qc_E1 == 1
+  created_at: 2016-07-01 11:34:38.580913000 Z
+  updated_at: 2016-07-01 11:34:38.590913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_111:
+  id: 265
+  literal: If yes,
+  logic: qc_E4_a == 1
+  created_at: 2016-07-01 11:34:38.667913000 Z
+  updated_at: 2016-07-01 11:34:38.676913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_112:
+  id: 266
+  literal: If yes,
+  logic: qc_E5_a == 1
+  created_at: 2016-07-01 11:34:38.708913000 Z
+  updated_at: 2016-07-01 11:34:38.716913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_113:
+  id: 267
+  literal: If yes,
+  logic: qc_E6_a == 1
+  created_at: 2016-07-01 11:34:38.749913000 Z
+  updated_at: 2016-07-01 11:34:38.760913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_114:
+  id: 268
+  literal: 'If yes, please describe:'
+  logic: qc_E7_a == 1
+  created_at: 2016-07-01 11:34:38.803913000 Z
+  updated_at: 2016-07-01 11:34:38.813913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_115:
+  id: 269
+  literal: If yes,
+  logic: qc_E11_c == 1
+  created_at: 2016-07-01 11:34:38.966913000 Z
+  updated_at: 2016-07-01 11:34:38.975913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_116:
+  id: 270
+  literal: If yes,
+  logic: qc_G1_a == 1
+  created_at: 2016-07-01 11:34:39.597913000 Z
+  updated_at: 2016-07-01 11:34:39.607913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_117:
+  id: 271
+  literal: If yes,
+  logic: qc_G1_e == 1
+  created_at: 2016-07-01 11:34:39.736913000 Z
+  updated_at: 2016-07-01 11:34:39.744913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_118:
+  id: 272
+  literal: If yes,
+  logic: qc_G2_a == 1
+  created_at: 2016-07-01 11:34:39.910913000 Z
+  updated_at: 2016-07-01 11:34:39.919913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_119:
+  id: 273
+  literal: If yes,
+  logic: qc_G3_a == 2 || qc_G3_a == 3 || qc_G3_a == 4 || qc_G3_a == 5
+  created_at: 2016-07-01 11:34:39.993913000 Z
+  updated_at: 2016-07-01 11:34:40.001913000 Z
+  instrument_id: 12
+  construct_type: CcCondition
+CcCondition_120:
+  id: 274
+  literal: If yes,
+  logic: qc_G4_a == 1
+  created_at: 2016-07-01 11:34:40.089913000 Z
+  updated_at: 2016-07-01 11:34:40.097913000 Z
+  instrument_id: 12
+  construct_type: CcCondition

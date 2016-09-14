@@ -5,7 +5,7 @@ class CodeListTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @code_list = code_lists :one
+    @code_list = code_lists :CodeList_1
   end
 
   test "belongs to an instrument" do
@@ -23,12 +23,12 @@ class CodeListTest < ActiveSupport::TestCase
 
   test "has one response domain" do
     assert_not_nil @code_list.response_domain
-    code_list = code_lists :three
+    code_list = code_lists :CodeList_27
     assert_nil code_list.response_domain
   end
 
   test "make into code answer" do
-    code_list = code_lists :three
+    code_list = code_lists :CodeList_27
     assert_difference 'ResponseDomainCode.count', 1 do
       code_list.response_domain = true
     end
@@ -41,7 +41,7 @@ class CodeListTest < ActiveSupport::TestCase
   end
 
   test "do nothing to code answer" do
-    code_list = code_lists :three
+    code_list = code_lists :CodeList_27
     assert_difference 'ResponseDomainCode.count', 0 do
       code_list.response_domain = false
     end

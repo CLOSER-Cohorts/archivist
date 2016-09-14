@@ -1,0 +1,39 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Welcome <small>to Archivist</small></h1>
+    <p>If you are seeing this, then you are running Archivist for the first time and you only have a couple of steps
+    left until you are ready to go. Below is a form where you will setup the superadmin user for Archivist and the host
+    group which is able to see all instruments and datasets regardless of study.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_tag "/setup" do %>
+      <div class="form-group">
+        <label for="su-fname">First name</label>
+        <input type="text" class="form-control" id="su-fname" name="su-fname" placeholder="First name">
+      </div>
+      <div class="form-group">
+        <label for="su-lname">Last name</label>
+        <input type="text" class="form-control" id="su-lname" name="su-lname" placeholder="Last name">
+      </div>
+      <div class="form-group">
+        <label for="su-email">Email address</label>
+        <input type="email" class="form-control" id="su-email" name="su-email" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="su-password">Password</label>
+        <input type="password" class="form-control" id="su-password" name="su-password" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="su-confirm">Password (again)</label>
+        <input type="password" class="form-control" id="su-confirm" name="su-confirm" placeholder="Again">
+      </div>
+      <div class="form-group">
+        <label for="su-group">Group name</label>
+        <input type="text" class="form-control" id="su-group" name="su-group" placeholder="Group name">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    <% end %>
+  </div>
+</div>

@@ -1,25 +1,42 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  target: one(Variable) 
-  topic: :one 
-#  x: null
-# 'y': null
-
-two:
-  target: one(CcQuestion) 
+---
+Link_1:
+  id: 1
+  target_id: 4
+  target_type: CcLoop
   topic: :one
-#  x: 1
-#  'y': 1
-
-three:
-  target: two(CcSequence)
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z
+Link_2:
+  id: 2
+  target_id: 155
+  target_type: CcCondition
   topic: :one
-
-four:
-  target: one(CcCondition)
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z
+Link_3:
+  id: 3
+  target_id: 1344
+  target_type: CcQuestion
   topic: :one
-
-five:
-  target: one(CcLoop)
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z
+Link_4:
+  id: 4
+  target_id: 79
+  target_type: CcSequence
   topic: :one
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z
+Link_5:
+  id: 5
+  target_id: 121
+  target_type: CcStatement
+  topic: :one
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z
+Link_6:
+  id: 6
+  target: one (Variable)
+  topic: :one
+  created_at: 2016-05-27 15:28:33.681568000 Z
+  updated_at: 2016-05-27 15:28:33.681568000 Z

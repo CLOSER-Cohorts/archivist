@@ -1,1 +1,3 @@
-json.extract! @object, :id, :numeric_type, :label, :min, :max, :created_at, :updated_at
+json.extract! @object, :id, :label, :min, :max
+json.subtype @object.numeric_type
+json.type 'ResponseDomainNumeric'

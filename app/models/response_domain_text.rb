@@ -1,4 +1,7 @@
 class ResponseDomainText < ActiveRecord::Base
   include ResponseDomain
-  belongs_to :instrument
+
+  def params
+    self.maxlen.nil? ? '' : '(' + '%g' % self.maxlen + ')'
+  end
 end

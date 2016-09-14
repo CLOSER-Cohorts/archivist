@@ -1,11 +1,11 @@
-if not rd.nil?
+unless rd.nil?
+  json.id rd.id
   json.type rd.class.name
   json.label rd.label
   if rd.class == ResponseDomainCode
-    json.codes rd.code_list.codes do |code|
-      json.label code.category.label
-      json.value code.value
-      json.order code.order
-    end
+    json.codes rd.codes, :label, :value, :order
+  else
+    json.subtype rd.subtype
+    json.params rd.params
   end
 end

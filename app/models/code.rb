@@ -1,6 +1,9 @@
 class Code < ActiveRecord::Base
   belongs_to :code_list
   belongs_to :category
+  belongs_to :instrument
+
+  before_create :set_instrument
 
   def label
     self.category.nil? ? nil : self.category.label
@@ -15,5 +18,9 @@ class Code < ActiveRecord::Base
     if self.category.nil?
       self.category = Category.create label: val, instrument: instrument
     end
+  end
+
+  def set_instrument
+    self.instrument_id = self.code_list.instrument_id
   end
 end

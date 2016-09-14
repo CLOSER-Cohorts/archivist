@@ -1,25 +1,2455 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  label: CodeListOne
-  instrument: :one
-
-two:
-  label: CodeListTwo
-  instrument: :one
-
-three:
-  label: CodeListThree
-  instrument: :one
-  
-axisx:
-  label: X Axis
-  instrument: :one
-  
-axisy:
-  label: Y Axis
-  instrument: :one
-
-four:
-  label: CodeListFour
-  instrument: :two
+---
+CodeList_1:
+  id: 625
+  label: cs_Yes_No
+  created_at: 2016-06-20 13:51:09.972457000 Z
+  updated_at: 2016-06-20 13:51:09.972457000 Z
+  instrument_id: 10
+CodeList_2:
+  id: 626
+  label: cs_Yes
+  created_at: 2016-06-20 13:51:10.032457000 Z
+  updated_at: 2016-06-20 13:51:10.032457000 Z
+  instrument_id: 10
+CodeList_3:
+  id: 627
+  label: cs_vhnp_hbafmp_sqi_aau
+  created_at: 2016-06-20 13:51:10.051457000 Z
+  updated_at: 2016-06-20 13:51:10.051457000 Z
+  instrument_id: 10
+CodeList_4:
+  id: 628
+  label: cs_qA2_b
+  created_at: 2016-06-20 13:51:10.114457000 Z
+  updated_at: 2016-06-20 13:51:10.114457000 Z
+  instrument_id: 10
+CodeList_5:
+  id: 629
+  label: cs_qA5_c
+  created_at: 2016-06-20 13:51:10.175457000 Z
+  updated_at: 2016-06-20 13:51:10.175457000 Z
+  instrument_id: 10
+CodeList_6:
+  id: 630
+  label: cs_o_t_39t_10omt
+  created_at: 2016-06-20 13:51:10.213457000 Z
+  updated_at: 2016-06-20 13:51:10.213457000 Z
+  instrument_id: 10
+CodeList_7:
+  id: 631
+  label: cs_A_F_S_R_N
+  created_at: 2016-06-20 13:51:10.271457000 Z
+  updated_at: 2016-06-20 13:51:10.271457000 Z
+  instrument_id: 10
+CodeList_8:
+  id: 632
+  label: cs_Yfa_Yfs_Nnaa
+  created_at: 2016-06-20 13:51:10.357457000 Z
+  updated_at: 2016-06-20 13:51:10.357457000 Z
+  instrument_id: 10
+CodeList_9:
+  id: 633
+  label: cs_qA9
+  created_at: 2016-06-20 13:51:10.423457000 Z
+  updated_at: 2016-06-20 13:51:10.423457000 Z
+  instrument_id: 10
+CodeList_10:
+  id: 634
+  label: cs_att_mott_s_r_n_dk
+  created_at: 2016-06-20 13:51:10.493457000 Z
+  updated_at: 2016-06-20 13:51:10.493457000 Z
+  instrument_id: 10
+CodeList_11:
+  id: 635
+  label: cs_qA11
+  created_at: 2016-06-20 13:51:10.592457000 Z
+  updated_at: 2016-06-20 13:51:10.592457000 Z
+  instrument_id: 10
+CodeList_12:
+  id: 636
+  label: cs_o_t_34t_5omt_dk
+  created_at: 2016-06-20 13:51:10.693457000 Z
+  updated_at: 2016-06-20 13:51:10.693457000 Z
+  instrument_id: 10
+CodeList_13:
+  id: 637
+  label: cs_qA12_c
+  created_at: 2016-06-20 13:51:10.785457000 Z
+  updated_at: 2016-06-20 13:51:10.785457000 Z
+  instrument_id: 10
+CodeList_14:
+  id: 638
+  label: cs_qA13_a
+  created_at: 2016-06-20 13:51:10.844457000 Z
+  updated_at: 2016-06-20 13:51:10.844457000 Z
+  instrument_id: 10
+CodeList_15:
+  id: 639
+  label: cs_Y_N_Nk
+  created_at: 2016-06-20 13:51:10.915457000 Z
+  updated_at: 2016-06-20 13:51:10.915457000 Z
+  instrument_id: 10
+CodeList_16:
+  id: 640
+  label: cs_qA14_d
+  created_at: 2016-06-20 13:51:10.979457000 Z
+  updated_at: 2016-06-20 13:51:10.979457000 Z
+  instrument_id: 10
+CodeList_17:
+  id: 641
+  label: cs_qA14_e
+  created_at: 2016-06-20 13:51:11.036457000 Z
+  updated_at: 2016-06-20 13:51:11.036457000 Z
+  instrument_id: 10
+CodeList_18:
+  id: 642
+  label: cs_qA14_h
+  created_at: 2016-06-20 13:51:11.106457000 Z
+  updated_at: 2016-06-20 13:51:11.106457000 Z
+  instrument_id: 10
+CodeList_19:
+  id: 643
+  label: cs_qA15_c
+  created_at: 2016-06-20 13:51:11.170457000 Z
+  updated_at: 2016-06-20 13:51:11.170457000 Z
+  instrument_id: 10
+CodeList_20:
+  id: 644
+  label: cs_Yfa_Yfs_Nnaa
+  created_at: 2016-06-20 13:51:11.275457000 Z
+  updated_at: 2016-06-20 13:51:11.275457000 Z
+  instrument_id: 10
+CodeList_21:
+  id: 645
+  label: cs_qA15_f
+  created_at: 2016-06-20 13:51:11.344457000 Z
+  updated_at: 2016-06-20 13:51:11.344457000 Z
+  instrument_id: 10
+CodeList_22:
+  id: 646
+  label: cs_qA15_h
+  created_at: 2016-06-20 13:51:11.404457000 Z
+  updated_at: 2016-06-20 13:51:11.404457000 Z
+  instrument_id: 10
+CodeList_23:
+  id: 647
+  label: cs_qA15_m
+  created_at: 2016-06-20 13:51:11.475457000 Z
+  updated_at: 2016-06-20 13:51:11.475457000 Z
+  instrument_id: 10
+CodeList_24:
+  id: 648
+  label: cs_qA16_b
+  created_at: 2016-06-20 13:51:11.535457000 Z
+  updated_at: 2016-06-20 13:51:11.535457000 Z
+  instrument_id: 10
+CodeList_25:
+  id: 649
+  label: cs_qA17_c
+  created_at: 2016-06-20 13:51:11.611457000 Z
+  updated_at: 2016-06-20 13:51:11.611457000 Z
+  instrument_id: 10
+CodeList_26:
+  id: 650
+  label: cs_qA18_d_i
+  created_at: 2016-06-20 13:51:11.663457000 Z
+  updated_at: 2016-06-20 13:51:11.663457000 Z
+  instrument_id: 10
+CodeList_27:
+  id: 651
+  label: cs_dash
+  created_at: 2016-06-20 13:51:11.684457000 Z
+  updated_at: 2016-06-20 13:51:11.684457000 Z
+  instrument_id: 10
+CodeList_28:
+  id: 652
+  label: cs_qA18_d_ii_Y
+  created_at: 2016-06-20 13:51:11.709457000 Z
+  updated_at: 2016-06-20 13:51:11.709457000 Z
+  instrument_id: 10
+CodeList_29:
+  id: 653
+  label: cs_qA18_e
+  created_at: 2016-06-20 13:51:12.139457000 Z
+  updated_at: 2016-06-20 13:51:12.139457000 Z
+  instrument_id: 10
+CodeList_30:
+  id: 654
+  label: cs_qA4_a-c_X
+  created_at: 2016-06-20 13:51:12.279457000 Z
+  updated_at: 2016-06-20 13:51:12.279457000 Z
+  instrument_id: 10
+CodeList_31:
+  id: 655
+  label: 'A4ac In the past 12 months:'
+  created_at: 2016-06-20 13:51:12.454457000 Z
+  updated_at: 2016-06-20 13:51:12.454457000 Z
+  instrument_id: 10
+CodeList_32:
+  id: 656
+  label: cs_qA4_d-g_X
+  created_at: 2016-06-20 13:51:12.576457000 Z
+  updated_at: 2016-06-20 13:51:12.576457000 Z
+  instrument_id: 10
+CodeList_33:
+  id: 657
+  label: 'A4dg In the past 12 months:'
+  created_at: 2016-06-20 13:51:12.669457000 Z
+  updated_at: 2016-06-20 13:51:12.669457000 Z
+  instrument_id: 10
+CodeList_34:
+  id: 658
+  label: cs_9yo_10yo_11yo
+  created_at: 2016-06-20 13:51:12.831457000 Z
+  updated_at: 2016-06-20 13:51:12.831457000 Z
+  instrument_id: 10
+CodeList_35:
+  id: 659
+  label: cs_Y_N_Ny
+  created_at: 2016-06-20 13:51:13.014457000 Z
+  updated_at: 2016-06-20 13:51:13.014457000 Z
+  instrument_id: 10
+CodeList_36:
+  id: 660
+  label: cs_qB8_c-g_X
+  created_at: 2016-06-20 13:51:13.215457000 Z
+  updated_at: 2016-06-20 13:51:13.215457000 Z
+  instrument_id: 10
+CodeList_37:
+  id: 661
+  label: cs_qB8_c-g_Y
+  created_at: 2016-06-20 13:51:13.394457000 Z
+  updated_at: 2016-06-20 13:51:13.394457000 Z
+  instrument_id: 10
+CodeList_38:
+  id: 662
+  label: cs_qC1_c-j_X
+  created_at: 2016-06-20 13:51:13.527457000 Z
+  updated_at: 2016-06-20 13:51:13.527457000 Z
+  instrument_id: 10
+CodeList_39:
+  id: 663
+  label: cs_N_Tht_Ttd_Tth_Opd
+  created_at: 2016-06-20 13:51:13.882457000 Z
+  updated_at: 2016-06-20 13:51:13.882457000 Z
+  instrument_id: 10
+CodeList_40:
+  id: 664
+  label: cs_qC1_c-j_Y
+  created_at: 2016-06-20 13:51:14.136457000 Z
+  updated_at: 2016-06-20 13:51:14.136457000 Z
+  instrument_id: 10
+CodeList_41:
+  id: 665
+  label: cs_qC2_c-j_X
+  created_at: 2016-06-20 13:51:14.415457000 Z
+  updated_at: 2016-06-20 13:51:14.415457000 Z
+  instrument_id: 10
+CodeList_42:
+  id: 666
+  label: cs_qC2_c-j_Y
+  created_at: 2016-06-20 13:51:14.769457000 Z
+  updated_at: 2016-06-20 13:51:14.769457000 Z
+  instrument_id: 10
+CodeList_43:
+  id: 667
+  label: cs_qC3_c-i_X
+  created_at: 2016-06-20 13:51:14.889457000 Z
+  updated_at: 2016-06-20 13:51:14.889457000 Z
+  instrument_id: 10
+CodeList_44:
+  id: 668
+  label: cs_qC3_c-i_Y
+  created_at: 2016-06-20 13:51:15.145457000 Z
+  updated_at: 2016-06-20 13:51:15.145457000 Z
+  instrument_id: 10
+CodeList_45:
+  id: 669
+  label: cs_qC4_c-j_X
+  created_at: 2016-06-20 13:51:15.347457000 Z
+  updated_at: 2016-06-20 13:51:15.347457000 Z
+  instrument_id: 10
+CodeList_46:
+  id: 670
+  label: cs_qC4_c-j_Y
+  created_at: 2016-06-20 13:51:15.611457000 Z
+  updated_at: 2016-06-20 13:51:15.611457000 Z
+  instrument_id: 10
+CodeList_47:
+  id: 671
+  label: cs_qC5_c-i_X
+  created_at: 2016-06-20 13:51:15.660457000 Z
+  updated_at: 2016-06-20 13:51:15.660457000 Z
+  instrument_id: 10
+CodeList_48:
+  id: 672
+  label: cs_qC5_c-i_Y
+  created_at: 2016-06-20 13:51:16.047457000 Z
+  updated_at: 2016-06-20 13:51:16.047457000 Z
+  instrument_id: 10
+CodeList_49:
+  id: 673
+  label: cs_qC6_c-i_X
+  created_at: 2016-06-20 13:51:16.090457000 Z
+  updated_at: 2016-06-20 13:51:16.090457000 Z
+  instrument_id: 10
+CodeList_50:
+  id: 674
+  label: cs_qC6_c-i_Y
+  created_at: 2016-06-20 13:51:16.199457000 Z
+  updated_at: 2016-06-20 13:51:16.199457000 Z
+  instrument_id: 10
+CodeList_51:
+  id: 675
+  label: cs_qC7_a-d_X
+  created_at: 2016-06-20 13:51:16.241457000 Z
+  updated_at: 2016-06-20 13:51:16.241457000 Z
+  instrument_id: 10
+CodeList_52:
+  id: 676
+  label: cs_qC7_a-d_Y
+  created_at: 2016-06-20 13:51:16.303457000 Z
+  updated_at: 2016-06-20 13:51:16.303457000 Z
+  instrument_id: 10
+CodeList_53:
+  id: 677
+  label: cs_qC7_e_l_Y
+  created_at: 2016-06-20 13:51:16.379457000 Z
+  updated_at: 2016-06-20 13:51:16.379457000 Z
+  instrument_id: 10
+CodeList_54:
+  id: 678
+  label: cs_qC7_e-l_X
+  created_at: 2016-06-20 13:51:16.497457000 Z
+  updated_at: 2016-06-20 13:51:16.497457000 Z
+  instrument_id: 10
+CodeList_55:
+  id: 679
+  label: cs_qC7_m-q_X
+  created_at: 2016-06-20 13:51:16.547457000 Z
+  updated_at: 2016-06-20 13:51:16.547457000 Z
+  instrument_id: 10
+CodeList_56:
+  id: 680
+  label: cs_qC7_m-q_Y
+  created_at: 2016-06-20 13:51:16.597457000 Z
+  updated_at: 2016-06-20 13:51:16.597457000 Z
+  instrument_id: 10
+CodeList_57:
+  id: 681
+  label: cs_qD1_a
+  created_at: 2016-06-20 13:51:16.667457000 Z
+  updated_at: 2016-06-20 13:51:16.667457000 Z
+  instrument_id: 10
+CodeList_58:
+  id: 682
+  label: cs_qD1_b
+  created_at: 2016-06-20 13:51:16.716457000 Z
+  updated_at: 2016-06-20 13:51:16.716457000 Z
+  instrument_id: 10
+CodeList_59:
+  id: 683
+  label: cs_qD1_f
+  created_at: 2016-06-20 13:51:16.758457000 Z
+  updated_at: 2016-06-20 13:51:16.758457000 Z
+  instrument_id: 10
+CodeList_60:
+  id: 684
+  label: cs_qD1_g
+  created_at: 2016-06-20 13:51:16.838457000 Z
+  updated_at: 2016-06-20 13:51:16.838457000 Z
+  instrument_id: 10
+CodeList_61:
+  id: 685
+  label: cs_qD2
+  created_at: 2016-06-20 13:51:16.922457000 Z
+  updated_at: 2016-06-20 13:51:16.922457000 Z
+  instrument_id: 10
+CodeList_62:
+  id: 686
+  label: cs_qD4_b
+  created_at: 2016-06-20 13:51:17.020457000 Z
+  updated_at: 2016-06-20 13:51:17.020457000 Z
+  instrument_id: 10
+CodeList_63:
+  id: 687
+  label: cs_qD5_Y
+  created_at: 2016-06-20 13:51:17.086457000 Z
+  updated_at: 2016-06-20 13:51:17.086457000 Z
+  instrument_id: 10
+CodeList_64:
+  id: 688
+  label: cs_qD6_Y
+  created_at: 2016-06-20 13:51:17.234457000 Z
+  updated_at: 2016-06-20 13:51:17.234457000 Z
+  instrument_id: 10
+CodeList_65:
+  id: 689
+  label: cs_qD7
+  created_at: 2016-06-20 13:51:17.355457000 Z
+  updated_at: 2016-06-20 13:51:17.355457000 Z
+  instrument_id: 10
+CodeList_66:
+  id: 690
+  label: cs_Yvi_Ysi_Nni_Ns
+  created_at: 2016-06-20 13:51:17.422457000 Z
+  updated_at: 2016-06-20 13:51:17.422457000 Z
+  instrument_id: 10
+CodeList_67:
+  id: 691
+  label: cs_qD8_f
+  created_at: 2016-06-20 13:51:17.506457000 Z
+  updated_at: 2016-06-20 13:51:17.506457000 Z
+  instrument_id: 10
+CodeList_68:
+  id: 692
+  label: cs_qD8_g
+  created_at: 2016-06-20 13:51:17.564457000 Z
+  updated_at: 2016-06-20 13:51:17.564457000 Z
+  instrument_id: 10
+CodeList_69:
+  id: 693
+  label: cs_qD9_a
+  created_at: 2016-06-20 13:51:17.630457000 Z
+  updated_at: 2016-06-20 13:51:17.630457000 Z
+  instrument_id: 10
+CodeList_70:
+  id: 694
+  label: cs_qD10
+  created_at: 2016-06-20 13:51:17.699457000 Z
+  updated_at: 2016-06-20 13:51:17.699457000 Z
+  instrument_id: 10
+CodeList_71:
+  id: 695
+  label: cs_qD11
+  created_at: 2016-06-20 13:51:17.755457000 Z
+  updated_at: 2016-06-20 13:51:17.755457000 Z
+  instrument_id: 10
+CodeList_72:
+  id: 696
+  label: cs_YaIkai_Prob_Poss_Idnts
+  created_at: 2016-06-20 13:51:17.834457000 Z
+  updated_at: 2016-06-20 13:51:17.834457000 Z
+  instrument_id: 10
+CodeList_73:
+  id: 697
+  label: cs_R_Fd_Oo_Oot
+  created_at: 2016-06-20 13:51:17.901457000 Z
+  updated_at: 2016-06-20 13:51:17.901457000 Z
+  instrument_id: 10
+CodeList_74:
+  id: 698
+  label: cs_qE1_X
+  created_at: 2016-06-20 13:51:17.964457000 Z
+  updated_at: 2016-06-20 13:51:17.964457000 Z
+  instrument_id: 10
+CodeList_75:
+  id: 699
+  label: 'In the past 12 months medicine, pills drops or ointment for:'
+  created_at: 2016-06-20 13:51:18.009457000 Z
+  updated_at: 2016-06-20 13:51:18.009457000 Z
+  instrument_id: 10
+CodeList_76:
+  id: 700
+  label: cs_Ed_Md_A12taw_Ltoaw_Naa
+  created_at: 2016-06-20 13:51:18.488457000 Z
+  updated_at: 2016-06-20 13:51:18.488457000 Z
+  instrument_id: 10
+CodeList_77:
+  id: 701
+  label: cs_qE2_a_X
+  created_at: 2016-06-20 13:51:18.579457000 Z
+  updated_at: 2016-06-20 13:51:18.579457000 Z
+  instrument_id: 10
+CodeList_78:
+  id: 702
+  label: cs_qE2_a_Y
+  created_at: 2016-06-20 13:51:18.618457000 Z
+  updated_at: 2016-06-20 13:51:18.618457000 Z
+  instrument_id: 10
+CodeList_79:
+  id: 703
+  label: cs_qE2_b_X
+  created_at: 2016-06-20 13:51:18.666457000 Z
+  updated_at: 2016-06-20 13:51:18.666457000 Z
+  instrument_id: 10
+CodeList_80:
+  id: 704
+  label: cs_qE2_b_Y
+  created_at: 2016-06-20 13:51:18.706457000 Z
+  updated_at: 2016-06-20 13:51:18.706457000 Z
+  instrument_id: 10
+CodeList_81:
+  id: 705
+  label: cs_qE2_c_X
+  created_at: 2016-06-20 13:51:18.747457000 Z
+  updated_at: 2016-06-20 13:51:18.747457000 Z
+  instrument_id: 10
+CodeList_82:
+  id: 706
+  label: cs_qE2_c_Y
+  created_at: 2016-06-20 13:51:18.785457000 Z
+  updated_at: 2016-06-20 13:51:18.785457000 Z
+  instrument_id: 10
+CodeList_83:
+  id: 707
+  label: cs_qE2_d_X
+  created_at: 2016-06-20 13:51:18.823457000 Z
+  updated_at: 2016-06-20 13:51:18.823457000 Z
+  instrument_id: 10
+CodeList_84:
+  id: 708
+  label: cs_qE2_d_Y
+  created_at: 2016-06-20 13:51:18.870457000 Z
+  updated_at: 2016-06-20 13:51:18.870457000 Z
+  instrument_id: 10
+CodeList_85:
+  id: 709
+  label: 'In the past month:'
+  created_at: 2016-06-20 13:51:18.913457000 Z
+  updated_at: 2016-06-20 13:51:18.913457000 Z
+  instrument_id: 10
+CodeList_86:
+  id: 710
+  label: cs_T_St_Nt
+  created_at: 2016-06-20 13:51:18.967457000 Z
+  updated_at: 2016-06-20 13:51:18.967457000 Z
+  instrument_id: 10
+CodeList_87:
+  id: 711
+  label: 'In the past 2 weeks:'
+  created_at: 2016-06-20 13:51:19.022457000 Z
+  updated_at: 2016-06-20 13:51:19.022457000 Z
+  instrument_id: 10
+CodeList_88:
+  id: 712
+  label: 'In the last six months:'
+  created_at: 2016-06-20 13:51:19.245457000 Z
+  updated_at: 2016-06-20 13:51:19.245457000 Z
+  instrument_id: 10
+CodeList_89:
+  id: 713
+  label: cs_Nt_St_Ct_Dk
+  created_at: 2016-06-20 13:51:19.605457000 Z
+  updated_at: 2016-06-20 13:51:19.605457000 Z
+  instrument_id: 10
+CodeList_90:
+  id: 714
+  label: cs_eomd_sd
+  created_at: 2016-06-20 13:51:19.664457000 Z
+  updated_at: 2016-06-20 13:51:19.664457000 Z
+  instrument_id: 10
+CodeList_91:
+  id: 715
+  label: cs_qH2_X
+  created_at: 2016-06-20 13:51:19.699457000 Z
+  updated_at: 2016-06-20 13:51:19.699457000 Z
+  instrument_id: 10
+CodeList_92:
+  id: 716
+  label: cs_qH2_Y
+  created_at: 2016-06-20 13:51:19.741457000 Z
+  updated_at: 2016-06-20 13:51:19.741457000 Z
+  instrument_id: 10
+CodeList_93:
+  id: 717
+  label: cs_qH3_a
+  created_at: 2016-06-20 13:51:19.907457000 Z
+  updated_at: 2016-06-20 13:51:19.907457000 Z
+  instrument_id: 10
+CodeList_94:
+  id: 718
+  label: cs_qH4_a
+  created_at: 2016-06-20 13:51:20.003457000 Z
+  updated_at: 2016-06-20 13:51:20.003457000 Z
+  instrument_id: 10
+CodeList_95:
+  id: 719
+  label: cs_Ed_Sd_N
+  created_at: 2016-06-20 13:51:20.073457000 Z
+  updated_at: 2016-06-20 13:51:20.073457000 Z
+  instrument_id: 10
+CodeList_96:
+  id: 720
+  label: cs_qH4_c
+  created_at: 2016-06-20 13:51:20.149457000 Z
+  updated_at: 2016-06-20 13:51:20.149457000 Z
+  instrument_id: 10
+CodeList_97:
+  id: 721
+  label: cs_A_U_S_Naa
+  created_at: 2016-06-20 13:51:20.241457000 Z
+  updated_at: 2016-06-20 13:51:20.241457000 Z
+  instrument_id: 10
+CodeList_98:
+  id: 722
+  label: cs_Slial_Sqli_Sdnli_Dndt
+  created_at: 2016-06-20 13:51:20.332457000 Z
+  updated_at: 2016-06-20 13:51:20.332457000 Z
+  instrument_id: 10
+CodeList_99:
+  id: 723
+  label: cs_qH6_n
+  created_at: 2016-06-20 13:51:20.421457000 Z
+  updated_at: 2016-06-20 13:51:20.421457000 Z
+  instrument_id: 10
+CodeList_100:
+  id: 724
+  label: cs_Yv_Ym_Nnr
+  created_at: 2016-06-20 13:51:20.483457000 Z
+  updated_at: 2016-06-20 13:51:20.483457000 Z
+  instrument_id: 10
+CodeList_101:
+  id: 725
+  label: cs_qH14
+  created_at: 2016-06-20 13:51:20.589457000 Z
+  updated_at: 2016-06-20 13:51:20.589457000 Z
+  instrument_id: 10
+CodeList_102:
+  id: 726
+  label: cs_qJ1_a
+  created_at: 2016-06-20 13:51:20.784457000 Z
+  updated_at: 2016-06-20 13:51:20.784457000 Z
+  instrument_id: 10
+CodeList_103:
+  id: 727
+  label: cs_Nd_Sld_Md_Sed_Dk
+  created_at: 2016-06-20 13:51:20.859457000 Z
+  updated_at: 2016-06-20 13:51:20.859457000 Z
+  instrument_id: 10
+CodeList_104:
+  id: 728
+  label: 'Difficulty hearing and: understanding'
+  created_at: 2016-06-20 13:51:20.967457000 Z
+  updated_at: 2016-06-20 13:51:20.967457000 Z
+  instrument_id: 10
+CodeList_105:
+  id: 729
+  label: cs_qJ3_Y
+  created_at: 2016-06-20 13:51:21.056457000 Z
+  updated_at: 2016-06-20 13:51:21.056457000 Z
+  instrument_id: 10
+CodeList_106:
+  id: 730
+  label: cs_qJ4_Y
+  created_at: 2016-06-20 13:51:21.136457000 Z
+  updated_at: 2016-06-20 13:51:21.136457000 Z
+  instrument_id: 10
+CodeList_107:
+  id: 731
+  label: 'Immediately remembering:'
+  created_at: 2016-06-20 13:51:21.192457000 Z
+  updated_at: 2016-06-20 13:51:21.192457000 Z
+  instrument_id: 10
+CodeList_108:
+  id: 732
+  label: 'Remembering after an hour or so:'
+  created_at: 2016-06-20 13:51:21.261457000 Z
+  updated_at: 2016-06-20 13:51:21.261457000 Z
+  instrument_id: 10
+CodeList_109:
+  id: 733
+  label: 'Difficulty listening:'
+  created_at: 2016-06-20 13:51:21.316457000 Z
+  updated_at: 2016-06-20 13:51:21.316457000 Z
+  instrument_id: 10
+CodeList_110:
+  id: 734
+  label: cs_Ned_25taw_Oaw_13tam_Ltopm_Naa
+  created_at: 2016-06-20 13:51:21.514457000 Z
+  updated_at: 2016-06-20 13:51:21.514457000 Z
+  instrument_id: 10
+CodeList_111:
+  id: 735
+  label: cs_Ned_25taw_Oaw_Ltoaw_N
+  created_at: 2016-06-20 13:51:21.606457000 Z
+  updated_at: 2016-06-20 13:51:21.606457000 Z
+  instrument_id: 10
+CodeList_112:
+  id: 736
+  label: 'Adult female:'
+  created_at: 2016-06-20 13:51:21.681457000 Z
+  updated_at: 2016-06-20 13:51:21.681457000 Z
+  instrument_id: 10
+CodeList_113:
+  id: 737
+  label: cs_qK2_s_Y
+  created_at: 2016-06-20 13:51:21.927457000 Z
+  updated_at: 2016-06-20 13:51:21.927457000 Z
+  instrument_id: 10
+CodeList_114:
+  id: 738
+  label: 'Adult male:'
+  created_at: 2016-06-20 13:51:22.066457000 Z
+  updated_at: 2016-06-20 13:51:22.066457000 Z
+  instrument_id: 10
+CodeList_115:
+  id: 739
+  label: cs_qK3_s_Y
+  created_at: 2016-06-20 13:51:22.353457000 Z
+  updated_at: 2016-06-20 13:51:22.353457000 Z
+  instrument_id: 10
+CodeList_116:
+  id: 740
+  label: cs_qK4_a
+  created_at: 2016-06-20 13:51:22.485457000 Z
+  updated_at: 2016-06-20 13:51:22.485457000 Z
+  instrument_id: 10
+CodeList_117:
+  id: 741
+  label: cs_qK5
+  created_at: 2016-06-20 13:51:22.816457000 Z
+  updated_at: 2016-06-20 13:51:22.816457000 Z
+  instrument_id: 10
+CodeList_118:
+  id: 742
+  label: With her brothers and sisters
+  created_at: 2016-06-20 13:51:22.914457000 Z
+  updated_at: 2016-06-20 13:51:22.914457000 Z
+  instrument_id: 10
+CodeList_119:
+  id: 743
+  label: cs_qL1
+  created_at: 2016-06-20 13:51:23.049457000 Z
+  updated_at: 2016-06-20 13:51:23.049457000 Z
+  instrument_id: 10
+CodeList_120:
+  id: 744
+  label: cs_qL1_i
+  created_at: 2016-06-20 13:51:23.123457000 Z
+  updated_at: 2016-06-20 13:51:23.123457000 Z
+  instrument_id: 10
+CodeList_121:
+  id: 745
+  label: cs_qL1_ii
+  created_at: 2016-06-20 13:51:23.198457000 Z
+  updated_at: 2016-06-20 13:51:23.198457000 Z
+  instrument_id: 10
+CodeList_122:
+  id: 746
+  label: cs_qL1_iii
+  created_at: 2016-06-20 13:51:23.256457000 Z
+  updated_at: 2016-06-20 13:51:23.256457000 Z
+  instrument_id: 10
+CodeList_123:
+  id: 747
+  label: cs_qA1
+  created_at: 2016-06-21 13:18:27.326321000 Z
+  updated_at: 2016-06-21 13:18:27.326321000 Z
+  instrument_id: 11
+CodeList_124:
+  id: 748
+  label: cs_qA2
+  created_at: 2016-06-21 13:18:27.415330000 Z
+  updated_at: 2016-06-21 13:18:27.415330000 Z
+  instrument_id: 11
+CodeList_125:
+  id: 749
+  label: cs_qA2_Y
+  created_at: 2016-06-21 13:18:27.453334000 Z
+  updated_at: 2016-06-21 13:18:27.453334000 Z
+  instrument_id: 11
+CodeList_126:
+  id: 750
+  label: cs_qA3
+  created_at: 2016-06-21 13:18:27.549344000 Z
+  updated_at: 2016-06-21 13:18:27.549344000 Z
+  instrument_id: 11
+CodeList_127:
+  id: 751
+  label: 'I have taken:'
+  created_at: 2016-06-21 13:18:27.572346000 Z
+  updated_at: 2016-06-21 13:18:27.572346000 Z
+  instrument_id: 11
+CodeList_128:
+  id: 752
+  label: cs_dash
+  created_at: 2016-06-21 13:18:27.661355000 Z
+  updated_at: 2016-06-21 13:18:27.661355000 Z
+  instrument_id: 11
+CodeList_129:
+  id: 753
+  label: cs_qA4_X
+  created_at: 2016-06-21 13:18:27.678356000 Z
+  updated_at: 2016-06-21 13:18:27.678356000 Z
+  instrument_id: 11
+CodeList_130:
+  id: 754
+  label: cs_qA4_Y
+  created_at: 2016-06-21 13:18:27.711360000 Z
+  updated_at: 2016-06-21 13:18:27.711360000 Z
+  instrument_id: 11
+CodeList_131:
+  id: 755
+  label: cs_Yes_No
+  created_at: 2016-06-21 13:18:27.763365000 Z
+  updated_at: 2016-06-21 13:18:27.763365000 Z
+  instrument_id: 11
+CodeList_132:
+  id: 756
+  label: cs_qA6
+  created_at: 2016-06-21 13:18:27.776366000 Z
+  updated_at: 2016-06-21 13:18:27.776366000 Z
+  instrument_id: 11
+CodeList_133:
+  id: 757
+  label: 'In the past month:'
+  created_at: 2016-06-21 13:18:27.796368000 Z
+  updated_at: 2016-06-21 13:18:27.796368000 Z
+  instrument_id: 11
+CodeList_134:
+  id: 758
+  label: cs_qA5_c-g_Y
+  created_at: 2016-06-21 13:18:27.918380000 Z
+  updated_at: 2016-06-21 13:18:27.918380000 Z
+  instrument_id: 11
+CodeList_135:
+  id: 759
+  label: cs_qA5_c_g_X
+  created_at: 2016-06-21 13:18:27.949384000 Z
+  updated_at: 2016-06-21 13:18:27.949384000 Z
+  instrument_id: 11
+CodeList_136:
+  id: 760
+  label: cs_qA7_a
+  created_at: 2016-06-21 13:18:27.975386000 Z
+  updated_at: 2016-06-21 13:18:27.975386000 Z
+  instrument_id: 11
+CodeList_137:
+  id: 761
+  label: cs_qA7_b
+  created_at: 2016-06-21 13:18:28.021391000 Z
+  updated_at: 2016-06-21 13:18:28.021391000 Z
+  instrument_id: 11
+CodeList_138:
+  id: 762
+  label: cs_qA8_a
+  created_at: 2016-06-21 13:18:28.050394000 Z
+  updated_at: 2016-06-21 13:18:28.050394000 Z
+  instrument_id: 11
+CodeList_139:
+  id: 763
+  label: cs_Yes
+  created_at: 2016-06-21 13:18:28.086397000 Z
+  updated_at: 2016-06-21 13:18:28.086397000 Z
+  instrument_id: 11
+CodeList_140:
+  id: 764
+  label: cs_qA8_b_Y
+  created_at: 2016-06-21 13:18:28.095398000 Z
+  updated_at: 2016-06-21 13:18:28.095398000 Z
+  instrument_id: 11
+CodeList_141:
+  id: 765
+  label: cs_qA9_c_ii
+  created_at: 2016-06-21 13:18:28.134402000 Z
+  updated_at: 2016-06-21 13:18:28.134402000 Z
+  instrument_id: 11
+CodeList_142:
+  id: 766
+  label: cs_V_M_M_Naa_Np
+  created_at: 2016-06-21 13:18:28.174406000 Z
+  updated_at: 2016-06-21 13:18:28.174406000 Z
+  instrument_id: 11
+CodeList_143:
+  id: 767
+  label: cs_Yes_No_Dk
+  created_at: 2016-06-21 13:18:28.200409000 Z
+  updated_at: 2016-06-21 13:18:28.200409000 Z
+  instrument_id: 11
+CodeList_144:
+  id: 768
+  label: cs_L_R_E
+  created_at: 2016-06-21 13:18:28.224411000 Z
+  updated_at: 2016-06-21 13:18:28.224411000 Z
+  instrument_id: 11
+CodeList_145:
+  id: 769
+  label: cs_L_R_E_Dk
+  created_at: 2016-06-21 13:18:28.243413000 Z
+  updated_at: 2016-06-21 13:18:28.243413000 Z
+  instrument_id: 11
+CodeList_146:
+  id: 770
+  label: cs_qB5_a_i
+  created_at: 2016-06-21 13:18:28.265415000 Z
+  updated_at: 2016-06-21 13:18:28.265415000 Z
+  instrument_id: 11
+CodeList_147:
+  id: 771
+  label: cs_qB5_a_ii
+  created_at: 2016-06-21 13:18:28.300419000 Z
+  updated_at: 2016-06-21 13:18:28.300419000 Z
+  instrument_id: 11
+CodeList_148:
+  id: 772
+  label: cs_qB5_b
+  created_at: 2016-06-21 13:18:28.329422000 Z
+  updated_at: 2016-06-21 13:18:28.329422000 Z
+  instrument_id: 11
+CodeList_149:
+  id: 773
+  label: cs_qB5_c
+  created_at: 2016-06-21 13:18:28.346423000 Z
+  updated_at: 2016-06-21 13:18:28.346423000 Z
+  instrument_id: 11
+CodeList_150:
+  id: 774
+  label: cs_Ysn_Ysn_Nnaa
+  created_at: 2016-06-21 13:18:28.381427000 Z
+  updated_at: 2016-06-21 13:18:28.381427000 Z
+  instrument_id: 11
+CodeList_151:
+  id: 775
+  label: cs_qB5_f
+  created_at: 2016-06-21 13:18:28.400429000 Z
+  updated_at: 2016-06-21 13:18:28.400429000 Z
+  instrument_id: 11
+CodeList_152:
+  id: 776
+  label: cs_qB5_g_i-viii
+  created_at: 2016-06-21 13:18:28.418430000 Z
+  updated_at: 2016-06-21 13:18:28.418430000 Z
+  instrument_id: 11
+CodeList_153:
+  id: 777
+  label: 'When together were they:'
+  created_at: 2016-06-21 13:18:28.441433000 Z
+  updated_at: 2016-06-21 13:18:28.441433000 Z
+  instrument_id: 11
+CodeList_154:
+  id: 778
+  label: cs_qB6
+  created_at: 2016-06-21 13:18:28.511440000 Z
+  updated_at: 2016-06-21 13:18:28.511440000 Z
+  instrument_id: 11
+CodeList_155:
+  id: 779
+  label: cs_qB7
+  created_at: 2016-06-21 13:18:28.536442000 Z
+  updated_at: 2016-06-21 13:18:28.536442000 Z
+  instrument_id: 11
+CodeList_156:
+  id: 780
+  label: cs_qB5_g
+  created_at: 2016-06-21 13:18:28.564445000 Z
+  updated_at: 2016-06-21 13:18:28.564445000 Z
+  instrument_id: 11
+CodeList_157:
+  id: 781
+  label: cs_qB8_b_i-ii_X
+  created_at: 2016-06-21 13:18:28.572446000 Z
+  updated_at: 2016-06-21 13:18:28.572446000 Z
+  instrument_id: 11
+CodeList_158:
+  id: 782
+  label: cs_qB8_b_i-ii_Y
+  created_at: 2016-06-21 13:18:28.585447000 Z
+  updated_at: 2016-06-21 13:18:28.585447000 Z
+  instrument_id: 11
+CodeList_159:
+  id: 783
+  label: cs_Aat_Ot_St_St_Nt
+  created_at: 2016-06-21 13:18:28.602449000 Z
+  updated_at: 2016-06-21 13:18:28.602449000 Z
+  instrument_id: 11
+CodeList_160:
+  id: 784
+  label: cs_Vo_O_Nvo_N
+  created_at: 2016-06-21 13:18:28.630452000 Z
+  updated_at: 2016-06-21 13:18:28.630452000 Z
+  instrument_id: 11
+CodeList_161:
+  id: 785
+  label: cs_qD24
+  created_at: 2016-06-21 13:18:28.653454000 Z
+  updated_at: 2016-06-21 13:18:28.653454000 Z
+  instrument_id: 11
+CodeList_162:
+  id: 786
+  label: cs_qD25
+  created_at: 2016-06-21 13:18:28.695458000 Z
+  updated_at: 2016-06-21 13:18:28.695458000 Z
+  instrument_id: 11
+CodeList_163:
+  id: 787
+  label: cs_qD26
+  created_at: 2016-06-21 13:18:28.717460000 Z
+  updated_at: 2016-06-21 13:18:28.717460000 Z
+  instrument_id: 11
+CodeList_164:
+  id: 788
+  label: cs_qD27
+  created_at: 2016-06-21 13:18:28.738462000 Z
+  updated_at: 2016-06-21 13:18:28.738462000 Z
+  instrument_id: 11
+CodeList_165:
+  id: 789
+  label: cs_qD28
+  created_at: 2016-06-21 13:18:28.759465000 Z
+  updated_at: 2016-06-21 13:18:28.759465000 Z
+  instrument_id: 11
+CodeList_166:
+  id: 790
+  label: cs_qD29
+  created_at: 2016-06-21 13:18:28.779467000 Z
+  updated_at: 2016-06-21 13:18:28.779467000 Z
+  instrument_id: 11
+CodeList_167:
+  id: 791
+  label: cs_qD30
+  created_at: 2016-06-21 13:18:28.801469000 Z
+  updated_at: 2016-06-21 13:18:28.801469000 Z
+  instrument_id: 11
+CodeList_168:
+  id: 792
+  label: cs_qD31
+  created_at: 2016-06-21 13:18:28.831472000 Z
+  updated_at: 2016-06-21 13:18:28.831472000 Z
+  instrument_id: 11
+CodeList_169:
+  id: 793
+  label: cs_qD32
+  created_at: 2016-06-21 13:18:28.853474000 Z
+  updated_at: 2016-06-21 13:18:28.853474000 Z
+  instrument_id: 11
+CodeList_170:
+  id: 794
+  label: cs_qD33
+  created_at: 2016-06-21 13:18:28.876476000 Z
+  updated_at: 2016-06-21 13:18:28.876476000 Z
+  instrument_id: 11
+CodeList_171:
+  id: 795
+  label: cs_qD34
+  created_at: 2016-06-21 13:18:28.899479000 Z
+  updated_at: 2016-06-21 13:18:28.899479000 Z
+  instrument_id: 11
+CodeList_172:
+  id: 796
+  label: cs_Yamal_Yma_Yma_Ybdnamal_Ndnh
+  created_at: 2016-06-21 13:18:28.928481000 Z
+  updated_at: 2016-06-21 13:18:28.928481000 Z
+  instrument_id: 11
+CodeList_173:
+  id: 797
+  label: cs_Yamal_Yma_Ymaal_Ybdnam_Ndnh
+  created_at: 2016-06-21 13:18:28.966485000 Z
+  updated_at: 2016-06-21 13:18:28.966485000 Z
+  instrument_id: 11
+CodeList_174:
+  id: 798
+  label: cs_qE44_c
+  created_at: 2016-06-21 13:18:28.994488000 Z
+  updated_at: 2016-06-21 13:18:28.994488000 Z
+  instrument_id: 11
+CodeList_175:
+  id: 799
+  label: cs_qF2
+  created_at: 2016-06-21 13:18:29.015490000 Z
+  updated_at: 2016-06-21 13:18:29.015490000 Z
+  instrument_id: 11
+CodeList_176:
+  id: 800
+  label: cs_qF3
+  created_at: 2016-06-21 13:18:29.062495000 Z
+  updated_at: 2016-06-21 13:18:29.062495000 Z
+  instrument_id: 11
+CodeList_177:
+  id: 801
+  label: cs_qF4
+  created_at: 2016-06-21 13:18:29.088497000 Z
+  updated_at: 2016-06-21 13:18:29.088497000 Z
+  instrument_id: 11
+CodeList_178:
+  id: 802
+  label: cs_qF5
+  created_at: 2016-06-21 13:18:29.145503000 Z
+  updated_at: 2016-06-21 13:18:29.145503000 Z
+  instrument_id: 11
+CodeList_179:
+  id: 803
+  label: cs_qF6_Y
+  created_at: 2016-06-21 13:18:29.162505000 Z
+  updated_at: 2016-06-21 13:18:29.162505000 Z
+  instrument_id: 11
+CodeList_180:
+  id: 804
+  label: cs_Vw_W_Ar_C_Vc
+  created_at: 2016-06-21 13:18:29.203509000 Z
+  updated_at: 2016-06-21 13:18:29.203509000 Z
+  instrument_id: 11
+CodeList_181:
+  id: 805
+  label: cs_qF8_a
+  created_at: 2016-06-21 13:18:29.232512000 Z
+  updated_at: 2016-06-21 13:18:29.232512000 Z
+  instrument_id: 11
+CodeList_182:
+  id: 806
+  label: cs_qF8_b
+  created_at: 2016-06-21 13:18:29.264515000 Z
+  updated_at: 2016-06-21 13:18:29.264515000 Z
+  instrument_id: 11
+CodeList_183:
+  id: 807
+  label: cs_qF8_c
+  created_at: 2016-06-21 13:18:29.310520000 Z
+  updated_at: 2016-06-21 13:18:29.310520000 Z
+  instrument_id: 11
+CodeList_184:
+  id: 808
+  label: cs_qF9_a
+  created_at: 2016-06-21 13:18:29.332522000 Z
+  updated_at: 2016-06-21 13:18:29.332522000 Z
+  instrument_id: 11
+CodeList_185:
+  id: 809
+  label: cs_qF10
+  created_at: 2016-06-21 13:18:29.358524000 Z
+  updated_at: 2016-06-21 13:18:29.358524000 Z
+  instrument_id: 11
+CodeList_186:
+  id: 810
+  label: cs_qF11
+  created_at: 2016-06-21 13:18:29.379527000 Z
+  updated_at: 2016-06-21 13:18:29.379527000 Z
+  instrument_id: 11
+CodeList_187:
+  id: 811
+  label: cs_qF12_a-e
+  created_at: 2016-06-21 13:18:29.397528000 Z
+  updated_at: 2016-06-21 13:18:29.397528000 Z
+  instrument_id: 11
+CodeList_188:
+  id: 812
+  label: cs_qF12_a-d_Y
+  created_at: 2016-06-21 13:18:29.429532000 Z
+  updated_at: 2016-06-21 13:18:29.429532000 Z
+  instrument_id: 11
+CodeList_189:
+  id: 813
+  label: cs_qF9_b
+  created_at: 2016-06-21 13:18:29.467535000 Z
+  updated_at: 2016-06-21 13:18:29.467535000 Z
+  instrument_id: 11
+CodeList_190:
+  id: 814
+  label: cs_Ysu_Yswoh_No
+  created_at: 2016-06-21 13:18:29.494538000 Z
+  updated_at: 2016-06-21 13:18:29.494538000 Z
+  instrument_id: 11
+CodeList_191:
+  id: 815
+  label: cs_qF15
+  created_at: 2016-06-21 13:18:29.513540000 Z
+  updated_at: 2016-06-21 13:18:29.513540000 Z
+  instrument_id: 11
+CodeList_192:
+  id: 816
+  label: cs_qF15_a-e_Y
+  created_at: 2016-06-21 13:18:29.530542000 Z
+  updated_at: 2016-06-21 13:18:29.530542000 Z
+  instrument_id: 11
+CodeList_193:
+  id: 817
+  label: cs_qF16
+  created_at: 2016-06-21 13:18:29.556544000 Z
+  updated_at: 2016-06-21 13:18:29.556544000 Z
+  instrument_id: 11
+CodeList_194:
+  id: 818
+  label: cs_qF17
+  created_at: 2016-06-21 13:18:29.572546000 Z
+  updated_at: 2016-06-21 13:18:29.572546000 Z
+  instrument_id: 11
+CodeList_195:
+  id: 819
+  label: cs_Waao_Woowwig_Woo_Wano
+  created_at: 2016-06-21 13:18:29.588547000 Z
+  updated_at: 2016-06-21 13:18:29.588547000 Z
+  instrument_id: 11
+CodeList_196:
+  id: 820
+  label: cs_qF18_c
+  created_at: 2016-06-21 13:18:29.610550000 Z
+  updated_at: 2016-06-21 13:18:29.610550000 Z
+  instrument_id: 11
+CodeList_197:
+  id: 821
+  label: cs_qF18_e
+  created_at: 2016-06-21 13:18:29.635552000 Z
+  updated_at: 2016-06-21 13:18:29.635552000 Z
+  instrument_id: 11
+CodeList_198:
+  id: 822
+  label: cs_qF19_b
+  created_at: 2016-06-21 13:18:29.658554000 Z
+  updated_at: 2016-06-21 13:18:29.658554000 Z
+  instrument_id: 11
+CodeList_199:
+  id: 823
+  label: cs_qF19_c
+  created_at: 2016-06-21 13:18:29.681557000 Z
+  updated_at: 2016-06-21 13:18:29.681557000 Z
+  instrument_id: 11
+CodeList_200:
+  id: 824
+  label: cs_qF20
+  created_at: 2016-06-21 13:18:29.704559000 Z
+  updated_at: 2016-06-21 13:18:29.704559000 Z
+  instrument_id: 11
+CodeList_201:
+  id: 825
+  label: 'Your bedroom:'
+  created_at: 2016-06-21 13:18:29.742563000 Z
+  updated_at: 2016-06-21 13:18:29.742563000 Z
+  instrument_id: 11
+CodeList_202:
+  id: 826
+  label: cs_qF22_a
+  created_at: 2016-06-21 13:18:29.764565000 Z
+  updated_at: 2016-06-21 13:18:29.764565000 Z
+  instrument_id: 11
+CodeList_203:
+  id: 827
+  label: cs_qF22_b
+  created_at: 2016-06-21 13:18:29.797568000 Z
+  updated_at: 2016-06-21 13:18:29.797568000 Z
+  instrument_id: 11
+CodeList_204:
+  id: 828
+  label: cs_qF23
+  created_at: 2016-06-21 13:18:29.828571000 Z
+  updated_at: 2016-06-21 13:18:29.828571000 Z
+  instrument_id: 11
+CodeList_205:
+  id: 829
+  label: cs_qF23_Y
+  created_at: 2016-06-21 13:18:29.851574000 Z
+  updated_at: 2016-06-21 13:18:29.851574000 Z
+  instrument_id: 11
+CodeList_206:
+  id: 830
+  label: 'Your living room:'
+  created_at: 2016-06-21 13:18:29.929582000 Z
+  updated_at: 2016-06-21 13:18:29.929582000 Z
+  instrument_id: 11
+CodeList_207:
+  id: 831
+  label: 'The room the study child sleeps in:'
+  created_at: 2016-06-21 13:18:29.954584000 Z
+  updated_at: 2016-06-21 13:18:29.954584000 Z
+  instrument_id: 11
+CodeList_208:
+  id: 832
+  label: 'Any other rooms:'
+  created_at: 2016-06-21 13:18:29.974586000 Z
+  updated_at: 2016-06-21 13:18:29.974586000 Z
+  instrument_id: 11
+CodeList_209:
+  id: 833
+  label: cs_F21_d_X
+  created_at: 2016-06-21 13:18:29.995588000 Z
+  updated_at: 2016-06-21 13:18:29.995588000 Z
+  instrument_id: 11
+CodeList_210:
+  id: 834
+  label: cs_qG3_a
+  created_at: 2016-06-21 13:18:30.007589000 Z
+  updated_at: 2016-06-21 13:18:30.007589000 Z
+  instrument_id: 11
+CodeList_211:
+  id: 835
+  label: cs_qG4_a
+  created_at: 2016-06-21 13:18:30.050594000 Z
+  updated_at: 2016-06-21 13:18:30.050594000 Z
+  instrument_id: 11
+CodeList_212:
+  id: 836
+  label: cs_qG4_b_ii
+  created_at: 2016-06-21 13:18:30.074596000 Z
+  updated_at: 2016-06-21 13:18:30.074596000 Z
+  instrument_id: 11
+CodeList_213:
+  id: 837
+  label: cs_qG4_b_iii
+  created_at: 2016-06-21 13:18:30.112600000 Z
+  updated_at: 2016-06-21 13:18:30.112600000 Z
+  instrument_id: 11
+CodeList_214:
+  id: 838
+  label: cs_No_Yes
+  created_at: 2016-06-21 13:18:30.150604000 Z
+  updated_at: 2016-06-21 13:18:30.150604000 Z
+  instrument_id: 11
+CodeList_215:
+  id: 839
+  label: cs_qG4_c_ii
+  created_at: 2016-06-21 13:18:30.170606000 Z
+  updated_at: 2016-06-21 13:18:30.170606000 Z
+  instrument_id: 11
+CodeList_216:
+  id: 840
+  label: cs_qG4_c_iii
+  created_at: 2016-06-21 13:18:30.204609000 Z
+  updated_at: 2016-06-21 13:18:30.204609000 Z
+  instrument_id: 11
+CodeList_217:
+  id: 841
+  label: cs_qG5_a-c_Y
+  created_at: 2016-06-21 13:18:30.246613000 Z
+  updated_at: 2016-06-21 13:18:30.246613000 Z
+  instrument_id: 11
+CodeList_218:
+  id: 842
+  label: cs_qG6_a-c_Y
+  created_at: 2016-06-21 13:18:30.276616000 Z
+  updated_at: 2016-06-21 13:18:30.276616000 Z
+  instrument_id: 11
+CodeList_219:
+  id: 843
+  label: cs_qG5_a-c_X
+  created_at: 2016-06-21 13:18:30.293618000 Z
+  updated_at: 2016-06-21 13:18:30.293618000 Z
+  instrument_id: 11
+CodeList_220:
+  id: 844
+  label: cs_qG6_a-c_X
+  created_at: 2016-06-21 13:18:30.301619000 Z
+  updated_at: 2016-06-21 13:18:30.301619000 Z
+  instrument_id: 11
+CodeList_221:
+  id: 845
+  label: cs_qG7_i_X
+  created_at: 2016-06-21 13:18:30.320621000 Z
+  updated_at: 2016-06-21 13:18:30.320621000 Z
+  instrument_id: 11
+CodeList_222:
+  id: 846
+  label: cs_qG7_i_Y
+  created_at: 2016-06-21 13:18:30.333622000 Z
+  updated_at: 2016-06-21 13:18:30.333622000 Z
+  instrument_id: 11
+CodeList_223:
+  id: 847
+  label: cs_Sa_A_D_Sd
+  created_at: 2016-06-21 13:18:30.365625000 Z
+  updated_at: 2016-06-21 13:18:30.365625000 Z
+  instrument_id: 11
+CodeList_224:
+  id: 848
+  label: cs_qG9_c
+  created_at: 2016-06-21 13:18:30.386627000 Z
+  updated_at: 2016-06-21 13:18:30.386627000 Z
+  instrument_id: 11
+CodeList_225:
+  id: 849
+  label: cs_N_O_S_O_A
+  created_at: 2016-06-21 13:18:30.402629000 Z
+  updated_at: 2016-06-21 13:18:30.402629000 Z
+  instrument_id: 11
+CodeList_226:
+  id: 850
+  label: cs_qG10_a-h
+  created_at: 2016-06-21 13:18:30.427631000 Z
+  updated_at: 2016-06-21 13:18:30.427631000 Z
+  instrument_id: 11
+CodeList_227:
+  id: 851
+  label: cs_qG10_a-h_Y
+  created_at: 2016-06-21 13:18:30.444633000 Z
+  updated_at: 2016-06-21 13:18:30.444633000 Z
+  instrument_id: 11
+CodeList_228:
+  id: 852
+  label: cs_qG11_a
+  created_at: 2016-06-21 13:18:30.486637000 Z
+  updated_at: 2016-06-21 13:18:30.486637000 Z
+  instrument_id: 11
+CodeList_229:
+  id: 853
+  label: cs_qG11_b
+  created_at: 2016-06-21 13:18:30.545643000 Z
+  updated_at: 2016-06-21 13:18:30.545643000 Z
+  instrument_id: 11
+CodeList_230:
+  id: 854
+  label: cs_qG11_c
+  created_at: 2016-06-21 13:18:30.587647000 Z
+  updated_at: 2016-06-21 13:18:30.587647000 Z
+  instrument_id: 11
+CodeList_231:
+  id: 855
+  label: cs_qG11_d
+  created_at: 2016-06-21 13:18:30.654654000 Z
+  updated_at: 2016-06-21 13:18:30.654654000 Z
+  instrument_id: 11
+CodeList_232:
+  id: 856
+  label: cs_qH1_a
+  created_at: 2016-06-21 13:18:30.733662000 Z
+  updated_at: 2016-06-21 13:18:30.733662000 Z
+  instrument_id: 11
+CodeList_233:
+  id: 857
+  label: cs_qH2
+  created_at: 2016-06-21 13:18:30.752664000 Z
+  updated_at: 2016-06-21 13:18:30.752664000 Z
+  instrument_id: 11
+CodeList_234:
+  id: 858
+  label: cs_qH3_a-u
+  created_at: 2016-06-21 13:18:30.774666000 Z
+  updated_at: 2016-06-21 13:18:30.774666000 Z
+  instrument_id: 11
+CodeList_235:
+  id: 859
+  label: 'Partner had:'
+  created_at: 2016-06-21 13:18:30.795668000 Z
+  updated_at: 2016-06-21 13:18:30.795668000 Z
+  instrument_id: 11
+CodeList_236:
+  id: 860
+  label: cs_qH4
+  created_at: 2016-06-21 13:18:30.909680000 Z
+  updated_at: 2016-06-21 13:18:30.909680000 Z
+  instrument_id: 11
+CodeList_237:
+  id: 861
+  label: cs_qH4_Y
+  created_at: 2016-06-21 13:18:30.927681000 Z
+  updated_at: 2016-06-21 13:18:30.927681000 Z
+  instrument_id: 11
+CodeList_238:
+  id: 862
+  label: cs_qH6_d
+  created_at: 2016-06-21 13:18:30.981687000 Z
+  updated_at: 2016-06-21 13:18:30.981687000 Z
+  instrument_id: 11
+CodeList_239:
+  id: 863
+  label: cs_qH6_e
+  created_at: 2016-06-21 13:18:31.009690000 Z
+  updated_at: 2016-06-21 13:18:31.009690000 Z
+  instrument_id: 11
+CodeList_240:
+  id: 864
+  label: cs_Aa_S_He_N
+  created_at: 2016-06-21 13:18:31.026691000 Z
+  updated_at: 2016-06-21 13:18:31.026691000 Z
+  instrument_id: 11
+CodeList_241:
+  id: 865
+  label: cs_Ma_Mm_Smsmp_Pm_Pa_About_Se
+  created_at: 2016-06-21 13:18:31.054694000 Z
+  updated_at: 2016-06-21 13:18:31.054694000 Z
+  instrument_id: 11
+CodeList_242:
+  id: 866
+  label: cs_qH10
+  created_at: 2016-06-21 13:18:31.102699000 Z
+  updated_at: 2016-06-21 13:18:31.102699000 Z
+  instrument_id: 11
+CodeList_243:
+  id: 867
+  label: cs_qH10_Y
+  created_at: 2016-06-21 13:18:31.125701000 Z
+  updated_at: 2016-06-21 13:18:31.125701000 Z
+  instrument_id: 11
+CodeList_244:
+  id: 868
+  label: cs_naa_ltoaw_1-2taw_3-6taw_ed
+  created_at: 2016-06-21 13:18:31.172706000 Z
+  updated_at: 2016-06-21 13:18:31.172706000 Z
+  instrument_id: 11
+CodeList_245:
+  id: 869
+  label: cs_qH12_a
+  created_at: 2016-06-21 13:18:31.330722000 Z
+  updated_at: 2016-06-21 13:18:31.330722000 Z
+  instrument_id: 11
+CodeList_246:
+  id: 870
+  label: cs_qH12_b
+  created_at: 2016-06-21 13:18:31.412730000 Z
+  updated_at: 2016-06-21 13:18:31.412730000 Z
+  instrument_id: 11
+CodeList_247:
+  id: 871
+  label: cs_qH12_b_Y
+  created_at: 2016-06-21 13:18:31.435732000 Z
+  updated_at: 2016-06-21 13:18:31.435732000 Z
+  instrument_id: 11
+CodeList_248:
+  id: 872
+  label: cs_qH13
+  created_at: 2016-06-21 13:18:31.460735000 Z
+  updated_at: 2016-06-21 13:18:31.460735000 Z
+  instrument_id: 11
+CodeList_249:
+  id: 873
+  label: cs_qH13_Y
+  created_at: 2016-06-21 13:18:31.482737000 Z
+  updated_at: 2016-06-21 13:18:31.482737000 Z
+  instrument_id: 11
+CodeList_250:
+  id: 874
+  label: cs_qH14
+  created_at: 2016-06-21 13:18:31.512740000 Z
+  updated_at: 2016-06-21 13:18:31.512740000 Z
+  instrument_id: 11
+CodeList_251:
+  id: 875
+  label: cs_qH15
+  created_at: 2016-06-21 13:18:31.543743000 Z
+  updated_at: 2016-06-21 13:18:31.543743000 Z
+  instrument_id: 11
+CodeList_252:
+  id: 876
+  label: cs_qH15_Y
+  created_at: 2016-06-21 13:18:31.565745000 Z
+  updated_at: 2016-06-21 13:18:31.565745000 Z
+  instrument_id: 11
+CodeList_253:
+  id: 877
+  label: cs_qH16_a
+  created_at: 2016-06-21 13:18:31.605749000 Z
+  updated_at: 2016-06-21 13:18:31.605749000 Z
+  instrument_id: 11
+CodeList_254:
+  id: 878
+  label: cs_qH16_b
+  created_at: 2016-06-21 13:18:31.640753000 Z
+  updated_at: 2016-06-21 13:18:31.640753000 Z
+  instrument_id: 11
+CodeList_255:
+  id: 879
+  label: cs_qH17
+  created_at: 2016-06-21 13:18:31.679757000 Z
+  updated_at: 2016-06-21 13:18:31.679757000 Z
+  instrument_id: 11
+CodeList_256:
+  id: 880
+  label: 'My partner:'
+  created_at: 2016-06-21 13:18:31.702759000 Z
+  updated_at: 2016-06-21 13:18:31.702759000 Z
+  instrument_id: 11
+CodeList_257:
+  id: 881
+  label: cs_qI1_X
+  created_at: 2016-06-21 13:18:31.950784000 Z
+  updated_at: 2016-06-21 13:18:31.950784000 Z
+  instrument_id: 11
+CodeList_258:
+  id: 882
+  label: cs_qI1_Y
+  created_at: 2016-06-21 13:18:31.964785000 Z
+  updated_at: 2016-06-21 13:18:31.964785000 Z
+  instrument_id: 11
+CodeList_259:
+  id: 883
+  label: cs_qI2_a
+  created_at: 2016-06-21 13:18:32.002789000 Z
+  updated_at: 2016-06-21 13:18:32.002789000 Z
+  instrument_id: 11
+CodeList_260:
+  id: 884
+  label: cs_qJ1
+  created_at: 2016-06-21 13:18:32.019791000 Z
+  updated_at: 2016-06-21 13:18:32.019791000 Z
+  instrument_id: 11
+CodeList_261:
+  id: 885
+  label: cs_qJ3_a
+  created_at: 2016-06-21 13:18:32.041793000 Z
+  updated_at: 2016-06-21 13:18:32.041793000 Z
+  instrument_id: 11
+CodeList_262:
+  id: 886
+  label: cs_qJ3_d
+  created_at: 2016-06-21 13:18:32.057794000 Z
+  updated_at: 2016-06-21 13:18:32.057794000 Z
+  instrument_id: 11
+CodeList_263:
+  id: 887
+  label: cs_qJ3_e
+  created_at: 2016-06-21 13:18:32.081797000 Z
+  updated_at: 2016-06-21 13:18:32.081797000 Z
+  instrument_id: 11
+CodeList_264:
+  id: 888
+  label: cs_qJ5
+  created_at: 2016-06-21 13:18:32.103799000 Z
+  updated_at: 2016-06-21 13:18:32.103799000 Z
+  instrument_id: 11
+CodeList_265:
+  id: 889
+  label: cs_qJ6
+  created_at: 2016-06-21 13:18:32.126801000 Z
+  updated_at: 2016-06-21 13:18:32.126801000 Z
+  instrument_id: 11
+CodeList_266:
+  id: 890
+  label: cs_qJ7
+  created_at: 2016-06-21 13:18:32.144803000 Z
+  updated_at: 2016-06-21 13:18:32.144803000 Z
+  instrument_id: 11
+CodeList_267:
+  id: 891
+  label: cs_qJ8_a
+  created_at: 2016-06-21 13:18:32.167805000 Z
+  updated_at: 2016-06-21 13:18:32.167805000 Z
+  instrument_id: 11
+CodeList_268:
+  id: 892
+  label: cs_qJ8_a_i-iv_Y
+  created_at: 2016-06-21 13:18:32.179807000 Z
+  updated_at: 2016-06-21 13:18:32.179807000 Z
+  instrument_id: 11
+CodeList_269:
+  id: 893
+  label: cs_qJ8_b
+  created_at: 2016-06-21 13:18:32.202809000 Z
+  updated_at: 2016-06-21 13:18:32.202809000 Z
+  instrument_id: 11
+CodeList_270:
+  id: 894
+  label: cs_qJ9
+  created_at: 2016-06-21 13:18:32.224811000 Z
+  updated_at: 2016-06-21 13:18:32.224811000 Z
+  instrument_id: 11
+CodeList_271:
+  id: 895
+  label: cs_qJ10
+  created_at: 2016-06-21 13:18:32.244813000 Z
+  updated_at: 2016-06-21 13:18:32.244813000 Z
+  instrument_id: 11
+CodeList_272:
+  id: 896
+  label: cs_qJ13
+  created_at: 2016-06-21 13:18:32.260815000 Z
+  updated_at: 2016-06-21 13:18:32.260815000 Z
+  instrument_id: 11
+CodeList_273:
+  id: 897
+  label: cs_qJ9_a-b_Y
+  created_at: 2016-06-21 13:18:32.308819000 Z
+  updated_at: 2016-06-21 13:18:32.308819000 Z
+  instrument_id: 11
+CodeList_274:
+  id: 898
+  label: cs_qJ14_a
+  created_at: 2016-06-21 13:18:32.322821000 Z
+  updated_at: 2016-06-21 13:18:32.322821000 Z
+  instrument_id: 11
+CodeList_275:
+  id: 899
+  label: cs_qJ14_b
+  created_at: 2016-06-21 13:18:32.367825000 Z
+  updated_at: 2016-06-21 13:18:32.367825000 Z
+  instrument_id: 11
+CodeList_276:
+  id: 900
+  label: cs_Vd_Fd_Sd_Nd
+  created_at: 2016-06-21 13:18:32.401829000 Z
+  updated_at: 2016-06-21 13:18:32.401829000 Z
+  instrument_id: 11
+CodeList_277:
+  id: 901
+  label: cs_Vd_Fd_Sd_Nd_PdbSS
+  created_at: 2016-06-21 13:18:32.435832000 Z
+  updated_at: 2016-06-21 13:18:32.435832000 Z
+  instrument_id: 11
+CodeList_278:
+  id: 902
+  label: cs_qJ16
+  created_at: 2016-06-21 13:18:32.459835000 Z
+  updated_at: 2016-06-21 13:18:32.459835000 Z
+  instrument_id: 11
+CodeList_279:
+  id: 903
+  label: cs_qJ17
+  created_at: 2016-06-21 13:18:32.477836000 Z
+  updated_at: 2016-06-21 13:18:32.477836000 Z
+  instrument_id: 11
+CodeList_280:
+  id: 904
+  label: cs_qJ18
+  created_at: 2016-06-21 13:18:32.529842000 Z
+  updated_at: 2016-06-21 13:18:32.529842000 Z
+  instrument_id: 11
+CodeList_281:
+  id: 905
+  label: cs_qJ18_Y
+  created_at: 2016-06-21 13:18:32.553844000 Z
+  updated_at: 2016-06-21 13:18:32.553844000 Z
+  instrument_id: 11
+CodeList_282:
+  id: 906
+  label: cs_Nn_R_S_O_A
+  created_at: 2016-06-21 13:18:32.609850000 Z
+  updated_at: 2016-06-21 13:18:32.609850000 Z
+  instrument_id: 11
+CodeList_283:
+  id: 907
+  label: cs_qK2
+  created_at: 2016-06-21 13:18:32.636852000 Z
+  updated_at: 2016-06-21 13:18:32.636852000 Z
+  instrument_id: 11
+CodeList_284:
+  id: 908
+  label: cs_qK3
+  created_at: 2016-06-21 13:18:32.657854000 Z
+  updated_at: 2016-06-21 13:18:32.657854000 Z
+  instrument_id: 11
+CodeList_285:
+  id: 909
+  label: cs_qL0
+  created_at: 2016-06-21 13:18:32.678856000 Z
+  updated_at: 2016-06-21 13:18:32.678856000 Z
+  instrument_id: 11
+CodeList_286:
+  id: 910
+  label: cs_qL1
+  created_at: 2016-06-21 13:18:32.703859000 Z
+  updated_at: 2016-06-21 13:18:32.703859000 Z
+  instrument_id: 11
+CodeList_287:
+  id: 911
+  label: cs_qL2_b
+  created_at: 2016-06-21 13:18:32.722861000 Z
+  updated_at: 2016-06-21 13:18:32.722861000 Z
+  instrument_id: 11
+CodeList_288:
+  id: 912
+  label: cs_qL3
+  created_at: 2016-06-21 13:18:32.743863000 Z
+  updated_at: 2016-06-21 13:18:32.743863000 Z
+  instrument_id: 11
+CodeList_289:
+  id: 913
+  label: cs_qL4_a_X
+  created_at: 2016-06-21 13:18:32.762865000 Z
+  updated_at: 2016-06-21 13:18:32.762865000 Z
+  instrument_id: 11
+CodeList_290:
+  id: 914
+  label: ULTRASOUND
+  created_at: 2016-06-21 13:18:32.788867000 Z
+  updated_at: 2016-06-21 13:18:32.788867000 Z
+  instrument_id: 11
+CodeList_291:
+  id: 915
+  label: cs_qM1
+  created_at: 2016-06-21 13:18:32.880877000 Z
+  updated_at: 2016-06-21 13:18:32.880877000 Z
+  instrument_id: 11
+CodeList_292:
+  id: 916
+  label: cs_qM1_Y
+  created_at: 2016-06-21 13:18:32.905879000 Z
+  updated_at: 2016-06-21 13:18:32.905879000 Z
+  instrument_id: 11
+CodeList_293:
+  id: 917
+  label: 'Please list:'
+  created_at: 2016-06-21 13:18:33.008889000 Z
+  updated_at: 2016-06-21 13:18:33.008889000 Z
+  instrument_id: 11
+CodeList_294:
+  id: 918
+  label: cs_qM3_Y
+  created_at: 2016-06-21 13:18:33.022891000 Z
+  updated_at: 2016-06-21 13:18:33.022891000 Z
+  instrument_id: 11
+CodeList_295:
+  id: 919
+  label: cs_att_mt5h_35h_12h_lt1h_nat
+  created_at: 2016-06-21 13:18:33.046893000 Z
+  updated_at: 2016-06-21 13:18:33.046893000 Z
+  instrument_id: 11
+CodeList_296:
+  id: 920
+  label: cs_qN1
+  created_at: 2016-06-21 13:18:33.078896000 Z
+  updated_at: 2016-06-21 13:18:33.078896000 Z
+  instrument_id: 11
+CodeList_297:
+  id: 921
+  label: cs_qN1_Y
+  created_at: 2016-06-21 13:18:33.099899000 Z
+  updated_at: 2016-06-21 13:18:33.099899000 Z
+  instrument_id: 11
+CodeList_298:
+  id: 922
+  label: cs_qN3
+  created_at: 2016-06-21 13:18:33.163905000 Z
+  updated_at: 2016-06-21 13:18:33.163905000 Z
+  instrument_id: 11
+CodeList_299:
+  id: 923
+  label: cs_qN3_Y
+  created_at: 2016-06-21 13:18:33.191908000 Z
+  updated_at: 2016-06-21 13:18:33.191908000 Z
+  instrument_id: 11
+CodeList_300:
+  id: 924
+  label: cs_qN4
+  created_at: 2016-06-21 13:18:33.209910000 Z
+  updated_at: 2016-06-21 13:18:33.209910000 Z
+  instrument_id: 11
+CodeList_301:
+  id: 925
+  label: cs_qN7
+  created_at: 2016-06-21 13:18:33.245913000 Z
+  updated_at: 2016-06-21 13:18:33.245913000 Z
+  instrument_id: 11
+CodeList_302:
+  id: 926
+  label: cs_N5_Y
+  created_at: 2016-06-21 13:18:33.265915000 Z
+  updated_at: 2016-06-21 13:18:33.265915000 Z
+  instrument_id: 11
+CodeList_303:
+  id: 927
+  label: cs_qN9_X
+  created_at: 2016-06-21 13:18:33.289918000 Z
+  updated_at: 2016-06-21 13:18:33.289918000 Z
+  instrument_id: 11
+CodeList_304:
+  id: 928
+  label: cs_qN9_a-e_Y
+  created_at: 2016-06-21 13:18:33.301919000 Z
+  updated_at: 2016-06-21 13:18:33.301919000 Z
+  instrument_id: 11
+CodeList_305:
+  id: 929
+  label: cs_qN10_b
+  created_at: 2016-06-21 13:18:33.326921000 Z
+  updated_at: 2016-06-21 13:18:33.326921000 Z
+  instrument_id: 11
+CodeList_306:
+  id: 930
+  label: cs_qN11
+  created_at: 2016-06-21 13:18:33.363925000 Z
+  updated_at: 2016-06-21 13:18:33.363925000 Z
+  instrument_id: 11
+CodeList_307:
+  id: 931
+  label: cs_qN12
+  created_at: 2016-06-21 13:18:33.385927000 Z
+  updated_at: 2016-06-21 13:18:33.385927000 Z
+  instrument_id: 11
+CodeList_308:
+  id: 932
+  label: cs_qN14_Y
+  created_at: 2016-06-21 13:18:33.409930000 Z
+  updated_at: 2016-06-21 13:18:33.409930000 Z
+  instrument_id: 11
+CodeList_309:
+  id: 933
+  label: cs_qN16
+  created_at: 2016-06-21 13:18:33.511940000 Z
+  updated_at: 2016-06-21 13:18:33.511940000 Z
+  instrument_id: 11
+CodeList_310:
+  id: 934
+  label: cs_qN18_Y
+  created_at: 2016-06-21 13:18:33.580947000 Z
+  updated_at: 2016-06-21 13:18:33.580947000 Z
+  instrument_id: 11
+CodeList_311:
+  id: 935
+  label: cs_qN19_a-g_Y
+  created_at: 2016-06-21 13:18:33.630952000 Z
+  updated_at: 2016-06-21 13:18:33.630952000 Z
+  instrument_id: 11
+CodeList_312:
+  id: 936
+  label: cs_qN20
+  created_at: 2016-06-21 13:18:33.705959000 Z
+  updated_at: 2016-06-21 13:18:33.705959000 Z
+  instrument_id: 11
+CodeList_313:
+  id: 937
+  label: cs_qN20_Y
+  created_at: 2016-06-21 13:18:33.728961000 Z
+  updated_at: 2016-06-21 13:18:33.728961000 Z
+  instrument_id: 11
+CodeList_314:
+  id: 938
+  label: cs_qF6_X
+  created_at: 2016-06-21 13:18:33.766965000 Z
+  updated_at: 2016-06-21 13:18:33.766965000 Z
+  instrument_id: 11
+CodeList_315:
+  id: 939
+  label: cs_qL2_a
+  created_at: 2016-06-21 13:18:33.805969000 Z
+  updated_at: 2016-06-21 13:18:33.805969000 Z
+  instrument_id: 11
+CodeList_316:
+  id: 940
+  label: cs_qA1
+  created_at: 2016-07-01 11:34:29.072913000 Z
+  updated_at: 2016-07-01 11:34:29.072913000 Z
+  instrument_id: 12
+CodeList_317:
+  id: 941
+  label: cs_qA3
+  created_at: 2016-07-01 11:34:29.363913000 Z
+  updated_at: 2016-07-01 11:34:29.363913000 Z
+  instrument_id: 12
+CodeList_318:
+  id: 942
+  label: cs_qA4
+  created_at: 2016-07-01 11:34:29.400913000 Z
+  updated_at: 2016-07-01 11:34:29.400913000 Z
+  instrument_id: 12
+CodeList_319:
+  id: 943
+  label: cs_qA5
+  created_at: 2016-07-01 11:34:29.427913000 Z
+  updated_at: 2016-07-01 11:34:29.427913000 Z
+  instrument_id: 12
+CodeList_320:
+  id: 944
+  label: cs_qA6
+  created_at: 2016-07-01 11:34:29.463913000 Z
+  updated_at: 2016-07-01 11:34:29.463913000 Z
+  instrument_id: 12
+CodeList_321:
+  id: 945
+  label: cs_Vw_W_Ar_C_Vc
+  created_at: 2016-07-01 11:34:29.484913000 Z
+  updated_at: 2016-07-01 11:34:29.484913000 Z
+  instrument_id: 12
+CodeList_322:
+  id: 946
+  label: cs_Yes_No
+  created_at: 2016-07-01 11:34:29.511913000 Z
+  updated_at: 2016-07-01 11:34:29.511913000 Z
+  instrument_id: 12
+CodeList_323:
+  id: 947
+  label: cs_qA10
+  created_at: 2016-07-01 11:34:29.526913000 Z
+  updated_at: 2016-07-01 11:34:29.526913000 Z
+  instrument_id: 12
+CodeList_324:
+  id: 948
+  label: cs_qA10_Y
+  created_at: 2016-07-01 11:34:29.551913000 Z
+  updated_at: 2016-07-01 11:34:29.551913000 Z
+  instrument_id: 12
+CodeList_325:
+  id: 949
+  label: cs_qA11_a
+  created_at: 2016-07-01 11:34:29.586913000 Z
+  updated_at: 2016-07-01 11:34:29.586913000 Z
+  instrument_id: 12
+CodeList_326:
+  id: 950
+  label: cs_qA11_b_Y
+  created_at: 2016-07-01 11:34:29.612913000 Z
+  updated_at: 2016-07-01 11:34:29.612913000 Z
+  instrument_id: 12
+CodeList_327:
+  id: 951
+  label: cs_qA11_b
+  created_at: 2016-07-01 11:34:29.636913000 Z
+  updated_at: 2016-07-01 11:34:29.636913000 Z
+  instrument_id: 12
+CodeList_328:
+  id: 952
+  label: cs_qA12
+  created_at: 2016-07-01 11:34:29.657913000 Z
+  updated_at: 2016-07-01 11:34:29.657913000 Z
+  instrument_id: 12
+CodeList_329:
+  id: 953
+  label: cs_qA12_Y
+  created_at: 2016-07-01 11:34:29.678913000 Z
+  updated_at: 2016-07-01 11:34:29.678913000 Z
+  instrument_id: 12
+CodeList_330:
+  id: 954
+  label: cs_qA13_b
+  created_at: 2016-07-01 11:34:29.707913000 Z
+  updated_at: 2016-07-01 11:34:29.707913000 Z
+  instrument_id: 12
+CodeList_331:
+  id: 955
+  label: cs_qA14_b
+  created_at: 2016-07-01 11:34:29.738913000 Z
+  updated_at: 2016-07-01 11:34:29.738913000 Z
+  instrument_id: 12
+CodeList_332:
+  id: 956
+  label: cs_Waao_Woowwig_Woo_Wano
+  created_at: 2016-07-01 11:34:29.949913000 Z
+  updated_at: 2016-07-01 11:34:29.949913000 Z
+  instrument_id: 12
+CodeList_333:
+  id: 957
+  label: cs_qA15_c
+  created_at: 2016-07-01 11:34:30.066913000 Z
+  updated_at: 2016-07-01 11:34:30.066913000 Z
+  instrument_id: 12
+CodeList_334:
+  id: 958
+  label: cs_qA15_d
+  created_at: 2016-07-01 11:34:30.097913000 Z
+  updated_at: 2016-07-01 11:34:30.097913000 Z
+  instrument_id: 12
+CodeList_335:
+  id: 959
+  label: cs_qA17_Y
+  created_at: 2016-07-01 11:34:30.120913000 Z
+  updated_at: 2016-07-01 11:34:30.120913000 Z
+  instrument_id: 12
+CodeList_336:
+  id: 960
+  label: cs_qA17
+  created_at: 2016-07-01 11:34:30.156913000 Z
+  updated_at: 2016-07-01 11:34:30.156913000 Z
+  instrument_id: 12
+CodeList_337:
+  id: 961
+  label: cs_qA18_b
+  created_at: 2016-07-01 11:34:30.171913000 Z
+  updated_at: 2016-07-01 11:34:30.171913000 Z
+  instrument_id: 12
+CodeList_338:
+  id: 962
+  label: cs_qA18_c
+  created_at: 2016-07-01 11:34:30.193913000 Z
+  updated_at: 2016-07-01 11:34:30.193913000 Z
+  instrument_id: 12
+CodeList_339:
+  id: 963
+  label: cs_qA18_d_Y
+  created_at: 2016-07-01 11:34:30.214913000 Z
+  updated_at: 2016-07-01 11:34:30.214913000 Z
+  instrument_id: 12
+CodeList_340:
+  id: 964
+  label: cs_qA18_d
+  created_at: 2016-07-01 11:34:30.252913000 Z
+  updated_at: 2016-07-01 11:34:30.252913000 Z
+  instrument_id: 12
+CodeList_341:
+  id: 965
+  label: cs_qA19_a
+  created_at: 2016-07-01 11:34:30.287913000 Z
+  updated_at: 2016-07-01 11:34:30.287913000 Z
+  instrument_id: 12
+CodeList_342:
+  id: 966
+  label: cs_qA19_b
+  created_at: 2016-07-01 11:34:30.310913000 Z
+  updated_at: 2016-07-01 11:34:30.310913000 Z
+  instrument_id: 12
+CodeList_343:
+  id: 967
+  label: cs_qA20
+  created_at: 2016-07-01 11:34:30.333913000 Z
+  updated_at: 2016-07-01 11:34:30.333913000 Z
+  instrument_id: 12
+CodeList_344:
+  id: 968
+  label: cs_qA21_Y
+  created_at: 2016-07-01 11:34:30.354913000 Z
+  updated_at: 2016-07-01 11:34:30.354913000 Z
+  instrument_id: 12
+CodeList_345:
+  id: 969
+  label: cs_Y_N_Dk
+  created_at: 2016-07-01 11:34:30.437913000 Z
+  updated_at: 2016-07-01 11:34:30.437913000 Z
+  instrument_id: 12
+CodeList_346:
+  id: 970
+  label: cs_qB1
+  created_at: 2016-07-01 11:34:30.455913000 Z
+  updated_at: 2016-07-01 11:34:30.455913000 Z
+  instrument_id: 12
+CodeList_347:
+  id: 971
+  label: cs_qB1_Y
+  created_at: 2016-07-01 11:34:30.482913000 Z
+  updated_at: 2016-07-01 11:34:30.482913000 Z
+  instrument_id: 12
+CodeList_348:
+  id: 972
+  label: cs_qB2
+  created_at: 2016-07-01 11:34:30.558913000 Z
+  updated_at: 2016-07-01 11:34:30.558913000 Z
+  instrument_id: 12
+CodeList_349:
+  id: 973
+  label: 'Medicines, pills or ointments for:'
+  created_at: 2016-07-01 11:34:30.574913000 Z
+  updated_at: 2016-07-01 11:34:30.574913000 Z
+  instrument_id: 12
+CodeList_350:
+  id: 974
+  label: cs_qB5_a_Y
+  created_at: 2016-07-01 11:34:30.646913000 Z
+  updated_at: 2016-07-01 11:34:30.646913000 Z
+  instrument_id: 12
+CodeList_351:
+  id: 975
+  label: cs_qB5_a
+  created_at: 2016-07-01 11:34:30.674913000 Z
+  updated_at: 2016-07-01 11:34:30.674913000 Z
+  instrument_id: 12
+CodeList_352:
+  id: 976
+  label: cs_qB5_b_X
+  created_at: 2016-07-01 11:34:30.699913000 Z
+  updated_at: 2016-07-01 11:34:30.699913000 Z
+  instrument_id: 12
+CodeList_353:
+  id: 977
+  label: cs_qB5_b_Y
+  created_at: 2016-07-01 11:34:30.717913000 Z
+  updated_at: 2016-07-01 11:34:30.717913000 Z
+  instrument_id: 12
+CodeList_354:
+  id: 978
+  label: cs_dash
+  created_at: 2016-07-01 11:34:30.797913000 Z
+  updated_at: 2016-07-01 11:34:30.797913000 Z
+  instrument_id: 12
+CodeList_355:
+  id: 979
+  label: cs_qA11_c
+  created_at: 2016-07-01 11:34:30.805913000 Z
+  updated_at: 2016-07-01 11:34:30.805913000 Z
+  instrument_id: 12
+CodeList_356:
+  id: 980
+  label: cs_qB4_a
+  created_at: 2016-07-01 11:34:30.816913000 Z
+  updated_at: 2016-07-01 11:34:30.816913000 Z
+  instrument_id: 12
+CodeList_357:
+  id: 981
+  label: cs_qC1
+  created_at: 2016-07-01 11:34:30.835913000 Z
+  updated_at: 2016-07-01 11:34:30.835913000 Z
+  instrument_id: 12
+CodeList_358:
+  id: 982
+  label: cs_qC1_Y
+  created_at: 2016-07-01 11:34:30.863913000 Z
+  updated_at: 2016-07-01 11:34:30.863913000 Z
+  instrument_id: 12
+CodeList_359:
+  id: 983
+  label: cs_qC2
+  created_at: 2016-07-01 11:34:30.954913000 Z
+  updated_at: 2016-07-01 11:34:30.954913000 Z
+  instrument_id: 12
+CodeList_360:
+  id: 984
+  label: cs_qC2_Y
+  created_at: 2016-07-01 11:34:30.978913000 Z
+  updated_at: 2016-07-01 11:34:30.978913000 Z
+  instrument_id: 12
+CodeList_361:
+  id: 985
+  label: cs_qC4_b
+  created_at: 2016-07-01 11:34:31.005913000 Z
+  updated_at: 2016-07-01 11:34:31.005913000 Z
+  instrument_id: 12
+CodeList_362:
+  id: 986
+  label: cs_qC5_b
+  created_at: 2016-07-01 11:34:31.021913000 Z
+  updated_at: 2016-07-01 11:34:31.021913000 Z
+  instrument_id: 12
+CodeList_363:
+  id: 987
+  label: cs_qC6_Y
+  created_at: 2016-07-01 11:34:31.054913000 Z
+  updated_at: 2016-07-01 11:34:31.054913000 Z
+  instrument_id: 12
+CodeList_364:
+  id: 988
+  label: cs_qC6
+  created_at: 2016-07-01 11:34:31.086913000 Z
+  updated_at: 2016-07-01 11:34:31.086913000 Z
+  instrument_id: 12
+CodeList_365:
+  id: 989
+  label: cs_qC7_X
+  created_at: 2016-07-01 11:34:31.113913000 Z
+  updated_at: 2016-07-01 11:34:31.113913000 Z
+  instrument_id: 12
+CodeList_366:
+  id: 990
+  label: cs_qC7_Y
+  created_at: 2016-07-01 11:34:31.131913000 Z
+  updated_at: 2016-07-01 11:34:31.131913000 Z
+  instrument_id: 12
+CodeList_367:
+  id: 991
+  label: cs_qC8_Y
+  created_at: 2016-07-01 11:34:31.170913000 Z
+  updated_at: 2016-07-01 11:34:31.170913000 Z
+  instrument_id: 12
+CodeList_368:
+  id: 992
+  label: cs_qC8_X
+  created_at: 2016-07-01 11:34:31.216913000 Z
+  updated_at: 2016-07-01 11:34:31.216913000 Z
+  instrument_id: 12
+CodeList_369:
+  id: 993
+  label: cs_qD1_b_Y
+  created_at: 2016-07-01 11:34:31.237913000 Z
+  updated_at: 2016-07-01 11:34:31.237913000 Z
+  instrument_id: 12
+CodeList_370:
+  id: 994
+  label: cs_qD2_a
+  created_at: 2016-07-01 11:34:31.280913000 Z
+  updated_at: 2016-07-01 11:34:31.280913000 Z
+  instrument_id: 12
+CodeList_371:
+  id: 995
+  label: cs_qD2_b
+  created_at: 2016-07-01 11:34:31.301913000 Z
+  updated_at: 2016-07-01 11:34:31.301913000 Z
+  instrument_id: 12
+CodeList_372:
+  id: 996
+  label: cs_qD3
+  created_at: 2016-07-01 11:34:31.320913000 Z
+  updated_at: 2016-07-01 11:34:31.320913000 Z
+  instrument_id: 12
+CodeList_373:
+  id: 997
+  label: cs_qD4_a
+  created_at: 2016-07-01 11:34:31.350913000 Z
+  updated_at: 2016-07-01 11:34:31.350913000 Z
+  instrument_id: 12
+CodeList_374:
+  id: 998
+  label: cs_qD5_Y
+  created_at: 2016-07-01 11:34:31.379913000 Z
+  updated_at: 2016-07-01 11:34:31.379913000 Z
+  instrument_id: 12
+CodeList_375:
+  id: 999
+  label: cs_qD6_Y
+  created_at: 2016-07-01 11:34:31.396913000 Z
+  updated_at: 2016-07-01 11:34:31.396913000 Z
+  instrument_id: 12
+CodeList_376:
+  id: 1000
+  label: cs_qD5_X
+  created_at: 2016-07-01 11:34:31.412913000 Z
+  updated_at: 2016-07-01 11:34:31.412913000 Z
+  instrument_id: 12
+CodeList_377:
+  id: 1001
+  label: cs_qD8_b
+  created_at: 2016-07-01 11:34:31.420913000 Z
+  updated_at: 2016-07-01 11:34:31.420913000 Z
+  instrument_id: 12
+CodeList_378:
+  id: 1002
+  label: cs_o_p_mf_nh_vu_npf
+  created_at: 2016-07-01 11:34:31.451913000 Z
+  updated_at: 2016-07-01 11:34:31.451913000 Z
+  instrument_id: 12
+CodeList_379:
+  id: 1003
+  label: cs_yagd_yqal_nr_dn_dk
+  created_at: 2016-07-01 11:34:31.485913000 Z
+  updated_at: 2016-07-01 11:34:31.485913000 Z
+  instrument_id: 12
+CodeList_380:
+  id: 1004
+  label: cs_qD12
+  created_at: 2016-07-01 11:34:31.512913000 Z
+  updated_at: 2016-07-01 11:34:31.512913000 Z
+  instrument_id: 12
+CodeList_381:
+  id: 1005
+  label: cs_s_i_r_hnp_opd
+  created_at: 2016-07-01 11:34:31.549913000 Z
+  updated_at: 2016-07-01 11:34:31.549913000 Z
+  instrument_id: 12
+CodeList_382:
+  id: 1006
+  label: cs_qE2_b
+  created_at: 2016-07-01 11:34:31.576913000 Z
+  updated_at: 2016-07-01 11:34:31.576913000 Z
+  instrument_id: 12
+CodeList_383:
+  id: 1007
+  label: cs_qE3_b
+  created_at: 2016-07-01 11:34:31.592913000 Z
+  updated_at: 2016-07-01 11:34:31.592913000 Z
+  instrument_id: 12
+CodeList_384:
+  id: 1008
+  label: cs_qE11_a
+  created_at: 2016-07-01 11:34:31.610913000 Z
+  updated_at: 2016-07-01 11:34:31.610913000 Z
+  instrument_id: 12
+CodeList_385:
+  id: 1009
+  label: cs_qE11_c
+  created_at: 2016-07-01 11:34:31.639913000 Z
+  updated_at: 2016-07-01 11:34:31.639913000 Z
+  instrument_id: 12
+CodeList_386:
+  id: 1010
+  label: cs_qE11_d
+  created_at: 2016-07-01 11:34:31.658913000 Z
+  updated_at: 2016-07-01 11:34:31.658913000 Z
+  instrument_id: 12
+CodeList_387:
+  id: 1011
+  label: cs_Vlm_Mlm_Mum_Vum
+  created_at: 2016-07-01 11:34:31.676913000 Z
+  updated_at: 2016-07-01 11:34:31.676913000 Z
+  instrument_id: 12
+CodeList_388:
+  id: 1012
+  label: cs_30_2529_2024_1519_1014_59_14_0
+  created_at: 2016-07-01 11:34:31.708913000 Z
+  updated_at: 2016-07-01 11:34:31.708913000 Z
+  instrument_id: 12
+CodeList_389:
+  id: 1013
+  label: cs_qG1_f
+  created_at: 2016-07-01 11:34:31.750913000 Z
+  updated_at: 2016-07-01 11:34:31.750913000 Z
+  instrument_id: 12
+CodeList_390:
+  id: 1014
+  label: cs_f_u_ryo_pc
+  created_at: 2016-07-01 11:34:31.779913000 Z
+  updated_at: 2016-07-01 11:34:31.779913000 Z
+  instrument_id: 12
+CodeList_391:
+  id: 1015
+  label: cs_qG3_a
+  created_at: 2016-07-01 11:34:31.799913000 Z
+  updated_at: 2016-07-01 11:34:31.799913000 Z
+  instrument_id: 12
+CodeList_392:
+  id: 1016
+  label: cs_qG3_b
+  created_at: 2016-07-01 11:34:31.830913000 Z
+  updated_at: 2016-07-01 11:34:31.830913000 Z
+  instrument_id: 12
+CodeList_393:
+  id: 1017
+  label: cs_qG5_Y
+  created_at: 2016-07-01 11:34:31.892913000 Z
+  updated_at: 2016-07-01 11:34:31.892913000 Z
+  instrument_id: 12
+CodeList_394:
+  id: 1018
+  label: cs_qG5
+  created_at: 2016-07-01 11:34:31.922913000 Z
+  updated_at: 2016-07-01 11:34:31.922913000 Z
+  instrument_id: 12
+CodeList_395:
+  id: 1019
+  label: cs_qG6
+  created_at: 2016-07-01 11:34:31.960913000 Z
+  updated_at: 2016-07-01 11:34:31.960913000 Z
+  instrument_id: 12
+CodeList_396:
+  id: 1020
+  label: cs_qG7_Y
+  created_at: 2016-07-01 11:34:31.981913000 Z
+  updated_at: 2016-07-01 11:34:31.981913000 Z
+  instrument_id: 12
+CodeList_397:
+  id: 1021
+  label: cs_qG7
+  created_at: 2016-07-01 11:34:31.999913000 Z
+  updated_at: 2016-07-01 11:34:31.999913000 Z
+  instrument_id: 12
+CodeList_398:
+  id: 1022
+  label: cs_qG8
+  created_at: 2016-07-01 11:34:32.025913000 Z
+  updated_at: 2016-07-01 11:34:32.025913000 Z
+  instrument_id: 12
+CodeList_399:
+  id: 1023
+  label: cs_qG9
+  created_at: 2016-07-01 11:34:32.072913000 Z
+  updated_at: 2016-07-01 11:34:32.072913000 Z
+  instrument_id: 12
+CodeList_400:
+  id: 1024
+  label: cs_qG10
+  created_at: 2016-07-01 11:34:32.103913000 Z
+  updated_at: 2016-07-01 11:34:32.103913000 Z
+  instrument_id: 12
+CodeList_401:
+  id: 1025
+  label: At present
+  created_at: 2016-07-01 11:34:32.159913000 Z
+  updated_at: 2016-07-01 11:34:32.159913000 Z
+  instrument_id: 12
+CodeList_402:
+  id: 1026
+  label: cs_qG11_Y
+  created_at: 2016-07-01 11:34:32.180913000 Z
+  updated_at: 2016-07-01 11:34:32.180913000 Z
+  instrument_id: 12
+CodeList_403:
+  id: 1027
+  label: cs_qH1_a
+  created_at: 2016-07-01 11:34:32.253913000 Z
+  updated_at: 2016-07-01 11:34:32.253913000 Z
+  instrument_id: 12
+CodeList_404:
+  id: 1028
+  label: cs_Nn_R_S_O_A
+  created_at: 2016-07-01 11:34:32.279913000 Z
+  updated_at: 2016-07-01 11:34:32.279913000 Z
+  instrument_id: 12
+CodeList_405:
+  id: 1029
+  label: cs_qH2_Y
+  created_at: 2016-07-01 11:34:32.318913000 Z
+  updated_at: 2016-07-01 11:34:32.318913000 Z
+  instrument_id: 12
+CodeList_406:
+  id: 1030
+  label: cs_qH2
+  created_at: 2016-07-01 11:34:32.344913000 Z
+  updated_at: 2016-07-01 11:34:32.344913000 Z
+  instrument_id: 12
+CodeList_407:
+  id: 1031
+  label: cs_qH3
+  created_at: 2016-07-01 11:34:32.382913000 Z
+  updated_at: 2016-07-01 11:34:32.382913000 Z
+  instrument_id: 12
+CodeList_408:
+  id: 1032
+  label: cs_qG3_d
+  created_at: 2016-07-01 11:34:32.398913000 Z
+  updated_at: 2016-07-01 11:34:32.398913000 Z
+  instrument_id: 12
+CodeList_409:
+  id: 1033
+  label: cs_A11_a_ii
+  created_at: 2016-07-01 11:34:32.406913000 Z
+  updated_at: 2016-07-01 11:34:32.406913000 Z
+  instrument_id: 12

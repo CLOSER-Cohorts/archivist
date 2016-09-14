@@ -27,6 +27,12 @@ map.factory(
           Questions:  'Items'
         QuestionGrid:
           Questions:  'Grids'
+        ResponseDomainText:
+          ResponseDomains: 'Texts'
+        ResponseDomainNumeric:
+          ResponseDomains: 'Numerics'
+        ResponseDomainDatetime:
+          ResponseDomains: 'Datetimes'
 
       service.find = (obj, ident)->
 
@@ -35,13 +41,24 @@ map.factory(
 
           if typeof lookup == "object"
             for k,v of lookup
-              output = dig(output[k], v)
+              if lookup.hasOwnProperty k
+                output = dig(output[k], v)
           else
             output = output[lookup]
 
           output
 
         dig(obj, service.map[ident])
+
+      service.translate = (ident)->
+
+        dig = (lookup)->
+          if typeof lookup == "object"
+            return dig(lookup[Object.keys(lookup)[0]])
+          else
+            return lookup
+
+        dig service.map[ident]
 
       service
   ]

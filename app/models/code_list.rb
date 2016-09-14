@@ -6,17 +6,19 @@ class CodeList < ActiveRecord::Base
   has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id'
   has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id'
 
+  include Realtime::RtUpdate
+
   def response_domain
     self.response_domain_code
   end
 
   def response_domain=(be_code_answer)
     if be_code_answer && response_domain.nil?
-      self.response_domain_code = ResponseDomainCode.new
+      self.response_domain_code = ResponseDomainCode.new instrument_id: self.instrument_id
     end
 
     if !(be_code_answer || response_domain.nil?)
-      self.response_domain_code.destroy
+      self.response_domain_code.delete
     end
   end
 
@@ -51,19 +53,24 @@ class CodeList < ActiveRecord::Base
       end
     end
 
-    if self.codes.length < codes.length
-      # There are codes to add
-      new_codes_values = codes.select { |x| x[:id].nil? }
-      new_codes_values.each do |new_code_values|
-        new_code = Code.new
-        new_code.order = new_code_values[:order]
-        new_code.value = new_code_values[:value]
-        new_code.set_label new_code_values[:label], self.instrument.id
-        self.codes << new_code
-      end
+    unless codes.nil?
+      self.codes.reload
+      if self.codes.length < codes.length
+        # There are codes to add
+        new_codes_values = codes.select { |x| x[:id].nil? }
+        new_codes_values.each do |new_code_values|
+          unless new_code_values[:value].to_s == '' || new_code_values[:label].to_s == ''
+            new_code = Code.new
+            new_code.order = new_code_values[:order]
+            new_code.value = new_code_values[:value]
+            new_code.set_label new_code_values[:label], self.instrument
+            self.codes << new_code
+          end
+        end
 
-    elsif self.codes.length > codes.length
-      #TODO: Throw a massive wobbler
+      elsif self.codes.length > codes.length
+        #TODO: Throw a massive wobbler
+      end
     end
     self.reload
   end

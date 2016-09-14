@@ -1,15 +1,138 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  numeric_type: MyString
-  label: MyString
-  min: 9.99
-  max: 9.99
-  instrument: :one
-
-two:
-  numeric_type: MyString
-  label: MyString
-  min: 9.99
-  max: 9.99
-  instrument: :one
+---
+ResponseDomainNumeric_1:
+  id: 74
+  numeric_type: Integer
+  label: How many
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-20 13:51:24.417457000 Z
+  updated_at: 2016-06-20 13:51:24.417457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_2:
+  id: 75
+  numeric_type: Integer
+  label: Age
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-20 13:51:24.427457000 Z
+  updated_at: 2016-06-20 13:51:24.427457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_3:
+  id: 76
+  numeric_type: Integer
+  label: How many
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.787067000 Z
+  updated_at: 2016-06-21 13:18:34.787067000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_4:
+  id: 77
+  numeric_type: Integer
+  label: Age in years
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.830072000 Z
+  updated_at: 2016-06-21 13:18:34.830072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_5:
+  id: 78
+  numeric_type: Integer
+  label: Floor number
+  min: !ruby/object:BigDecimal 18:0.2E1
+  created_at: 2016-06-21 13:18:34.834072000 Z
+  updated_at: 2016-06-21 13:18:34.834072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_6:
+  id: 79
+  numeric_type: Integer
+  label: Age in months
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.837072000 Z
+  updated_at: 2016-06-21 13:18:34.837072000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_7:
+  id: 80
+  numeric_type: Integer
+  label: Years
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-06-21 13:18:34.841073000 Z
+  updated_at: 2016-06-21 13:18:34.841073000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_8:
+  id: 81
+  numeric_type: Integer
+  label: Months
+  min: !ruby/object:BigDecimal 18:0.0
+  max: !ruby/object:BigDecimal 18:0.11E2
+  created_at: 2016-06-21 13:18:34.844073000 Z
+  updated_at: 2016-06-21 13:18:34.844073000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_9:
+  id: 82
+  numeric_type: Integer
+  label: Integer
+  min: !ruby/object:BigDecimal 18:0.1E1
+  max: !ruby/object:BigDecimal 18:0.5E1
+  created_at: 2016-06-21 14:09:01.568739000 Z
+  updated_at: 2016-06-21 14:09:01.568739000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_10:
+  id: 83
+  numeric_type: Integer
+  label: How many
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:32.954913000 Z
+  updated_at: 2016-07-01 11:34:32.954913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_11:
+  id: 84
+  numeric_type: Integer
+  label: Hours
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.020913000 Z
+  updated_at: 2016-07-01 11:34:33.020913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_12:
+  id: 85
+  numeric_type: Integer
+  label: Minutes
+  max: !ruby/object:BigDecimal 18:0.59E2
+  created_at: 2016-07-01 11:34:33.024913000 Z
+  updated_at: 2016-07-01 11:34:33.024913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_13:
+  id: 86
+  numeric_type: Integer
+  label: Years
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.028913000 Z
+  updated_at: 2016-07-01 11:34:33.028913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_14:
+  id: 87
+  numeric_type: Integer
+  label: Months
+  max: !ruby/object:BigDecimal 18:0.11E2
+  created_at: 2016-07-01 11:34:33.032913000 Z
+  updated_at: 2016-07-01 11:34:33.032913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric
+ResponseDomainNumeric_15:
+  id: 88
+  numeric_type: Integer
+  label: Age
+  min: !ruby/object:BigDecimal 18:0.0
+  created_at: 2016-07-01 11:34:33.035913000 Z
+  updated_at: 2016-07-01 11:34:33.035913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainNumeric

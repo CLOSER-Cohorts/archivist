@@ -1,9 +1,25 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  label: MyString
-  instrument: :one
-
-two:
-  label: MyString
-  instrument: :one
+---
+ResponseUnit_1:
+  id: 9
+  label: Main parent of cohort/sample member
+  created_at: 2016-06-20 13:51:39.485457000 Z
+  updated_at: 2016-06-20 13:51:39.485457000 Z
+  instrument_id: 10
+ResponseUnit_2:
+  id: 10
+  label: Main parent of cohort/sample member
+  created_at: 2016-06-21 13:18:41.700759000 Z
+  updated_at: 2016-06-21 13:18:41.700759000 Z
+  instrument_id: 11
+ResponseUnit_3:
+  id: 11
+  label: Main parent of cohort/sample member
+  created_at: 2016-07-01 11:34:36.364913000 Z
+  updated_at: 2016-07-01 11:34:36.364913000 Z
+  instrument_id: 12
+ResponseUnit_4:
+  id: 12
+  label: Dummy
+  created_at: 2016-07-01 11:34:36.364913000 Z
+  updated_at: 2016-07-01 11:34:36.364913000 Z
+  instrument_id: 10

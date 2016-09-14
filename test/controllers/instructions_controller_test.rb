@@ -2,8 +2,10 @@ require 'test_helper'
 
 class InstructionsControllerTest < ActionController::TestCase
   setup do
-    @instruction = instructions(:one)
-    @instrument = instruments(:one)
+    @user = users :User_1
+    sign_in @user
+    @instruction = instructions(:Instruction_1)
+    @instrument = instruments(:Instrument_1)
   end
 
   test "should get index" do

@@ -1,17 +1,19 @@
 module XML::CADDIES
   class Importer
     def initialize(filepath)
-      @doc = File.open(filepath) { |f| Nokogiri::XML(f) }
+      @doc = open(filepath) { |f| Nokogiri::XML(f) }
       @counters = {}
     end
 
     def parse
-      @instrument = Importer.build_instrument @doc
-      read_code_lists
-      read_instructions
-      read_response_domains
-      read_questions
-      read_constructs
+      Realtime.do_silently do
+        @instrument = Importer.build_instrument @doc
+        read_code_lists
+        read_instructions
+        read_response_domains
+        read_questions
+        read_constructs
+      end
     end
 
     def read_code_lists
@@ -57,6 +59,10 @@ module XML::CADDIES
         if not @rdcs_created.include? urn.content
           @rdcs_created << urn.content
           @code_list_index[urn.content].response_domain = true
+          unless (cardinality = urn.parent.parent.at_xpath('ResponseCardinality')).nil?
+            @code_list_index[urn.content].response_domain.min_responses = cardinality['minimumResponses']
+            @code_list_index[urn.content].response_domain.max_responses = cardinality['maximumResponses']
+          end
           @code_list_index[urn.content].save!
         end
       end
@@ -68,33 +74,33 @@ module XML::CADDIES
       @instruction_index = {}
       instructions.each do |instruction|
         instr = Instruction.new({text: instruction.at_xpath("d:InstructionText/d:LiteralText/d:Text").content})
-        @instruction_index[instruction.at_xpath("r:URN").content] = instr
         @instrument.instructions << instr
+        @instruction_index[instruction.at_xpath("r:URN").content] = instr
       end
     end
 
     def read_response_domains
       text_domains = @doc.xpath("//d:TextDomain")
       @counters['response_domain_texts'] = text_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       text_domains.each do |text_domain|
         index_label = text_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "T" + index_label
+        if not @response_domain_index.has_key? "T" + index_label
           rdt = ResponseDomainText.new({label: index_label})
           if not text_domain["maxLength"].nil?
             rdt.maxlen = text_domain["maxLength"].to_i
           end
           @instrument.response_domain_texts << rdt
-          @reponse_domain_index["T" + index_label] = rdt
+          @response_domain_index["T" + index_label] = rdt
         end
       end
 
       numeric_domains = @doc.xpath("//d:NumericDomain")
       @counters['response_domain_numerics'] = numeric_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       numeric_domains.each do |numeric_domain|
         index_label = numeric_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "N" + index_label
+        if not @response_domain_index.has_key? "N" + index_label
           rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
           min = numeric_domain.at_xpath("r:NumberRange/r:Low")
           max = numeric_domain.at_xpath("r:NumberRange/r:High")
@@ -105,23 +111,23 @@ module XML::CADDIES
             rdn.max = max.content
           end
           @instrument.response_domain_numerics << rdn
-          @reponse_domain_index["N" + index_label] = rdn
+          @response_domain_index["N" + index_label] = rdn
         end
       end
 
       datetime_domains = @doc.xpath("//d:DateTimeDomain")
       @counters['response_domain_datetimes'] = datetime_domains.length
-      @reponse_domain_index ||= {}
+      @response_domain_index ||= {}
       datetime_domains.each do |datetime_domain|
         index_label = datetime_domain.at_xpath("r:Label/r:Content").content
-        if not @reponse_domain_index.has_key? "D" + index_label
+        if not @response_domain_index.has_key? "D" + index_label
           rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
           format = datetime_domain.at_xpath("r:DateFieldFormat").content
           if format.length > 0
             rdd.format = format
           end
           @instrument.response_domain_datetimes << rdd
-          @reponse_domain_index["D" + index_label] = rdd
+          @response_domain_index["D" + index_label] = rdd
         end
       end
     end
@@ -141,29 +147,44 @@ module XML::CADDIES
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
 
         #Adding response domains
-        rdcs = question_item.xpath("./d:CodeDomain/r:CodeListReference/r:URN | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN")
-        rdcs.each do |rdc|
-          qi.response_domain_codes << @code_list_index[rdc.content].response_domain
-        end
-        rdns = question_item.xpath("./d:NumericDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content")
-        rdns.each do |rdn|
-          qi.response_domain_numerics << @reponse_domain_index['N'+rdn.content]
-        end
-        rdts = question_item.xpath("./d:TextDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:TextDomain/r:Label/r:Content")
-        rdts.each do |rdt|
-          qi.response_domain_texts << @reponse_domain_index['T'+rdt.content]
-        end
-        rdds = question_item.xpath("./d:DateTimeDomain/r:Label/r:Content | ./d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:DateTimeDomain/r:Label/r:Content")
-        rdds.each do |rdd|
-          qi.response_domain_datetimes << @reponse_domain_index['D'+rdd.content]
+        rds = question_item.xpath('./d:CodeDomain/r:CodeListReference/r:URN | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | '\
+          './d:NumericDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content | '\
+          './d:TextDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:TextDomain/r:Label/r:Content | '\
+          './d:DateTimeDomain/r:Label/r:Content | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:DateTimeDomain/r:Label/r:Content'
+        )
+
+        @instrument.question_items << qi
+
+        order_counter = 0
+        rds.each do |rd|
+          order_counter += 1
+          type = rd.parent.parent.name
+          if type == 'CodeDomain'
+            RdsQs.create({
+                             question: qi,
+                             response_domain: @code_list_index[rd.content].response_domain,
+                             rd_order: order_counter
+                         })
+          else
+            prefix_char = type == 'NumericDomain' ? 'N' : (type == 'TextDomain' ? 'T' : 'D')
+            RdsQs.create({
+                             question: qi,
+                             response_domain: @response_domain_index[prefix_char + rd.content],
+                             rd_order: order_counter
+                         })
+          end
         end
 
         #Adding instruction
         instr = question_item.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
-          qi.instruction = @instruction_index[instr.content]
+          qi.association(:instruction).writer @instruction_index[instr.content]
         end
-        @instrument.question_items << qi
+        qi.save!
       end
     end
 
@@ -178,7 +199,12 @@ module XML::CADDIES
         qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference/r:URN")
         qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference/r:URN")
         qg.horizontal_code_list = @code_list_index[qg_X.content]
-        if not qg_Y.nil?
+        roster = question_grid.at_xpath("./d:GridDimension[@rank='1']/d:Roster")
+        unless roster.nil?
+          qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
+          qg.roster_rows = roster.attribute('minimumRequired').value.nil? ? 0 : roster.attribute('minimumRequired').value.to_i
+        end
+        unless qg_Y.nil?
           qg.vertical_code_list = @code_list_index[qg_Y.content]
         end
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
@@ -193,7 +219,7 @@ module XML::CADDIES
             if x.parent.name == "GridResponseDomain"
               RdsQs.create({
                                question: obj,
-                               response_domain: @reponse_domain_index[
+                               response_domain: @response_domain_index[
                                    index_prefix +
                                        x
                                            .at_xpath("./r:Label/r:Content")
@@ -207,11 +233,12 @@ module XML::CADDIES
                                             .to_i
                            })
             else
-              obj.send(arr) << @reponse_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
+              obj.send(arr) << @response_domain_index[index_prefix + x.at_xpath("./r:Label/r:Content").content]
             end
           end
         end
 
+        number_of_code_domains_as_axis = 0
         rdcs = question_grid.xpath(".//d:CodeDomain")
         rdcs.each do |rdc|
           if not rdc.parent.name == "GridDimension"
@@ -224,6 +251,8 @@ module XML::CADDIES
             else
               qg.response_domain_codes << @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain
             end
+          else
+            number_of_code_domains_as_axis += 1
           end
         end
         read_q_rds.call(
@@ -245,10 +274,24 @@ module XML::CADDIES
             'response_domain_datetimes'
         )
 
+        collection = question_grid.xpath('.//d:CodeDomain | .//d:NumericDomain | .//d:TextDomain | .//d:DateTimeDomain')
+
+        if (collection.count - number_of_code_domains_as_axis) == 1 && qg.horizontal_code_list.codes.count > 1
+          base = qg.rds_qs.first.dup
+          qg.horizontal_code_list.codes.each_with_index do |c, i|
+            unless i == 0
+              qg.rds_qs << base.dup
+            end
+            newest_junction = qg.rds_qs.last
+            newest_junction.code_id = c.value.to_i
+            newest_junction.save!
+          end
+        end
+
         #Adding instruction
         instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
         if not instr.nil?
-          qg.instruction = @instruction_index[instr.content]
+          qg.association(:instruction).writer @instruction_index[instr.content]
         end
         qg.save!
       end
@@ -256,14 +299,13 @@ module XML::CADDIES
 
     def read_constructs
       seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
-      cc_seq = CcSequence.new
-      @instrument.sequences << cc_seq
+      cc_seq = @instrument.top_sequence
       cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
       @response_unit_index = {}
       read_sequence_children(seq, cc_seq)
     end
 
-    def read_sequence_children(node, parent)
+    def read_sequence_children(node, parent, branch = nil)
       position_counter = 0
       node.xpath("./d:ControlConstructReference").each do |child_ref|
         position_counter += 1
@@ -275,6 +317,7 @@ module XML::CADDIES
           @instrument.sequences << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_s.position = position_counter
+          cc_s.branch = branch
           parent.children << cc_s.cc
           read_sequence_children(child, cc_s)
           cc_s.save!
@@ -284,6 +327,7 @@ module XML::CADDIES
           @instrument.statements << cc_s
           cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_s.position = position_counter
+          cc_s.branch = branch
           cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
           parent.children << cc_s.cc
           cc_s.save!
@@ -305,6 +349,7 @@ module XML::CADDIES
           @instrument.questions << cc_q
           cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_q.position = position_counter
+          cc_q.branch = branch
           parent.children << cc_q.cc
           cc_q.save!
         elsif type == 'IfThenElse'
@@ -313,17 +358,26 @@ module XML::CADDIES
           @instrument.conditions << cc_c
           cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_c.position = position_counter
-          c_string = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
+          cc_c.branch = branch
+          cc_c.literal = child.at_xpath("./d:IfCondition/r:Description/r:Content").content
+          cc_c.logic = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
 
-          if c_string.rindex('[').nil?
-            cc_c.literal = c_string
-            cc_c.logic = ''
-          else
-            cc_c.literal = c_string[0, c_string.rindex('[')].strip
-            cc_c.logic = c_string[c_string.rindex('[') + 1, c_string.length - c_string.rindex('[') - 2].strip
-          end
           parent.children << cc_c.cc
           cc_c.save!
+
+          sub_sequence = lambda do |search, cc, branch|
+            sub_seq = child.at_xpath(search)
+            if not sub_seq.nil?
+              urn = sub_seq.content
+              seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
+              read_sequence_children seq, cc, branch
+            end
+          end
+
+          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c, 0
+          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c, 1
+
+        elsif type == 'Loop'
 
           sub_sequence = lambda do |search, cc|
             sub_seq = child.at_xpath(search)
@@ -334,10 +388,6 @@ module XML::CADDIES
             end
           end
 
-          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c
-          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c
-
-        elsif type == 'Loop'
           child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
           cc_l = CcLoop.new
           @instrument.loops << cc_l
@@ -346,6 +396,7 @@ module XML::CADDIES
           while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
           cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
           cc_l.position = position_counter
+          cc_l.branch = branch
           if not start_node.nil?
             pieces = start_node.content.split(/\W\D\s/)
             cc_l.loop_var = pieces[0]
@@ -369,19 +420,19 @@ module XML::CADDIES
     end
 
     def self.build_instrument(doc, options= {})
-      save = defined? options[:save] ? true : options[:save]
-      duplicate = defined? options[:duplicate] ? :do_nothing : options[:duplicate]
+      save = defined?(options[:save]) ? true : options[:save]
+      duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
 
       i = Instrument.new
       i.label = doc.xpath("//d:InstrumentName//r:String").first.content
       urn_pieces = doc.xpath("//r:URN").first.content.split(":")
       i.agency = urn_pieces[2]
-      instruments = Instrument.where({label: i.label, agency: i.agency})
+      i.prefix = urn_pieces[3].split('-ddi-')[0]
+      instruments = Instrument.where({prefix: i.prefix})
       if instruments.length > 0
         Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
         if duplicate == :do_nothing
-          Rails.logger.info 'Aborting XML import. Consider passing a duplicate option to importer.'
-          return
+          raise Exceptions::ImportError, 'Aborting XML import. Consider passing a duplicate option to importer.'
         else
           if duplicate == :update || duplicate == :replace
             if instruments.length == 1
@@ -391,14 +442,12 @@ module XML::CADDIES
                 instruments.first.destroy
               end
             else
-              Rails.logger.error 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
-              return
+              raise Exceptions::ImportError, 'Aborting XML import. Cannot update or replace instrument as multiple duplicates found.'
             end
           end
         end
       end
       i.version = "1.0"
-      i.prefix = urn_pieces[3].split('-ddi-')[0]
       if save
         i.save!
       end

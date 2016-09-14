@@ -1,4 +1,19 @@
 Rails.application.routes.draw do
+  post 'setup', to: 'application#setup'
+
+  as :user do
+    patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
+  end
+  devise_for :users, controllers: {
+      sessions: 'users/sessions',
+      confirmations: 'users/confirmations',
+      passwords: 'users/passwords',
+      registrations: 'users/registrations',
+      unlocks: 'users/unlocks',
+  }
+  namespace :users do
+    resources :admin, constraints: -> (r) { (r.format == :json) }
+  end
   root 'application#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
@@ -10,11 +25,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :datasets, constraints: -> (r) { (r.format == :json) } do
+  resources :groups, constraints: -> (r) { (r.format == :json) } do
+    collection do
+      get 'external'
+    end
+  end
+  resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :variables
   end
 
-  resources :instruments, constraints: -> (r) { (r.format == :json) } do
+  resources :instruments, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :cc_sequences
     resources :cc_statements
     resources :cc_questions
@@ -30,9 +50,12 @@ Rails.application.routes.draw do
     resources :code_lists
     resources :categories
     member do
-      post 'copy', to: 'instruments#copy'
+      post 'copy/:new_prefix', to: 'instruments#copy'
       get 'response_domains', to: 'instruments#response_domains'
+      get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
+      get 'stats', to: 'instruments#stats'
+      get 'export', to: 'instruments#export'
     end
   end
 

@@ -1,23 +1,1241 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+---
+QuestionGrid_1:
+  id: 124
+  label: qg_A4_a-c
+  literal: How many days has she had to take off school for health reasons?
+  instruction_id: 74
+  vertical_code_list_id: 655
+  horizontal_code_list_id: 654
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:36.546457000 Z
+  updated_at: 2016-06-20 13:51:36.629457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_2:
+  id: 125
+  label: qg_A4_d-g
+  literal: How many days has she had to take off school for health reasons?
+  instruction_id: 75
+  vertical_code_list_id: 657
+  horizontal_code_list_id: 656
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:36.636457000 Z
+  updated_at: 2016-06-20 13:51:36.696457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_3:
+  id: 126
+  label: qg_A18_d_ii
+  literal: In which of the past 12 months did these nose and/or eye problems occur?
+  instruction_id: 76
+  vertical_code_list_id: 652
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:36.702457000 Z
+  updated_at: 2016-06-20 13:51:36.754457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_4:
+  id: 127
+  label: qg_B8_c-g
+  literal: 'Please list, for each problem, what has happened:'
+  vertical_code_list_id: 661
+  horizontal_code_list_id: 660
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:36.760457000 Z
+  updated_at: 2016-06-20 13:51:36.760457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_5:
+  id: 128
+  label: qg_C1_c-j
+  literal: 'For each accident please describe below what happened:'
+  vertical_code_list_id: 664
+  horizontal_code_list_id: 662
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:36.858457000 Z
+  updated_at: 2016-06-20 13:51:36.858457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_6:
+  id: 129
+  label: qg_C2_c-j
+  literal: 'For each accident please describe below what happened:'
+  vertical_code_list_id: 666
+  horizontal_code_list_id: 665
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.028457000 Z
+  updated_at: 2016-06-20 13:51:37.028457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_7:
+  id: 130
+  label: qg_C3_c-i
+  literal: 'For each time please describe below what happened:'
+  vertical_code_list_id: 668
+  horizontal_code_list_id: 667
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.202457000 Z
+  updated_at: 2016-06-20 13:51:37.202457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_8:
+  id: 131
+  label: qg_C4_c-j
+  literal: 'For each accident or injury please describe below what happened:'
+  vertical_code_list_id: 670
+  horizontal_code_list_id: 669
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.351457000 Z
+  updated_at: 2016-06-20 13:51:37.351457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_9:
+  id: 132
+  label: qg_C5_c-i
+  literal: 'For each accident please describe below what happened:'
+  vertical_code_list_id: 672
+  horizontal_code_list_id: 671
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.516457000 Z
+  updated_at: 2016-06-20 13:51:37.516457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_10:
+  id: 133
+  label: qg_C6_c-i
+  literal: 'For each time please describe below what happened:'
+  vertical_code_list_id: 674
+  horizontal_code_list_id: 673
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.655457000 Z
+  updated_at: 2016-06-20 13:51:37.655457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_11:
+  id: 134
+  label: qg_C7_a-d
+  literal: Has she had any of the following happen since she was born? (tick all questions
+    and all time periods that apply)
+  vertical_code_list_id: 676
+  horizontal_code_list_id: 675
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.799457000 Z
+  updated_at: 2016-06-20 13:51:37.799457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_12:
+  id: 135
+  label: qg_C7_e-l
+  literal: Has she had any of the following happen since she was born? (tick all questions
+    and all time periods that apply)
+  vertical_code_list_id: 677
+  horizontal_code_list_id: 678
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.842457000 Z
+  updated_at: 2016-06-20 13:51:37.842457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_13:
+  id: 136
+  label: qg_C7_m-q
+  literal: Has she had any of the following happen since she was born? (tick all questions
+    and all time periods that apply)
+  vertical_code_list_id: 680
+  horizontal_code_list_id: 679
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.888457000 Z
+  updated_at: 2016-06-20 13:51:37.888457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_14:
+  id: 137
+  label: qg_D5_a-j
+  literal: What does she consider important in her life? (tick all that apply)
+  vertical_code_list_id: 687
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.938457000 Z
+  updated_at: 2016-06-20 13:51:37.938457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_15:
+  id: 138
+  label: qg_D6_a-g
+  literal: What does she really like to do best? (tick all that apply)
+  vertical_code_list_id: 688
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:37.982457000 Z
+  updated_at: 2016-06-20 13:51:37.982457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_16:
+  id: 139
+  label: qg_E1_a-zi
+  literal: |-
+    Please indicate below any medicines (pills, syrups, inhalers, drops, sprays, suppositories,
 
-one:
-  label: MyString
-  literal: MyString
-  instruction: :one 
-  vertical_code_list: :axisx
-  horizontal_code_list: :axisy
-  roster_rows: 1
-  roster_label: MyString
-  corner_label: MyString
-  instrument: :one
+    ointments etc including homeopathic and herbal remedies) that your study child has used in the last
 
-two:
-  label: MyString
-  literal: MyString
-  instruction_id: 
-  vertical_code_list: :axisx
-  horizontal_code_list: :axisy
-  roster_rows: 1
-  roster_label: MyString
-  corner_label: MyString
-  instrument: :one
+    12 months.
+  vertical_code_list_id: 699
+  horizontal_code_list_id: 698
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.025457000 Z
+  updated_at: 2016-06-20 13:51:38.088457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_17:
+  id: 140
+  label: qg_E2_a
+  literal: |-
+    Please describe below any vitamins, minerals such as iron, or other supplements given for
+
+    your study child's health in the past month and indicate how often they were taken.
+  instruction_id: 77
+  vertical_code_list_id: 702
+  horizontal_code_list_id: 701
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.093457000 Z
+  updated_at: 2016-06-20 13:51:38.155457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_18:
+  id: 141
+  label: qg_E2_b
+  literal: |+
+    Please describe below any vitamins, minerals such as iron, or other supplements given for
+
+    your study child's health in the past month and indicate how often they were taken.
+
+  instruction_id: 78
+  vertical_code_list_id: 704
+  horizontal_code_list_id: 703
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.161457000 Z
+  updated_at: 2016-06-20 13:51:38.216457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_19:
+  id: 142
+  label: qg_E2_c
+  literal: |+
+    Please describe below any vitamins, minerals such as iron, or other supplements given for
+
+    your study child's health in the past month and indicate how often they were taken.
+
+  instruction_id: 79
+  vertical_code_list_id: 706
+  horizontal_code_list_id: 705
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.227457000 Z
+  updated_at: 2016-06-20 13:51:38.289457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_20:
+  id: 143
+  label: qg_E2_d
+  literal: |+
+    Please describe below any vitamins, minerals such as iron, or other supplements given for
+
+    your study child's health in the past month and indicate how often they were taken.
+
+  instruction_id: 80
+  vertical_code_list_id: 708
+  horizontal_code_list_id: 707
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.296457000 Z
+  updated_at: 2016-06-20 13:51:38.354457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_21:
+  id: 144
+  label: qg_E3_a-c
+  literal: |-
+    Please describe below any treatment your child has taken for asthma or wheezing in the
+
+    past month and indicate how often they were taken.
+  vertical_code_list_id: 709
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.360457000 Z
+  updated_at: 2016-06-20 13:51:38.402457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_22:
+  id: 145
+  label: qg_F1-F13
+  literal: These questions are about how your child may have been feeling or acting
+    recently. For each question, please say how much you think she has felt or acted
+    this way in the past two weeks.
+  vertical_code_list_id: 711
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.407457000 Z
+  updated_at: 2016-06-20 13:51:38.445457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_23:
+  id: 146
+  label: qg_G1-G25
+  literal: Please think how your child has been in the past 6 months
+  vertical_code_list_id: 712
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.451457000 Z
+  updated_at: 2016-06-20 13:51:38.492457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_24:
+  id: 147
+  label: qg_H2
+  literal: How does she get to school?
+  vertical_code_list_id: 716
+  horizontal_code_list_id: 715
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.498457000 Z
+  updated_at: 2016-06-20 13:51:38.498457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_25:
+  id: 148
+  label: qg_J2_a-e
+  literal: 'If listening in a room where there is background noise (e.g. TV, music,
+    others talking etc.) how much difficulty does your child have in hearing and understanding:'
+  vertical_code_list_id: 728
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.550457000 Z
+  updated_at: 2016-06-20 13:51:38.592457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_26:
+  id: 149
+  label: qg_J3_a-e
+  literal: 'If listening in a quiet room, how much difficulty does your child have
+    in hearing and understanding:'
+  vertical_code_list_id: 729
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.602457000 Z
+  updated_at: 2016-06-20 13:51:38.602457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_27:
+  id: 150
+  label: qg_J4_a-c
+  literal: 'When listening in a quiet room, no distractions, face-to-face, and with
+    good eye contact, how much difficulty does your child have in hearing and understanding:'
+  vertical_code_list_id: 730
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.644457000 Z
+  updated_at: 2016-06-20 13:51:38.644457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_28:
+  id: 151
+  label: qg_J5_a-d
+  literal: 'If asked to remember something she has heard, how much difficulty does
+    your child have:'
+  vertical_code_list_id: 731
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.690457000 Z
+  updated_at: 2016-06-20 13:51:38.731457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_29:
+  id: 152
+  label: qg_J5_e-g
+  literal: 'If asked to remember something she has heard, how much difficulty does
+    your child have:'
+  vertical_code_list_id: 732
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.744457000 Z
+  updated_at: 2016-06-20 13:51:38.784457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_30:
+  id: 153
+  label: qg_J6_a-g
+  literal: If there is something she should listen to, how much difficulty does your
+    child have, in paying attention to what is said?
+  vertical_code_list_id: 733
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.790457000 Z
+  updated_at: 2016-06-20 13:51:38.829457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_31:
+  id: 154
+  label: qg_K2_a-q
+  literal: How often does her mother or other adult female do these activities with
+    her?
+  vertical_code_list_id: 736
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.834457000 Z
+  updated_at: 2016-06-20 13:51:38.874457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_32:
+  id: 155
+  label: qg_K2_s_i-viii
+  literal: Who are the women involved in any of these activities with the study child?
+    (tick all that apply)
+  vertical_code_list_id: 737
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.881457000 Z
+  updated_at: 2016-06-20 13:51:38.881457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_33:
+  id: 156
+  label: qg_K3_a-q
+  literal: How often does a male adult (e.g. her father/mother's husband or partner)
+    do these activities with your child?
+  vertical_code_list_id: 738
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:38.925457000 Z
+  updated_at: 2016-06-20 13:51:38.966457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_34:
+  id: 157
+  label: qg_K3_s_i-viii
+  literal: Who are the men involved in any of these activities with the study child?
+    (tick all that apply)
+  vertical_code_list_id: 739
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  created_at: 2016-06-20 13:51:38.972457000 Z
+  updated_at: 2016-06-20 13:51:38.972457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_35:
+  id: 158
+  label: qg_K6_d_i-x
+  literal: |+
+    How often does the study child do the following with them?
+
+  vertical_code_list_id: 742
+  horizontal_code_list_id: 651
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-20 13:51:39.015457000 Z
+  updated_at: 2016-06-20 13:51:39.055457000 Z
+  instrument_id: 10
+  question_type: QuestionGrid
+QuestionGrid_36:
+  id: 159
+  label: qg_A2_a-r
+  literal: Have you had any of the following since your study child was 18 months
+    old?
+  vertical_code_list_id: 749
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.508639000 Z
+  updated_at: 2016-06-21 13:18:40.508639000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_37:
+  id: 160
+  label: qg_A3_a-q
+  literal: Since your study child was 18 months old how often have you taken the following?
+  vertical_code_list_id: 751
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.553644000 Z
+  updated_at: 2016-06-21 13:18:40.576646000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_38:
+  id: 161
+  label: qg_A4
+  literal: |-
+    Please list all the names of the actual medicines, pills or ointments that you have taken in the past
+
+    month:
+  instruction_id: 90
+  vertical_code_list_id: 754
+  horizontal_code_list_id: 753
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.580647000 Z
+  updated_at: 2016-06-21 13:18:40.617650000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_39:
+  id: 162
+  label: qg_A5_c-g
+  literal: Please describe for each admission.
+  vertical_code_list_id: 758
+  horizontal_code_list_id: 759
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.627651000 Z
+  updated_at: 2016-06-21 13:18:40.627651000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_40:
+  id: 163
+  label: qg_A6_a-u
+  literal: 'In the past month, have you had any of the following:'
+  vertical_code_list_id: 757
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.660655000 Z
+  updated_at: 2016-06-21 13:18:40.676656000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_41:
+  id: 164
+  label: qg_A8_b_i-viii
+  literal: What forms of contraception are you using now? (tick all that you have
+    used in the past month or so)
+  vertical_code_list_id: 764
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.679656000 Z
+  updated_at: 2016-06-21 13:18:40.679656000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_42:
+  id: 165
+  label: qg_B5_g_i-viii
+  literal: How would you describe the relationship between your mother and father
+    when you were growing up?
+  vertical_code_list_id: 777
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.703659000 Z
+  updated_at: 2016-06-21 13:18:40.718660000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_43:
+  id: 166
+  label: qg_B8_b_i-iii
+  literal: why was this?
+  vertical_code_list_id: 782
+  horizontal_code_list_id: 781
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.721661000 Z
+  updated_at: 2016-06-21 13:18:40.721661000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_44:
+  id: 167
+  label: qg_F12_a-d
+  literal: When you are cooking, how often do you get rid of the smells and steam
+    using the following?
+  vertical_code_list_id: 812
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.745663000 Z
+  updated_at: 2016-06-21 13:18:40.745663000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_45:
+  id: 168
+  label: qg_F15_a-e
+  literal: Do you have sole use of the following amenities or are they shared with
+    other household(s)?
+  vertical_code_list_id: 816
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.761665000 Z
+  updated_at: 2016-06-21 13:18:40.761665000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_46:
+  id: 169
+  label: qg_F21_a
+  literal: In the past year have any of the following rooms been decorated or had
+    any brand new furniture?
+  vertical_code_list_id: 825
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.778666000 Z
+  updated_at: 2016-06-21 13:18:40.802669000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_47:
+  id: 170
+  label: qg_F21_b
+  literal: In the past year have any of the following rooms been decorated or had
+    any brand new furniture?
+  vertical_code_list_id: 830
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.805669000 Z
+  updated_at: 2016-06-21 13:18:40.826671000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_48:
+  id: 171
+  label: qg_F21_c
+  literal: In the past year have any of the following rooms been decorated or had
+    any brand new furniture?
+  vertical_code_list_id: 831
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.829671000 Z
+  updated_at: 2016-06-21 13:18:40.851674000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_49:
+  id: 172
+  label: qg_F21_d
+  literal: In the past year have any of the following rooms been decorated or had
+    any brand new furniture?
+  vertical_code_list_id: 832
+  horizontal_code_list_id: 833
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.855674000 Z
+  updated_at: 2016-06-21 13:18:40.884677000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_50:
+  id: 173
+  label: qg_F23_a-k
+  literal: Here is a list of some things that can be a problem in people's homes or
+    in the neighbourhood. How much of a problem are the following for you and your
+    family?
+  vertical_code_list_id: 829
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.887677000 Z
+  updated_at: 2016-06-21 13:18:40.887677000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_51:
+  id: 174
+  label: qg_G5_a-c
+  literal: 'Please indicate how many of the children living with you have:'
+  vertical_code_list_id: 841
+  horizontal_code_list_id: 843
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.911680000 Z
+  updated_at: 2016-06-21 13:18:40.911680000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_52:
+  id: 175
+  label: qg_G6_a-c
+  literal: Are there other children of yourself or your partner who visit (whether
+    to play or to stay)?
+  vertical_code_list_id: 842
+  horizontal_code_list_id: 844
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.928681000 Z
+  updated_at: 2016-06-21 13:18:40.928681000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_53:
+  id: 176
+  label: qg_G7_i
+  literal: 'please describe:'
+  vertical_code_list_id: 846
+  horizontal_code_list_id: 845
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.949683000 Z
+  updated_at: 2016-06-21 13:18:40.949683000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_54:
+  id: 177
+  label: qg_G10_a-h
+  literal: Do any of the following animals or insects inhabit or invade your home
+    or cause dirty conditions in your balcony, garden or yard?
+  vertical_code_list_id: 851
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:40.969685000 Z
+  updated_at: 2016-06-21 13:18:40.969685000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_55:
+  id: 178
+  label: qg_H3_a-u
+  literal: |-
+    Below are listed a number of conditions which might influence your partner's enjoyment of your study
+
+    child. Please indicate whether he has had any of these since your study child was 18 months old.
+  vertical_code_list_id: 859
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:40.987687000 Z
+  updated_at: 2016-06-21 13:18:41.002689000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_56:
+  id: 179
+  label: qg_H4_a-k
+  literal: Below are some statements about partner's relationships with young children.
+    Please indicate how you feel in your particular situation.
+  vertical_code_list_id: 861
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.005689000 Z
+  updated_at: 2016-06-21 13:18:41.005689000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_57:
+  id: 180
+  label: qg_H10_a-g
+  literal: People vary greatly in the amount they are satisfied or dissatisfied with
+    their relationship. How do you feel about the following aspects of your life together?
+  vertical_code_list_id: 867
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.029691000 Z
+  updated_at: 2016-06-21 13:18:41.029691000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_58:
+  id: 181
+  label: qg_H12_b
+  literal: In the past 3 months, have any of these happened?
+  vertical_code_list_id: 871
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.054694000 Z
+  updated_at: 2016-06-21 13:18:41.054694000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_59:
+  id: 182
+  label: qg_H13_a-e
+  literal: In the past three months how often have you done these things with your
+    partner?
+  vertical_code_list_id: 873
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.070696000 Z
+  updated_at: 2016-06-21 13:18:41.070696000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_60:
+  id: 183
+  label: qg_H15_a-f
+  literal: 'How often in a week, on average, would you and your partner:'
+  vertical_code_list_id: 876
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.087697000 Z
+  updated_at: 2016-06-21 13:18:41.087697000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_61:
+  id: 184
+  label: qg_H17_a-x
+  literal: |-
+    Below are attitudes and behaviours which people reveal in their close relationships. Please rate you r
+
+    partner's attitudes and behaviour towards you in recent times and tick the most appropriate box for
+
+    each item.
+  vertical_code_list_id: 880
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:41.102699000 Z
+  updated_at: 2016-06-21 13:18:41.118700000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_62:
+  id: 185
+  label: qg_I1
+  literal: How many of the following do you have? (If none put 00)
+  vertical_code_list_id: 882
+  horizontal_code_list_id: 881
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.121701000 Z
+  updated_at: 2016-06-21 13:18:41.121701000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_63:
+  id: 186
+  label: qg_J8_a_i-iv
+  literal: How do you usually travel to work? (Tick all that apply)
+  vertical_code_list_id: 892
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.153704000 Z
+  updated_at: 2016-06-21 13:18:41.153704000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_64:
+  id: 187
+  label: qg_J9_a-b
+  literal: 'Below are statements about how working affects being a parent. Please
+    indicate which is true for you:'
+  vertical_code_list_id: 897
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.203709000 Z
+  updated_at: 2016-06-21 13:18:41.203709000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_65:
+  id: 188
+  label: qg_J18
+  literal: The following statements are about how you feel about the study child.
+  vertical_code_list_id: 905
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.220711000 Z
+  updated_at: 2016-06-21 13:18:41.220711000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_66:
+  id: 189
+  label: qg_L4_a
+  literal: Please try to remember where and when you had ultrasound scans and list
+    them below, if you can (including miniscans).
+  vertical_code_list_id: 914
+  horizontal_code_list_id: 913
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-06-21 13:18:41.233712000 Z
+  updated_at: 2016-06-21 13:18:41.255714000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_67:
+  id: 190
+  label: qg_M1_a-t
+  literal: 'In the last few months, how often have you used the following at home:'
+  vertical_code_list_id: 916
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.258714000 Z
+  updated_at: 2016-06-21 13:18:41.258714000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_68:
+  id: 191
+  label: qi_M3
+  literal: What type of powder or detergent do you usually wash the study child's
+    clothes in?
+  vertical_code_list_id: 918
+  horizontal_code_list_id: 917
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.276716000 Z
+  updated_at: 2016-06-21 13:18:41.276716000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_69:
+  id: 192
+  label: qg_N1_a-f
+  literal: When your 'Children of the Nineties' child has an earache or ear infection,
+    what do you do?
+  vertical_code_list_id: 921
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.294718000 Z
+  updated_at: 2016-06-21 13:18:41.294718000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_70:
+  id: 193
+  label: qg_N3
+  literal: |-
+    When you took your child to the doctor because you thought he/she had earache and was fretful, did
+
+    the doctor:
+  vertical_code_list_id: 923
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.307719000 Z
+  updated_at: 2016-06-21 13:18:41.307719000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_71:
+  id: 194
+  label: qg_N5
+  literal: |-
+    If you have taken your study child to the doctor for an ear problem, has the doctor (or surgery
+
+    nurse) explained all that you wanted to know:
+  vertical_code_list_id: 926
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.326721000 Z
+  updated_at: 2016-06-21 13:18:41.326721000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_72:
+  id: 195
+  label: qg_N9
+  literal: |-
+    If you or your partner had to take time off because your child had ear problems, did you usually:
+
+    (tick as many as apply)
+  vertical_code_list_id: 928
+  horizontal_code_list_id: 927
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.344723000 Z
+  updated_at: 2016-06-21 13:18:41.344723000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_73:
+  id: 196
+  label: qg_N14
+  literal: 'Who seemed to understand how difficult it can be to have a child with
+    ear/hearing problems:'
+  instruction_id: 91
+  vertical_code_list_id: 932
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.358724000 Z
+  updated_at: 2016-06-21 13:18:41.377726000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_74:
+  id: 197
+  label: qg_N18
+  literal: Do you think your other children suffered in any way because of the study
+    child's ear problem?
+  instruction_id: 92
+  vertical_code_list_id: 934
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.380727000 Z
+  updated_at: 2016-06-21 13:18:41.405729000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_75:
+  id: 198
+  label: qg_N19
+  literal: |-
+    In the past 18 months please indicate whether you have had contact with any of the following, for
+
+    whatever reason, for yourself or any member of your family.
+  vertical_code_list_id: 935
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.410730000 Z
+  updated_at: 2016-06-21 13:18:41.410730000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_76:
+  id: 199
+  label: qg_N20
+  literal: The statements below describe the ways some mothers feel about the health
+    services. We would be grateful if you could indicate what your own feelings are.
+  vertical_code_list_id: 937
+  horizontal_code_list_id: 752
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.428731000 Z
+  updated_at: 2016-06-21 13:18:41.428731000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_77:
+  id: 200
+  label: qg_F6
+  literal: 'To heat your home in winter what methods do you mainly use: (please tick
+    all boxes that apply)'
+  vertical_code_list_id: 803
+  horizontal_code_list_id: 938
+  roster_rows: 0
+  created_at: 2016-06-21 13:18:41.445733000 Z
+  updated_at: 2016-06-21 13:18:41.445733000 Z
+  instrument_id: 11
+  question_type: QuestionGrid
+QuestionGrid_78:
+  id: 201
+  label: qg_A10_a-e
+  literal: 'During this pregnancy have you heated your bed using any of the following:'
+  vertical_code_list_id: 948
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.747913000 Z
+  updated_at: 2016-07-01 11:34:35.747913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_79:
+  id: 202
+  label: qg_A11_b_i-iii
+  literal: Does your home have the following?
+  vertical_code_list_id: 950
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.820913000 Z
+  updated_at: 2016-07-01 11:34:35.820913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_80:
+  id: 203
+  label: qg_A11_c_i-ii
+  literal: Apart from the kitchen or kitchen/dining room, how many living rooms and
+    bedrooms do you have?
+  vertical_code_list_id: 979
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.834913000 Z
+  updated_at: 2016-07-01 11:34:35.834913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_81:
+  id: 204
+  label: qg_A12_a-e
+  literal: Do you have sole use of the following amenities or are they shared with
+    other household(s)?
+  vertical_code_list_id: 953
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.847913000 Z
+  updated_at: 2016-07-01 11:34:35.847913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_82:
+  id: 205
+  label: qg_A17_a-g
+  literal: Do any of the following animals or insects inhabit or invade your home
+    or cause dirty conditions in your balcony, garden or yard?
+  vertical_code_list_id: 959
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.862913000 Z
+  updated_at: 2016-07-01 11:34:35.862913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_83:
+  id: 206
+  label: qg_A18_d-j
+  literal: Please tick the boxes relating to the problems you get in each room.
+  vertical_code_list_id: 963
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.886913000 Z
+  updated_at: 2016-07-01 11:34:35.886913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_84:
+  id: 207
+  label: qg_A21_a-d
+  literal: In the past year have any of the following rooms been decorated or had
+    any brand new furniture?
+  vertical_code_list_id: 968
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.899913000 Z
+  updated_at: 2016-07-01 11:34:35.899913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_85:
+  id: 208
+  label: qg_B1_a-o
+  literal: 'During this pregnancy, how often have you used the following:'
+  vertical_code_list_id: 971
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.914913000 Z
+  updated_at: 2016-07-01 11:34:35.914913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_86:
+  id: 209
+  label: qg_B2_a-o
+  literal: 'During this pregnancy have you ever taken any medicines, pills or used
+    ointment or suppositories for the following:'
+  vertical_code_list_id: 973
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  corner_label: V
+  created_at: 2016-07-01 11:34:35.928913000 Z
+  updated_at: 2016-07-01 11:34:35.940913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_87:
+  id: 210
+  label: qg_B5_a_i-v
+  literal: Please indicate how often you have taken the following pills during this
+    pregnancy.
+  vertical_code_list_id: 974
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.944913000 Z
+  updated_at: 2016-07-01 11:34:35.944913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_88:
+  id: 211
+  label: qg_B5_b
+  literal: Please describe all pills, medicines and ointments you have taken or used
+    in the first month of this pregnancy.
+  instruction_id: 97
+  vertical_code_list_id: 977
+  horizontal_code_list_id: 976
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.958913000 Z
+  updated_at: 2016-07-01 11:34:35.978913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_89:
+  id: 212
+  label: qg_C1_a-r
+  literal: 'Since you became pregnant, how often have you used any of the following,
+    whether at work or as a hobby:'
+  vertical_code_list_id: 982
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.980913000 Z
+  updated_at: 2016-07-01 11:34:35.980913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_90:
+  id: 213
+  label: qg_C2_a-e
+  literal: 'Since becoming pregnant how often have you done the following whether
+    at work or as a hobby:'
+  vertical_code_list_id: 984
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:35.992913000 Z
+  updated_at: 2016-07-01 11:34:35.992913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_91:
+  id: 214
+  label: qg_C6_a-f
+  literal: 'What is your job like: (If you are no longer working answer for your most
+    recent job).'
+  vertical_code_list_id: 987
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.005913000 Z
+  updated_at: 2016-07-01 11:34:36.005913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_92:
+  id: 215
+  label: qg_C7_a-h
+  literal: 'In the year before this pregnancy, in the first months of this pregnancy,
+    and now did/do you do any of the following (whether at home, at school, at work
+    or elsewhere):'
+  instruction_id: 98
+  vertical_code_list_id: 990
+  horizontal_code_list_id: 989
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.017913000 Z
+  updated_at: 2016-07-01 11:34:36.030913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_93:
+  id: 216
+  label: qg_C8
+  literal: What jobs have you had since the age of 16? Include part-time and voluntary
+    work. If you have not worked write 'None'.
+  instruction_id: 99
+  vertical_code_list_id: 991
+  horizontal_code_list_id: 992
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.032913000 Z
+  updated_at: 2016-07-01 11:34:36.054913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_94:
+  id: 217
+  label: qg_D1_b_i-viii
+  literal: 'Please indicate who the adults over 18 in your household are: '
+  vertical_code_list_id: 993
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.056913000 Z
+  updated_at: 2016-07-01 11:34:36.056913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_95:
+  id: 218
+  label: qg_D5_a-c
+  literal: 'Please indicate how many of the children (aged 18 or under) living with
+    you have:'
+  vertical_code_list_id: 998
+  horizontal_code_list_id: 1000
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.076913000 Z
+  updated_at: 2016-07-01 11:34:36.076913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_96:
+  id: 219
+  label: qg_D6_a-c
+  literal: Are there other children of yourself or your partner who do not live with
+    you?
+  vertical_code_list_id: 999
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.089913000 Z
+  updated_at: 2016-07-01 11:34:36.089913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_97:
+  id: 220
+  label: qg_G5_a-c
+  literal: 'How often did you smoke marijuana/grass/cannabis/ganja - '
+  vertical_code_list_id: 1017
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.101913000 Z
+  updated_at: 2016-07-01 11:34:36.101913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_98:
+  id: 221
+  label: qg_G7_a-c
+  literal: 'How often have you drunk alcoholic drinks? Please indicate for each of
+    the following times:'
+  vertical_code_list_id: 1020
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.115913000 Z
+  updated_at: 2016-07-01 11:34:36.115913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_99:
+  id: 222
+  label: qg_G11_a-l
+  literal: 'At present how much of the following do you usually drink in a day:'
+  vertical_code_list_id: 1026
+  horizontal_code_list_id: 1025
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.130913000 Z
+  updated_at: 2016-07-01 11:34:36.130913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid
+QuestionGrid_100:
+  id: 223
+  label: qg_H2_a-d
+  literal: 'How worried are you that in your neighbourhood:'
+  vertical_code_list_id: 1029
+  horizontal_code_list_id: 978
+  roster_rows: 0
+  created_at: 2016-07-01 11:34:36.144913000 Z
+  updated_at: 2016-07-01 11:34:36.144913000 Z
+  instrument_id: 12
+  question_type: QuestionGrid

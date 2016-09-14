@@ -1,1 +1,3 @@
-json.extract! @object, :id, :datetime_type, :label, :format, :created_at, :updated_at
+json.extract! @object, :id, :label, :format
+json.subtype @object.datetime_type
+json.type 'ResponseDomainDatetime'

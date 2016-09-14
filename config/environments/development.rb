@@ -39,5 +39,10 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
+
+  config.action_dispatch.rack_cache = {
+      metastore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/metastore',
+      entitystore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/entitystore'
+  }
 end

@@ -19,6 +19,9 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "jquery-ui/themes/base/theme";
 
+.monospaced {
+  font-family: menlo;
+}
 
 /* Sidebar navigation */
 .nav-sidebar {
@@ -41,6 +44,17 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
   float: right;
 }
 
+.a-navbar-text {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.equal, .equal > div[class*='col-'] {
+  display: -webkit-flex;
+  display: flex;
+  flex:1 1 auto;
+}
 
 /*
  * Main content
@@ -56,6 +70,30 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 }
 .main .page-header {
   margin-top: 0;
+}
+
+.tab-pane > form > .form-group:first-child {
+  margin-top: 15px;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.transparent {
+  color: transparent;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #eeeeee !important;
 }
 
 .bg-purple {
@@ -76,4 +114,12 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 
 .bg-orange {
   background: #FBAF3F;
+}
+
+p.rt-online {
+  color: #3c763d !important;
+}
+
+p.rt-offline {
+  color: #a94442 !important;
 }

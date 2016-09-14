@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcStatementTest < ActiveSupport::TestCase
   setup do
-    @cc_statement = cc_statements :one
+    @cc_statement = cc_statements :CcStatement_1
   end
 
   test "belongs to an instrument" do
@@ -14,7 +14,7 @@ class CcStatementTest < ActiveSupport::TestCase
   end
 
   test "can read parent construct" do
-    assert_kind_of Construct, @cc_statement.parent
+    assert_kind_of Construct::Model, @cc_statement.parent
   end
 
   test "set a new parent" do

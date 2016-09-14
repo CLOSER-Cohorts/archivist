@@ -1,9 +1,196 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  text: MyString
-  instrument: :one
-
-two:
-  text: MyString
-  instrument: :one
+---
+Instruction_1:
+  id: 68
+  text: "(Please tick all that apply)"
+  created_at: 2016-06-20 13:51:24.225457000 Z
+  updated_at: 2016-06-20 13:51:24.225457000 Z
+  instrument_id: 10
+Instruction_2:
+  id: 69
+  text: "[If you can't remember, make a guess and tick the guess box as well]"
+  created_at: 2016-06-20 13:51:24.234457000 Z
+  updated_at: 2016-06-20 13:51:24.234457000 Z
+  instrument_id: 10
+Instruction_3:
+  id: 70
+  text: "(tick all that apply)"
+  created_at: 2016-06-20 13:51:24.243457000 Z
+  updated_at: 2016-06-20 13:51:24.243457000 Z
+  instrument_id: 10
+Instruction_4:
+  id: 71
+  text: "(If less than 12 months put 00)"
+  created_at: 2016-06-20 13:51:24.258457000 Z
+  updated_at: 2016-06-20 13:51:24.258457000 Z
+  instrument_id: 10
+Instruction_5:
+  id: 72
+  text: "(tick all questions and all time periods that apply)"
+  created_at: 2016-06-20 13:51:24.273457000 Z
+  updated_at: 2016-06-20 13:51:24.273457000 Z
+  instrument_id: 10
+Instruction_6:
+  id: 73
+  text: "(Please say which and give brand name)"
+  created_at: 2016-06-20 13:51:24.283457000 Z
+  updated_at: 2016-06-20 13:51:24.283457000 Z
+  instrument_id: 10
+Instruction_7:
+  id: 74
+  text: "#<Instruction:0x0000000def4a40>"
+  created_at: 2016-06-20 13:51:36.621457000 Z
+  updated_at: 2016-06-20 13:51:36.621457000 Z
+  instrument_id: 10
+Instruction_8:
+  id: 75
+  text: "#<Instruction:0x0000000def4a40>"
+  created_at: 2016-06-20 13:51:36.686457000 Z
+  updated_at: 2016-06-20 13:51:36.686457000 Z
+  instrument_id: 10
+Instruction_9:
+  id: 76
+  text: "#<Instruction:0x000000139c08e8>"
+  created_at: 2016-06-20 13:51:36.747457000 Z
+  updated_at: 2016-06-20 13:51:36.747457000 Z
+  instrument_id: 10
+Instruction_10:
+  id: 77
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.147457000 Z
+  updated_at: 2016-06-20 13:51:38.147457000 Z
+  instrument_id: 10
+Instruction_11:
+  id: 78
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.209457000 Z
+  updated_at: 2016-06-20 13:51:38.209457000 Z
+  instrument_id: 10
+Instruction_12:
+  id: 79
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.282457000 Z
+  updated_at: 2016-06-20 13:51:38.282457000 Z
+  instrument_id: 10
+Instruction_13:
+  id: 80
+  text: "#<Instruction:0x00000013fb1068>"
+  created_at: 2016-06-20 13:51:38.347457000 Z
+  updated_at: 2016-06-20 13:51:38.347457000 Z
+  instrument_id: 10
+Instruction_14:
+  id: 81
+  text: Check Have you included the contraceptive pill, iron tablets, laxatives, v
+    itamins, sleeping tablets, aspirin, cough mixture, pain killers, herbal medicine,
+    homeopathic medicine?
+  created_at: 2016-06-21 13:18:34.671056000 Z
+  updated_at: 2016-06-21 13:18:34.671056000 Z
+  instrument_id: 11
+Instruction_15:
+  id: 82
+  text: "(If still pregnant put 77 77 7)"
+  created_at: 2016-06-21 13:18:34.707059000 Z
+  updated_at: 2016-06-21 13:18:34.707059000 Z
+  instrument_id: 11
+Instruction_16:
+  id: 83
+  text: "(tick all that apply)"
+  created_at: 2016-06-21 13:18:34.710060000 Z
+  updated_at: 2016-06-21 13:18:34.710060000 Z
+  instrument_id: 11
+Instruction_17:
+  id: 84
+  text: "(If you don't keep to any particular temperature put 87)"
+  created_at: 2016-06-21 13:18:34.713060000 Z
+  updated_at: 2016-06-21 13:18:34.713060000 Z
+  instrument_id: 11
+Instruction_18:
+  id: 85
+  text: "(put 00 for from birth or before birth)"
+  created_at: 2016-06-21 13:18:34.715060000 Z
+  updated_at: 2016-06-21 13:18:34.715060000 Z
+  instrument_id: 11
+Instruction_19:
+  id: 86
+  text: "(put 00 for from birth)"
+  created_at: 2016-06-21 13:18:34.718060000 Z
+  updated_at: 2016-06-21 13:18:34.718060000 Z
+  instrument_id: 11
+Instruction_20:
+  id: 87
+  text: "(If none, put 00)"
+  created_at: 2016-06-21 13:18:34.721061000 Z
+  updated_at: 2016-06-21 13:18:34.721061000 Z
+  instrument_id: 11
+Instruction_21:
+  id: 88
+  text: "(tick all those who really understand)"
+  created_at: 2016-06-21 13:18:34.724061000 Z
+  updated_at: 2016-06-21 13:18:34.724061000 Z
+  instrument_id: 11
+Instruction_22:
+  id: 89
+  text: "(tick as many as apply)"
+  created_at: 2016-06-21 13:18:34.726061000 Z
+  updated_at: 2016-06-21 13:18:34.726061000 Z
+  instrument_id: 11
+Instruction_23:
+  id: 90
+  text: "#<Instruction:0x0000000d6e2a28>"
+  created_at: 2016-06-21 13:18:40.614650000 Z
+  updated_at: 2016-06-21 13:18:40.614650000 Z
+  instrument_id: 11
+Instruction_24:
+  id: 91
+  text: "#<Instruction:0x0000000dc58980>"
+  created_at: 2016-06-21 13:18:41.375726000 Z
+  updated_at: 2016-06-21 13:18:41.375726000 Z
+  instrument_id: 11
+Instruction_25:
+  id: 92
+  text: "#<Instruction:0x0000000dbd20d8>"
+  created_at: 2016-06-21 13:18:41.402729000 Z
+  updated_at: 2016-06-21 13:18:41.402729000 Z
+  instrument_id: 11
+Instruction_26:
+  id: 93
+  text: Check Have you included the contraceptive pill, iron tablets, laxatives, vitamins,
+    sleeping tablets, aspirin, cough mixture, pain killers, herbal medicine?
+  created_at: 2016-07-01 11:34:32.775913000 Z
+  updated_at: 2016-07-01 11:34:32.775913000 Z
+  instrument_id: 12
+Instruction_27:
+  id: 94
+  text: "[Please make sure you have answered each of the three columns]"
+  created_at: 2016-07-01 11:34:32.887913000 Z
+  updated_at: 2016-07-01 11:34:32.887913000 Z
+  instrument_id: 12
+Instruction_28:
+  id: 95
+  text: If there is not enough space please continue on the back cover.
+  created_at: 2016-07-01 11:34:32.890913000 Z
+  updated_at: 2016-07-01 11:34:32.890913000 Z
+  instrument_id: 12
+Instruction_29:
+  id: 96
+  text: "(tick one only)"
+  created_at: 2016-07-01 11:34:32.893913000 Z
+  updated_at: 2016-07-01 11:34:32.893913000 Z
+  instrument_id: 12
+Instruction_30:
+  id: 97
+  text: "#<Instruction:0x0000000c575bc8>"
+  created_at: 2016-07-01 11:34:35.976913000 Z
+  updated_at: 2016-07-01 11:34:35.976913000 Z
+  instrument_id: 12
+Instruction_31:
+  id: 98
+  text: "#<Instruction:0x0000000b56b070>"
+  created_at: 2016-07-01 11:34:36.028913000 Z
+  updated_at: 2016-07-01 11:34:36.028913000 Z
+  instrument_id: 12
+Instruction_32:
+  id: 99
+  text: "#<Instruction:0x0000000d157798>"
+  created_at: 2016-07-01 11:34:36.052913000 Z
+  updated_at: 2016-07-01 11:34:36.052913000 Z
+  instrument_id: 12

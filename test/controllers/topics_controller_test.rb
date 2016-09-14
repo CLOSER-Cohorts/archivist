@@ -2,6 +2,8 @@ require 'test_helper'
 
 class TopicsControllerTest < ActionController::TestCase
   setup do
+    @user = users :User_1
+    sign_in @user
     @topic = topics(:one)
     @l2_topic = topics(:two)
   end

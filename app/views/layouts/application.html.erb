@@ -5,17 +5,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-ng-bind-template="{{page.title}} | Archivist">Archivist</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all'%>
+  <%= javascript_include_tag 'application'%>
   <%= csrf_meta_tags %>
+  <%= favicon_link_tag %>
 
   <script>
     window.socket_url = "<%= ENV['REALTIME_URL'] || 'http://localhost:5000' %>";
+    window.current_user_email = "<%= current_user.nil? ? "" : current_user.email %>";
+    window.app_version = "<%= Archivist::Application::VERSION %>";
+    window.worker_js = "<%= javascript_path 'worker' %>";
   </script>
 
   <base href="/">
 </head>
-<body data-ng-controller="RootController">
+<body data-ng-controller="RootController" data-ng-class="user.role">
 
 <%= yield %>
 

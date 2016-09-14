@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Account Activation</h2>
+      </div>
+      <div class="panel-body">
+        <%= form_for resource, :as => :user, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f| %>
+            <%= devise_error_messages! %>
+            <fieldset>
+              <legend>Account Activation<% if resource.try(:first_name) %> for <%= resource.first_name %> <%= resource.last_name %><% end %></legend>
+
+              <% if @requires_password %>
+                  <div class="form-group">
+                    <%= f.label :password,'Choose a Password:' %>
+                    <%= f.password_field :password, class: 'form-control' %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :password_confirmation,'Password Confirmation:' %>
+                    <%= f.password_field :password_confirmation, class: 'form-control' %>
+                  </div>
+              <% end %>
+              <%= hidden_field_tag :confirmation_token,@confirmation_token %>
+              <%= f.submit "Activate", class:'btn btn-primary' %>
+            </fieldset>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

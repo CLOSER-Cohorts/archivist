@@ -1,4 +1,11 @@
 class ResponseDomainDatetime < ActiveRecord::Base
   include ResponseDomain
-  belongs_to :instrument
+
+  def subtype
+    self.datetime_type
+  end
+
+  def params
+    '(' + self.format.to_s + ')'
+  end
 end

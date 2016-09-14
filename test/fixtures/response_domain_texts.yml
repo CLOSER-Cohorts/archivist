@@ -1,11 +1,86 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  label: MyString
-  maxlen: 1
-  instrument: :one
-
-two:
-  label: MyString
-  maxlen: 1
-  instrument: :one
+---
+ResponseDomainText_1:
+  id: 25
+  label: Generic text
+  maxlen: 255
+  created_at: 2016-06-20 13:51:24.329457000 Z
+  updated_at: 2016-06-20 13:51:24.329457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
+ResponseDomainText_2:
+  id: 26
+  label: Other
+  maxlen: 255
+  created_at: 2016-06-20 13:51:24.339457000 Z
+  updated_at: 2016-06-20 13:51:24.339457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
+ResponseDomainText_3:
+  id: 27
+  label: Long text
+  created_at: 2016-06-20 13:51:24.366457000 Z
+  updated_at: 2016-06-20 13:51:24.366457000 Z
+  instrument_id: 10
+  response_domain_type: ResponseDomainText
+ResponseDomainText_4:
+  id: 28
+  label: Other
+  maxlen: 255
+  created_at: 2016-06-21 13:18:34.734062000 Z
+  updated_at: 2016-06-21 13:18:34.734062000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
+ResponseDomainText_5:
+  id: 29
+  label: Generic text
+  maxlen: 255
+  created_at: 2016-06-21 13:18:34.769065000 Z
+  updated_at: 2016-06-21 13:18:34.769065000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
+ResponseDomainText_6:
+  id: 30
+  label: Long text
+  created_at: 2016-06-21 13:18:34.773066000 Z
+  updated_at: 2016-06-21 13:18:34.773066000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
+ResponseDomainText_7:
+  id: 31
+  label: Generic text 1
+  maxlen: 255
+  created_at: 2016-06-21 13:18:34.776066000 Z
+  updated_at: 2016-06-21 13:18:34.776066000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
+ResponseDomainText_8:
+  id: 32
+  label: Text
+  maxlen: 255
+  created_at: 2016-06-21 14:08:35.695152000 Z
+  updated_at: 2016-06-21 14:08:35.695152000 Z
+  instrument_id: 11
+  response_domain_type: ResponseDomainText
+ResponseDomainText_9:
+  id: 33
+  label: Other
+  maxlen: 255
+  created_at: 2016-07-01 11:34:32.901913000 Z
+  updated_at: 2016-07-01 11:34:32.901913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText
+ResponseDomainText_10:
+  id: 34
+  label: Generic text
+  maxlen: 255
+  created_at: 2016-07-01 11:34:32.940913000 Z
+  updated_at: 2016-07-01 11:34:32.940913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText
+ResponseDomainText_11:
+  id: 35
+  label: Long text
+  created_at: 2016-07-01 11:34:32.946913000 Z
+  updated_at: 2016-07-01 11:34:32.946913000 Z
+  instrument_id: 12
+  response_domain_type: ResponseDomainText

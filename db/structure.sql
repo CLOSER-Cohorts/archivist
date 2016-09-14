@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.0
+-- Dumped by pg_dump version 9.5.0
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -23,6 +27,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -30,7 +48,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE categories (
@@ -62,7 +92,7 @@ ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
 
 
 --
--- Name: cc_conditions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_conditions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cc_conditions (
@@ -71,7 +101,8 @@ CREATE TABLE cc_conditions (
     logic character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcCondition'::character varying
 );
 
 
@@ -95,7 +126,7 @@ ALTER SEQUENCE cc_conditions_id_seq OWNED BY cc_conditions.id;
 
 
 --
--- Name: cc_loops; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_loops; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cc_loops (
@@ -106,7 +137,8 @@ CREATE TABLE cc_loops (
     loop_while character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcLoop'::character varying
 );
 
 
@@ -130,7 +162,7 @@ ALTER SEQUENCE cc_loops_id_seq OWNED BY cc_loops.id;
 
 
 --
--- Name: cc_questions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_questions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cc_questions (
@@ -140,7 +172,8 @@ CREATE TABLE cc_questions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcQuestion'::character varying
 );
 
 
@@ -164,7 +197,7 @@ ALTER SEQUENCE cc_questions_id_seq OWNED BY cc_questions.id;
 
 
 --
--- Name: cc_sequences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_sequences; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cc_sequences (
@@ -172,7 +205,8 @@ CREATE TABLE cc_sequences (
     literal character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcSequence'::character varying
 );
 
 
@@ -196,7 +230,7 @@ ALTER SEQUENCE cc_sequences_id_seq OWNED BY cc_sequences.id;
 
 
 --
--- Name: cc_statements; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_statements; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE cc_statements (
@@ -204,7 +238,8 @@ CREATE TABLE cc_statements (
     literal character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    construct_type character varying DEFAULT 'CcStatement'::character varying
 );
 
 
@@ -228,7 +263,7 @@ ALTER SEQUENCE cc_statements_id_seq OWNED BY cc_statements.id;
 
 
 --
--- Name: code_lists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: code_lists; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE code_lists (
@@ -260,7 +295,7 @@ ALTER SEQUENCE code_lists_id_seq OWNED BY code_lists.id;
 
 
 --
--- Name: codes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: codes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE codes (
@@ -270,7 +305,8 @@ CREATE TABLE codes (
     code_list_id integer NOT NULL,
     category_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
 );
 
 
@@ -294,7 +330,7 @@ ALTER SEQUENCE codes_id_seq OWNED BY codes.id;
 
 
 --
--- Name: control_constructs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE control_constructs (
@@ -306,7 +342,8 @@ CREATE TABLE control_constructs (
     "position" integer,
     branch integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
 );
 
 
@@ -330,7 +367,7 @@ ALTER SEQUENCE control_constructs_id_seq OWNED BY control_constructs.id;
 
 
 --
--- Name: datasets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: datasets; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE datasets (
@@ -363,7 +400,40 @@ ALTER SEQUENCE datasets_id_seq OWNED BY datasets.id;
 
 
 --
--- Name: instructions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE groups (
+    id integer NOT NULL,
+    group_type character varying,
+    label character varying,
+    study character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
+
+
+--
+-- Name: instructions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE instructions (
@@ -395,7 +465,7 @@ ALTER SEQUENCE instructions_id_seq OWNED BY instructions.id;
 
 
 --
--- Name: instruments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: instruments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE instruments (
@@ -411,7 +481,7 @@ CREATE TABLE instruments (
 
 
 --
--- Name: instruments_datasets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: instruments_datasets; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE instruments_datasets (
@@ -462,7 +532,7 @@ ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
 
 
 --
--- Name: links; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: links; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE links (
@@ -497,7 +567,7 @@ ALTER SEQUENCE links_id_seq OWNED BY links.id;
 
 
 --
--- Name: maps; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: maps; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE maps (
@@ -532,7 +602,7 @@ ALTER SEQUENCE maps_id_seq OWNED BY maps.id;
 
 
 --
--- Name: question_grids; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: question_grids; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE question_grids (
@@ -547,7 +617,8 @@ CREATE TABLE question_grids (
     corner_label character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    question_type character varying DEFAULT 'QuestionGrid'::character varying
 );
 
 
@@ -571,7 +642,7 @@ ALTER SEQUENCE question_grids_id_seq OWNED BY question_grids.id;
 
 
 --
--- Name: question_items; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: question_items; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE question_items (
@@ -581,7 +652,8 @@ CREATE TABLE question_items (
     instruction_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    question_type character varying DEFAULT 'QuestionItem'::character varying
 );
 
 
@@ -605,7 +677,7 @@ ALTER SEQUENCE question_items_id_seq OWNED BY question_items.id;
 
 
 --
--- Name: rds_qs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: rds_qs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE rds_qs (
@@ -616,7 +688,9 @@ CREATE TABLE rds_qs (
     question_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    code_id integer
+    code_id integer,
+    instrument_id integer NOT NULL,
+    rd_order integer
 );
 
 
@@ -640,14 +714,18 @@ ALTER SEQUENCE rds_qs_id_seq OWNED BY rds_qs.id;
 
 
 --
--- Name: response_domain_codes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_codes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE response_domain_codes (
     id integer NOT NULL,
     code_list_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainCode'::character varying,
+    instrument_id integer NOT NULL,
+    min_responses integer DEFAULT 1 NOT NULL,
+    max_responses integer DEFAULT 1 NOT NULL
 );
 
 
@@ -671,7 +749,7 @@ ALTER SEQUENCE response_domain_codes_id_seq OWNED BY response_domain_codes.id;
 
 
 --
--- Name: response_domain_datetimes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_datetimes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE response_domain_datetimes (
@@ -681,7 +759,8 @@ CREATE TABLE response_domain_datetimes (
     format character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainDatetime'::character varying
 );
 
 
@@ -705,7 +784,7 @@ ALTER SEQUENCE response_domain_datetimes_id_seq OWNED BY response_domain_datetim
 
 
 --
--- Name: response_domain_numerics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_numerics; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE response_domain_numerics (
@@ -716,7 +795,8 @@ CREATE TABLE response_domain_numerics (
     max numeric,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainNumeric'::character varying
 );
 
 
@@ -740,7 +820,7 @@ ALTER SEQUENCE response_domain_numerics_id_seq OWNED BY response_domain_numerics
 
 
 --
--- Name: response_domain_texts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_texts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE response_domain_texts (
@@ -749,7 +829,8 @@ CREATE TABLE response_domain_texts (
     maxlen integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
+    instrument_id integer NOT NULL,
+    response_domain_type character varying DEFAULT 'ResponseDomainText'::character varying
 );
 
 
@@ -773,7 +854,7 @@ ALTER SEQUENCE response_domain_texts_id_seq OWNED BY response_domain_texts.id;
 
 
 --
--- Name: response_units; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: response_units; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE response_units (
@@ -805,7 +886,7 @@ ALTER SEQUENCE response_units_id_seq OWNED BY response_units.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -814,7 +895,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: topics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE topics (
@@ -847,7 +928,58 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 
 --
--- Name: variables; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    first_name character varying DEFAULT ''::character varying NOT NULL,
+    last_name character varying DEFAULT ''::character varying NOT NULL,
+    group_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    role integer DEFAULT 0 NOT NULL,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    failed_attempts integer,
+    unlock_token character varying,
+    locked_at timestamp without time zone
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: variables; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE variables (
@@ -954,6 +1086,13 @@ ALTER TABLE ONLY datasets ALTER COLUMN id SET DEFAULT nextval('datasets_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY instructions ALTER COLUMN id SET DEFAULT nextval('instructions_id_seq'::regclass);
 
 
@@ -1052,11 +1191,26 @@ ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq'::regclass);
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -1064,7 +1218,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_conditions
@@ -1072,7 +1226,7 @@ ALTER TABLE ONLY cc_conditions
 
 
 --
--- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_loops
@@ -1080,7 +1234,7 @@ ALTER TABLE ONLY cc_loops
 
 
 --
--- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_questions
@@ -1088,7 +1242,7 @@ ALTER TABLE ONLY cc_questions
 
 
 --
--- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_sequences
@@ -1096,7 +1250,7 @@ ALTER TABLE ONLY cc_sequences
 
 
 --
--- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_statements
@@ -1104,7 +1258,7 @@ ALTER TABLE ONLY cc_statements
 
 
 --
--- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -1112,7 +1266,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -1120,7 +1274,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1128,7 +1282,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets
@@ -1136,7 +1290,63 @@ ALTER TABLE ONLY datasets
 
 
 --
--- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT encapsulate_unique_for_categories UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY code_lists
+    ADD CONSTRAINT encapsulate_unique_for_code_lists UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_unique_for_control_constructs UNIQUE (construct_id, construct_type, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_unique_for_control_constructs_internally UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY instructions
+    ADD CONSTRAINT encapsulate_unique_for_instructions UNIQUE (id, instrument_id);
+
+
+--
+-- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY response_units
+    ADD CONSTRAINT encapsulate_unique_for_response_units UNIQUE (id, instrument_id);
+
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -1144,7 +1354,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -1152,7 +1362,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments
@@ -1160,7 +1370,7 @@ ALTER TABLE ONLY instruments
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -1168,7 +1378,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -1176,7 +1386,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -1184,7 +1394,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -1192,7 +1402,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -1200,7 +1410,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -1208,7 +1418,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes
@@ -1216,7 +1426,7 @@ ALTER TABLE ONLY response_domain_datetimes
 
 
 --
--- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics
@@ -1224,7 +1434,7 @@ ALTER TABLE ONLY response_domain_numerics
 
 
 --
--- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts
@@ -1232,7 +1442,7 @@ ALTER TABLE ONLY response_domain_texts
 
 
 --
--- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -1240,7 +1450,7 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -1248,7 +1458,23 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rds_qs
+    ADD CONSTRAINT unique_for_rd_order_within_question UNIQUE (question_id, question_type, rd_order) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -1256,298 +1482,465 @@ ALTER TABLE ONLY variables
 
 
 --
--- Name: index_categories_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_categories_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_categories_on_instrument_id ON categories USING btree (instrument_id);
 
 
 --
--- Name: index_categories_on_label; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_categories_on_label; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_categories_on_label ON categories USING btree (label);
 
 
 --
--- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_conditions_on_instrument_id ON cc_conditions USING btree (instrument_id);
 
 
 --
--- Name: index_cc_loops_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_loops_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_loops_on_instrument_id ON cc_loops USING btree (instrument_id);
 
 
 --
--- Name: index_cc_questions_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_questions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_questions_on_instrument_id ON cc_questions USING btree (instrument_id);
 
 
 --
--- Name: index_cc_questions_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_questions_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_questions_on_question_type_and_question_id ON cc_questions USING btree (question_type, question_id);
 
 
 --
--- Name: index_cc_questions_on_response_unit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_questions_on_response_unit_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_questions_on_response_unit_id ON cc_questions USING btree (response_unit_id);
 
 
 --
--- Name: index_cc_sequences_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_sequences_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_sequences_on_instrument_id ON cc_sequences USING btree (instrument_id);
 
 
 --
--- Name: index_cc_statements_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_cc_statements_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cc_statements_on_instrument_id ON cc_statements USING btree (instrument_id);
 
 
 --
--- Name: index_code_lists_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_code_lists_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_code_lists_on_instrument_id ON code_lists USING btree (instrument_id);
 
 
 --
--- Name: index_codes_on_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_codes_on_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_codes_on_category_id ON codes USING btree (category_id);
 
 
 --
--- Name: index_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_codes_on_code_list_id ON codes USING btree (code_list_id);
 
 
 --
--- Name: index_control_constructs_on_construct_type_and_construct_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_codes_on_instrument_id ON codes USING btree (instrument_id);
+
+
+--
+-- Name: index_control_constructs_on_construct_type_and_construct_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_control_constructs_on_construct_type_and_construct_id ON control_constructs USING btree (construct_type, construct_id);
 
 
 --
--- Name: index_control_constructs_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_control_constructs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_control_constructs_on_instrument_id ON control_constructs USING btree (instrument_id);
+
+
+--
+-- Name: index_control_constructs_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_control_constructs_on_parent_id ON control_constructs USING btree (parent_id);
 
 
 --
--- Name: index_instructions_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_instructions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_instructions_on_instrument_id ON instructions USING btree (instrument_id);
 
 
 --
--- Name: index_instruments_datasets_on_dataset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_instruments_datasets_on_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_instruments_datasets_on_dataset_id ON instruments_datasets USING btree (dataset_id);
 
 
 --
--- Name: index_instruments_datasets_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_instruments_datasets_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_instruments_datasets_on_instrument_id ON instruments_datasets USING btree (instrument_id);
 
 
 --
--- Name: index_links_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_links_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_links_on_target_type_and_target_id ON links USING btree (target_type, target_id);
 
 
 --
--- Name: index_links_on_topic_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_links_on_topic_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_links_on_topic_id ON links USING btree (topic_id);
 
 
 --
--- Name: index_maps_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_maps_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_maps_on_source_type_and_source_id ON maps USING btree (source_type, source_id);
 
 
 --
--- Name: index_maps_on_variable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_maps_on_variable_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_maps_on_variable_id ON maps USING btree (variable_id);
 
 
 --
--- Name: index_question_grids_on_horizontal_code_list_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_grids_on_horizontal_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_grids_on_horizontal_code_list_id ON question_grids USING btree (horizontal_code_list_id);
 
 
 --
--- Name: index_question_grids_on_instruction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_grids_on_instruction_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_grids_on_instruction_id ON question_grids USING btree (instruction_id);
 
 
 --
--- Name: index_question_grids_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_grids_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_grids_on_instrument_id ON question_grids USING btree (instrument_id);
 
 
 --
--- Name: index_question_grids_on_vertical_code_list_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_grids_on_vertical_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_grids_on_vertical_code_list_id ON question_grids USING btree (vertical_code_list_id);
 
 
 --
--- Name: index_question_items_on_instruction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_items_on_instruction_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_items_on_instruction_id ON question_items USING btree (instruction_id);
 
 
 --
--- Name: index_question_items_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_question_items_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_question_items_on_instrument_id ON question_items USING btree (instrument_id);
 
 
 --
--- Name: index_rds_qs_on_code_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_rds_qs_on_code_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_rds_qs_on_code_id ON rds_qs USING btree (code_id);
 
 
 --
--- Name: index_rds_qs_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_rds_qs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rds_qs_on_instrument_id ON rds_qs USING btree (instrument_id);
+
+
+--
+-- Name: index_rds_qs_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_rds_qs_on_question_type_and_question_id ON rds_qs USING btree (question_type, question_id);
 
 
 --
--- Name: index_rds_qs_on_response_domain_type_and_response_domain_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_rds_qs_on_response_domain_type_and_response_domain_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_rds_qs_on_response_domain_type_and_response_domain_id ON rds_qs USING btree (response_domain_type, response_domain_id);
 
 
 --
--- Name: index_response_domain_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_response_domain_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_response_domain_codes_on_code_list_id ON response_domain_codes USING btree (code_list_id);
 
 
 --
--- Name: index_response_domain_datetimes_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_response_domain_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_response_domain_codes_on_instrument_id ON response_domain_codes USING btree (instrument_id);
+
+
+--
+-- Name: index_response_domain_datetimes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_response_domain_datetimes_on_instrument_id ON response_domain_datetimes USING btree (instrument_id);
 
 
 --
--- Name: index_response_domain_numerics_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_response_domain_numerics_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_response_domain_numerics_on_instrument_id ON response_domain_numerics USING btree (instrument_id);
 
 
 --
--- Name: index_response_domain_texts_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_response_domain_texts_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_response_domain_texts_on_instrument_id ON response_domain_texts USING btree (instrument_id);
 
 
 --
--- Name: index_response_units_on_instrument_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_response_units_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_response_units_on_instrument_id ON response_units USING btree (instrument_id);
 
 
 --
--- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_topics_on_parent_id ON topics USING btree (parent_id);
 
 
 --
--- Name: index_variables_on_dataset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_group_id ON users USING btree (group_id);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
+
+
+--
+-- Name: index_variables_on_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_variables_on_dataset_id ON variables USING btree (dataset_id);
 
 
 --
--- Name: index_variables_on_name_and_dataset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_variables_on_name_and_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_variables_on_name_and_dataset_id ON variables USING btree (name, dataset_id);
 
 
 --
--- Name: unique_linking; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_linking; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_linking ON links USING btree (target_id, target_type, topic_id, x, y);
 
 
 --
--- Name: unique_mapping; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_mapping; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, variable_id, x, y);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
--- Name: fk_rails_21c0390148; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_conditions
+    ADD CONSTRAINT encapsulate_cc_conditions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_loops
+    ADD CONSTRAINT encapsulate_cc_loops_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_sequences
+    ADD CONSTRAINT encapsulate_cc_sequences_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cc_statements
+    ADD CONSTRAINT encapsulate_cc_statements_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES categories(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT encapsulate_control_constructs_to_its_self FOREIGN KEY (parent_id, instrument_id) REFERENCES control_constructs(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_21c0390148 FOREIGN KEY (horizontal_code_list_id) REFERENCES code_lists(id);
+    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY question_items
+    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY codes
+    ADD CONSTRAINT fk_rails_1d78394359 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1583,11 +1976,27 @@ ALTER TABLE ONLY topics
 
 
 --
+-- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY response_domain_codes
+    ADD CONSTRAINT fk_rails_948d561862 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+
+
+--
 -- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
     ADD CONSTRAINT fk_rails_9e38e93f70 FOREIGN KEY (topic_id) REFERENCES topics(id);
+
+
+--
+-- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY control_constructs
+    ADD CONSTRAINT fk_rails_aebc678501 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1615,19 +2024,11 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_e0f057a9d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_e0f057a9d7 FOREIGN KEY (instruction_id) REFERENCES instructions(id);
-
-
---
--- Name: fk_rails_effac2db69; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT fk_rails_effac2db69 FOREIGN KEY (vertical_code_list_id) REFERENCES code_lists(id);
+ALTER TABLE ONLY rds_qs
+    ADD CONSTRAINT fk_rails_e49dc1bfb6 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
 
 
 --
@@ -1639,11 +2040,11 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_f3b15ab029; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_items
-    ADD CONSTRAINT fk_rails_f3b15ab029 FOREIGN KEY (instruction_id) REFERENCES instructions(id);
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES groups(id);
 
 
 --
@@ -1658,71 +2059,8 @@ ALTER TABLE ONLY codes
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547');
+INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337');
 
-INSERT INTO schema_migrations (version) VALUES ('20151129204534');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129204903');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129205538');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129205758');
-
-INSERT INTO schema_migrations (version) VALUES ('20151129210043');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062018');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062219');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130062608');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130063811');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130142555');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130143016');
-
-INSERT INTO schema_migrations (version) VALUES ('20151130143420');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201094202');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201094926');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095143');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095347');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095532');
-
-INSERT INTO schema_migrations (version) VALUES ('20151201095541');
-
-INSERT INTO schema_migrations (version) VALUES ('20151203122424');
-
-INSERT INTO schema_migrations (version) VALUES ('20151204181052');
-
-INSERT INTO schema_migrations (version) VALUES ('20151204193654');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206105535');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206110030');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165407');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165603');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206165726');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206185120');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206185659');
-
-INSERT INTO schema_migrations (version) VALUES ('20151206205100');
-
-INSERT INTO schema_migrations (version) VALUES ('20151211153924');
-
-INSERT INTO schema_migrations (version) VALUES ('20160121070958');
-
-INSERT INTO schema_migrations (version) VALUES ('20160216154523');
 

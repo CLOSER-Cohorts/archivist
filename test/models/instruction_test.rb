@@ -5,7 +5,7 @@ class InstructionTest < ActiveSupport::TestCase
   #   assert true
   # end
   setup do
-    @instruction = instructions :one
+    @instruction = instructions :Instruction_1
   end
 
   test "belongs to an instrument" do

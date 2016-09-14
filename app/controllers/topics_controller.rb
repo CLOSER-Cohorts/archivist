@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
 
   add_basic_actions require: ':topic',
                     params: '[:name, :parent_id, :code]',
-                    collection: 'Topic.all'
+                    collection: 'policy_scope(Topic.all)'
 
   def nested_index
     @collection = collection.where parent_id: nil

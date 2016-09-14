@@ -18,7 +18,7 @@ module BaseInstrumentController
         private
 
         def set_instrument
-          @instrument = Instrument.find(params[:instrument_id])
+          @instrument = policy_scope(Instrument).find(params[:instrument_id])
         end
 
       RUBY

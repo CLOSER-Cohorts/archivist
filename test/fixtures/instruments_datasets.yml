@@ -1,9 +1,1 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-#one:
-  #instrument_id: 
-  #dataset_id: 
-
-#two:
-  #instrument_id: 
-  #dataset_id: 
+--- {}
