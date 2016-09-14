@@ -23,7 +23,9 @@ angular.module('archivist.build').controller(
     ) ->
 
       $scope.load_sidebar = ->
-        $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
+        $scope.sidebar_objs = $scope.instrument.Questions.Items
+        .concat($scope.instrument.Questions.Grids)
+        .sort_by_property()
 
       $scope.add_rd = (rd)->
         if $routeParams.question_type == 'question_items'
@@ -147,7 +149,7 @@ angular.module('archivist.build').controller(
         null
 
       $scope.after_instrument_loaded = ->
-        $scope.sidebar_objs = $scope.instrument.Questions.Items.concat $scope.instrument.Questions.Grids
+        $scope.load_sidebar()
         DataManager.resolveCodes()
         console.log $scope.sidebar_objs
 

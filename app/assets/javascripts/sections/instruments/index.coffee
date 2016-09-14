@@ -62,11 +62,30 @@ instruments.controller('InstrumentsController',
             $timeout(->
               if loadStructure
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
-
-                DataManager.resolve().then ->
-                  $scope.instrument = DataManager.Data.Instrument
-                  $scope.loading.state = "Done"
-                  console.log $scope
+                DataManager.resolveConstructs()
+                DataManager.resolveQuestions()
+                $scope.breadcrumbs = [
+                  {
+                    label: 'Instruments',
+                    link: '/instruments',
+                    active: false
+                  },
+                  {
+                    label: $scope.instrument.prefix,
+                    link: false,
+                    active: false,
+                    subs: [
+                      {label: 'Build', link: '/instruments/' + $routeParams.id + '/build'}
+                    ]
+                  },
+                  {
+                    label: 'View',
+                    link: false,
+                    active: true
+                  }
+                ]
+                console.log $scope
+              $scope.loading.state = "Done"
             , 100)
 
       else

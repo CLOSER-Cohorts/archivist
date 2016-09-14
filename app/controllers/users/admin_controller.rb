@@ -1,7 +1,11 @@
 class Users::AdminController < ApplicationController
 
   def index
-    render json: User.all
+    @collection = User.all
+  end
+
+  def show
+    @object = User.find safe_params
   end
 
   def create

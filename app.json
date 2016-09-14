@@ -1,13 +1,24 @@
 {
   "name": "archivist",
   "description": "Archivist is a cutting edge tool for documenting data collection in DDI.",
+  "keywords": [
+    "DDI",
+    "editor",
+    "questionnaire"
+  ],
+  "website": "https://wiki.ucl.ac.uk/display/CLOS/Archivist",
   "repository": "https://github.com/CLOSER-Cohorts/archivist",
   "scripts": {
     "postdeploy": "rails db:migrate"
   },
   "env": {},
   "addons": [
-    "heroku-postgresql",
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
+      }
+    },
     "heroku-redis",
     "postmark"
   ]

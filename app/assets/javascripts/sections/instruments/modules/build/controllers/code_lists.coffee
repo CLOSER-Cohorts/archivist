@@ -19,7 +19,14 @@ angular.module('archivist.build').controller(
         get_count_from_used_by = (cl)->
           cl.count = cl.used_by.length
           cl
-        $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists)
+        $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists).sort_by_property()
+        $timeout ->
+          offset = localStorage.getItem 'sidebar_scroll'
+          if offset != null
+            console.log offset
+            jQuery('.sidebar').scrollTop offset
+            localStorage.removeItem 'sidebar_scroll'
+        , 0
 
       $scope.delete = ->
         index = $scope.instrument.CodeLists.get_index_by_id parseInt($routeParams.code_list_id)
@@ -117,6 +124,7 @@ angular.module('archivist.build').controller(
 
       $scope.after_instrument_loaded = ->
         $scope.categories = DataManager.Data.Codes.Categories
+        console.log $scope.sidebar_objs
         $scope.load_sidebar()
 
         $scope.$watch('current.newValue', (newVal, oldVal, scope)->
@@ -129,6 +137,8 @@ angular.module('archivist.build').controller(
               $timeout(
                 ->
                   jQuery('.code-value').last().focus()
+                  strLength = jQuery('.code-value').last().val().length * 2
+                  jQuery('.code-value').last()[0].setSelectionRange(strLength, strLength);
                 ,0
               )
         )

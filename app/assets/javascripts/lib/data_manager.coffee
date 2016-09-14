@@ -50,8 +50,6 @@ data_manager.factory(
     )->
       DataManager = {}
 
-      DataManager.Worker = new Worker window.worker_js
-
       DataManager.Data = {}
 
       DataManager.Instruments       = Instruments
@@ -266,25 +264,13 @@ data_manager.factory(
         else
           cb?()
 
-      DataManager.resolve = (options)->
+      DataManager.resolveConstructs = (options)->
+        DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
+        DataManager.ConstructResolver.broken_resolve()
 
-        deferred = $q.defer()
-        DataManager.Worker.addEventListener 'message', (e)->
-          DataManager.Data = e.data
-          deferred.resolve()
-        , false
-        console.log DataManager.Data
-        DataManager.Worker.postMessage
-          data: DataManager.Data,
-          options: options,
-          type: [
-            'constructs',
-            'questions'
-            ]
-
-        #promises.push DataManager.resolveCodes()
-
-        deferred.promise
+      DataManager.resolveQuestions = ->
+        DataManager.QuestionResolver ?= new ResolutionService.QuestionResolver DataManager.Data.Questions
+        DataManager.QuestionResolver.resolve DataManager.Data.Constructs.Questions
 
       DataManager.resolveCodes = ->
         DataManager.CodeResolver ?= new ResolutionService.CodeResolver(
@@ -303,7 +289,7 @@ data_manager.factory(
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
 
-      DataManager.getInstrumentStats = (id)->
+      DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
         DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id)
         DataManager.Data.InstrumentStats[id].$promise.then (res)->
@@ -311,19 +297,24 @@ data_manager.factory(
             if res.data.hasOwnProperty key
               DataManager.Data.InstrumentStats[id][key] = res.data[key]
           DataManager.Data.InstrumentStats[id].$resolved = true
+          if cb?
+            cb.call()
         DataManager.Data.InstrumentStats[id]
 
       DataManager.getQuestionItemIDs = ->
         output = []
         for qi in DataManager.Data.Questions.Items
-          output.push {value: qi.id, label: qi.label}
+          output.push {value: qi.id, label: qi.label, type: 'QuestionItem'}
         output
 
       DataManager.getQuestionGridIDs = ->
         output = []
         for qg in DataManager.Data.Questions.Grids
-          output.push {value: qg.id, label: qg.label}
+          output.push {value: qg.id, label: qg.label, type: 'QuestionGrid'}
         output
+
+      DataManager.getQuestionIDs = ->
+        DataManager.getQuestionItemIDs().concat DataManager.getQuestionGridIDs()
 
       DataManager.getUsers = ->
         promises = []
@@ -382,8 +373,10 @@ data_manager.factory(
                 if ['id','type'].indexOf(key) == -1
                   DataManager.Data.Instrument[key] = row[key]
 
-          if reresolve_questions || reresolve_constructs
-            DataManager.resolve()
+          if reresolve_questions
+            DataManager.resolveQuestions()
+          if reresolve_constructs
+            DataManager.resolveConstructs()
 
       DataManager
   ]

@@ -15,7 +15,7 @@ angular.module('archivist.build').controller(
     ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, Map, RealTimeListener, RealTimeLocking)->
 
       $scope.load_sidebar = ->
-        $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains)
+        $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains).sort_by_property()
 
       $scope.title = 'Response Domains'
       $scope.extra_url_parameters = [

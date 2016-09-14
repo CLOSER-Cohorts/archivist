@@ -16,14 +16,14 @@
 * instruments_datasets.rb
 
 ### Model Relationship Diagram
-Run `rake generate_erd` to regenerate (must have graphvis).
-![](/app/assets/images/diagrams/erd.png)
+Run `rails generate_erd` to regenerate (must have graphvis).
+![](/app/assets/images/diagrams/erd-wp.png)
 
 ## Configuration
 * Ruby: 2.2.3
-* Rails: 4.2.5.1
-* Postgres: 9.4.5
-* Redis: 3.0.7
+* Rails: >=5.0.0
+* Postgres: >=9.4
+* Redis: 3.x
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
@@ -36,14 +36,15 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 3. `gem install bundler`
 4. `bundler install`
 5. Set the environment variable  `RAILS_ENV=production` (e.g. `export RAILS_ENV=production`)
-6. Set the environment variable  `ARCHIVIST_DATABASE_PASSWORD=secure_password`
-7. `rails db:migrate`
-8. Start server: `bundle exec puma -C config/puma.rb`
+6. Copy `config/application.yml.dist` to `config/application.yml`
+7. Set the mailer, CDN and database password in the above file
+8. `rails db:migrate`
+9. Start server: `bundle exec puma -C config/puma.rb`
 
 This could cause the webserver to start...
 
 ## Testing
-To run the test suite just call `rake test`. Currently 196 tests and 263 assertions.
+To run the test suite just call `rails test`. Currently 196 tests and 263 assertions.
 
 ## Stats
 | Name                 |  Lines |     LOC | Classes | Methods | M/C | LOC/M |
@@ -65,7 +66,12 @@ To run the test suite just call `rake test`. Currently 196 tests and 263 asserti
   - Code to Test Ratio: 1:0.2
 
 ## Archivist Realtime
-Archivist is both a module within Archivist and an entirely separate webapp. [Archivist-realtime][realtime] is very slim Node.js app that provides a communications channel between the [Redis][redis] cache and all active users via websockets (Socket.io). The purpose of this is to be able to lock objects while editing them and to update a users screen as changes are made to an instrument.
+Archivist is both a module within Archivist and an entirely separate 
+webapp. [Archivist-realtime][realtime] is very slim Node.js app that 
+provides a communications channel between the [Redis][redis] cache and 
+all active users via websockets (Socket.io). The purpose of this is to 
+be able to lock objects while editing them and to update a users 
+screen as changes are made to an instrument.
 
 [realtime]: https://github.com/CLOSER-Cohorts/archivist-realtime
 [redis]: http://redis.io

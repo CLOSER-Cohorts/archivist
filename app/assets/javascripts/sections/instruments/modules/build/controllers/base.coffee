@@ -79,6 +79,7 @@ angular.module('archivist.build').controller(
 
       if !$scope.change_panel?
         $scope.change_panel = (obj) ->
+          localStorage.setItem 'sidebar_scroll', jQuery('.sidebar').scrollTop()
           $location.url $scope.edit_path obj
 
       $scope.listener = RealTimeListener (event, message)->

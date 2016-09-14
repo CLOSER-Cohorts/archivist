@@ -59,6 +59,10 @@ module XML::CADDIES
         if not @rdcs_created.include? urn.content
           @rdcs_created << urn.content
           @code_list_index[urn.content].response_domain = true
+          unless (cardinality = urn.parent.parent.at_xpath('ResponseCardinality')).nil?
+            @code_list_index[urn.content].response_domain.min_responses = cardinality['minimumResponses']
+            @code_list_index[urn.content].response_domain.max_responses = cardinality['maximumResponses']
+          end
           @code_list_index[urn.content].save!
         end
       end
@@ -180,6 +184,7 @@ module XML::CADDIES
         if not instr.nil?
           qi.association(:instruction).writer @instruction_index[instr.content]
         end
+        qi.save!
       end
     end
 

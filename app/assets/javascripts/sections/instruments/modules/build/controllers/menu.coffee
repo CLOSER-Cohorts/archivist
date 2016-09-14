@@ -13,6 +13,13 @@ angular.module('archivist.build').controller(
       $scope.summary_url = (arg)->
         '/instruments/' + $routeParams.id + '/summary/' + arg
 
-      $scope.stats = DataManager.getInstrumentStats($routeParams.id)
+      $scope.instrument = DataManager.getInstrumentStats $routeParams.id, ->
+        $scope.stats = $scope.instrument.stats
+
+        $scope.breadcrumbs = [
+          {label: 'Instruments', link: '/instruments', active: false},
+          {label: $scope.instrument.prefix, link: '/instruments/' + $routeParams.id, active: false},
+          {label: 'Build', link: false, active: true}
+        ]
   ]
 )
