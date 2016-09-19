@@ -7,6 +7,7 @@ data_manager = angular.module(
     'archivist.data_manager.codes',
     'archivist.data_manager.response_units',
     'archivist.data_manager.response_domains',
+    'archivist.data_manager.datasets',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.data_manager.topics',
@@ -33,6 +34,7 @@ data_manager.factory(
     'ApplicationStats',
     'Topics',
     'InstrumentStats',
+    'Datasets',
     'Auth',
     (
       $http,
@@ -49,6 +51,7 @@ data_manager.factory(
       ApplicationStats,
       Topics,
       InstrumentStats,
+      Datasets,
       Auth
     )->
       DataManager = {}
@@ -60,6 +63,7 @@ data_manager.factory(
       DataManager.Codes             = Codes
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
+      DataManager.Datasets          = Datasets
       DataManager.Auth              = Auth
 
       DataManager.clearCache = ->
@@ -74,6 +78,7 @@ data_manager.factory(
         DataManager.Constructs.clearCache()
         DataManager.Codes.clearCache()
         DataManager.ResponseUnits.clearCache()
+        DataManager.Datasets.clearCache()
         DataManager.Auth.clearCache()
 
       DataManager.clearCache()
@@ -82,6 +87,9 @@ data_manager.factory(
         DataManager.Data.Instruments = DataManager.Instruments.query params, success, error
         DataManager.Data.Instruments
 
+      DataManager.getDatasets = (params, success, error) ->
+        DataManager.Data.Datasets = DataManager.Datasets.query params, success, error
+        DataManager.Data.Datasets
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
         console.log 'getInstrument'
@@ -248,6 +256,9 @@ data_manager.factory(
         )
 
         return DataManager.Data.Instrument
+
+      DataManager.getDataset = (dataset_id, options = {}, success, error) ->
+        console.log 'Should load dataset'
 
       DataManager.groupResponseDomains = ->
         DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(

@@ -1,4 +1,6 @@
-mapping = angular.module('archivist.instruments.mapping', [
+#= require_self
+
+mapping = angular.module('archivist.mapping', [
   'ngRoute',
   'archivist.flash',
   'archivist.data_manager'

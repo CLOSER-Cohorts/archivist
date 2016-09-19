@@ -7,8 +7,7 @@ instruments = angular.module('archivist.instruments', [
   'ngResource',
   'ui.bootstrap',
   'archivist.flash',
-  'archivist.data_manager',
-  'archivist.instruments.mapping'
+  'archivist.data_manager'
 ])
 
 instruments.config([ '$routeProvider',

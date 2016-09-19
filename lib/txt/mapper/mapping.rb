@@ -7,6 +7,7 @@ module TXT::Mapper::Mapping
     end
 
     def import
+      return if @instrument.nil? || @dataset.nil?
       @doc.each do |q, v|
         q_ident, q_coords = *q.split('$')
         qc = @instrument.cc_questions.find_by_label q_ident

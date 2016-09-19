@@ -33,6 +33,8 @@ archivist = angular.module('archivist', [
   'ui.sortable',
   'archivist.flash',
   'archivist.instruments',
+  'archivist.datasets',
+  'archivist.mapping',
   'archivist.build',
   'archivist.summary',
   'archivist.admin',

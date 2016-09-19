@@ -1,6 +1,6 @@
 desc 'Loads instrument'
 task :load_instruments => :environment do
-  Dir.chdir 'N:/CLOSER/Studies/XMLs/repo'
+  Dir.chdir 'M:/build/instruments'
   files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
   files.each do |file|
@@ -43,10 +43,28 @@ task :load_mapping => :environment do
 
     if File.exist? file
       prefix = file.split('.')[0]
-      puts prefix
       i = Instrument.find_by_prefix prefix
       unless i.nil?
         im = TXT::Mapper::Mapping::Importer.new(file, i)
+        im.import
+      end
+    end
+
+  end
+end
+
+desc 'Loads a dv.txt'
+task :load_dv => :environment do
+  Dir.chdir 'M:/build/dvlinking'
+  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+
+  files.each do |file|
+
+    if File.exist? file
+      prefix = file.split('.')[0]
+      d = Dataset.find_by_filename prefix + '.ddi32.rp.xml'
+      unless d.nil?
+        im = TXT::Mapper::DV::Importer.new(file, d)
         im.import
       end
     end
