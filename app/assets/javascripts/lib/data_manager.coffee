@@ -8,6 +8,7 @@ data_manager = angular.module(
     'archivist.data_manager.response_units',
     'archivist.data_manager.response_domains',
     'archivist.data_manager.datasets',
+    'archivist.data_manager.variables',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.data_manager.topics',
@@ -35,6 +36,7 @@ data_manager.factory(
     'Topics',
     'InstrumentStats',
     'Datasets',
+    'Variables',
     'Auth',
     (
       $http,
@@ -52,6 +54,7 @@ data_manager.factory(
       Topics,
       InstrumentStats,
       Datasets,
+      Variables,
       Auth
     )->
       DataManager = {}
@@ -64,6 +67,7 @@ data_manager.factory(
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
       DataManager.Datasets          = Datasets
+      DataManager.Variables         = Variables
       DataManager.Auth              = Auth
 
       DataManager.clearCache = ->
@@ -79,6 +83,7 @@ data_manager.factory(
         DataManager.Codes.clearCache()
         DataManager.ResponseUnits.clearCache()
         DataManager.Datasets.clearCache()
+        DataManager.Variables.clearCache()
         DataManager.Auth.clearCache()
 
       DataManager.clearCache()
@@ -258,7 +263,31 @@ data_manager.factory(
         return DataManager.Data.Instrument
 
       DataManager.getDataset = (dataset_id, options = {}, success, error) ->
-        console.log 'Should load dataset'
+        options.variables ?= false
+
+        promises = []
+
+        DataManager.Data.Dataset  = DataManager.Datasets.get id: dataset_id
+        promises.push DataManager.Data.Dataset.$promise
+
+        if options.variables
+
+          DataManager.Data.Variables =
+            DataManager.Variables.query dataset_id: dataset_id
+          promises.push DataManager.Data.Variables.$promise
+
+        $q.all(
+          promises
+        )
+        .then(
+          ->
+            if options.variables
+              DataManager.Data.Dataset.Variables = DataManager.Data.Variables
+
+            success?()
+        )
+
+        return DataManager.Data.Dataset
 
       DataManager.groupResponseDomains = ->
         DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(

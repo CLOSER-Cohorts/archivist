@@ -4,7 +4,8 @@
 datasets = angular.module('archivist.datasets', [
   'templates',
   'ngRoute',
-  'archivist.datasets.index'
+  'archivist.datasets.index',
+  'archivist.datasets.show'
 ])
 
 datasets.config(
