@@ -51,9 +51,10 @@ resolution.factory(
 
           self = @
           if @queue.length > 0
+            console.log 'Scheduled resolution'
             $timeout ->
               self.resolve_children self.queue.shift()
-            , 1 + (@added_to_queue)
+            , 0
 
         broken_resolve: ->
           self = @
