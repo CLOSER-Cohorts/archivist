@@ -53,7 +53,7 @@ resolution.factory(
           if @queue.length > 0
             $timeout ->
               self.resolve_children self.queue.shift()
-            , 5 + (@added_to_queue * 5)
+            , 5 + (@added_to_queue)
 
         broken_resolve: ->
           self = @
@@ -62,7 +62,7 @@ resolution.factory(
 
           $timeout ->
             self.resolve_children self.queue.shift()
-          , 5 + (@added_to_queue * 5)
+          , 5 + (@added_to_queue)
 
         resolve: (to_check, check_against)->
           to_check ?= ['Conditions','Loops','Sequences']
