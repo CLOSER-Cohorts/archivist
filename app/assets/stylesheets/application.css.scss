@@ -18,6 +18,8 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "jquery-ui/themes/base/theme";
+@import "angular-tree-control/css/tree-control";
+@import "angular-tree-control/css/tree-control-attribute";
 
 .monospaced {
   font-family: menlo;

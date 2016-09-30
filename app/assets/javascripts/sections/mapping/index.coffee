@@ -6,6 +6,15 @@ mapping = angular.module('archivist.mapping', [
   'archivist.data_manager'
 ])
 
+mapping.config([ '$routeProvider',
+  ($routeProvider)->
+    $routeProvider
+      .when('/instruments/:id/map',
+        templateUrl: 'partials/instruments/map.html'
+        controller: 'MappingController'
+      )
+])
+
 mapping.controller(
   'MappingController',
   [

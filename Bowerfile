@@ -9,4 +9,5 @@ asset 'angular-ui-sortable'
 asset 'jquery-ui'
 asset 'socket.io-client'
 asset 'angular-google-chart'
+asset 'angular-tree-control'
 # vim: ft=ruby

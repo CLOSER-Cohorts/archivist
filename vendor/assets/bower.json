@@ -11,6 +11,7 @@
     "angular-ui-sortable": "latest",
     "jquery-ui": "latest",
     "socket.io-client": "latest",
-    "angular-google-chart": "latest"
+    "angular-google-chart": "latest",
+    "angular-tree-control": "latest"
   }
 }

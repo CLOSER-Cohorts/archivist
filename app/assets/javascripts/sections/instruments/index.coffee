@@ -25,10 +25,6 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
       )
-      .when('/instruments/:id/map',
-        templateUrl: 'partials/instruments/map.html'
-        controller: 'MappingController'
-      )
 ])
 
 instruments.controller('InstrumentsController',

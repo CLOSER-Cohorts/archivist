@@ -23,6 +23,7 @@
 #= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/socket.io
 #= require angular-google-chart/ng-google-chart
+#= require angular-tree-control/angular-tree-control
 #
 #= require lib
 #= require sections
@@ -33,12 +34,14 @@ archivist = angular.module('archivist', [
   'ngRoute',
   'ui.sortable',
   'googlechart',
+  'treeControl',
   'archivist.flash',
   'archivist.instruments',
   'archivist.datasets',
   'archivist.mapping',
   'archivist.build',
   'archivist.summary',
+  'archivist.topics',
   'archivist.admin',
   'archivist.realtime',
   'archivist.users',
