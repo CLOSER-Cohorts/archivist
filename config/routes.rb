@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     resources :variables
   end
 
-  resources :instruments, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
+  resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
     resources :cc_sequences
     resources :cc_statements
     resources :cc_questions
@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
+      get 'mapper', to: 'instruments#mapper'
     end
   end
 
