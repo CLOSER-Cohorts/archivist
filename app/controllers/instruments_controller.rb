@@ -4,7 +4,7 @@ class InstrumentsController < ApplicationController
   add_basic_actions require: ':instrument',
                     params: '[:agency, :version, :prefix, :label, :study, :files]',
                     collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export]
+                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper]
 
   def show
     respond_to do |f|
@@ -45,6 +45,13 @@ class InstrumentsController < ApplicationController
   def export
       Resque.enqueue ExportJob, @object.id
       head :ok, format: :json
+  end
+
+  def mapper
+    respond_to do |format|
+      format.text { render 'mapper.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
   end
 
   def import
