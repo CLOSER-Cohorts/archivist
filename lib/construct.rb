@@ -9,6 +9,7 @@ module Construct::Model
 
     include Comparable
     include Realtime::RtUpdate
+    include URN
 
     before_create :create_control_construct
     delegate :label, to: :cc

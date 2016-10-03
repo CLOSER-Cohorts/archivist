@@ -1,0 +1,10 @@
+<% @object.cc_sequences.each do |sequence| %>
+<%=raw sequence.URN %>|Sequence|-|<%=raw sequence.parent_reference %>|<%=raw sequence.name.gsub("\n","").gsub("\r","") %>
+<% end %>
+<% @instrument.questions.each do |question| %>
+<% if question.max_x.nil? or question.max_y.nil? %>
+<%=raw question.qc %>|Question|-|<%=raw question.parent_reference %>|<%=raw question.literal.gsub("\n","").gsub("\r","") %>
+<% else %>
+<%=raw question.qc %>|Question|[<%=raw question.max_y %>,<%=raw question.max_x %>]|<%=raw question.parent_reference %>|<%=raw question.literal.gsub("\n","").gsub("\r","") %>
+<% end %>
+<% end %>
