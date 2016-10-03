@@ -1,14 +1,14 @@
 class ImportJob
   @queue = :in_and_out
 
-  def self.perform filepath
+  def self.perform document_id
     begin
-      im = XML::CADDIES::Importer.new filepath
+      im = XML::CADDIES::Importer.new document_id
 
       trap 'TERM' do
 
         im.instrument.destroy
-        Resque.enqueue ImportJob, filepath
+        Resque.enqueue ImportJob, document_id
 
         exit 0
       end

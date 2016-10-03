@@ -1,7 +1,12 @@
 module XML::CADDIES
   class Importer
-    def initialize(filepath)
-      @doc = open(filepath) { |f| Nokogiri::XML(f) }
+    def initialize(thing)
+      if thing.is_a? String
+        @doc = open(thing) { |f| Nokogiri::XML(f) }
+      else
+        document = Document.find thing
+        @doc = Nokogiri::XML document.file_contents
+      end
       @counters = {}
     end
 

@@ -48,22 +48,13 @@ class InstrumentsController < ApplicationController
   end
 
   def import
-    FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
     files = params[:files].nil? ? [] : params[:files]
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
-        filepath = Rails.root.join(
-            'tmp',
-            'uploads',
-            (0...8).map { (65 + rand(26)).chr }.join + '-' + file.original_filename
-        )
-        File.open(filepath, 'wb') do |f|
-          f.write(file.read)
-        end
-        obj = $s3_bucket.object filepath.basename.to_s
-        obj.upload_file filepath.to_s, acl:'public-read'
-        Resque.enqueue ImportJob, obj.public_url.to_s
+        doc = Document.new file: file
+        doc.save!
+        Resque.enqueue ImportJob, doc.id
       end
       head :ok, format: :json
     rescue  => e
