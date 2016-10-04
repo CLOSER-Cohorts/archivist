@@ -51,9 +51,10 @@ resolution.factory(
 
           self = @
           if @queue.length > 0
+            console.log 'Scheduled resolution'
             $timeout ->
               self.resolve_children self.queue.shift()
-            , 5 + (@added_to_queue * 5)
+            , 0
 
         broken_resolve: ->
           self = @
@@ -62,7 +63,7 @@ resolution.factory(
 
           $timeout ->
             self.resolve_children self.queue.shift()
-          , 5 + (@added_to_queue * 5)
+          , 5 + (@added_to_queue)
 
         resolve: (to_check, check_against)->
           to_check ?= ['Conditions','Loops','Sequences']
