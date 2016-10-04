@@ -15,4 +15,12 @@ class QuestionGrid < ActiveRecord::Base
       nil
     end
   end
+
+  def max_x
+    horizontal_code_list.codes.count
+  end
+
+  def max_y
+    vertical_code_list.codes.count
+  end
 end

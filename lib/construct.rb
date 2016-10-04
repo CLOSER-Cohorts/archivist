@@ -9,9 +9,9 @@ module Construct::Model
 
     include Comparable
     include Realtime::RtUpdate
+    include URN
 
     before_create :create_control_construct
-    delegate :label, to: :cc
     delegate :label=, to: :cc
     delegate :position, to: :cc
     delegate :position=, to: :cc
@@ -48,6 +48,16 @@ module Construct::Model
         pid = self.parent.nil? ? nil : self.parent.id
       end
       pid.to_i
+    end
+
+    def first_parent_of(klass)
+      p = self.parent
+      p = p.parent until p.is_a?(klass) || p.nil?
+      p
+    end
+
+    def label
+      self.cc.label.nil? ? '' : self.cc.label
     end
 
     def is_top?
