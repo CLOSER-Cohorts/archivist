@@ -186,13 +186,15 @@ admin.controller('AdminImportController',
     'Flash'
     ($scope, $http, Flash)->
       $scope.files = []
+      $scope.options =
+        import_question_grids: true
 
       $scope.uploadImport = ()->
         $scope.publish_flash()
         fd = new FormData()
         angular.forEach $scope.files, (item) ->
           fd.append 'files[]', item
-
+        fd.set 'question_grids', $scope.options.import_question_grids
         $http {
           method: 'POST'
           url: '/admin/import/instruments'

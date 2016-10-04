@@ -12,6 +12,14 @@ class Document < ApplicationRecord
     end
   end
 
+  def save_or_get
+    begin
+      self.save!
+    rescue ActiveRecord::RecordNotUnique => e
+      self.id = Document.find_by_md5_hash(self.md5_hash).id
+    end
+  end
+
   private
   def sanitize_filename(filename)
     File.basename(filename)

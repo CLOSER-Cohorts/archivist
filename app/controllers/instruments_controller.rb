@@ -2,7 +2,7 @@ class InstrumentsController < ApplicationController
   include BaseController
 
   add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study, :files]',
+                    params: '[:agency, :version, :prefix, :label, :study, :files, :import_question_grids]',
                     collection: 'policy_scope(Instrument.all)',
                     only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper]
 
@@ -56,12 +56,14 @@ class InstrumentsController < ApplicationController
 
   def import
     files = params[:files].nil? ? [] : params[:files]
+    options = {}
+    options[:question_grids] = params[:question_grids].nil? ? true : params[:question_grids]
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
         doc = Document.new file: file
-        doc.save!
-        Resque.enqueue ImportJob, doc.id
+        doc.save_or_get
+        Resque.enqueue ImportJob, doc.id, options
       end
       head :ok, format: :json
     rescue  => e
