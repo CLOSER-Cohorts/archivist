@@ -15,6 +15,8 @@ module Question::Model
 
     include Realtime::RtUpdate
 
+    validates :label, uniqueness: { scope: :instrument_id }
+
     alias constructs cc_questions
 
     def response_domains
