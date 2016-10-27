@@ -15,6 +15,8 @@ module Question::Model
 
     include Realtime::RtUpdate
 
+    validates :label, uniqueness: { scope: :instrument_id }
+
     alias constructs cc_questions
 
     def response_domains
@@ -123,6 +125,7 @@ module Question::Controller
 
   module ClassMethods
     def add_basic_actions(options = {})
+      options[:collection] += '.includes(:instruction)'
       super options
       include Question::Controller::Actions
     end

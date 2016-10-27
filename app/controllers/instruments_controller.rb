@@ -22,8 +22,8 @@ class InstrumentsController < ApplicationController
     unless params[:updates].nil?
       params[:updates].each do |u|
         unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
-          cc = @object.send(u[:type] + 's').find(u[:id])
-          parent = @object.send(u[:parent][:type] + 's').find(u[:parent][:id])
+          cc = @object.send(u[:type].tableize).find(u[:id])
+          parent = @object.send(u[:parent][:type].tableize).find(u[:parent][:id])
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
