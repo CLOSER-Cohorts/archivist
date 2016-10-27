@@ -123,6 +123,7 @@ module Question::Controller
 
   module ClassMethods
     def add_basic_actions(options = {})
+      options[:collection] += '.includes(:instruction)'
       super options
       include Question::Controller::Actions
     end
