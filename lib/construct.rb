@@ -40,7 +40,7 @@ module Construct::Model
 
     def parent_id
       begin
-        pid = $redis.hget 'parents', self.id
+        pid = $redis.hget 'parents:' + self.class.to_s, self.id
       rescue
         Rails.logger.warn 'Could not retrieve parents from Redis cache.'
       end
@@ -193,6 +193,7 @@ module Construct::Controller
 
   module ClassMethods
     def add_basic_actions(options = {})
+      options[:collection] += '.includes(cc: [:children, :parent])'
       super options
       include Construct::Controller::Actions
     end
