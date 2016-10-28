@@ -643,7 +643,7 @@ ALTER SEQUENCE maps_id_seq OWNED BY maps.id;
 
 CREATE TABLE question_grids (
     id integer NOT NULL,
-    label character varying,
+    label character varying NOT NULL,
     literal character varying,
     instruction_id integer,
     vertical_code_list_id integer,
@@ -683,7 +683,7 @@ ALTER SEQUENCE question_grids_id_seq OWNED BY question_grids.id;
 
 CREATE TABLE question_items (
     id integer NOT NULL,
-    label character varying,
+    label character varying NOT NULL,
     literal character varying,
     instruction_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -1729,6 +1729,13 @@ CREATE INDEX index_question_grids_on_instrument_id ON question_grids USING btree
 
 
 --
+-- Name: index_question_grids_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_question_grids_on_label_and_instrument_id ON question_grids USING btree (label, instrument_id);
+
+
+--
 -- Name: index_question_grids_on_vertical_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1747,6 +1754,13 @@ CREATE INDEX index_question_items_on_instruction_id ON question_items USING btre
 --
 
 CREATE INDEX index_question_items_on_instrument_id ON question_items USING btree (instrument_id);
+
+
+--
+-- Name: index_question_items_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_question_items_on_label_and_instrument_id ON question_items USING btree (label, instrument_id);
 
 
 --
@@ -2126,6 +2140,6 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160930113839');
+INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160930113839'), ('20161027133806');
 
 
