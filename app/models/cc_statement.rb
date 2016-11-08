@@ -1,4 +1,4 @@
-class CcStatement < ActiveRecord::Base
+class CcStatement < ApplicationRecord
   include Construct::Model
 
   URN_TYPE = 'si'

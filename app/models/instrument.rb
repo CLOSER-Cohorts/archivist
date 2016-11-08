@@ -1,4 +1,4 @@
-class Instrument < ActiveRecord::Base
+class Instrument < ApplicationRecord
 
   has_many :cc_conditions, -> { includes :cc }, dependent: :destroy
   has_many :cc_loops, -> { includes :cc }, dependent: :destroy
@@ -61,6 +61,10 @@ class Instrument < ActiveRecord::Base
   has_many :datasets, through: :instruments_datasets
 
   include Realtime::RtUpdate
+  include Exportable
+
+  URN_TYPE = 'in'
+  TYPE = 'Instrument'
 
   after_create :add_top_sequence
   around_destroy :pause_rt

@@ -1,4 +1,4 @@
-class ResponseDomainDatetime < ActiveRecord::Base
+class ResponseDomainDatetime < ApplicationRecord
   include ResponseDomain
 
   def subtype

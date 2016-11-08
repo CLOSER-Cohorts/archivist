@@ -9,7 +9,7 @@ module Construct::Model
 
     include Comparable
     include Realtime::RtUpdate
-    include URN
+    include Exportable
 
     before_create :create_control_construct
     delegate :label=, to: :cc
@@ -19,7 +19,7 @@ module Construct::Model
     delegate :branch=, to: :cc
 
     def self.attribute_names
-      super + ["label"]
+      super + ['label']
     end
 
     def parent

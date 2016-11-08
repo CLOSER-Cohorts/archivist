@@ -1,4 +1,4 @@
-class QuestionItem < ActiveRecord::Base
+class QuestionItem < ApplicationRecord
   include Question::Model
 
   URN_TYPE = 'qi'

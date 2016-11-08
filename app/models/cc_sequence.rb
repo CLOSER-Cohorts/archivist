@@ -1,4 +1,4 @@
-class CcSequence < ActiveRecord::Base
+class CcSequence < ApplicationRecord
   include Construct::Model
   is_a_parent
 

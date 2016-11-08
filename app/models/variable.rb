@@ -1,4 +1,4 @@
-class Variable < ActiveRecord::Base
+class Variable < ApplicationRecord
   belongs_to :dataset
   has_many :maps
   has_many :questions, through: :maps, as: :source, source: :source, source_type: 'CcQuestion'

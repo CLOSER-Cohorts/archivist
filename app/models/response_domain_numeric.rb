@@ -1,4 +1,4 @@
-class ResponseDomainNumeric < ActiveRecord::Base
+class ResponseDomainNumeric < ApplicationRecord
   include ResponseDomain
 
   def subtype

@@ -1,4 +1,4 @@
-class ResponseDomainText < ActiveRecord::Base
+class ResponseDomainText < ApplicationRecord
   include ResponseDomain
 
   def params

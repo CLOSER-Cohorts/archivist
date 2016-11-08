@@ -14,6 +14,7 @@ module Question::Model
     has_many :cc_questions, as: :question, dependent: :destroy
 
     include Realtime::RtUpdate
+    include Exportable
 
     validates :label, uniqueness: { scope: :instrument_id }
 

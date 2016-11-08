@@ -1,4 +1,4 @@
-class CcLoop < ActiveRecord::Base
+class CcLoop < ApplicationRecord
   include Construct::Model
   is_a_parent
 
