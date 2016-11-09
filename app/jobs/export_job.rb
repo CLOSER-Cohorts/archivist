@@ -5,13 +5,29 @@ class ExportJob
     begin
       exp = XML::DDI::Exporter.new
       exp.add_root_attributes
-      filename = exp.run Instrument.find(id)
-      obj = $s3_bucket.object filename.basename.to_s
-      obj.upload_file filename.to_s, acl:'public-read'
-      $redis.hset 'export:instrument:' + id.to_s, 'time', Time.now.to_s
-      $redis.hset 'export:instrument:' + id.to_s, 'url', obj.public_url.to_s
+      i = Instrument.find(id)
+      exp.export_instrument i
+
+      exp.build_rp
+      exp.build_iis
+      exp.build_cs
+      exp.build_cls
+      exp.build_qis
+      exp.build_qgs
+      exp.build_is
+      exp.build_ccs
+
+      d = Document.new
+      d.filename = i.prefix + '.xml'
+      d.content_type = 'text/xml'
+      d.file_contents = exp.doc.to_xml(&:no_empty_tags)
+      d.md5_hash = Digest::MD5.hexdigest d.file_contents
+      d.item = i
+      d.save!
     rescue => e
+      Rails.logger.fatal 'Job failed.'
       Rails.logger.fatal e
+      Rails.logger.fatal e.backtrace
     end
   end
 end

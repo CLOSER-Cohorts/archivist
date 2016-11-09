@@ -115,7 +115,7 @@ module XML::DDI
         urn = create_urn_node instr
         i.add_child urn
         urn.add_next_sibling "<d:InstructionText audienceLanguage=\"en-GB\"><d:LiteralText><d:Text>%{literal}</d:Text></d:LiteralText></d:InstructionText>" %
-            {literal: instr.text}
+            {literal: CGI::escapeHTML(instr.text)}
         prev = i
       end
     end
@@ -140,7 +140,7 @@ module XML::DDI
         l = Nokogiri::XML::Node.new 'r:Label', @doc
         con = Nokogiri::XML::Node.new 'r:Content', @doc
         con['xml:lang'] = 'en-GB'
-        con.content = cat.label
+        con.content = CGI::escapeHTML(cat.label)
         l.add_child con
         cn.add_next_sibling l
 
@@ -163,7 +163,9 @@ module XML::DDI
         urn = create_urn_node codelist
         cl.add_child urn
         l = Nokogiri::XML::Node.new 'r:Label', @doc
-        l.add_child "<r:Content xml:lang=\"en-GB\">%{label}</r:Content>" % {label: codelist.label}
+        l.add_child "<r:Content xml:lang=\"en-GB\">%{label}</r:Content>" % {
+            label: CGI::escapeHTML(codelist.label)
+        }
         urn.add_next_sibling l
         inner_prev = l
         codelist.codes.find_each do |code|
@@ -313,48 +315,50 @@ module XML::DDI
         qt.add_next_sibling gdy
         gdx = add_grid_dimension.call('2', 'H', qgrid.horizontal_code_list)
         gdy.add_next_sibling gdx
-
         inner_prev = gdx
-        qgrid.response_domain_codes.each do |rdc|
-          cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
-          cd.add_child 'r:CodeListReference', rdc.code_list
 
-          inner_prev.add_next_sibling cd
-          inner_prev = cd
+        rd_wrapper = qg
+        if qgrid.response_domains.count > 1
+          rd_wrapper = Nokogiri::XML::Node.new 'd:StructuredMixedGridResponseDomain', @doc
         end
-        qgrid.response_domain_texts.each do |rdt|
-          td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
-          unless rdt.maxlen.nil?
-            td['maxLength'] = rdt.maxlen
+
+        qgrid.response_domains.each_with_index do |rd, i|
+          case rd
+            when ResponseDomainCode
+              cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
+              cd.add_child create_reference_string 'r:CodeListReference', rd.code_list
+
+              rd_wrapper.add_child wrap_grid_response_domain cd, qgrid.response_domains.count, i + 1
+
+            when ResponseDomainText
+              td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
+              unless rd.maxlen.nil?
+                td['maxLength'] = rd.maxlen
+              end
+              td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label}
+
+              rd_wrapper.add_child wrap_grid_response_domain td, qgrid.response_domains.count, i + 1
+
+            when ResponseDomainDatetime
+              dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
+              dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label, type: rd.datetime_type, format: rd.format || ''}
+
+              rd_wrapper.add_child wrap_grid_response_domain dd, qgrid.response_domains.count, i + 1
+
+            when ResponseDomainNumeric
+              nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
+              nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
+                               {label: rd.label, type: rd.numeric_type, range: (if rd.min then "<r:Low>%d</r:Low>" % rd.min else '' end) + (if rd.max then "<r:High>%d</r:High>" % rd.max else '' end)}
+
+              rd_wrapper.add_child wrap_grid_response_domain nd, qgrid.response_domains.count, i + 1
           end
-          td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                           {label: rdt.label}
-
-          inner_prev.add_next_sibling td
-          inner_prev = td
-        end
-        qgrid.response_domain_datetimes.each do |rdd|
-          dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
-          dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                           {label: rdd.label, type: rdd.datetime_type, format: rdd.format || ''}
-
-          inner_prev.add_next_sibling dd
-          inner_prev = dd
-        end
-        qgrid.response_domain_numerics.each do |rdn|
-          nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
-          nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                           {label: rdn.label, type: rdn.numeric_type, range: (if rdn.min then "<r:Low>%d</r:Low>" % rdn.min else '' end) + (if rdn.max then "<r:High>%d</r:High>" % rdn.max else '' end)}
-
-
-          inner_prev.add_next_sibling nd
-          inner_prev = nd
         end
 
         unless qgrid.instruction.nil?
           iif = create_reference_string 'd:InterviewerInstructionReference', qgrid.instruction
-          inner_prev.add_next_sibling iif
-          inner_prev = iif
+          qg.add_child iif
         end
 
         prev = qg
@@ -407,7 +411,6 @@ module XML::DDI
               tcr = Nokogiri::XML::Node.new 'd:' + construct_ref.humanize + 'ConstructReference', @doc
               tcr.add_child '<r:URN>' + [@urn_prefix, prefix, '%06d:1.0.0' % cc.id].join('-') + '</r:URN>'
               tcr.add_child '<r:TypeOfObject>Sequence</r:TypeOfObject>'
-              prev.add_child tcr
 
               seth = Nokogiri::XML::Node.new 'd:Sequence', @doc
               seth.add_child '<r:URN>' + [@urn_prefix, prefix, '%06d:1.0.0' % cc.id].join('-') + '</r:URN>'
@@ -431,19 +434,27 @@ module XML::DDI
                 seth_inner_prev.add_next_sibling ccf
                 seth_inner_prev = ccf
               end
-              return seth
+              return tcr, seth
             end
 
             if cc.children.where(branch: 0).count > 0
-              seth = process_condition_branch.call(0, 'seth', 'then')
+              tcr, seth = process_condition_branch.call(0, 'seth', 'then')
+              prev.add_child tcr
+            end
+
+            if cc.children.where(branch: 1).count > 0
+              fcr, seel = process_condition_branch.call(1, 'seel', 'else')
+              prev.add_child fcr
+            end
+
+            unless seth.nil?
               prev.add_next_sibling seth
               prev = seth
             end
 
-            if cc.children.where(branch: 1).count > 0
-              seth = process_condition_branch.call(1, 'seel', 'else')
-              prev.add_next_sibling seth
-              prev = seth
+            unless seel.nil?
+              prev.add_next_sibling seel
+              prev = seel
             end
 
           when CcQuestion
@@ -592,7 +603,7 @@ module XML::DDI
       i = Nokogiri::XML::Node.new 'd:Instrument', @doc
       i.add_child create_urn_node @instrument
       i.add_child "<d:InstrumentName><r:String xml:lang=\"en-GB\">%{title}</r:String></d:InstrumentName>" %
-          {title: @instrument.label}
+          {title: CGI::escapeHTML(@instrument.label)}
       i.add_child create_reference_string 'd:ControlConstructReference', @instrument.top_sequence
       isn.add_next_sibling i
     end
@@ -613,6 +624,24 @@ module XML::DDI
       ref.add_child '<r:URN>%{urn}</r:URN><r:TypeOfObject>%{type}</r:TypeOfObject>' %
           {urn: obj.urn(@urn_prefix), type: obj.class::TYPE}
       ref
+    end
+
+    def wrap_grid_response_domain(node, rd_count, col)
+      if rd_count > 1
+        wrapper = Nokogiri::XML::Node.new 'd:GridResponseDomain', @doc
+        wrapper.add_child node
+        wrapper.add_child <<~XML
+            <d:GridAttachment>
+              <d:CellCoordinatesAsDefined>
+                <d:SelectDimension rank="1" allValues="true" />
+                <d:SelectDimension rank="2" specificValue="#{col}" />
+              </d:CellCoordinatesAsDefined>
+            </d:GridAttachment>
+        XML
+        return wrapper
+      else
+        return node
+      end
     end
   end
 end

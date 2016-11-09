@@ -1,6 +1,6 @@
 desc 'Loads instrument'
 task :load_instruments => :environment do
-  Dir.chdir 'N:/CLOSER/Studies/XMLs/repo'
+  Dir.chdir '/Volumes/metadata/build/instruments/'
   files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
   files.each do |file|

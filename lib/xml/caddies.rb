@@ -7,11 +7,9 @@ module XML::CADDIES
         document = Document.find thing
         @doc = Nokogiri::XML document.file_contents
       end
-      Rails.logger.debug 'here'
       @import_question_grids = options['question_grids'].nil? ||
           (options['question_grids'] == 'true' && options['question_grids'].is_a?(String)) ||
           (!!options['question_grids'] == options['question_grids'] && options['question_grids']) ? true : false
-      Rails.logger.debug @import_question_grids
       @counters = {}
     end
 
@@ -107,15 +105,17 @@ module XML::CADDIES
       @response_domain_index ||= {}
       text_domains.each do |text_domain|
         begin
-          index_label = text_domain.at_xpath("r:Label/r:Content").content
-          if text_domain["maxLength"].nil?
-            index_label = 'MISSING LABEL'
-          else
-            index_label = 'max:' + text_domain["maxLength"]
+          index_label = text_domain.at_xpath("r:Label/r:Content")&.content
+          if index_label.nil?
+            if text_domain["maxLength"].nil?
+              index_label = 'MISSING LABEL'
+            else
+              index_label = 'max:' + text_domain["maxLength"]
+            end
           end
-          if not @response_domain_index.has_key? "T" + index_label
+          unless @response_domain_index.has_key? "T" + index_label
             rdt = ResponseDomainText.new({label: index_label})
-            if not text_domain["maxLength"].nil?
+            unless text_domain["maxLength"].nil?
               rdt.maxlen = text_domain["maxLength"].to_i
             end
             @instrument.response_domain_texts << rdt
@@ -132,14 +132,14 @@ module XML::CADDIES
       numeric_domains.each do |numeric_domain|
         begin
           index_label = numeric_domain.at_xpath("r:Label/r:Content").content
-          if not @response_domain_index.has_key? "N" + index_label
+          unless @response_domain_index.has_key? "N" + index_label
             rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
             min = numeric_domain.at_xpath("r:NumberRange/r:Low")
             max = numeric_domain.at_xpath("r:NumberRange/r:High")
-            if not min.nil? then
+            unless min.nil? then
               rdn.min = min.content
             end
-            if not max.nil? then
+            unless max.nil? then
               rdn.max = max.content
             end
             @instrument.response_domain_numerics << rdn
@@ -217,6 +217,7 @@ module XML::CADDIES
           else
             prefix_char = type == 'NumericDomain' ? 'N' : (type == 'TextDomain' ? 'T' : 'D')
             klass = type == 'NumericDomain' ? ResponseDomainNumeric : (type == 'TextDomain' ? ResponseDomainText : ResponseDomainDatetime)
+
             if (response_domain = @response_domain_index[prefix_char + rd.content]).nil?
               response_domain = klass.new label: 'MISSING LABEL'
               response_domain.instrument = @instrument
@@ -261,8 +262,8 @@ module XML::CADDIES
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
 
         @instrument.question_grids << qg
-        if not corner.nil?
-          qg.corner_label = corner.attribute('rank').value.to_i == 1 ? "V" : "H"
+        unless corner.nil?
+          qg.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H'
         end
 
         read_q_rds = lambda do |obj, collection, index_prefix, arr|

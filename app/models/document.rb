@@ -5,7 +5,7 @@ class Document < ApplicationRecord
     file = params.delete :file
     super
     if file
-      self.filename       = sanitize_filename file.original_filename
+      self.filename       = sanitize_filename file.path
       self.content_type   = file.content_type
       self.file_contents  = file.read
       self.md5_hash       = Digest::MD5.hexdigest self.file_contents

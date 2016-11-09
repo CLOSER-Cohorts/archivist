@@ -81,8 +81,8 @@ module Construct::Model
       if (self.cc.parent_id == other.cc.parent_id)
         return self.cc.position <=> other.cc.position
       else
-        return 1 if self.cc.parent_id.nil? || self.parent.position.nil?
-        return -1 if other.cc.parent_id.nil? || other.parent.position.nil?
+        return 1 if self.parent&.position.nil?
+        return -1 if other.parent&.position.nil?
         return self.parent.position <=> other.parent.position
       end
     end
