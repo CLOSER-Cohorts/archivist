@@ -4,7 +4,7 @@ one:
   filename: MyString
   content_type: MyString
   file_contents: 
-  hash: MyString
+  md5_hash: MyString
   item: one
   item_type: Item
 
@@ -12,6 +12,6 @@ two:
   filename: MyString
   content_type: MyString
   file_contents: 
-  hash: MyString
+  md5_hash: MyString
   item: two
   item_type: Item

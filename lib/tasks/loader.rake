@@ -1,6 +1,6 @@
 desc 'Loads instrument'
 task :load_instruments => :environment do
-  Dir.chdir '/Volumes/metadata/build/instruments/'
+  Dir.chdir ENV['LOAD_PATH']
   files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
   files.each do |file|
@@ -18,7 +18,7 @@ end
 
 desc 'Loads dataset'
 task :load_datasets => :environment do
-  Dir.chdir 'M:/build/datasets'
+  Dir.chdir ENV['LOAD_PATH']
   files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
   files.each do |file|
@@ -36,7 +36,7 @@ end
 
 desc 'Loads a mapping.txt'
 task :load_mapping => :environment do
-  Dir.chdir 'M:/build/qvlinking'
+  Dir.chdir ENV['LOAD_PATH']
   files = Dir.entries(".").reject { |x| x[0,1] == "." }
 
   files.each do |file|
@@ -74,7 +74,6 @@ task :load_instrument_references, [:path] => [:environment] do |t, args|
         puts "Instrument: \t" + link['instrument']
         puts "Question: \t" + link['question']
         puts "Instruction: \t" + link['instruction']
-        byebug
       end
     end
   end

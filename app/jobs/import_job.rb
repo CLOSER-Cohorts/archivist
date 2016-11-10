@@ -12,8 +12,6 @@ class ImportJob
         exit 0
       end
 
-      Rails.logger = Logger.new('C:\CLOSER\Code\archivist\worker.log')
-      Rails.logger.level = Logger::DEBUG
       im.parse
       puts "E"
     rescue => e
