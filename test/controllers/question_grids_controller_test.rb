@@ -18,7 +18,17 @@ class QuestionGridsControllerTest < ActionController::TestCase
 
   test "should create question_grid" do
     assert_difference('QuestionGrid.count') do
-      post :create, format: :json, instrument_id: @instrument.id, question_grid: {corner_label: @question_grid.corner_label, horizontal_code_list_id: @xaxis.id, instruction_id: @question_grid.instruction_id, label: @question_grid.label, literal: @question_grid.literal, roster_label: @question_grid.roster_label, roster_rows: @question_grid.roster_rows, vertical_code_list_id: @yaxis.id, instrument_id: @instrument.id}
+      post :create, format: :json, instrument_id: @instrument.id, question_grid: {
+          corner_label: @question_grid.corner_label,
+          horizontal_code_list_id: @xaxis.id,
+          instruction_id: @question_grid.instruction_id,
+          label: @question_grid.label + '_i',
+          literal: @question_grid.literal,
+          roster_label: @question_grid.roster_label,
+          roster_rows: @question_grid.roster_rows,
+          vertical_code_list_id: @yaxis.id,
+          instrument_id: @instrument.id
+      }
     end
 
     assert_response :success

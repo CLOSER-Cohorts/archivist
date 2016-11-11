@@ -16,7 +16,12 @@ class QuestionItemsControllerTest < ActionController::TestCase
 
   test "should create question_item" do
     assert_difference('QuestionItem.count') do
-      post :create, format: :json, instrument_id: @instrument.id, question_item: {instruction_id: @question_item.instruction_id, label: @question_item.label, literal: @question_item.literal, instrument_id: @instrument.id}
+      post :create, format: :json, instrument_id: @instrument.id, question_item: {
+          instruction_id: @question_item.instruction_id,
+          label: @question_item.label + '_i',
+          literal: @question_item.literal,
+          instrument_id: @instrument.id
+      }
     end
 
     assert_response :success
