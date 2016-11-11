@@ -89,4 +89,9 @@ class InstrumentsController < ApplicationController
   def stats
     render json: {stats: @object.association_stats, prefix: @object.prefix}
   end
+
+  private
+  def set_object
+    @object = collection.find(Prefix[params[:id]])
+  end
 end

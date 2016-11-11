@@ -3,6 +3,6 @@ class CategoriesController < ApplicationController
 
   add_basic_actions require: ':category',
                     params: '[:label]',
-                    collection: 'Instrument.find(params[:instrument_id]).categories'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).categories'
 
 end

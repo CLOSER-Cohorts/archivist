@@ -3,6 +3,6 @@ class CcConditionsController < ApplicationController
 
   add_basic_actions require: ':cc_condition',
                     params: '[:label, :literal, :logic, :parent, :position, :branch]',
-                    collection: 'Instrument.find(params[:instrument_id]).cc_conditions'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).cc_conditions'
 
 end

@@ -3,6 +3,6 @@ class InstructionsController < ApplicationController
 
   add_basic_actions require: ':instruction',
                     params: '[:text]',
-                    collection: 'Instrument.find(params[:instrument_id]).instructions'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).instructions'
 
 end

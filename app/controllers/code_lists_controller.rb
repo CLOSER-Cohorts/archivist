@@ -3,7 +3,7 @@ class CodeListsController < ApplicationController
 
   add_basic_actions require: ':code_list',
                     params: '[:label, :codes, :min_responses, :max_responses]',
-                    collection: 'Instrument.find(params[:instrument_id]).code_lists'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).code_lists'
 
   # POST /instruments/1/code_lists.json
   def create

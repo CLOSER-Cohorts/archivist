@@ -3,7 +3,7 @@ class ResponseDomainNumericsController < ApplicationController
 
   add_basic_actions require: ':response_domain_numeric',
                     params: '[:numeric_type, :label, :min, :max]',
-                    collection: 'Instrument.find(params[:instrument_id]).response_domain_numerics'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).response_domain_numerics'
 
   before_action :subtype_shim, only: [:create, :update]
 

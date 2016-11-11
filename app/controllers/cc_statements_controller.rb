@@ -3,6 +3,6 @@ class CcStatementsController < ApplicationController
 
   add_basic_actions require: ':cc_statement',
                     params: '[:label, :literal, :parent, :position, :branch]',
-                    collection: 'Instrument.find(params[:instrument_id]).cc_statements'
+                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).cc_statements'
 
 end
