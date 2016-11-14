@@ -67,7 +67,12 @@ class Instrument < ApplicationRecord
   TYPE = 'Instrument'
 
   after_create :add_top_sequence
+  after_create :register_prefix
+
+  after_update :reregister_prefix
+
   around_destroy :pause_rt
+  after_destroy :deregister_prefix
 
   def conditions
     self.cc_conditions
@@ -250,5 +255,19 @@ class Instrument < ApplicationRecord
     last_edit_times.select do |k, v|
       $redis.hset 'last_edit:instrument', k, v
     end
+  end
+
+  private
+  def register_prefix
+    Prefix[self.prefix] = self.id
+  end
+
+  def deregister_prefix
+    Prefix.destroy self.prefix
+  end
+
+  def reregister_prefix
+    deregister_prefix
+    register_prefix
   end
 end

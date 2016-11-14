@@ -61,7 +61,6 @@ class InstrumentsController < ApplicationController
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
-        file.filename = file.original_filename
         doc = Document.new file: file
         doc.save_or_get
         Resque.enqueue ImportJob, doc.id, options
