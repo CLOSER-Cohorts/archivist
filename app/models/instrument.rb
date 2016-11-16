@@ -281,11 +281,11 @@ class Instrument < ApplicationRecord
 
   private
   def register_prefix
-    Prefix[self.prefix] = self.id
+    ::Prefix[self.prefix] = self.id
   end
 
   def deregister_prefix
-    Prefix.destroy self.prefix
+    ::Prefix.destroy self.prefix
   end
 
   def reregister_prefix

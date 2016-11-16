@@ -89,6 +89,6 @@ class InstrumentsController < BasicController
 
   private
   def set_object
-    @object = collection.find(Prefix[params[:id]])
+    @object = collection.find(::Prefix[params[:id]])
   end
 end

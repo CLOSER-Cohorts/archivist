@@ -7,7 +7,7 @@ class BasicInstrumentController < BasicController
   end
 
   def set_instrument
-    @instrument = policy_scope(Instrument).find(Prefix[params[:instrument_id]])
+    @instrument = policy_scope(Instrument).find(::Prefix[params[:instrument_id]])
   end
 
   def self.params_list
