@@ -1,8 +1,6 @@
-class DatasetsController < ApplicationController
-  include BaseController
+class DatasetsController < BasicController
+  only_set_object
 
-  add_basic_actions require: ':dataset',
-                    params: '[:name]',
-                    collection: 'policy_scope(Dataset.all)'
-
+  @model_class = Dataset
+  @params_list = [:name]
 end

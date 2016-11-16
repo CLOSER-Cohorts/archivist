@@ -1,10 +1,8 @@
-class InstrumentsController < ApplicationController
-  include BaseController
+class InstrumentsController < BasicController
+  only_set_object { [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper] }
 
-  add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study, :files, :import_question_grids]',
-                    collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper]
+  @model_class = Instrument
+  @params_list = [:agency, :version, :prefix, :label, :study, :files, :import_question_grids]
 
   def show
     respond_to do |f|

@@ -184,30 +184,3 @@ module Construct::Model
     end
   end
 end
-
-module Construct::Controller
-  extend ActiveSupport::Concern
-  include BaseInstrumentController
-  included do
-  end
-
-  module ClassMethods
-    def add_basic_actions(options = {})
-      options[:collection] += '.includes(cc: [:children, :parent])'
-      super options
-      include Construct::Controller::Actions
-    end
-  end
-
-  module Actions
-    def create
-      #TODO: Security issue
-      @object = collection.create_with_position(params)
-      if @object
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
-      end
-    end
-  end
-end

@@ -1,8 +1,15 @@
-class QuestionGridsController < ApplicationController
-  include Question::Controller
+class QuestionGridsController < QuestionController
+  only_set_object
 
-  add_basic_actions require: ':question_grid',
-                    params: '[:literal, :label, :instruction_id, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label]',
-                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).question_grids'
-
+  @model_class = QuestionGrid
+  @params_list = [
+      :literal,
+      :label,
+      :instruction_id,
+      :vertical_code_list_id,
+      :horizontal_code_list_id,
+      :roster_rows,
+      :roster_label,
+      :corner_label
+  ]
 end

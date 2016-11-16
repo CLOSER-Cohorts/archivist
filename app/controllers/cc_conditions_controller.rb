@@ -1,8 +1,6 @@
-class CcConditionsController < ApplicationController
-  include Construct::Controller
+class CcConditionsController < ConstructController
+  only_set_object
 
-  add_basic_actions require: ':cc_condition',
-                    params: '[:label, :literal, :logic, :parent, :position, :branch]',
-                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).cc_conditions'
-
+  @model_class = CcCondition
+  @params_list = [:label, :literal, :logic, :parent, :position, :branch]
 end
