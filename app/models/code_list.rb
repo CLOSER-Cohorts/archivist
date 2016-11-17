@@ -1,4 +1,4 @@
-class CodeList < ActiveRecord::Base
+class CodeList < ApplicationRecord
   belongs_to :instrument
   has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy
   has_many :categories, through: :codes
@@ -7,6 +7,10 @@ class CodeList < ActiveRecord::Base
   has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id'
 
   include Realtime::RtUpdate
+  include Exportable
+
+  URN_TYPE = 'cl'
+  TYPE = 'CodeList'
 
   def response_domain
     self.response_domain_code

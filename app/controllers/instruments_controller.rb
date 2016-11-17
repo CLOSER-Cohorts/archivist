@@ -1,10 +1,8 @@
-class InstrumentsController < ApplicationController
-  include BaseController
+class InstrumentsController < BasicController
+  only_set_object { [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper] }
 
-  add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study, :files]',
-                    collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper]
+  @model_class = Instrument
+  @params_list = [:agency, :version, :prefix, :label, :study, :files, :import_question_grids]
 
   def show
     respond_to do |f|
@@ -55,22 +53,15 @@ class InstrumentsController < ApplicationController
   end
 
   def import
-    FileUtils.mkdir_p Rails.root.join('tmp', 'uploads')
     files = params[:files].nil? ? [] : params[:files]
+    options = {}
+    options[:question_grids] = params[:question_grids].nil? ? true : params[:question_grids]
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
-        filepath = Rails.root.join(
-            'tmp',
-            'uploads',
-            (0...8).map { (65 + rand(26)).chr }.join + '-' + file.original_filename
-        )
-        File.open(filepath, 'wb') do |f|
-          f.write(file.read)
-        end
-        obj = $s3_bucket.object filepath.basename.to_s
-        obj.upload_file filepath.to_s, acl:'public-read'
-        Resque.enqueue ImportJob, obj.public_url.to_s
+        doc = Document.new file: file
+        doc.save_or_get
+        Resque.enqueue ImportJob, doc.id, options
       end
       head :ok, format: :json
     rescue  => e
@@ -94,5 +85,10 @@ class InstrumentsController < ApplicationController
 
   def stats
     render json: {stats: @object.association_stats, prefix: @object.prefix}
+  end
+
+  private
+  def set_object
+    @object = collection.find(::Prefix[params[:id]])
   end
 end

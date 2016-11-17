@@ -1,9 +1,14 @@
-class Code < ActiveRecord::Base
+class Code < ApplicationRecord
   belongs_to :code_list
   belongs_to :category
   belongs_to :instrument
 
   before_create :set_instrument
+
+  include Exportable
+
+  URN_TYPE = 'co'
+  TYPE = 'Code'
 
   def label
     self.category.nil? ? nil : self.category.label

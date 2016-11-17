@@ -1,8 +1,6 @@
-class TopicsController < ApplicationController
-  include BaseController
+class TopicsController < BasicController
+  only_set_object
 
-  add_basic_actions require: ':topic',
-                    params: '[:name, :parent_id, :code]',
-                    collection: 'policy_scope(Topic.all)'
-
+  @model_class = Topic
+  @params_list = [:name, :parent_id, :code]
 end

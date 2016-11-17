@@ -1,8 +1,6 @@
-class CcQuestionsController < ApplicationController
-  include Construct::Controller
+class CcQuestionsController < ConstructController
+  only_set_object
 
-  add_basic_actions require: ':cc_question',
-                    params: '[:label, :question_id, :question_type, :response_unit_id, :parent, :position, :branch]',
-                    collection: 'Instrument.find(params[:instrument_id]).cc_questions'
-
+  @model_class = CcQuestion
+  @params_list = [:label, :question_id, :question_type, :response_unit_id, :parent, :position, :branch]
 end

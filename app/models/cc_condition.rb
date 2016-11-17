@@ -1,4 +1,4 @@
-class CcCondition < ActiveRecord::Base
+class CcCondition < ApplicationRecord
   include Construct::Model
   is_a_parent
 

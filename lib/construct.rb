@@ -9,7 +9,7 @@ module Construct::Model
 
     include Comparable
     include Realtime::RtUpdate
-    include URN
+    include Exportable
 
     before_create :create_control_construct
     delegate :label=, to: :cc
@@ -19,7 +19,7 @@ module Construct::Model
     delegate :branch=, to: :cc
 
     def self.attribute_names
-      super + ["label"]
+      super + ['label']
     end
 
     def parent
@@ -81,8 +81,8 @@ module Construct::Model
       if (self.cc.parent_id == other.cc.parent_id)
         return self.cc.position <=> other.cc.position
       else
-        return 1 if self.cc.parent_id.nil? || self.parent.position.nil?
-        return -1 if other.cc.parent_id.nil? || other.parent.position.nil?
+        return 1 if self.parent&.position.nil?
+        return -1 if other.parent&.position.nil?
         return self.parent.position <=> other.parent.position
       end
     end
@@ -181,33 +181,6 @@ module Construct::Model
         cs = query_children.call branch, self.cc
       end
       cs
-    end
-  end
-end
-
-module Construct::Controller
-  extend ActiveSupport::Concern
-  include BaseInstrumentController
-  included do
-  end
-
-  module ClassMethods
-    def add_basic_actions(options = {})
-      options[:collection] += '.includes(cc: [:children, :parent])'
-      super options
-      include Construct::Controller::Actions
-    end
-  end
-
-  module Actions
-    def create
-      #TODO: Security issue
-      @object = collection.create_with_position(params)
-      if @object
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
-      end
     end
   end
 end

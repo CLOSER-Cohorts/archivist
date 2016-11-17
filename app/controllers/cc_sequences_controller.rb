@@ -1,8 +1,6 @@
-class CcSequencesController < ApplicationController
-  include Construct::Controller
+class CcSequencesController < ConstructController
+  only_set_object
 
-  add_basic_actions require: ':cc_sequence',
-                    params: '[:label, :literal, :parent, :position, :branch]',
-                    collection: 'Instrument.find(params[:instrument_id]).cc_sequences'
-
+  @model_class = CcSequence
+  @params_list = [:label, :literal, :parent, :position, :branch]
 end

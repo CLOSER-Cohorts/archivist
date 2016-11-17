@@ -1,20 +1,21 @@
 class ImportJob
   @queue = :in_and_out
 
-  def self.perform filepath
+  def self.perform(document_id, options = {})
     begin
-      im = XML::CADDIES::Importer.new filepath
-
+      im = XML::CADDIES::Importer.new document_id, options
       trap 'TERM' do
 
         im.instrument.destroy
-        Resque.enqueue ImportJob, filepath
+        Resque.enqueue ImportJob, document_i, options
 
         exit 0
       end
 
       im.parse
+      puts "E"
     rescue => e
+      Rails.logger.fatal "Fatal error while importing"
       Rails.logger.fatal e
     end
   end

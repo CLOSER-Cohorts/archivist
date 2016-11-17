@@ -1,8 +1,6 @@
-class ResponseDomainTextsController < ApplicationController
-  include BaseInstrumentController
+class ResponseDomainTextsController < BasicInstrumentController
+  only_set_object
 
-  add_basic_actions require: ':response_domain_text',
-                    params: '[:label, :maxlen]',
-                    collection: 'Instrument.find(params[:instrument_id]).response_domain_texts'
-
+  @model_class = ResponseDomainText
+  @params_list = [:label, :maxlen]
 end

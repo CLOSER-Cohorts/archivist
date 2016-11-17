@@ -1,7 +1,15 @@
 module XML::CADDIES
   class Importer
-    def initialize(filepath)
-      @doc = open(filepath) { |f| Nokogiri::XML(f) }
+    def initialize(thing, options = {})
+      if thing.is_a? String
+        @doc = open(thing) { |f| Nokogiri::XML(f) }
+      else
+        document = Document.find thing
+        @doc = Nokogiri::XML document.file_contents
+      end
+      @import_question_grids = options['question_grids'].nil? ||
+          (options['question_grids'] == 'true' && options['question_grids'].is_a?(String)) ||
+          (!!options['question_grids'] == options['question_grids'] && options['question_grids']) ? true : false
       @counters = {}
     end
 
@@ -21,7 +29,11 @@ module XML::CADDIES
       categories = @doc.xpath("//l:Category")
       @category_index = {}
       categories.each do |category|
-        cat = Category.new({label: category.at_xpath("./r:Label/r:Content").content})
+        begin
+          cat = Category.new label: category.at_xpath("./r:Label/r:Content").content
+        rescue
+          cat = Category.new label: ''
+        end
         @category_index[category.at_xpath('./r:URN').content] = cat
         @instrument.categories << cat
       end
@@ -33,7 +45,11 @@ module XML::CADDIES
       @counters['codes'] = 0
       @code_list_index = {}
       code_lists.each do |code_list|
-        cl = CodeList.new({label: code_list.at_xpath("./r:Label/r:Content").content})
+        begin
+          cl = CodeList.new label: code_list.at_xpath("./r:Label/r:Content").content
+        rescue
+          cl = CodeList.new label: ''
+        end
         @code_list_index[code_list.at_xpath('./r:URN').content] = cl
         @instrument.code_lists << cl
         codes = code_list.xpath("./l:Code")
@@ -41,9 +57,13 @@ module XML::CADDIES
         order_counter = 0
         codes.each do |code|
           order_counter += 1
-          co = Code.new({value: code.at_xpath("./r:Value").content, order: order_counter})
-          co.category = @category_index[code.at_xpath("./r:CategoryReference/r:URN").content]
-          cl.codes << co
+          begin
+            co = Code.new({value: code.at_xpath("./r:Value").content, order: order_counter})
+            co.category = @category_index[code.at_xpath("./r:CategoryReference/r:URN").content]
+            cl.codes << co
+          rescue
+            Rails.logger.warn 'Code failed to be imported.'
+          end
         end
       end
 
@@ -84,14 +104,25 @@ module XML::CADDIES
       @counters['response_domain_texts'] = text_domains.length
       @response_domain_index ||= {}
       text_domains.each do |text_domain|
-        index_label = text_domain.at_xpath("r:Label/r:Content").content
-        if not @response_domain_index.has_key? "T" + index_label
-          rdt = ResponseDomainText.new({label: index_label})
-          if not text_domain["maxLength"].nil?
-            rdt.maxlen = text_domain["maxLength"].to_i
+        begin
+          index_label = text_domain.at_xpath("r:Label/r:Content")&.content
+          if index_label.nil?
+            if text_domain["maxLength"].nil?
+              index_label = 'MISSING LABEL'
+            else
+              index_label = 'max:' + text_domain["maxLength"]
+            end
           end
-          @instrument.response_domain_texts << rdt
-          @response_domain_index["T" + index_label] = rdt
+          unless @response_domain_index.has_key? "T" + index_label
+            rdt = ResponseDomainText.new({label: index_label})
+            unless text_domain["maxLength"].nil?
+              rdt.maxlen = text_domain["maxLength"].to_i
+            end
+            @instrument.response_domain_texts << rdt
+            @response_domain_index["T" + index_label] = rdt
+          end
+        rescue
+          Rails.logger.info 'Deferring text domain creation.'
         end
       end
 
@@ -99,19 +130,23 @@ module XML::CADDIES
       @counters['response_domain_numerics'] = numeric_domains.length
       @response_domain_index ||= {}
       numeric_domains.each do |numeric_domain|
-        index_label = numeric_domain.at_xpath("r:Label/r:Content").content
-        if not @response_domain_index.has_key? "N" + index_label
-          rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
-          min = numeric_domain.at_xpath("r:NumberRange/r:Low")
-          max = numeric_domain.at_xpath("r:NumberRange/r:High")
-          if not min.nil? then
-            rdn.min = min.content
+        begin
+          index_label = numeric_domain.at_xpath("r:Label/r:Content").content
+          unless @response_domain_index.has_key? "N" + index_label
+            rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
+            min = numeric_domain.at_xpath("r:NumberRange/r:Low")
+            max = numeric_domain.at_xpath("r:NumberRange/r:High")
+            unless min.nil? then
+              rdn.min = min.content
+            end
+            unless max.nil? then
+              rdn.max = max.content
+            end
+            @instrument.response_domain_numerics << rdn
+            @response_domain_index["N" + index_label] = rdn
           end
-          if not max.nil? then
-            rdn.max = max.content
-          end
-          @instrument.response_domain_numerics << rdn
-          @response_domain_index["N" + index_label] = rdn
+        rescue
+          Rails.logger.info 'Deferring numeric domain creation.'
         end
       end
 
@@ -119,22 +154,28 @@ module XML::CADDIES
       @counters['response_domain_datetimes'] = datetime_domains.length
       @response_domain_index ||= {}
       datetime_domains.each do |datetime_domain|
-        index_label = datetime_domain.at_xpath("r:Label/r:Content").content
-        if not @response_domain_index.has_key? "D" + index_label
-          rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
-          format = datetime_domain.at_xpath("r:DateFieldFormat").content
-          if format.length > 0
-            rdd.format = format
+        begin
+          index_label = datetime_domain.at_xpath("r:Label/r:Content").content
+          if not @response_domain_index.has_key? "D" + index_label
+            rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
+            format = datetime_domain.at_xpath("r:DateFieldFormat").content
+            if format.length > 0
+              rdd.format = format
+            end
+            @instrument.response_domain_datetimes << rdd
+            @response_domain_index["D" + index_label] = rdd
           end
-          @instrument.response_domain_datetimes << rdd
-          @response_domain_index["D" + index_label] = rdd
+        rescue
+          Rails.logger.info 'Deferring datetime domain creation.'
         end
       end
     end
 
     def read_questions
       read_question_items
-      read_question_grids
+      if @import_question_grids
+        read_question_grids
+      end
     end
 
     def read_question_items
@@ -143,7 +184,11 @@ module XML::CADDIES
       @question_item_index = {}
       question_items.each do |question_item|
         qi = QuestionItem.new({label: question_item.at_xpath("d:QuestionItemName/r:String").content})
-        qi.literal = question_item.at_xpath("d:QuestionText/d:LiteralText/d:Text").content
+        begin
+          qi.literal = question_item.at_xpath("d:QuestionText/d:LiteralText/d:Text").content
+        rescue
+          qi.literal = ''
+        end
         @question_item_index[question_item.at_xpath("./r:URN").content] = qi
 
         #Adding response domains
@@ -171,9 +216,16 @@ module XML::CADDIES
                          })
           else
             prefix_char = type == 'NumericDomain' ? 'N' : (type == 'TextDomain' ? 'T' : 'D')
+            klass = type == 'NumericDomain' ? ResponseDomainNumeric : (type == 'TextDomain' ? ResponseDomainText : ResponseDomainDatetime)
+
+            if (response_domain = @response_domain_index[prefix_char + rd.content]).nil?
+              response_domain = klass.new label: 'MISSING LABEL'
+              response_domain.instrument = @instrument
+              response_domain.save!
+            end
             RdsQs.create({
                              question: qi,
-                             response_domain: @response_domain_index[prefix_char + rd.content],
+                             response_domain: response_domain,
                              rd_order: order_counter
                          })
           end
@@ -210,8 +262,8 @@ module XML::CADDIES
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
 
         @instrument.question_grids << qg
-        if not corner.nil?
-          qg.corner_label = corner.attribute('rank').value.to_i == 1 ? "V" : "H"
+        unless corner.nil?
+          qg.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H'
         end
 
         read_q_rds = lambda do |obj, collection, index_prefix, arr|
@@ -300,7 +352,15 @@ module XML::CADDIES
     def read_constructs
       seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
       cc_seq = @instrument.top_sequence
-      cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
+      begin
+        cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
+      rescue
+        if (label = seq.at_xpath("./r:Label/r:Content")).nil?
+          cc_seq.label = label
+        else
+          cc_seq.label = 'Missing label'
+        end
+      end
       @response_unit_index = {}
       read_sequence_children(seq, cc_seq)
     end
@@ -310,12 +370,21 @@ module XML::CADDIES
       node.xpath("./d:ControlConstructReference").each do |child_ref|
         position_counter += 1
         urn = child_ref.at_xpath("./r:URN").content
+
         type = child_ref.at_xpath("./r:TypeOfObject").content
         if type == 'Sequence'
           child = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
           cc_s = CcSequence.new
           @instrument.sequences << cc_s
-          cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          begin
+            cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          rescue
+            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+              cc_s.label = label
+            else
+              cc_s.label = 'Missing label'
+            end
+          end
           cc_s.position = position_counter
           cc_s.branch = branch
           parent.children << cc_s.cc
@@ -325,7 +394,15 @@ module XML::CADDIES
           child = doc.at_xpath("//d:StatementItem/r:URN[text()='#{urn}']").parent
           cc_s = CcStatement.new
           @instrument.statements << cc_s
-          cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          begin
+            cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+          rescue
+            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+              cc_s.label = label
+            else
+              cc_s.label = 'Missing label'
+            end
+          end
           cc_s.position = position_counter
           cc_s.branch = branch
           cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
@@ -333,34 +410,68 @@ module XML::CADDIES
           cc_s.save!
         elsif type == 'QuestionConstruct'
           child = doc.at_xpath("//d:QuestionConstruct/r:URN[text()='#{urn}']").parent
-          cc_q = CcQuestion.new
-          q_urn = child.at_xpath("./r:QuestionReference/r:URN").content
           q_type = child.at_xpath("./r:QuestionReference/r:TypeOfObject").content
-          cc_q.question = q_type == 'QuestionItem' ? @question_item_index[q_urn] : @question_grid_index[q_urn]
-          ru_val = child.at_xpath("./d:ResponseUnit").content
-          if @response_unit_index.has_key? ru_val
-            ru = @response_unit_index[ru_val]
-          else
-            ru = ResponseUnit.new({label: child.at_xpath("./d:ResponseUnit").content})
-            @instrument.response_units << ru
-            @response_unit_index[ru_val] = ru
+          unless q_type == 'QuestionGrid' && !@import_question_grids
+            cc_q = CcQuestion.new
+            q_urn = child.at_xpath("./r:QuestionReference/r:URN").content
+            cc_q.question = q_type == 'QuestionItem' ? @question_item_index[q_urn] : @question_grid_index[q_urn]
+            begin
+              ru_val = child.at_xpath("./d:ResponseUnit").content
+            rescue
+              ru_val = 'Default interviewee'
+            end
+            if @response_unit_index.has_key? ru_val
+              ru = @response_unit_index[ru_val]
+            else
+              ru = ResponseUnit.new label: ru_val
+              @instrument.response_units << ru
+              @response_unit_index[ru_val] = ru
+            end
+            cc_q.response_unit = ru
+            @instrument.questions << cc_q
+            begin
+              cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
+            rescue
+              if (label = child.at_xpath("./r:Label/r:Content")).nil?
+                cc_q.label = label
+              else
+                cc_q.label = 'Missing label'
+              end
+            end
+            cc_q.position = position_counter
+            cc_q.branch = branch
+            parent.children << cc_q.cc
+            cc_q.save!
           end
-          cc_q.response_unit = ru
-          @instrument.questions << cc_q
-          cc_q.label = child.at_xpath("./d:ConstructName/r:String").content
-          cc_q.position = position_counter
-          cc_q.branch = branch
-          parent.children << cc_q.cc
-          cc_q.save!
         elsif type == 'IfThenElse'
-          child = doc.at_xpath("//d:IfThenElse/r:URN[text()='#{urn}']").parent
+          begin
+            child = doc.at_xpath("//d:IfThenElse/r:URN[text()='#{urn}']").parent
+          rescue
+            Rails.logger.fatal 'Could not find IfThenElse with URN=' + urn
+          end
           cc_c = CcCondition.new
           @instrument.conditions << cc_c
-          cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
+          begin
+            cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
+          rescue
+            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+              cc_c.label = label
+            else
+              cc_c.label = 'Missing label'
+            end
+          end
           cc_c.position = position_counter
           cc_c.branch = branch
-          cc_c.literal = child.at_xpath("./d:IfCondition/r:Description/r:Content").content
-          cc_c.logic = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
+          begin
+            cc_c.literal = child.at_xpath("./d:IfCondition/r:Description/r:Content").content
+          rescue
+            cc_c.literal = 'Missing text'
+          end
+          begin
+            cc_c.logic = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
+          rescue
+            cc_c.logic = ''
+          end
 
           parent.children << cc_c.cc
           cc_c.save!
@@ -394,7 +505,15 @@ module XML::CADDIES
           start_node = child.at_xpath("./d:InitialValue/r:Command/r:CommandContent")
           end_node = child.at_xpath("./d:EndValue/r:Command/r:CommandContent")
           while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
-          cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
+          begin
+            cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
+          rescue
+            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+              cc_l.label = label
+            else
+              cc_l.label = 'Missing label'
+            end
+          end
           cc_l.position = position_counter
           cc_l.branch = branch
           if not start_node.nil?
@@ -424,7 +543,11 @@ module XML::CADDIES
       duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
 
       i = Instrument.new
-      i.label = doc.xpath("//d:InstrumentName//r:String").first.content
+      begin
+        i.label = doc.xpath("//d:InstrumentName//r:String").first.content
+      rescue
+        i.label = 'Missing name'
+      end
       urn_pieces = doc.xpath("//r:URN").first.content.split(":")
       i.agency = urn_pieces[2]
       i.prefix = urn_pieces[3].split('-ddi-')[0]

@@ -1,9 +1,8 @@
-class CodeListsController < ApplicationController
-  include BaseInstrumentController
+class CodeListsController < BasicInstrumentController
+  only_set_object
 
-  add_basic_actions require: ':code_list',
-                    params: '[:label, :codes, :min_responses, :max_responses]',
-                    collection: 'Instrument.find(params[:instrument_id]).code_lists'
+  @model_class = CodeList
+  @params_list = [:label, :codes, :min_responses, :max_responses]
 
   # POST /instruments/1/code_lists.json
   def create
@@ -24,7 +23,7 @@ class CodeListsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /code_lists/1.json
+  # PATCH/PUT /instruments/1/code_lists/1.json
   def update
     parameters = safe_params
 
