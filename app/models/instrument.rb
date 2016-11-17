@@ -261,19 +261,26 @@ class Instrument < ApplicationRecord
 
   def self.generate_last_edit_times
     last_edit_times = {}
-    Instrument.reflections.keys.each do |r|
-      next if ['instruments_datasets', 'datasets'].include? r
-      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + r + ' GROUP BY instrument_id'
-      results = ActiveRecord::Base.connection.execute(sql)
+
+    find_max_edit_time = lambda do |id|
       results.each do |r|
-        last_edit_times[r['instrument_id']] = [last_edit_times[r['instrument_id']], r['max']].reject { |x| x.nil? }.max
+        last_edit_times[r[id]] = [
+            last_edit_times[r[id]],
+            r['max']
+        ].reject { |x| x.nil? }.max
       end
     end
-    sql = 'SELECT id, updated_at FROM instruments'
-    results = ActiveRecord::Base.connection.execute(sql)
-    results.each do |r|
-      last_edit_times[r['id']] = [last_edit_times[r['id']], r['updated_at']].reject { |x| x.nil? }.max
+
+    Instrument.reflections.keys.each do |res|
+      next if ['instruments_datasets', 'datasets'].include? res
+      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
+      results = ActiveRecord::Base.connection.execute sql
+      find_max_edit_time.call 'instrument_id'
     end
+    sql = 'SELECT id, updated_at FROM instruments'
+    results = ActiveRecord::Base.connection.execute sql
+    find_max_edit_time.call 'id'
+
     last_edit_times.select do |k, v|
       $redis.hset 'last_edit:instrument', k, v
     end
