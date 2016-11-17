@@ -1,15 +1,20 @@
 class Instrument < ApplicationRecord
 
-  has_many :cc_conditions, -> { includes :cc }, dependent: :destroy
-  has_many :cc_loops, -> { includes :cc }, dependent: :destroy
-  has_many :cc_sequences, -> { includes :cc }, dependent: :destroy
-  has_many :cc_statements, -> { includes :cc }, dependent: :destroy
+  has_many :cc_conditions,
+           -> { includes cc: [:children, :parent] }, dependent: :destroy
+  has_many :cc_loops,
+           -> { includes cc: [:children, :parent] }, dependent: :destroy
+  has_many :cc_sequences,
+           -> { includes cc: [:children, :parent] }, dependent: :destroy
+  has_many :cc_statements,
+           -> { includes cc: [:children, :parent] }, dependent: :destroy
 
   has_many :code_lists, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :codes, dependent: :destroy
 
   has_many :question_grids, -> { includes [
+                                              :instruction,
                                               :response_domain_datetimes,
                                               :response_domain_numerics,
                                               :response_domain_texts,
@@ -32,6 +37,7 @@ class Instrument < ApplicationRecord
                                               ]
                                           ] }, dependent: :destroy
   has_many :question_items, -> { includes [
+                                              :instruction,
                                               :response_domain_datetimes,
                                               :response_domain_numerics,
                                               :response_domain_texts,
@@ -44,7 +50,9 @@ class Instrument < ApplicationRecord
                                               ]
                                           ] }, dependent: :destroy
 
-  has_many :cc_questions, -> { includes :cc }, dependent: :destroy
+  has_many :cc_questions,
+           -> { includes(:question, :response_unit, cc: [:children, :parent]) },
+           dependent: :destroy
   has_many :control_constructs, dependent: :destroy
 
   has_many :instructions, dependent: :destroy
@@ -67,7 +75,12 @@ class Instrument < ApplicationRecord
   TYPE = 'Instrument'
 
   after_create :add_top_sequence
+  after_create :register_prefix
+
+  after_update :reregister_prefix
+
   around_destroy :pause_rt
+  after_destroy :deregister_prefix
 
   def conditions
     self.cc_conditions
@@ -92,6 +105,20 @@ class Instrument < ApplicationRecord
   def response_domains
     self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
+  end
+
+  def destroy
+    self.class.reflections.keys.each do |r|
+      next if ['datasets'].include? r
+      begin
+        klass = r.classify.constantize
+      rescue Exception => e
+        klass = r.classify.pluralize.constantize
+      end
+      klass.where(instrument_id: self.id).destroy_all
+    end
+    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
+    ActiveRecord::Base.connection.execute(sql)
   end
 
   def ccs
@@ -257,5 +284,19 @@ class Instrument < ApplicationRecord
     last_edit_times.select do |k, v|
       $redis.hset 'last_edit:instrument', k, v
     end
+  end
+
+  private
+  def register_prefix
+    ::Prefix[self.prefix] = self.id
+  end
+
+  def deregister_prefix
+    ::Prefix.destroy self.prefix
+  end
+
+  def reregister_prefix
+    deregister_prefix
+    register_prefix
   end
 end

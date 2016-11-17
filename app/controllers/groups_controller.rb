@@ -1,9 +1,8 @@
-class GroupsController < ApplicationController
-  include BaseController
+class GroupsController < BasicController
+  only_set_object
 
-  add_basic_actions require: ':group',
-                    params: ':group_type, :label, :study => [:label]',
-                    collection: 'policy_scope(Group.all)'
+  @model_class = Group
+  @params_list = [:group_type, :label, :study => [:label]]
 
   def external
     @collection = Group.all

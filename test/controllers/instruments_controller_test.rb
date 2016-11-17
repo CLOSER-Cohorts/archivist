@@ -16,9 +16,8 @@ class InstrumentsControllerTest < ActionController::TestCase
   test "should create instrument" do
     assert_difference('Instrument.count') do
       post :create, format: :json, instrument: {agency: @instrument.agency, label: @instrument.label, prefix: @instrument.prefix, study: @instrument.study, version: @instrument.version}
+      assert_response :success
     end
-
-    assert_response :success
   end
 
   test "should show instrument" do
@@ -34,9 +33,8 @@ class InstrumentsControllerTest < ActionController::TestCase
   test "should destroy instrument" do
     assert_difference('Instrument.count', -1) do
       delete :destroy, format: :json, id: @instrument
+      assert_response :success
     end
-
-    assert_response :success
   end
 
   test "should reorder control constructs" do

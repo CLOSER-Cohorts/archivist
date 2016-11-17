@@ -1,8 +1,6 @@
-class CategoriesController < ApplicationController
-  include BaseInstrumentController
+class CategoriesController < BasicInstrumentController
+  only_set_object
 
-  add_basic_actions require: ':category',
-                    params: '[:label]',
-                    collection: 'Instrument.find(Prefix[params[:instrument_id]]).categories'
-
+  @model_class = Category
+  @params_list = [:label]
 end

@@ -1,10 +1,8 @@
-class InstrumentsController < ApplicationController
-  include BaseController
+class InstrumentsController < BasicController
+  only_set_object { [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper] }
 
-  add_basic_actions require: ':instrument',
-                    params: '[:agency, :version, :prefix, :label, :study, :files, :import_question_grids]',
-                    collection: 'policy_scope(Instrument.all)',
-                    only: [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper]
+  @model_class = Instrument
+  @params_list = [:agency, :version, :prefix, :label, :study, :files, :import_question_grids]
 
   def show
     respond_to do |f|
@@ -61,7 +59,6 @@ class InstrumentsController < ApplicationController
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
-        file.filename = file.original_filename
         doc = Document.new file: file
         doc.save_or_get
         Resque.enqueue ImportJob, doc.id, options
@@ -92,6 +89,6 @@ class InstrumentsController < ApplicationController
 
   private
   def set_object
-    @object = collection.find(Prefix[params[:id]])
+    @object = collection.find(::Prefix[params[:id]])
   end
 end

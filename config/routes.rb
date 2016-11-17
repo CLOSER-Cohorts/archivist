@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post 'setup', to: 'application#setup'
+  post 'setup', to: 'main#setup'
 
   as :user do
     patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   namespace :users do
     resources :admin, constraints: -> (r) { (r.format == :json) }
   end
-  root 'application#index'
+  root 'main#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
 
@@ -54,7 +54,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'studies', to: 'application#studies', constraints: -> (r) { (r.format == :json) }
-  get 'stats', to: 'application#stats', constraints: -> (r) { (r.format == :json) }
-  match '*path', to: 'application#index', via: :all, constraints: {format: ''}
+  get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
+  get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }
+  match '*path', to: 'main#index', via: :all, constraints: {format: ''}
 end
