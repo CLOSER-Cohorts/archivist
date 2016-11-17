@@ -8,8 +8,8 @@ class Prefix
           id
         end
       rescue Exception => e
-        logger.warn 'Unable to get prefix from Redis cache. Returning input.'
-        logger.warn e.message
+        Rails.logger.warn 'Unable to get prefix from Redis cache. Returning input.'
+        Rails.logger.warn e.message
         return id
       end
     end
@@ -18,8 +18,8 @@ class Prefix
       begin
         redis.hset hash, prefix, id
       rescue Exception => e
-        logger.warn 'Unable to save prefix to Redis cache'
-        logger.warn e.message
+        Rails.logger.warn 'Unable to save prefix to Redis cache'
+        Rails.logger.warn e.message
       end
     end
 
@@ -27,8 +27,8 @@ class Prefix
       begin
         redis.hdel hash, prefix
       rescue Exception => e
-        logger.warn 'Unable to delete prefix from Redis cache'
-        logger.warn e.message
+        Rails.logger.warn 'Unable to delete prefix from Redis cache'
+        Rails.logger.warn e.message
       end
     end
 
