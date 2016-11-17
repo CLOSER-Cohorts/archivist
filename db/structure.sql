@@ -1547,6 +1547,13 @@ CREATE INDEX index_categories_on_label ON categories USING btree (label);
 
 
 --
+-- Name: index_categories_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_categories_on_label_and_instrument_id ON categories USING btree (label, instrument_id);
+
+
+--
 -- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1603,6 +1610,13 @@ CREATE INDEX index_code_lists_on_instrument_id ON code_lists USING btree (instru
 
 
 --
+-- Name: index_code_lists_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_code_lists_on_label_and_instrument_id ON code_lists USING btree (label, instrument_id);
+
+
+--
 -- Name: index_codes_on_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1638,6 +1652,13 @@ CREATE INDEX index_control_constructs_on_instrument_id ON control_constructs USI
 
 
 --
+-- Name: index_control_constructs_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_control_constructs_on_label_and_instrument_id ON control_constructs USING btree (label, instrument_id);
+
+
+--
 -- Name: index_control_constructs_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1663,6 +1684,13 @@ CREATE UNIQUE INDEX index_documents_on_md5_hash ON documents USING btree (md5_ha
 --
 
 CREATE INDEX index_instructions_on_instrument_id ON instructions USING btree (instrument_id);
+
+
+--
+-- Name: index_instructions_on_text_and_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_instructions_on_text_and_instrument_id ON instructions USING btree (text, instrument_id);
 
 
 --
@@ -2140,6 +2168,6 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160930113839'), ('20161027133806');
+INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160913201152'), ('20160930113839'), ('20161027133806');
 
 
