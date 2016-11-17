@@ -10,7 +10,7 @@ class Prefix
       rescue Exception => e
         Rails.logger.warn 'Unable to get prefix from Redis cache. Returning input.'
         Rails.logger.warn e.message
-        return id
+        return prefix
       end
     end
 
