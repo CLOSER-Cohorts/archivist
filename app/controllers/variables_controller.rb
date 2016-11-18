@@ -1,8 +1,16 @@
-class VariablesController < ApplicationController
-  include BaseController
+class VariablesController < BasicController
+  prepend_before_action :set_dataset
+  only_set_object
 
-  add_basic_actions require: ':variable',
-                    params: '[:name, :label, :var_type, :dataset_id]',
-                    collection: 'policy_scope(Dataset).find(params[:dataset_id]).variables'
+  @model_class = Variable
+  @params_list = [:name, :label, :var_type, :dataset_id]
 
+  protected
+  def collection
+    @dataset.variables
+  end
+
+  def set_dataset
+    @dataset = policy_scope(Dataset).find(params[:dataset_id])
+  end
 end

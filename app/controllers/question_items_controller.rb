@@ -1,10 +1,6 @@
-class QuestionItemsController < ApplicationController
-  include Question::Controller
+class QuestionItemsController < QuestionController
+  only_set_object
 
-  add_basic_actions require: ':question_item',
-                    params: '[:literal, :label, :instruction_id]',
-                    collection: 'Instrument.find(params[:instrument_id]).question_items'
-
-
-
+  @model_class = QuestionItem
+  @params_list = [:literal, :label, :instruction_id]
 end

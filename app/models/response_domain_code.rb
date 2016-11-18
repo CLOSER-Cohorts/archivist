@@ -1,4 +1,4 @@
-class ResponseDomainCode < ActiveRecord::Base
+class ResponseDomainCode < ApplicationRecord
   include ResponseDomain
   belongs_to :code_list
   delegate :label, to: :code_list

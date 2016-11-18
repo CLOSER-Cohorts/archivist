@@ -16,7 +16,7 @@ class InstructionsControllerTest < ActionController::TestCase
 
   test "should create instruction" do
     assert_difference('Instruction.count') do
-      post :create, format: :json, instrument_id: @instrument.id, instruction: {text: @instruction.text, instrument_id: @instrument.id}
+      post :create, format: :json, instrument_id: @instrument.id, instruction: {text: @instruction.text + '_i', instrument_id: @instrument.id}
     end
 
     assert_response :success

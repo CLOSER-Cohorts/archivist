@@ -1,15 +1,8 @@
-class ResponseDomainDatetimesController < ApplicationController
-  include BaseInstrumentController
+class ResponseDomainDatetimesController < BasicInstrumentController
+  include RdSubtypeShim
+  only_set_object
+  permit_subtype :datetime_type
 
-  add_basic_actions require: ':response_domain_datetime',
-                    params: '[:datetime_type, :label, :format]',
-                    collection: 'Instrument.find(params[:instrument_id]).response_domain_datetimes'
-
-  before_action :subtype_shim, only: [:create, :update]
-
-  private
-  def subtype_shim
-    params[:response_domain_datetime][:datetime_type] = params[:subtype]
-  end
-
+  @model_class = ResponseDomainDatetime
+  @params_list = [:datetime_type, :label, :format]
 end

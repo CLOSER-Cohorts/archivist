@@ -417,6 +417,8 @@ data_manager.factory(
                 console.log obj
                 for key, value of row
                   obj[key] = row[key]
+                if ['CcLoop','CcCondition','CcQuestion','CcStatement','CcSequence'].indexOf(obj.type) != -1
+                  obj.type = Map.translate(obj.type)
                 console.log obj
                 arr.push obj
 

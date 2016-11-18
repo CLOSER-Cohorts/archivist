@@ -1,8 +1,6 @@
-class ResponseUnitsController < ApplicationController
-  include BaseInstrumentController
+class ResponseUnitsController < BasicInstrumentController
+  only_set_object
 
-  add_basic_actions require: ':response_unit',
-                    params: '[:label]',
-                    collection: 'Instrument.find(params[:instrument_id]).response_units'
-
+  @model_class = ResponseUnit
+  @params_list = [:label]
 end

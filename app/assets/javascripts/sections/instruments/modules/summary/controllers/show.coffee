@@ -42,7 +42,7 @@ angular.module('archivist.summary').controller(
           },
           {
             label: $scope.instrument.prefix,
-            link: '/instruments/' + $scope.instrument.id.toString(),
+            link: '/instruments/' + $scope.instrument.prefix,
             active: false
           },
           {

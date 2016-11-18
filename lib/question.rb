@@ -14,26 +14,11 @@ module Question::Model
     has_many :cc_questions, as: :question, dependent: :destroy
 
     include Realtime::RtUpdate
+    include Exportable
+
+    validates :label, uniqueness: { scope: :instrument_id }
 
     alias constructs cc_questions
-
-    def response_domains
-      (self.response_domain_codes.to_a + self.response_domain_datetimes.to_a +
-          self.response_domain_numerics.to_a + self.response_domain_texts.to_a).sort do |a,b|
-
-            RdsQs.find_by(
-                question_id: self.id,
-                question_type: self.class.name,
-                response_domain_id: a.id,
-                response_domain_type: a.class.name
-            ).rd_order <=> RdsQs.find_by(
-                question_id: self.id,
-                question_type: self.class.name,
-                response_domain_id: b.id,
-                response_domain_type: b.class.name
-            ).rd_order
-          end
-    end
 
     def instruction=(text)
       if text.nil? || text == ""
@@ -110,55 +95,6 @@ module Question::Model
                      response_domain: new_rd,
                      question: self,
                      rd_order: highest_rd_order
-      end
-    end
-  end
-end
-
-module Question::Controller
-  extend ActiveSupport::Concern
-  include BaseInstrumentController
-  included do
-  end
-
-  module ClassMethods
-    def add_basic_actions(options = {})
-      super options
-      include Question::Controller::Actions
-    end
-  end
-
-  module Actions
-    def create
-      update_question @object = collection.new(safe_params) do |obj|
-        obj.save
-      end
-    end
-
-    def update
-      update_question @object do |obj|
-        obj.update(safe_params)
-      end
-    end
-
-    private
-    def update_question object, &block
-      if block.call object
-        if params.has_key? :instruction
-          object.instruction = params[:instruction]
-          object.save!
-        end
-        if params.has_key? :rds
-          object.update_rds params[:rds]
-          object.save!
-        end
-        if params.has_key? :cols
-          object.update_cols params[:cols]
-          object.save!
-        end
-        render :show, status: :ok
-      else
-        render json: @object.errors, status: :unprocessable_entity
       end
     end
   end

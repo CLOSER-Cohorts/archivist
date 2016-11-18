@@ -1,8 +1,6 @@
-class InstructionsController < ApplicationController
-  include BaseInstrumentController
+class InstructionsController < BasicInstrumentController
+  only_set_object
 
-  add_basic_actions require: ':instruction',
-                    params: '[:text]',
-                    collection: 'Instrument.find(params[:instrument_id]).instructions'
-
+  @model_class = Instruction
+  @params_list = [:text]
 end

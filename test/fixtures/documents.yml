@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filename: MyString
+  content_type: MyString
+  file_contents: 
+  md5_hash: MyString
+  item: one
+  item_type: Item
+
+two:
+  filename: MyString
+  content_type: MyString
+  file_contents: 
+  md5_hash: ADifferentHash
+  item: two
+  item_type: Item

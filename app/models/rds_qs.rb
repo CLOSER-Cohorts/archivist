@@ -1,4 +1,4 @@
-class RdsQs < ActiveRecord::Base
+class RdsQs < ApplicationRecord
   belongs_to :response_domain, polymorphic: true
   belongs_to :question, polymorphic: true
   belongs_to :instrument

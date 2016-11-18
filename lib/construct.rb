@@ -9,9 +9,9 @@ module Construct::Model
 
     include Comparable
     include Realtime::RtUpdate
+    include Exportable
 
     before_create :create_control_construct
-    delegate :label, to: :cc
     delegate :label=, to: :cc
     delegate :position, to: :cc
     delegate :position=, to: :cc
@@ -19,7 +19,7 @@ module Construct::Model
     delegate :branch=, to: :cc
 
     def self.attribute_names
-      super + ["label"]
+      super + ['label']
     end
 
     def parent
@@ -40,7 +40,7 @@ module Construct::Model
 
     def parent_id
       begin
-        pid = $redis.hget 'parents', self.id
+        pid = $redis.hget 'parents:' + self.class.to_s, self.id
       rescue
         Rails.logger.warn 'Could not retrieve parents from Redis cache.'
       end
@@ -48,6 +48,16 @@ module Construct::Model
         pid = self.parent.nil? ? nil : self.parent.id
       end
       pid.to_i
+    end
+
+    def first_parent_of(klass)
+      p = self.parent
+      p = p.parent until p.is_a?(klass) || p.nil?
+      p
+    end
+
+    def label
+      self.cc.label.nil? ? '' : self.cc.label
     end
 
     def is_top?
@@ -71,8 +81,8 @@ module Construct::Model
       if (self.cc.parent_id == other.cc.parent_id)
         return self.cc.position <=> other.cc.position
       else
-        return 1 if self.cc.parent_id.nil? || self.parent.position.nil?
-        return -1 if other.cc.parent_id.nil? || other.parent.position.nil?
+        return 1 if self.parent&.position.nil?
+        return -1 if other.parent&.position.nil?
         return self.parent.position <=> other.parent.position
       end
     end
@@ -171,32 +181,6 @@ module Construct::Model
         cs = query_children.call branch, self.cc
       end
       cs
-    end
-  end
-end
-
-module Construct::Controller
-  extend ActiveSupport::Concern
-  include BaseInstrumentController
-  included do
-  end
-
-  module ClassMethods
-    def add_basic_actions(options = {})
-      super options
-      include Construct::Controller::Actions
-    end
-  end
-
-  module Actions
-    def create
-      #TODO: Security issue
-      @object = collection.create_with_position(params)
-      if @object
-        render :show, status: :created
-      else
-        render json: @object.errors, status: :unprocessable_entity
-      end
     end
   end
 end

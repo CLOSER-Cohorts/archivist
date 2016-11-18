@@ -1,4 +1,4 @@
-class Dataset < ActiveRecord::Base
+class Dataset < ApplicationRecord
   has_many :variables, dependent: :destroy
 
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'

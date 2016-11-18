@@ -1,4 +1,4 @@
-class CcQuestion < ActiveRecord::Base
+class CcQuestion < ApplicationRecord
   include Construct::Model
   include Linkable
   belongs_to :question, polymorphic: true
