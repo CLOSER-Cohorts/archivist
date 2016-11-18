@@ -61,7 +61,7 @@ class InstrumentsController < BasicController
       files.each do |file|
         doc = Document.new file: file
         doc.save_or_get
-        Resque.enqueue ImportJob, doc.id, options
+        Resque.enqueue ImportJob::Instrument, doc.id, options
       end
       head :ok, format: :json
     rescue  => e

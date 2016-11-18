@@ -1,13 +1,20 @@
 module XML::Sledgehammer
   class Importer
-    def initialize(filepath)
-      @filepath = filepath
-      @doc = File.open(@filepath) { |f| Nokogiri::XML(f) }
+    def initialize(thing, options = {})
+      if thing.is_a? String
+        @doc = open(thing) { |f| Nokogiri::XML(f) }
+      else
+        @document = Document.find thing
+        @doc = Nokogiri::XML document.file_contents
+      end
       @counters = {}
     end
 
     def parse
       @dataset = Importer.build_dataset( @doc, filename: File.basename(@filepath))
+      unless @document.nil?
+        @document.item = @datset
+      end
       read_variables
     end
 
