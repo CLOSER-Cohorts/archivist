@@ -189,7 +189,7 @@ admin.controller('AdminImportController',
       $scope.options =
         import_question_grids: true
 
-      $scope.uploadImport = ()->
+      $scope.uploadInstrumentImport = ()->
         $scope.publish_flash()
         fd = new FormData()
         angular.forEach $scope.files, (item) ->
@@ -207,6 +207,24 @@ admin.controller('AdminImportController',
           Flash.add 'success', 'Instrument imported.'
         .error (res)->
           Flash.add 'danger', 'Instrument failed to import - ' + res.message
+
+      $scope.uploadDatasetImport = ()->
+        $scope.publish_flash()
+        fd = new FormData()
+        angular.forEach $scope.files, (item) ->
+          fd.append 'files[]', item
+        $http {
+          method: 'POST'
+          url: '/admin/import/datasets'
+          data: fd
+          transformRequest: angular.identity
+          headers :
+            'Content-Type': undefined
+        }
+        .success ->
+          Flash.add 'success', 'Dataset imported.'
+        .error (res)->
+          Flash.add 'danger', 'Dataset failed to import - ' + res.message
   ])
 
 admin.controller('AdminExportController',
