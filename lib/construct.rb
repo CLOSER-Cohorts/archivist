@@ -71,7 +71,7 @@ module Construct::Model
 
     def create_control_construct
       if self.cc.nil?
-        self.cc = ControlConstruct.new instrument_id: instrument_id
+        self.cc = ControlConstruct.new instrument_id: Prefix[instrument_id]
       end
       true
     end
@@ -111,9 +111,9 @@ module Construct::Model
 
     def create_with_position(params, defer = false)
       obj = new()
-      i = Instrument.find(params[:instrument_id])
+      i = Instrument.find(Prefix[params[:instrument_id]])
       obj.instrument = i unless defer
-      obj.cc = ControlConstruct.new instrument_id: i.id
+      obj.cc = i.control_constructs.new
 
       parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
       unless parent.nil?
