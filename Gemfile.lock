@@ -1,3 +1,9 @@
+PATH
+  remote: mapper
+  specs:
+    mapper (0.1.0)
+      rails (~> 5.0.0, >= 5.0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -285,6 +291,7 @@ DEPENDENCIES
   jbuilder_cache_multi
   jquery-rails
   json
+  mapper!
   oj
   parallel
   pg

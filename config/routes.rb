@@ -30,9 +30,6 @@ Rails.application.routes.draw do
       get 'external'
     end
   end
-  resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
-    resources :variables
-  end
 
   resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
     resources :cc_sequences
@@ -62,5 +59,8 @@ Rails.application.routes.draw do
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }
+
+  mount Mapper::Engine, at: '/'
+
   match '*path', to: 'main#index', via: :all, constraints: {format: ''}
 end

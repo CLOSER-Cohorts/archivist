@@ -81,6 +81,8 @@ gem 'derailed'
 # To better enable custom configurations
 gem 'figaro'
 
+gem 'mapper', path: 'mapper'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
