@@ -9,9 +9,4 @@ class BasicInstrumentController < BasicController
   def set_instrument
     @instrument = policy_scope(Instrument).find(::Prefix[params[:instrument_id]])
   end
-
-  def self.params_list
-    param_list = defined?(super) ? super : []
-    param_list + ['instrument_id']
-  end
 end
