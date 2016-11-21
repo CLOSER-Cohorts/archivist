@@ -1,4 +1,23 @@
 class Instrument < ApplicationRecord
+  PROPERTIES = [
+      :categories,
+      :code_lists,
+      :codes,
+      :response_domain_codes,
+      :response_domain_datetimes,
+      :response_domain_numerics,
+      :response_domain_texts,
+      :response_units,
+      :instructions,
+      :question_items,
+      :question_grids,
+      :cc_conditions,
+      :cc_loops,
+      :cc_questions,
+      :cc_sequences,
+      :cc_statements,
+      :rds_qs
+  ]
 
   has_many :cc_conditions,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
@@ -112,7 +131,7 @@ class Instrument < ApplicationRecord
       next if ['datasets'].include? r
       begin
         klass = r.classify.constantize
-      rescue Exception => e
+      rescue
         klass = r.classify.pluralize.constantize
       end
       klass.where(instrument_id: self.id).destroy_all
@@ -184,34 +203,14 @@ class Instrument < ApplicationRecord
 
     new_i = self.dup
     new_i.prefix = new_prefix
-    other_vals.select do |key, val|
-      new_i[key] = val
-    end
+    other_vals.select { |key, val| new_i[key] = val }
+
     new_i.save!
     new_i.cc_sequences.first.destroy
 
-    ref = {}
-    ref[:control_constructs] = {}
+    ref = { control_constructs: {} }
     ccs = {}
-    [
-        :categories,
-        :code_lists,
-        :codes,
-        :response_domain_codes,
-        :response_domain_datetimes,
-        :response_domain_numerics,
-        :response_domain_texts,
-        :response_units,
-        :instructions,
-        :question_items,
-        :question_grids,
-        :cc_conditions,
-        :cc_loops,
-        :cc_questions,
-        :cc_sequences,
-        :cc_statements,
-        :rds_qs
-    ].each do |key|
+    PROPERTIES.each do |key|
       ref[key] = {}
       self.__send__(key).find_each do |obj|
         new_obj = obj.dup
@@ -262,8 +261,8 @@ class Instrument < ApplicationRecord
   def self.generate_last_edit_times
     last_edit_times = {}
 
-    find_max_edit_time = lambda do |id|
-      results.each do |r|
+    find_max_edit_time = lambda do |res, id|
+      res.each do |r|
         last_edit_times[r[id]] = [
             last_edit_times[r[id]],
             r['max']
@@ -275,14 +274,19 @@ class Instrument < ApplicationRecord
       next if ['instruments_datasets', 'datasets'].include? res
       sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
       results = ActiveRecord::Base.connection.execute sql
-      find_max_edit_time.call 'instrument_id'
+      find_max_edit_time.call results, 'instrument_id'
     end
     sql = 'SELECT id, updated_at FROM instruments'
     results = ActiveRecord::Base.connection.execute sql
-    find_max_edit_time.call 'id'
+    find_max_edit_time.call results, 'id'
 
-    last_edit_times.select do |k, v|
-      $redis.hset 'last_edit:instrument', k, v
+    begin
+      last_edit_times.select do |k, v|
+        $redis.hset 'last_edit:instrument', k, v
+      end
+    rescue => e
+      Rails.logger.warn 'Could not set last edit times'
+      Rails.logger.warn e.message
     end
   end
 
