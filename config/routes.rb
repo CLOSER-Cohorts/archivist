@@ -54,6 +54,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'instruments/:id/export', to: 'instruments#latest_document'
+
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }
   match '*path', to: 'main#index', via: :all, constraints: {format: ''}
