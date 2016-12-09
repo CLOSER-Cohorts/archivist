@@ -1,4 +1,4 @@
-module TXT
+module Importers::TXT
   class TabDelimited
     def initialize(file)
       @contents = file.read

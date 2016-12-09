@@ -1,0 +1,1 @@
+module Importers::TXT::Mapper; end

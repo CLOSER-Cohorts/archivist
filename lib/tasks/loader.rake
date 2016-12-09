@@ -19,7 +19,7 @@ end
 desc 'Loads dataset'
 task :load_datasets => :environment do
   Dir.chdir ENV['LOAD_PATH']
-  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+  files = Dir.entries('.').reject { |x| x[0, 1] == '.' }
 
   files.each do |file|
 
@@ -46,7 +46,7 @@ task :load_mapping => :environment do
       puts prefix
       i = Instrument.find_by_prefix prefix
       unless i.nil?
-        im = TXT::Mapper::Mapping::Importer.new(file, i)
+        im = Importers::TXT::Mapper::Mapping.new(file, i)
         im.import
       end
     end
