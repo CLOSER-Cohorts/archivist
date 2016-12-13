@@ -2,7 +2,7 @@ one:
   name: v001
   label: MyString
   var_type: Normal
-  dataset: :one
+  dataset: one
 #  questions: :one
 #  topic: :TopLevelTopic
 
@@ -10,4 +10,10 @@ two:
   name: v002
   label: MyString
   var_type: Derived
-  dataset: :one 
+  dataset: one
+
+three:
+  name: v003
+  label: MyString
+  var_type: Normal
+  dataset: three

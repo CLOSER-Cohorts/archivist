@@ -268,7 +268,7 @@ ALTER SEQUENCE cc_statements_id_seq OWNED BY cc_statements.id;
 
 CREATE TABLE code_lists (
     id integer NOT NULL,
-    label character varying,
+    label character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     instrument_id integer NOT NULL
@@ -433,6 +433,51 @@ CREATE SEQUENCE documents_id_seq
 --
 
 ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
+
+
+--
+-- Name: maps; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE maps (
+    id integer NOT NULL,
+    source_id integer NOT NULL,
+    source_type character varying NOT NULL,
+    variable_id integer NOT NULL,
+    x integer,
+    y integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: variables; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE variables (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    label character varying,
+    var_type character varying NOT NULL,
+    dataset_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: dv_mappings; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW dv_mappings AS
+ SELECT row_number() OVER () AS id,
+    s.name AS source,
+    v.name AS variable,
+    v.dataset_id
+   FROM ((maps m
+     JOIN variables v ON ((m.variable_id = v.id)))
+     JOIN variables s ON (((s.id = m.source_id) AND ((m.source_type)::text = 'Variable'::text))));
 
 
 --
@@ -603,22 +648,6 @@ ALTER SEQUENCE links_id_seq OWNED BY links.id;
 
 
 --
--- Name: maps; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE maps (
-    id integer NOT NULL,
-    source_id integer NOT NULL,
-    source_type character varying NOT NULL,
-    variable_id integer NOT NULL,
-    x integer,
-    y integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: maps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -710,6 +739,24 @@ CREATE SEQUENCE question_items_id_seq
 --
 
 ALTER SEQUENCE question_items_id_seq OWNED BY question_items.id;
+
+
+--
+-- Name: qv_mappings; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW qv_mappings AS
+ SELECT row_number() OVER () AS id,
+    COALESCE(cc.label, '0'::character varying) AS question,
+    v.name AS variable,
+    m.x,
+    m.y,
+    qc.instrument_id,
+    v.dataset_id
+   FROM (((variables v
+     LEFT JOIN maps m ON ((m.variable_id = v.id)))
+     JOIN cc_questions qc ON (((qc.id = m.source_id) AND ((m.source_type)::text = 'CcQuestion'::text))))
+     JOIN control_constructs cc ON (((qc.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))));
 
 
 --
@@ -1012,21 +1059,6 @@ CREATE SEQUENCE users_id_seq
 --
 
 ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
--- Name: variables; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE variables (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    label character varying,
-    var_type character varying NOT NULL,
-    dataset_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -1722,6 +1754,20 @@ CREATE INDEX index_links_on_topic_id ON links USING btree (topic_id);
 
 
 --
+-- Name: index_maps_on_source_id_and_variable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id ON maps USING btree (source_id, variable_id) WHERE ((source_type)::text = 'Variable'::text);
+
+
+--
+-- Name: index_maps_on_source_id_and_variable_id_and_x_and_y; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id_and_x_and_y ON maps USING btree (source_id, variable_id, x, y) WHERE ((source_type)::text = 'Question'::text);
+
+
+--
 -- Name: index_maps_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2168,6 +2214,6 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160913201152'), ('20160930113839'), ('20161027133806');
+INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160913201152'), ('20160930113839'), ('20161027133806'), ('20161121112227'), ('20161209155519'), ('20161213091354');
 
 

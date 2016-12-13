@@ -1,5 +1,5 @@
-module XML::CADDIES
-  class Importer
+module Importers::XML::DDI
+  class Instrument
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
