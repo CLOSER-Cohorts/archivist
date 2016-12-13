@@ -1,15 +1,27 @@
 class Importers::TXT::Mapper::Mapping
-  def initialize(filepath, instrument)
-    @doc = File.open(filepath) { |f| Importers::TXT::TabDelimited.new(f) }
+  def initialize(thing, instrument)
+    if thing.is_a? String
+      @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
+    else
+      document = Document.find thing
+      @doc = Importers::TXT::TabDelimited.new document.file_contents
+    end
     @instrument = instrument
-    @dataset = instrument.datasets.first
+    @variables = instrument.datasets.map &:variables
   end
 
   def import
     @doc.each do |q, v|
       q_ident, q_coords = *q.split('$')
       qc = @instrument.cc_questions.find_by_label q_ident
-      var = @dataset.variables.find_by_name v
+      multidimensional_variable_finder = lambda do |name|
+        @variables.each do |cp|
+          found = cp.find_by_name name
+          return found unless found.nil?
+        end
+        return nil
+      end
+      var = multidimensional_variable_finder.call(v)
       unless qc.nil? or var.nil?
         if q_coords.nil?
           qc.variables << var

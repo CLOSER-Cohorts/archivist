@@ -1,4 +1,10 @@
 class InstrumentsController < BasicController
+  include Importers::Controller
+
+  has_importers({
+                    mapping: ImportJob::Mapping,
+                    topicq: ImportJob::TopicQ
+                })
   only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper} }
 
   @model_class = Instrument
@@ -85,6 +91,13 @@ class InstrumentsController < BasicController
 
   def stats
     render json: {stats: @object.association_stats, prefix: @object.prefix}
+  end
+
+  def mapping
+    respond_to do |format|
+      format.text { render 'mapping.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
   end
 
   private

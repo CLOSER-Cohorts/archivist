@@ -1,5 +1,11 @@
 one:
-  name: MyString
+  id: 1
+  name: DatasetOne
 
 two:
-  name: MyString
+  id: 2
+  name: DatasetTwo
+
+three:
+  id: 3
+  name: DatasetThree

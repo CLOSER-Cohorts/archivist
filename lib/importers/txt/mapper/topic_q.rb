@@ -1,6 +1,11 @@
 class Importers::TXT::Mapper::TopicQ
-  def initialize(filepath, instrument)
-    @doc = File.open(filepath) { |f| Importers::TXT::TabDelimited.new(f) }
+  def initialize(thing, instrument)
+    if thing.is_a? String
+      @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
+    else
+      document = Document.find thing
+      @doc = Importers::TXT::TabDelimited.new document.file_contents
+    end
     @instrument = instrument
   end
 
