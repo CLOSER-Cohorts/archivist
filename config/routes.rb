@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   end
   resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :variables
-    match 'import', to: 'datasets#member_imports', via: [:post, :put]
+    member do
+      match 'imports', to: 'datasets#member_imports', via: [:post, :put]
+    end
   end
 
   resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
@@ -58,7 +60,7 @@ Rails.application.routes.draw do
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
-      match 'import', to: 'instruments#member_imports', via: [:post, :put]
+      match 'imports', to: 'instruments#member_imports', via: [:post, :put]
     end
   end
 
