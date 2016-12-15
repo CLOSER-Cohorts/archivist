@@ -7,7 +7,7 @@ task :load_instruments => :environment do
 
     if File.exist? file
 
-      im = XML::CADDIES::Importer.new file
+      im = Importers::XML::DDI::Instrument.new file
       im.parse
 
     end
@@ -25,7 +25,7 @@ task :load_datasets => :environment do
 
     if File.exist? file
 
-      da = XML::Sledgehammer::Importer.new(file)
+      da = Importers::XML::DDI::Dataset.new(file)
       da.parse
 
     end

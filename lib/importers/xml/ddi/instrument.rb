@@ -27,39 +27,37 @@ module Importers::XML::DDI
     def read_code_lists
       #Read categories first
       categories = @doc.xpath("//l:Category")
-      @category_index = {}
       categories.each do |category|
         begin
           cat = Category.new label: category.at_xpath("./r:Label/r:Content").content
         rescue
           cat = Category.new label: ''
         end
-        @category_index[category.at_xpath('./r:URN').content] = cat
+        Reference[category] = cat
         @instrument.categories << cat
       end
       @counters['categories'] = categories.length
 
       #Read code lists and codes together
-      code_lists = @doc.xpath("//l:CodeList")
+      code_lists = @doc.xpath('//l:CodeList')
       @counters['codes'] = code_lists.length
       @counters['codes'] = 0
-      @code_list_index = {}
       code_lists.each do |code_list|
         begin
-          cl = CodeList.new label: code_list.at_xpath("./r:Label/r:Content").content
+          cl = CodeList.new label: code_list.at_xpath('./r:Label/r:Content').content
         rescue
           cl = CodeList.new label: ''
         end
-        @code_list_index[code_list.at_xpath('./r:URN').content] = cl
+        Reference[code_list] = cl
         @instrument.code_lists << cl
-        codes = code_list.xpath("./l:Code")
+        codes = code_list.xpath('./l:Code')
         @counters['codes'] += codes.length
         order_counter = 0
         codes.each do |code|
           order_counter += 1
           begin
-            co = Code.new({value: code.at_xpath("./r:Value").content, order: order_counter})
-            co.category = @category_index[code.at_xpath("./r:CategoryReference/r:URN").content]
+            co = Code.new({value: code.at_xpath('./r:Value').content, order: order_counter})
+            co.category = Reference[code.at_xpath('./r:CategoryReference')]
             cl.codes << co
           rescue
             Rails.logger.warn 'Code failed to be imported.'
@@ -69,57 +67,56 @@ module Importers::XML::DDI
 
       #Read response domain code
       @rdcs_created = []
-      rdc_urns = @doc.xpath("//d:QuestionGrid/d:CodeDomain/r:CodeListReference/r:URN | " +
-                                "//d:QuestionItem/d:CodeDomain/r:CodeListReference/r:URN | " +
-                                "//d:QuestionGrid/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | " +
-                                "//d:QuestionItem/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | " +
-                                "//d:QuestionGrid/d:StructuredMixedGridResponseDomain/d:GridResponseDomain/d:CodeDomain/r:CodeListReference/r:URN"
+      rdc_refs = @doc.xpath('//d:QuestionGrid/d:CodeDomain/r:CodeListReference | ' +
+                                '//d:QuestionItem/d:CodeDomain/r:CodeListReference | ' +
+                                '//d:QuestionGrid/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference | ' +
+                                '//d:QuestionItem/d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference | ' +
+                                '//d:QuestionGrid/d:StructuredMixedGridResponseDomain/d:GridResponseDomain/d:CodeDomain/r:CodeListReference'
       )
-      rdc_urns.each do |urn|
-        if not @rdcs_created.include? urn.content
-          @rdcs_created << urn.content
-          @code_list_index[urn.content].response_domain = true
+      rdc_refs.each do |ref|
+        unless @rdcs_created.include? ref.content
+          @rdcs_created << ref.content
+          Reference[ref].response_domain = true
           unless (cardinality = urn.parent.parent.at_xpath('ResponseCardinality')).nil?
-            @code_list_index[urn.content].response_domain.min_responses = cardinality['minimumResponses']
-            @code_list_index[urn.content].response_domain.max_responses = cardinality['maximumResponses']
+            Reference[ref].response_domain.min_responses = cardinality['minimumResponses']
+            Reference[ref].response_domain.max_responses = cardinality['maximumResponses']
           end
-          @code_list_index[urn.content].save!
+          Reference[ref].save!
         end
       end
     end
 
     def read_instructions
-      instructions = @doc.xpath("//d:Instruction")
+      instructions = @doc.xpath('//d:Instruction')
       @counters['instructions'] = instructions.length
-      @instruction_index = {}
       instructions.each do |instruction|
-        instr = Instruction.new({text: instruction.at_xpath("d:InstructionText/d:LiteralText/d:Text").content})
+        instr = Instruction.new({text: instruction.at_xpath('d:InstructionText/d:LiteralText/d:Text').content})
         @instrument.instructions << instr
-        @instruction_index[instruction.at_xpath("r:URN").content] = instr
+        Reference[instruction] = instr
       end
     end
 
     def read_response_domains
-      text_domains = @doc.xpath("//d:TextDomain")
+      text_domains = @doc.xpath('//d:TextDomain')
       @counters['response_domain_texts'] = text_domains.length
       @response_domain_index ||= {}
       text_domains.each do |text_domain|
         begin
-          index_label = text_domain.at_xpath("r:Label/r:Content")&.content
+          index_label = text_domain.at_xpath('r:Label/r:Content')&.content
           if index_label.nil?
-            if text_domain["maxLength"].nil?
+            if text_domain['maxLength'].nil?
               index_label = 'MISSING LABEL'
             else
-              index_label = 'max:' + text_domain["maxLength"]
+              index_label = 'max:' + text_domain['maxLength']
             end
           end
-          unless @response_domain_index.has_key? "T" + index_label
+          unless @response_domain_index.has_key? 'T' + index_label
             rdt = ResponseDomainText.new({label: index_label})
-            unless text_domain["maxLength"].nil?
-              rdt.maxlen = text_domain["maxLength"].to_i
+            unless text_domain['maxLength'].nil?
+              rdt.maxlen = text_domain['maxLength'].to_i
             end
             @instrument.response_domain_texts << rdt
-            @response_domain_index["T" + index_label] = rdt
+            @response_domain_index['T' + index_label] = rdt
           end
         rescue
           Rails.logger.info 'Deferring text domain creation.'
@@ -131,11 +128,11 @@ module Importers::XML::DDI
       @response_domain_index ||= {}
       numeric_domains.each do |numeric_domain|
         begin
-          index_label = numeric_domain.at_xpath("r:Label/r:Content").content
-          unless @response_domain_index.has_key? "N" + index_label
-            rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath("r:NumericTypeCode").content})
-            min = numeric_domain.at_xpath("r:NumberRange/r:Low")
-            max = numeric_domain.at_xpath("r:NumberRange/r:High")
+          index_label = numeric_domain.at_xpath('r:Label/r:Content').content
+          unless @response_domain_index.has_key? 'N' + index_label
+            rdn = ResponseDomainNumeric.new({label: index_label, numeric_type: numeric_domain.at_xpath('r:NumericTypeCode').content})
+            min = numeric_domain.at_xpath('r:NumberRange/r:Low')
+            max = numeric_domain.at_xpath('r:NumberRange/r:High')
             unless min.nil? then
               rdn.min = min.content
             end
@@ -150,20 +147,20 @@ module Importers::XML::DDI
         end
       end
 
-      datetime_domains = @doc.xpath("//d:DateTimeDomain")
+      datetime_domains = @doc.xpath('//d:DateTimeDomain')
       @counters['response_domain_datetimes'] = datetime_domains.length
       @response_domain_index ||= {}
       datetime_domains.each do |datetime_domain|
         begin
-          index_label = datetime_domain.at_xpath("r:Label/r:Content").content
-          if not @response_domain_index.has_key? "D" + index_label
-            rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath("r:DateTypeCode").content})
-            format = datetime_domain.at_xpath("r:DateFieldFormat").content
+          index_label = datetime_domain.at_xpath('r:Label/r:Content').content
+          if not @response_domain_index.has_key? 'D' + index_label
+            rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath('r:DateTypeCode').content})
+            format = datetime_domain.at_xpath('r:DateFieldFormat').content
             if format.length > 0
               rdd.format = format
             end
             @instrument.response_domain_datetimes << rdd
-            @response_domain_index["D" + index_label] = rdd
+            @response_domain_index['D' + index_label] = rdd
           end
         rescue
           Rails.logger.info 'Deferring datetime domain creation.'
@@ -179,21 +176,20 @@ module Importers::XML::DDI
     end
 
     def read_question_items
-      question_items = @doc.xpath("//d:QuestionItem")
+      question_items = @doc.xpath('//d:QuestionItem')
       @counters['question_items'] = question_items.length
-      @question_item_index = {}
       question_items.each do |question_item|
-        qi = QuestionItem.new({label: question_item.at_xpath("d:QuestionItemName/r:String").content})
+        qi = QuestionItem.new({label: question_item.at_xpath('d:QuestionItemName/r:String').content})
         begin
-          qi.literal = question_item.at_xpath("d:QuestionText/d:LiteralText/d:Text").content
+          qi.literal = question_item.at_xpath('d:QuestionText/d:LiteralText/d:Text').content
         rescue
           qi.literal = ''
         end
-        @question_item_index[question_item.at_xpath("./r:URN").content] = qi
+        Reference[question_item] = qi
 
         #Adding response domains
-        rds = question_item.xpath('./d:CodeDomain/r:CodeListReference/r:URN | '\
-          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference/r:URN | '\
+        rds = question_item.xpath('./d:CodeDomain/r:CodeListReference | '\
+          './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:CodeDomain/r:CodeListReference | '\
           './d:NumericDomain/r:Label/r:Content | '\
           './d:StructuredMixedResponseDomain/d:ResponseDomainInMixed/d:NumericDomain/r:Label/r:Content | '\
           './d:TextDomain/r:Label/r:Content | '\
@@ -207,14 +203,15 @@ module Importers::XML::DDI
         order_counter = 0
         rds.each do |rd|
           order_counter += 1
-          type = rd.parent.parent.name
+          type = rd.parent.name
           if type == 'CodeDomain'
             RdsQs.create({
                              question: qi,
-                             response_domain: @code_list_index[rd.content].response_domain,
+                             response_domain: Reference[rd].response_domain,
                              rd_order: order_counter
                          })
           else
+            type = rd.parent.parent.name
             prefix_char = type == 'NumericDomain' ? 'N' : (type == 'TextDomain' ? 'T' : 'D')
             klass = type == 'NumericDomain' ? ResponseDomainNumeric : (type == 'TextDomain' ? ResponseDomainText : ResponseDomainDatetime)
 
@@ -232,32 +229,31 @@ module Importers::XML::DDI
         end
 
         #Adding instruction
-        instr = question_item.at_xpath("./d:InterviewerInstructionReference/r:URN")
-        if not instr.nil?
-          qi.association(:instruction).writer @instruction_index[instr.content]
+        instr = question_item.at_xpath('./d:InterviewerInstructionReference')
+        unless instr.nil?
+          qi.association(:instruction).writer Reference[instr]
         end
         qi.save!
       end
     end
 
     def read_question_grids
-      question_grids = @doc.xpath("//d:QuestionGrid")
+      question_grids = @doc.xpath('//d:QuestionGrid')
       @counters['question_grids'] = question_grids.length
-      @question_grid_index = {}
       question_grids.each do |question_grid|
-        qg = QuestionGrid.new({label: question_grid.at_xpath("d:QuestionGridName/r:String").content})
-        qg.literal = question_grid.at_xpath("d:QuestionText/d:LiteralText/d:Text").content
-        @question_grid_index[question_grid.at_xpath("./r:URN").content] = qg
-        qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference/r:URN")
-        qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference/r:URN")
-        qg.horizontal_code_list = @code_list_index[qg_X.content]
+        qg = QuestionGrid.new({label: question_grid.at_xpath('d:QuestionGridName/r:String').content})
+        qg.literal = question_grid.at_xpath('d:QuestionText/d:LiteralText/d:Text').content
+        Reference[question_grid] = qg
+        qg_X = question_grid.at_xpath("d:GridDimension[@rank='2']/d:CodeDomain/r:CodeListReference")
+        qg_Y = question_grid.at_xpath("d:GridDimension[@rank='1']/d:CodeDomain/r:CodeListReference")
+        qg.horizontal_code_list = Reference[qg_X]
         roster = question_grid.at_xpath("./d:GridDimension[@rank='1']/d:Roster")
         unless roster.nil?
-          qg.roster_label = roster.at_xpath("./r:Label/r:Content").content
+          qg.roster_label = roster.at_xpath('./r:Label/r:Content').content
           qg.roster_rows = roster.attribute('minimumRequired').value.nil? ? 0 : roster.attribute('minimumRequired').value.to_i
         end
         unless qg_Y.nil?
-          qg.vertical_code_list = @code_list_index[qg_Y.content]
+          qg.vertical_code_list = Reference[qg_Y]
         end
         corner = question_grid.at_xpath("d:GridDimension[@displayLabel='true']")
 
@@ -297,11 +293,11 @@ module Importers::XML::DDI
             if rdc.parent.name == "GridResponseDomain"
               RdsQs.create({
                                question: qg,
-                               response_domain: @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain,
+                               response_domain: Reference[rdc.at_xpath('./r:CodeListReference')].response_domain,
                                code_id: rdc.parent.at_xpath("./d:GridAttachment/d:CellCoordinatesAsDefined/d:SelectDimension[@rank='2']").attribute('specificValue').value.to_i
                            })
             else
-              qg.response_domain_codes << @code_list_index[rdc.at_xpath("./r:CodeListReference/r:URN").content].response_domain
+              qg.response_domain_codes << Reference[rdc.at_xpath('./r:CodeListReference')].response_domain
             end
           else
             number_of_code_domains_as_axis += 1
@@ -309,19 +305,19 @@ module Importers::XML::DDI
         end
         read_q_rds.call(
             qg,
-            question_grid.xpath(".//d:NumericDomain"),
+            question_grid.xpath('.//d:NumericDomain'),
             'N',
             'response_domain_numerics'
         )
         read_q_rds.call(
             qg,
-            question_grid.xpath(".//d:TextDomain"),
+            question_grid.xpath('.//d:TextDomain'),
             'T',
             'response_domain_texts'
         )
         read_q_rds.call(
             qg,
-            question_grid.xpath(".//d:DateTimeDomain"),
+            question_grid.xpath('.//d:DateTimeDomain'),
             'D',
             'response_domain_datetimes'
         )
@@ -341,21 +337,21 @@ module Importers::XML::DDI
         end
 
         #Adding instruction
-        instr = question_grid.at_xpath("./d:InterviewerInstructionReference/r:URN")
+        instr = question_grid.at_xpath('./d:InterviewerInstructionReference')
         if not instr.nil?
-          qg.association(:instruction).writer @instruction_index[instr.content]
+          qg.association(:instruction).writer Reference[instr]
         end
         qg.save!
       end
     end
 
     def read_constructs
-      seq = doc.xpath("//d:ControlConstructScheme/d:Sequence").first
+      seq = doc.xpath('//d:ControlConstructScheme/d:Sequence').first
       cc_seq = @instrument.top_sequence
       begin
-        cc_seq.label = seq.at_xpath("./d:ConstructName/r:String").content
+        cc_seq.label = seq.at_xpath('./d:ConstructName/r:String').content
       rescue
-        if (label = seq.at_xpath("./r:Label/r:Content")).nil?
+        if (label = seq.at_xpath('./r:Label/r:Content')).nil?
           cc_seq.label = label
         else
           cc_seq.label = 'Missing label'
@@ -367,9 +363,9 @@ module Importers::XML::DDI
 
     def read_sequence_children(node, parent, branch = nil)
       position_counter = 0
-      node.xpath("./d:ControlConstructReference").each do |child_ref|
+      node.xpath('./d:ControlConstructReference').each do |child_ref|
         position_counter += 1
-        urn = child_ref.at_xpath("./r:URN").content
+        urn = child_ref.at_xpath('./r:URN').content
 
         type = child_ref.at_xpath("./r:TypeOfObject").content
         if type == 'Sequence'
@@ -395,9 +391,9 @@ module Importers::XML::DDI
           cc_s = CcStatement.new
           @instrument.statements << cc_s
           begin
-            cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+            cc_s.label = child.at_xpath('./d:ConstructName/r:String').content
           rescue
-            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+            if (label = child.at_xpath('./r:Label/r:Content')).nil?
               cc_s.label = label
             else
               cc_s.label = 'Missing label'
@@ -405,16 +401,16 @@ module Importers::XML::DDI
           end
           cc_s.position = position_counter
           cc_s.branch = branch
-          cc_s.literal = child.at_xpath("./d:DisplayText/d:LiteralText/d:Text").content
+          cc_s.literal = child.at_xpath('./d:DisplayText/d:LiteralText/d:Text').content
           parent.children << cc_s.cc
           cc_s.save!
         elsif type == 'QuestionConstruct'
           child = doc.at_xpath("//d:QuestionConstruct/r:URN[text()='#{urn}']").parent
-          q_type = child.at_xpath("./r:QuestionReference/r:TypeOfObject").content
-          unless q_type == 'QuestionGrid' && !@import_question_grids
+          base_question = Reference[q_ref]
+          unless base_question.is_a? QuestionGrid && !@import_question_grids
             cc_q = CcQuestion.new
-            q_urn = child.at_xpath("./r:QuestionReference/r:URN").content
-            cc_q.question = q_type == 'QuestionItem' ? @question_item_index[q_urn] : @question_grid_index[q_urn]
+            q_ref = child.at_xpath('./r:QuestionReference')
+            cc_q.question = base_question
             begin
               ru_val = child.at_xpath("./d:ResponseUnit").content
             rescue
@@ -463,12 +459,12 @@ module Importers::XML::DDI
           cc_c.position = position_counter
           cc_c.branch = branch
           begin
-            cc_c.literal = child.at_xpath("./d:IfCondition/r:Description/r:Content").content
+            cc_c.literal = child.at_xpath('./d:IfCondition/r:Description/r:Content').content
           rescue
             cc_c.literal = 'Missing text'
           end
           begin
-            cc_c.logic = child.at_xpath("./d:IfCondition/r:Command/r:CommandContent").content
+            cc_c.logic = child.at_xpath('./d:IfCondition/r:Command/r:CommandContent').content
           rescue
             cc_c.logic = ''
           end
@@ -478,7 +474,7 @@ module Importers::XML::DDI
 
           sub_sequence = lambda do |search, cc, branch|
             sub_seq = child.at_xpath(search)
-            if not sub_seq.nil?
+            unless sub_seq.nil?
               urn = sub_seq.content
               seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
               read_sequence_children seq, cc, branch
@@ -492,7 +488,7 @@ module Importers::XML::DDI
 
           sub_sequence = lambda do |search, cc|
             sub_seq = child.at_xpath(search)
-            if not sub_seq.nil?
+            unless sub_seq.nil?
               urn = sub_seq.content
               seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
               read_sequence_children seq, cc
@@ -502,13 +498,13 @@ module Importers::XML::DDI
           child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
           cc_l = CcLoop.new
           @instrument.loops << cc_l
-          start_node = child.at_xpath("./d:InitialValue/r:Command/r:CommandContent")
-          end_node = child.at_xpath("./d:EndValue/r:Command/r:CommandContent")
-          while_node = child.at_xpath("./d:LoopWhile/r:Command/r:CommandContent")
+          start_node = child.at_xpath('./d:InitialValue/r:Command/r:CommandContent')
+          end_node = child.at_xpath('./d:EndValue/r:Command/r:CommandContent')
+          while_node = child.at_xpath('./d:LoopWhile/r:Command/r:CommandContent')
           begin
-            cc_l.label = child.at_xpath("./d:ConstructName/r:String").content
+            cc_l.label = child.at_xpath('./d:ConstructName/r:String').content
           rescue
-            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+            if (label = child.at_xpath('./r:Label/r:Content')).nil?
               cc_l.label = label
             else
               cc_l.label = 'Missing label'
@@ -542,13 +538,13 @@ module Importers::XML::DDI
       save = defined?(options[:save]) ? true : options[:save]
       duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
 
-      i = Instrument.new
+      i = ::Instrument.new
       begin
-        i.label = doc.xpath("//d:InstrumentName//r:String").first.content
+        i.label = doc.xpath('//d:InstrumentName//r:String').first.content
       rescue
         i.label = 'Missing name'
       end
-      urn_pieces = doc.xpath("//r:URN").first.content.split(":")
+      urn_pieces = doc.xpath('//r:URN').first.content.split(':')
       i.agency = urn_pieces[2]
       i.prefix = urn_pieces[3].split('-ddi-')[0]
       instruments = Instrument.where({prefix: i.prefix})
@@ -585,4 +581,47 @@ module Importers::XML::DDI
       @instrument
     end
   end
+
+  class Reference
+    class << self
+      @@indexes = {}
+
+      def find_node(doc, ref)
+        urn = ref.at_xpath('./r:URN|./URN')&.content
+        if urn.nil?
+          agency_node = ref_node.at_xpath('./Agency')
+          id_node = ref_node.at_xpath('./ID')
+          version_node = ref_node.at_xpath('./Version')
+          urn = compose(agency_node, id_node, version_node)
+        end
+        doc.at_xpath("//r:URN[text()='#{urn}']|//URN[text()='#{urn}']")&.parent
+      end
+
+      def []=(node, obj)
+        type = node.name
+        @@indexes[type] = {} if @@indexes[type].nil?
+        urn_node = node.at_xpath './r:URN|./URN'
+        @@indexes[type][urn_node.content] = obj
+      end
+
+      def [](ref_node)
+        type = ref_node.at_xpath('./r:TypeOfObject|./TypeOfObject').content
+        urn_node = ref_node.at_xpath('./r:URN|./URN')
+        return @@indexes[type][urn_node.content] unless urn_node.nil?
+        agency_node = ref_node.at_xpath('./Agency')
+        id_node = ref_node.at_xpath('./ID')
+        version_node = ref_node.at_xpath('./Version')
+        return @@indexes[type][compose(agency_node, id_node, version_node)]
+      end
+
+      def compose(agency_node, id_node, version_node)
+        'urn:ddi:%{agency}:%{id}:%{version}' % {
+            agency:   agency_node&.content,
+            id:       id_node&.content,
+            version:  version_node&.content
+        }
+      end
+    end
+  end
+  private_constant :Reference
 end

@@ -6,7 +6,7 @@ class ImportJob::Instrument
 
   def self.perform(document_id, options = {})
     begin
-      im = XML::CADDIES::Importer.new document_id, options
+      im = Importers::XML::DDI::Instrument.new document_id, options
       trap 'TERM' do
 
         im.instrument.destroy
@@ -17,7 +17,7 @@ class ImportJob::Instrument
 
       im.parse
     rescue => e
-      Rails.logger.fatal "Fatal error while importing instrument"
+      Rails.logger.fatal 'Fatal error while importing instrument'
       Rails.logger.fatal e.message
     end
   end
@@ -28,7 +28,7 @@ class ImportJob::Dataset
 
   def self.perform(document_id, options = {})
     begin
-      im = XML::Sledgehammer::Importer.new document_id, options
+      im = Importers::XML::DDI::Dataset.new document_id, options
       trap 'TERM' do
 
         im.dataset.destroy
@@ -39,7 +39,7 @@ class ImportJob::Dataset
 
       im.parse
     rescue => e
-      Rails.logger.fatal "Fatal error while importing dataset"
+      Rails.logger.fatal 'Fatal error while importing dataset'
       Rails.logger.fatal e.message
     end
   end
