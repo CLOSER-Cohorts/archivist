@@ -15,7 +15,7 @@ module Importers::XML::DDI
 
     def parse
       Realtime.do_silently do
-        @instrument = Importer.build_instrument @doc
+        @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
         read_code_lists
         read_instructions
         read_response_domains
@@ -77,7 +77,7 @@ module Importers::XML::DDI
         unless @rdcs_created.include? ref.content
           @rdcs_created << ref.content
           Reference[ref].response_domain = true
-          unless (cardinality = urn.parent.parent.at_xpath('ResponseCardinality')).nil?
+          unless (cardinality = ref.parent.at_xpath('ResponseCardinality')).nil?
             Reference[ref].response_domain.min_responses = cardinality['minimumResponses']
             Reference[ref].response_domain.max_responses = cardinality['maximumResponses']
           end
@@ -363,19 +363,26 @@ module Importers::XML::DDI
 
     def read_sequence_children(node, parent, branch = nil)
       position_counter = 0
+
+      sub_sequence = lambda do |node, search, cc, branch|
+        ref = node.at_xpath(search)
+        return if ref.nil?
+        seq = Reference.find_node node, ref
+        unless seq.nil?
+          read_sequence_children seq, cc, branch
+        end
+      end
+
       node.xpath('./d:ControlConstructReference').each do |child_ref|
         position_counter += 1
-        urn = child_ref.at_xpath('./r:URN').content
-
-        type = child_ref.at_xpath("./r:TypeOfObject").content
-        if type == 'Sequence'
-          child = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
+        child = Reference.find_node doc, child_ref
+        if child.name == 'Sequence'
           cc_s = CcSequence.new
           @instrument.sequences << cc_s
           begin
-            cc_s.label = child.at_xpath("./d:ConstructName/r:String").content
+            cc_s.label = child.at_xpath('./d:ConstructName/r:String').content
           rescue
-            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+            if (label = child.at_xpath('./r:Label/r:Content')).nil?
               cc_s.label = label
             else
               cc_s.label = 'Missing label'
@@ -386,8 +393,7 @@ module Importers::XML::DDI
           parent.children << cc_s.cc
           read_sequence_children(child, cc_s)
           cc_s.save!
-        elsif type == 'StatementItem'
-          child = doc.at_xpath("//d:StatementItem/r:URN[text()='#{urn}']").parent
+        elsif child.name == 'StatementItem'
           cc_s = CcStatement.new
           @instrument.statements << cc_s
           begin
@@ -404,15 +410,14 @@ module Importers::XML::DDI
           cc_s.literal = child.at_xpath('./d:DisplayText/d:LiteralText/d:Text').content
           parent.children << cc_s.cc
           cc_s.save!
-        elsif type == 'QuestionConstruct'
-          child = doc.at_xpath("//d:QuestionConstruct/r:URN[text()='#{urn}']").parent
+        elsif child.name == 'QuestionConstruct'
+          q_ref = child.at_xpath('./r:QuestionReference')
           base_question = Reference[q_ref]
-          unless base_question.is_a? QuestionGrid && !@import_question_grids
+          unless base_question.is_a?(QuestionGrid) && !@import_question_grids
             cc_q = CcQuestion.new
-            q_ref = child.at_xpath('./r:QuestionReference')
             cc_q.question = base_question
             begin
-              ru_val = child.at_xpath("./d:ResponseUnit").content
+              ru_val = child.at_xpath('./d:ResponseUnit').content
             rescue
               ru_val = 'Default interviewee'
             end
@@ -439,18 +444,13 @@ module Importers::XML::DDI
             parent.children << cc_q.cc
             cc_q.save!
           end
-        elsif type == 'IfThenElse'
-          begin
-            child = doc.at_xpath("//d:IfThenElse/r:URN[text()='#{urn}']").parent
-          rescue
-            Rails.logger.fatal 'Could not find IfThenElse with URN=' + urn
-          end
+        elsif child.name == 'IfThenElse'
           cc_c = CcCondition.new
           @instrument.conditions << cc_c
           begin
-            cc_c.label = child.at_xpath("./d:ConstructName/r:String").content
+            cc_c.label = child.at_xpath('./d:ConstructName/r:String').content
           rescue
-            if (label = child.at_xpath("./r:Label/r:Content")).nil?
+            if (label = child.at_xpath('./r:Label/r:Content')).nil?
               cc_c.label = label
             else
               cc_c.label = 'Missing label'
@@ -472,30 +472,11 @@ module Importers::XML::DDI
           parent.children << cc_c.cc
           cc_c.save!
 
-          sub_sequence = lambda do |search, cc, branch|
-            sub_seq = child.at_xpath(search)
-            unless sub_seq.nil?
-              urn = sub_seq.content
-              seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
-              read_sequence_children seq, cc, branch
-            end
-          end
+          sub_sequence.call child, './d:ThenConstructReference', cc_c, 0
+          sub_sequence.call child, './d:ElseConstructReference', cc_c, 1
 
-          sub_sequence.call './d:ThenConstructReference/r:URN', cc_c, 0
-          sub_sequence.call './d:ElseConstructReference/r:URN', cc_c, 1
+        elsif child.name == 'Loop'
 
-        elsif type == 'Loop'
-
-          sub_sequence = lambda do |search, cc|
-            sub_seq = child.at_xpath(search)
-            unless sub_seq.nil?
-              urn = sub_seq.content
-              seq = doc.at_xpath("//d:Sequence/r:URN[text()='#{urn}']").parent
-              read_sequence_children seq, cc
-            end
-          end
-
-          child = doc.at_xpath("//d:Loop/r:URN[text()='#{urn}']").parent
           cc_l = CcLoop.new
           @instrument.loops << cc_l
           start_node = child.at_xpath('./d:InitialValue/r:Command/r:CommandContent')
@@ -512,22 +493,22 @@ module Importers::XML::DDI
           end
           cc_l.position = position_counter
           cc_l.branch = branch
-          if not start_node.nil?
+          unless start_node.nil?
             pieces = start_node.content.split(/\W\D\s/)
             cc_l.loop_var = pieces[0]
             cc_l.start_val = pieces[1]
           end
-          if not end_node.nil?
+          unless end_node.nil?
             pieces = end_node.content.split(/\W\D\s/)
             cc_l.end_val = pieces[1]
           end
-          if not while_node.nil? then
+          unless while_node.nil? then
             cc_l.loop_while = while_node.content
           end
           parent.children << cc_l.cc
           cc_l.save!
 
-          sub_sequence.call './d:ControlConstructReference/r:URN', cc_l
+          sub_sequence.call child, './d:ControlConstructReference', cc_l
 
         end
       end
@@ -547,7 +528,7 @@ module Importers::XML::DDI
       urn_pieces = doc.xpath('//r:URN').first.content.split(':')
       i.agency = urn_pieces[2]
       i.prefix = urn_pieces[3].split('-ddi-')[0]
-      instruments = Instrument.where({prefix: i.prefix})
+      instruments = ::Instrument.where({prefix: i.prefix})
       if instruments.length > 0
         Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
         if duplicate == :do_nothing
@@ -588,13 +569,14 @@ module Importers::XML::DDI
 
       def find_node(doc, ref)
         urn = ref.at_xpath('./r:URN|./URN')&.content
+        type = ref.at_xpath('./r:TypeOfObject|./TypeOfObject')&.content
         if urn.nil?
           agency_node = ref_node.at_xpath('./Agency')
           id_node = ref_node.at_xpath('./ID')
           version_node = ref_node.at_xpath('./Version')
           urn = compose(agency_node, id_node, version_node)
         end
-        doc.at_xpath("//r:URN[text()='#{urn}']|//URN[text()='#{urn}']")&.parent
+        doc.at_xpath("//*[local-name() = '#{type}']/r:URN[text()='#{urn}']|//URN[text()='#{urn}']")&.parent
       end
 
       def []=(node, obj)
