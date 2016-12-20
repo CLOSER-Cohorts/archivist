@@ -15,7 +15,7 @@ module Importers::XML::DDI
 
     def parse
       Realtime.do_silently do
-        @instrument = Importer.build_instrument @doc
+        @instrument = self.class.build_instrument @doc
         read_code_lists
         read_instructions
         read_response_domains
