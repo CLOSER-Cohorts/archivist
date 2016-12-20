@@ -542,7 +542,7 @@ module Importers::XML::DDI
       save = defined?(options[:save]) ? true : options[:save]
       duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
 
-      i = Instrument.new
+      i = ::Instrument.new
       begin
         i.label = doc.xpath("//d:InstrumentName//r:String").first.content
       rescue
