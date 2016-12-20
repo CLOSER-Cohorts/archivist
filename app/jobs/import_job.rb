@@ -19,6 +19,7 @@ class ImportJob::Instrument
     rescue => e
       Rails.logger.fatal 'Fatal error while importing instrument'
       Rails.logger.fatal e.message
+      Rails.logger.fatal e.backtrace.join("\n")
     end
   end
 end
