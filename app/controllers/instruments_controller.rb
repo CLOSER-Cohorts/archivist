@@ -1,5 +1,6 @@
 class InstrumentsController < BasicController
   include Importers::Controller
+  include Exporters
 
   has_importers({
                     mapping: ImportJob::Mapping,
