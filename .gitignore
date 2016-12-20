@@ -30,8 +30,10 @@ node_modules/
 /config/application.yml
 
 
+
 .env.*
 !*.example
 
- # .gitignore compiled assets
+# .gitignore compiled assets
 #public/assets/*
+
