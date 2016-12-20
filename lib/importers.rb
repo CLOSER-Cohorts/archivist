@@ -12,7 +12,7 @@ module Importers
 
             type = import[:type]&.downcase&.to_sym
 
-            Resque.enqueue class_variable_get(:@@map)[type], doc.id, self
+            Resque.enqueue class_variable_get(:@@map)[type], doc.id, @object
           end
           head :ok, format: :json
         rescue  => e
