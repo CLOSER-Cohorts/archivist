@@ -1,5 +1,6 @@
 class InstrumentsController < BasicController
   include Importers::Controller
+  include Exporters
 
   has_importers({
                     mapping: ImportJob::Mapping,
@@ -14,7 +15,7 @@ class InstrumentsController < BasicController
     respond_to do |f|
       f.json {render json: @object}
       f.xml do
-        exp = XML::DDI::Exporter.new
+        exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes
         filename = exp.run @object
         render file: filename
