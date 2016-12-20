@@ -551,7 +551,7 @@ module Importers::XML::DDI
       urn_pieces = doc.xpath("//r:URN").first.content.split(":")
       i.agency = urn_pieces[2]
       i.prefix = urn_pieces[3].split('-ddi-')[0]
-      instruments = Instrument.where({prefix: i.prefix})
+      instruments = ::Instrument.where({prefix: i.prefix})
       if instruments.length > 0
         Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
         if duplicate == :do_nothing
