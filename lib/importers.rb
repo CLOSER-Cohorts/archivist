@@ -3,6 +3,8 @@ module Importers
     extend ActiveSupport::Concern
     included do
       def member_imports
+        binding.pry
+        1
         imports = params[:imports].nil? ? [] : params[:imports]
         head :ok, format: :json if imports.empty?
         begin
