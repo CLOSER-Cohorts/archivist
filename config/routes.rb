@@ -38,7 +38,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
+  request_processor = lambda do |request|
+    # binding.pry if request.path =~ %r{/instruments/13/imports}
+    # 1
+    [:json, :xml, :text].include?(request.format.symbol)
+  end
+
+  resources :instruments, constraints: request_processor do
     resources :cc_sequences
     resources :cc_statements
     resources :cc_questions
