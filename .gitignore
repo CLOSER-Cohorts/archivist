@@ -32,3 +32,6 @@ node_modules/
 
 .env.*
 !*.example
+
+ # .gitignore compiled assets
+public/assets/*

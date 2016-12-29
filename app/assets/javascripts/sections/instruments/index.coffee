@@ -25,6 +25,10 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
       )
+      .when('/instruments/:id/import',
+        templateUrl: 'partials/instruments/import.html'
+        controller: 'InstrumentsController'
+      )
 ])
 
 instruments.controller('InstrumentsController',
@@ -37,7 +41,8 @@ instruments.controller('InstrumentsController',
     '$timeout',
     'Flash',
     'DataManager',
-    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
+    'Base64Factory'
+    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory)->
       $scope.page['title'] = 'Instruments'
       if $routeParams.id
         loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() != 'edit'
@@ -109,4 +114,56 @@ instruments.controller('InstrumentsController',
           ,->
             console.log("error")
         )
+
+      DoImportPost = (params) ->
+        console.log 'inside DoImportPost'
+        # debugger
+        $http {
+          method: 'POST'
+          url: '/instruments/'+$scope.instrument.id+'/imports.json'
+          data: params
+        }
+        .success ->
+          Flash.add 'success', 'Instrument imported.'
+          console.log 'success'
+        .error (res)->
+          console.log 'error'
+          console.log res.message
+
+
+      $scope.importInstrument = ()->
+        $scope.publish_flash()
+
+        params = {}
+        imports = []
+        files = []
+
+        if $scope.mapping
+          files.push({file:$scope.mapping.file})
+          promiseMapping = Base64Factory.getBase64($scope.mapping.file)
+          promiseMapping.then ((data) ->
+            console.log 'then'
+            imports.push({type:'variables',file:data.split(',')[1]})
+            params.imports = imports
+            DoImportPost(params)
+          ), (error) ->
+            console.log 'error' +error
+
 ])
+
+instruments.factory 'Base64Factory', ($q) ->
+  { getBase64: (file) ->
+    deferred = $q.defer()
+    readerMapping = new FileReader
+    readerMapping.readAsDataURL file
+
+    readerMapping.onload = ->
+      deferred.resolve readerMapping.result
+      return
+
+    readerMapping.onerror = (error) ->
+      deferred.reject error
+      return
+
+    deferred.promise
+ }
