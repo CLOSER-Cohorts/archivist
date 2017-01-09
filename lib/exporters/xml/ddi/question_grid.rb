@@ -41,10 +41,33 @@ module Exporters::XML::DDI
         return gd
       end
 
-      gdy = add_grid_dimension.call('1', 'V', qgrid.vertical_code_list)
-      qt.add_next_sibling gdy
-      gdx = add_grid_dimension.call('2', 'H', qgrid.horizontal_code_list)
-      gdy.add_next_sibling gdx
+      prev = qt
+      unless qgrid.vertical_code_list.nil?
+        gdy = add_grid_dimension.call('1', 'V', qgrid.vertical_code_list)
+        prev.add_next_sibling gdy
+        prev = gdy
+      end
+
+      unless qgrid.roster_rows == 0
+        gdr = Nokogiri::XML::Node.new 'd:GridDimension', @doc
+        gdr['rank'] = 1
+        gdr['displayCode'] = 'false'
+        gdr['displayLabel'] = 'false'
+        gdr.add_child <<~XML.gsub("\n",'')
+            <d:Roster baseCodeValue="1" codeIterationValue="1" minimumRequired="#{qgrid.roster_rows}">
+            <r:Label>
+            <r:Content xml:lang="en-GB">#{qgrid.roster_label}</r:Content>
+            </r:Label>
+          </d:Roster>
+        XML
+        prev.add_next_sibling gdr
+        prev = gdr
+      end
+
+      unless qgrid.horizontal_code_list.nil?
+        gdx = add_grid_dimension.call('2', 'H', qgrid.horizontal_code_list)
+        prev.add_next_sibling gdx
+      end
 
       rd_wrapper = qg
       if qgrid.response_domains.count > 1
