@@ -1,4 +1,11 @@
 class QuestionController < BasicInstrumentController
+  def show
+    respond_to do |f|
+      f.json { render json: @object}
+      f.xml  { render body: @object.to_xml_fragment, content_type: 'application/xml' }
+    end
+  end
+
   def create
     update_question @object = collection.new(safe_params) do |obj|
       obj.save
