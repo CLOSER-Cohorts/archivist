@@ -1,4 +1,4 @@
-  module Exporters::XML::DDI
+module Exporters::XML::DDI
   class CcLoop < DdiExporterBase
     def V3_2(lp_id)
       if lp_id.is_a? ::CcLoop

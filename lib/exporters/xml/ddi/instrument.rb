@@ -1,9 +1,5 @@
 module Exporters::XML::DDI
-  class URNGenerator
-
-  end
-
-  class Instrument
+  class Instrument < DdiExporterBase
     def initialize
       @doc = Nokogiri::XML '<ddi:DDIInstance></ddi:DDIInstance>'
     end
@@ -73,130 +69,88 @@ module Exporters::XML::DDI
       pur.add_child '<r:Content xml:lang="en-GB">not specified</r:Content>'
       cit.add_next_sibling pur
 
-      @iis = Nokogiri::XML::Node.new 'd:InterviewerInstructionScheme', @doc
-      @iis['versionDate'] = @datetimestring
-      pur.add_next_sibling @iis
+      @iis = create_scheme(
+          'd:InterviewerInstructionScheme',
+          '-iis-000001:1.0.0',
+          @instrument.prefix + '_is01'
+      )
+      @rp.add_child @iis
 
-      @ccs = Nokogiri::XML::Node.new 'd:ControlConstructScheme', @doc
-      @iis.add_next_sibling @ccs
+      @ccs = create_scheme(
+          'd:ControlConstructScheme',
+          '-ccs-000001:1.0.0',
+          @instrument.prefix + '_ccs01'
+      )
+      @rp.add_child @ccs
 
-      @qis = Nokogiri::XML::Node.new 'd:QuestionScheme', @doc
-      @qis['versionDate'] = @datetimestring
-      @ccs.add_next_sibling @qis
+      @qis = create_scheme(
+          'd:QuestionScheme',
+          '-qs-000001:1.0.0',
+          @instrument.prefix + '_qs01'
+      )
+      @rp.add_child @qis
 
-      @qgs = Nokogiri::XML::Node.new 'd:QuestionScheme', @doc
-      @qgs['versionDate'] = @datetimestring
-      @qis.add_next_sibling @qgs
+      @qgs = create_scheme(
+          'd:QuestionScheme',
+          '-qs-000002:1.0.0',
+          @instrument.prefix + '_qgs01'
+      )
+      @rp.add_child @qgs
 
-      @cs = Nokogiri::XML::Node.new 'l:CategoryScheme', @doc
-      @cs['versionDate'] = @datetimestring
-      @qgs.add_next_sibling @cs
+      @cs = create_scheme(
+          'l:CategoryScheme',
+          '-cas-000001:1.0.0',
+          @instrument.prefix + '_cs01'
+      )
+      @rp.add_child @cs
 
-      @cls = Nokogiri::XML::Node.new 'l:CodeListScheme', @doc
-      @cls['versionDate'] = @datetimestring
-      @cs.add_next_sibling @cls
+      @cls = create_scheme(
+          'l:CodeListScheme',
+          '-cos-000001:1.0.0',
+          @instrument.prefix + '_cos01'
+      )
+      @rp.add_child @cls
 
       @is = Nokogiri::XML::Node.new 'd:InstrumentScheme', @doc
       @cls.add_next_sibling @is
     end
 
     def build_iis
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-iis-000001:1.0.0'
-      @iis.add_child urn
-      iisn = Nokogiri::XML::Node.new 'd:InterviewerInstructionSchemeName', @doc
-      iisn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_is01</r:String>" %
-          {prefix: @instrument.prefix}
-      urn.add_next_sibling iisn
-      prev = iisn
-
       exp = Exporters::XML::DDI::Instruction.new @doc
       @instrument.instructions.find_each do |instr|
-        i = exp.V3_2 instr
-        prev.add_next_sibling i
-        prev = i
+        @iis.add_child exp.V3_2(instr)
       end
     end
 
     def build_cs
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-cas-000001:1.0.0'
-      @cs.add_child urn
-      csn = Nokogiri::XML::Node.new 'l:CategorySchemeName', @doc
-      csn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_cs01</r:String>" %
-                         {prefix: @instrument.prefix}
-      urn.add_next_sibling csn
-      prev = csn
       exp = Exporters::XML::DDI::Category.new @doc
       @instrument.categories.find_each do |cat|
-        c = exp.V3_2 cat
-        prev.add_next_sibling c
-        prev = c
+        @cs.add_child exp.V3_2(cat)
       end
     end
 
     def build_cls
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-cos-000001:1.0.0'
-      @cls.add_child urn
-      clsn = Nokogiri::XML::Node.new 'l:CodeListSchemeName', @doc
-      clsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_cos01</r:String>" %
-                        {prefix: @instrument.prefix}
-      urn.add_next_sibling clsn
-      prev = clsn
       exp = Exporters::XML::DDI::CodeList.new @doc
       @instrument.code_lists.find_each do |codelist|
-        cl = exp.V3_2 codelist
-        prev.add_next_sibling cl
-        prev = cl
+        @cls.add_child exp.V3_2(codelist)
       end
     end
 
     def build_qis
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-qs-000001:1.0.0'
-      @qis.add_child urn
-      qisn = Nokogiri::XML::Node.new 'd:QuestionSchemeName', @doc
-      qisn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_qs01</r:String>" %
-                        {prefix: @instrument.prefix}
-      urn.add_next_sibling qisn
-      prev = qisn
-
       qi_exporter = Exporters::XML::DDI::QuestionItem.new @doc
       @instrument.question_items.find_each do |qitem|
-        qi = qi_exporter.V3_2 qitem
-        prev.add_next_sibling qi
-        prev = qi
+        @qis.add_child qi_exporter.V3_2(qitem)
       end
     end
 
     def build_qgs
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-qgs-000002:1.0.0'
-      @qgs.add_child urn
-      qgsn = Nokogiri::XML::Node.new 'd:QuestionSchemeName', @doc
-      qgsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_qgs01</r:String>" %
-                         {prefix: @instrument.prefix}
-      urn.add_next_sibling qgsn
-      prev = qgsn
-
       qg_exporter = Exporters::XML::DDI::QuestionGrid.new @doc
       @instrument.question_grids.find_each do |qgrid|
-        qg = qg_exporter.V3_2 qgrid
-        prev.add_next_sibling qg
-        prev = qg
+        @qgs.add_child qg_exporter.V3_2(qgrid)
       end
     end
 
     def build_ccs
-      urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = @urn_prefix + '-ccs-000001:1.0.0'
-      @ccs.add_child urn
-      ccsn = Nokogiri::XML::Node.new 'd:ControlConstructSchemeName', @doc
-      ccsn.add_child "<r:String xml:lang=\"en-GB\">%{prefix}_ccs01</r:String>" %
-                        {prefix: @instrument.prefix}
-      urn.add_next_sibling ccsn
-
       exporters = {}
       exporters[::CcCondition] = Exporters::XML::DDI::CcCondition.new @doc
       exporters[::CcQuestion]  = Exporters::XML::DDI::CcQuestion.new @doc
@@ -230,17 +184,17 @@ module Exporters::XML::DDI
     end
 
     private
-    def create_urn_node(obj)
+    def create_scheme(tag, urn_suffix, name)
+      s = Nokogiri::XML::Node.new tag, @doc
+      s['versionDate'] = @datetimestring
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = obj.urn @urn_prefix
-      urn
-    end
-
-    def create_reference_string(node_name, obj)
-      ref = Nokogiri::XML::Node.new node_name, @doc
-      ref.add_child '<r:URN>%{urn}</r:URN><r:TypeOfObject>%{type}</r:TypeOfObject>' %
-          {urn: obj.urn(@urn_prefix), type: obj.class::TYPE}
-      ref
+      urn.content = @urn_prefix + urn_suffix
+      s.add_child urn
+      sn = Nokogiri::XML::Node.new tag + 'Name', @doc
+      sn.add_child "<r:String xml:lang=\"en-GB\">%{name}</r:String>" %
+                        {name: name}
+      s.add_child sn
+      s
     end
   end
 end

@@ -49,7 +49,7 @@ module Exporters::XML::DDI
         gdr['rank'] = 1
         gdr['displayCode'] = 'false'
         gdr['displayLabel'] = 'false'
-        gdr.add_child <<~XML.gsub("\n",'')
+        gdr.add_child <<~XML.delete("\n")
             <d:Roster baseCodeValue="1" codeIterationValue="1" minimumRequired="#{qgrid.roster_rows}">
             <r:Label>
             <r:Content xml:lang="en-GB">#{qgrid.roster_label}</r:Content>
@@ -122,7 +122,7 @@ module Exporters::XML::DDI
       if rd_count > 1
         wrapper = Nokogiri::XML::Node.new 'd:GridResponseDomain', @doc
         wrapper.add_child node
-        wrapper.add_child <<~XML.gsub("\n",'')
+        wrapper.add_child <<~XML.delete("\n")
             <d:GridAttachment>
             <d:CellCoordinatesAsDefined>
             <d:SelectDimension rank="1" allValues="true" />

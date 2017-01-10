@@ -14,7 +14,7 @@ module Exporters::XML::DDI
         exp = exporter_klass.new doc
         doc.root.add_child exp.V3_2(obj)
         doc.root.first_element_child['versionDate'] = datetimestring
-        doc.to_xml &:no_empty_tags
+        doc.to_xml(&:no_empty_tags)
       end
     end
   end
