@@ -1,9 +1,5 @@
 module Exporters::XML::DDI
   class QuestionItem < DdiExporterBase
-    def initialize(doc)
-      @doc = doc
-    end
-
     def V3_2(qitem_id)
       if qitem_id.is_a? ::QuestionItem
         qitem = qitem_id

@@ -1,9 +1,12 @@
 module Exporters::XML::DDI
   class DdiExporterBase
+    def initialize(doc)
+      @doc = doc
+    end
     private
-    def create_urn_node(obj)
+    def create_urn_node(obj, urn_type = nil)
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
-      urn.content = obj.urn @urn_prefix
+      urn.content = obj.urn @urn_prefix, urn_type
       urn
     end
 

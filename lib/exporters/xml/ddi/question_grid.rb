@@ -1,9 +1,5 @@
 module Exporters::XML::DDI
   class QuestionGrid < DdiExporterBase
-    def initialize(doc)
-      @doc = doc
-    end
-
     def V3_2(qgrid_id)
       if qgrid_id.is_a? ::QuestionGrid
         qgrid = qgrid_id
