@@ -69,46 +69,22 @@ module Exporters::XML::DDI
       pur.add_child '<r:Content xml:lang="en-GB">not specified</r:Content>'
       cit.add_next_sibling pur
 
-      @iis = create_scheme(
-          'd:InterviewerInstructionScheme',
-          '-iis-000001:1.0.0',
-          @instrument.prefix + '_is01'
-      )
+      @iis = create_scheme('d:InterviewerInstructionScheme', '-iis-000001:1.0.0', @instrument.prefix + '_is01')
       @rp.add_child @iis
 
-      @ccs = create_scheme(
-          'd:ControlConstructScheme',
-          '-ccs-000001:1.0.0',
-          @instrument.prefix + '_ccs01'
-      )
+      @ccs = create_scheme('d:ControlConstructScheme', '-ccs-000001:1.0.0', @instrument.prefix + '_ccs01')
       @rp.add_child @ccs
 
-      @qis = create_scheme(
-          'd:QuestionScheme',
-          '-qs-000001:1.0.0',
-          @instrument.prefix + '_qs01'
-      )
+      @qis = create_scheme('d:QuestionScheme', '-qs-000001:1.0.0', @instrument.prefix + '_qs01')
       @rp.add_child @qis
 
-      @qgs = create_scheme(
-          'd:QuestionScheme',
-          '-qs-000002:1.0.0',
-          @instrument.prefix + '_qgs01'
-      )
+      @qgs = create_scheme('d:QuestionScheme', '-qs-000002:1.0.0', @instrument.prefix + '_qgs01')
       @rp.add_child @qgs
 
-      @cs = create_scheme(
-          'l:CategoryScheme',
-          '-cas-000001:1.0.0',
-          @instrument.prefix + '_cs01'
-      )
+      @cs = create_scheme('l:CategoryScheme', '-cas-000001:1.0.0', @instrument.prefix + '_cs01')
       @rp.add_child @cs
 
-      @cls = create_scheme(
-          'l:CodeListScheme',
-          '-cos-000001:1.0.0',
-          @instrument.prefix + '_cos01'
-      )
+      @cls = create_scheme('l:CodeListScheme', '-cos-000001:1.0.0', @instrument.prefix + '_cos01')
       @rp.add_child @cls
 
       @is = Nokogiri::XML::Node.new 'd:InstrumentScheme', @doc
@@ -116,38 +92,23 @@ module Exporters::XML::DDI
     end
 
     def build_iis
-      exp = Exporters::XML::DDI::Instruction.new @doc
-      @instrument.instructions.find_each do |instr|
-        @iis.add_child exp.V3_2(instr)
-      end
+      build_scheme Exporters::XML::DDI::Instruction, @instrument.instructions, @iis
     end
 
     def build_cs
-      exp = Exporters::XML::DDI::Category.new @doc
-      @instrument.categories.find_each do |cat|
-        @cs.add_child exp.V3_2(cat)
-      end
+      build_scheme Exporters::XML::DDI::Category, @instrument.categories, @cs
     end
 
     def build_cls
-      exp = Exporters::XML::DDI::CodeList.new @doc
-      @instrument.code_lists.find_each do |codelist|
-        @cls.add_child exp.V3_2(codelist)
-      end
+      build_scheme Exporters::XML::DDI::CodeList, @instrument.code_lists, @cls
     end
 
     def build_qis
-      qi_exporter = Exporters::XML::DDI::QuestionItem.new @doc
-      @instrument.question_items.find_each do |qitem|
-        @qis.add_child qi_exporter.V3_2(qitem)
-      end
+      build_scheme Exporters::XML::DDI::QuestionItem, @instrument.question_items, @qis
     end
 
     def build_qgs
-      qg_exporter = Exporters::XML::DDI::QuestionGrid.new @doc
-      @instrument.question_grids.find_each do |qgrid|
-        @qgs.add_child qg_exporter.V3_2(qgrid)
-      end
+      build_scheme Exporters::XML::DDI::QuestionGrid, @instrument.question_grids, @qgs
     end
 
     def build_ccs
@@ -195,6 +156,13 @@ module Exporters::XML::DDI
                         {name: name}
       s.add_child sn
       s
+    end
+
+    def build_scheme(exporter_klass, set, scheme)
+      exporter = exporter_klass.new @doc
+      set.find_each do |obj|
+        scheme.add_child exporter.V3_2(obj)
+      end
     end
   end
 end
