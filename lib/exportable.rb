@@ -1,5 +1,11 @@
 module Exportable
   extend ActiveSupport::Concern
+  class_methods do
+    def tag
+      [self::NS, self::TYPE].join ':'
+    end
+  end
+
   included do
     def urn(urn_prefix = nil, urn_type = nil)
       urn_prefix = ['urn', 'ddi', self.instrument.agency, self.instrument.prefix].join ':' if urn_prefix.nil?
