@@ -78,30 +78,30 @@
 		limitTo:pageSize:(currentPage-1)*pageSize">
 			<td>{{instrument.id}}</td>
 			<td>
-                <a data-ng-href="/instruments/{{instrument.prefix}}">
+                <a data-ng-href="/instruments/{{instrument.id}}">
                     {{instrument.prefix}}
                 </a>
             </td>
             <td>{{instrument.ccs}}</td>
 			<td>{{instrument.study}}</td>
             <td class="editor-min">
-                <a data-ng-href="/instruments/{{instrument.prefix}}/edit">
+                <a data-ng-href="/instruments/{{instrument.id}}/edit">
                     <span class="edit">Edit</span>
                 </a>
                 |
-                <a data-ng-href="/instruments/{{instrument.prefix}}/build">
+                <a data-ng-href="/instruments/{{instrument.id}}/build">
                     <span class="build">Build</span>
                 </a>
                 |
-                <a data-ng-href="/instruments/{{instrument.prefix}}/map">
+                <a data-ng-href="/instruments/{{instrument.id}}/map">
                     <span class="map">Map</span>
                 </a>
                 |
-                <a data-ng-href="/instruments/{{instrument.prefix}}">
+                <a data-ng-href="/instruments/{{instrument.id}}">
                     <span class="view">View</span>
                 </a>
 								|
-                <a data-ng-href="/instruments/{{instrument.prefix}}/import">
+                <a data-ng-href="/instruments/{{instrument.id}}/import">
                     <span class="view">Import</span>
                 </a>
             </td>
