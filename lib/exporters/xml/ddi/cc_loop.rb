@@ -35,10 +35,12 @@ module Exporters::XML::DDI
                        '<r:CommandContent>%{command}</r:CommandContent></r:Command></d:LoopWhile>' % {
                            command: CGI::escapeHTML(command)
                        }
-      lp.add_child '<d:ControlConstructReference><r:URN>urn:ddi:%{agnecy}:%{prefix}-selp-' % {
-          agency: cc.instrument.agency,
-          prefix: cc.instrument.prefix
-      } + '%06d:1.0.0</r:URN><r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>' % cc.id
+      lp.add_child ('<d:ControlConstructReference><r:URN>urn:ddi:%{agency}:%{prefix}-selp-%{id}:1.0.0</r:URN> ' +
+          '<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
+            agency: cc.instrument.agency,
+            prefix: cc.instrument.prefix,
+            id: '%06d' % cc.id
+        }
 
       selp = Nokogiri::XML::Node.new 'd:Sequence', @doc
       selp.add_child create_urn_node(cc, 'selp')
