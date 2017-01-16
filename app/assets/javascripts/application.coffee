@@ -19,6 +19,7 @@
 #= require angular-resource/angular-resource
 #= require angular-rails-templates
 #= require angular-bootstrap/ui-bootstrap-tpls
+#= require angular-base64-upload
 #= require angular-ui-sortable/sortable
 #= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/socket.io
