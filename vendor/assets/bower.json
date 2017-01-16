@@ -12,6 +12,7 @@
     "jquery-ui": "latest",
     "socket.io-client": "latest",
     "angular-google-chart": "latest",
-    "angular-tree-control": "latest"
+    "angular-tree-control": "latest",
+    "angular-base64-upload": "latest"
   }
 }

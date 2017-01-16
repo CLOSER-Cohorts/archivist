@@ -7,7 +7,8 @@ instruments = angular.module('archivist.instruments', [
   'ngResource',
   'ui.bootstrap',
   'archivist.flash',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'naif.base64'
 ])
 
 instruments.config([ '$routeProvider',
@@ -137,31 +138,32 @@ instruments.controller('InstrumentsController',
         params = {}
         imports = []
         files = []
-
-        if $scope.mapping
-          files.push({file:$scope.mapping.file})
-          promiseMapping = Base64Factory.getBase64($scope.mapping.file)
-          promiseMapping.then ((data) ->
-            console.log 'then'
-            imports.push({type:'variables',file:data.split(',')[1]})
-            params.imports = imports
-            DoImportPost(params)
-          ), (error) ->
-            console.log 'error' +error
+        if $scope.import
+          files.push({file:$scope.import.file})
+          imports.push({type:$scope.import.type,file:$scope.import.file[0].base64})
+          debugger
+          # promiseMapping = Base64Factory.getBase64($scope.import.file)
+          # promiseMapping.then ((data) ->
+          #   console.log 'then'
+          #   imports.push({type:$scope.import.type,file:data.split(',')[1]})
+          #   params.imports = imports
+          #   # DoImportPost(params)
+          # ), (error) ->
+          #   console.log 'error' +error
 
 ])
 
 instruments.factory 'Base64Factory', ($q) ->
   { getBase64: (file) ->
     deferred = $q.defer()
-    readerMapping = new FileReader
-    readerMapping.readAsDataURL file
+    readerFile = new FileReader
+    readerFile.readAsDataURL file
 
-    readerMapping.onload = ->
-      deferred.resolve readerMapping.result
+    readerFile.onload = ->
+      deferred.resolve readerFile.result
       return
 
-    readerMapping.onerror = (error) ->
+    readerFile.onerror = (error) ->
       deferred.reject error
       return
 
