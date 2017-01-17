@@ -5,7 +5,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     @user = users :User_1
     sign_in @user
     @instrument = instruments(:Instrument_1)
-    Resque.reset!
+    #Resque.reset!
   end
 
   test "should get index" do

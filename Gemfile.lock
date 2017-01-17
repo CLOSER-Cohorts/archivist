@@ -210,6 +210,8 @@ GEM
       redis-namespace (~> 1.3)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    resque_unit (0.4.8)
+      json (>= 1.4.6)
     ruby-graphviz (1.2.2)
     sass (3.4.22)
     sass-rails (5.0.6)
@@ -300,6 +302,7 @@ DEPENDENCIES
   redis
   redis-rack-cache
   resque
+  resque_unit
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   skylight
