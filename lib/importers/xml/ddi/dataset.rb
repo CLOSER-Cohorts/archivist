@@ -6,16 +6,16 @@ module Importers::XML::DDI
         @filepath = thing
       else
         @document = Document.find thing
-        @doc = Nokogiri::XML document.file_contents
-        @filepath = document.filename
+        @doc = Nokogiri::XML @document.file_contents
+        @filepath = @document.filename
       end
       @counters = {}
     end
 
     def parse
-      @dataset = Importer.build_dataset( @doc, filename: File.basename(@filepath))
+      @dataset = self.class.build_dataset( @doc, filename: File.basename(@filepath))
       unless @document.nil?
-        @document.item = @datset
+        @document.item = @dataset
       end
       read_variables
     end
@@ -38,6 +38,10 @@ module Importers::XML::DDI
       d.filename = options[:filename] unless options[:filename].nil?
       d.save!
       d
+    end
+
+    def dataset
+      @dataset
     end
   end
 end
