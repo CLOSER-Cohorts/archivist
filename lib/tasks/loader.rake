@@ -7,7 +7,7 @@ task :load_instruments => :environment do
 
     if File.exist? file
 
-      im = XML::CADDIES::Importer.new file
+      im = Importers::XML::DDI::Instrument.new file
       im.parse
 
     end
@@ -19,13 +19,13 @@ end
 desc 'Loads dataset'
 task :load_datasets => :environment do
   Dir.chdir ENV['LOAD_PATH']
-  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+  files = Dir.entries('.').reject { |x| x[0, 1] == '.' }
 
   files.each do |file|
 
     if File.exist? file
 
-      da = XML::Sledgehammer::Importer.new(file)
+      da = Importers::XML::DDI::Dataset.new(file)
       da.parse
 
     end
@@ -46,7 +46,7 @@ task :load_mapping => :environment do
       puts prefix
       i = Instrument.find_by_prefix prefix
       unless i.nil?
-        im = TXT::Mapper::Mapping::Importer.new(file, i)
+        im = Importers::TXT::Mapper::Mapping.new(file, i)
         im.import
       end
     end
