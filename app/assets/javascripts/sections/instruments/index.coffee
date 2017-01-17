@@ -41,8 +41,7 @@ instruments.controller('InstrumentsController',
     '$http',
     '$timeout',
     'Flash',
-    'DataManager',
-    'Base64Factory'
+    'DataManager'
     ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory)->
       $scope.page['title'] = 'Instruments'
       if $routeParams.id
@@ -118,11 +117,12 @@ instruments.controller('InstrumentsController',
 
       DoImportPost = (params) ->
         console.log 'inside DoImportPost'
+        console.log params
         # debugger
         $http {
           method: 'POST'
           url: '/instruments/'+$scope.instrument.id+'/imports.json'
-          data: params
+          data: JSON.stringify params
         }
         .success ->
           Flash.add 'success', 'Instrument imported.'
@@ -131,6 +131,14 @@ instruments.controller('InstrumentsController',
           console.log 'error'
           console.log res.message
 
+      PushToArray = (fileType, files, array) ->
+        count = 0
+        while count < files.length
+          array.push
+            type: fileType
+            file: files[count].base64
+          count++
+        array
 
       $scope.importInstrument = ()->
         $scope.publish_flash()
@@ -138,34 +146,15 @@ instruments.controller('InstrumentsController',
         params = {}
         imports = []
         files = []
-        if $scope.import
-          files.push({file:$scope.import.file})
-          imports.push({type:$scope.import.type,file:$scope.import.file[0].base64})
-          debugger
-          # promiseMapping = Base64Factory.getBase64($scope.import.file)
-          # promiseMapping.then ((data) ->
-          #   console.log 'then'
-          #   imports.push({type:$scope.import.type,file:data.split(',')[1]})
-          #   params.imports = imports
-          #   # DoImportPost(params)
-          # ), (error) ->
-          #   console.log 'error' +error
+        if $scope.mapping
+          imports = PushToArray('mapping',$scope.mapping.file,imports)
+        if $scope.dv
+          imports = PushToArray('dv',$scope.dv.file,imports)
+        if $scope.topicv
+          imports = PushToArray('topicv',$scope.topicv.file,imports)
+        if $scope.topicq
+          imports = PushToArray('topicq',$scope.topicq.file,imports)
 
+        params.imports = imports
+        DoImportPost(params)
 ])
-
-instruments.factory 'Base64Factory', ($q) ->
-  { getBase64: (file) ->
-    deferred = $q.defer()
-    readerFile = new FileReader
-    readerFile.readAsDataURL file
-
-    readerFile.onload = ->
-      deferred.resolve readerFile.result
-      return
-
-    readerFile.onerror = (error) ->
-      deferred.reject error
-      return
-
-    deferred.promise
- }
