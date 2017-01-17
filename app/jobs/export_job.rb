@@ -3,7 +3,7 @@ class ExportJob
 
   def self.perform id
     begin
-      exp = XML::DDI::Exporter.new
+      exp = Exporters::XML::DDI::Instrument.new
       exp.add_root_attributes
       i = Instrument.find(id)
       exp.export_instrument i
