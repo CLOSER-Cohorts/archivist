@@ -16,6 +16,8 @@ module Question::Model
     include Realtime::RtUpdate
     include Exportable
 
+    NS ||= 'd'
+
     before_create :no_duplicates
     #validates :label, uniqueness: { scope: :instrument_id }
 
