@@ -94,9 +94,9 @@ class InstrumentsController < BasicController
   def member_imports
     imports = params[:imports].nil? ? [] : params[:imports]
     head :ok, format: :json if imports.empty?
-
-    binding.pry
-    1
+    # 
+    # binding.pry
+    # 1
     begin
       imports.each do |import|
         doc = Document.new file: Base64.decode64(import[:file])
