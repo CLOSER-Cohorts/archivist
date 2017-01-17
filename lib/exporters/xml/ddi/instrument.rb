@@ -1,9 +1,9 @@
-module XML::DDI
+module Exporters::XML::DDI
   class URNGenerator
 
   end
 
-  class Exporter
+  class Instrument
     def initialize
       @doc = Nokogiri::XML '<ddi:DDIInstance></ddi:DDIInstance>'
     end

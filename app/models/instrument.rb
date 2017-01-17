@@ -87,6 +87,8 @@ class Instrument < ApplicationRecord
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
   has_many :datasets, through: :instruments_datasets
 
+  has_many :qv_mappings
+
   include Realtime::RtUpdate
   include Exportable
 

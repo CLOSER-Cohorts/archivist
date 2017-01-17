@@ -1,8 +1,14 @@
 class InstrumentsController < BasicController
-  only_set_object { [:copy, :response_domains, :response_domain_codes, :reorder_ccs, :stats, :export, :mapper] }
+  include Importers::Controller
+
+  has_importers({
+                    mapping: ImportJob::Mapping,
+                    topicq: ImportJob::TopicQ
+                })
+  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper} }
 
   @model_class = Instrument
-  @params_list = [:agency, :version, :prefix, :label, :study, :files, :import_question_grids]
+  @params_list = %i{agency version prefix label study files import_question_grids}
 
   def show
     respond_to do |f|
@@ -80,7 +86,7 @@ class InstrumentsController < BasicController
 
   def copy
     new_details = params.select {
-        |k, v| ['new_label', 'new_agency', 'new_version', 'new_study'].include? k.to_s
+        |k, v| %w(new_label new_agency new_version new_study).include? k.to_s
     }
     new_prefix = params['new_prefix']
 
@@ -94,6 +100,13 @@ class InstrumentsController < BasicController
 
   def stats
     render json: {stats: @object.association_stats, prefix: @object.prefix}
+  end
+
+  def mapping
+    respond_to do |format|
+      format.text { render 'mapping.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
   end
 
   private
