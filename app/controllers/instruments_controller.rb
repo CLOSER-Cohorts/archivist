@@ -56,7 +56,7 @@ class InstrumentsController < BasicController
   end
 
   def export
-      Resque.enqueue ExportJob, @object.id
+      Resque.enqueue ExportJob::Instrument, @object.id
       head :ok, format: :json
   end
 
