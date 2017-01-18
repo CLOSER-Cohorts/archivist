@@ -104,6 +104,7 @@ group :test do
   #gem 'rails-perftest'
   #gem 'ruby-prof'
   gem 'rails-controller-testing'
+  gem 'resque_unit'
 end
 
 gem 'coveralls', require: false

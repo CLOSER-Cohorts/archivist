@@ -40,4 +40,8 @@ class QuestionGrid < ApplicationRecord
     rds_qs = RdsQs.find_by_sql ([ sql, self.id])
     rds_qs.map { |x| x.response_domain }
   end
+
+  def to_xml_fragment
+    Exporters::XML::DDI::Fragment.export_3_2 Exporters::XML::DDI::QuestionGrid, self
+  end
 end

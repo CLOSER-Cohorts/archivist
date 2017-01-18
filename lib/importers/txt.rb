@@ -1,7 +1,11 @@
-module TXT
+module Importers::TXT
   class TabDelimited
-    def initialize(file)
-      @contents = file.read
+    def initialize(thing)
+      if thing.is_a? String
+        @contents = thing
+      else
+        @contents = thing.read
+      end
     end
 
     def each(&block)

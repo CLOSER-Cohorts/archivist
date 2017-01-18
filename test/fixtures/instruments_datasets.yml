@@ -1,1 +1,11 @@
---- {}
+one:
+  dataset_id: 1
+  instrument_id: 11
+  created_at: 2016-06-20 13:51:05.480457000 Z
+  updated_at: 2016-06-20 13:51:05.480457000 Z
+
+two:
+  dataset_id: 3
+  instrument_id: 11
+  created_at: 2016-06-20 13:51:05.480457000 Z
+  updated_at: 2016-06-20 13:51:05.480457000 Z

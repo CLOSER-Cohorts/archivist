@@ -16,12 +16,15 @@ module Question::Model
     include Realtime::RtUpdate
     include Exportable
 
-    validates :label, uniqueness: { scope: :instrument_id }
+    NS ||= 'd'
+
+    before_create :no_duplicates
+    #validates :label, uniqueness: { scope: :instrument_id }
 
     alias constructs cc_questions
 
     def instruction=(text)
-      if text.nil? || text == ""
+      if text.nil? || text == ''
         association(:instruction).writer nil
       else
         if association(:instruction).reader.nil? || association(:instruction).reader.text != text
@@ -95,6 +98,13 @@ module Question::Model
                      response_domain: new_rd,
                      question: self,
                      rd_order: highest_rd_order
+      end
+    end
+
+    private
+    def no_duplicates
+      until self.instrument.send(self.class.name.tableize.to_sym).find_by_label(self.label).nil?
+        self.label += '_dup'
       end
     end
   end

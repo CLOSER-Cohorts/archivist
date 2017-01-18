@@ -5,6 +5,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     @user = users :User_1
     sign_in @user
     @instrument = instruments(:Instrument_1)
+    #Resque.reset!
   end
 
   test "should get index" do
@@ -37,7 +38,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should reorder control constructs" do
+  test 'should reorder control constructs' do
     q = cc_questions(:CcQuestion_1)
     seq = cc_sequences(:CcSequence_1)
     payload = [
@@ -60,13 +61,13 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should import an instrument" do
+  test 'should import an instrument' do
     post :import, files: []
 
     assert_response :success
   end
 
-  test "should deep copy an instrument" do
+  test 'should deep copy an instrument' do
     post :copy, format: :json, id: @instrument, new_prefix: 'new_one'
   end
 end

@@ -12,6 +12,8 @@ class CodeList < ApplicationRecord
   URN_TYPE = 'cl'
   TYPE = 'CodeList'
 
+  before_create :no_duplicates
+
   def response_domain
     self.response_domain_code
   end
@@ -77,5 +79,12 @@ class CodeList < ApplicationRecord
       end
     end
     self.reload
+  end
+
+  private
+  def no_duplicates
+    until self.instrument.code_lists.find_by_label(self.label).nil?
+      self.label += '_dup'
+    end
   end
 end
