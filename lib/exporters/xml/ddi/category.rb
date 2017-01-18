@@ -16,7 +16,7 @@ module Exporters::XML::DDI
       l = Nokogiri::XML::Node.new 'r:Label', @doc
       con = Nokogiri::XML::Node.new 'r:Content', @doc
       con['xml:lang'] = 'en-GB'
-      con.content = CGI::escapeHTML(cat.label)
+      con.content = CGI::escapeHTML(cat.label.to_s)
       l.add_child con
       cn.add_next_sibling l
 

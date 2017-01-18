@@ -18,7 +18,7 @@ module Exporters::XML::DDI
       lp.add_child cn
       lp.add_child '<d:InitialValue><r:Command><r:ProgramLanguage>pseudo-code</r:ProgramLanguage>' +
                        '<r:CommandContent>%{command}</r:CommandContent></r:Command></d:InitialValue>' % {
-                           command: CGI::escapeHTML(cc.loop_var) + ' = ' + cc.start_val
+                           command: CGI::escapeHTML(cc.loop_var.to_s) + ' = ' + cc.start_val
                        }
       command = ''
       unless cc.end_val.nil?
@@ -33,7 +33,7 @@ module Exporters::XML::DDI
 
       lp.add_child '<d:LoopWhile><r:Command><r:ProgramLanguage>pseudo-code</r:ProgramLanguage>' +
                        '<r:CommandContent>%{command}</r:CommandContent></r:Command></d:LoopWhile>' % {
-                           command: CGI::escapeHTML(command)
+                           command: CGI::escapeHTML(command.to_s)
                        }
       lp.add_child ('<d:ControlConstructReference><r:URN>urn:ddi:%{agency}:%{prefix}-selp-%{id}:1.0.0</r:URN> ' +
           '<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {

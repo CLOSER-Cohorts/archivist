@@ -31,7 +31,7 @@ module Exporters::XML::DDI
           gdr.add_child <<~XML.delete("\n")
             <d:Roster baseCodeValue="1" codeIterationValue="1" minimumRequired="#{qgrid.roster_rows}">
             <r:Label>
-            <r:Content xml:lang="en-GB">#{CGI::escapeHTML(qgrid.roster_label)}</r:Content>
+            <r:Content xml:lang="en-GB">#{CGI::escapeHTML(qgrid.roster_label.to_s)}</r:Content>
             </r:Label>
             </d:Roster>
           XML

@@ -12,7 +12,7 @@ module Exporters::XML::DDI
       cl.add_child urn
       l = Nokogiri::XML::Node.new 'r:Label', @doc
       l.add_child "<r:Content xml:lang=\"en-GB\">%{label}</r:Content>" % {
-          label: CGI::escapeHTML(codelist.label)
+          label: CGI::escapeHTML(codelist.label.to_s)
       }
       urn.add_next_sibling l
       inner_prev = l

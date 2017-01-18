@@ -21,7 +21,7 @@ module Exporters::XML::DDI
       qt = Nokogiri::XML::Node.new 'd:QuestionText', @doc
       qt['audienceLanguage'] = 'en-GB'
       qt.add_child '<d:LiteralText><d:Text>%{text}</d:Text></d:LiteralText>' %
-                       {text: CGI::escapeHTML(obj.literal)}
+                       {text: CGI::escapeHTML(obj.literal.to_s)}
       qn.add_next_sibling qt
 
       yield obj, q

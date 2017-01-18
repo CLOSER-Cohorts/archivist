@@ -11,7 +11,7 @@ module Exporters::XML::DDI
       urn = create_urn_node instr
       i.add_child urn
       urn.add_next_sibling "<d:InstructionText audienceLanguage=\"en-GB\"><d:LiteralText><d:Text>%{literal}</d:Text></d:LiteralText></d:InstructionText>" % {
-          literal: CGI::escapeHTML(instr.text)
+          literal: CGI::escapeHTML(instr.text.to_s)
       }
       i
     end

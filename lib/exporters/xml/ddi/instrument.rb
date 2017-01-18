@@ -135,7 +135,7 @@ module Exporters::XML::DDI
       i = Nokogiri::XML::Node.new 'd:Instrument', @doc
       i.add_child create_urn_node @instrument
       i.add_child "<d:InstrumentName><r:String xml:lang=\"en-GB\">%{title}</r:String></d:InstrumentName>" %
-          {title: CGI::escapeHTML(@instrument.label)}
+          {title: CGI::escapeHTML(@instrument.label.to_s)}
       i.add_child create_reference_string 'd:ControlConstructReference', @instrument.top_sequence
       isn.add_next_sibling i
     end
