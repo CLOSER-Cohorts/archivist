@@ -1,5 +1,5 @@
 module Exporters::XML::DDI
-  class QuestionGrid < Question
+  class QuestionGrid < Exporters::XML::DDI::Question
     def V3_2(qgrid_id)
       @klass = ::QuestionGrid
 

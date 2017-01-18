@@ -1,5 +1,5 @@
 module Exporters::XML::DDI
-  class QuestionItem < Question
+  class QuestionItem < Exporters::XML::DDI::Question
     def V3_2(qitem_id)
       @klass = ::QuestionItem
 
