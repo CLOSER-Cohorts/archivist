@@ -1,26 +1,29 @@
 module ImportJob
-end
+  class Basic
+    @queue = :in_and_out
 
-class ImportJob::Instrument
-  @queue = :in_and_out
+    def self.perform(document_id, options = {})
+      begin
+        item = @importer_klass.new document_id, options
+        trap 'TERM' do
 
-  def self.perform(document_id, options = {})
-    begin
-      im = Importers::XML::DDI::Instrument.new document_id, options
-      trap 'TERM' do
+          item.instrument.destroy
+          Resque.enqueue self.class, document_id, options
 
-        im.instrument.destroy
-        Resque.enqueue ImportJob::Instrument, document_id, options
+          exit 0
+        end
 
-        exit 0
+        item.parse
+      rescue => e
+        Rails.logger.fatal 'Fatal error while importing ' + @import_name
+        Rails.logger.fatal e.message
       end
-
-      im.parse
-    rescue => e
-      Rails.logger.fatal 'Fatal error while importing instrument'
-      Rails.logger.fatal e.message
     end
   end
+end
+
+class ImportJob::Instrument < ImportJob::Basic
+  @importer_klass = Importers::XML::DDI:Instrument
 end
 
 class ImportJob::Dataset
