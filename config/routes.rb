@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
   match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
 
+  # adding a route.
+  match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
+
   resources :topics, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'nested_index', to: 'topics#nested_index'
