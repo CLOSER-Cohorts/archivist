@@ -22,7 +22,7 @@ class Importers::TXT::Mapper::Mapping
         return nil
       end
       var = multidimensional_variable_finder.call(v)
-      unless qc.nil? or var.nil?
+      unless qc.nil? or var.nil? # qc && var
         if q_coords.nil?
           qc.variables << var
         else

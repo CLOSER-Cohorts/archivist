@@ -5,7 +5,7 @@ class DatasetsController < BasicController
                     dv: ImportJob::DV,
                     topicv: ImportJob::TopicV
                 })
-  only_set_object
+  only_set_object { %i{member_imports} }
 
   @model_class = Dataset
   @params_list = [:name]

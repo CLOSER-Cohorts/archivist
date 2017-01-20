@@ -1,0 +1,21 @@
+<html lang="en-GB" data-ng-app="testApp">
+	<head>
+		<title>Test Page</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+		<script src="test.js"></script>
+	</head>
+	<body data-ng-controller="MemberImports">
+
+		<form data-ng-submit="uploadMemberImports()" novalidate>
+			<div class="form-group">
+				<label for="files">
+					Upload TXT config files
+				</label>
+				<input id="files" ng-file-model="files" type="file" multiple required />
+				<p class="help-block">Only text files are accepted.</p>
+			</div>
+			<button type="submit" class="btn btn-default">Import Files</button>
+		</form>
+
+	</body>
+</html>

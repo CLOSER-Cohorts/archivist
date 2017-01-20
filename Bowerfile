@@ -10,4 +10,5 @@ asset 'jquery-ui'
 asset 'socket.io-client'
 asset 'angular-google-chart'
 asset 'angular-tree-control'
+asset 'angular-base64-upload'
 # vim: ft=ruby

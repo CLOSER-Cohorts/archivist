@@ -18,6 +18,9 @@ Rails.application.routes.draw do
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
 
+  # adding a route.
+  match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
+
   resources :topics, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'nested_index', to: 'topics#nested_index'
@@ -37,7 +40,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
+  request_processor = lambda do |request|
+    # binding.pry if request.path =~ %r{/instruments/13/imports}
+    # 1
+    [:json, :xml, :text].include?(request.format.symbol)
+  end
+
+  resources :instruments, constraints: request_processor do
     resources :cc_sequences
     resources :cc_statements
     resources :cc_questions

@@ -7,7 +7,8 @@ instruments = angular.module('archivist.instruments', [
   'ngResource',
   'ui.bootstrap',
   'archivist.flash',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'naif.base64'
 ])
 
 instruments.config([ '$routeProvider',
@@ -25,6 +26,10 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
       )
+      .when('/instruments/:id/import',
+        templateUrl: 'partials/instruments/import.html'
+        controller: 'InstrumentsController'
+      )
 ])
 
 instruments.controller('InstrumentsController',
@@ -36,8 +41,8 @@ instruments.controller('InstrumentsController',
     '$http',
     '$timeout',
     'Flash',
-    'DataManager',
-    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
+    'DataManager'
+    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory)->
       $scope.page['title'] = 'Instruments'
       if $routeParams.id
         loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() != 'edit'
@@ -109,4 +114,47 @@ instruments.controller('InstrumentsController',
           ,->
             console.log("error")
         )
+
+      DoImportPost = (params) ->
+        console.log 'inside DoImportPost'
+        console.log params
+        # debugger
+        $http {
+          method: 'POST'
+          url: '/instruments/'+$scope.instrument.id+'/imports.json'
+          data: JSON.stringify params
+        }
+        .success ->
+          Flash.add 'success', 'Instrument imported.'
+          console.log 'success'
+        .error (res)->
+          console.log 'error'
+          console.log res.message
+
+      PushToArray = (fileType, files, array) ->
+        count = 0
+        while count < files.length
+          array.push
+            type: fileType
+            file: files[count].base64
+          count++
+        array
+
+      $scope.importInstrument = ()->
+        $scope.publish_flash()
+
+        params = {}
+        imports = []
+        files = []
+        if $scope.mapping
+          imports = PushToArray('mapping',$scope.mapping.file,imports)
+        if $scope.dv
+          imports = PushToArray('dv',$scope.dv.file,imports)
+        if $scope.topicv
+          imports = PushToArray('topicv',$scope.topicv.file,imports)
+        if $scope.topicq
+          imports = PushToArray('topicq',$scope.topicq.file,imports)
+
+        params.imports = imports
+        DoImportPost(params)
 ])

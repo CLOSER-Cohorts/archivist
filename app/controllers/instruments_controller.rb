@@ -1,9 +1,12 @@
 class InstrumentsController < BasicController
   include Importers::Controller
+  include Exporters
 
   has_importers({
                     mapping: ImportJob::Mapping,
-                    topicq: ImportJob::TopicQ
+                    topicq: ImportJob::TopicQ,
+                    topicv: ImportJob::TopicV,
+                    dv: ImportJob::DV,
                 })
   only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper} }
 
@@ -14,7 +17,7 @@ class InstrumentsController < BasicController
     respond_to do |f|
       f.json {render json: @object}
       f.xml do
-        exp = XML::DDI::Exporter.new
+        exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes
         filename = exp.run @object
         render file: filename
@@ -68,6 +71,31 @@ class InstrumentsController < BasicController
         doc = Document.new file: file
         doc.save_or_get
         Resque.enqueue ImportJob::Instrument, doc.id, options
+      end
+      head :ok, format: :json
+    rescue  => e
+      render json: {message: e}, status: :bad_request
+    end
+  end
+
+  # Used by importing the TXT instrument files that mapper used
+  # Please note that for multiple upload to work within a nested
+  # Angular 1.X form, base64 encoding was needed so we need to
+  # decode the file here as well
+  def member_imports
+    imports = params[:imports].nil? ? [] : params[:imports]
+    head :ok, format: :json if imports.empty?
+    # 
+    # binding.pry
+    # 1
+    begin
+      imports.each do |import|
+        doc = Document.new file: Base64.decode64(import[:file])
+        doc.save_or_get
+
+        type = import[:type]&.downcase&.to_sym
+
+        Resque.enqueue(@@map[type], doc.id, @object)
       end
       head :ok, format: :json
     rescue  => e
