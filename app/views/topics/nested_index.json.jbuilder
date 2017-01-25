@@ -1,0 +1,1 @@
+json.partial! 'topics/nesting', collection: @collection, as: :topic

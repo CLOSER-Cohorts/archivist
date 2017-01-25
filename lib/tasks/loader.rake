@@ -47,10 +47,28 @@ task :load_mapping => :environment do
 
     if File.exist? file
       prefix = file.split('.')[0]
-      puts prefix
       i = Instrument.find_by_prefix prefix
       unless i.nil?
         im = Importers::TXT::Mapper::Mapping.new(file, i)
+        im.import
+      end
+    end
+
+  end
+end
+
+desc 'Loads a dv.txt'
+task :load_dv => :environment do
+  Dir.chdir 'M:/build/dvlinking'
+  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+
+  files.each do |file|
+
+    if File.exist? file
+      prefix = file.split('.')[0]
+      d = Dataset.find_by_filename prefix + '.ddi32.rp.xml'
+      unless d.nil?
+        im = TXT::Mapper::DV::Importer.new(file, d)
         im.import
       end
     end

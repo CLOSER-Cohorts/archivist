@@ -5,3 +5,4 @@ json.children @object.children do |child|
   json.type child.construct.class.name
 end
 json.parent @object.parent.id
+json.topic @object.topic

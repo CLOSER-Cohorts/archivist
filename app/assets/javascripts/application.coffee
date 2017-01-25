@@ -22,6 +22,8 @@
 #= require angular-ui-sortable/sortable
 #= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/socket.io
+#= require angular-google-chart/ng-google-chart
+#= require angular-tree-control/angular-tree-control
 #
 #= require lib
 #= require sections
@@ -31,10 +33,15 @@ archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
   'ui.sortable',
+  'googlechart',
+  'treeControl',
   'archivist.flash',
   'archivist.instruments',
+  'archivist.datasets',
+  'archivist.mapping',
   'archivist.build',
   'archivist.summary',
+  'archivist.topics',
   'archivist.admin',
   'archivist.realtime',
   'archivist.users',
@@ -46,7 +53,7 @@ archivist.config([ '$routeProvider', '$locationProvider',
     $routeProvider
       .when('/',
         templateUrl: 'index.html'
-        controller: 'RootController'
+        controller: 'HomeController'
       )
     $locationProvider.html5Mode true
 ])
@@ -60,6 +67,7 @@ archivist.controller('RootController',
   ($scope, $location, DataManager, User)->
     $scope.softwareName = 'Archivist'
     $scope.softwareVersion = window.app_version
+    $scope.page ?= {}
     $scope.page['title'] = 'Home'
     $scope.isActive = (viewLocation) ->
       viewLocation == $location.path()
@@ -72,6 +80,120 @@ archivist.controller('RootController',
       $scope.user.sign_out().finally ->
         DataManager.clearCache()
 ])
+
+archivist.controller('HomeController',
+  [
+    '$scope',
+    'DataManager'
+    ($scope, DataManager)->
+      $scope.chart_one = {}
+      $scope.chart_two = {}
+      $scope.chart_three = {}
+      $scope.chart_four = {}
+      $scope.chart_one.type = $scope.chart_two.type = $scope.chart_three.type = $scope.chart_four.type =  "ColumnChart"
+      $scope.instruments = DataManager.getInstruments {}, (res)->
+        $scope.chart_one.data = {
+          cols: [
+            {
+              id: "s",
+              label: "Study",
+              type: "string"
+            },
+            {
+              id: "i",
+              label: "Instruments",
+              type: "number"
+            }
+          ]
+        }
+        $scope.chart_three.data = {
+          cols: [
+            {
+              id: "s",
+              label: "Study",
+              type: "string"
+            },
+            {
+              id: "s",
+              label: "Avg. Constructs Per Instrument",
+              type: "number"
+            }
+          ]
+        }
+        $scope.chart_one.data['rows'] = []
+        $scope.chart_three.data['rows'] = []
+        data = {}
+        for i in res
+          if i.study of data
+            data[i.study]['instruments'] += 1
+            data[i.study]['ccs'] += i.ccs
+          else
+            data[i.study] =
+              'instruments' : 1
+              'ccs'         : i.ccs
+        for s of data
+          $scope.chart_one.data['rows'].push {
+            c: [
+              {v: s}, {v: data[s]['instruments']}
+            ]
+          }
+          $scope.chart_three.data['rows'].push {
+            c: [
+              {v: s}, {v: data[s]['ccs'] / data[s]['instruments']}
+            ]
+          }
+      $scope.datasets = DataManager.getDatasets()
+      $scope.chart_two.data =
+        "cols": [
+            id: "s",
+            label: "Study",
+            type: "string"
+          ,
+            id: "s",
+            label: "Constructs",
+            type: "number"
+        ],
+        "rows": [
+            c: [
+                v: "Mushrooms"
+              ,
+                v: 3
+            ]
+          ,
+            c: [
+                v: "Onions"
+              ,
+                v: 3
+            ]
+          ,
+            c: [
+                v: "Olives"
+              ,
+                v: 31
+            ]
+          ,
+            c: [
+                v: "Zucchini"
+              ,
+                v: 1
+            ]
+          ,
+            c: [
+                v: "Pepperoni"
+              ,
+                v: 2
+            ]
+        ]
+      console.log $scope
+
+      $scope.chart_one.options =
+        'title': 'Instruments'
+        'legend': false
+      $scope.chart_two.options =
+        'title': 'Avg. Constructs per Instrument'
+        'legend': false
+  ]
+)
 
 archivist.directive 'notices', ->
   {

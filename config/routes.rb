@@ -18,7 +18,13 @@ Rails.application.routes.draw do
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
 
-  resources :topics, constraints: -> (r) { (r.format == :json) }
+  resources :topics, constraints: -> (r) { (r.format == :json) } do
+    collection do
+      get 'nested_index', to: 'topics#nested_index'
+      get 'flattened_nest', to: 'topics#flattened_nest'
+    end
+  end
+
   resources :groups, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'external'
@@ -26,7 +32,9 @@ Rails.application.routes.draw do
   end
   resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
     resources :variables
-    match 'import', to: 'datasets#member_imports', via: [:post, :put]
+    member do
+      match 'imports', to: 'datasets#member_imports', via: [:post, :put]
+    end
   end
 
   resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
@@ -52,7 +60,7 @@ Rails.application.routes.draw do
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
-      match 'import', to: 'instruments#member_imports', via: [:post, :put]
+      match 'imports', to: 'instruments#member_imports', via: [:post, :put]
     end
   end
 

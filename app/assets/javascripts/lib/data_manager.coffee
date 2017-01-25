@@ -7,8 +7,11 @@ data_manager = angular.module(
     'archivist.data_manager.codes',
     'archivist.data_manager.response_units',
     'archivist.data_manager.response_domains',
+    'archivist.data_manager.datasets',
+    'archivist.data_manager.variables',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
+    'archivist.data_manager.topics',
     'archivist.data_manager.auth',
     'archivist.realtime',
     'archivist.resource'
@@ -30,7 +33,10 @@ data_manager.factory(
     'RealTimeListener',
     'GetResource',
     'ApplicationStats',
+    'Topics',
     'InstrumentStats',
+    'Datasets',
+    'Variables',
     'Auth',
     (
       $http,
@@ -45,7 +51,10 @@ data_manager.factory(
       RealTimeListener,
       GetResource,
       ApplicationStats,
+      Topics,
       InstrumentStats,
+      Datasets,
+      Variables,
       Auth
     )->
       DataManager = {}
@@ -57,6 +66,8 @@ data_manager.factory(
       DataManager.Codes             = Codes
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
+      DataManager.Datasets          = Datasets
+      DataManager.Variables         = Variables
       DataManager.Auth              = Auth
 
       DataManager.clearCache = ->
@@ -71,6 +82,8 @@ data_manager.factory(
         DataManager.Constructs.clearCache()
         DataManager.Codes.clearCache()
         DataManager.ResponseUnits.clearCache()
+        DataManager.Datasets.clearCache()
+        DataManager.Variables.clearCache()
         DataManager.Auth.clearCache()
 
       DataManager.clearCache()
@@ -79,6 +92,9 @@ data_manager.factory(
         DataManager.Data.Instruments = DataManager.Instruments.query params, success, error
         DataManager.Data.Instruments
 
+      DataManager.getDatasets = (params, success, error) ->
+        DataManager.Data.Datasets = DataManager.Datasets.query params, success, error
+        DataManager.Data.Datasets
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
         console.log 'getInstrument'
@@ -246,6 +262,33 @@ data_manager.factory(
 
         return DataManager.Data.Instrument
 
+      DataManager.getDataset = (dataset_id, options = {}, success, error) ->
+        options.variables ?= false
+
+        promises = []
+
+        DataManager.Data.Dataset  = DataManager.Datasets.get id: dataset_id
+        promises.push DataManager.Data.Dataset.$promise
+
+        if options.variables
+
+          DataManager.Data.Variables =
+            DataManager.Variables.query dataset_id: dataset_id
+          promises.push DataManager.Data.Variables.$promise
+
+        $q.all(
+          promises
+        )
+        .then(
+          ->
+            if options.variables
+              DataManager.Data.Dataset.Variables = DataManager.Data.Variables
+
+            success?()
+        )
+
+        return DataManager.Data.Dataset
+
       DataManager.groupResponseDomains = ->
         DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(
           DataManager.Data.ResponseDomains.Numerics,
@@ -288,6 +331,15 @@ data_manager.factory(
               DataManager.Data.AppStats[key] = res.data[key]
           DataManager.Data.AppStats.$resolved = true
         DataManager.Data.AppStats
+
+      DataManager.getTopics = (options = {})->
+        options.nested ?= false
+        options.flattened ?= false
+        if options.nested
+          DataManager.Data.Topics = Topics.getNested()
+        if options.flattened
+          DataManager.Data.Topics = Topics.getFlattenedNest()
+        DataManager.Data.Topics
 
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
