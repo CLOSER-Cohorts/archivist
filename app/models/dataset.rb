@@ -6,4 +6,6 @@ class Dataset < ApplicationRecord
 
   has_many :qv_mappings
   has_many :dv_mappings
+  
+  attr_accessor :var_count
 end
