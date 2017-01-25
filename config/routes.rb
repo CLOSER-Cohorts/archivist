@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   end
 
   get 'instruments/:id/export', to: 'instruments#latest_document'
+  get 'datasets/:id/export', to: 'datasets#latest_document'
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }

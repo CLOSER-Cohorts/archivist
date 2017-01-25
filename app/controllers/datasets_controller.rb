@@ -32,6 +32,15 @@ class DatasetsController < BasicController
     end
   end
 
+  def latest_document
+    d = Document.where(item_id: params[:id], item_type: 'Dataset').order(created_at: :desc).limit(1).first
+    if d.nil?
+      head :ok
+    else
+      render body: d.file_contents, content_type: 'application/xml'
+    end
+  end
+
   def member_imports
     imports = params[:imports].nil? ? [] : params[:imports]
     head :ok, format: :json if imports.empty?
