@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   root 'main#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
+  match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
 
   resources :topics, constraints: -> (r) { (r.format == :json) } do
     collection do
