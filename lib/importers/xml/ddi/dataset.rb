@@ -16,6 +16,7 @@ module Importers::XML::DDI
       @dataset = self.class.build_dataset( @doc, filename: File.basename(@filepath))
       unless @document.nil?
         @document.item = @dataset
+        @document.save!
       end
       read_variables
     end
