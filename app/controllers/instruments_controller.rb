@@ -14,7 +14,7 @@ class InstrumentsController < BasicController
     respond_to do |f|
       f.json {render json: @object}
       f.xml do
-        exp = XML::DDI::Exporter.new
+        exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes
         filename = exp.run @object
         render file: filename
@@ -46,8 +46,17 @@ class InstrumentsController < BasicController
   def response_domain_codes
   end
 
+  def latest_document
+    d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').order(created_at: :desc).limit(1).first
+    if d.nil?
+      head :ok
+    else
+      render body: d.file_contents, content_type: 'application/xml'
+    end
+  end
+
   def export
-      Resque.enqueue ExportJob, @object.id
+      Resque.enqueue ExportJob::Instrument, @object.id
       head :ok, format: :json
   end
 

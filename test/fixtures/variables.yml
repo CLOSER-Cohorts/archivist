@@ -1,19 +1,22 @@
 one:
+  id: 1
   name: v001
   label: MyString
   var_type: Normal
-  dataset: one
+  dataset_id: 1
 #  questions: :one
 #  topic: :TopLevelTopic
 
 two:
+  id: 2
   name: v002
   label: MyString
   var_type: Derived
-  dataset: one
+  dataset_id: 1
 
 three:
+  id: 3
   name: v003
   label: MyString
   var_type: Normal
-  dataset: three
+  dataset_id: 3

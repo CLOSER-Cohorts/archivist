@@ -24,9 +24,13 @@ task :load_datasets => :environment do
   files.each do |file|
 
     if File.exist? file
+      doc = Document.new file: File.open(file)
+      doc.save_or_get
 
-      da = Importers::XML::DDI::Dataset.new(file)
+      da = Importers::XML::DDI::Dataset.new(doc)
       da.parse
+      doc.item = da.dataset
+      doc.save!
 
     end
 

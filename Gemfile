@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 ruby '2.3.1'
 
@@ -104,6 +104,7 @@ group :test do
   #gem 'rails-perftest'
   #gem 'ruby-prof'
   gem 'rails-controller-testing'
+  gem 'resque_unit'
 end
 
 gem 'coveralls', require: false

@@ -1,4 +1,6 @@
-class ExportJob
+module ExportJob; end
+
+class ExportJob::Instrument
   @queue = :in_and_out
 
   def self.perform id
@@ -24,6 +26,31 @@ class ExportJob
       d.md5_hash = Digest::MD5.hexdigest d.file_contents
       d.item = i
       d.save!
+    rescue => e
+      Rails.logger.fatal 'Job failed.'
+      Rails.logger.fatal e
+      Rails.logger.fatal e.backtrace
+    end
+  end
+end
+
+class ExportJob::Dataset
+  @queue = :in_and_out
+
+  def self.perform id
+    begin
+      exp = Exporters::XML::DDI::Dataset.new
+
+      dataset = Dataset.find(id)
+      exp.run dataset
+
+      d = Document.new
+      d.filename = dataset.filename
+      d.content_type = 'text/xml'
+      d.file_contents = exp.doc.to_xml(&:no_empty_tags)
+      d.md5_hash = Digest::MD5.hexdigest d.file_contents
+      d.item = dataset
+      d.save_or_get
     rescue => e
       Rails.logger.fatal 'Job failed.'
       Rails.logger.fatal e
