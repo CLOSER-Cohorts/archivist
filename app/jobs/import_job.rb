@@ -23,7 +23,7 @@ module ImportJob
 end
 
 class ImportJob::Instrument < ImportJob::Basic
-  @importer_klass = Importers::XML::DDI:Instrument
+  @importer_klass = Importers::XML::DDI::Instrument
 end
 
 class ImportJob::Dataset
