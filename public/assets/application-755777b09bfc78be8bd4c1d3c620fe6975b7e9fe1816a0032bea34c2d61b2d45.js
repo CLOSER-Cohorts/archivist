@@ -76687,13 +76687,1279 @@ function toArray(list, index) {
 
 },{}]},{},[31])(31)
 });
+/*! angular-google-chart 2015-11-29 */
+/*
+* @description Google Chart Api Directive Module for AngularJS
+* @version 0.1.0
+* @author GitHub Contributors <https://github.com/angular-google-chart/angular-google-chart/graphs/contributors> 
+* @license MIT
+* @year 2013
+*/
+/* global angular */
+
+(function(){
+    angular.module('googlechart', [])
+        .run(registerResizeEvent);
+        
+    registerResizeEvent.$inject = ['$rootScope', '$window'];
+    
+    function registerResizeEvent($rootScope, $window){
+        angular.element($window).bind('resize', function () {
+                $rootScope.$emit('resizeMsg');
+            });
+    }
+})();
+/* global angular, google */
+(function(){
+    angular.module('googlechart')
+        .factory('FormatManager', formatManagerFactory);
+        
+        function formatManagerFactory(){
+            // Handles the processing of Google Charts API Formats
+            function FormatManager($google){
+                var self = this;
+                var oldFormatTemplates = {};
+                self.iFormats = {}; // Holds instances of formats (ie. self.iFormats.date[0] = new $google.visualization.DateFormat(params))
+                self.applyFormats = applyFormats;
+                
+                // apply formats of type to datatable
+                function apply(tFormats, dataTable){
+                    var i, formatType;
+                    for (formatType in tFormats){
+                        if (tFormats.hasOwnProperty(formatType)){
+                            for (i = 0; i < self.iFormats[formatType].length; i++) {
+                                if (tFormats[formatType][i].columnNum < dataTable.getNumberOfColumns()) {
+                                    self.iFormats[formatType][i].format(dataTable, tFormats[formatType][i].columnNum);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                function applyFormat(formatType, FormatClass, tFormats){
+                    var i;
+                    if (angular.isArray(tFormats[formatType])) {
+                        // basic change detection; no need to run if no changes
+                        if (!angular.equals(tFormats[formatType], oldFormatTemplates[formatType])) {
+                            oldFormatTemplates[formatType] = tFormats[formatType];
+                            self.iFormats[formatType] = [];
+            
+                            if (formatType === 'color') {
+                                instantiateColorFormatters(tFormats);
+                            } else {
+                                for (i = 0; i < tFormats[formatType].length; i++) {
+                                    self.iFormats[formatType].push(new FormatClass(
+                                        tFormats[formatType][i])
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                function applyFormats(dataTable, tFormats, customFormatters) {
+                    var formatType, FormatClass, requiresHtml = false;
+                    if (!angular.isDefined(tFormats) || !angular.isDefined(dataTable)){
+                        return { requiresHtml: false };
+                    }
+                    for (formatType in tFormats){
+                        if (tFormats.hasOwnProperty(formatType)){
+                            FormatClass = getFormatClass(formatType, customFormatters);
+                            if (!angular.isFunction(FormatClass)){
+                                // if no class constructor was returned,
+                                // there's no point in completing cycle
+                                continue;
+                            }
+                            applyFormat(formatType, FormatClass, tFormats);
+                            
+                            //Many formatters require HTML tags to display special formatting
+                            if (formatType === 'arrow' || formatType === 'bar' || formatType === 'color') {
+                                requiresHtml = true;
+                            }
+                        }
+                    }
+                    apply(tFormats, dataTable);
+                    return { requiresHtml: requiresHtml };
+                }
+                
+                function instantiateColorFormatters(tFormats){
+                    var t, colorFormat, i, data, formatType = 'color';
+                    for (t = 0; t < tFormats[formatType].length; t++) {
+                        colorFormat = new $google.visualization.ColorFormat();
+
+                        for (i = 0; i < tFormats[formatType][t].formats.length; i++) {
+                            data = tFormats[formatType][t].formats[i];
+
+                            if (typeof (data.fromBgColor) !== 'undefined' && typeof (data.toBgColor) !== 'undefined') {
+                                colorFormat.addGradientRange(data.from, data.to, data.color, data.fromBgColor, data.toBgColor);
+                            } else {
+                                colorFormat.addRange(data.from, data.to, data.color, data.bgcolor);
+                            }
+                        }
+
+                        self.iFormats[formatType].push(colorFormat);
+                    }
+                }
+                
+                function getFormatClass(formatType, customFormatters){
+                    var className = formatType.charAt(0).toUpperCase() + formatType.slice(1).toLowerCase() + "Format";
+                    if ($google.visualization.hasOwnProperty(className)){
+                        return google.visualization[className];
+                    } else if (angular.isDefined(customFormatters) && customFormatters.hasOwnProperty(formatType)) {
+                        return customFormatters[formatType];
+                    }
+                    return;
+                }
+            }
+            
+            return FormatManager;
+        }
+})();
+/* global angular, google */
+
+(function() {
+
+    angular.module('googlechart')
+        .controller('GoogleChartController', GoogleChartController);
+
+    GoogleChartController.$inject = ['$scope', '$element', '$attrs', '$injector', '$timeout', '$window', '$rootScope', 'GoogleChartService'];
+
+    function GoogleChartController($scope, $element, $attrs, $injector, $timeout, $window, $rootScope, GoogleChartService) {
+        var self = this;
+        var resizeHandler;
+        var googleChartService;
+
+        init();
+
+        function cleanup() {
+            resizeHandler();
+        }
+
+        function draw() {
+            if (!draw.triggered && (self.chart !== undefined)) {
+                draw.triggered = true;
+                $timeout(setupAndDraw, 0, true);
+            }
+            else if (self.chart !== undefined) {
+                $timeout.cancel(draw.recallTimeout);
+                draw.recallTimeout = $timeout(draw, 10);
+            }
+        }
+
+        // Watch function calls this.
+        function drawAsync() {
+            googleChartService.getReadyPromise()
+                .then(draw);
+        }
+
+        //setupAndDraw() calls this.
+        function drawChartWrapper() {
+            googleChartService.draw();
+            draw.triggered = false;
+        }
+
+        function init() {
+            // Instantiate service
+            googleChartService = new GoogleChartService();
+            
+            self.registerChartListener = googleChartService.registerChartListener;
+            self.registerWrapperListener = googleChartService.registerWrapperListener;
+            self.registerServiceListener = googleChartService.registerServiceListener;
+            
+            /* Watches, to refresh the chart when its data, formatters, options, view,
+            or type change. All other values intentionally disregarded to avoid double
+            calls to the draw function. Please avoid making changes to these objects
+            directly from this directive.*/
+            $scope.$watch(watchValue, watchHandler, true); // true is for deep object equality checking
+
+            // Redraw the chart if the window is resized
+            resizeHandler = $rootScope.$on('resizeMsg', drawAsync);
+
+            //Cleanup resize handler.
+            $scope.$on('$destroy', cleanup);
+        }
+
+        function setupAndDraw() {
+            googleChartService.setup($element,
+            self.chart.type,
+            self.chart.data,
+            self.chart.view,
+            self.chart.options,
+            self.chart.formatters,
+            self.chart.customFormatters);
+
+            $timeout(drawChartWrapper);
+        }
+
+        function watchHandler() {
+            self.chart = $scope.$eval($attrs.chart);
+            drawAsync();
+        }
+
+        function watchValue() {
+            var chartObject = $scope.$eval($attrs.chart);
+            if (angular.isDefined(chartObject) && angular.isObject(chartObject)) {
+                return {
+                    customFormatters: chartObject.customFormatters,
+                    data: chartObject.data,
+                    formatters: chartObject.formatters,
+                    options: chartObject.options,
+                    type: chartObject.type,
+                    view: chartObject.view
+                };
+            }
+        }
+    }
+})();
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .directive('agcBeforeDraw', onReadyDirective);
+        
+    function onReadyDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject=['chartWrapper'];
+                function callback(chartWrapper){
+                    scope.$apply(function (){
+                        scope.$eval(attrs.agcBeforeDraw, {chartWrapper: chartWrapper});
+                    });
+                }
+                googleChartController.registerServiceListener('beforeDraw', callback, this);
+            }
+        };
+    }
+})();
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnClick', onClickDirective);
+
+    function onClickDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject = ['args', 'chart', 'chartWrapper'];
+                function callback(args, chart, chartWrapper){
+                    scope.$apply(function (){
+                        scope.$eval(attrs.agcOnClick, {args: args, chart: chart, chartWrapper: chartWrapper});
+                    });
+                }
+                googleChartController.registerChartListener('click', callback, this);
+            }
+        };
+    }
+})();
+
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnError', onErrorDirective);
+    function onErrorDirective(){
+        return{
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject = ['chartWrapper', 'chart', 'args'];
+                function callback(chartWrapper, chart, args){
+                    var returnValues = {
+                        chartWrapper: chartWrapper,
+                        chart: chart,
+                        args: args,
+                        error: args[0],
+                        err: args[0],
+                        id: args[0].id,
+                        message: args[0].message
+                    };
+                    scope.$apply(function(){
+                        scope.$eval(attrs.agcOnError, returnValues);
+                    });
+                }
+                googleChartController.registerWrapperListener('error', callback, this);
+            }
+        };
+    }
+})();
+/* global angular */
+
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnMouseout', agcOnMouseoutDirective);
+    
+    function agcOnMouseoutDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject = ['args', 'chart', 'chartWrapper'];
+                function callback(args, chart, chartWrapper){
+                    var returnParams = {
+                        chartWrapper: chartWrapper,
+                        chart: chart,
+                        args: args,
+                        column: args[0].column,
+                        row: args[0].row
+                    };
+                    scope.$apply(function () {
+                        scope.$eval(attrs.agcOnMouseout, returnParams);
+                    });
+                }
+                googleChartController.registerChartListener('onmouseout', callback, this);
+            }
+        };
+    }
+})();
+/* global angular */
+
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnMouseover', agcOnMouseoverDirective);
+    
+    function agcOnMouseoverDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject = ['args', 'chart', 'chartWrapper'];
+                function callback(args, chart, chartWrapper){
+                    var returnParams = {
+                        chartWrapper: chartWrapper,
+                        chart: chart,
+                        args: args,
+                        column: args[0].column,
+                        row: args[0].row
+                    };
+                    scope.$apply(function () {
+                        scope.$eval(attrs.agcOnMouseover, returnParams);
+                    });
+                }
+                googleChartController.registerChartListener('onmouseover', callback, this);
+            }
+        };
+    }
+})();
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnReady', onReadyDirective);
+        
+    function onReadyDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject=['chartWrapper'];
+                function callback(chartWrapper){
+                    scope.$apply(function (){
+                        scope.$eval(attrs.agcOnReady, {chartWrapper: chartWrapper});
+                    });
+                }
+                googleChartController.registerWrapperListener('ready', callback, this);
+            }
+        };
+    }
+})();
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .directive('agcOnSelect', onSelectDirective);
+        
+    function onSelectDirective(){
+        return {
+            restrict: 'A',
+            scope: false,
+            require: 'googleChart',
+            link: function(scope, element, attrs, googleChartController){
+                callback.$inject = ['chartWrapper', 'chart'];
+                function callback(chartWrapper, chart){
+                    var selectEventRetParams = { selectedItems: chart.getSelection() };
+                    // This is for backwards compatibility for people using 'selectedItem' that only wanted the first selection.
+                    selectEventRetParams.selectedItem = selectEventRetParams.selectedItems[0];
+                    selectEventRetParams.chartWrapper = chartWrapper;
+                    selectEventRetParams.chart = chart;
+                    scope.$apply(function () {
+                        scope.$eval(attrs.agcOnSelect, selectEventRetParams);
+                    });
+                }
+                googleChartController.registerWrapperListener('select', callback, this);
+            }
+        };
+    }
+})();
+/* global angular, google */
+/* jshint -W072 */
+(function(){
+    angular.module('googlechart')
+        .directive('googleChart', googleChartDirective);
+        
+    googleChartDirective.$inject = [];
+        
+    function googleChartDirective() {
+
+        return {
+            restrict: 'A',
+            scope: false,
+            controller: 'GoogleChartController'
+        };
+    }
+})();
+
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .value('googleChartApiConfig', {
+            version: '1',
+            optionalSettings: {
+                packages: ['corechart']
+            }
+        });
+})();
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .factory('googleChartApiPromise', googleChartApiPromiseFactory);
+        
+    googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
+        
+    function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
+        apiConfig.optionalSettings = apiConfig.optionalSettings || {};
+        var apiReady = $q.defer();
+        var onLoad = function () {
+            // override callback function
+            var settings = {
+                callback: function () {
+                    var oldCb = apiConfig.optionalSettings.callback;
+                    $rootScope.$apply(function () {
+                        apiReady.resolve(google);
+                    });
+
+                    if (angular.isFunction(oldCb)) {
+                        oldCb.call(this);
+                    }
+                }
+            };
+
+            settings = angular.extend({}, apiConfig.optionalSettings, settings);
+
+            window.google.load('visualization', apiConfig.version, settings);
+        };
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+
+        script.setAttribute('type', 'text/javascript');
+        script.src = googleJsapiUrl;
+
+        if (script.addEventListener) { // Standard browsers (including IE9+)
+            script.addEventListener('load', onLoad, false);
+        } else { // IE8 and below
+            script.onreadystatechange = function () {
+                if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                    script.onreadystatechange = null;
+                    onLoad();
+                }
+            };
+        }
+        head.appendChild(script);
+
+        return apiReady.promise;
+    }
+})();
+/* global angular */
+(function() {
+    angular.module('googlechart')
+        .factory('GoogleChartService', GoogleChartServiceFactory);
+
+    GoogleChartServiceFactory.$inject = ['googleChartApiPromise', '$injector', '$q', 'FormatManager'];
+
+    function GoogleChartServiceFactory(googleChartApiPromise, $injector, $q, FormatManager) {
+        function GoogleChartService() {
+            var self = this;
+            self.draw = draw;
+            self.getChartWrapper = getChartWrapper;
+            self.getData = getData;
+            self.getElement = getElement;
+            self.getOption = getOption;
+            self.getOptions = getOptions;
+            self.getView = getView;
+            self.getReadyPromise = getReadyPromise;
+            self.isApiReady = isApiReady;
+            self.registerChartListener = registerChartListener;
+            self.registerServiceListener = registerServiceListener;
+            self.registerWrapperListener = registerWrapperListener;
+            self.setData = setData;
+            self.setElement = setElement;
+            self.setOption = setOption;
+            self.setOptions = setOptions;
+            self.setup = setup;
+            self.setView = setView;
+
+            var $google,
+                _apiPromise,
+                _apiReady,
+                _chartWrapper,
+                _element,
+                _chartType,
+                _data,
+                _view,
+                _options,
+                _formatters,
+                _innerVisualization,
+                _formatManager,
+                _needsUpdate = true,
+                _customFormatters,
+                _serviceDeferred,
+                serviceListeners = {},
+                wrapperListeners = {},
+                chartListeners = {};
+
+            _init();
+
+            function _activateServiceEvent(eventName) {
+                var i;
+                if (angular.isArray(serviceListeners[eventName])) {
+                    for (i = 0; i < serviceListeners[eventName].length; i++) {
+                        serviceListeners[eventName][i]();
+                    }
+                }
+            }
+
+            function _apiLoadFail(reason) {
+                // Not sure what to do if this does happen.
+                // Post your suggestions in the issues tracker at
+                // https://github.com/angular-google-chart/angular-google-chart/
+                return reason;
+            }
+
+            function _apiLoadSuccess(g) {
+                $google = g;
+                _apiReady = true;
+                _serviceDeferred.resolve();
+                return g;
+            }
+
+
+            function _continueSetup() {
+                if (!angular.isDefined(_chartWrapper)) {
+                    _chartWrapper = new $google.visualization.ChartWrapper({
+                        chartType: _chartType,
+                        dataTable: _data,
+                        view: _view,
+                        options: _options,
+                        containerId: _element[0]
+                    });
+                    _registerListenersWithGoogle(_chartWrapper, wrapperListeners);
+                }
+                else {
+                    _chartWrapper.setChartType(_chartType);
+                    _chartWrapper.setDataTable(_data);
+                    _chartWrapper.setView(_view);
+                    _chartWrapper.setOptions(_options);
+                }
+
+                if (!_formatManager) {
+                    _formatManager = new FormatManager($google);
+                }
+
+                if (_formatManager.applyFormats(_chartWrapper.getDataTable(),
+                        _formatters, _customFormatters).requiresHtml) {
+                    _chartWrapper.setOption('allowHtml', true);
+                }
+
+                _needsUpdate = false;
+            }
+
+            // Credit for this solution:
+            // http://stackoverflow.com/a/20125572/3771976
+            function _getSetDescendantProp(obj, desc, value) {
+                var arr = desc ? desc.split(".") : [];
+
+                while (arr.length && obj) {
+                    var comp = arr.shift();
+                    var match = new RegExp("(.+)\\[([0-9]*)\\]").exec(comp);
+
+                    if (value) {
+                        if (obj[comp] === undefined) {
+                            obj[comp] = {};
+                        }
+
+                        if (arr.length === 0) {
+                            obj[comp] = value;
+                        }
+                    }
+
+                    obj = obj[comp];
+                }
+
+                return obj;
+            }
+
+            function _handleReady() {
+                // When the chartWrapper is ready, check to see if the inner chart
+                // has changed. If it has, re-register listeners onto that chart.
+                if (_innerVisualization !== _chartWrapper.getChart()) {
+                    _innerVisualization = _chartWrapper.getChart();
+                    _registerListenersWithGoogle(_innerVisualization, chartListeners);
+                }
+            }
+
+            function _init() {
+                _apiReady = false;
+                _serviceDeferred = $q.defer();
+                //keeps the resulting promise to chain on other actions
+                _apiPromise = googleChartApiPromise
+                    .then(_apiLoadSuccess)
+                    .catch(_apiLoadFail);
+
+                registerWrapperListener('ready', _handleReady, self);
+            }
+
+            function _registerListener(listenerCollection, eventName, listenerFn, listenerObject) {
+                // This is the function that will be invoked by the charts API.
+                // Passing the wrapper function allows the use of DI for
+                // for the called function.
+                var listenerWrapper = function() {
+                    var locals = {
+                        chartWrapper: _chartWrapper,
+                        chart: _chartWrapper.getChart(),
+                        args: arguments
+                    };
+                    $injector.invoke(listenerFn, listenerObject || this, locals);
+                };
+
+                if (angular.isDefined(listenerCollection) && angular.isObject(listenerCollection)) {
+                    if (!angular.isArray(listenerCollection[eventName])) {
+                        listenerCollection[eventName] = [];
+                    }
+                    listenerCollection[eventName].push(listenerWrapper);
+                    return function() {
+                        if (angular.isDefined(listenerWrapper.googleListenerHandle)) {
+                            $google.visualization.events.removeListener(listenerWrapper.googleListenerHandle);
+                        }
+                        var fnIndex = listenerCollection[eventName].indexOf(listenerWrapper);
+                        listenerCollection[eventName].splice(fnIndex, 1);
+                        if (listenerCollection[eventName].length === 0) {
+                            listenerCollection[eventName] = undefined;
+                        }
+                    };
+                }
+            }
+
+            function _registerListenersWithGoogle(eventSource, listenerCollection) {
+                for (var eventName in listenerCollection) {
+                    if (listenerCollection.hasOwnProperty(eventName) && angular.isArray(listenerCollection[eventName])) {
+                        for (var fnIterator = 0; fnIterator < listenerCollection[eventName].length; fnIterator++) {
+                            if (angular.isFunction(listenerCollection[eventName][fnIterator])) {
+                                listenerCollection[eventName][fnIterator].googleListenerHandle =
+                                    $google.visualization.events.addListener(eventSource, eventName, listenerCollection[eventName][fnIterator]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            function _runDrawCycle() {
+                _activateServiceEvent('beforeDraw');
+                _chartWrapper.draw();
+            }
+
+            /*
+            This function does this:
+                - waits for API to load, if not already loaded
+                - sets up ChartWrapper object (create or update)
+                - schedules timeout event to draw chart
+            */
+            function draw() {
+                if (_needsUpdate) {
+                    _apiPromise = _apiPromise.then(_continueSetup);
+                }
+                _apiPromise = _apiPromise.then(_runDrawCycle());
+            }
+
+            function getChartWrapper() {
+                // Most get functions on this interface return copies,
+                // this one should return reference so as to expose the 
+                //chart api to users
+                return _chartWrapper;
+            }
+
+            function getData() {
+                var data = _data || {};
+                return angular.copy(data);
+            }
+
+            function getElement() {
+                return _element;
+            }
+
+            function getOption(name) {
+                var options = _options || {};
+                return _getSetDescendantProp(options, name);
+            }
+
+            function getOptions() {
+                var options = _options || {};
+                return angular.copy(options);
+            }
+
+            function getReadyPromise() {
+                return _serviceDeferred.promise;
+            }
+
+            function getView() {
+                var view = _view || {};
+                return angular.copy(view);
+            }
+
+            function isApiReady() {
+                return _apiReady;
+            }
+
+            function registerChartListener(eventName, listenerFn, listenerObject) {
+                return _registerListener(chartListeners, eventName, listenerFn, listenerObject);
+            }
+
+            function registerServiceListener(eventName, listenerFn, listenerObject) {
+                return _registerListener(serviceListeners, eventName, listenerFn, listenerObject);
+            }
+
+            function registerWrapperListener(eventName, listenerFn, listenerObject) {
+                return _registerListener(wrapperListeners, eventName, listenerFn, listenerObject);
+            }
+
+            function setData(data) {
+                if (angular.isDefined(data)) {
+                    _data = angular.copy(data);
+                    _needsUpdate = true;
+                }
+            }
+
+            function setElement(element) {
+                if (angular.isElement(element) && _element !== element) {
+                    _element = element;
+                    // clear out the chartWrapper because we're going to need a new one
+                    _chartWrapper = null;
+                    _needsUpdate = true;
+                }
+            }
+
+            function setOption(name, value) {
+                _options = _options || {};
+                _getSetDescendantProp(_options, name, angular.copy(value));
+                _needsUpdate = true;
+            }
+
+            function setOptions(options) {
+                if (angular.isDefined(options)) {
+                    _options = angular.copy(options);
+                    _needsUpdate = true;
+                }
+            }
+
+            function setup(element, chartType, data, view, options, formatters, customFormatters) {
+                // Keep values if already set,
+                // can call setup() with nulls to keep
+                // existing values
+                _element = element || _element;
+                _chartType = chartType || _chartType;
+                _data = data || _data;
+                _view = view || _view;
+                _options = options || _options;
+                _formatters = formatters || _formatters;
+                _customFormatters = customFormatters || _customFormatters;
+
+                _apiPromise = _apiPromise.then(_continueSetup);
+            }
+
+            function setView(view) {
+                _view = angular.copy(view);
+            }
+        }
+        return GoogleChartService;
+    }
+})();
+/* global angular */
+(function(){
+    angular.module('googlechart')
+        .provider('googleJsapiUrl', googleJsapiUrlProvider);
+        
+    function googleJsapiUrlProvider() {
+        var protocol = 'https:';
+        var url = '//www.google.com/jsapi';
+        
+        this.setProtocol = function (newProtocol) {
+            protocol = newProtocol;
+        };
+
+        this.setUrl = function (newUrl) {
+            url = newUrl;
+        };
+
+        this.$get = function () {
+            return (protocol ? protocol : '') + url;
+        };
+    }
+})();
+/* commonjs package manager support (eg componentjs) */
+
+if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){
+  module.exports = 'treeControl';
+}
+(function ( angular ) {
+    'use strict';
+
+    function createPath(startScope) {
+        return function path() {
+            var _path = [];
+            var scope = startScope;
+            var prevNode;
+            while (scope && scope.node !== startScope.synteticRoot) {
+                if (prevNode !== scope.node)
+                    _path.push(scope.node);
+                prevNode = scope.node;
+                scope = scope.$parent;
+            }
+            return _path;
+        }
+    }
+
+    function ensureDefault(obj, prop, value) {
+        if (!obj.hasOwnProperty(prop))
+            obj[prop] = value;
+    }
+
+    function defaultIsLeaf(node, $scope) {
+        return !node[$scope.options.nodeChildren] || node[$scope.options.nodeChildren].length === 0;
+    }
+
+    function shallowCopy(src, dst) {
+        if (angular.isArray(src)) {
+            dst = dst || [];
+
+            for (var i = 0; i < src.length; i++) {
+                dst[i] = src[i];
+            }
+        } else if (angular.isObject(src)) {
+            dst = dst || {};
+
+            for (var key in src) {
+                if (hasOwnProperty.call(src, key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
+                    dst[key] = src[key];
+                }
+            }
+        }
+
+        return dst || src;
+    }
+    function defaultEquality(a, b,$scope) {
+        if (!a || !b)
+            return false;
+        a = shallowCopy(a);
+        a[$scope.options.nodeChildren] = [];
+        b = shallowCopy(b);
+        b[$scope.options.nodeChildren] = [];
+        return angular.equals(a, b);
+    }
+
+    function defaultIsSelectable() {
+        return true;
+    }
+
+    function ensureAllDefaultOptions($scope) {
+        ensureDefault($scope.options, "multiSelection", false);
+        ensureDefault($scope.options, "nodeChildren", "children");
+        ensureDefault($scope.options, "dirSelectable", "true");
+        ensureDefault($scope.options, "injectClasses", {});
+        ensureDefault($scope.options.injectClasses, "ul", "");
+        ensureDefault($scope.options.injectClasses, "li", "");
+        ensureDefault($scope.options.injectClasses, "liSelected", "");
+        ensureDefault($scope.options.injectClasses, "iExpanded", "");
+        ensureDefault($scope.options.injectClasses, "iCollapsed", "");
+        ensureDefault($scope.options.injectClasses, "iLeaf", "");
+        ensureDefault($scope.options.injectClasses, "label", "");
+        ensureDefault($scope.options.injectClasses, "labelSelected", "");
+        ensureDefault($scope.options, "equality", defaultEquality);
+        ensureDefault($scope.options, "isLeaf", defaultIsLeaf);
+        ensureDefault($scope.options, "allowDeselect", true);
+        ensureDefault($scope.options, "isSelectable", defaultIsSelectable);
+    }
+    
+    angular.module( 'treeControl', [] )
+        .constant('treeConfig', {
+            templateUrl: null
+        })
+        .directive( 'treecontrol', ['$compile', function( $compile ) {
+            /**
+             * @param cssClass - the css class
+             * @param addClassProperty - should we wrap the class name with class=""
+             */
+            function classIfDefined(cssClass, addClassProperty) {
+                if (cssClass) {
+                    if (addClassProperty)
+                        return 'class="' + cssClass + '"';
+                    else
+                        return cssClass;
+                }
+                else
+                    return "";
+            }
+            
+            
+            
+            return {
+                restrict: 'EA',
+                require: "treecontrol",
+                transclude: true,
+                scope: {
+                    treeModel: "=",
+                    selectedNode: "=?",
+                    selectedNodes: "=?",
+                    expandedNodes: "=?",
+                    onSelection: "&",
+                    onNodeToggle: "&",
+                    options: "=?",
+                    orderBy: "=?",
+                    reverseOrder: "@",
+                    filterExpression: "=?",
+                    filterComparator: "=?"
+                },
+                controller: ['$scope', '$templateCache', '$interpolate', 'treeConfig', function ($scope, $templateCache, $interpolate, treeConfig) {
+                    
+                    $scope.options = $scope.options || {};
+                    
+                    ensureAllDefaultOptions($scope);
+                  
+                    $scope.selectedNodes = $scope.selectedNodes || [];
+                    $scope.expandedNodes = $scope.expandedNodes || [];
+                    $scope.expandedNodesMap = {};
+                    for (var i=0; i < $scope.expandedNodes.length; i++) {
+                        $scope.expandedNodesMap["a"+i] = $scope.expandedNodes[i];
+                    }
+                    $scope.parentScopeOfTree = $scope.$parent;
+
+
+                    function isSelectedNode(node) {
+                        if (!$scope.options.multiSelection && ($scope.options.equality(node, $scope.selectedNode , $scope)))
+                            return true;
+                        else if ($scope.options.multiSelection && $scope.selectedNodes) {
+                            for (var i = 0; (i < $scope.selectedNodes.length); i++) {
+                                if ($scope.options.equality(node, $scope.selectedNodes[i] , $scope)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    }
+
+                    $scope.headClass = function(node) {
+                        var liSelectionClass = classIfDefined($scope.options.injectClasses.liSelected, false);
+                        var injectSelectionClass = "";
+                        if (liSelectionClass && isSelectedNode(node))
+                            injectSelectionClass = " " + liSelectionClass;
+                        if ($scope.options.isLeaf(node, $scope))
+                            return "tree-leaf" + injectSelectionClass;
+                        if ($scope.expandedNodesMap[this.$id])
+                            return "tree-expanded" + injectSelectionClass;
+                        else
+                            return "tree-collapsed" + injectSelectionClass;
+                    };
+
+                    $scope.iBranchClass = function() {
+                        if ($scope.expandedNodesMap[this.$id])
+                            return classIfDefined($scope.options.injectClasses.iExpanded);
+                        else
+                            return classIfDefined($scope.options.injectClasses.iCollapsed);
+                    };
+
+                    $scope.nodeExpanded = function() {
+                        return !!$scope.expandedNodesMap[this.$id];
+                    };
+
+                    $scope.selectNodeHead = function() {
+                        var transcludedScope = this;
+                        var expanding = $scope.expandedNodesMap[transcludedScope.$id] === undefined;
+                        $scope.expandedNodesMap[transcludedScope.$id] = (expanding ? transcludedScope.node : undefined);
+                        if (expanding) {
+                            $scope.expandedNodes.push(transcludedScope.node);
+                        }
+                        else {
+                            var index;
+                            for (var i=0; (i < $scope.expandedNodes.length) && !index; i++) {
+                                if ($scope.options.equality($scope.expandedNodes[i], transcludedScope.node , $scope)) {
+                                    index = i;
+                                }
+                            }
+                            if (index !== undefined)
+                                $scope.expandedNodes.splice(index, 1);
+                        }
+                        if ($scope.onNodeToggle) {
+                            var parentNode = (transcludedScope.$parent.node === transcludedScope.synteticRoot)?null:transcludedScope.$parent.node;
+                            var path = createPath(transcludedScope);
+                            $scope.onNodeToggle({node: transcludedScope.node, $parentNode: parentNode, $path: path,
+                              $index: transcludedScope.$index, $first: transcludedScope.$first, $middle: transcludedScope.$middle,
+                              $last: transcludedScope.$last, $odd: transcludedScope.$odd, $even: transcludedScope.$even, expanded: expanding});
+
+                        }
+                    };
+
+                    $scope.selectNodeLabel = function( selectedNode){
+                        var transcludedScope = this;
+                        if(!$scope.options.isLeaf(selectedNode, $scope) && (!$scope.options.dirSelectable || !$scope.options.isSelectable(selectedNode))) {
+                            // Branch node is not selectable, expand
+                            this.selectNodeHead();
+                        }
+                        else if($scope.options.isLeaf(selectedNode, $scope) && (!$scope.options.isSelectable(selectedNode))) {
+                            // Leaf node is not selectable
+                            return;
+                        }
+                        else {
+                            var selected = false;
+                            if ($scope.options.multiSelection) {
+                                var pos = -1;
+                                for (var i=0; i < $scope.selectedNodes.length; i++) {
+                                    if($scope.options.equality(selectedNode, $scope.selectedNodes[i] , $scope)) {
+                                        pos = i;
+                                        break;
+                                    }
+                                }
+                                if (pos === -1) {
+                                    $scope.selectedNodes.push(selectedNode);
+                                    selected = true;
+                                } else {
+                                    $scope.selectedNodes.splice(pos, 1);
+                                }
+                            } else {
+                                if (!$scope.options.equality(selectedNode, $scope.selectedNode , $scope)) {
+                                    $scope.selectedNode = selectedNode;
+                                    selected = true;
+                                }
+                                else {
+                                    if ($scope.options.allowDeselect) {
+                                        $scope.selectedNode = undefined;
+                                    } else {
+                                        $scope.selectedNode = selectedNode;
+                                        selected = true;
+                                    }
+                                }
+                            }
+                            if ($scope.onSelection) {
+                                var parentNode = (transcludedScope.$parent.node === transcludedScope.synteticRoot)?null:transcludedScope.$parent.node;
+                                var path = createPath(transcludedScope)
+                                $scope.onSelection({node: selectedNode, selected: selected, $parentNode: parentNode, $path: path,
+                                  $index: transcludedScope.$index, $first: transcludedScope.$first, $middle: transcludedScope.$middle,
+                                  $last: transcludedScope.$last, $odd: transcludedScope.$odd, $even: transcludedScope.$even});
+                            }
+                        }
+                    };
+
+                    $scope.selectedClass = function() {
+                        var isThisNodeSelected = isSelectedNode(this.node);
+                        var labelSelectionClass = classIfDefined($scope.options.injectClasses.labelSelected, false);
+                        var injectSelectionClass = "";
+                        if (labelSelectionClass && isThisNodeSelected)
+                            injectSelectionClass = " " + labelSelectionClass;
+
+                        return isThisNodeSelected ? "tree-selected" + injectSelectionClass : "";
+                    };
+
+                    $scope.unselectableClass = function() {
+                        var isThisNodeUnselectable = !$scope.options.isSelectable(this.node);
+                        var labelUnselectableClass = classIfDefined($scope.options.injectClasses.labelUnselectable, false);
+                        return isThisNodeUnselectable ? "tree-unselectable " + labelUnselectableClass : "";
+                    };
+
+                    //tree template
+                    $scope.isReverse = function() {
+                      return !($scope.reverseOrder === 'false' || $scope.reverseOrder === 'False' || $scope.reverseOrder === '' || $scope.reverseOrder === false);
+                    };
+
+                    $scope.orderByFunc = function() {
+                      return $scope.orderBy;
+                    };
+//                    return "" + $scope.orderBy;
+
+                    var templateOptions = {
+                        orderBy: $scope.orderBy ? " | orderBy:orderByFunc():isReverse()" : '',
+                        ulClass: classIfDefined($scope.options.injectClasses.ul, true),
+                        nodeChildren:  $scope.options.nodeChildren,
+                        liClass: classIfDefined($scope.options.injectClasses.li, true),
+                        iLeafClass: classIfDefined($scope.options.injectClasses.iLeaf, false),
+                        labelClass: classIfDefined($scope.options.injectClasses.label, false)
+                    };
+
+                    var template;
+                    var templateUrl = $scope.options.templateUrl || treeConfig.templateUrl;
+
+                    if(templateUrl) {
+                        template = $templateCache.get(templateUrl);
+                    }
+
+                    if(!template) {
+                        template =
+                            '<ul {{options.ulClass}} >' +
+                            '<li ng-repeat="node in node.{{options.nodeChildren}} | filter:filterExpression:filterComparator {{options.orderBy}}" ng-class="headClass(node)" {{options.liClass}}' +
+                            'set-node-to-data>' +
+                            '<i class="tree-branch-head" ng-class="iBranchClass()" ng-click="selectNodeHead(node)"></i>' +
+                            '<i class="tree-leaf-head {{options.iLeafClass}}"></i>' +
+                            '<div class="tree-label {{options.labelClass}}" ng-class="[selectedClass(), unselectableClass()]" ng-click="selectNodeLabel(node)" tree-transclude></div>' +
+                            '<treeitem ng-if="nodeExpanded()"></treeitem>' +
+                            '</li>' +
+                            '</ul>';
+                    }
+
+                    this.template = $compile($interpolate(template)({options: templateOptions}));
+                }],
+                compile: function(element, attrs, childTranscludeFn) {
+                    return function ( scope, element, attrs, treemodelCntr ) {
+
+                        scope.$watch("treeModel", function updateNodeOnRootScope(newValue) {
+                            if (angular.isArray(newValue)) {
+                                if (angular.isDefined(scope.node) && angular.equals(scope.node[scope.options.nodeChildren], newValue))
+                                    return;
+                                scope.node = {};
+                                scope.synteticRoot = scope.node;
+                                scope.node[scope.options.nodeChildren] = newValue;
+                            }
+                            else {
+                                if (angular.equals(scope.node, newValue))
+                                    return;
+                                scope.node = newValue;
+                            }
+                        });
+
+                        scope.$watchCollection('expandedNodes', function(newValue, oldValue) {
+                            var notFoundIds = 0;
+                            var newExpandedNodesMap = {};
+                            var $liElements = element.find('li');
+                            var existingScopes = [];
+                            // find all nodes visible on the tree and the scope $id of the scopes including them
+                            angular.forEach($liElements, function(liElement) {
+                                var $liElement = angular.element(liElement);
+                                var liScope = {
+                                    $id: $liElement.data('scope-id'),
+                                    node: $liElement.data('node')
+                                };
+                                existingScopes.push(liScope);
+                            });
+                            // iterate over the newValue, the new expanded nodes, and for each find it in the existingNodesAndScopes
+                            // if found, add the mapping $id -> node into newExpandedNodesMap
+                            // if not found, add the mapping num -> node into newExpandedNodesMap
+                            angular.forEach(newValue, function(newExNode) {
+                                var found = false;
+                                for (var i=0; (i < existingScopes.length) && !found; i++) {
+                                    var existingScope = existingScopes[i];
+                                    if (scope.options.equality(newExNode, existingScope.node , scope)) {
+                                        newExpandedNodesMap[existingScope.$id] = existingScope.node;
+                                        found = true;
+                                    }
+                                }
+                                if (!found)
+                                    newExpandedNodesMap['a' + notFoundIds++] = newExNode;
+                            });
+                            scope.expandedNodesMap = newExpandedNodesMap;
+                        });
+
+//                        scope.$watch('expandedNodesMap', function(newValue) {
+//
+//                        });
+
+                        //Rendering template for a root node
+                        treemodelCntr.template( scope, function(clone) {
+                            element.html('').append( clone );
+                        });
+                        // save the transclude function from compile (which is not bound to a scope as apposed to the one from link)
+                        // we can fix this to work with the link transclude function with angular 1.2.6. as for angular 1.2.0 we need
+                        // to keep using the compile function
+                        scope.$treeTransclude = childTranscludeFn;
+                    };
+                }
+            };
+        }])
+        .directive("setNodeToData", ['$parse', function($parse) {
+            return {
+                restrict: 'A',
+                link: function($scope, $element, $attrs) {
+                    $element.data('node', $scope.node);
+                    $element.data('scope-id', $scope.$id);
+                }
+            };
+        }])
+        .directive("treeitem", function() {
+            return {
+                restrict: 'E',
+                require: "^treecontrol",
+                link: function( scope, element, attrs, treemodelCntr) {
+                    // Rendering template for the current node
+                    treemodelCntr.template(scope, function(clone) {
+                        element.html('').append(clone);
+                    });
+                }
+            };
+        })
+        .directive("treeTransclude", function () {
+            return {
+                controller: ['$scope',function ($scope) {
+                    ensureAllDefaultOptions($scope);
+                }],
+
+                link: function(scope, element, attrs, controller) {
+                    if (!scope.options.isLeaf(scope.node, scope)) {
+                        angular.forEach(scope.expandedNodesMap, function (node, id) {
+                            if (scope.options.equality(node, scope.node , scope)) {
+                                scope.expandedNodesMap[scope.$id] = scope.node;
+                                scope.expandedNodesMap[id] = undefined;
+                            }
+                        });
+                    }
+                    if (!scope.options.multiSelection && scope.options.equality(scope.node, scope.selectedNode , scope)) {
+                        scope.selectedNode = scope.node;
+                    } else if (scope.options.multiSelection) {
+                        var newSelectedNodes = [];
+                        for (var i = 0; (i < scope.selectedNodes.length); i++) {
+                            if (scope.options.equality(scope.node, scope.selectedNodes[i] , scope)) {
+                                newSelectedNodes.push(scope.node);
+                            }
+                        }
+                        scope.selectedNodes = newSelectedNodes;
+                    }
+
+                    // create a scope for the transclusion, whos parent is the parent of the tree control
+                    scope.transcludeScope = scope.parentScopeOfTree.$new();
+                    scope.transcludeScope.node = scope.node;
+                    scope.transcludeScope.$path = createPath(scope);
+                    scope.transcludeScope.$parentNode = (scope.$parent.node === scope.synteticRoot)?null:scope.$parent.node;
+                    scope.transcludeScope.$index = scope.$index;
+                    scope.transcludeScope.$first = scope.$first;
+                    scope.transcludeScope.$middle = scope.$middle;
+                    scope.transcludeScope.$last = scope.$last;
+                    scope.transcludeScope.$odd = scope.$odd;
+                    scope.transcludeScope.$even = scope.$even;
+                    scope.$on('$destroy', function() {
+                        scope.transcludeScope.$destroy();
+                    });
+
+                    scope.$treeTransclude(scope.transcludeScope, function(clone) {
+                        element.empty();
+                        element.append(clone);
+                    });
+                }
+            };
+        });
+})( angular );
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.auth', 'archivist.realtime', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.variables', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.realtime', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'InstrumentStats', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, InstrumentStats, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'RealTimeListener', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'Variables', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, RealTimeListener, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, Variables, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -76702,6 +77968,8 @@ function toArray(list, index) {
       DataManager.Codes = Codes;
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
+      DataManager.Datasets = Datasets;
+      DataManager.Variables = Variables;
       DataManager.Auth = Auth;
       DataManager.clearCache = function() {
         DataManager.Data = {};
@@ -76714,12 +77982,18 @@ function toArray(list, index) {
         DataManager.Constructs.clearCache();
         DataManager.Codes.clearCache();
         DataManager.ResponseUnits.clearCache();
+        DataManager.Datasets.clearCache();
+        DataManager.Variables.clearCache();
         return DataManager.Auth.clearCache();
       };
       DataManager.clearCache();
       DataManager.getInstruments = function(params, success, error) {
         DataManager.Data.Instruments = DataManager.Instruments.query(params, success, error);
         return DataManager.Data.Instruments;
+      };
+      DataManager.getDatasets = function(params, success, error) {
+        DataManager.Data.Datasets = DataManager.Datasets.query(params, success, error);
+        return DataManager.Data.Datasets;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -76946,6 +78220,33 @@ function toArray(list, index) {
         });
         return DataManager.Data.Instrument;
       };
+      DataManager.getDataset = function(dataset_id, options, success, error) {
+        var promises;
+        if (options == null) {
+          options = {};
+        }
+        if (options.variables == null) {
+          options.variables = false;
+        }
+        promises = [];
+        DataManager.Data.Dataset = DataManager.Datasets.get({
+          id: dataset_id
+        });
+        promises.push(DataManager.Data.Dataset.$promise);
+        if (options.variables) {
+          DataManager.Data.Variables = DataManager.Variables.query({
+            dataset_id: dataset_id
+          });
+          promises.push(DataManager.Data.Variables.$promise);
+        }
+        $q.all(promises).then(function() {
+          if (options.variables) {
+            DataManager.Data.Dataset.Variables = DataManager.Data.Variables;
+          }
+          return typeof success === "function" ? success() : void 0;
+        });
+        return DataManager.Data.Dataset;
+      };
       DataManager.groupResponseDomains = function() {
         return DataManager.Data.Instrument.ResponseDomains = DataManager.Data.ResponseDomains.Datetimes.concat(DataManager.Data.ResponseDomains.Numerics, DataManager.Data.ResponseDomains.Texts, DataManager.Data.ResponseDomains.Codes);
       };
@@ -76992,6 +78293,24 @@ function toArray(list, index) {
           return DataManager.Data.AppStats.$resolved = true;
         });
         return DataManager.Data.AppStats;
+      };
+      DataManager.getTopics = function(options) {
+        if (options == null) {
+          options = {};
+        }
+        if (options.nested == null) {
+          options.nested = false;
+        }
+        if (options.flattened == null) {
+          options.flattened = false;
+        }
+        if (options.nested) {
+          DataManager.Data.Topics = Topics.getNested();
+        }
+        if (options.flattened) {
+          DataManager.Data.Topics = Topics.getFlattenedNest();
+        }
+        return DataManager.Data.Topics;
       };
       DataManager.getInstrumentStats = function(id, cb) {
         DataManager.Data.InstrumentStats[id] = {
@@ -77379,6 +78698,27 @@ function toArray(list, index) {
       return new WrappedResource('instruments/:instrument_id/cc_statements/:id.json', {
         id: '@id',
         instrument_id: '@instrument_id'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var datasets;
+
+  datasets = angular.module('archivist.data_manager.datasets', ['archivist.resource']);
+
+  datasets.factory('Datasets', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('datasets/:id.json', {
+        id: '@id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
       });
     }
   ]);
@@ -77865,6 +79205,81 @@ function toArray(list, index) {
 
 }).call(this);
 (function() {
+  var topics;
+
+  topics = angular.module('archivist.data_manager.topics', ['archivist.resource']);
+
+  topics.factory('Topics', [
+    'WrappedResource', function(WrappedResource) {
+      var wr;
+      wr = new WrappedResource('topics/:id.json', {
+        id: '@id'
+      }, {
+        getNested: {
+          method: 'GET',
+          url: '/topics/nested_index.json',
+          isArray: true
+        },
+        getFlattenedNest: {
+          method: 'GET',
+          url: '/topics/flattened_nest.json',
+          isArray: true
+        },
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
+      });
+      wr.getNested = function(parameters, success, error) {
+        if (wr.data['getNested'] == null) {
+          wr.data['getNested'] = wr.resource.getNested(parameters, success, error);
+        }
+        return wr.data['getNested'];
+      };
+      wr.regetNested = function(parameters, success, error) {
+        wr.data['getNested'] = null;
+        return wr.getNested(parameters, success, error);
+      };
+      wr.getFlattenedNest = function(parameters, success, error) {
+        if (wr.data['getFlattenedNest'] == null) {
+          wr.data['getFlattenedNest'] = wr.resource.getFlattenedNest(parameters, success, error);
+        }
+        return wr.data['getFlattenedNest'];
+      };
+      wr.regetFlattenedNest = function(parameters, success, error) {
+        wr.data['getFlattenedNest'] = null;
+        return wr.getFlattenedNest(parameters, success, error);
+      };
+      return wr;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var variables;
+
+  variables = angular.module('archivist.data_manager.variables', ['archivist.resource']);
+
+  variables.factory('Variables', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('datasets/:dataset_id/variables/:id.json', {
+        id: '@id',
+        dataset_id: '@dataset_id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
   var flash;
 
   flash = angular.module('archivist.flash', ['ngMessages']);
@@ -78300,7 +79715,7 @@ function toArray(list, index) {
       $scope.options = {
         import_question_grids: true
       };
-      return $scope.uploadImport = function() {
+      $scope.uploadInstrumentImport = function() {
         var fd;
         $scope.publish_flash();
         fd = new FormData();
@@ -78320,6 +79735,27 @@ function toArray(list, index) {
           return Flash.add('success', 'Instrument imported.');
         }).error(function(res) {
           return Flash.add('danger', 'Instrument failed to import - ' + res.message);
+        });
+      };
+      return $scope.uploadDatasetImport = function() {
+        var fd;
+        $scope.publish_flash();
+        fd = new FormData();
+        angular.forEach($scope.files, function(item) {
+          return fd.append('files[]', item);
+        });
+        return $http({
+          method: 'POST',
+          url: '/admin/import/datasets',
+          data: fd,
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': void 0
+          }
+        }).success(function() {
+          return Flash.add('success', 'Dataset imported.');
+        }).error(function(res) {
+          return Flash.add('danger', 'Dataset failed to import - ' + res.message);
         });
       };
     }
@@ -78469,6 +79905,69 @@ function toArray(list, index) {
         return _Class;
 
       })();
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var datasets;
+
+  datasets = angular.module('archivist.datasets', ['templates', 'ngRoute', 'archivist.datasets.index', 'archivist.datasets.show']);
+
+  datasets.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/datasets', {
+        templateUrl: 'partials/datasets/index.html',
+        controller: 'DatasetsIndexController'
+      }).when('/datasets/:id', {
+        templateUrl: 'partials/datasets/show.html',
+        controller: 'DatasetsShowController'
+      }).when('/datasets/:id/edit', {
+        templateUrl: 'partials/instruments/edit.html',
+        controller: 'DatasetsEditController'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var index;
+
+  index = angular.module('archivist.datasets.index', ['archivist.data_manager']);
+
+  index.controller('DatasetsIndexController', [
+    '$scope', 'DataManager', function($scope, DataManager) {
+      $scope.datasets = DataManager.getDatasets();
+      $scope.pageSize = 20;
+      return console.log($scope);
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var show;
+
+  show = angular.module('archivist.datasets.show', ['archivist.data_manager']);
+
+  show.controller('DatasetsShowController', [
+    '$scope', '$routeParams', 'DataManager', function($scope, $routeParams, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.id, {
+        variables: true
+      }, function() {
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      $scope.pageSize = 20;
+      return console.log($scope);
     }
   ]);
 
@@ -79654,6 +81153,107 @@ function toArray(list, index) {
 
 }).call(this);
 (function() {
+  var mapping;
+
+  mapping = angular.module('archivist.mapping', ['ngRoute', 'archivist.flash', 'archivist.data_manager']);
+
+  mapping.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments/:id/map', {
+        templateUrl: 'partials/instruments/map.html',
+        controller: 'MappingController'
+      });
+    }
+  ]);
+
+  mapping.controller('MappingController', [
+    '$scope', '$routeParams', 'DataManager', function($scope, $routeParams, DataManager) {
+      return $scope.instrument = DataManager.getInstrument($routeParams.id, {
+        constructs: true,
+        questions: true
+      }, function() {
+        DataManager.resolveConstructs();
+        return DataManager.resolveQuestions();
+      });
+    }
+  ]);
+
+  mapping.directive('aTopics', [
+    '$compile', 'DataManager', function($compile, DataManager) {
+      var nestedOptions;
+      nestedOptions = function(scope) {
+        return '<select class="form-control" data-ng-model="model.topic">' + '<option value="">None</option>' + '<option ' + 'data-ng-repeat="topic in topics" ' + 'data-a-topic-indent="{{topic.level}}" ' + 'class="a-topic-level-{{topic.level}}" ' + 'value="{{topic.id}}">{{topic.name}}</option>' + '</select>';
+      };
+      return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+          model: '=ngModel'
+        },
+        link: {
+          post: function($scope, iElement, iAttrs) {
+            var el;
+            $scope.topics = DataManager.getTopics({
+              flattened: true
+            });
+            el = $compile(nestedOptions($scope))($scope);
+            iElement.replaceWith(el);
+            return $scope.$watch('model.topic', function(newVal, oldVal) {
+              if (newVal !== oldVal) {
+                return $scope.model.$save();
+              }
+            });
+          }
+        }
+      };
+    }
+  ]);
+
+  mapping.directive('aTopicIndent', [
+    function() {
+      return {
+        restrict: 'A',
+        scope: {},
+        link: {
+          post: function($scope, iElement, iAttrs, con) {
+            return $scope.$watch('topic', function() {
+              return iElement.text("--".repeat(parseInt(iAttrs.aTopicIndent) - 1) + iElement.text());
+            });
+          }
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var topics;
+
+  topics = angular.module('archivist.topics', ['ngRoute', 'archivist.data_manager']);
+
+  topics.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/topics', {
+        templateUrl: 'partials/topics/index.html',
+        controller: 'TopicsIndexController'
+      });
+    }
+  ]);
+
+  topics.controller('TopicsIndexController', [
+    '$scope', '$routeParams', 'DataManager', function($scope, $routeParams, DataManager) {
+      $scope.data = DataManager.getTopics({
+        nested: true
+      });
+      $scope.treeOptions = {
+        dirSelectable: false
+      };
+      return console.log($scope);
+    }
+  ]);
+
+}).call(this);
+(function() {
 
 
 }).call(this);
@@ -79661,7 +81261,7 @@ function toArray(list, index) {
 // source: app/assets/javascripts/templates/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("index.html", "<p>This will be the homepage</p>")
+  $templateCache.put("index.html", '<p>This will be the homepage</p>\n\n<div class="row">\n    <div data-google-chart chart="chart_one" class="col-md-6 col-sm-12" style="height:240px;"></div>\n    <div data-google-chart chart="chart_two" class="col-md-6 col-sm-12" style="height:240px;"></div>\n    <div data-google-chart chart="chart_three" class="col-md-6 col-sm-12" style="height:240px;"></div>\n    <div data-google-chart chart="chart_four" class="col-md-6 col-sm-12" style="height:240px;"></div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79675,7 +81275,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/import.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/import.html", '<div class="row import">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <form data-ng-submit="uploadImport()" novalidate>\n            <div class="form-group">\n                <label for="instrument-files">\n                    Upload DDI files\n                </label>\n                <input id="instrument-files" ng-file-model="files" type="file" multiple required />\n                <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n            </div>\n            <div class="checkbox">\n                <label for="import_question_grids">\n                    <input\n                            id="import_question_grids"\n                            data-ng-model="options.import_question_grids"\n                            type="checkbox"\n                    >\n                    Import QuestionGrids\n                </label>\n            </div>\n            <button type="submit" class="btn btn-default">Import</button>\n        </form>\n    </div>\n</div>')
+  $templateCache.put("partials/admin/import.html", '<div class="row import">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <div class="row">\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadInstrumentImport()" novalidate>\n                    <div class="form-group">\n                        <label for="instrument-files">\n                            Upload DDI Instrument files\n                        </label>\n                        <input id="instrument-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <div class="checkbox">\n                        <label for="import_question_grids">\n                            <input\n                                    id="import_question_grids"\n                                    data-ng-model="options.import_question_grids"\n                                    type="checkbox"\n                            >\n                            Import QuestionGrids\n                        </label>\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Instrument</button>\n                </form>\n            </div>\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadDatasetImport()" novalidate>\n                    <div class="form-group">\n                        <label for="dataset-files">\n                            Upload DDI Dataset files\n                        </label>\n                        <input id="dataset-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Dataset</button>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79889,6 +81489,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 // Angular Rails Template
+// source: app/assets/javascripts/templates/partials/datasets/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/datasets/index.html", '<notices></notices>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">Filters & Sorting<span class="glyphicon glyphicon-menu-down"></span></h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-hover">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Variables</th>\n            <th>Study</th>\n            <th class="editor-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat="dataset in\n		filteredDatasets = (datasets | filter:query) |\n		limitTo:pageSize:(currentPage-1)*pageSize">\n            <td>{{dataset.id}}</td>\n            <td>\n                <a data-ng-href="/datasets/{{dataset.id}}">\n                    {{dataset.name}}\n                </a>\n            </td>\n            <td>{{dataset.variables}}</td>\n            <td>Unsupported</td>\n            <td class="editor-min">\n                <a data-ng-href="/datasets/{{dataset.id}}/edit">\n                    <span class="edit">Edit</span>\n                </a>\n                |\n                <a data-ng-href="/datasets/{{dataset.id}}">\n                    <span class="view">Variables</span>\n                </a>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <uib-pagination\n                total-items="filteredDatasets.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </uib-pagination>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/datasets/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-hover">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="editor-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat="variable in\n		filteredVariables = (dataset.Variables | filter:query) |\n		limitTo:pageSize:(currentPage-1)*pageSize">\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="editor-min">\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </uib-pagination>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
 // source: app/assets/javascripts/templates/partials/instruments/edit.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
@@ -79899,14 +81513,28 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/instruments/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/instruments/index.html", '<notices></notices>\n\n<div class="panel panel-default">\n	<div class="panel-heading">\n		<h3 class="panel-title">Filters & Sorting<span class="glyphicon glyphicon-menu-down"></span></h3>\n	</div>\n	<div class="panel-body">\n		<div class="row">\n			<div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n			</div>\n            <div class="col-sm-4 col-xs-6">\n                <div class="dropdown">\n                    <button class="btn btn-default dropdown-toggle" type="button" id="sortInstrumentsBy"\n                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n                        Sort by\n                        <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" aria-labelledby="sortInstrumentsBy">\n                        <li>\n                            <a data-ng-click="sortedBy = \'id\'">\n                                ID\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'prefix\'">\n                                Prefix\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'-ccs\'">\n                                Control Constructs\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'study\'">\n                                Study\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n            <div class="col-sm-4 col-xs-6">\n                <div class="dropdown">\n                    <button class="btn btn-default dropdown-toggle" type="button" id="filterByStudy"\n                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n                        Select study\n                        <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" aria-labelledby="filterByStudy">\n                        <li>\n                            <a data-ng-click="filterStudy(\'\')">\n                                <em>None</em>\n                            </a>\n                        </li>\n                        <li data-ng-repeat="study in studies">\n                            <a data-ng-click="filterStudy(study.study)">\n                                {{study.study}}\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n		</div>\n	</div>\n	<table class="table table-hover">\n		<tr>\n			<th>ID</th>\n			<th>Prefix</th>\n            <th>Control Constructs</th>\n			<th>Study</th>\n            <th class="editor-min">Actions</th>\n		</tr>\n		<tr data-ng-repeat="instrument in\n		filteredInstruments = (instruments | filter:query |\n		filter:{study:filteredStudy}) |\n		orderBy:sortedBy |\n		limitTo:pageSize:(currentPage-1)*pageSize">\n			<td>{{instrument.id}}</td>\n			<td>\n                <a data-ng-href="/instruments/{{instrument.prefix}}">\n                    {{instrument.prefix}}\n                </a>\n            </td>\n            <td>{{instrument.ccs}}</td>\n			<td>{{instrument.study}}</td>\n            <td class="editor-min">\n                <a data-ng-href="/instruments/{{instrument.prefix}}/edit">\n                    <span class="edit">Edit</span>\n                </a>\n                |\n                <a data-ng-href="/instruments/{{instrument.prefix}}/build">\n                    <span class="build">Build</span>\n                </a>\n                |\n                <a data-ng-href="/instruments/{{instrument.prefix}}">\n                    <span class="view">View</span>\n                </a>\n            </td>\n		</tr>\n	</table>\n    <div class="panel-footer">\n        <uib-pagination\n                total-items="filteredInstruments.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </uib-pagination>\n    </div>\n</div>')
+  $templateCache.put("partials/instruments/index.html", '<notices></notices>\n\n<div class="panel panel-default">\n	<div class="panel-heading">\n		<h3 class="panel-title">Filters & Sorting<span class="glyphicon glyphicon-menu-down"></span></h3>\n	</div>\n	<div class="panel-body">\n		<div class="row">\n			<div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n			</div>\n            <div class="col-sm-4 col-xs-6">\n                <div class="dropdown">\n                    <button class="btn btn-default dropdown-toggle" type="button" id="sortInstrumentsBy"\n                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n                        Sort by\n                        <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" aria-labelledby="sortInstrumentsBy">\n                        <li>\n                            <a data-ng-click="sortedBy = \'id\'">\n                                ID\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'prefix\'">\n                                Prefix\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'-ccs\'">\n                                Control Constructs\n                            </a>\n                        </li>\n                        <li>\n                            <a data-ng-click="sortedBy = \'study\'">\n                                Study\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n            <div class="col-sm-4 col-xs-6">\n                <div class="dropdown">\n                    <button class="btn btn-default dropdown-toggle" type="button" id="filterByStudy"\n                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n                        Select study\n                        <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" aria-labelledby="filterByStudy">\n                        <li>\n                            <a data-ng-click="filterStudy(\'\')">\n                                <em>None</em>\n                            </a>\n                        </li>\n                        <li data-ng-repeat="study in studies">\n                            <a data-ng-click="filterStudy(study.study)">\n                                {{study.study}}\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n		</div>\n	</div>\n	<table class="table table-hover">\n		<tr>\n			<th>ID</th>\n			<th>Prefix</th>\n            <th>Control Constructs</th>\n			<th>Study</th>\n            <th class="editor-min">Actions</th>\n		</tr>\n		<tr data-ng-repeat="instrument in\n		filteredInstruments = (instruments | filter:query |\n		filter:{study:filteredStudy}) |\n		orderBy:sortedBy |\n		limitTo:pageSize:(currentPage-1)*pageSize">\n			<td>{{instrument.id}}</td>\n			<td>\n                <a data-ng-href="/instruments/{{instrument.prefix}}">\n                    {{instrument.prefix}}\n                </a>\n            </td>\n            <td>{{instrument.ccs}}</td>\n			<td>{{instrument.study}}</td>\n            <td class="editor-min">\n                <a data-ng-href="/instruments/{{instrument.prefix}}/edit">\n                    <span class="edit">Edit</span>\n                </a>\n                |\n                <a data-ng-href="/instruments/{{instrument.prefix}}/build">\n                    <span class="build">Build</span>\n                </a>\n                |\n                <a data-ng-href="/instruments/{{instrument.prefix}}/map">\n                    <span class="map">Map</span>\n                </a>\n                |\n                <a data-ng-href="/instruments/{{instrument.prefix}}">\n                    <span class="view">View</span>\n                </a>\n            </td>\n		</tr>\n	</table>\n    <div class="panel-footer">\n        <uib-pagination\n                total-items="filteredInstruments.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </uib-pagination>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/instruments/map.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/instruments/map.html", '<script type="text/ng-template" id="child_render.html">\n    <div class="tree-container row" data-ng-if="obj.type!=\'statement\'">\n        <span class="a-label col-md-2">\n            {{obj.label}}\n            <div class="col-md-6 tq-mapping" data-ng-if="obj.type==\'sequence\'" style="float: right;">\n                <a-topics ng-model="obj"></a-topics>\n            </div>\n        </span>\n        <span data-ng-if="obj.literal" class="a-literal col-md-8">\n            {{obj.literal}}\n        </span>\n        <span data-ng-if="obj.base" class="a-literal col-md-8">\n            {{obj.base.literal}}\n        </span>\n\n        <div class="col-md-6 qv-mapping" data-ng-if="obj.type==\'question\'">\n            <input type="text" class="form-control" placeholder="Add variable..." />\n        </div>\n        <div\n                class="col-md-6 tq-mapping"\n                data-ng-class="{\'col-md-offset-6\': obj.type == \'condition\'}"\n                data-ng-if="obj.type!=\'sequence\'">\n            <a-topics ng-model="obj"></a-topics>\n        </div>\n\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.fchildren | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</script>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>\n    </div>\n    <div id="tree" class="panel-body">\n        <span class="a-label">{{instrument.topsequence.label}}</span>\n        <div>\n            <div class="tree-item a-sequence" data-ng-repeat="obj in instrument.topsequence.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/instruments/popover/variable.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/instruments/popover/variable.html", "<p>{{variable.label}}</p>")
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/partials/instruments/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/instruments/show.html", '<script type="text/ng-template" id="child_render.html">\n    <div class="tree-container row">\n            <span class="a-label col-md-2" data-ng-class="{\'a-label-clarity\': level > 5}">\n                {{obj.label}}\n            </span>\n            <span data-ng-if="obj.literal" class="a-literal col-md-8">\n                {{obj.literal}}\n                <span data-ng-if="obj.type == \'condition\'">\n                    <code>[{{obj.logic}}]</code>\n                </span>\n            </span>\n            <span data-ng-if="obj.type == \'loop\'">\n                <code>\n                    <var>{{obj.loop_var}}</var> from <var>{{obj.start_val}}</var> while\n                    <span data-ng-if="obj.end_val">\n                        <var>{{obj.loop_var}}</var> != <var>{{obj.end_val}}</var>\n                    </span>\n                    <span data-ng-if="obj.end_val && obj.loop_while">\n                        and\n                    </span>\n                    <span data-ng-if="obj.loop_while">\n                        {{obj.loop_while}}\n                    </span>\n                </code>\n            </span>\n            <div data-ng-if="obj.type==\'question\'" class="col-md-8" data-ng-include="\'partials/questions/show.html\'"></div>\n	<div class="col-md-offset-1 col-md-11" data-ng-if="obj.children">\n	    <span class="a-branch-label" data-ng-if="obj.type == \'condition\'" data-ng-if="obj.children.length > 0">True:</span>\n            <div\n                    class="tree-item a-{{obj.type}}"\n                    data-ng-repeat="obj in obj.children | orderBy:\'position\'"\n                    data-ng-include="\'child_render.html\'"\n                    data-ng-init="level = level + 1"\n            ></div>\n        </div>\n	<div class="col-md-offset-1 col-md-11" data-ng-if="obj.fchildren">\n	    <span class="a-branch-label" data-ng-if="obj.fchildren.length > 0">Else:</span>\n            <div\n                    class="tree-item a-{{obj.type}}"\n                    data-ng-repeat="obj in obj.fchildren | orderBy:\'position\'"\n                    data-ng-include="\'child_render.html\'"\n                    data-ng-init="level = level + 1"\n            ></div>\n        </div>\n    </div>\n</script>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>\n    </div>\n    <div class="panel-body">\n        <div id="tree" data-ng-show="loading.state == \'Done\'">\n            <span class="a-label">{{instrument.topsequence.label}}</span>\n            <div>\n                <div\n                        class="tree-item a-sequence"\n                        data-ng-repeat="obj in instrument.topsequence.children | orderBy:\'position\'"\n                        data-ng-include="\'child_render.html\'"\n                        data-ng-init="level = 1"\n                ></div>\n            </div>\n        </div>\n        <div data-ng-show="loading.state == \'Downloading\' || loading.state == \'Processing\'">\n            <uib-progressbar type="{{loading.type}}" class="progress-striped active" value="loading.progress">{{loading.state}}</uib-progressbar>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/instruments/show.html", '<script type="text/ng-template" id="child_render.html">\n    <div class="tree-container row">\n        <span class="a-label col-md-2" data-ng-class="{\'a-label-clarity\': level > 5}">\n            {{obj.label}}\n        </span>\n        <span data-ng-if="obj.literal" class="a-literal col-md-8">\n            {{obj.literal}}\n            <span data-ng-if="obj.type == \'condition\'">\n                <code>[{{obj.logic}}]</code>\n            </span>\n        </span>\n        <span data-ng-if="obj.type == \'loop\'">\n            <code>\n                <var>{{obj.loop_var}}</var> from <var>{{obj.start_val}}</var> while\n                <span data-ng-if="obj.end_val">\n                    <var>{{obj.loop_var}}</var> != <var>{{obj.end_val}}</var>\n                </span>\n                <span data-ng-if="obj.end_val && obj.loop_while">\n                    and\n                </span>\n                <span data-ng-if="obj.loop_while">\n                    {{obj.loop_while}}\n                </span>\n            </code>\n        </span>\n        <div data-ng-if="obj.type==\'question\'" class="col-md-8" data-ng-include="\'partials/questions/show.html\'"></div>\n        <div class="col-md-offset-1 col-md-11" data-ng-if="obj.children">\n            <span class="a-branch-label" data-ng-if="obj.type == \'condition\'" data-ng-if="obj.children.length > 0">True:</span>\n            <div\n                    class="tree-item a-{{obj.type}}"\n                    data-ng-repeat="obj in obj.children | orderBy:\'position\'"\n                    data-ng-include="\'child_render.html\'"\n                    data-ng-init="level = level + 1"\n            ></div>\n        </div>\n        <div class="col-md-offset-1 col-md-11" data-ng-if="obj.fchildren">\n            <span class="a-branch-label" data-ng-if="obj.fchildren.length > 0">Else:</span>\n            <div\n                    class="tree-item a-{{obj.type}}"\n                    data-ng-repeat="obj in obj.fchildren | orderBy:\'position\'"\n                    data-ng-include="\'child_render.html\'"\n                    data-ng-init="level = level + 1"\n            ></div>\n        </div>\n    </div>\n</script>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>\n    </div>\n    <div class="panel-body">\n        <div id="tree" data-ng-show="loading.state == \'Done\'">\n            <span class="a-label">{{instrument.topsequence.label}}</span>\n            <div>\n                <div\n                        class="tree-item a-sequence"\n                        data-ng-repeat="obj in instrument.topsequence.children | orderBy:\'position\'"\n                        data-ng-include="\'child_render.html\'"\n                        data-ng-init="level = 1"\n                ></div>\n            </div>\n        </div>\n        <div data-ng-show="loading.state == \'Downloading\' || loading.state == \'Processing\'">\n            <uib-progressbar type="{{loading.type}}" class="progress-striped active" value="loading.progress">{{loading.state}}</uib-progressbar>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79920,7 +81548,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/questions/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/questions/show.html", '<span data-ng-bind="obj.base.literal" class="a-literal"></span>\n<span data-ng-bind="obj.base.instruction" class="a-instruction"></span>\n<div data-ng-if="obj.base.rds" class="row a-response-domains">\n    <div data-ng-repeat="rd in obj.base.rds" data-ng-include="\'partials/response_domains/show.html\'" class="col-md-10"></div>\n</div>\n<div data-ng-if="obj.base.cols">\n    <table class="table a-question-grid">\n        <tr>\n            <th>\n                {{obj.base.pretty_corner_label}}\n            </th>\n            <th data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                {{col.label}}\n            </th>\n        </tr>\n        <tr class="a-response-domains">\n            <td></td>\n            <td data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                <div data-ng-init="rd = col.rd" data-ng-include="\'partials/response_domains/show.html\'"></div>\n            </td>\n        </tr>\n        <tr data-ng-repeat="row in obj.base.rows | orderBy:\'order\'">\n            <td>\n                {{row.label}}\n            </td>\n            <td data-ng-repeat="col in obj.base.cols"></td>\n        </tr>\n        <tr data-ng-if="obj.base.roster_rows > 0" style="background: rgba(0,0,0,0.15)">\n            <td colspan="0" style="text-align: center">\n                {{obj.base.roster_label}}\n            </td>\n        </tr>\n        <tr data-ng-repeat="row in range(obj.base.roster_rows)" data-ng-if="obj.base.roster_rows > 0">\n            <td class="invisible">\n                X\n            </td>\n            <td data-ng-repeat="col in obj.base.cols"></td>\n        </tr>\n    </table>\n</div>')
+  $templateCache.put("partials/questions/show.html", '<div class="col-md-8">\n    <span data-ng-bind="obj.base.literal" class="a-literal"></span>\n    <span data-ng-bind="obj.base.instruction" class="a-instruction"></span>\n    <div data-ng-if="obj.base.rds" class="row a-response-domains">\n        <div data-ng-repeat="rd in obj.base.rds" data-ng-include="\'partials/response_domains/show.html\'" class="col-md-10"></div>\n    </div>\n    <div data-ng-if="obj.base.cols">\n        <table class="table a-question-grid">\n            <tr>\n                <th>\n                    {{obj.base.pretty_corner_label}}\n                </th>\n                <th data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                    {{col.label}}\n                </th>\n            </tr>\n            <tr class="a-response-domains">\n                <td></td>\n                <td data-ng-repeat="col in obj.base.cols | orderBy:\'order\'">\n                    <div data-ng-init="rd = col.rd" data-ng-include="\'partials/response_domains/show.html\'"></div>\n                </td>\n            </tr>\n            <tr data-ng-repeat="row in obj.base.rows | orderBy:\'order\'">\n                <td>\n                    {{row.label}}\n                </td>\n                <td data-ng-repeat="col in obj.base.cols"></td>\n            </tr>\n            <tr data-ng-if="obj.base.roster_rows > 0" style="background: rgba(0,0,0,0.15)">\n                <td colspan="0" style="text-align: center">\n                    {{obj.base.roster_label}}\n                </td>\n            </tr>\n            <tr data-ng-repeat="row in range(obj.base.roster_rows)" data-ng-if="obj.base.roster_rows > 0">\n                <td class="invisible">\n                    X\n                </td>\n                <td data-ng-repeat="col in obj.base.cols"></td>\n            </tr>\n        </table>\n    </div>\n</div>\n<div class="col-md-2" class="a-variables">\n    <ul>\n        <li\n                data-ng-repeat="variable in obj.variables"\n                data-uib-popover-template="\'partials/instruments/popover/variable.html\'"\n                data-popover-trigger="click"\n                data-popover-title="{{variable.var_type}}"\n                data-popover-placement="left"\n        >\n            {{variable.name}}\n        </li>\n    </ul>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -79945,6 +81573,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 // Angular Rails Template
+// source: app/assets/javascripts/templates/partials/topics/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/topics/index.html", '<notices></notices>\n\n<div class="panel panel-default">\n    <div class="panel-body">\n\n        <div>\n            <treecontrol class="tree-boot" tree-model="data">\n                ({{node.code}}) - {{node.name}}\n            </treecontrol>\n        </div>\n\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
 // source: app/assets/javascripts/templates/sign_up_in.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
@@ -79954,13 +81589,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 (function() {
   var archivist;
 
-  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'archivist.flash', 'archivist.instruments', 'archivist.build', 'archivist.summary', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
+  archivist = angular.module('archivist', ['templates', 'ngRoute', 'ui.sortable', 'googlechart', 'treeControl', 'archivist.flash', 'archivist.instruments', 'archivist.datasets', 'archivist.mapping', 'archivist.build', 'archivist.summary', 'archivist.topics', 'archivist.admin', 'archivist.realtime', 'archivist.users', 'archivist.data_manager']);
 
   archivist.config([
     '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
       $routeProvider.when('/', {
         templateUrl: 'index.html',
-        controller: 'RootController'
+        controller: 'HomeController'
       });
       return $locationProvider.html5Mode(true);
     }
@@ -79970,6 +81605,9 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
     '$scope', '$location', 'DataManager', 'User', function($scope, $location, DataManager, User) {
       $scope.softwareName = 'Archivist';
       $scope.softwareVersion = window.app_version;
+      if ($scope.page == null) {
+        $scope.page = {};
+      }
       $scope.page['title'] = 'Home';
       $scope.isActive = function(viewLocation) {
         return viewLocation === $location.path();
@@ -79982,6 +81620,148 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
         return $scope.user.sign_out()["finally"](function() {
           return DataManager.clearCache();
         });
+      };
+    }
+  ]);
+
+  archivist.controller('HomeController', [
+    '$scope', 'DataManager', function($scope, DataManager) {
+      $scope.chart_one = {};
+      $scope.chart_two = {};
+      $scope.chart_three = {};
+      $scope.chart_four = {};
+      $scope.chart_one.type = $scope.chart_two.type = $scope.chart_three.type = $scope.chart_four.type = "ColumnChart";
+      $scope.instruments = DataManager.getInstruments({}, function(res) {
+        var data, i, j, len, results, s;
+        $scope.chart_one.data = {
+          cols: [
+            {
+              id: "s",
+              label: "Study",
+              type: "string"
+            }, {
+              id: "i",
+              label: "Instruments",
+              type: "number"
+            }
+          ]
+        };
+        $scope.chart_three.data = {
+          cols: [
+            {
+              id: "s",
+              label: "Study",
+              type: "string"
+            }, {
+              id: "s",
+              label: "Avg. Constructs Per Instrument",
+              type: "number"
+            }
+          ]
+        };
+        $scope.chart_one.data['rows'] = [];
+        $scope.chart_three.data['rows'] = [];
+        data = {};
+        for (j = 0, len = res.length; j < len; j++) {
+          i = res[j];
+          if (i.study in data) {
+            data[i.study]['instruments'] += 1;
+            data[i.study]['ccs'] += i.ccs;
+          } else {
+            data[i.study] = {
+              'instruments': 1,
+              'ccs': i.ccs
+            };
+          }
+        }
+        results = [];
+        for (s in data) {
+          $scope.chart_one.data['rows'].push({
+            c: [
+              {
+                v: s
+              }, {
+                v: data[s]['instruments']
+              }
+            ]
+          });
+          results.push($scope.chart_three.data['rows'].push({
+            c: [
+              {
+                v: s
+              }, {
+                v: data[s]['ccs'] / data[s]['instruments']
+              }
+            ]
+          }));
+        }
+        return results;
+      });
+      $scope.datasets = DataManager.getDatasets();
+      $scope.chart_two.data = {
+        "cols": [
+          {
+            id: "s",
+            label: "Study",
+            type: "string"
+          }, {
+            id: "s",
+            label: "Constructs",
+            type: "number"
+          }
+        ],
+        "rows": [
+          {
+            c: [
+              {
+                v: "Mushrooms"
+              }, {
+                v: 3
+              }
+            ]
+          }, {
+            c: [
+              {
+                v: "Onions"
+              }, {
+                v: 3
+              }
+            ]
+          }, {
+            c: [
+              {
+                v: "Olives"
+              }, {
+                v: 31
+              }
+            ]
+          }, {
+            c: [
+              {
+                v: "Zucchini"
+              }, {
+                v: 1
+              }
+            ]
+          }, {
+            c: [
+              {
+                v: "Pepperoni"
+              }, {
+                v: 2
+              }
+            ]
+          }
+        ]
+      };
+      console.log($scope);
+      $scope.chart_one.options = {
+        'title': 'Instruments',
+        'legend': false
+      };
+      return $scope.chart_two.options = {
+        'title': 'Avg. Constructs per Instrument',
+        'legend': false
       };
     }
   ]);
