@@ -9,3 +9,4 @@ json.fchildren @object.children.where(branch: 1) do |child|
   json.type child.construct.class.name
 end
 json.parent @object.parent.id
+json.topic @object.topic

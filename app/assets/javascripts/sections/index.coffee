@@ -2,3 +2,5 @@
 #= require ./authentication
 #= require ./datasets
 #= require ./instruments
+#= require ./mapping
+#= require ./topics

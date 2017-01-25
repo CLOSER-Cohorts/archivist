@@ -8,3 +8,4 @@ json.top @object.parent.nil?
 unless @object.parent.nil?
   json.parent @object.parent.id
 end
+json.topic @object.topic
