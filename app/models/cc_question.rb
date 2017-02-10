@@ -1,6 +1,7 @@
 class CcQuestion < ApplicationRecord
   include Construct::Model
   include Linkable
+  include Mappable
   belongs_to :question, polymorphic: true
   belongs_to :response_unit
   has_many :maps, as: :source
