@@ -87,7 +87,9 @@ class InstrumentsController < BasicController
   def copy
     new_details = params.select {
         |k, v| %w(new_label new_agency new_version new_study).include? k.to_s
-    }
+    }.map {
+      |k, v| [k.gsub('new_',''), v]
+    }.to_h
     new_prefix = params['new_prefix']
 
     begin
