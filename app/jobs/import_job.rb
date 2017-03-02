@@ -23,6 +23,7 @@ module ImportJob
 end
 
 class ImportJob::Instrument < ImportJob::Basic
+  @queue = :in_and_out
   @importer_klass = Importers::XML::DDI::Instrument
 end
 
