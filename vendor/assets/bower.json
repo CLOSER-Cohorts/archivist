@@ -1,5 +1,5 @@
 {
-  "name": "dsl-generated dependencies",
+  "name": "dsl-generated-dependencies",
   "dependencies": {
     "angular": "1.4.10",
     "angular-route": "1.4.10",
