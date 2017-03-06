@@ -177,6 +177,14 @@ admin.controller('AdminInstrumentsController',
           (response)->
             Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
+
+      $scope.showFileNames = ->
+        console.log 'inside showFileNames'
+        console.log $scope.mappingFiles
+
+      $scope.cleanInputImport = ->
+        console.log "cleaning"
+        $scope.mappingFiles = []
   ])
 
 admin.controller('AdminImportController',

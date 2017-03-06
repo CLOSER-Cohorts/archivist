@@ -15,22 +15,38 @@
                       <label for="import-instrument">
                           File inputs
                       </label>
-                      <div class="row">
-                        <div class="col-md-6 col-lg-6 import-mapping-margin-top">
-                          <input id="mapping-file" ng-model="mapping.file" base-sixty-four-input type="file" accept="text/plain" multiple required/>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                          <select class="form-control" name="" required>
-                            <option value="" disabled selected hidden>Type</option>
-                            <option value="">Q-V Mapping</option>
-                            <option value="">T-Q Mapping</option>
-                          </select>
-                        </div>
-                      </div>
+                      <input id="mapping-file" ng-model="mappingFiles" base-sixty-four-input type="file" accept="text/plain" multiple required onload="showFileNames()"/>
                       <p class="help-block import-mapping-margin-top">You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted.</p>
                   </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                  <div ng-show="mappingFiles">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                        <label for="import-instrument">
+                            File name
+                        </label>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <label for="import-instrument">
+                            Type
+                        </label>
+                      </div>
+                    </div>
+                    <div class="row import-mapping-margin-top" ng-repeat="file in mappingFiles">
+                      <div class="col-md-6 col-lg-6 import-mapping-margin-top">
+                        <p>{{file.filename}}</p>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <select class="form-control import-mapping-width-auto" name="importType" required>
+                          <option value="Qvmapping">Q-V Mapping</option>
+                          <option value="topicQ">T-Q Mapping</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer import-mapping-margin-top">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cleanInputImport()">Cancel</button>
                       <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid">Import</button>
                   </div>
                 </form>
