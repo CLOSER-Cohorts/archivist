@@ -10,17 +10,17 @@
                 <h4 class="modal-title" id="delete-instrument-title">Import Mappings</h4>
             </div>
             <div class="modal-body">
-                <form novalidate>
+                <form name="importMappingForm">
                   <div class="form-group">
                       <label for="import-instrument">
                           File inputs
                       </label>
                       <div class="row">
                         <div class="col-md-6 col-lg-6 import-mapping-margin-top">
-                          <input id="mapping-file" ng-model="mapping.file" base-sixty-four-input type="file" multiple/>
+                          <input id="mapping-file" ng-model="mapping.file" base-sixty-four-input type="file" accept="text/plain" multiple required/>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                          <select class="form-control" name="">
+                          <select class="form-control" name="" required>
                             <option value="" disabled selected hidden>Type</option>
                             <option value="">Q-V Mapping</option>
                             <option value="">T-Q Mapping</option>
@@ -29,12 +29,13 @@
                       </div>
                       <p class="help-block import-mapping-margin-top">You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted.</p>
                   </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid">Import</button>
+                  </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="delete()">Import</button>
-            </div>
+
         </div>
     </div>
 </div>
