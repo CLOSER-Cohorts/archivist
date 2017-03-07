@@ -231,7 +231,13 @@ admin.controller('AdminDatasetsController',[
   ($scope, DataManager, Flash, $http)->
     $scope.datasets = DataManager.getDatasets()
     $scope.pageSize = 20
-    console.log $scope
+
+    $scope.prepareImport = (name)->
+      $scope.modal={}
+      $scope.modal.title = name
+      $scope.modal.msgFileType = "T-V and DV"
+      $scope.modal.fileTypes = [{value:'topicv', label:'T-V Mapping'},
+                                {value:'dv', label:'DV Mapping'}]
   ])
 
 admin.controller('AdminImportController',
