@@ -126,10 +126,12 @@ admin.controller('AdminInstrumentsController',
     '$scope',
     'DataManager',
     'Flash',
-    ($scope, DataManager, Flash)->
+    '$http',
+    ($scope, DataManager, Flash, $http)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
+      $scope.mapping = {}
 
       $scope.prepareCopy = (id)->
         $scope.original = $scope.instruments.select_resource_by_id(id)
@@ -145,7 +147,6 @@ admin.controller('AdminInstrumentsController',
         ,
           (response)->
             Flash.add 'danger', 'Instrument failed to copy - ' + response.message
-
 
       $scope.prepareDelete = (id)->
         $scope.instrument = $scope.instruments.select_resource_by_id(id)
@@ -178,13 +179,37 @@ admin.controller('AdminInstrumentsController',
             Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
 
-      $scope.showFileNames = ->
-        console.log 'inside showFileNames'
-        console.log $scope.mappingFiles
-
       $scope.cleanInputImport = ->
-        console.log "cleaning"
-        $scope.mappingFiles = []
+        if $scope.mapping.files
+          $scope.mapping.files = undefined
+
+      $scope.prepareImport = ->
+        i = 0
+        params = {}
+        params.imports=[]
+        while i < $scope.mapping.files.length
+          data = {file:$scope.mapping.files[i].base64, type:$scope.mapping.type[i]}
+          params.imports.push(data)
+          i++
+        DoImportPost(params)
+
+      DoImportPost = (params) ->
+        console.log 'inside DoImportPost'
+        console.log params
+        $http {
+          method: 'POST'
+          url: '/instruments/'+$scope.instrument.id+'/imports.json'
+          data: JSON.stringify params
+        }
+        .success ->
+          Flash.add 'success', 'File imported.'
+          console.log 'success'
+          $scope.mapping.files = undefined
+          $scope.mapping.type = undefined
+        .error (res)->
+          Flash.add 'danger', 'Something went wrong. Please do the import again.'
+          console.log 'error'
+          console.log res.message
   ])
 
 admin.controller('AdminImportController',
