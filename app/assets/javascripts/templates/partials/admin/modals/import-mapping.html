@@ -7,7 +7,7 @@
                         &times;
                     </span>
                 </button>
-                <h4 class="modal-title" id="delete-instrument-title">Import Mappings - {{instrument.prefix}}</h4>
+                <h4 class="modal-title" id="delete-instrument-title">Import Mappings - {{modal.title}}</h4>
             </div>
             <div class="modal-body">
                 <form name="importMappingForm">
@@ -16,7 +16,7 @@
                           File inputs
                       </label>
                       <input ng-model="mapping.files" base-sixty-four-input type="file" accept="text/plain" multiple required/>
-                      <p class="help-block import-mapping-margin-top">You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted.</p>
+                      <p class="help-block import-mapping-margin-top">You can import multiple {{modal.msgFileType}} mapping files. Only TXT files are accepted.</p>
                   </div>
 
                   <div ng-show="mapping.files">
@@ -38,8 +38,8 @@
                       </div>
                       <div class="col-md-6 col-lg-6">
                         <select class="form-control import-mapping-width-auto" ng-model='mapping.type[$index]' name="importType" required>
-                          <option value="qvmapping">Q-V Mapping</option>
-                          <option value="topicq">T-Q Mapping</option>
+                          <option value="{{modal.fileTypes[0].value}}">{{modal.fileTypes[0].label}}</option>
+                          <option value="{{modal.fileTypes[1].value}}">{{modal.fileTypes[0].label}}</option>
                         </select>
                       </div>
                     </div>
@@ -47,7 +47,7 @@
 
                   <div class="modal-footer import-mapping-margin-top">
                       <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cleanInputImport()">Cancel</button>
-                      <button id="submit-import" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid" ng-click="prepareImport()">Import</button>
+                      <button id="submit-import" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid" ng-click="import()">Import</button>
                   </div>
                 </form>
             </div>

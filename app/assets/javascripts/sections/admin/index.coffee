@@ -187,7 +187,14 @@ admin.controller('AdminInstrumentsController',
         if $scope.mapping.files
           $scope.mapping.files = undefined
 
-      $scope.prepareImport = ->
+      $scope.prepareImport = (prefix)->
+        $scope.modal={}
+        $scope.modal.title = prefix
+        $scope.modal.msgFileType = "Q-V and T-Q"
+        $scope.modal.fileTypes = [{value:'qvmapping', label:'Q-V Mapping'},
+                                  {value:'topicq', label:'T-Q Mapping'}]
+
+      $scope.import = ->
         i = 0
         params = {}
         params.imports=[]
