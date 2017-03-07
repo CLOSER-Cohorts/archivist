@@ -222,6 +222,9 @@ admin.controller('AdminDatasetsController',[
   'Flash',
   '$http',
   ($scope, DataManager, Flash, $http)->
+    $scope.datasets = DataManager.getDatasets()
+    $scope.pageSize = 20
+    console.log $scope
   ])
 
 admin.controller('AdminImportController',
