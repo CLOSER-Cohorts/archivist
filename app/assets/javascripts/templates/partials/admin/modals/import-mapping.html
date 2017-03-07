@@ -7,7 +7,7 @@
                         &times;
                     </span>
                 </button>
-                <h4 class="modal-title" id="delete-instrument-title">Import Mappings</h4>
+                <h4 class="modal-title" id="delete-instrument-title">Import Mappings - {{instrument.prefix}}</h4>
             </div>
             <div class="modal-body">
                 <form name="importMappingForm">
@@ -15,11 +15,11 @@
                       <label for="import-instrument">
                           File inputs
                       </label>
-                      <input id="mapping-file" ng-model="mappingFiles" base-sixty-four-input type="file" accept="text/plain" multiple required onload="showFileNames()"/>
+                      <input ng-model="mapping.files" base-sixty-four-input type="file" accept="text/plain" multiple required/>
                       <p class="help-block import-mapping-margin-top">You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted.</p>
                   </div>
 
-                  <div ng-show="mappingFiles">
+                  <div ng-show="mapping.files">
                     <div class="row">
                       <div class="col-md-6 col-lg-6">
                         <label for="import-instrument">
@@ -32,14 +32,14 @@
                         </label>
                       </div>
                     </div>
-                    <div class="row import-mapping-margin-top" ng-repeat="file in mappingFiles">
+                    <div class="row import-mapping-margin-top" ng-repeat="file in mapping.files">
                       <div class="col-md-6 col-lg-6 import-mapping-margin-top">
                         <p>{{file.filename}}</p>
                       </div>
                       <div class="col-md-6 col-lg-6">
-                        <select class="form-control import-mapping-width-auto" name="importType" required>
-                          <option value="Qvmapping">Q-V Mapping</option>
-                          <option value="topicQ">T-Q Mapping</option>
+                        <select class="form-control import-mapping-width-auto" ng-model='mapping.type[$index]' name="importType" required>
+                          <option value="qvmapping">Q-V Mapping</option>
+                          <option value="topicq">T-Q Mapping</option>
                         </select>
                       </div>
                     </div>
@@ -47,7 +47,7 @@
 
                   <div class="modal-footer import-mapping-margin-top">
                       <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cleanInputImport()">Cancel</button>
-                      <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid">Import</button>
+                      <button id="submit-import" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid" ng-click="prepareImport()">Import</button>
                   </div>
                 </form>
             </div>
