@@ -26,10 +26,10 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
       )
-      .when('/instruments/:id/import',
-        templateUrl: 'partials/instruments/import.html'
-        controller: 'InstrumentsController'
-      )
+      # .when('/instruments/:id/import',
+      #   templateUrl: 'partials/instruments/import.html'
+      #   controller: 'InstrumentsController'
+      # )
 ])
 
 instruments.controller('InstrumentsController',
@@ -115,7 +115,7 @@ instruments.controller('InstrumentsController',
             console.log("error")
         )
 
-      DoImportPost = (params) ->
+      # DoImportPost = (params) ->
         console.log 'inside DoImportPost'
         console.log params
         # debugger
@@ -131,7 +131,7 @@ instruments.controller('InstrumentsController',
           console.log 'error'
           console.log res.message
 
-      PushToArray = (fileType, files, array) ->
+      # PushToArray = (fileType, files, array) ->
         count = 0
         while count < files.length
           array.push
@@ -140,7 +140,7 @@ instruments.controller('InstrumentsController',
           count++
         array
 
-      $scope.importInstrument = ()->
+      # $scope.importInstrument = ()->
         $scope.publish_flash()
 
         params = {}
