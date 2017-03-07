@@ -16,6 +16,10 @@ admin.config(['$routeProvider',
       templateUrl: 'partials/admin/instruments.html'
       controller: 'AdminInstrumentsController'
     )
+    .when('/admin/datasets',
+      templateUrl: 'partials/admin/datasets.html'
+      controller: 'AdminDatasetsController'
+    )
     .when('/admin/users',
       templateUrl: 'partials/admin/users.html'
       controller: 'AdminUsersController'
@@ -210,6 +214,14 @@ admin.controller('AdminInstrumentsController',
           Flash.add 'danger', 'Something went wrong. Please do the import again.'
           console.log 'error'
           console.log res.message
+  ])
+
+admin.controller('AdminDatasetsController',[
+  '$scope',
+  'DataManager',
+  'Flash',
+  '$http',
+  ($scope, DataManager, Flash, $http)->
   ])
 
 admin.controller('AdminImportController',
