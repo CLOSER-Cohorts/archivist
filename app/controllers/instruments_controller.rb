@@ -3,7 +3,7 @@ class InstrumentsController < BasicController
   include Exporters
 
   has_importers({
-                    mapping: ImportJob::Mapping,
+                    qvmapping: ImportJob::Mapping,
                     topicq: ImportJob::TopicQ,
                     topicv: ImportJob::TopicV,
                     dv: ImportJob::DV,
@@ -94,7 +94,7 @@ class InstrumentsController < BasicController
   def member_imports
     imports = params[:imports].nil? ? [] : params[:imports]
     head :ok, format: :json if imports.empty?
-    # 
+    #
     # binding.pry
     # 1
     begin
