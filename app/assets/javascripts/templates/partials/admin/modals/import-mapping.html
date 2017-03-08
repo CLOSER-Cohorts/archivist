@@ -47,7 +47,7 @@
 
                   <div class="modal-footer import-mapping-margin-top">
                       <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cleanInputImport()">Cancel</button>
-                      <button id="submit-import" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid" ng-click="import()">Import</button>
+                      <button id="submit-import" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="importMappingForm.$invalid" ng-click="import(instrument.id)">Import</button>
                   </div>
                 </form>
             </div>
