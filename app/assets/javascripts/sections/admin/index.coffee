@@ -131,7 +131,8 @@ admin.controller('AdminInstrumentsController',
     'DataManager',
     'Flash',
     '$http',
-    ($scope, DataManager, Flash, $http)->
+    'AdminMappingImportsFactory',
+    ($scope, DataManager, Flash, $http, AdminMappingImportsFactory)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
@@ -187,40 +188,23 @@ admin.controller('AdminInstrumentsController',
         if $scope.mapping.files
           $scope.mapping.files = undefined
 
-      $scope.prepareImport = (prefix)->
+      $scope.prepareImport = (prefix,id)->
+        $scope.id = id
         $scope.modal={}
         $scope.modal.title = prefix
         $scope.modal.msgFileType = "Q-V and T-Q"
         $scope.modal.fileTypes = [{value:'qvmapping', label:'Q-V Mapping'},
                                   {value:'topicq', label:'T-Q Mapping'}]
 
-      $scope.import = ->
-        i = 0
-        params = {}
-        params.imports=[]
-        while i < $scope.mapping.files.length
-          data = {file:$scope.mapping.files[i].base64, type:$scope.mapping.type[i]}
-          params.imports.push(data)
-          i++
-        DoImportPost(params)
+      $scope.import = (id) ->
+        AdminMappingImportsFactory.import($scope.mapping.files, $scope.mapping.type, 'POST', '/instruments/' + $scope.id + '/imports.json').then ((response) ->
+          if response.status == 200
+            Flash.add 'success', 'File imported.'
+          else
+            Flash.add 'danger', 'Something went wrong, please import the file again.'
+        ), (error) ->
+          Flash.add 'danger', 'Something went wrong, please import the file again.'
 
-      DoImportPost = (params) ->
-        console.log 'inside DoImportPost'
-        console.log params
-        $http {
-          method: 'POST'
-          url: '/instruments/'+$scope.instrument.id+'/imports.json'
-          data: JSON.stringify params
-        }
-        .success ->
-          Flash.add 'success', 'File imported.'
-          console.log 'success'
-          $scope.mapping.files = undefined
-          $scope.mapping.type = undefined
-        .error (res)->
-          Flash.add 'danger', 'Something went wrong. Please do the import again.'
-          console.log 'error'
-          console.log res.message
   ])
 
 admin.controller('AdminDatasetsController',[
@@ -228,16 +212,29 @@ admin.controller('AdminDatasetsController',[
   'DataManager',
   'Flash',
   '$http',
-  ($scope, DataManager, Flash, $http)->
+  'AdminMappingImportsFactory',
+  ($scope, DataManager, Flash, $http,AdminMappingImportsFactory)->
     $scope.datasets = DataManager.getDatasets()
     $scope.pageSize = 20
+    $scope.mapping = {}
 
-    $scope.prepareImport = (name)->
+    $scope.prepareImport = (name,id)->
+      $scope.id = id
       $scope.modal={}
       $scope.modal.title = name
       $scope.modal.msgFileType = "T-V and DV"
       $scope.modal.fileTypes = [{value:'topicv', label:'T-V Mapping'},
                                 {value:'dv', label:'DV Mapping'}]
+
+    $scope.import = (id) ->
+      AdminMappingImportsFactory.import($scope.mapping.files, $scope.mapping.type, 'POST', '/datasets/' + $scope.id + '/imports.json').then ((response) ->
+        if response.status == 200
+          Flash.add 'success', 'File imported.'
+        else
+          Flash.add 'danger', 'Something went wrong, please import the file again.'
+      ), (error) ->
+        console.log error
+        Flash.add 'danger', 'Something went wrong, please import the file again.'
   ])
 
 admin.controller('AdminImportController',
@@ -301,4 +298,37 @@ admin.controller('AdminExportController',
 
       $scope.export = (instrument)->
         $http.get '/instruments/' + instrument.id.toString() + '/export.json'
+  ])
+
+admin.factory('AdminMappingImportsFactory',['$http','$q',($http,$q)->
+
+  MappingImports = {}
+
+  MappingImports.import = (files,filetype,method,url) ->
+    i = 0
+    params = {}
+    params.imports=[]
+
+    while i < files.length
+      data = {file:files[i].base64, type:filetype[i]}
+      params.imports.push(data)
+      i++
+
+    $http {
+      method: method
+      url: url
+      data: JSON.stringify params
+    }
+    .then ((res) ->
+      console.log 'imported'
+      console.log res
+      res
+    ), (res)->
+      console.log res
+      $q.reject(res)
+
+
+
+  MappingImports
+
   ])
