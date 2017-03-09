@@ -41,7 +41,7 @@ end
 desc 'Loads a mapping.txt'
 task :load_mapping => :environment do
   Dir.chdir ENV['LOAD_PATH']
-  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+  files = Dir.entries(".").reject { |x| x[0,1] == '.' }
 
   files.each do |file|
 
@@ -59,8 +59,8 @@ end
 
 desc 'Loads a dv.txt'
 task :load_dv => :environment do
-  Dir.chdir 'M:/build/dvlinking'
-  files = Dir.entries(".").reject { |x| x[0,1] == "." }
+  Dir.chdir ENV['LOAD_PATH']
+  files = Dir.entries('.').reject { |x| x[0,1] == '.' }
 
   files.each do |file|
 
@@ -68,7 +68,45 @@ task :load_dv => :environment do
       prefix = file.split('.')[0]
       d = Dataset.find_by_filename prefix + '.ddi32.rp.xml'
       unless d.nil?
-        im = TXT::Mapper::DV::Importer.new(file, d)
+        im = Importers::TXT::Mapper::DV.new(file, d)
+        im.import
+      end
+    end
+
+  end
+end
+
+desc 'Loads a topic-q.txt'
+task :load_topicq => :environment do
+  Dir.chdir ENV['LOAD_PATH']
+  files = Dir.entries('.').reject { |x| x[0, 1] == '.' }
+
+  files.each do |file|
+
+    if File.exist? file
+      prefix = file.split('.')[0]
+      i = Instrument.find_by_prefix prefix
+      unless i.nil?
+        im = Importers::TXT::Mapper::TopicQ.new(file, i)
+        im.import
+      end
+    end
+
+  end
+end
+
+desc 'Loads a topic-v.txt'
+task :load_topicv => :environment do
+  Dir.chdir ENV['LOAD_PATH']
+  files = Dir.entries('.').reject { |x| x[0, 1] == '.' }
+
+  files.each do |file|
+
+    if File.exist? file
+      prefix = file.split('.')[0]
+      d = Dataset.find_by_filename prefix + '.ddi32.rp.xml'
+      unless d.nil?
+        im = Importers::TXT::Mapper::TopicV.new(file, d)
         im.import
       end
     end

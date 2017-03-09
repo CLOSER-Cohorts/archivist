@@ -13,6 +13,7 @@ class Importers::TXT::Mapper::TopicQ
     @doc.each do |q, t|
       qc = @instrument.cc_questions.find_by_label q
       topic = Topic.find_by_code t
+      byebug
       unless qc.nil? or topic.nil?
         qc.topic = topic
         qc.save!
