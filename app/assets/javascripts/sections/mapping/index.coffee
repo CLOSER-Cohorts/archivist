@@ -3,7 +3,8 @@
 mapping = angular.module('archivist.mapping', [
   'ngRoute',
   'archivist.flash',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'ngTagsInput'
 ])
 
 mapping.config([ '$routeProvider',
@@ -36,6 +37,14 @@ mapping.controller(
           DataManager.resolveConstructs()
           DataManager.resolveQuestions()
       )
+
+      $scope.tags = []
+
+      $scope.fakeData = [{id:1,cod:123},
+                        {id:2,cod:223},
+                        {id:3,cod:323},
+                        {id:4,cod:423},
+                        {id:5,cod:523}]
   ]
 )
 
