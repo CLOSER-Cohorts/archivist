@@ -14,7 +14,10 @@
         </span>
 
         <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'">
-            <input type="text" class="form-control" placeholder="Add variable..." />
+            <!-- <input type="text" class="form-control" placeholder="Add variable..." /> -->
+            <tags-input ng-model="tags" key-property="id" display-property="cod">
+                <auto-complete source="fakeData" ></auto-complete>
+            </tags-input>
         </div>
         <div
                 class="col-md-6 tq-mapping"
