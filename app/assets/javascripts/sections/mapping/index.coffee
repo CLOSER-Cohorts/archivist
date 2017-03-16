@@ -21,10 +21,12 @@ mapping.controller(
     '$scope',
     '$routeParams',
     'DataManager',
+    '$timeout'
     (
       $scope,
-      $routeParams
-      DataManager
+      $routeParams,
+      DataManager,
+      $timeout
     )->
       $scope.instrument = DataManager.getInstrument(
         $routeParams.id,
@@ -37,7 +39,30 @@ mapping.controller(
           DataManager.resolveQuestions()
       )
 
-      $scope.tags = []
+      $scope.tags = {}
+      $scope.variable={}
+
+      $scope.addVariable = (item, question_id)->
+        $scope.tags[question_id] = $scope.tags[question_id] || []
+        $scope.tags[question_id] = pushVariable($scope.tags[question_id],item,question_id)
+
+      $scope.deleteVariable = (question_id,idx)->
+        $scope.tags[question_id].splice idx,1
+
+      $scope.detectKey = (event,question_id)->
+        key = event.which || event.keyCode;
+        if key == 44 || key == 13 || key ==32
+          temp = {id:$scope.variable.added[question_id],cod:$scope.variable.added[question_id]}
+          $scope.tags[question_id] = $scope.tags[question_id] || []
+          $scope.tags[question_id] = pushVariable($scope.tags[question_id],temp,question_id) || []
+
+      pushVariable = (array,item,question_id)->
+        console.log array
+        index = array.map((x) -> x.id).indexOf item.id
+        if index == -1
+          array.push item
+        $scope.variable.added[question_id] = null
+        array
 
       $scope.fakeData = [{id:1,cod:123},
                         {id:2,cod:223},
