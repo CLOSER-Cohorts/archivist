@@ -4,7 +4,6 @@ mapping = angular.module('archivist.mapping', [
   'ngRoute',
   'archivist.flash',
   'archivist.data_manager',
-  'ngTagsInput'
 ])
 
 mapping.config([ '$routeProvider',
