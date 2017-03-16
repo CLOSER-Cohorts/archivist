@@ -13,11 +13,14 @@
             {{obj.base.literal}}
         </span>
 
-        <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'">
-            <!-- <input type="text" class="form-control" placeholder="Add variable..." /> -->
-            <tags-input ng-model="tags" key-property="id" display-property="cod">
-                <auto-complete source="fakeData" ></auto-complete>
-            </tags-input>
+        <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'" ng-init="question_id=obj.question_id">
+            <div ng-repeat="tag in tags[question_id] track by $index" class="btn btn-primary tag-variable">
+              <p class="display-inline">{{tag.cod}}</p>
+              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="deleteVariable(question_id,$index)"></span>
+            </div>
+            <input type="text" ng-model="variable.added[question_id]" placeholder="Add a variable" uib-typeahead="data as data.cod for data in fakeData | filter:{cod:$viewValue}"
+                  class="form-control input-variable" typeahead-on-select="addVariable($item, obj.question_id,$index)"
+                  ng-keypress="detectKey($event,question_id,$index)">
         </div>
         <div
                 class="col-md-6 tq-mapping"
