@@ -49,12 +49,12 @@ mapping.controller(
       $scope.deleteVariable = (question_id,idx)->
         $scope.tags[question_id].splice idx,1
 
-      $scope.detectKey = (event,question_id)->
-        key = event.which || event.keyCode;
-        if key == 44 || key == 13 || key ==32
-          temp = {id:$scope.variable.added[question_id],cod:$scope.variable.added[question_id]}
-          $scope.tags[question_id] = $scope.tags[question_id] || []
-          $scope.tags[question_id] = pushVariable($scope.tags[question_id],temp,question_id) || []
+      # $scope.detectKey = (event,question_id)->
+      #   key = event.which || event.keyCode;
+      #   if key == 44 || key == 13 || key ==32
+      #     temp = {id:$scope.variable.added[question_id],cod:$scope.variable.added[question_id]}
+      #     $scope.tags[question_id] = $scope.tags[question_id] || []
+      #     $scope.tags[question_id] = pushVariable($scope.tags[question_id],temp,question_id) || []
 
       pushVariable = (array,item,question_id)->
         console.log array
@@ -69,6 +69,8 @@ mapping.controller(
                         {id:3,cod:323},
                         {id:4,cod:423},
                         {id:5,cod:523}]
+
+
   ]
 )
 
