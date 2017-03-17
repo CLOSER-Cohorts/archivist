@@ -128,6 +128,10 @@ class Instrument < ApplicationRecord
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
+  def variables
+    Variable.where(dataset_id: self.datasets.map(&:id))
+  end
+
   def destroy
     self.class.reflections.keys.each do |r|
       next if ['datasets'].include? r

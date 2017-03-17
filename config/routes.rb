@@ -41,7 +41,13 @@ Rails.application.routes.draw do
   resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
     resources :cc_sequences
     resources :cc_statements
-    resources :cc_questions
+    resources :cc_questions do
+      member do
+        get 'variables', to: 'cc_questions#variables'
+        post 'add_variables', to: 'cc_questions#add_variables'
+        post 'remove_variable', to: 'cc_questions#remove_variable'
+      end
+    end
     resources :cc_loops
     resources :cc_conditions
     resources :response_units
@@ -62,6 +68,7 @@ Rails.application.routes.draw do
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]
+      get 'variables', to: 'instruments#variables'
     end
   end
 
