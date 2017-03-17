@@ -21,7 +21,7 @@ class QuestionGrid < ApplicationRecord
   end
 
   def max_y
-    vertical_code_list.codes.count
+    vertical_code_list&.codes&.count.to_i + roster_rows.to_i
   end
 
   def response_domains
