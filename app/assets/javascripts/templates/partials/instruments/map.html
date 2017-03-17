@@ -19,8 +19,9 @@
               <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="deleteVariable(question_id,$index)"></span>
             </div>
             <input type="text" ng-model="variable.added[question_id]" placeholder="Add a variable" uib-typeahead="data as data.cod for data in fakeData | filter:{cod:$viewValue}"
-                  class="form-control input-variable" typeahead-on-select="addVariable($item, obj.question_id,$index)"
-                  ng-keypress="detectKey($event,question_id,$index)">
+                  class="form-control input-variable" typeahead-on-select="addVariable($item, obj.question_id,$index)" typehead-editable="true"
+                  uib-tooltip="You can only add existent variables" tooltip-placement="top-right" 
+                  >
         </div>
         <div
                 class="col-md-6 tq-mapping"
