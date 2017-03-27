@@ -1,11 +1,17 @@
 one:
   id: 1
   name: DatasetOne
+  created_at: <%= Time.now.utc %>
+  updated_at: <%= Time.now.utc %>
 
 two:
   id: 2
   name: DatasetTwo
+  created_at: <%= Time.now.utc %>
+  updated_at: <%= Time.now.utc %>
 
 three:
   id: 3
   name: DatasetThree
+  created_at: <%= Time.now.utc %>
+  updated_at: <%= Time.now.utc %>

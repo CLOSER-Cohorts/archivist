@@ -16,6 +16,10 @@ admin.config(['$routeProvider',
       templateUrl: 'partials/admin/instruments.html'
       controller: 'AdminInstrumentsController'
     )
+    .when('/admin/datasets',
+      templateUrl: 'partials/admin/datasets.html'
+      controller: 'AdminDatasetsController'
+    )
     .when('/admin/users',
       templateUrl: 'partials/admin/users.html'
       controller: 'AdminUsersController'
@@ -126,10 +130,13 @@ admin.controller('AdminInstrumentsController',
     '$scope',
     'DataManager',
     'Flash',
-    ($scope, DataManager, Flash)->
+    '$http',
+    'AdminMappingImportsFactory',
+    ($scope, DataManager, Flash, $http, AdminMappingImportsFactory)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
       $scope.confirmation = {prefix: ''}
+      $scope.mapping = {}
 
       $scope.prepareCopy = (id)->
         $scope.original = $scope.instruments.select_resource_by_id(id)
@@ -145,7 +152,6 @@ admin.controller('AdminInstrumentsController',
         ,
           (response)->
             Flash.add 'danger', 'Instrument failed to copy - ' + response.message
-
 
       $scope.prepareDelete = (id)->
         $scope.instrument = $scope.instruments.select_resource_by_id(id)
@@ -177,6 +183,58 @@ admin.controller('AdminInstrumentsController',
           (response)->
             Flash.add 'danger', 'Failed to create new instrument - ' + response.message
         $scope.instruments.push $scope.newInstrument
+
+      $scope.cleanInputImport = ->
+        if $scope.mapping.files
+          $scope.mapping.files = undefined
+
+      $scope.prepareImport = (prefix,id)->
+        $scope.id = id
+        $scope.modal={}
+        $scope.modal.title = prefix
+        $scope.modal.msgFileType = "Q-V and T-Q"
+        $scope.modal.fileTypes = [{value:'qvmapping', label:'Q-V Mapping'},
+                                  {value:'topicq', label:'T-Q Mapping'}]
+
+      $scope.import = (id) ->
+        AdminMappingImportsFactory.import($scope.mapping.files, $scope.mapping.type, 'POST', '/instruments/' + $scope.id + '/imports.json').then ((response) ->
+          if response.status == 200
+            Flash.add 'success', 'File imported.'
+          else
+            Flash.add 'danger', 'Something went wrong, please import the file again.'
+        ), (error) ->
+          Flash.add 'danger', 'Something went wrong, please import the file again.'
+
+  ])
+
+admin.controller('AdminDatasetsController',[
+  '$scope',
+  'DataManager',
+  'Flash',
+  '$http',
+  'AdminMappingImportsFactory',
+  ($scope, DataManager, Flash, $http,AdminMappingImportsFactory)->
+    $scope.datasets = DataManager.getDatasets()
+    $scope.pageSize = 20
+    $scope.mapping = {}
+
+    $scope.prepareImport = (name,id)->
+      $scope.id = id
+      $scope.modal={}
+      $scope.modal.title = name
+      $scope.modal.msgFileType = "T-V and DV"
+      $scope.modal.fileTypes = [{value:'topicv', label:'T-V Mapping'},
+                                {value:'dv', label:'DV Mapping'}]
+
+    $scope.import = (id) ->
+      AdminMappingImportsFactory.import($scope.mapping.files, $scope.mapping.type, 'POST', '/datasets/' + $scope.id + '/imports.json').then ((response) ->
+        if response.status == 200
+          Flash.add 'success', 'File imported.'
+        else
+          Flash.add 'danger', 'Something went wrong, please import the file again.'
+      ), (error) ->
+        console.log error
+        Flash.add 'danger', 'Something went wrong, please import the file again.'
   ])
 
 admin.controller('AdminImportController',
@@ -240,4 +298,37 @@ admin.controller('AdminExportController',
 
       $scope.export = (instrument)->
         $http.get '/instruments/' + instrument.id.toString() + '/export.json'
+  ])
+
+admin.factory('AdminMappingImportsFactory',['$http','$q',($http,$q)->
+
+  MappingImports = {}
+
+  MappingImports.import = (files,filetype,method,url) ->
+    i = 0
+    params = {}
+    params.imports=[]
+
+    while i < files.length
+      data = {file:files[i].base64, type:filetype[i]}
+      params.imports.push(data)
+      i++
+
+    $http {
+      method: method
+      url: url
+      data: JSON.stringify params
+    }
+    .then ((res) ->
+      console.log 'imported'
+      console.log res
+      res
+    ), (res)->
+      console.log res
+      $q.reject(res)
+
+
+
+  MappingImports
+
   ])

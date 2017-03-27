@@ -1,5 +1,5 @@
 {
-  "name": "dsl-generated dependencies",
+  "name": "dsl-generated-dependencies",
   "dependencies": {
     "angular": "1.4.10",
     "angular-route": "1.4.10",
@@ -12,6 +12,7 @@
     "jquery-ui": "latest",
     "socket.io-client": "latest",
     "angular-google-chart": "latest",
-    "angular-tree-control": "latest"
+    "angular-tree-control": "latest",
+    "angular-base64-upload": "latest"
   }
 }
