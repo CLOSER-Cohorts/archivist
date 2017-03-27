@@ -129,7 +129,7 @@ class Instrument < ApplicationRecord
   end
 
   def destroy
-    self.class.reflections.keys.each do |r|
+    PROPERTIES.reverse.map(&:to_s).each do |r|
       next if ['datasets'].include? r
       begin
         klass = r.classify.constantize
