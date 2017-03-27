@@ -26,7 +26,7 @@
 	    class="form-control"
 	    name="question"
             data-ng-model="current.question_id"
-	    data-ng-options="option.value as option.label for option in details.options | filter:chart.type=current.question_type"
+	    data-ng-options="option.value as option.label for option in details.options | filter:chart.type=current.question_type | orderBy: 'label'"
 	    required
     />
 </div>
