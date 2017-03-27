@@ -34,4 +34,4 @@ node_modules/
 !*.example
 
  # .gitignore compiled assets
-public/assets/*
+#public/assets/*

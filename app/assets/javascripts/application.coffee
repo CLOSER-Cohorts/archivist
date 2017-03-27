@@ -189,10 +189,12 @@ archivist.controller('HomeController',
 
       $scope.chart_one.options =
         'title': 'Instruments'
-        'legend': false
-      $scope.chart_two.options =
+        'legend':
+          'position': 'none'
+      $scope.chart_three.options =
         'title': 'Avg. Constructs per Instrument'
-        'legend': false
+        'legend':
+          'position': 'none'
   ]
 )
 
