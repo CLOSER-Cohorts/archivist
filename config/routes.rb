@@ -12,7 +12,11 @@ Rails.application.routes.draw do
       unlocks: 'users/unlocks',
   }
   namespace :users do
-    resources :admin, constraints: -> (r) { (r.format == :json) }
+    resources :admin, constraints: -> (r) { (r.format == :json) } do
+      member do
+        post 'password', to: 'admin#reset_password'
+      end
+    end
   end
   root 'main#index'
 

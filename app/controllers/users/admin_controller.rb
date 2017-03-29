@@ -9,9 +9,9 @@ class Users::AdminController < ApplicationController
   end
 
   def create
-    @user = User.new safe_params
-    logger.debug @user.to_json
-    if @user.save!
+    @object = User.new safe_params
+    logger.debug @object.to_json
+    if @object.save!
       render :show, status: :created
     else
       render json: user.errors, status: :unprocessable_entity
@@ -19,18 +19,29 @@ class Users::AdminController < ApplicationController
   end
 
   def update
-    @user = User.find safe_params['id']
-    if @user.update safe_params.select {|k,v| ['first_name', 'last_name', 'role'].include?(k)}
+    @object = User.find safe_params['id']
+    if @object.update safe_params.select {|k,v| %w(first_name last_name role).include?(k)}
       render :show, status: :ok
     else
       render json: user.errors, status: :unprocessable_entity
     end
   end
 
+  def reset_password
+    @object = User.find safe_params['id']
+    @object.send_reset_password_instructions
+
+    if @object.errors.empty?
+      head :ok
+    else
+      render json: @object.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     begin
-      @user = User.find safe_params['id']
-      @user.destroy
+      @object = User.find safe_params['id']
+      @object.destroy
       head :ok
     rescue
       head :bad_request
