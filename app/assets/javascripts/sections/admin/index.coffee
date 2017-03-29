@@ -46,8 +46,9 @@ admin.controller('AdminDashController',
 admin.controller('AdminUsersController',
   [
     '$scope',
-    'DataManager'
-    ($scope, DataManager)->
+    'DataManager',
+    'Flash'
+    ($scope, DataManager, Flash)->
       DataManager.getUsers()
       $scope.groups = DataManager.Data.Groups
       $scope.users = []
@@ -76,6 +77,7 @@ admin.controller('AdminUsersController',
         $scope.original = null
         $scope.current = new DataManager.Auth.Users.resource()
         $scope.mode = 'user'
+        $scope.users = []
         $scope.editing = true
 
       $scope.addStudy = ->
@@ -100,13 +102,25 @@ admin.controller('AdminUsersController',
         if $scope.original?
           angular.copy $scope.current, $scope.original
         else
-          (if $scope.mode == 'group' then $scope.groups else DataManager.Data.Users).push $scope.current
+          if $scope.mode == 'group'
+            $scope.groups.push $scope.current
+          else
+            DataManager.Data.Users.push $scope.current
+            DataManager.GroupResolver.resolve()
+
           $scope.original = $scope.current
         $scope.original.save(
           {},
-          ->
+          (a, b, c, d, e)->
             $scope.editing = false
+          ,->
+            $scope.original = null
+            Flash.add 'danger', 'Could not save '+ $scope.mode + '.'
         )
+
+      $scope.reset_password = ->
+        console.log $scope
+        $scope.current.$reset_password()
 
       $scope.delete = ->
         arr = if $scope.mode = 'group' then $scope.groups else DataManager.Data.Users

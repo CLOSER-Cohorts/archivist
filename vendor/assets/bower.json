@@ -1,11 +1,11 @@
 {
   "name": "dsl-generated-dependencies",
   "dependencies": {
-    "angular": "1.4.10",
-    "angular-route": "1.4.10",
-    "angular-resource": "1.4.10",
-    "angular-messages": "1.4.10",
-    "angular-animate": "1.4.10",
+    "angular": "1.4.14",
+    "angular-route": "1.4.14",
+    "angular-resource": "1.4.14",
+    "angular-messages": "1.4.14",
+    "angular-animate": "1.4.14",
     "bootstrap-sass-official": "latest",
     "angular-bootstrap": "latest",
     "angular-ui-sortable": "latest",

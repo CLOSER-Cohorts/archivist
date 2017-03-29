@@ -10,6 +10,11 @@ users.factory(
         'users/admin/:id.json',
         {
           id: '@id'
+        },
+        {
+          save: {method: 'PUT'},
+          create: {method: 'POST'}
+          reset_password: {method: 'POST', url: 'users/admin/:id/password.json'}
         }
       )
   ])
