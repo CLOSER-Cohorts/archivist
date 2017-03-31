@@ -77,6 +77,12 @@ archivist.controller('RootController',
     if $scope.user.email.length > 0
       $scope.user.sign_in()
 
+    $scope.is_admin = ->
+      $scope.user.is_admin()
+
+    $scope.is_editor = ->
+      $scope.user.is_editor()
+
     $scope.sign_out = ->
       $scope.user.sign_out().finally ->
         DataManager.clearCache()
@@ -376,3 +382,15 @@ archivist.filter 'prettytype', ->
       ref[input] + 's'
     else
       ref[input]
+
+archivist.directive 'convertToNumber', ->
+  {
+    require: 'ngModel'
+    link: (scope, element, attrs, ngModel) ->
+      ngModel.$parsers.push (val) ->
+        parseInt val, 10
+      ngModel.$formatters.push (val) ->
+        '' + val
+      return
+
+  }

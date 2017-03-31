@@ -4,9 +4,7 @@ class InstrumentsController < BasicController
 
   has_importers({
                     qvmapping: ImportJob::Mapping,
-                    topicq: ImportJob::TopicQ,
-                    topicv: ImportJob::TopicV,
-                    dv: ImportJob::DV,
+                    topicq: ImportJob::TopicQ
                 })
   only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper variables} }
 
@@ -109,7 +107,7 @@ class InstrumentsController < BasicController
 
         type = import[:type]&.downcase&.to_sym
 
-        Resque.enqueue(@@map[type], doc.id, @object)
+        Resque.enqueue(@@map[type], doc.id, params[:id])
       end
       head :ok, format: :json
     rescue  => e

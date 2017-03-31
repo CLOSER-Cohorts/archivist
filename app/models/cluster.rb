@@ -19,7 +19,7 @@ class Cluster
     else
       thing = [thing] unless thing.is_a?(Array)
       @strands = thing
-      evaluate
+      compile
     end
   end
 
@@ -42,10 +42,11 @@ class Cluster
       @id = Cluster.redis.incr SCOPE + ':count'
       @@active[@id.to_i] = self
     end
-    Cluster.redis.sadd SCOPE + ':' + @id.to_s, @strands.map(&:id)
     @strands.each do |strand|
+      strand.save
       Cluster.redis.hset LOOKUP, strand.id, @id.to_s
     end
+    Cluster.redis.sadd SCOPE + ':' + @id.to_s, @strands.map(&:id)
     evaluate if do_eval
     Cluster.redis.hset TOPICS, @id, @suggested_topic.code unless @suggested_topic.nil?
   end
@@ -71,6 +72,25 @@ class Cluster
     delete
     other.delete
     Cluster.new new_members
+  end
+
+  def all_members
+    @strands.map { |s| s.members }.flatten
+  end
+
+  def compile
+    new_strands = []
+    queue = all_members
+    while queue.count > 0
+      found_strands = queue.shift.cluster_maps.map do |obj|
+        obj.strand(false)
+      end
+      found_strands.reject! { |s| new_strands.include?(s) }
+      new_strands += found_strands
+      queue += found_strands.map(&:members).flatten
+    end
+    @strands += new_strands
+    evaluate
   end
 
   def self.find(id)

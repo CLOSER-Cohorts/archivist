@@ -15,7 +15,8 @@ variables.factory(
         },
         {
           save: {method: 'PUT'},
-          create: {method: 'POST'}
+          create: {method: 'POST'},
+          update_topic: {method: 'POST', url: 'datasets/:dataset_id/variables/:id/set_topic.json'}
         }
       )
   ]

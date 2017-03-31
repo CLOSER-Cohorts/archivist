@@ -51,6 +51,14 @@ class CcQuestion < ApplicationRecord
     value
   end
 
+  def strand_maps
+    self.variables.to_a
+  end
+
+  def cluster_maps
+    []
+  end
+
   def self.create_with_position(params)
     super params, true do |obj|
       obj.question_id = params[:question_id]

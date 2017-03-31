@@ -52,19 +52,19 @@ end
 class ImportJob::Mapping
   @queue = :in_and_out
 
-  def self.perform(document_id, instrument)
+  def self.perform(document_id, instrument_id)
     begin
-      im = Importers::TXT::Mapper::Mapping.new document_id, instrument
+      im = Importers::TXT::Mapper::Mapping.new document_id, Instrument.find(instrument_id)
       trap 'TERM' do
 
-        Resque.enqueue ImportJob::Mapping, document_id, instrument
+        Resque.enqueue ImportJob::Mapping, document_id, instrument_id
 
         exit 0
       end
 
       im.import
     rescue => e
-      Rails.logger.fatal 'Fatal error while importing Q-V mapping for ' + instrument&.prefix.to_s
+      Rails.logger.fatal 'Fatal error while importing Q-V mapping for Instrument:' + instrument_id.to_s
       Rails.logger.fatal e.message
     end
   end
@@ -73,19 +73,19 @@ end
 class ImportJob::DV
   @queue = :in_and_out
 
-  def self.perform(document_id, dataset)
+  def self.perform(document_id, dataset_id)
   begin
-    im = Importers::TXT::Mapper::DV.new document_id, dataset
+    im = Importers::TXT::Mapper::DV.new document_id, Dataset.find(dataset_id)
     trap 'TERM' do
 
-      Resque.enqueue ImportJob::DV, document_id, dataset
+      Resque.enqueue ImportJob::DV, document_id, dataset_id
 
       exit 0
     end
 
     im.import
   rescue => e
-    Rails.logger.fatal 'Fatal error while importing DV mapping for ' + dataset&.name.to_s
+    Rails.logger.fatal 'Fatal error while importing DV mapping for Dataset:' + dataset_id.to_s
     Rails.logger.fatal e.message
   end
   end
@@ -94,19 +94,19 @@ end
 class ImportJob::TopicQ
   @queue = :in_and_out
 
-  def self.perform(document_id, instrument)
+  def self.perform(document_id, instrument_id)
     begin
-      im = Importers::TXT::Mapper::TopicQ.new document_id, instrument
+      im = Importers::TXT::Mapper::TopicQ.new document_id, Instrument.find(instrument_id)
       trap 'TERM' do
 
-        Resque.enqueue ImportJob::TopicQ, document_id, instrument
+        Resque.enqueue ImportJob::TopicQ, document_id, instrument_id
 
         exit 0
       end
 
       im.import
     rescue => e
-      Rails.logger.fatal 'Fatal error while importing topic-Q mapping for ' + instrument&.prefix.to_s
+      Rails.logger.fatal 'Fatal error while importing topic-Q mapping for Instrument:' + instrument_id.to_s
       Rails.logger.fatal e.message
     end
   end
@@ -115,19 +115,19 @@ end
 class ImportJob::TopicV
   @queue = :in_and_out
 
-  def self.perform(document_id, dataset)
+  def self.perform(document_id, dataset_id)
   begin
-    im = Importers::TXT::Mapper::TopicV.new document_id, dataset
+    im = Importers::TXT::Mapper::TopicV.new document_id, Dataset.find(dataset_id)
     trap 'TERM' do
 
-      Resque.enqueue ImportJob::TopicV, document_id, dataset
+      Resque.enqueue ImportJob::TopicV, document_id, dataset_id
 
       exit 0
     end
 
     im.import
   rescue => e
-    Rails.logger.fatal 'Fatal error while importing topic-V mapping for ' + dataset&.name.to_s
+    Rails.logger.fatal 'Fatal error while importing topic-V mapping for Dataset:' + dataset_id.to_s
     Rails.logger.fatal e.message
   end
   end

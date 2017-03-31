@@ -35,8 +35,15 @@ module Linkable
       strand.save(true)
     end
 
-    def strand
-      return Strand.find_by_member(self)
+    def strand(do_cluster_compile = true)
+      if (s = Strand.find_by_member(self)).nil?
+        s = Strand.new [self] + self.strand_maps
+      end
+      if s.id.nil? && do_cluster_compile
+        c = Cluster.new [s]
+        c.save
+      end
+      return s
     end
 
     def get_topic

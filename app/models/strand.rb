@@ -21,6 +21,7 @@ class Strand
     else
       thing = [thing] unless thing.is_a?(Array)
       @members = thing
+      compile
       evaluate false
     end
   end
@@ -29,8 +30,17 @@ class Strand
     unless @id.nil?
       typed_member_ids = Strand.redis.smembers(SCOPE + ':' + @id.to_s).map { |x| x.split(':')}.group_by(&:first).map{ |c, xs| [c, xs.map(&:last)]}
       typed_member_ids.each do |typed_ids|
-        @members += typed_ids.first.constantize.includes(:topic).find typed_ids.last
+        @members += typed_ids.first.constantize.find_by_sql(
+            [
+                'SELECT x.*, l.topic_id FROM ' + typed_ids.first.tableize + ' x LEFT OUTER JOIN links l ON l.target_id = x.id AND target_type = ? WHERE x.id IN (?)',
+                typed_ids.first.classify,
+                typed_ids.last
+            ]
+        )
       end
+      topic_ids = @members.map(&:topic_id).compact.uniq
+      topics = Hash[Topic.find(topic_ids).collect {|t| [t.id, t]}]
+      @members.each {|m| m.association(:topic).target = topics[m.topic_id] unless m.topic_id.nil?}
       topic_code = Strand.redis.hget TOPICS, @id
       unless topic_code.nil?
         @topic = Topic.find_by_code topic_code
@@ -53,7 +63,6 @@ class Strand
     evaluate if do_eval
     Strand.redis.hset TOPICS, @id, @topic.code unless @topic.nil?
     Strand.redis.hset STATUS, @id, @good
-    cluster.save do_eval
   end
 
   def delete
@@ -85,6 +94,10 @@ class Strand
     delete
     other.delete
     Strand.new new_members
+  end
+
+  def ==(other)
+    @members.map(&:typed_id).sort.join('') == other.members.map(&:typed_id).sort.join('')
   end
 
   def self.find(id)
@@ -140,6 +153,17 @@ class Strand
       @topic = topic
     end
     return @topic == topic
+  end
+
+  def compile
+    begin
+      edges = []
+      @members.each do |member|
+        edges += member.strand_maps
+      end
+      edges.reject! { |e| @members.map(&:typed_id).include?(e.typed_id) }
+      @members += edges
+    end while edges.count > 0
   end
 
   def evaluate(reload = true)

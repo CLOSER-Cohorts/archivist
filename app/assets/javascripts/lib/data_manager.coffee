@@ -341,6 +341,10 @@ data_manager.factory(
           DataManager.Data.Topics = Topics.getFlattenedNest()
         DataManager.Data.Topics
 
+      DataManager.updateTopic = (model, topic_id)->
+        console.log(model)
+        model.update_topic({topic_id: topic_id})
+
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
         DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id)

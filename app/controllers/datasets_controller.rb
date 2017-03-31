@@ -1,11 +1,12 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
+  only_set_object
+
   has_importers({
                     dv: ImportJob::DV,
                     topicv: ImportJob::TopicV
                 })
-  only_set_object { %i{member_imports} }
 
   @model_class = Dataset
   @params_list = [:name]
@@ -55,9 +56,9 @@ class DatasetsController < BasicController
         type = import[:type]&.downcase&.to_sym
 
         if type == :dv
-          Resque.enqueue ImportJob::DV, doc.id, @object
+          Resque.enqueue ImportJob::DV, doc.id, params[:id]
         elsif type == :topicv
-          Resque.enqueue ImportJob::TopicV, doc.id, @object
+          Resque.enqueue ImportJob::TopicV, doc.id, params[:id]
         end
 
       end

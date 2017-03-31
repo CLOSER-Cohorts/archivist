@@ -48,11 +48,16 @@ mapping.directive(
       $compile,
       DataManager
     )->
+      fixedTopic = (topic)->
+        '<span class="a-topic">{{model.strand_topic.name}}</span>'
+
       nestedOptions = (scope)->
-        '<select class="form-control" data-ng-model="model.topic">' +
-        '<option value="">None</option>' +
+        console.log(scope)
+        '<select class="form-control" data-ng-model="model.topic.id" style="width: 100%; max-width:600px;" convert-to-number>' +
+        '<option value=""><em>Clear</em></option>' +
         '<option ' +
           'data-ng-repeat="topic in topics" ' +
+          'data-ng-selected="topic.id == model.topic.id" ' +
           'data-a-topic-indent="{{topic.level}}" ' +
           'class="a-topic-level-{{topic.level}}" ' +
           'value="{{topic.id}}">{{topic.name}}</option>' +
@@ -67,12 +72,17 @@ mapping.directive(
         link:
           post: ($scope, iElement, iAttrs)->
             $scope.topics = DataManager.getTopics {flattened: true}
-            el = $compile(nestedOptions($scope))($scope)
+            if $scope.model.topic? || (not $scope.model.strand_topic?)
+              el = $compile(nestedOptions($scope))($scope)
+            else
+              el = $compile(fixedTopic($scope))($scope)
             iElement.replaceWith el
 
-            $scope.$watch 'model.topic', (newVal, oldVal)->
+            $scope.$watch 'model.topic.id', (newVal, oldVal)->
+              console.log('Topic change detected')
+              console.log(newVal)
               if newVal != oldVal
-                $scope.model.$save()
+                DataManager.updateTopic($scope.model, newVal)
 
       }
   ]
