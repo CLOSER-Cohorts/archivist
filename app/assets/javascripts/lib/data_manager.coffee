@@ -343,7 +343,7 @@ data_manager.factory(
 
       DataManager.updateTopic = (model, topic_id)->
         console.log(model)
-        model.update_topic({topic_id: topic_id})
+        model.$update_topic({topic_id: topic_id})
 
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}

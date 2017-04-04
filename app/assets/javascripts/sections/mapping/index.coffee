@@ -43,9 +43,11 @@ mapping.directive(
   'aTopics',
   [
     '$compile',
+    'bsLoadingOverlayService',
     'DataManager'
     (
       $compile,
+      bsLoadingOverlayService,
       DataManager
     )->
       fixedTopic = (topic)->
@@ -79,10 +81,11 @@ mapping.directive(
             iElement.replaceWith el
 
             $scope.$watch 'model.topic.id', (newVal, oldVal)->
-              console.log('Topic change detected')
-              console.log(newVal)
               if newVal != oldVal
-                DataManager.updateTopic($scope.model, newVal)
+                bsLoadingOverlayService.start()
+                DataManager.updateTopic($scope.model, newVal).finally(->
+                  bsLoadingOverlayService.stop()
+                )
 
       }
   ]

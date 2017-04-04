@@ -39,7 +39,11 @@ Rails.application.routes.draw do
     end
   end
   resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
-    resources :variables
+    resources :variables do
+      member do
+        post 'set_topic', to: 'variables#set_topic'
+      end
+    end
     member do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
     end

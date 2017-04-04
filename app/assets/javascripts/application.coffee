@@ -25,6 +25,8 @@
 #= require socket.io-client/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
+#= require angular-loading-overlay/dist/angular-loading-overlay
+#= require angular-loading-overlay-spinjs/dist/angular-loading-overlay-spinjs
 #
 #= require lib
 #= require sections
@@ -33,9 +35,12 @@
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
+  'ui.bootstrap',
   'ui.sortable',
   'googlechart',
   'treeControl',
+  'bsLoadingOverlay',
+  'bsLoadingOverlaySpinJs',
   'archivist.flash',
   'archivist.instruments',
   'archivist.datasets',
@@ -237,8 +242,13 @@ archivist.directive 'ngFileModel', [
     }
 ]
 
-archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
-  ($rootScope, Flash, RealTimeConnection)->
+archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlayService',
+  ($rootScope, Flash, RealTimeConnection, bsLoadingOverlayService)->
+    bsLoadingOverlayService.setGlobalConfig {
+      templateUrl: 'bsLoadingOverlaySpinJs',
+      activeClass: 'loading'
+    }
+
     Array::unique = ->
       output = {}
       output[@[key]] = @[key] for key in [0...@length]

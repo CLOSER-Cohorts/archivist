@@ -129,3 +129,18 @@ p.rt-offline {
 .tree-boot li.tree-leaf i.tree-leaf-head {
   background: image-url('file.png')
 }
+
+#overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -10000;
+
+}
+
+#overlay.loading {
+  background: rgba(50, 50, 50, 0.5);
+  z-index: 10000;
+}

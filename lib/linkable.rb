@@ -22,11 +22,11 @@ module Linkable
           if fixed_points.first[:point].typed_id == self.typed_id
             self.association(:topic).writer(topic)
           else
-            raise TopicConflictError
+            raise Exceptions::TopicConflictError
           end
         else
           if strand.good
-            raise TopicConflictError
+            raise Exceptions::TopicConflictError
           else
             self.association(:topic).writer(topic)
           end

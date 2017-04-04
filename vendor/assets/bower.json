@@ -13,6 +13,8 @@
     "socket.io-client": "latest",
     "angular-google-chart": "latest",
     "angular-tree-control": "latest",
-    "angular-base64-upload": "latest"
+    "angular-base64-upload": "latest",
+    "angular-loading-overlay": "latest",
+    "angular-loading-overlay-spinjs": "latest"
   }
 }
