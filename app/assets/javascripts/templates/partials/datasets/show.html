@@ -30,7 +30,14 @@
             <td>{{variable.name}} </td>
             <td>{{variable.label}}</td>
             <td>{{variable.var_type}}</td>
-            <td class="admin-min"></td>
+            <td class="admin-min">
+                <a
+                        href="#"
+                        data-toggle="modal"
+                        data-target="#topic-conflict"
+                        data-ng-click="loadNetworkData(variable)"
+                >Cluster</a>
+            </td>
         </tr>
         <tr data-ng-repeat-end data-ng-class-odd="'odd'">
             <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">
@@ -48,17 +55,35 @@
                         <div class="col-xs-9 row" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">
                             <div class="col-xs-3" data-ng-repeat="source in variable.sources">
                                 <span class="label label-primary" style="display: inline-block">
-                                {{variable.var_type == 'Normal' && source.label || source.name}} <a href="#" style="color: white;"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                                {{variable.var_type == 'Normal' && source.label || source.name}} <a href="#" data-ng-click="split_mapping(variable, source)" style="color: white;"><span class="glyphicon glyphicon-remove-circle"></span></a>
                             </span>
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <input
+                                    data-ng-if="variable.var_type == 'Normal'"
                                     type="text"
                                     class="form-control"
                                     id="variable-{{variable.id}}-sources"
-                                    data-ng-attr-placeholder="{{ variable.var_type == 'Normal' && 'Questions' || 'Variables' }}"
+                                    placeholder="Questions"
                                     data-ng-model="variable.new_sources"
+                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:'label'"
+                                    data-typeahead-show-hint="true"
+                                    data-typeahead-min-length="1"
+                                    autocomplete="off"
+                                    style="width: 100%"
+                            >
+                            <input
+                                    data-ng-if="variable.var_type != 'Normal'"
+                                    type="text"
+                                    class="form-control"
+                                    id="variable-{{variable.id}}-sources"
+                                    placeholder="Variables"
+                                    data-ng-model="variable.new_sources"
+                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:'label'"
+                                    data-typeahead-show-hint="true"
+                                    data-typeahead-min-length="1"
+                                    autocomplete="off"
                                     style="width: 100%"
                             >
                         </div>
@@ -81,3 +106,5 @@
         </ul>
     </div>
 </div>
+
+<div data-ng-include="'partials/datasets/modals/conflict.html'"></div>

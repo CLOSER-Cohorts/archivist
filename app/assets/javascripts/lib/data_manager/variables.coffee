@@ -14,9 +14,11 @@ variables.factory(
           dataset_id: '@dataset_id'
         },
         {
-          save: {method: 'PUT'},
-          create: {method: 'POST'},
-          update_topic: {method: 'POST', url: 'datasets/:dataset_id/variables/:id/set_topic.json'}
+          save:           {method: 'PUT'},
+          create:         {method: 'POST'},
+          update_topic:   {method: 'POST', url: 'datasets/:dataset_id/variables/:id/set_topic.json'}
+          split_mapping:  {method: 'POST', url: 'datasets/:dataset_id/variables/:id/remove_source.json'}
+          add_mapping:    {method: 'POST', url: 'datasets/:dataset_id/variables/:id/add_source.json'}
         }
       )
   ]

@@ -77,6 +77,7 @@ data_manager.factory(
         DataManager.Data.InstrumentStats    = {}
         DataManager.Data.Users              = {}
         DataManager.Data.Groups             = {}
+        DataManager.Data.Clusters           = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
@@ -264,10 +265,12 @@ data_manager.factory(
 
       DataManager.getDataset = (dataset_id, options = {}, success, error) ->
         options.variables ?= false
+        options.questions ?= false
 
         promises = []
 
-        DataManager.Data.Dataset  = DataManager.Datasets.get id: dataset_id
+        DataManager.Data.Dataset  = DataManager.Datasets.get {id: dataset_id, questions: options.questions}
+
         promises.push DataManager.Data.Dataset.$promise
 
         if options.variables
@@ -306,6 +309,19 @@ data_manager.factory(
             )
         else
           cb?()
+
+      DataManager.getCluster = (type, id, force = false, cb)->
+        index = type + '/' + id
+        if (not DataManager.Data.Clusters[index]?) or force
+          DataManager.Data.Clusters[index] =
+            GetResource(
+              '/clusters/' + index + '.json',
+              true,
+              cb
+            )
+        else
+          cb?()
+        return DataManager.Data.Clusters[index]
 
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs

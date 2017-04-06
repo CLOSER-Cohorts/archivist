@@ -1,7 +1,7 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
-  only_set_object
+  only_set_object { %i{questions} }
 
   has_importers({
                     dv: ImportJob::DV,
@@ -15,6 +15,14 @@ class DatasetsController < BasicController
     super
     var_counts = Variable.group(:dataset_id).count
     @collection.each { |d| d.var_count = var_counts[d.id] }
+  end
+
+  def show
+    if params[:questions]
+      render 'show_with_questions'
+    else
+      render
+    end
   end
 
   def import

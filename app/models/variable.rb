@@ -20,4 +20,21 @@ class Variable < ApplicationRecord
   def cluster_maps
     self.der_variables.to_a + self.src_variables.to_a
   end
+
+  def level
+    return 2 unless self.questions.empty?
+    return (1 + self.src_variables.map(&:level).compact.max.to_i)
+  end
+
+  def add_source(source, x = nil, y = nil)
+    if self.maps.create ({
+      variable: self,
+      source:   source,
+      x:        x,
+      y:        y
+    })
+      self.strand&.cluster&.delete
+      self.strand&.delete
+    end
+  end
 end

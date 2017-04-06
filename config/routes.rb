@@ -42,10 +42,13 @@ Rails.application.routes.draw do
     resources :variables do
       member do
         post 'set_topic', to: 'variables#set_topic'
+        post 'add_source', to: 'variables#add_source'
+        post 'remove_source', to: 'variables#remove_source'
       end
     end
     member do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
+      get 'questions', to: 'datasets#questions'
     end
   end
 
@@ -91,6 +94,8 @@ Rails.application.routes.draw do
 
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
+
+  get 'clusters/:class/:id', to: 'clusters#show', constraints: -> (r) { (r.format == :json || r.format == :xml) }
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }

@@ -79,17 +79,15 @@ class Cluster
   end
 
   def compile
-    new_strands = []
     queue = all_members
     while queue.count > 0
       found_strands = queue.shift.cluster_maps.map do |obj|
         obj.strand(false)
       end
-      found_strands.reject! { |s| new_strands.include?(s) }
-      new_strands += found_strands
+      found_strands.reject! { |s| @strands.include?(s) }
+      @strands += found_strands
       queue += found_strands.map(&:members).flatten
     end
-    @strands += new_strands
     evaluate
   end
 

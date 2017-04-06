@@ -13,5 +13,7 @@ asset 'angular-tree-control'
 asset 'angular-base64-upload'
 asset 'angular-loading-overlay'
 asset 'angular-loading-overlay-spinjs'
+asset 'angular-visjs'
+asset 'angular-bootstrap-contextmenu'
 
 # vim: ft=ruby

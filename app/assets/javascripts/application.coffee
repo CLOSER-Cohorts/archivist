@@ -27,6 +27,9 @@
 #= require angular-tree-control/angular-tree-control
 #= require angular-loading-overlay/dist/angular-loading-overlay
 #= require angular-loading-overlay-spinjs/dist/angular-loading-overlay-spinjs
+#= require angular-visjs/angular-vis
+#= require vis/dist/vis
+#= require angular-bootstrap-contextmenu/contextMenu
 #
 #= require lib
 #= require sections

@@ -44,11 +44,13 @@ mapping.directive(
   [
     '$compile',
     'bsLoadingOverlayService',
-    'DataManager'
+    'DataManager',
+    'Flash'
     (
       $compile,
       bsLoadingOverlayService,
-      DataManager
+      DataManager,
+      Flash
     )->
       fixedTopic = (topic)->
         '<span class="a-topic">{{model.strand_topic.name}}</span>'
@@ -83,7 +85,10 @@ mapping.directive(
             $scope.$watch 'model.topic.id', (newVal, oldVal)->
               if newVal != oldVal
                 bsLoadingOverlayService.start()
-                DataManager.updateTopic($scope.model, newVal).finally(->
+                DataManager.updateTopic($scope.model, newVal).then(null , (reason)->
+                  $scope.model.topic.id = oldVal
+                  Flash.add('danger', reason.data.message)
+                ).finally(->
                   bsLoadingOverlayService.stop()
                 )
 

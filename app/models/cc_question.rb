@@ -59,6 +59,10 @@ class CcQuestion < ApplicationRecord
     []
   end
 
+  def level
+    1
+  end
+
   def self.create_with_position(params)
     super params, true do |obj|
       obj.question_id = params[:question_id]
