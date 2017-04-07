@@ -20,7 +20,7 @@ class Users::AdminController < ApplicationController
 
   def update
     @object = User.find safe_params['id']
-    if @object.update safe_params.select {|k,v| %w(first_name last_name role).include?(k)}
+    if @object.update safe_params.select {|k| %w(first_name last_name role).include?(k)}
       render :show, status: :ok
     else
       render json: user.errors, status: :unprocessable_entity

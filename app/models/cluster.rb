@@ -151,9 +151,6 @@ class Cluster
 
       counter[strand.topic] += 1
     end
-    puts "strands: " + @strands.inspect.to_s
-    puts "counter: " + counter.inspect.to_s
-    puts "suggested topic: " + @suggested_topic.inspect.to_s
     topic, count = counter.max_by { |k, v| v }
     @suggested_topic = count.to_i > 0 ? topic : nil
   end

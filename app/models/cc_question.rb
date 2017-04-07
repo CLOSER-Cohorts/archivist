@@ -31,7 +31,7 @@ class CcQuestion < ApplicationRecord
     cached_value('response_unit_label') {response_unit.label}
   end
 
-  def cached_value label
+  def cached_value(label)
     key = 'qc_question:' + label
     begin
       value = $redis.hget key, self.id

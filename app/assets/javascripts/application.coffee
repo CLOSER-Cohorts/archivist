@@ -258,13 +258,13 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
       value for key, value of output
 
     Array::select_resource_by_id = (ref_id)->
-      output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
+      (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 
     Array::get_index_by_id = (ref_id)->
       (key for key in [0...@length] when @[key].id == ref_id)[0]
 
     Array::select_resource_by_id_and_type = (ref_id, ref_type)->
-      output = (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
+      (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
 
     Array::get_index_by_id_and_type = (ref_id, ref_type)->
       (key for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
@@ -374,15 +374,15 @@ archivist.filter 'capitalize', ->
 
 archivist.filter 'prettytype', ->
   ref = {
-    'ResponseDomainCode': 'Code',
-    'ResponseDomainDatetime': 'Datetime',
-    'ResponseDomainNumeric': 'Numeric',
-    'ResponseDomainText': 'Text',
-    'Category'          : 'Category',
-    'Cateogie'          : 'Categorie',
-    'CodeList'          : 'Code List',
-    'QuestionGrid'      : 'Grid',
-    'QuestionItem'      : 'Item'
+    'ResponseDomainCode'      :     'Code',
+    'ResponseDomainDatetime'  :     'Datetime',
+    'ResponseDomainNumeric'   :     'Numeric',
+    'ResponseDomainText'      :     'Text',
+    'Category'                :     'Category',
+    'Categories'              :     'Categories',
+    'CodeList'                :     'Code List',
+    'QuestionGrid'            :     'Grid',
+    'QuestionItem'            :     'Item'
   }
   (input)->
     if input.charAt(input.length - 1) == 's'

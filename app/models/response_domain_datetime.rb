@@ -6,6 +6,6 @@ class ResponseDomainDatetime < ApplicationRecord
   end
 
   def params
-    '(' + self.format.to_s + ')'
+    '(%s)' % @format
   end
 end

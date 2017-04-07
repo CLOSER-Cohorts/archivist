@@ -23,7 +23,7 @@ class CodeList < ApplicationRecord
       self.response_domain_code = ResponseDomainCode.new instrument_id: self.instrument_id
     end
 
-    if !(be_code_answer || response_domain.nil?)
+    unless be_code_answer || response_domain.nil?
       self.response_domain_code.delete
     end
   end
@@ -34,9 +34,9 @@ class CodeList < ApplicationRecord
 
   def used_by
     if self.response_domain.nil?
-      return self.question_grids
+      self.question_grids
     else
-      return self.response_domain.questions + self.question_grids
+      self.response_domain.questions + self.question_grids
     end
   end
 

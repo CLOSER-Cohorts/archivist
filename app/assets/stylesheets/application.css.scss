@@ -23,7 +23,7 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "vis/dist/vis";
 
 .monospaced {
-  font-family: menlo;
+  font-family: menlo, "Courier New", "Lucida Console";
 }
 
 /* Sidebar navigation */
@@ -63,7 +63,7 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
  * Main content
  */
 .main {
-  padding: 0px;
+  padding: 0;
 }
 @media (min-width: 768px) {
   .main {
@@ -83,7 +83,6 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 

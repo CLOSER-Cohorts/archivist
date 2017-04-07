@@ -9,17 +9,18 @@ class ControlConstruct < ApplicationRecord
 
   def clear_cache
     begin
-    unless self.parent.nil?
-      if self.parent.construct_type == 'CcCondition'
-        $redis.hdel 'construct_children:CcCondition:0', self.parent.construct_id
-        $redis.hdel 'construct_children:CcCondition:1', self.parent.construct_id
-      else
-        $redis.hdel 'construct_children:' + self.parent.construct_type, self.parent.construct_id
+      unless self.parent.nil?
+        if self.parent.construct_type == 'CcCondition'
+          $redis.hdel 'construct_children:CcCondition:0', self.parent.construct_id
+          $redis.hdel 'construct_children:CcCondition:1', self.parent.construct_id
+        else
+          $redis.hdel 'construct_children:' + self.parent.construct_type, self.parent.construct_id
+        end
       end
-    end
-    $redis.hdel 'parents', self.construct_id
-    $redis.hdel 'is_top', self.construct_id
+      $redis.hdel 'parents', self.construct_id
+      $redis.hdel 'is_top', self.construct_id
     rescue
+      Rails.logger.warn 'Cannot connect to Redis'
     end
   end
 end

@@ -14,20 +14,10 @@ class MainController < ApplicationController
           params.has_key?('su-confirm') &&
           params.has_key?('su-group')
 
-        if params['su-password'] == params['su-confirm'] && params['su-password'].length > 7
-          g = Group.create label: params['su-group'], group_type: 'Centre', study: '*'
-          u = User.new email: params['su-email'],
-                       first_name: params['su-fname'],
-                       last_name: params['su-lname']
-          u.password = params['su-password']
-          u.group = g
-          u.save!
-          u.admin!
-          u.confirm
-        end
-
+        User.setup_initial_superuser params
       end
     rescue
+      Rails.logger.error 'Could not create the initial superadmin.'
     end
     redirect_to '/'
   end

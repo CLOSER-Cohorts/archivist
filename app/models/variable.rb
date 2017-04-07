@@ -23,7 +23,7 @@ class Variable < ApplicationRecord
 
   def level
     return 2 unless self.questions.empty?
-    return (1 + self.src_variables.map(&:level).compact.max.to_i)
+    (1 + self.src_variables.map(&:level).compact.max.to_i)
   end
 
   def add_source(source, x = nil, y = nil)

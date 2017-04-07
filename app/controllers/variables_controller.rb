@@ -12,7 +12,7 @@ class VariablesController < BasicController
       @object.topic = topic
       @object.save!
       head :ok
-    rescue Exceptions::TopicConflictError => e
+    rescue Exceptions::TopicConflictError
       render json: {message: 'Could not set topic as it would cause a conflict.'}, status: :conflict
     rescue => e
       render json: e, status: :bad_request

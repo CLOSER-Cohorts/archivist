@@ -152,7 +152,7 @@ class Strand
     if @topic.nil?
       @topic = topic
     end
-    return @topic == topic
+    @topic == topic
   end
 
   def compile

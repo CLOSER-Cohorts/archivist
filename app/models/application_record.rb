@@ -35,17 +35,19 @@ class ApplicationRecord < ActiveRecord::Base
     begin
       counts = $redis.get key
     rescue Redis::CannotConnectError
+      Rails.logger.warn 'Cannot connect to Redis'
     end
     if counts.nil?
       counts = {}
-      self.class.reflections.keys.each do |key|
-        if self.class.reflections[key].is_a? ActiveRecord::Reflection::HasManyReflection
-          counts[key] = self.send(key).count
+      self.class.reflections.keys.each do |association|
+        if self.class.reflections[association].is_a? ActiveRecord::Reflection::HasManyReflection
+          counts[association] = self.send(association).count
         end
       end
       begin
         $redis.set key, counts.to_json
       rescue Redis::CannotConnectError
+        Rails.logger.warn 'Cannot connect to Redis'
       end
     else
       counts = JSON.parse counts
@@ -63,6 +65,7 @@ class ApplicationRecord < ActiveRecord::Base
           begin
             $redis.del key.classify + self.send(key).id.to_s + 'counts'
           rescue Redis::CannotConnectError
+            Rails.logger.warn 'Cannot connect to Redis'
           end
         end
       end
@@ -84,6 +87,7 @@ class ApplicationRecord < ActiveRecord::Base
         $redis.hset 'last_edit:instrument', self.instrument.id, self.updated_at
       end
     rescue
+      Rails.logger.warn 'Cannot connect to Redis'
     end
   end
 end
