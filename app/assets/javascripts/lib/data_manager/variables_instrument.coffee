@@ -7,14 +7,12 @@ variablesInstrument.factory(
   [
     'WrappedResource',
     (WrappedResource)->
-      {
-        all: new WrappedResource(
-          'instruments/:id/variables.json',
-          {id: '@id'}
-        )
-
-        clearCache: ->
-          all.clearCache() if all?
-      }
+      new WrappedResource(
+        'instruments/:instrument_id/variables/:id.json',
+        {
+          id: '@id',
+          instrument_id: '@instrument_id'
+        }
+      )
   ]
 )

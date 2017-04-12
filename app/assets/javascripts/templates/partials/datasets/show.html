@@ -44,19 +44,17 @@
                 <form class="form-inline row">
                     <div class="form-group col-xs-3">
                         <label class="control-label">Used by</label>
-                        <p class="form-control-static" style="font-size: 16px;">
-                            <span class="label label-primary" data-ng-repeat="used_by in variable.used_bys">
-                                {{used_by.name}} <a href="#" style="color: white;"><span class="glyphicon glyphicon-remove-circle"></span></a>
-                            </span>
-                        </p>
+                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">
+                            <p class="display-inline">{{used_by.name}}</p>
+                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>
+                        </div>
                     </div>
                     <div class="form-group col-xs-4">
                         <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>
-                        <div class="col-xs-9 row" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">
-                            <div class="col-xs-3" data-ng-repeat="source in variable.sources">
-                                <span class="label label-primary" style="display: inline-block">
-                                {{variable.var_type == 'Normal' && source.label || source.name}} <a href="#" data-ng-click="split_mapping(variable, source)" style="color: white;"><span class="glyphicon glyphicon-remove-circle"></span></a>
-                            </span>
+                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">
+                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">
+                                <p class="display-inline">{{variable.var_type == 'Normal' && source.label || source.name}}</p>
+                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>
                             </div>
                         </div>
                         <div class="col-xs-12">

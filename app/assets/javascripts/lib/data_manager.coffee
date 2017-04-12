@@ -9,6 +9,7 @@ data_manager = angular.module(
     'archivist.data_manager.response_domains',
     'archivist.data_manager.datasets',
     'archivist.data_manager.variables',
+    'archivist.data_manager.variables_instrument',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.data_manager.topics',
@@ -37,6 +38,7 @@ data_manager.factory(
     'InstrumentStats',
     'Datasets',
     'Variables',
+    'VariablesInstrument',
     'Auth',
     (
       $http,
@@ -55,6 +57,7 @@ data_manager.factory(
       InstrumentStats,
       Datasets,
       Variables,
+      VariablesInstrument,
       Auth
     )->
       DataManager = {}
@@ -68,6 +71,7 @@ data_manager.factory(
       DataManager.ResponseDomains   = ResponseDomains
       DataManager.Datasets          = Datasets
       DataManager.Variables         = Variables
+      DataManager.VariablesInstrument = VariablesInstrument
       DataManager.Auth              = Auth
 
       DataManager.clearCache = ->
@@ -85,6 +89,7 @@ data_manager.factory(
         DataManager.ResponseUnits.clearCache()
         DataManager.Datasets.clearCache()
         DataManager.Variables.clearCache()
+        DataManager.VariablesInstrument.clearCache()
         DataManager.Auth.clearCache()
 
       DataManager.clearCache()
@@ -109,6 +114,7 @@ data_manager.factory(
         options.rus ?= false
         options.instrument ?= true
         options.topsequence ?= true
+        options.variables ?= false
 
         promises = []
 
@@ -215,6 +221,11 @@ data_manager.factory(
             DataManager.ResponseUnits.query instrument_id: instrument_id
           promises.push DataManager.Data.ResponseUnits.$promise
 
+        if options.variables
+          DataManager.Data.Variables =
+            DataManager.VariablesInstrument.query instrument_id: instrument_id
+          promises.push DataManager.Data.Variables.$promise
+
         chunk_size = 100 / promises.length
         for promise in promises
           promise.finally ()->
@@ -250,6 +261,9 @@ data_manager.factory(
 
               if options.rus
                 DataManager.Data.Instrument.ResponseUnits = DataManager.Data.ResponseUnits
+
+              if options.variables
+                DataManager.Data.Instrument.Variables = DataManager.Data.Variables
 
             console.log 'callbacks called'
             if options.constructs and options.instrument and options.topsequence

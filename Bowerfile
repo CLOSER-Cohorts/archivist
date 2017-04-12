@@ -11,12 +11,9 @@ asset 'socket.io-client'
 asset 'angular-google-chart'
 asset 'angular-tree-control'
 asset 'angular-base64-upload'
-<<<<<<< HEAD
 asset 'angular-loading-overlay'
 asset 'angular-loading-overlay-spinjs'
 asset 'angular-visjs'
 asset 'angular-bootstrap-contextmenu'
 
-=======
->>>>>>> Delte ng-input-tags reference
 # vim: ft=ruby

@@ -21,18 +21,17 @@ mapping.controller(
     '$scope',
     '$routeParams',
     'DataManager',
-    '$timeout'
     (
       $scope,
       $routeParams,
-      DataManager,
-      $timeout
+      DataManager
     )->
       $scope.instrument = DataManager.getInstrument(
         $routeParams.id,
         {
           constructs: true,
-          questions: true
+          questions: true,
+          variables: true
         },
         ->
           DataManager.resolveConstructs()
@@ -43,6 +42,7 @@ mapping.controller(
       $scope.variable={}
 
       $scope.addVariable = (item, question_id)->
+
         $scope.tags[question_id] = $scope.tags[question_id] || []
         $scope.tags[question_id] = pushVariable($scope.tags[question_id],item,question_id)
 
@@ -64,11 +64,8 @@ mapping.controller(
         $scope.variable.added[question_id] = null
         array
 
-      $scope.fakeData = [{id:1,cod:123},
-                        {id:2,cod:223},
-                        {id:3,cod:323},
-                        {id:4,cod:423},
-                        {id:5,cod:523}]
+      console.log 'Controller scope'
+      console.log $scope
 
 
   ]
