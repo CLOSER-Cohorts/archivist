@@ -128,6 +128,10 @@ class Instrument < ApplicationRecord
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
+  def variables
+    Variable.where(dataset_id: self.datasets.map(&:id))
+  end
+
   def destroy
     PROPERTIES.reverse.map(&:to_s).each do |r|
       next if ['datasets'].include? r
@@ -273,7 +277,7 @@ class Instrument < ApplicationRecord
     end
 
     Instrument.reflections.keys.each do |res|
-      next if ['instruments_datasets', 'datasets'].include? res
+      next if %w(instruments_datasets datasets).include? res
       sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
       results = ActiveRecord::Base.connection.execute sql
       find_max_edit_time.call results, 'instrument_id'

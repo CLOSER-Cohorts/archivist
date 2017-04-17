@@ -1,9 +1,46 @@
 class VariablesController < BasicController
   prepend_before_action :set_dataset
-  only_set_object
+  only_set_object { %i{set_topic add_source remove_source} }
 
   @model_class = Variable
   @params_list = [:name, :label, :var_type, :dataset_id]
+
+  def set_topic
+    topic = Topic.find params[:topic_id]
+
+    begin
+      @object.topic = topic
+      @object.save!
+      head :ok
+    rescue Exceptions::TopicConflictError
+      render json: {message: 'Could not set topic as it would cause a conflict.'}, status: :conflict
+    rescue => e
+      render json: e, status: :bad_request
+    end
+  end
+
+  def add_source
+    head :bad_request if params[:other].nil?
+
+    params[:other] = JSON.parse(params[:other])
+
+    source = params[:other][:class].classify.constantize.find params[:other][:id]
+    @object.add_source(source, params[:other][:x], params[:other][:y])
+  end
+
+  def remove_source
+    head :bad_request if params[:other].nil?
+
+    params[:other] = JSON.parse(params[:other])
+    @object.maps.where(
+        source_type: params[:other][:class],
+        source_id: params[:other][:id],
+        x: params[:other][:x],
+        y: params[:other][:y]
+    ).delete_all
+
+    render 'variables/show'
+  end
 
   protected
   def collection

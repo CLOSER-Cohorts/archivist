@@ -1,11 +1,13 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
+  only_set_object { %i{questions} }
+
   has_importers({
                     dv: ImportJob::DV,
                     topicv: ImportJob::TopicV
                 })
-  only_set_object
+#   only_set_object { %i{member_imports} }
 
   @model_class = Dataset
   @params_list = [:name]
@@ -14,6 +16,14 @@ class DatasetsController < BasicController
     super
     var_counts = Variable.group(:dataset_id).count
     @collection.each { |d| d.var_count = var_counts[d.id] }
+  end
+
+  def show
+    if params[:questions]
+      render 'show_with_questions'
+    else
+      render
+    end
   end
 
   def import
@@ -41,20 +51,23 @@ class DatasetsController < BasicController
     end
   end
 
+  # Used by importing the TXT instrument files that mapper used
+  # Please note that for multiple upload to work within a nested
+  # Angular 1.X form, base64 encoding was needed so we need to
+  # decode the file here as well
   def member_imports
     imports = params[:imports].nil? ? [] : params[:imports]
     head :ok, format: :json if imports.empty?
     begin
       imports.each do |import|
-        doc = Document.new file: import[:file]
+        doc = Document.new file: Base64.decode64(import[:file])
         doc.save_or_get
+        type = import[:type]&.downcase&.to_sym
 
-        type = import[:type].downcase
-
-        if type == 'dv'
-          Resque.enqueue ImportJob::DV, doc.id, self
-        elsif type == 'topicv'
-          Resque.enqueue ImportJob::TopicV, doc.id, self
+        if type == :dv
+          Resque.enqueue ImportJob::DV, doc.id, params[:id]
+        elsif type == :topicv
+          Resque.enqueue ImportJob::TopicV, doc.id, params[:id]
         end
 
       end

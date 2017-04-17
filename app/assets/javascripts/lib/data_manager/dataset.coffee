@@ -11,8 +11,12 @@ datasets.factory(
         'datasets/:id.json',
         {id: '@id'},
         {
-          save: {method: 'PUT'},
-          create: {method: 'POST'}
+          save: {
+            method: 'PUT'
+          },
+          create: {
+            method: 'POST'
+          }
         }
       )
   ]

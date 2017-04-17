@@ -4,6 +4,7 @@ ruby '2.3.1'
 
 gem 'rails', '~>5.0.0'
 gem 'json'
+gem 'jazz_hands', github: 'vwall/jazz_hands'
 
 # Use Puma as the web server
 gem 'puma', '~>2.16.0'

@@ -14,10 +14,24 @@
         </span>
 
         <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'">
-            <input type="text" class="form-control" placeholder="Add variable..." />
+            <div ng-repeat="tag in obj.variables track by $index" class="btn btn-primary tag-variable">
+              <p class="display-inline">{{tag.name}}</p>
+              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="deleteVariable(obi.id,$index)"></span>
+            </div>
+            <input
+                    type="text"
+                    data-ng-model="variable.added[obi.id]"
+                    placeholder="Add a variable"
+                    data-uib-typeahead="variable as variable.name for variable in instrument.Variables | filter:{name:$viewValue}"
+                    class="form-control input-variable"
+                    data-typeahead-on-select="addVariable($item, obj.id,$index)"
+                    typehead-editable="true"
+                    data-uib-tooltip="You can only add existent variables"
+                    data-tooltip-placement="top-right"
+            >
         </div>
         <div
-                class="col-md-6 tq-mapping"
+                class="col-md-6 tq-mapping input-variable"
                 data-ng-class="{'col-md-offset-6': obj.type == 'condition'}"
                 data-ng-if="obj.type!='sequence'">
             <a-topics ng-model="obj"></a-topics>

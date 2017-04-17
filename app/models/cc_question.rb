@@ -1,6 +1,7 @@
 class CcQuestion < ApplicationRecord
   include Construct::Model
   include Linkable
+  include Mappable
   belongs_to :question, polymorphic: true
   belongs_to :response_unit
   has_many :maps, as: :source
@@ -30,7 +31,7 @@ class CcQuestion < ApplicationRecord
     cached_value('response_unit_label') {response_unit.label}
   end
 
-  def cached_value label
+  def cached_value(label)
     key = 'qc_question:' + label
     begin
       value = $redis.hget key, self.id
@@ -48,6 +49,18 @@ class CcQuestion < ApplicationRecord
       end
     end
     value
+  end
+
+  def strand_maps
+    self.variables.to_a
+  end
+
+  def cluster_maps
+    []
+  end
+
+  def level
+    1
   end
 
   def self.create_with_position(params)

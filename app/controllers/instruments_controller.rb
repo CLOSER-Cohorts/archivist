@@ -1,11 +1,12 @@
 class InstrumentsController < BasicController
   include Importers::Controller
+  include Exporters
 
   has_importers({
-                    mapping: ImportJob::Mapping,
+                    qvmapping: ImportJob::Mapping,
                     topicq: ImportJob::TopicQ
                 })
-  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper} }
+  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper member_imports variables} }
 
   @model_class = Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
@@ -67,6 +68,11 @@ class InstrumentsController < BasicController
     end
   end
 
+  def variables
+    @collection = @object.variables
+    render 'variables/index'
+  end
+
   def import
     files = params[:files].nil? ? [] : params[:files]
     options = {}
@@ -84,12 +90,37 @@ class InstrumentsController < BasicController
     end
   end
 
+  # Used by importing the TXT instrument files that mapper used
+  # Please note that for multiple upload to work within a nested
+  # Angular 1.X form, base64 encoding was needed so we need to
+  # decode the file here as well
+  # def member_imports
+  #   imports = params[:imports].nil? ? [] : params[:imports]
+  #   head :ok, format: :json if imports.empty?
+  #
+  #   binding.pry
+  #   1
+  #   begin
+  #     imports.each do |import|
+  #       doc = Document.new file: Base64.decode64(import[:file])
+  #       doc.save_or_get
+  #
+  #       type = import[:type]&.downcase&.to_sym
+  #
+  #       Resque.enqueue(@@map[type], doc.id, @object)
+  #     end
+  #     head :ok, format: :json
+  #   rescue  => e
+  #     render json: {message: e}, status: :bad_request
+  #   end
+  # end
+
   def copy
-    new_details = params.select {
-        |k, v| %w(new_label new_agency new_version new_study).include? k.to_s
-    }.map {
-      |k, v| [k.gsub('new_',''), v]
-    }.to_h
+    new_details = params.select do |k|
+        %w(new_label new_agency new_version new_study).include? k.to_s
+    end.map do |k, v|
+      [k.gsub('new_',''), v]
+    end.to_h
     new_prefix = params['new_prefix']
 
     begin

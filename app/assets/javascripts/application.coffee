@@ -19,11 +19,17 @@
 #= require angular-resource/angular-resource
 #= require angular-rails-templates
 #= require angular-bootstrap/ui-bootstrap-tpls
+#= require angular-base64-upload
 #= require angular-ui-sortable/sortable
 #= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
+#= require angular-loading-overlay/dist/angular-loading-overlay
+#= require angular-loading-overlay-spinjs/dist/angular-loading-overlay-spinjs
+#= require angular-visjs/angular-vis
+#= require vis/dist/vis
+#= require angular-bootstrap-contextmenu/contextMenu
 #
 #= require lib
 #= require sections
@@ -32,9 +38,12 @@
 archivist = angular.module('archivist', [
   'templates',
   'ngRoute',
+  'ui.bootstrap',
   'ui.sortable',
   'googlechart',
   'treeControl',
+  'bsLoadingOverlay',
+  'bsLoadingOverlaySpinJs',
   'archivist.flash',
   'archivist.instruments',
   'archivist.datasets',
@@ -75,6 +84,12 @@ archivist.controller('RootController',
     $scope.user = new User(window.current_user_email)
     if $scope.user.email.length > 0
       $scope.user.sign_in()
+
+    $scope.is_admin = ->
+      $scope.user.is_admin()
+
+    $scope.is_editor = ->
+      $scope.user.is_editor()
 
     $scope.sign_out = ->
       $scope.user.sign_out().finally ->
@@ -188,10 +203,12 @@ archivist.controller('HomeController',
 
       $scope.chart_one.options =
         'title': 'Instruments'
-        'legend': false
-      $scope.chart_two.options =
+        'legend':
+          'position': 'none'
+      $scope.chart_three.options =
         'title': 'Avg. Constructs per Instrument'
-        'legend': false
+        'legend':
+          'position': 'none'
   ]
 )
 
@@ -228,21 +245,26 @@ archivist.directive 'ngFileModel', [
     }
 ]
 
-archivist.run(['$rootScope', 'Flash', 'RealTimeConnection'
-  ($rootScope, Flash, RealTimeConnection)->
+archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlayService',
+  ($rootScope, Flash, RealTimeConnection, bsLoadingOverlayService)->
+    bsLoadingOverlayService.setGlobalConfig {
+      templateUrl: 'bsLoadingOverlaySpinJs',
+      activeClass: 'loading'
+    }
+
     Array::unique = ->
       output = {}
       output[@[key]] = @[key] for key in [0...@length]
       value for key, value of output
 
     Array::select_resource_by_id = (ref_id)->
-      output = (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
+      (@[key] for key in [0...@length] when @[key].id == ref_id)[0]
 
     Array::get_index_by_id = (ref_id)->
       (key for key in [0...@length] when @[key].id == ref_id)[0]
 
     Array::select_resource_by_id_and_type = (ref_id, ref_type)->
-      output = (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
+      (@[key] for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
 
     Array::get_index_by_id_and_type = (ref_id, ref_type)->
       (key for key in [0...@length] when @[key].id == ref_id and @[key].type == ref_type)[0]
@@ -352,15 +374,15 @@ archivist.filter 'capitalize', ->
 
 archivist.filter 'prettytype', ->
   ref = {
-    'ResponseDomainCode': 'Code',
-    'ResponseDomainDatetime': 'Datetime',
-    'ResponseDomainNumeric': 'Numeric',
-    'ResponseDomainText': 'Text',
-    'Category'          : 'Category',
-    'Cateogie'          : 'Categorie',
-    'CodeList'          : 'Code List',
-    'QuestionGrid'      : 'Grid',
-    'QuestionItem'      : 'Item'
+    'ResponseDomainCode'      :     'Code',
+    'ResponseDomainDatetime'  :     'Datetime',
+    'ResponseDomainNumeric'   :     'Numeric',
+    'ResponseDomainText'      :     'Text',
+    'Category'                :     'Category',
+    'Categories'              :     'Categories',
+    'CodeList'                :     'Code List',
+    'QuestionGrid'            :     'Grid',
+    'QuestionItem'            :     'Item'
   }
   (input)->
     if input.charAt(input.length - 1) == 's'
@@ -373,3 +395,15 @@ archivist.filter 'prettytype', ->
       ref[input] + 's'
     else
       ref[input]
+
+archivist.directive 'convertToNumber', ->
+  {
+    require: 'ngModel'
+    link: (scope, element, attrs, ngModel) ->
+      ngModel.$parsers.push (val) ->
+        parseInt val, 10
+      ngModel.$formatters.push (val) ->
+        '' + val
+      return
+
+  }

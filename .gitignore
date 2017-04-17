@@ -28,3 +28,17 @@ vendor/
 node_modules/
 # Ignore application configuration
 /config/application.yml
+
+
+
+.env.*
+!*.example
+
+<<<<<<< HEAD
+# .gitignore compiled assets
+#public/assets/*
+
+=======
+ # .gitignore compiled assets
+public/assets/*
+>>>>>>> Implemented Base64

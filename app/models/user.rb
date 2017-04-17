@@ -14,7 +14,7 @@ class User < ApplicationRecord
   def password_match?
     self.errors[:password] << "can't be blank" if password.blank?
     self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
-    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
+    self.errors[:password_confirmation] << 'does not match password' if password != password_confirmation
     password == password_confirmation && !password.blank?
   end
 
@@ -50,6 +50,24 @@ class User < ApplicationRecord
   def status
     return 'unconfirmed' unless self.confirmed?
     return 'locked' if self.access_locked?
-    return 'active'
+    'active'
+  end
+
+  def self.setup_initial_superuser(params)
+    begin
+      if params['su-password'] == params['su-confirm'] && params['su-password'].length > 7
+        g = Group.create label: params['su-group'], group_type: 'Centre', study: '*'
+        u = User.new email: params['su-email'],
+                     first_name: params['su-fname'],
+                     last_name: params['su-lname']
+        u.password = params['su-password']
+        u.group = g
+        u.save!
+        u.admin!
+        u.confirm
+      end
+    rescue
+      Rails.logger.error 'Could not create the initial superuser.'
+    end
   end
 end

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
   match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
 
+  # adding a route.
+  match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
+
   resources :topics, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'nested_index', to: 'topics#nested_index'
@@ -36,16 +39,35 @@ Rails.application.routes.draw do
     end
   end
   resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
-    resources :variables
+    resources :variables do
+      member do
+        post 'set_topic', to: 'variables#set_topic'
+        post 'add_source', to: 'variables#add_source'
+        post 'remove_source', to: 'variables#remove_source'
+      end
+    end
     member do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
+      get 'questions', to: 'datasets#questions'
     end
   end
 
-  resources :instruments, constraints: -> (r) { [:json, :xml, :text].include?(r.format.symbol) } do
+  request_processor = lambda do |request|
+    # binding.pry if request.path =~ %r{/instruments/13/imports}
+    # 1
+    [:json, :xml, :text].include?(request.format.symbol)
+  end
+
+  resources :instruments, constraints: request_processor do
     resources :cc_sequences
     resources :cc_statements
-    resources :cc_questions
+    resources :cc_questions do
+      member do
+        get 'variables', to: 'cc_questions#variables'
+        post 'add_variables', to: 'cc_questions#add_variables'
+        post 'remove_variable', to: 'cc_questions#remove_variable'
+      end
+    end
     resources :cc_loops
     resources :cc_conditions
     resources :response_units
@@ -66,11 +88,14 @@ Rails.application.routes.draw do
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]
+      get 'variables', to: 'instruments#variables'
     end
   end
 
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
+
+  get 'clusters/:class/:id', to: 'clusters#show', constraints: -> (r) { (r.format == :json || r.format == :xml) }
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }

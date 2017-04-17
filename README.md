@@ -6,24 +6,15 @@
 [![Code Climate](https://codeclimate.com/github/CLOSER-Cohorts/archivist/badges/gpa.svg)](https://codeclimate.com/github/CLOSER-Cohorts/archivist)
 [![Issue Stats](http://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](http://issuestats.com/github/CLOSER-Cohorts/archivist)
 
-### Non-Implemented Models
-#### Mapper
-* topic.rb
-* variable.rb
-* map.rb
-* link.rb
-* dataset.rb
-* instruments_datasets.rb
-
 ### Model Relationship Diagram
 Run `rails generate_erd` to regenerate (must have graphvis).
 ![](/app/assets/images/diagrams/erd-wp.png)
 
 ## Configuration
-* Ruby: 2.2.3
-* Rails: >=5.0.0
-* Postgres: >=9.4
-* Redis: 3.x
+* Ruby: 2.3.1
+* Rails: 5.0.X
+* Postgres: 9.5.X
+* Redis: 3.2.X
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
@@ -37,33 +28,33 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 4. `bundler install`
 5. Set the environment variable  `RAILS_ENV=production` (e.g. `export RAILS_ENV=production`)
 6. Copy `config/application.yml.dist` to `config/application.yml`
-7. Set the mailer, CDN and database password in the above file
+7. Set the mailer and database password in the above file
 8. `rails db:migrate`
-9. Start server: `bundle exec puma -C config/puma.rb`
+9. Start server: `foreman run web`
 
-This could cause the webserver to start...
+This _could_ cause the webserver to start...
 
 ## Testing
-To run the test suite just call `rails test`. Currently 196 tests and 263 assertions.
+To run the test suite just call `rails test`. Currently 197 tests and 256 assertions.
 
 ## Stats
-| Name                 |  Lines |     LOC | Classes | Methods | M/C | LOC/M |
-|----------------------|--------|---------|---------|---------|-----|-------|
-| Controllers          |    605 |     358 |      27 |      28 |   1 |    10 |
-| Jobs                 |     41 |     38  |       3 |       3 |   1 |    10 |
-| Models               |    712 |     614 |      27 |      50 |   1 |    10 |
-| Mailers              |     12 |      11 |       2 |       1 |   0 |     9 |
-| Javascripts          |   2677 |    2296 |       0 |     305 |   0 |     5 |
-| Libraries            |   2001 |    1734 |       8 |      88 |  11 |    17 |
-| Tasks                |    209 |     163 |       0 |       1 |   0 |   161 |
-| Controller tests     |    835 |     684 |      18 |      93 |   5 |     5 |
-| Model tests          |    664 |     488 |      27 |     104 |   3 |     2 |
-| Mailer tests         |     11 |       5 |       2 |       0 |   0 |     0 |
-| **Total**            |**7767**| **6391**|  **114**| **673** |**5**|  **7**|
+| Name                 |   Lines |     LOC | Classes | Methods | M/C | LOC/M |
+|----------------------|---------|---------|---------|---------|-----|-------|
+| Controllers          |    1011 |     710 |      33 |      71 |   2 |     8 |
+| Jobs                 |     206 |     167 |      10 |       9 |   0 |    16 |
+| Models               |    1568 |    1264 |      34 |     121 |   3 |     8 |
+| Mailers              |      12 |      11 |       2 |       1 |   0 |     9 |
+| Javascripts          |    3906 |    3335 |       0 |     410 |   0 |     6 |
+| Libraries            |    2624 |    2310 |      24 |     100 |   4 |    21 |
+| Tasks                |     397 |     328 |       0 |       1 |   0 |   326 |
+| Controller tests     |     848 |     699 |      18 |      93 |   5 |     5 |
+| Model tests          |     671 |     491 |      28 |     104 |   3 |     2 |
+| Mailer tests         |      11 |       5 |       2 |       0 |   0 |     0 |
+| **Total**            |**11278**| **9339**|  **151**|  **912**|**6**|  **8**|
 
-  - Code LOC: 5214
-  - Test LOC: 1177
-  - Code to Test Ratio: 1:0.2
+  - Code LOC: 8144
+  - Test LOC: 1195
+  - Code to Test Ratio: 1:0.1
 
 ## Archivist Realtime
 Archivist is both a module within Archivist and an entirely separate 

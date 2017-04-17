@@ -8,4 +8,8 @@ class Dataset < ApplicationRecord
   has_many :dv_mappings
   
   attr_accessor :var_count
+
+  def questions
+    self.instruments.map(&:cc_questions).flatten
+  end
 end
