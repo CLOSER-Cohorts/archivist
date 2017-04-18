@@ -579,12 +579,12 @@ module Importers::XML::DDI
         urn = ref.at_xpath('./URN')&.content
         type = ref.at_xpath('./TypeOfObject')&.content
         if urn.nil?
-          agency_node = ref_node.at_xpath('./Agency')
-          id_node = ref_node.at_xpath('./ID')
-          version_node = ref_node.at_xpath('./Version')
+          agency_node = ref.at_xpath('./Agency')
+          id_node = ref.at_xpath('./ID')
+          version_node = ref.at_xpath('./Version')
           urn = compose(agency_node, id_node, version_node)
         end
-        doc.at_xpath("//*[local-name() = '#{type}']/URN[text()='#{urn}']']")&.parent
+        doc.at_xpath("//*[local-name() = '#{type}']/URN[text()='#{urn}']")&.parent
       end
 
       def []=(node, obj)
