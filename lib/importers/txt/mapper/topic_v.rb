@@ -1,4 +1,4 @@
-module Importers::TXT::Mapper::TopicV
+class Importers::TXT::Mapper::TopicV
   def initialize(thing, dataset)
     if thing.is_a? String
       @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }

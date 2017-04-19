@@ -4,7 +4,7 @@ class CcQuestion < ApplicationRecord
   include Mappable
   belongs_to :question, polymorphic: true
   belongs_to :response_unit
-  has_many :maps, as: :source
+  has_many :maps, as: :source, dependent: :destroy
   has_many :variables, through: :maps
 
   URN_TYPE = 'qc'

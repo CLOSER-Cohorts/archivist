@@ -106,7 +106,7 @@ class ImportJob::TopicQ
 
       im.import
     rescue => e
-      Rails.logger.fatal 'Fatal error while importing topic-Q mapping for Instrument:' + instrument_id.to_s
+      Rails.logger.fatal 'Fatal error while importing topic-Q mapping for Instrument: ' + instrument_id.to_s
       Rails.logger.fatal e.message
     end
   end
@@ -127,7 +127,7 @@ class ImportJob::TopicV
 
     im.import
   rescue => e
-    Rails.logger.fatal 'Fatal error while importing topic-V mapping for Dataset:' + dataset_id.to_s
+    Rails.logger.fatal 'Fatal error while importing topic-V mapping for Dataset: ' + dataset_id.to_s
     Rails.logger.fatal e.message
   end
   end
