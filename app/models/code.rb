@@ -30,16 +30,14 @@ class Code < ApplicationRecord
 
   # Delegates label to Category, protecting against nil Category
   #
-  # === Returns
-  # (String|Nil:nil)
+  # @return [String|Nil]
   def label
     self.category.nil? ? nil : self.category.label
   end
 
   # Allows the assigning of a new Category label in a protected way
   #
-  # === Parameters
-  # * val - (String) - New Category label
+  # @param [String] val New Category label
   def label=(val)
     set_label(val, code_list.instrument)
   end
@@ -54,9 +52,8 @@ class Code < ApplicationRecord
   # If the Category label already exists for this instrument then that Category
   # is found and assigned, otherwise a new Category is created, saved and assigned.
   #
-  # === Parameters
-  # * val - (String) - New Category label
-  # * instrument - (Instrument) - Instrument to which Category belongs
+  # @param [String] val New Category label
+  # @param [Instrument] instrument Instrument to which Category belongs
   def set_label(val, instrument)
     self.category = Category.find_by label: val, instrument_id: instrument.id
     if self.category.nil?

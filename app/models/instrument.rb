@@ -1,10 +1,37 @@
+# The Instrument is based on the Instrument model from DDI3.X and is one of the
+# champion models that pulls together Archivist.
+#
+#
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/Instrument.html
+#
+# === Properties
+# * Agency
+# * Version
+# * Prefix
+# * Label
+# * Study
 class Instrument < ApplicationRecord
-  include Realtime::RtUpdate
+  # This model is exportable as DDI
   include Exportable
 
+  include Realtime::RtUpdate
+
+  # Used to create CLOSER UserID and URNs
+  #
+  # @type [String]
   URN_TYPE = 'in'
+
+  # XML tag name
+  #
+  # @type [String]
   TYPE = 'Instrument'
 
+  # List of direct properties that an instrument has
+  #
+  # This is effectively the list of associations, but with some of
+  # the junction tables removed.
+  #
+  # @type [Array]
   PROPERTIES = [
       :categories,
       :code_lists,
@@ -148,12 +175,17 @@ class Instrument < ApplicationRecord
         self.cc_sequences.to_a + self.cc_statements.to_a
   end
 
+  # Gets the number of constructs
+  #
+  # @return [Integer] Number of constructs
   def cc_count
     stats = self.association_stats
     stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
         stats['cc_sequences'] + stats['cc_statements']
   end
 
+  # Get all of the constructs in order from the top sequence down
+  # @return [Array] Flat array of constructs
   def ccs_in_ddi_order
     output = []
     harvest = lambda do |parent|
@@ -166,6 +198,16 @@ class Instrument < ApplicationRecord
     output
   end
 
+  # Deep copies an instrument
+  #
+  # In order to deep copy an instrument, all models that belong to the original
+  # instrument are also copied. Then seperately the control construct tree is
+  # recompiled.
+  #
+  # @param [String] new_prefix Prefix of instrument to be created
+  # @param [Hash] other_vals Optional additional values to set instead of being copied
+  #
+  # @return [Instrument] Returns the newly copied instrument
   def copy(new_prefix, other_vals = {})
 
     new_i = self.dup
