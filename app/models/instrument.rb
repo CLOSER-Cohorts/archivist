@@ -1,4 +1,10 @@
 class Instrument < ApplicationRecord
+  include Realtime::RtUpdate
+  include Exportable
+
+  URN_TYPE = 'in'
+  TYPE = 'Instrument'
+
   PROPERTIES = [
       :categories,
       :code_lists,
@@ -89,12 +95,6 @@ class Instrument < ApplicationRecord
 
   has_many :qv_mappings
 
-  include Realtime::RtUpdate
-  include Exportable
-
-  URN_TYPE = 'in'
-  TYPE = 'Instrument'
-
   after_create :add_top_sequence
   after_create :register_prefix
 
@@ -103,47 +103,44 @@ class Instrument < ApplicationRecord
   around_destroy :pause_rt
   after_destroy :deregister_prefix
 
+  def self.generate_last_edit_times
+    last_edit_times = {}
+
+    find_max_edit_time = lambda do |res, id|
+      res.each do |r|
+        last_edit_times[r[id]] = [
+            last_edit_times[r[id]],
+            r['max']
+        ].reject { |x| x.nil? }.max
+      end
+    end
+
+    Instrument.reflections.keys.each do |res|
+      next if %w(instruments_datasets datasets).include? res
+      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
+      results = ActiveRecord::Base.connection.execute sql
+      find_max_edit_time.call results, 'instrument_id'
+    end
+    sql = 'SELECT id, updated_at FROM instruments'
+    results = ActiveRecord::Base.connection.execute sql
+    find_max_edit_time.call results, 'id'
+
+    begin
+      last_edit_times.select do |k, v|
+        $redis.hset 'last_edit:instrument', k, v
+      end
+    rescue => e
+      Rails.logger.warn 'Could not set last edit times'
+      Rails.logger.warn e.message
+    end
+  end
+
+  def add_top_sequence
+    self.cc_sequences.create
+  end
+
   def conditions
     self.cc_conditions
-  end
-
-  def loops
-    self.cc_loops
-  end
-
-  def questions
-    self.cc_questions
-  end
-
-  def sequences
-    self.cc_sequences
-  end
-
-  def statements
-    self.cc_statements
-  end
-
-  def response_domains
-    self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
-        self.response_domain_texts.to_a + self.response_domain_codes.to_a
-  end
-
-  def variables
-    Variable.where(dataset_id: self.datasets.map(&:id))
-  end
-
-  def destroy
-    PROPERTIES.reverse.map(&:to_s).each do |r|
-      next if ['datasets'].include? r
-      begin
-        klass = r.classify.constantize
-      rescue
-        klass = r.classify.pluralize.constantize
-      end
-      klass.where(instrument_id: self.id).destroy_all
-    end
-    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
-    ActiveRecord::Base.connection.execute(sql)
   end
 
   def ccs
@@ -151,12 +148,10 @@ class Instrument < ApplicationRecord
         self.cc_sequences.to_a + self.cc_statements.to_a
   end
 
-  def top_sequence
-    self
-        .cc_sequences
-        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
-        .where('cc.parent_id IS NULL')
-        .first
+  def cc_count
+    stats = self.association_stats
+    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
+        stats['cc_sequences'] + stats['cc_statements']
   end
 
   def ccs_in_ddi_order
@@ -171,40 +166,6 @@ class Instrument < ApplicationRecord
     output
   end
 
-  def add_top_sequence
-    self.cc_sequences.create
-  end
-
-  def pause_rt
-    Realtime.do_silently do
-      yield
-    end
-  end
-
-  def export_time
-    begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
-    rescue
-      nil
-    end
-  end
-
-  def export_url
-    begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
-    rescue
-      nil
-    end
-  end
-
-  def last_edited_time
-    begin
-      $redis.hget 'last_edit:instrument', self.id
-    rescue
-      nil
-    end
-  end
-
   def copy(new_prefix, other_vals = {})
 
     new_i = self.dup
@@ -214,7 +175,7 @@ class Instrument < ApplicationRecord
     new_i.save!
     new_i.cc_sequences.first.destroy
 
-    ref = { control_constructs: {} }
+    ref = {control_constructs: {}}
     ccs = {}
     PROPERTIES.each do |key|
       ref[key] = {}
@@ -250,10 +211,42 @@ class Instrument < ApplicationRecord
     new_i
   end
 
-  def cc_count
-    stats = self.association_stats
-    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
-        stats['cc_sequences'] + stats['cc_statements']
+  def destroy
+    PROPERTIES.reverse.map(&:to_s).each do |r|
+      next if ['datasets'].include? r
+      begin
+        klass = r.classify.constantize
+      rescue
+        klass = r.classify.pluralize.constantize
+      end
+      klass.where(instrument_id: self.id).destroy_all
+    end
+    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
+    ActiveRecord::Base.connection.execute(sql)
+  end
+
+  def export_time
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
+    rescue
+      nil
+    end
+  end
+
+  def export_url
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
+    rescue
+      nil
+    end
+  end
+
+  def last_edited_time
+    begin
+      $redis.hget 'last_edit:instrument', self.id
+    rescue
+      nil
+    end
   end
 
   def last_export_time
@@ -264,45 +257,52 @@ class Instrument < ApplicationRecord
     end
   end
 
-  def self.generate_last_edit_times
-    last_edit_times = {}
+  def loops
+    self.cc_loops
+  end
 
-    find_max_edit_time = lambda do |res, id|
-      res.each do |r|
-        last_edit_times[r[id]] = [
-            last_edit_times[r[id]],
-            r['max']
-        ].reject { |x| x.nil? }.max
-      end
+  def pause_rt
+    Realtime.do_silently do
+      yield
     end
+  end
 
-    Instrument.reflections.keys.each do |res|
-      next if %w(instruments_datasets datasets).include? res
-      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
-      results = ActiveRecord::Base.connection.execute sql
-      find_max_edit_time.call results, 'instrument_id'
-    end
-    sql = 'SELECT id, updated_at FROM instruments'
-    results = ActiveRecord::Base.connection.execute sql
-    find_max_edit_time.call results, 'id'
+  def questions
+    self.cc_questions
+  end
 
-    begin
-      last_edit_times.select do |k, v|
-        $redis.hset 'last_edit:instrument', k, v
-      end
-    rescue => e
-      Rails.logger.warn 'Could not set last edit times'
-      Rails.logger.warn e.message
-    end
+  def response_domains
+    self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
+        self.response_domain_texts.to_a + self.response_domain_codes.to_a
+  end
+
+  def sequences
+    self.cc_sequences
+  end
+
+  def statements
+    self.cc_statements
+  end
+
+  def top_sequence
+    self
+        .cc_sequences
+        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
+        .where('cc.parent_id IS NULL')
+        .first
+  end
+
+  def variables
+    Variable.where(dataset_id: self.datasets.map(&:id))
   end
 
   private
-  def register_prefix
-    ::Prefix[self.prefix] = self.id
-  end
-
   def deregister_prefix
     ::Prefix.destroy self.prefix
+  end
+
+  def register_prefix
+    ::Prefix[self.prefix] = self.id
   end
 
   def reregister_prefix

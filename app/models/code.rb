@@ -10,6 +10,14 @@
 # * Value
 # * Order
 class Code < ApplicationRecord
+  # This model is exportable as DDI
+  include Exportable
+
+  # Used to create CLOSER UserID and URNs
+  URN_TYPE = 'co'
+  # XML tag name
+  TYPE = 'Code'
+
   # All Codes must belong to a Code List
   belongs_to :code_list
   # Each Code must have one Category
@@ -19,15 +27,6 @@ class Code < ApplicationRecord
 
   # Before creating a Code in the database ensure the instrument has been set
   before_create :set_instrument
-
-  # Used to create CLOSER UserID and URNs
-  URN_TYPE = 'co'
-
-  # XML tag name
-  TYPE = 'Code'
-
-  # This model is exportable as DDI
-  include Exportable
 
   # Delegates label to Category, protecting against nil Category
   #
@@ -45,6 +44,11 @@ class Code < ApplicationRecord
     set_label(val, code_list.instrument)
   end
 
+  # Sets instrument_id from the Code List that this Code belongs to
+  def set_instrument
+    self.instrument_id = self.code_list.instrument_id
+  end
+
   # Sets a Category
   #
   # If the Category label already exists for this instrument then that Category
@@ -58,10 +62,5 @@ class Code < ApplicationRecord
     if self.category.nil?
       self.category = Category.create label: val, instrument: instrument
     end
-  end
-
-  # Sets instrument_id from the Code List that this Code belongs to
-  def set_instrument
-    self.instrument_id = self.code_list.instrument_id
   end
 end

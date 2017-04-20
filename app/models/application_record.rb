@@ -12,11 +12,11 @@ class ApplicationRecord < ActiveRecord::Base
   # Call clear_cached_stats whenever a model is created
   after_create :clear_cached_stats
 
-  # Call clear_cached_stats whenever a model is destroyed
-  after_destroy :clear_cached_stats
-
   # Call update_last_edit_item after the model has been updated
   after_update :update_last_edit_time
+
+  # Call clear_cached_stats whenever a model is destroyed
+  after_destroy :clear_cached_stats
 
 
   ## Instance methods ##
