@@ -34,11 +34,6 @@ node_modules/
 .env.*
 !*.example
 
-<<<<<<< HEAD
 # .gitignore compiled assets
 #public/assets/*
 
-=======
- # .gitignore compiled assets
-public/assets/*
->>>>>>> Implemented Base64

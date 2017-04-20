@@ -1,6 +1,7 @@
 class InstrumentPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
+      return scope.none if user.nil?
       if user.group.study == '*'
         scope.all
       else

@@ -8,8 +8,10 @@ users.controller(
     '$scope',
     '$location',
     '$http',
+    '$route',
     'User',
-    ($scope, $location, $http, User)->
+    'DataManager',
+    ($scope, $location, $http, $route, User, DataManager)->
       $scope.sign_in = (cred)->
         $scope.user.set('email', cred.email)
         $scope.user.sign_in(cred.password).then(->
@@ -17,6 +19,9 @@ users.controller(
         ,->
           $scope.publish_flash()
           cred.password = ""
+          DataManager.clearCache()
+          $route.reload()
+          console.log 'User logged in.'
         )
 
       $scope.sign_up = (details)->
@@ -31,6 +36,8 @@ users.controller(
           $scope.publish_flash()
           details.password = ""
           details.confirm = ""
+          DataManager.clearCache()
+          $route.reload()
           false
         )
 
@@ -45,8 +52,10 @@ users.factory(
   [
     '$http',
     '$q',
-    'Flash'
-    ($http, $q, Flash)->
+    '$route',
+    'Flash',
+    'DataManager'
+    ($http, $q, $route, Flash, DataManager)->
       class
         constructor: (@email)->
           @logged_in = false
@@ -73,6 +82,8 @@ users.factory(
             }
           ).then(
             (res)->
+              DataManager.clearCache()
+              $route.reload()
               self.logged_in = true
               self.set 'first_name', res.data.first_name
               self.set 'last_name', res.data.last_name
@@ -89,6 +100,9 @@ users.factory(
           self = this
           $http.delete(
             '/users/sign_out.json'
+          ).then(->
+            DataManager.clearCache()
+            $route.reload()
           ).finally ->
             self.logged_in = false
 
@@ -104,6 +118,8 @@ users.factory(
             }
           ).then(
             (res)->
+              DataManager.clearCache()
+              $route.reload()
               self.logged_in = true
               self.set 'role', res.data.role
             ,(res)->
