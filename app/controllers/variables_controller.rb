@@ -1,6 +1,6 @@
 class VariablesController < BasicController
   prepend_before_action :set_dataset
-  only_set_object { %i{set_topic add_source remove_source} }
+  only_set_object { %i{set_topic add_sources remove_source} }
 
   @model_class = Variable
   @params_list = [:name, :label, :var_type, :dataset_id]
@@ -19,13 +19,14 @@ class VariablesController < BasicController
     end
   end
 
-  def add_source
-    head :bad_request if params[:other].nil?
+  def add_sources
+    head :bad_request if params[:sources].nil?
 
-    params[:other] = JSON.parse(params[:other])
+    params[:sources] = JSON.parse(params[:sources])
 
-    source = params[:other][:class].classify.constantize.find params[:other][:id]
-    @object.add_source(source, params[:other][:x], params[:other][:y])
+    @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
+
+    render 'variables/show'
   end
 
   def remove_source

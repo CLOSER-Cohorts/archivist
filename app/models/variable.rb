@@ -26,15 +26,40 @@ class Variable < ApplicationRecord
     (1 + self.src_variables.map(&:level).compact.max.to_i)
   end
 
-  def add_source(source, x = nil, y = nil)
-    if self.maps.create ({
-      variable: self,
-      source:   source,
-      x:        x,
-      y:        y
-    })
-      self.strand&.cluster&.delete
-      self.strand&.delete
+  def add_sources(source_labels, x = nil, y = nil)
+    sources = @var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
+    [*sources].compact.each do |source|
+      if self.maps.create ({
+          variable: self,
+          source:   source,
+          x:        x,
+          y:        y
+      })
+        self.strand + source.strand
+      end
     end
+  end
+
+  private
+  def find_by_label_from_possible_questions(label)
+    sql = <<~SQL
+            SELECT ccq.*
+            FROM instruments_datasets ids
+            INNER JOIN instruments i
+            ON i.id = ids.instrument_id
+            INNER JOIN cc_questions ccq
+            ON ccq.instrument_id = i.id
+            INNER JOIN control_constructs cc
+            ON cc.construct_id = ccq.id
+            AND cc.construct_type = 'CcQuestion'
+            WHERE ids.dataset_id = ?
+            AND cc.label IN (?)
+            ORDER BY ccq.id
+    SQL
+    CcQuestion.find_by_sql [
+                               sql,
+                               self.dataset_id,
+                               label
+                           ]
   end
 end

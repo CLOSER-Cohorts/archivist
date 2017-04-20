@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     resources :variables do
       member do
         post 'set_topic', to: 'variables#set_topic'
-        post 'add_source', to: 'variables#add_source'
+        post 'add_sources', to: 'variables#add_sources'
         post 'remove_source', to: 'variables#remove_source'
       end
     end

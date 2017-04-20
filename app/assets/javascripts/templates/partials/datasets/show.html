@@ -70,6 +70,7 @@
                                     data-typeahead-min-length="1"
                                     autocomplete="off"
                                     style="width: 100%"
+                                    data-ng-keyup="detectKey($event, variable)"
                             >
                             <input
                                     data-ng-if="variable.var_type != 'Normal'"
@@ -83,6 +84,7 @@
                                     data-typeahead-min-length="1"
                                     autocomplete="off"
                                     style="width: 100%"
+                                    data-ng-keyup="detectKey($event, variable)"
                             >
                         </div>
                     </div>

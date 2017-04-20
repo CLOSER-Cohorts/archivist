@@ -15,6 +15,8 @@ class Importers::TXT::Mapper::DV
       src = @dataset.variables.find_by_name s
       unless var.nil? or src.nil?
         var.src_variables << src
+        var.var_type = 'Derived'
+        var.save!
       end
     end
   end

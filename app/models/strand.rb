@@ -91,9 +91,14 @@ class Strand
     new_members = []
     new_members += @members
     new_members += other.members
+    cluster&.delete
+    other.cluster&.delete
     delete
     other.delete
-    Strand.new new_members
+    s = Strand.new new_members
+    c = Cluster.new [s]
+    c.save
+    s
   end
 
   def ==(other)

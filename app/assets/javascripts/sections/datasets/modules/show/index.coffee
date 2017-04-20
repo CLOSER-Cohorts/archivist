@@ -123,6 +123,17 @@ show.controller(
           y: y
         }
 
+      $scope.detectKey = (event, variable, x = null, y = null)->
+        if event.keyCode == 13
+          new_sources = event.target.value.split ','
+          variable.$add_mapping {
+            sources:
+              id: new_sources
+              x: x
+              y: y
+          }
+        console.log variable
+
       console.log $scope
   ]
 )
