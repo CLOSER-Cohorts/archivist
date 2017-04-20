@@ -14,9 +14,9 @@
         </span>
 
         <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'">
-            <div ng-repeat="tag in obj.variables track by $index" class="btn btn-primary tag-variable">
-              <p class="display-inline">{{tag.name}}</p>
-              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="deleteVariable(obi.id,$index)"></span>
+            <div ng-repeat="variable in obj.variables" class="btn btn-primary tag-variable">
+              <p class="display-inline">{{variable.name}}</p>
+              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(obj, variable.id)"></span>
             </div>
             <input
                     type="text"

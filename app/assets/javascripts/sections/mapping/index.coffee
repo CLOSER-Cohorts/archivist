@@ -67,7 +67,12 @@ mapping.controller(
       console.log 'Controller scope'
       console.log $scope
 
-
+      $scope.split_mapping = (question, variable_id, x = null, y = null)->
+        question.$split_mapping {
+          variable_id: variable_id
+          x: x
+          y: y
+        }
   ]
 )
 
