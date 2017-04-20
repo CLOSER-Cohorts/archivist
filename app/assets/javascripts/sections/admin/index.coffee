@@ -303,7 +303,7 @@ admin.controller('AdminExportController',
   [
     '$scope',
     '$http',
-    'DataManager'
+    'DataManager',
     ($scope, $http, DataManager)->
       $scope.instruments = DataManager.Instruments.query()
       $scope.pageSize = 16
@@ -314,35 +314,37 @@ admin.controller('AdminExportController',
         $http.get '/instruments/' + instrument.id.toString() + '/export.json'
   ])
 
-admin.factory('AdminMappingImportsFactory',['$http','$q',($http,$q)->
+admin.factory('AdminMappingImportsFactory',
+  [
+    '$http',
+    '$q',
+    ($http,$q)->
 
-  MappingImports = {}
+      MappingImports = {}
 
-  MappingImports.import = (files,filetype,method,url) ->
-    i = 0
-    params = {}
-    params.imports=[]
+      MappingImports.import = (files,filetype,method,url) ->
+        i = 0
+        params = {}
+        params.imports=[]
 
-    while i < files.length
-      data = {file:files[i].base64, type:filetype[i]}
-      params.imports.push(data)
-      i++
+        while i < files.length
+          data = {file:files[i].base64, type:filetype[i]}
+          params.imports.push(data)
+          i++
 
-    $http {
-      method: method
-      url: url
-      data: JSON.stringify params
-    }
-    .then ((res) ->
-      console.log 'imported'
-      console.log res
-      res
-    ), (res)->
-      console.log res
-      $q.reject(res)
+        $http {
+          method: method
+          url: url
+          data: JSON.stringify params
+        }
+        .then ((res) ->
+          console.log 'imported'
+          console.log res
+          res
+        ), (res)->
+          console.log res
+          $q.reject(res)
 
-
-
-  MappingImports
+      MappingImports
 
   ])

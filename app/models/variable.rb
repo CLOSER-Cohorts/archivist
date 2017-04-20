@@ -27,7 +27,7 @@ class Variable < ApplicationRecord
   end
 
   def add_sources(source_labels, x = nil, y = nil)
-    sources = @var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
+    sources = self.var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
     [*sources].compact.each do |source|
       if self.maps.create ({
           variable: self,
