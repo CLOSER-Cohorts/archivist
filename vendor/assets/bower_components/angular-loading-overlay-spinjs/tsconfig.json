@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "sourceMap": true
+    },
+    "compileOnSave": false,
+    "filesGlob": [
+        "typings/index.d.ts",
+        "source/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    },
+    "files": [
+        "typings/index.d.ts",
+        "source/BsLoadingOverlaySpinJsModule.ts"
+    ]
+}
