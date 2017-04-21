@@ -14,6 +14,7 @@ class Instrument < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
 
   # Used to create CLOSER UserID and URNs
@@ -52,19 +53,28 @@ class Instrument < ApplicationRecord
       :rds_qs
   ]
 
+  # An instrument can have many CcConditions
   has_many :cc_conditions,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcLoops
   has_many :cc_loops,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcSequences
   has_many :cc_sequences,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcStatement
   has_many :cc_statements,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
-
+  # An instrument can have many CodeLists
   has_many :code_lists, dependent: :destroy
+
+  # An instrument can have many Categories
   has_many :categories, dependent: :destroy
+
+  # An instrument keeps track of many Codes as junctions
   has_many :codes, dependent: :destroy
 
+  # An instrument can have many QuestionGrids
   has_many :question_grids, -> { includes [
                                               :instruction,
                                               :response_domain_datetimes,
@@ -88,6 +98,8 @@ class Instrument < ApplicationRecord
                                                   ]
                                               ]
                                           ] }, dependent: :destroy
+
+  # An instrument can have many QuestionItems
   has_many :question_items, -> { includes [
                                               :instruction,
                                               :response_domain_datetimes,
@@ -102,34 +114,71 @@ class Instrument < ApplicationRecord
                                               ]
                                           ] }, dependent: :destroy
 
+  # An instrument can have many CcQuestions
   has_many :cc_questions,
            -> { includes(:question, :response_unit, cc: [:children, :parent]) },
            dependent: :destroy
+
+  # An instrument keeps track of many ControlConstructs as junctions
   has_many :control_constructs, dependent: :destroy
 
+  # An instrument can have many Instructions
   has_many :instructions, dependent: :destroy
 
+  # An instrument can have many ResponseDomainCodes
   has_many :response_domain_codes, dependent: :destroy
+
+  # An instrument can have many ResponseDomainDatetimes
   has_many :response_domain_datetimes, dependent: :destroy
+
+  # An instrument can have many ResponseDomainNumerics
   has_many :response_domain_numerics, dependent: :destroy
+
+  # An instrument can have many ResponseDomainTexts
   has_many :response_domain_texts, dependent: :destroy
+
+  # An instrument keeps track of many RdsQs as junctions
   has_many :rds_qs, class_name: 'RdsQs', dependent: :destroy
 
+  # An instrument can have many ResponseUnits
   has_many :response_units, dependent: :destroy
 
+  # Junction relationship to Datasets
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+
+  # Many-to-many relationship with Datasets
+  #
+  # This is used as a scoping mechanism to speed up CcQuestion to
+  # Variable mapping
   has_many :datasets, through: :instruments_datasets
 
+  # Allows an instrument to access a database view that reformats
+  # an instruments Q-V mapping file
   has_many :qv_mappings
 
+  # After creating a new instrument a first sequence is created as
+  # a top sequence
   after_create :add_top_sequence
+
+  # After creating a new instrument add the instrument Prefix to
+  # cache
   after_create :register_prefix
 
+  # After updating an instrument, refresh the Prefix cache
   after_update :reregister_prefix
 
+  # While destroying an instrument, pause archivist-realtime updates
   around_destroy :pause_rt
+
+  # After destroying an instrument, remove its Prefix from cache
   after_destroy :deregister_prefix
 
+  # Update cache with freshly generated last editted times for  all
+  # instruments
+  #
+  # This last editted time includes all objects that belongs to an
+  # Instrument. For example, if a Category label is editted, then
+  # the last editted time will be the category's updated_at time.
   def self.generate_last_edit_times
     last_edit_times = {}
 
@@ -162,10 +211,9 @@ class Instrument < ApplicationRecord
     end
   end
 
-  def add_top_sequence
-    self.cc_sequences.create
-  end
-
+  # Alias for accessing CcConditions relation
+  #
+  # @return [ActiveRecord::Associations::CollectionProxy]
   def conditions
     self.cc_conditions
   end
@@ -339,6 +387,11 @@ class Instrument < ApplicationRecord
   end
 
   private
+  # Creates an empty sequence
+  def add_top_sequence
+    self.cc_sequences.create
+  end
+
   def deregister_prefix
     ::Prefix.destroy self.prefix
   end
