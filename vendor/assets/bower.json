@@ -13,13 +13,11 @@
     "socket.io-client": "latest",
     "angular-google-chart": "latest",
     "angular-tree-control": "latest",
+    "angular-ui-tree": "latest",
     "angular-base64-upload": "latest",
     "angular-loading-overlay": "latest",
     "angular-loading-overlay-spinjs": "latest",
     "angular-visjs": "latest",
     "angular-bootstrap-contextmenu": "latest"
-  },
-  "resolutions": {
-    "angular": "1.5.11"
   }
 }

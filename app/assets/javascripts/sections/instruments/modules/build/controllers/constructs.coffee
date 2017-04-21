@@ -74,6 +74,9 @@ angular.module('archivist.build').controller(
           $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
       }
 
+      $scope.toggle = (scope) ->
+        scope.toggle()
+
       $scope.delete = ->
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
         index = arr.get_index_by_id parseInt($routeParams.construct_id)
@@ -229,4 +232,9 @@ angular.module('archivist.build').controller(
     ($scope)->
       $scope.branch = 1
   ]
+)
+
+angular.module('archivist.build').config( (treeConfig)->
+  treeConfig.placeholderClass = 'a-tree-placeholder a-construct list-group-item'
+  treeConfig.hiddenClass = 'a-tree-hidden'
 )

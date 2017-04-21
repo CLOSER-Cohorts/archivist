@@ -25,6 +25,7 @@
 #= require socket.io-client/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
+#= require angular-ui-tree/dist/angular-ui-tree
 #= require angular-loading-overlay/dist/angular-loading-overlay
 #= require angular-loading-overlay-spinjs/dist/angular-loading-overlay-spinjs
 #= require angular-visjs/angular-vis
@@ -40,6 +41,7 @@ archivist = angular.module('archivist', [
   'ngRoute',
   'ui.bootstrap',
   'ui.sortable',
+  'ui.tree',
   'googlechart',
   'treeControl',
   'bsLoadingOverlay',

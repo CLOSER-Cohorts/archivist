@@ -6,6 +6,7 @@ asset 'angular-animate', "1.5.11"
 asset 'bootstrap-sass-official'
 asset 'angular-bootstrap'
 asset 'angular-ui-sortable'
+asset 'angular-ui-tree'
 asset 'jquery-ui'
 asset 'socket.io-client'
 asset 'angular-google-chart'

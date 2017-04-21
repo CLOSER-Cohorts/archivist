@@ -19,6 +19,7 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "angular-tree-control/css/tree-control";
 @import "angular-tree-control/css/tree-control-attribute";
+@import "angular-ui-tree/dist/angular-ui-tree";
 @import "vis/dist/vis";
 
 .monospaced {
@@ -142,4 +143,12 @@ p.rt-offline {
 #overlay.loading {
   background: rgba(50, 50, 50, 0.5);
   z-index: 10000;
+}
+
+.a-tree-placeholder {
+  background: #428bca;
+}
+
+.a-tree-hidden {
+  display: none;
 }

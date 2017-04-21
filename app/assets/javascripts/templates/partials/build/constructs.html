@@ -12,50 +12,71 @@
 </script>
 
 <script type="text/ng-template" id="child_render.html">
+    <a
+            class="btn btn-success btn-xs"
+            data-ng-if="obj.children && obj.children.length > 0"
+            data-nodrag
+            data-ng-click="toggle(this)"
+    >
+        <span
+            class="glyphicon"
+            data-ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"
+        ></span>
+    </a>
     <a data-ng-href="#" data-ng-click="change_panel(obj)">{{obj.label}}</a>
     <ul
             class="a-construct-container list-group"
-            data-ui-sortable="sortableOptions"
+            ui-tree-nodes=""
             data-ng-model="obj.children"
             data-ng-class="{'a-true-branch': obj.type == 'condition'}"
-            data-ng-if="obj.type == 'condition' || obj.type == 'sequence' || obj.type == 'loop'"
+            data-ng-if="(obj.type == 'condition' || obj.type == 'sequence' || obj.type == 'loop') && !collapsed"
     >
+        <li
+                class="list-group-item list-group-item-info"
+                data-ng-if="::(obj.type == 'condition')"
+        >
+            True:
+        </li>
         <li
                 class="a-construct list-group-item"
                 data-ng-repeat="obj in obj.children"
                 data-ng-include="'child_render.html'"
+                ui-tree-node
+                data-collapsed="true"
         >
         </li>
-        <div class="new-construct" data-ng-include="'add_new.html'" data-ng-controller="BuildConstructsFirstBranchController"></div>
     </ul>
     <ul
             class="a-construct-container list-group a-false-branch"
-            data-ui-sortable="sortableOptions"
             data-ng-model="obj.fchildren"
-            data-ng-if="obj.type == 'condition'"
+            data-ng-if="(obj.type == 'condition') && !collapsed"
     >
+        <li class="list-group-item list-group-item-info">
+           Else:
+        </li>
         <li
                 class="a-construct list-group-item"
                 data-ng-repeat="obj in obj.fchildren"
                 data-ng-include="'child_render.html'"
+                ui-tree-node
         >
         </li>
-        <div class="new-construct" data-ng-include="'add_new.html'" data-ng-controller="BuildConstructsSecondBranchController"></div>
     </ul>
 </script>
 
-<ul>
+<ul ui-tree>
     <li>{{instrument.topsequence.label}}</li>
     <ul
             class="a-construct-container list-group"
-            data-ui-sortable="sortableOptions"
             data-ng-model="instrument.topsequence.children"
+            ui-tree-nodes=""
     >
         <li
                 class="a-construct list-group-item"
                 data-ng-repeat="obj in instrument.topsequence.children"
-                data-ng-include="'child_render.html'">
+                data-ng-include="'child_render.html'"
+                ui-tree-node
+        >
         </li>
-        <div class="new-construct" data-ng-include="'add_new.html'"></div>
     </ul>
 </ul>
