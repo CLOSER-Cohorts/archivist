@@ -7,11 +7,8 @@
 # === Properties
 # * Label
 class Category < ApplicationRecord
-  # All categories must belong to an instrument
-  belongs_to :instrument
-
-  # Each category can be used by many codes
-  has_many :codes
+  # This model is exportable as DDI
+  include Exportable
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'ca'
@@ -19,13 +16,16 @@ class Category < ApplicationRecord
   # XML tag name
   TYPE = 'Category'
 
-  # This model is exportable as DDI
-  include Exportable
+  # All categories must belong to an instrument
+  belongs_to :instrument
 
   # Before creating a new model in the database, check whether this would be a duplicate
   before_create :no_duplicates
 
-  private   # Private methods
+  # Each category can be used by many codes
+  has_many :codes
+
+  private # Private methods
 
   # Checks that the Category does not already exist in the database
   #

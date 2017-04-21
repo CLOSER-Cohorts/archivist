@@ -2,33 +2,26 @@ class CcQuestion < ApplicationRecord
   include Construct::Model
   include Linkable
   include Mappable
-  belongs_to :question, polymorphic: true
-  belongs_to :response_unit
-  has_many :maps, as: :source, dependent: :destroy
-  has_many :variables, through: :maps
 
   URN_TYPE = 'qc'
   TYPE = 'QuestionConstruct'
 
-  def rt_attributes
-    {
-        id: self.id,
-        label: self.label,
-        type: 'CcQuestion',
-        parent: self.parent.nil? ? nil : self.parent.id,
-        position: self.position,
-        question_id: self.question_id,
-        question_type: self.question_type,
-        response_unit_id: self.response_unit_id
-    }
+  belongs_to :question, polymorphic: true
+  belongs_to :response_unit
+
+  has_many :maps, as: :source, dependent: :destroy
+  has_many :variables, through: :maps
+
+  def self.create_with_position(params)
+    super params, true do |obj|
+      obj.question_id = params[:question_id]
+      obj.question_type = params[:question_type]
+      obj.response_unit_id = params[:response_unit_id]
+    end
   end
 
   def base_label
-    cached_value('base_label') {question.label}
-  end
-
-  def response_unit_label
-    cached_value('response_unit_label') {response_unit.label}
+    cached_value('base_label') { question.label }
   end
 
   def cached_value(label)
@@ -51,10 +44,6 @@ class CcQuestion < ApplicationRecord
     value
   end
 
-  def strand_maps
-    self.variables.to_a
-  end
-
   def cluster_maps
     []
   end
@@ -63,11 +52,24 @@ class CcQuestion < ApplicationRecord
     1
   end
 
-  def self.create_with_position(params)
-    super params, true do |obj|
-      obj.question_id = params[:question_id]
-      obj.question_type = params[:question_type]
-      obj.response_unit_id = params[:response_unit_id]
-    end
+  def response_unit_label
+    cached_value('response_unit_label') { response_unit.label }
+  end
+
+  def rt_attributes
+    {
+        id: self.id,
+        label: self.label,
+        type: 'CcQuestion',
+        parent: self.parent.nil? ? nil : self.parent.id,
+        position: self.position,
+        question_id: self.question_id,
+        question_type: self.question_type,
+        response_unit_id: self.response_unit_id
+    }
+  end
+
+  def strand_maps
+    self.variables.to_a
   end
 end

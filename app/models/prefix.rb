@@ -33,12 +33,12 @@ class Prefix
     end
 
     private
-    def redis
-      $redis
-    end
-
     def hash
       'instrument_ids'
+    end
+
+    def redis
+      $redis
     end
   end
 end
