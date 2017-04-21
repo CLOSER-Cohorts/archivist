@@ -24,7 +24,7 @@
 .idea/
 *.xml
 coverage/
-#vendor/
+vendor/
 node_modules/
 # Ignore application configuration
 /config/application.yml
