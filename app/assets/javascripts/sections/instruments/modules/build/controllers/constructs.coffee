@@ -8,11 +8,12 @@ angular.module('archivist.build').controller(
     '$filter',
     '$http',
     '$timeout',
+    'bsLoadingOverlayService',
     'Flash',
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, bsLoadingOverlayService, Flash, DataManager, RealTimeListener, RealTimeLocking)->
       console.time 'end to end'
       $scope.title = 'Constructs'
       $scope.details_bar = true
@@ -46,10 +47,9 @@ angular.module('archivist.build').controller(
         $location.search {construct_type: obj.type, construct_id: obj.id}
         $scope.editMode = obj.type? and obj.id?
 
-      $scope.sortableOptions = {
-        placeholder: 'a-construct',
-        connectWith: '.a-construct-container',
-        stop: (e, ui)->
+      $scope.treeOptions =
+        dropped: ->
+          bsLoadingOverlayService.start()
           updates = []
           positionUpdater = (parent)->
             child_dimensions = ['children', 'fchildren']
@@ -57,8 +57,22 @@ angular.module('archivist.build').controller(
               if parent[dimension]?
                 for child_key of parent[dimension]
                   if parent[dimension].hasOwnProperty child_key
+                    console.log '======='
+                    console.log 'parent[dimension][child_key].branch:'
                     console.log parent[dimension][child_key].branch
-                    if parent[dimension][child_key].position != (parseInt child_key) + 1 or parent[dimension][child_key].parent != parent.id or parent[dimension][child_key].branch != index
+                    console.log 'parent[dimension][child_key].position:'
+                    console.log parent[dimension][child_key].position
+                    console.log '(parseInt child_key) + 1'
+                    console.log (parseInt child_key) + 1
+                    console.log 'parent[dimension][child_key].parent'
+                    console.log parent[dimension][child_key].parent
+                    if (
+                      parent[dimension][child_key].position != (parseInt child_key) + 1 or
+                      parent[dimension][child_key].parent != parent.id or (
+                        parent[dimension][child_key].branch != index and
+                        Number.isInteger parent[dimension][child_key].branch
+                      )
+                    )
                       updates.push {
                         id: parent[dimension][child_key].id,
                         type: parent[dimension][child_key].type,
@@ -71,8 +85,11 @@ angular.module('archivist.build').controller(
                     positionUpdater parent[dimension][child_key]
 
           positionUpdater $scope.instrument.topsequence
-          $http.post '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json', updates: updates
-      }
+          $http.post(
+            '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json',
+            updates: updates
+          ).finally ->
+            bsLoadingOverlayService.stop()
 
       $scope.toggle = (scope) ->
         scope.toggle()
@@ -237,4 +254,5 @@ angular.module('archivist.build').controller(
 angular.module('archivist.build').config( (treeConfig)->
   treeConfig.placeholderClass = 'a-tree-placeholder a-construct list-group-item'
   treeConfig.hiddenClass = 'a-tree-hidden'
+  treeConfig.dragClass = 'a-tree-drag'
 )

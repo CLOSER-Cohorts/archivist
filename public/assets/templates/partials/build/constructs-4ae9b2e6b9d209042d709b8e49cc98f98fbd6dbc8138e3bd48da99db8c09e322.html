@@ -1,0 +1,131 @@
+<script type="text/ng-template" id="add_new.html">
+    <a
+            href="#"
+            data-toggle="modal"
+            data-target="#new-construct"
+            data-ng-click="setIndex(obj.id, obj.type, branch)"
+    >
+        Add New
+        <span class="glyphicon glyphicon-plus" aria-hidden="true">
+        </span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="child_render.html">
+    <a
+            class="btn btn-success btn-xs"
+            data-ng-if="obj.children && obj.children.length > 0"
+            data-nodrag
+            data-ng-click="toggle(this)"
+    >
+        <span
+            class="glyphicon"
+            data-ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"
+        ></span>
+    </a>
+    <a
+            data-ng-href="#"
+            data-ng-click="change_panel(obj)"
+    >
+        {{obj.label}}
+    </a>
+    <a
+            class="pull-right btn btn-primary btn-xs"
+            data-nodrag
+            style="margin-right: 8px;"
+            href="#"
+            data-toggle="modal"
+            data-target="#new-construct"
+            data-ng-click="setIndex(obj.id, obj.type, branch)"
+            data-ng-if="obj.type == 'sequence' || obj.type == 'loop'"
+    >
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+    <ul
+            class="a-construct-container list-group"
+            ui-tree-nodes=""
+            data-ng-model="obj.children"
+            data-ng-if="(obj.type == 'condition' || obj.type == 'sequence' || obj.type == 'loop') && !collapsed"
+    >
+        <li
+                class="list-group-item list-group-item-info"
+                data-ng-if="::(obj.type == 'condition')"
+                data-ng-controller="BuildConstructsFirstBranchController"
+        >
+            True:
+            <a
+                    class="pull-right btn btn-primary btn-xs"
+                    data-nodrag
+                    style="margin-right: 8px;"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#new-construct"
+                    data-ng-click="setIndex(obj.id, obj.type, branch)"
+                    data-ng-if="obj.type == 'condition'"
+            >
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </li>
+        <li
+                class="a-construct list-group-item"
+                data-ng-repeat="obj in obj.children"
+                data-ng-include="'child_render.html'"
+                ui-tree-node
+                data-collapsed="true"
+                data-expand-on-hover="500"
+        >
+        </li>
+    </ul>
+    <ul
+            class="a-construct-container list-group a-false-branch"
+            ui-tree-nodes=""
+            data-ng-model="obj.fchildren"
+            data-ng-if="(obj.type == 'condition') && !collapsed"
+    >
+        <li
+                class="list-group-item list-group-item-info"
+                data-ng-controller="BuildConstructsSecondBranchController"
+        >
+           Else:
+            <a
+                    class="pull-right btn btn-primary btn-xs"
+                    data-nodrag
+                    style="margin-right: 8px;"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#new-construct"
+                    data-ng-click="setIndex(obj.id, obj.type, branch)"
+                    data-ng-if="obj.type == 'condition'"
+            >
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </li>
+        <li
+                class="a-construct list-group-item"
+                data-ng-repeat="obj in obj.fchildren"
+                data-ng-include="'child_render.html'"
+                ui-tree-node
+                data-collapsed="true"
+                data-expand-on-hover="500"
+        >
+        </li>
+    </ul>
+</script>
+
+<ul ui-tree="treeOptions" class="a-construct-tree">
+    <li>{{instrument.topsequence.label}}</li>
+    <ul
+            class="a-construct-container list-group"
+            data-ng-model="instrument.topsequence.children"
+            ui-tree-nodes=""
+    >
+        <li
+                class="a-construct list-group-item"
+                data-ng-repeat="obj in instrument.topsequence.children"
+                data-ng-include="'child_render.html'"
+                ui-tree-node
+                data-expand-on-hover="500"
+        >
+        </li>
+    </ul>
+</ul>
