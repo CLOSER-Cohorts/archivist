@@ -41,7 +41,7 @@ class Cluster
   end
 
   def self.find(id)
-    return self.class.active.has_key?(id.to_i) ? self.class.active[id.to_i] : Cluster.new(id.to_i)
+    return @active.has_key?(id.to_i) ? @active[id.to_i] : Cluster.new(id.to_i)
   end
 
   def self.find_by_member(member)
@@ -159,7 +159,7 @@ class Cluster
   def self.active
     @active
   end
-  
+
   def evaluate
     counter = Hash.new 0
     @strands.each do |strand|
