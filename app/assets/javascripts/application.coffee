@@ -22,7 +22,7 @@
 #= require angular-base64-upload
 #= require angular-ui-sortable/sortable
 #= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
-#= require socket.io-client/socket.io
+#= require socket.io-client/dist/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
 #= require angular-ui-tree/dist/angular-ui-tree
