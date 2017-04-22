@@ -118,19 +118,24 @@ instruments.controller('InstrumentsController',
 
 ])
 
-instruments.factory 'Base64Factory', ($q) ->
-  { getBase64: (file) ->
-    deferred = $q.defer()
-    readerMapping = new FileReader
-    readerMapping.readAsDataURL file
+instruments.factory('Base64Factory',
+  [
+    '$q',
+    ($q)->
+      {
+        getBase64: (file) ->
+          deferred = $q.defer()
+          readerMapping = new FileReader
+          readerMapping.readAsDataURL file
 
-    readerMapping.onload = ->
-      deferred.resolve readerMapping.result
-      return
+          readerMapping.onload = ->
+            deferred.resolve readerMapping.result
+            return
 
-    readerMapping.onerror = (error) ->
-      deferred.reject error
-      return
+          readerMapping.onerror = (error) ->
+            deferred.reject error
+            return
 
-    deferred.promise
- }
+          deferred.promise
+      }
+])
