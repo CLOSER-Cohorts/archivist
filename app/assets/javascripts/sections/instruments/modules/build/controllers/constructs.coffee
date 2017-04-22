@@ -250,9 +250,3 @@ angular.module('archivist.build').controller(
       $scope.branch = 1
   ]
 )
-
-angular.module('archivist.build').config( (treeConfig)->
-  treeConfig.placeholderClass = 'a-tree-placeholder a-construct list-group-item'
-  treeConfig.hiddenClass = 'a-tree-hidden'
-  treeConfig.dragClass = 'a-tree-drag'
-)
