@@ -171,6 +171,10 @@ class Strand
   end
 
   private
+  def self.active
+    @active
+  end
+
   def compile
     begin
       edges = []

@@ -156,6 +156,10 @@ class Cluster
   end
 
   private
+  def self.active
+    @active
+  end
+  
   def evaluate
     counter = Hash.new 0
     @strands.each do |strand|
