@@ -37,7 +37,7 @@ module Linkable
 
     def strand(do_cluster_compile = true)
       if (s = Strand.find_by_member(self)).nil?
-        s = Strand.new [self] + self.strand_maps
+        s = Strand.new([self] + self.strand_maps)
       end
       if s.id.nil? && do_cluster_compile
         c = Cluster.new [s]
