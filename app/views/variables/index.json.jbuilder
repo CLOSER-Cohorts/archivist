@@ -7,6 +7,9 @@ json.array!(@collection) do |variable|
   end
   json.used_bys variable.der_variables, :id, :name, :label, :var_type
   json.topic variable.topic, :id, :code, :name, :parent_id unless variable.topic.nil?
-  json.strand_topic variable.get_topic, :id, :code, :name, :parent_id unless variable.get_topic.nil?
+  json.strand variable.strand do |strand|
+    json.topic strand.topic, :id, :code, :name, :parent_id
+    json.good strand.good
+  end unless variable.strand.topic.nil?
   json.suggested_topic variable.get_suggested_topic, :id, :code, :name, :parent_id unless variable.get_suggested_topic.nil?
 end

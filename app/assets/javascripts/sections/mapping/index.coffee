@@ -90,7 +90,7 @@ mapping.directive(
       Flash
     )->
       fixedTopic = (topic)->
-        '<span class="a-topic">{{model.strand_topic.name}}</span>'
+        '<span class="a-topic">{{model.strand.topic.name}}</span>'
 
       nestedOptions = (scope)->
         console.log(scope)
@@ -113,7 +113,7 @@ mapping.directive(
         link:
           post: ($scope, iElement, iAttrs)->
             $scope.topics = DataManager.getTopics {flattened: true}
-            if $scope.model.topic? || (not $scope.model.strand_topic?)
+            if $scope.model.topic? || (not $scope.model.strand?)
               el = $compile(nestedOptions($scope))($scope)
             else
               el = $compile(fixedTopic($scope))($scope)
