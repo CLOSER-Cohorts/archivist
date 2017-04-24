@@ -3,7 +3,7 @@ module ExportJob; end
 class ExportJob::Instrument
   @queue = :in_and_out
 
-  def self.perform id
+  def self.perform(id)
     begin
       exp = Exporters::XML::DDI::Instrument.new
       exp.add_root_attributes
@@ -37,7 +37,7 @@ end
 class ExportJob::Dataset
   @queue = :in_and_out
 
-  def self.perform id
+  def self.perform(id)
     begin
       exp = Exporters::XML::DDI::Dataset.new
 

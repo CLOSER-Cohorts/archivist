@@ -1,4 +1,38 @@
+# The Instrument is based on the Instrument model from DDI3.X and is one of the
+# champion models that pulls together Archivist.
+#
+#
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/Instrument.html
+#
+# === Properties
+# * Agency
+# * Version
+# * Prefix
+# * Label
+# * Study
 class Instrument < ApplicationRecord
+  # This model is exportable as DDI
+  include Exportable
+
+  # This model is an update point for archivist-realtime
+  include Realtime::RtUpdate
+
+  # Used to create CLOSER UserID and URNs
+  #
+  # @type [String]
+  URN_TYPE = 'in'
+
+  # XML tag name
+  #
+  # @type [String]
+  TYPE = 'Instrument'
+
+  # List of direct properties that an instrument has
+  #
+  # This is effectively the list of associations, but with some of
+  # the junction tables removed.
+  #
+  # @type [Array]
   PROPERTIES = [
       :categories,
       :code_lists,
@@ -19,19 +53,28 @@ class Instrument < ApplicationRecord
       :rds_qs
   ]
 
+  # An instrument can have many CcConditions
   has_many :cc_conditions,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcLoops
   has_many :cc_loops,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcSequences
   has_many :cc_sequences,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
+  # An instrument can have many CcStatement
   has_many :cc_statements,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
-
+  # An instrument can have many CodeLists
   has_many :code_lists, dependent: :destroy
+
+  # An instrument can have many Categories
   has_many :categories, dependent: :destroy
+
+  # An instrument keeps track of many Codes as junctions
   has_many :codes, dependent: :destroy
 
+  # An instrument can have many QuestionGrids
   has_many :question_grids, -> { includes [
                                               :instruction,
                                               :response_domain_datetimes,
@@ -55,6 +98,8 @@ class Instrument < ApplicationRecord
                                                   ]
                                               ]
                                           ] }, dependent: :destroy
+
+  # An instrument can have many QuestionItems
   has_many :question_items, -> { includes [
                                               :instruction,
                                               :response_domain_datetimes,
@@ -69,77 +114,108 @@ class Instrument < ApplicationRecord
                                               ]
                                           ] }, dependent: :destroy
 
+  # An instrument can have many CcQuestions
   has_many :cc_questions,
            -> { includes(:question, :response_unit, cc: [:children, :parent]) },
            dependent: :destroy
+
+  # An instrument keeps track of many ControlConstructs as junctions
   has_many :control_constructs, dependent: :destroy
 
+  # An instrument can have many Instructions
   has_many :instructions, dependent: :destroy
 
+  # An instrument can have many ResponseDomainCodes
   has_many :response_domain_codes, dependent: :destroy
+
+  # An instrument can have many ResponseDomainDatetimes
   has_many :response_domain_datetimes, dependent: :destroy
+
+  # An instrument can have many ResponseDomainNumerics
   has_many :response_domain_numerics, dependent: :destroy
+
+  # An instrument can have many ResponseDomainTexts
   has_many :response_domain_texts, dependent: :destroy
+
+  # An instrument keeps track of many RdsQs as junctions
   has_many :rds_qs, class_name: 'RdsQs', dependent: :destroy
 
+  # An instrument can have many ResponseUnits
   has_many :response_units, dependent: :destroy
 
+  # Junction relationship to Datasets
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+
+  # Many-to-many relationship with Datasets
+  #
+  # This is used as a scoping mechanism to speed up CcQuestion to
+  # Variable mapping
   has_many :datasets, through: :instruments_datasets
 
+  # Allows an instrument to access a database view that reformats
+  # an instruments Q-V mapping file
   has_many :qv_mappings
 
-  include Realtime::RtUpdate
-  include Exportable
-
-  URN_TYPE = 'in'
-  TYPE = 'Instrument'
-
+  # After creating a new instrument a first sequence is created as
+  # a top sequence
   after_create :add_top_sequence
+
+  # After creating a new instrument add the instrument Prefix to
+  # cache
   after_create :register_prefix
 
+  # After updating an instrument, refresh the Prefix cache
   after_update :reregister_prefix
 
+  # While destroying an instrument, pause archivist-realtime updates
   around_destroy :pause_rt
+
+  # After destroying an instrument, remove its Prefix from cache
   after_destroy :deregister_prefix
 
+  # Update cache with freshly generated last editted times for  all
+  # instruments
+  #
+  # This last editted time includes all objects that belongs to an
+  # Instrument. For example, if a Category label is editted, then
+  # the last editted time will be the category's updated_at time.
+  def self.generate_last_edit_times
+    last_edit_times = {}
+
+    find_max_edit_time = lambda do |res, id|
+      res.each do |r|
+        last_edit_times[r[id]] = [
+            last_edit_times[r[id]],
+            r['max']
+        ].reject { |x| x.nil? }.max
+      end
+    end
+
+    Instrument.reflections.keys.each do |res|
+      next if %w(instruments_datasets datasets).include? res
+      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
+      results = ActiveRecord::Base.connection.execute sql
+      find_max_edit_time.call results, 'instrument_id'
+    end
+    sql = 'SELECT id, updated_at FROM instruments'
+    results = ActiveRecord::Base.connection.execute sql
+    find_max_edit_time.call results, 'id'
+
+    begin
+      last_edit_times.select do |k, v|
+        $redis.hset 'last_edit:instrument', k, v
+      end
+    rescue => e
+      Rails.logger.warn 'Could not set last edit times'
+      Rails.logger.warn e.message
+    end
+  end
+
+  # Alias for accessing CcConditions relation
+  #
+  # @return [ActiveRecord::Associations::CollectionProxy]
   def conditions
     self.cc_conditions
-  end
-
-  def loops
-    self.cc_loops
-  end
-
-  def questions
-    self.cc_questions
-  end
-
-  def sequences
-    self.cc_sequences
-  end
-
-  def statements
-    self.cc_statements
-  end
-
-  def response_domains
-    self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
-        self.response_domain_texts.to_a + self.response_domain_codes.to_a
-  end
-
-  def destroy
-    self.class.reflections.keys.each do |r|
-      next if ['datasets'].include? r
-      begin
-        klass = r.classify.constantize
-      rescue
-        klass = r.classify.pluralize.constantize
-      end
-      klass.where(instrument_id: self.id).destroy_all
-    end
-    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
-    ActiveRecord::Base.connection.execute(sql)
   end
 
   def ccs
@@ -147,14 +223,17 @@ class Instrument < ApplicationRecord
         self.cc_sequences.to_a + self.cc_statements.to_a
   end
 
-  def top_sequence
-    self
-        .cc_sequences
-        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
-        .where('cc.parent_id IS NULL')
-        .first
+  # Gets the number of constructs
+  #
+  # @return [Integer] Number of constructs
+  def cc_count
+    stats = self.association_stats
+    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
+        stats['cc_sequences'] + stats['cc_statements']
   end
 
+  # Get all of the constructs in order from the top sequence down
+  # @return [Array] Flat array of constructs
   def ccs_in_ddi_order
     output = []
     harvest = lambda do |parent|
@@ -167,40 +246,16 @@ class Instrument < ApplicationRecord
     output
   end
 
-  def add_top_sequence
-    self.cc_sequences.create
-  end
-
-  def pause_rt
-    Realtime.do_silently do
-      yield
-    end
-  end
-
-  def export_time
-    begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
-    rescue
-      nil
-    end
-  end
-
-  def export_url
-    begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
-    rescue
-      nil
-    end
-  end
-
-  def last_edited_time
-    begin
-      $redis.hget 'last_edit:instrument', self.id
-    rescue
-      nil
-    end
-  end
-
+  # Deep copies an instrument
+  #
+  # In order to deep copy an instrument, all models that belong to the original
+  # instrument are also copied. Then seperately the control construct tree is
+  # recompiled.
+  #
+  # @param [String] new_prefix Prefix of instrument to be created
+  # @param [Hash] other_vals Optional additional values to set instead of being copied
+  #
+  # @return [Instrument] Returns the newly copied instrument
   def copy(new_prefix, other_vals = {})
 
     new_i = self.dup
@@ -210,7 +265,7 @@ class Instrument < ApplicationRecord
     new_i.save!
     new_i.cc_sequences.first.destroy
 
-    ref = { control_constructs: {} }
+    ref = {control_constructs: {}}
     ccs = {}
     PROPERTIES.each do |key|
       ref[key] = {}
@@ -246,10 +301,42 @@ class Instrument < ApplicationRecord
     new_i
   end
 
-  def cc_count
-    stats = self.association_stats
-    stats['cc_conditions'] + stats['cc_loops'] + stats['cc_questions'] +
-        stats['cc_sequences'] + stats['cc_statements']
+  def destroy
+    PROPERTIES.reverse.map(&:to_s).each do |r|
+      next if ['datasets'].include? r
+      begin
+        klass = r.classify.constantize
+      rescue
+        klass = r.classify.pluralize.constantize
+      end
+      klass.where(instrument_id: self.id).destroy_all
+    end
+    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
+    ActiveRecord::Base.connection.execute(sql)
+  end
+
+  def export_time
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
+    rescue
+      nil
+    end
+  end
+
+  def export_url
+    begin
+      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
+    rescue
+      nil
+    end
+  end
+
+  def last_edited_time
+    begin
+      $redis.hget 'last_edit:instrument', self.id
+    rescue
+      nil
+    end
   end
 
   def last_export_time
@@ -260,45 +347,57 @@ class Instrument < ApplicationRecord
     end
   end
 
-  def self.generate_last_edit_times
-    last_edit_times = {}
+  def loops
+    self.cc_loops
+  end
 
-    find_max_edit_time = lambda do |res, id|
-      res.each do |r|
-        last_edit_times[r[id]] = [
-            last_edit_times[r[id]],
-            r['max']
-        ].reject { |x| x.nil? }.max
-      end
-    end
-
-    Instrument.reflections.keys.each do |res|
-      next if ['instruments_datasets', 'datasets'].include? res
-      sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
-      results = ActiveRecord::Base.connection.execute sql
-      find_max_edit_time.call results, 'instrument_id'
-    end
-    sql = 'SELECT id, updated_at FROM instruments'
-    results = ActiveRecord::Base.connection.execute sql
-    find_max_edit_time.call results, 'id'
-
-    begin
-      last_edit_times.select do |k, v|
-        $redis.hset 'last_edit:instrument', k, v
-      end
-    rescue => e
-      Rails.logger.warn 'Could not set last edit times'
-      Rails.logger.warn e.message
+  def pause_rt
+    Realtime.do_silently do
+      yield
     end
   end
 
+  def questions
+    self.cc_questions
+  end
+
+  def response_domains
+    self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
+        self.response_domain_texts.to_a + self.response_domain_codes.to_a
+  end
+
+  def sequences
+    self.cc_sequences
+  end
+
+  def statements
+    self.cc_statements
+  end
+
+  def top_sequence
+    self
+        .cc_sequences
+        .joins('INNER JOIN control_constructs as cc ON cc_sequences.id = cc.construct_id AND cc.construct_type = \'CcSequence\'')
+        .where('cc.parent_id IS NULL')
+        .first
+  end
+
+  def variables
+    Variable.where(dataset_id: self.datasets.map(&:id))
+  end
+
   private
-  def register_prefix
-    ::Prefix[self.prefix] = self.id
+  # Creates an empty sequence
+  def add_top_sequence
+    self.cc_sequences.create
   end
 
   def deregister_prefix
     ::Prefix.destroy self.prefix
+  end
+
+  def register_prefix
+    ::Prefix[self.prefix] = self.id
   end
 
   def reregister_prefix

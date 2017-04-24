@@ -8,13 +8,22 @@ index.controller(
   'DatasetsIndexController',
   [
     '$scope',
+    '$http',
     'DataManager',
     (
       $scope,
+      $http,
       DataManager
     )->
       $scope.datasets = DataManager.getDatasets()
       $scope.pageSize = 20
+      $scope.filterStudy = (study)->
+        $scope.filteredStudy = study
+
+      $http.get('/studies.json').success((data)->
+        $scope.studies = data
+      )
+
       console.log $scope
   ]
 )

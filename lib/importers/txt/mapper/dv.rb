@@ -3,7 +3,7 @@ class Importers::TXT::Mapper::DV
     if thing.is_a? String
       @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
     else
-      document = Document.find thing
+      document = ::Document.find thing
       @doc = Importers::TXT::TabDelimited.new document.file_contents
     end
     @dataset = dataset
@@ -15,6 +15,8 @@ class Importers::TXT::Mapper::DV
       src = @dataset.variables.find_by_name s
       unless var.nil? or src.nil?
         var.src_variables << src
+        var.var_type = 'Derived'
+        var.save!
       end
     end
   end

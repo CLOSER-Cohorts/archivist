@@ -1,5 +1,6 @@
 class Group < ApplicationRecord
   has_many :users
+
   serialize :study
 
   before_save :remove_study_labelling

@@ -1,9 +1,16 @@
 class CcSequence < ApplicationRecord
   include Construct::Model
-  is_a_parent
 
   URN_TYPE = 'se'
   TYPE = 'Sequence'
+
+  is_a_parent
+
+  def self.create_with_position(params)
+    super do |obj|
+      obj.label = params[:label]
+    end
+  end
 
   def rt_attributes
     {
@@ -15,11 +22,5 @@ class CcSequence < ApplicationRecord
         literal: self.literal,
         children: self.children.map { |x| {id: x.construct.id, type: x.construct.class.name} }
     }
-  end
-
-  def self.create_with_position(params)
-    super do |obj|
-      obj.label = params[:label]
-    end
   end
 end

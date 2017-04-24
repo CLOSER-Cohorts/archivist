@@ -1,7 +1,7 @@
 class RdsQs < ApplicationRecord
-  belongs_to :response_domain, polymorphic: true
-  belongs_to :question, polymorphic: true
   belongs_to :instrument
+  belongs_to :question, polymorphic: true
+  belongs_to :response_domain, polymorphic: true
 
   before_create :set_instrument
 

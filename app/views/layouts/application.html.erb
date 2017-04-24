@@ -12,7 +12,7 @@
 
   <script>
     window.socket_url = "<%= ENV['REALTIME_URL'] || 'http://localhost:5000' %>";
-    window.current_user_email = "<%= current_user.nil? ? "" : current_user.email %>";
+    window.current_user_email = "<%= current_user.nil? ? '' : current_user.email %>";
     window.app_version = "<%= Archivist::Application::VERSION %>";
     window.worker_js = "<%= javascript_path 'worker' %>";
   </script>
@@ -20,6 +20,8 @@
   <base href="/">
 </head>
 <body data-ng-controller="RootController" data-ng-class="user.role">
+
+
 
 <%= yield %>
 

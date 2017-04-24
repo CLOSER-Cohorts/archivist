@@ -16,7 +16,7 @@
     "shelljs": "^0.2.6"
   },
   "scripts": {
-    "postinstall": "rake bower:install",
+    "postinstall": "rails bower:install",
 
     "pretest": "npm install",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js",

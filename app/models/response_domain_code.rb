@@ -1,12 +1,10 @@
 class ResponseDomainCode < ApplicationRecord
   include ResponseDomain
-  belongs_to :code_list
-  delegate :label, to: :code_list
-  before_create :set_instrument
 
-  def set_instrument
-    instrument_id = code_list.instrument_id
-  end
+  belongs_to :code_list
+
+  before_create :set_instrument
+  delegate :label, to: :code_list
 
   def codes
     self.code_list.codes.map do |x|
@@ -16,5 +14,10 @@ class ResponseDomainCode < ApplicationRecord
           order: x.order
       }
     end
+  end
+
+  private
+  def set_instrument
+    self.instrument_id = code_list.instrument_id
   end
 end

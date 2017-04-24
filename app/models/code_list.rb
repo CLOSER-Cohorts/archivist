@@ -1,11 +1,4 @@
 class CodeList < ApplicationRecord
-  belongs_to :instrument
-  has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy
-  has_many :categories, through: :codes
-  has_one :response_domain_code, dependent: :destroy
-  has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id'
-  has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id'
-
   include Realtime::RtUpdate
   include Exportable
 
@@ -13,6 +6,18 @@ class CodeList < ApplicationRecord
   TYPE = 'CodeList'
 
   before_create :no_duplicates
+  belongs_to :instrument
+
+  has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy
+  has_many :categories, through: :codes
+  has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id'
+  has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id'
+
+  has_one :response_domain_code, dependent: :destroy
+
+  def question_grids
+    self.qgrids_via_h.to_a + self.qgrids_via_v.to_a
+  end
 
   def response_domain
     self.response_domain_code
@@ -23,20 +28,8 @@ class CodeList < ApplicationRecord
       self.response_domain_code = ResponseDomainCode.new instrument_id: self.instrument_id
     end
 
-    if !(be_code_answer || response_domain.nil?)
+    unless be_code_answer || response_domain.nil?
       self.response_domain_code.delete
-    end
-  end
-
-  def question_grids
-    self.qgrids_via_h.to_a + self.qgrids_via_v.to_a
-  end
-
-  def used_by
-    if self.response_domain.nil?
-      return self.question_grids
-    else
-      return self.response_domain.questions + self.question_grids
     end
   end
 
@@ -79,6 +72,14 @@ class CodeList < ApplicationRecord
       end
     end
     self.reload
+  end
+
+  def used_by
+    if self.response_domain.nil?
+      self.question_grids
+    else
+      self.response_domain.questions + self.question_grids
+    end
   end
 
   private

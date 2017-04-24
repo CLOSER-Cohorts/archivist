@@ -23,6 +23,7 @@ resource.factory('WrappedResource', [ '$resource', ($resource)->
     )
 
     @resource::save = (params, success, error)->
+      console.trace()
       if @id?
         @$save(params, success, error)
       else

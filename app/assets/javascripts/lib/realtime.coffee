@@ -23,6 +23,7 @@ realtime.factory('RealTimeConnection',
 
       service.socket.on 'rt-update', (message)->
         $rootScope.$emit('rt-update', message)
+
       service
   ]
 )

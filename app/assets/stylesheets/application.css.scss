@@ -17,12 +17,13 @@
 $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
-@import "jquery-ui/themes/base/theme";
 @import "angular-tree-control/css/tree-control";
 @import "angular-tree-control/css/tree-control-attribute";
+@import "angular-ui-tree/dist/angular-ui-tree";
+@import "vis/dist/vis";
 
 .monospaced {
-  font-family: menlo;
+  font-family: menlo, "Courier New", "Lucida Console";
 }
 
 /* Sidebar navigation */
@@ -62,7 +63,7 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
  * Main content
  */
 .main {
-  padding: 0px;
+  padding: 0;
 }
 @media (min-width: 768px) {
   .main {
@@ -82,7 +83,6 @@ $icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -124,4 +124,32 @@ p.rt-online {
 
 p.rt-offline {
   color: #a94442 !important;
+}
+
+.tree-boot li.tree-leaf i.tree-leaf-head {
+  background: image-url('file.png')
+}
+
+#overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -10000;
+
+}
+
+#overlay.loading {
+  background: rgba(50, 50, 50, 0.5);
+  z-index: 10000;
+}
+
+.a-tree-placeholder {
+  background: #428bca;
+}
+
+.a-tree-hidden,
+.a-tree-drag {
+  display: none;
 }

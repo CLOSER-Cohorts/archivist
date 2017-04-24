@@ -35,7 +35,7 @@ module Exporters::XML::DDI
                        '<r:CommandContent>%{command}</r:CommandContent></r:Command></d:LoopWhile>' % {
                            command: CGI::escapeHTML(command.to_s)
                        }
-      lp.add_child ('<d:ControlConstructReference><r:URN>urn:ddi:%{agency}:%{prefix}-selp-%{id}:1.0.0</r:URN> ' +
+      lp.add_child ('<d:ControlConstructReference><r:URN>urn:ddi:%{agency}:%{prefix}-selp-%{id}:1.0.0</r:URN>' +
           '<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
             agency: cc.instrument.agency,
             prefix: cc.instrument.prefix,

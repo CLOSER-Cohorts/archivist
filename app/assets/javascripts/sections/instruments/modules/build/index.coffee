@@ -9,8 +9,8 @@ build = angular.module('archivist.build', [
   'archivist.realtime'
 ])
 
-build.config(['$routeProvider',
-  ($routeProvider)->
+build.config(['$routeProvider', 'treeConfig'
+  ($routeProvider, treeConfig)->
     $routeProvider
     .when('/instruments/:id/build',
       templateUrl: 'partials/build/index.html'
@@ -33,4 +33,7 @@ build.config(['$routeProvider',
       controller: 'BuildConstructsController'
       reloadOnSearch: false
     )
+    treeConfig.placeholderClass = 'a-tree-placeholder a-construct list-group-item'
+    treeConfig.hiddenClass = 'a-tree-hidden'
+    treeConfig.dragClass = 'a-tree-drag'
 ])

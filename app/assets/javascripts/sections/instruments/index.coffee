@@ -7,7 +7,8 @@ instruments = angular.module('archivist.instruments', [
   'ngResource',
   'ui.bootstrap',
   'archivist.flash',
-  'archivist.data_manager'
+  'archivist.data_manager',
+  'naif.base64'
 ])
 
 instruments.config([ '$routeProvider',
@@ -25,6 +26,10 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/edit.html'
         controller: 'InstrumentsController'
       )
+      .when('/instruments/:id/import',
+        templateUrl: 'partials/instruments/import.html'
+        controller: 'InstrumentsController'
+      )
 ])
 
 instruments.controller('InstrumentsController',
@@ -37,7 +42,8 @@ instruments.controller('InstrumentsController',
     '$timeout',
     'Flash',
     'DataManager',
-    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager)->
+    'Base64Factory'
+    ($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory)->
       $scope.page['title'] = 'Instruments'
       if $routeParams.id
         loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() != 'edit'
@@ -109,4 +115,27 @@ instruments.controller('InstrumentsController',
           ,->
             console.log("error")
         )
+
+])
+
+instruments.factory('Base64Factory',
+  [
+    '$q',
+    ($q)->
+      {
+        getBase64: (file) ->
+          deferred = $q.defer()
+          readerMapping = new FileReader
+          readerMapping.readAsDataURL file
+
+          readerMapping.onload = ->
+            deferred.resolve readerMapping.result
+            return
+
+          readerMapping.onerror = (error) ->
+            deferred.reject error
+            return
+
+          deferred.promise
+      }
 ])

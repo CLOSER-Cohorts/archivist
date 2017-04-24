@@ -13,6 +13,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super do |user|
       g = Group.find params[:registration][:user][:group_id]
       g.users << user
+      user.confirm
+      user.admin!
     end
   end
 

@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.5
--- Dumped by pg_dump version 9.5.5
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -376,7 +377,8 @@ CREATE TABLE datasets (
     doi character varying,
     filename character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    study character varying
 );
 
 
@@ -987,7 +989,8 @@ CREATE TABLE topics (
     parent_id integer,
     code character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    description text
 );
 
 
@@ -1081,203 +1084,203 @@ ALTER SEQUENCE variables_id_seq OWNED BY variables.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cc_conditions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_conditions ALTER COLUMN id SET DEFAULT nextval('cc_conditions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cc_loops id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_loops ALTER COLUMN id SET DEFAULT nextval('cc_loops_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cc_questions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_questions ALTER COLUMN id SET DEFAULT nextval('cc_questions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cc_sequences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_sequences ALTER COLUMN id SET DEFAULT nextval('cc_sequences_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: cc_statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_statements ALTER COLUMN id SET DEFAULT nextval('cc_statements_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: code_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists ALTER COLUMN id SET DEFAULT nextval('code_lists_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes ALTER COLUMN id SET DEFAULT nextval('codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: control_constructs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs ALTER COLUMN id SET DEFAULT nextval('control_constructs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets ALTER COLUMN id SET DEFAULT nextval('datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: groups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instructions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions ALTER COLUMN id SET DEFAULT nextval('instructions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments ALTER COLUMN id SET DEFAULT nextval('instruments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments_datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instruments_datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: maps id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps ALTER COLUMN id SET DEFAULT nextval('maps_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_grids id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids ALTER COLUMN id SET DEFAULT nextval('question_grids_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items ALTER COLUMN id SET DEFAULT nextval('question_items_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: rds_qs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs ALTER COLUMN id SET DEFAULT nextval('rds_qs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes ALTER COLUMN id SET DEFAULT nextval('response_domain_codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_datetimes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes ALTER COLUMN id SET DEFAULT nextval('response_domain_datetimes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_numerics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics ALTER COLUMN id SET DEFAULT nextval('response_domain_numerics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_texts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts ALTER COLUMN id SET DEFAULT nextval('response_domain_texts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_units id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_units_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: variables id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -1285,7 +1288,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -1293,7 +1296,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_conditions cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_conditions
@@ -1301,7 +1304,7 @@ ALTER TABLE ONLY cc_conditions
 
 
 --
--- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_loops cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_loops
@@ -1309,7 +1312,7 @@ ALTER TABLE ONLY cc_loops
 
 
 --
--- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_questions cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_questions
@@ -1317,7 +1320,7 @@ ALTER TABLE ONLY cc_questions
 
 
 --
--- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_sequences cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_sequences
@@ -1325,7 +1328,7 @@ ALTER TABLE ONLY cc_sequences
 
 
 --
--- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_statements cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_statements
@@ -1333,7 +1336,7 @@ ALTER TABLE ONLY cc_statements
 
 
 --
--- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -1341,7 +1344,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: codes codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -1349,7 +1352,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1357,7 +1360,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: datasets datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets
@@ -1365,7 +1368,7 @@ ALTER TABLE ONLY datasets
 
 
 --
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents
@@ -1373,7 +1376,7 @@ ALTER TABLE ONLY documents
 
 
 --
--- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -1381,7 +1384,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -1389,7 +1392,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1397,7 +1400,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1405,7 +1408,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -1413,7 +1416,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -1421,7 +1424,7 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -1429,7 +1432,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -1437,7 +1440,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -1445,7 +1448,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments
@@ -1453,7 +1456,7 @@ ALTER TABLE ONLY instruments
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: links links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -1461,7 +1464,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: maps maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -1469,7 +1472,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -1477,7 +1480,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -1485,7 +1488,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -1493,7 +1496,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -1501,7 +1504,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_datetimes response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes
@@ -1509,7 +1512,7 @@ ALTER TABLE ONLY response_domain_datetimes
 
 
 --
--- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_numerics response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics
@@ -1517,7 +1520,7 @@ ALTER TABLE ONLY response_domain_numerics
 
 
 --
--- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_texts response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts
@@ -1525,7 +1528,7 @@ ALTER TABLE ONLY response_domain_texts
 
 
 --
--- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -1533,7 +1536,7 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -1541,7 +1544,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -1549,7 +1552,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -1557,7 +1560,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: variables variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -1985,7 +1988,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
--- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_conditions encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_conditions
@@ -1993,7 +1996,7 @@ ALTER TABLE ONLY cc_conditions
 
 
 --
--- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_loops encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_loops
@@ -2001,7 +2004,7 @@ ALTER TABLE ONLY cc_loops
 
 
 --
--- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_questions encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_questions
@@ -2009,7 +2012,7 @@ ALTER TABLE ONLY cc_questions
 
 
 --
--- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_questions encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_questions
@@ -2017,7 +2020,7 @@ ALTER TABLE ONLY cc_questions
 
 
 --
--- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_sequences encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_sequences
@@ -2025,7 +2028,7 @@ ALTER TABLE ONLY cc_sequences
 
 
 --
--- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_statements encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cc_statements
@@ -2033,7 +2036,7 @@ ALTER TABLE ONLY cc_statements
 
 
 --
--- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2041,7 +2044,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2049,7 +2052,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2057,7 +2060,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2065,7 +2068,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2073,7 +2076,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2081,7 +2084,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -2089,7 +2092,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2097,7 +2100,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: variables fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -2105,7 +2108,7 @@ ALTER TABLE ONLY variables
 
 
 --
--- Name: fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -2113,7 +2116,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -2121,7 +2124,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: topics fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -2129,7 +2132,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -2137,7 +2140,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: links fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -2145,7 +2148,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2153,7 +2156,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: maps fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -2161,7 +2164,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -2169,7 +2172,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2177,7 +2180,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -2185,7 +2188,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2193,7 +2196,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2201,7 +2204,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2214,6 +2217,57 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151129203547'), ('20151129204534'), ('20151129204903'), ('20151129205538'), ('20151129205758'), ('20151129210043'), ('20151130062018'), ('20151130062219'), ('20151130062608'), ('20151130063811'), ('20151130142555'), ('20151130143016'), ('20151130143420'), ('20151201094202'), ('20151201094926'), ('20151201095143'), ('20151201095347'), ('20151201095532'), ('20151201095541'), ('20151203122424'), ('20151204181052'), ('20151204193654'), ('20151206105535'), ('20151206110030'), ('20151206165407'), ('20151206165603'), ('20151206165726'), ('20151206185120'), ('20151206185659'), ('20151206205100'), ('20151211153924'), ('20160121070958'), ('20160216154523'), ('20160413095800'), ('20160413100019'), ('20160419094600'), ('20160419165130'), ('20160603113436'), ('20160712131146'), ('20160716150053'), ('20160716164426'), ('20160805093216'), ('20160808100337'), ('20160913201152'), ('20160930113839'), ('20161027133806'), ('20161121112227'), ('20161209155519'), ('20161213091354');
+INSERT INTO schema_migrations (version) VALUES
+('20151129203547'),
+('20151129204534'),
+('20151129204903'),
+('20151129205538'),
+('20151129205758'),
+('20151129210043'),
+('20151130062018'),
+('20151130062219'),
+('20151130062608'),
+('20151130063811'),
+('20151130142555'),
+('20151130143016'),
+('20151130143420'),
+('20151201094202'),
+('20151201094926'),
+('20151201095143'),
+('20151201095347'),
+('20151201095532'),
+('20151201095541'),
+('20151203122424'),
+('20151204181052'),
+('20151204193654'),
+('20151206105535'),
+('20151206110030'),
+('20151206165407'),
+('20151206165603'),
+('20151206165726'),
+('20151206185120'),
+('20151206185659'),
+('20151206205100'),
+('20151211153924'),
+('20160121070958'),
+('20160216154523'),
+('20160413095800'),
+('20160413100019'),
+('20160419094600'),
+('20160419165130'),
+('20160603113436'),
+('20160712131146'),
+('20160716150053'),
+('20160716164426'),
+('20160805093216'),
+('20160808100337'),
+('20160913201152'),
+('20160930113839'),
+('20161027133806'),
+('20161121112227'),
+('20161209155519'),
+('20161213091354'),
+('20170302132603'),
+('20170302132849');
 
 

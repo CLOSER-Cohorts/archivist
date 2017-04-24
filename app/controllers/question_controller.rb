@@ -19,7 +19,7 @@ class QuestionController < BasicInstrumentController
   end
 
   private
-  def update_question object, &block
+  def update_question(object, &block)
     if block.call object
       if params.has_key? :instruction
         object.instruction = params[:instruction]

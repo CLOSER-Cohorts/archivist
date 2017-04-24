@@ -9,7 +9,8 @@ resolution.factory(
   'ResolutionService'
   [
     '$timeout',
-    ($timeout)->
+    '$rootScope',
+    ($timeout, $rootScope)->
       service = {}
 
       service.ConstructResolver = class
@@ -28,23 +29,24 @@ resolution.factory(
         added_to_queue: 0
 
         resolve_children: (item)->
-          for child, index in item.children
+          console.log item.children
+          for child, index in item.children.slice().reverse()
             if child.type?
               if child.type of @map
-                item.children[index] = @constructs[@map[child.type]].select_resource_by_id child.id
+                item.children[item.children.length - 1 - index] = @constructs[@map[child.type]].select_resource_by_id child.id
 
-            if item.children[index].children?
-              @queue.push item.children[index]
+            if item.children[item.children.length - 1 - index].children?
+              @queue.unshift item.children[item.children.length - 1 - index]
               @added_to_queue = @added_to_queue + 1
 
           if item.fchildren?
-            for child, index in item.fchildren
+            for child, index in item.fchildren.slice().reverse()
               if child.type?
                 if child.type of @map
-                  item.fchildren[index] = @constructs[@map[child.type]].select_resource_by_id child.id
+                  item.fchildren[item.fchildren.length - 1 - index] = @constructs[@map[child.type]].select_resource_by_id child.id
 
-              if item.fchildren[index].children?
-                @queue.push item.fchildren[index]
+              if item.fchildren[item.fchildren.length - 1 - index].children?
+                @queue.unshift item.fchildren[item.fchildren.length - 1 - index]
                 @added_to_queue = @added_to_queue + 1
 
           item.resolved = true
@@ -53,17 +55,23 @@ resolution.factory(
           if @queue.length > 0
             console.log 'Scheduled resolution'
             $timeout ->
+              index = 'resolving:' + self.queue[0].label
+              console.time index
               self.resolve_children self.queue.shift()
-            , 0
+              console.timeEnd index
+            , 0, false
+          else
+            console.log 'call digest'
+            $rootScope.$digest()
 
         broken_resolve: ->
           self = @
-          @queue.push (seq for seq in @constructs.Sequences when seq.top)[0]
+          @queue.unshift (seq for seq in @constructs.Sequences when seq.top)[0]
           @added_to_queue = @added_to_queue + 1
 
           $timeout ->
             self.resolve_children self.queue.shift()
-          , 5 + (@added_to_queue)
+          , 0
 
         resolve: (to_check, check_against)->
           to_check ?= ['Conditions','Loops','Sequences']

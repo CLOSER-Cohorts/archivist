@@ -1,9 +1,18 @@
 class CcCondition < ApplicationRecord
   include Construct::Model
-  is_a_parent
 
   URN_TYPE = 'if'
   TYPE = 'IfThenElse'
+
+  is_a_parent
+
+  def self.create_with_position(params)
+    super do |obj|
+      obj.label = params[:label]
+      obj.literal = params[:literal]
+      obj.logic = params[:logic]
+    end
+  end
 
   def rt_attributes
     {
@@ -17,13 +26,5 @@ class CcCondition < ApplicationRecord
         children: self.children.where(branch: 0).map { |x| {id: x.construct.id, type: x.construct.class.name} },
         fchildren: self.children.where(branch: 1).map { |x| {id: x.construct.id, type: x.construct.class.name} }
     }
-  end
-
-  def self.create_with_position(params)
-    super do |obj|
-      obj.label = params[:label]
-      obj.literal = params[:literal]
-      obj.logic = params[:logic]
-    end
   end
 end

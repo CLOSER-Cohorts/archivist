@@ -1,21 +1,32 @@
 class User < ApplicationRecord
+  belongs_to :group
+
+  delegate :study, to: :group
+
   # Others available are:
   # :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable
 
-  belongs_to :group
+  enum role: [:reader, :editor, :admin]
 
-  delegate :study, to: :group
-
-  enum role: [ :reader, :editor, :admin]
-
-  def password_match?
-    self.errors[:password] << "can't be blank" if password.blank?
-    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
-    self.errors[:password_confirmation] << "does not match password" if password != password_confirmation
-    password == password_confirmation && !password.blank?
+  def self.setup_initial_superuser(params)
+    begin
+      if params['su-password'] == params['su-confirm'] && params['su-password'].length > 7
+        g = Group.create label: params['su-group'], group_type: 'Centre', study: '*'
+        u = User.new email: params['su-email'],
+                     first_name: params['su-fname'],
+                     last_name: params['su-lname']
+        u.password = params['su-password']
+        u.group = g
+        u.save!
+        u.admin!
+        u.confirm
+      end
+    rescue
+      Rails.logger.error 'Could not create the initial superuser.'
+    end
   end
 
   # new function to set the password without knowing the current
@@ -35,7 +46,14 @@ class User < ApplicationRecord
   # Devise::Models:unless_confirmed` method doesn't exist in Devise 2.0.0 anymore.
   # Instead you should use `pending_any_confirmation`.
   def only_if_unconfirmed
-    pending_any_confirmation {yield}
+    pending_any_confirmation { yield }
+  end
+
+  def password_match?
+    self.errors[:password] << "can't be blank" if password.blank?
+    self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
+    self.errors[:password_confirmation] << 'does not match password' if password != password_confirmation
+    password == password_confirmation && !password.blank?
   end
 
   def password_required?
@@ -50,6 +68,6 @@ class User < ApplicationRecord
   def status
     return 'unconfirmed' unless self.confirmed?
     return 'locked' if self.access_locked?
-    return 'active'
+    'active'
   end
 end

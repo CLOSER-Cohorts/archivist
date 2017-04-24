@@ -33,6 +33,7 @@ map.factory(
           ResponseDomains: 'Numerics'
         ResponseDomainDatetime:
           ResponseDomains: 'Datetimes'
+        Variable:     'Variables'
 
       service.find = (obj, ident)->
 
