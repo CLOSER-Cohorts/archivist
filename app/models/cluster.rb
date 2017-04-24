@@ -141,6 +141,10 @@ class Cluster
     self
   end
 
+  def rt_update
+    Realtime::Publisher.instance.batch_update all_members
+  end
+
   def save(do_eval = false)
     if @id.nil?
       @id = Cluster.redis.incr SCOPE + ':count'

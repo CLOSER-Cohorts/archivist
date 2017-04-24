@@ -89,12 +89,10 @@ mapping.directive(
       DataManager,
       Flash
     )->
-      fixedTopic = (topic)->
-        '<span class="a-topic">{{model.strand.topic.name}}</span>'
-
       nestedOptions = (scope)->
         console.log(scope)
-        '<select class="form-control" data-ng-model="model.topic.id" style="width: 100%; max-width:600px;" convert-to-number>' +
+        '<select class="form-control" data-ng-model="model.topic.id" style="width: 100%; ' +
+        'max-width:600px;" convert-to-number data-ng-change="updateTopic()" data-ng-if="model.topic || !model.strand">' +
         '<option value=""><em>Clear</em></option>' +
         '<option ' +
           'data-ng-repeat="topic in topics" ' +
@@ -102,7 +100,8 @@ mapping.directive(
           'data-a-topic-indent="{{topic.level}}" ' +
           'class="a-topic-level-{{topic.level}}" ' +
           'value="{{topic.id}}">{{topic.name}}</option>' +
-        '</select>'
+        '</select>' +
+        '<span class="a-topic" data-ng-if="!model.topic && model.strand">{{model.strand.topic.name}}</span>'
 
       {
         restrict: 'E'
@@ -111,24 +110,27 @@ mapping.directive(
           model: '=ngModel'
 
         link:
-          post: ($scope, iElement, iAttrs)->
-            $scope.topics = DataManager.getTopics {flattened: true}
-            if $scope.model.topic? || (not $scope.model.strand?)
+          post: ($scope, iElement, iAttrs, ngModel)->
+            init = ->
+              console.log 'a topic init'
+              $scope.model.orig_topic = $scope.model.topic
+              $scope.topics = DataManager.getTopics {flattened: true}
+
               el = $compile(nestedOptions($scope))($scope)
-            else
-              el = $compile(fixedTopic($scope))($scope)
-            iElement.replaceWith el
+              iElement.replaceWith el
 
-            $scope.$watch 'model.topic.id', (newVal, oldVal)->
-              if newVal != oldVal
-                bsLoadingOverlayService.start()
-                DataManager.updateTopic($scope.model, newVal).then(null , (reason)->
-                  $scope.model.topic.id = oldVal
-                  Flash.add('danger', reason.data.message)
-                ).finally(->
-                  bsLoadingOverlayService.stop()
-                )
+            $scope.updateTopic = ->
+              bsLoadingOverlayService.start()
+              DataManager.updateTopic($scope.model, $scope.model.topic.id).then(->
+                $scope.model.orig_topic = $scope.model.topic
+              , (reason)->
+                $scope.model.topic = $scope.model.orig_topic
+                Flash.add('danger', reason.data.message)
+              ).finally(->
+                bsLoadingOverlayService.stop()
+              )
 
+            init()
       }
   ]
 )

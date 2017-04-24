@@ -1,6 +1,7 @@
 class Variable < ApplicationRecord
   include Linkable
   include Mappable
+  include Realtime::RtUpdate
 
   belongs_to :dataset
   has_many :maps, dependent: :destroy

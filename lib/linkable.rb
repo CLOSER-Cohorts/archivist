@@ -33,6 +33,7 @@ module Linkable
         end
       end
       strand.save(true)
+      strand.cluster.rt_update
     end
 
     def strand(do_cluster_compile = true)

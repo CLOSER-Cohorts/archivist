@@ -47,6 +47,21 @@ module Realtime
       @quiet = false
     end
 
+    def batch_update(collection)
+      unless @quiet
+        output = {data: []}
+        controller = ApplicationController.new
+        collection.each do |obj|
+          controller.instance_variable_set(:'@object', obj)
+          output[:data] << JSON.parse(controller.render_to_string(template: obj.class.name.tableize + '/show'))
+        end
+        begin
+          $redis.publish 'rt-update', output.to_json
+        rescue
+        end
+      end
+    end
+
     def go_quiet
       @quiet = true
     end
@@ -62,7 +77,9 @@ module Realtime
         if obj.class.method_defined? :rt_attributes
           data = obj.rt_attributes
         else
-          data = obj.as_json except: [:created_at, :updated_at]
+          controller = ApplicationController.new
+          controller.instance_variable_set(:'@object', obj)
+          data = JSON.parse controller.render_to_string(template: obj.class.name.tableize + '/show')
         end
         #Attach the Class as type
         data[:type] = obj.class.name
