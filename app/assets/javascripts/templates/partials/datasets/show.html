@@ -40,7 +40,7 @@
                 >Cluster</a>
             </td>
         </tr>
-        <tr data-ng-repeat-end data-ng-class-odd="'odd'">
+        <tr data-ng-repeat-end data-ng-class-odd="'odd'" data-ng-class="{danger: variable.strand && !variable.strand.good}">
             <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">
                 <form class="form-inline row">
                     <div class="form-group col-xs-3">

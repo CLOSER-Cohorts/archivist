@@ -66,6 +66,7 @@ Rails.application.routes.draw do
         get 'variables', to: 'cc_questions#variables'
         post 'add_variables', to: 'cc_questions#add_variables'
         post 'remove_variable', to: 'cc_questions#remove_variable'
+        post 'set_topic', to: 'cc_questions#set_topic'
       end
     end
     resources :cc_loops

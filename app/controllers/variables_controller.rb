@@ -6,7 +6,7 @@ class VariablesController < BasicController
   @params_list = [:name, :label, :var_type, :dataset_id]
 
   def set_topic
-    topic = Topic.find params[:topic_id]
+    topic = Topic.find_by_id params[:topic_id]
 
     begin
       @object.topic = topic

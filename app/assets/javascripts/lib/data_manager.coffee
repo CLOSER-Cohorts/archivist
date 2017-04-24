@@ -373,7 +373,10 @@ data_manager.factory(
 
       DataManager.updateTopic = (model, topic_id)->
         console.log(model)
-        model.$update_topic({topic_id: topic_id})
+        delete model.topic
+        delete model.strand
+        delete model.suggested_topic
+        model.$update_topic({topic_id: if Number.isInteger(topic_id) then topic_id else null })
 
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
