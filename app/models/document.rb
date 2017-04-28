@@ -1,6 +1,22 @@
+# This model is for storing documents into the database
+#
+# Instead of a shared file store between web server nodes, Archivist
+# makes use of the database as files are not accessed frequently
+# enough to cause performance issues.
+#
+# === Properties
+# * filename
+# * content_type
+# * file_contents
+# * md5_hash
 class Document < ApplicationRecord
+  # Each Document can belong to any other database model
   belongs_to :item, polymorphic: true
 
+  # Creates a new Document
+  #
+  # @param [Hash] params Parameters for creating a new Document
+  # @return [Document]
   def initialize(params={})
     file = params.delete :file
     super
@@ -20,6 +36,10 @@ class Document < ApplicationRecord
     end
   end
 
+  # Either save the new Document or if the md5_hash has already been used
+  # return the Document from the database
+  #
+  # @return [Document]
   def save_or_get
     begin
       self.save!
@@ -28,7 +48,9 @@ class Document < ApplicationRecord
     end
   end
 
-  private
+  private # Private methods
+
+  # Prepare the filename for saving
   def sanitize_filename(filename)
     File.basename(filename)
   end

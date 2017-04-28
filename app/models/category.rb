@@ -16,13 +16,13 @@ class Category < ApplicationRecord
   # XML tag name
   TYPE = 'Category'
 
-  # All categories must belong to an instrument
+  # All categories must belong to an {Instrument}
   belongs_to :instrument
 
   # Before creating a new model in the database, check whether this would be a duplicate
   before_create :no_duplicates
 
-  # Each category can be used by many codes
+  # Each Category can be used by many {Code Codes}
   has_many :codes
 
   private # Private methods

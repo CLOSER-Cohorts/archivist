@@ -80,7 +80,7 @@ class Cluster
 
   # Gets a Cluster by a member mappable item
   #
-  # @param [Mappable] memeber Member item to find by
+  # @param [Mappable] member Member item to find by
   # @return [Cluster]
   def self.find_by_member(member)
     strand = Strand.find_by_member member
@@ -125,7 +125,7 @@ class Cluster
 
   # Creates a new Cluster
   #
-  # @param [Array|Integer] Either an array of initial Strands or a Cluster id
+  # @param [Array|Integer] thing Either an array of initial Strands or a Cluster id
   # @return [Cluster]
   def initialize(thing = [])
     if thing.is_a?(Integer) || thing.is_a?(String)
