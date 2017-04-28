@@ -1,9 +1,9 @@
 # The Category model directly relates to the DDI3.X Category model
 #
-# Typically multiple categories are used to create code lists.
+# Typically multiple categories are used to create {CodeList CodeLists}.
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/logicalproduct_xsd/elements/Category.html
-#
+#s
 # === Properties
 # * Label
 class Category < ApplicationRecord

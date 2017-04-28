@@ -1,3 +1,12 @@
+# The CodeList is based on the CodeList model from DDI3.X
+#
+# A CodeList has a label and typically pulls together multiple {Code Codes} to
+# create either a {QuestionGrid} axis or a {ResponseDomain}.
+#
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/logicalproduct_xsd/elements/CodeList.html
+#
+# === Properties
+# * Label
 class CodeList < ApplicationRecord
   include Realtime::RtUpdate
   include Exportable
