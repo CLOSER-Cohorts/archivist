@@ -55,13 +55,13 @@ class Instrument < ApplicationRecord
 
   # An instrument can have many CcConditions
   has_many :cc_conditions,
-           -> { includes cc: [:children, :parent] }, dependent: :destroy
+           -> { includes( :topic, cc: [:children, :parent]) }, dependent: :destroy
   # An instrument can have many CcLoops
   has_many :cc_loops,
-           -> { includes cc: [:children, :parent] }, dependent: :destroy
+           -> { includes( :topic,  cc: [:children, :parent]) }, dependent: :destroy
   # An instrument can have many CcSequences
   has_many :cc_sequences,
-           -> { includes cc: [:children, :parent] }, dependent: :destroy
+           -> { includes( :topic, cc: [:children, :parent]) }, dependent: :destroy
   # An instrument can have many CcStatement
   has_many :cc_statements,
            -> { includes cc: [:children, :parent] }, dependent: :destroy
@@ -116,7 +116,7 @@ class Instrument < ApplicationRecord
 
   # An instrument can have many CcQuestions
   has_many :cc_questions,
-           -> { includes(:question, :response_unit, cc: [:children, :parent]) },
+           -> { includes(:question, :response_unit, :variables, :topic, cc: [:children, :parent]) },
            dependent: :destroy
 
   # An instrument keeps track of many ControlConstructs as junctions
@@ -359,6 +359,10 @@ class Instrument < ApplicationRecord
 
   def questions
     self.cc_questions
+  end
+
+  def qv_count
+    self.qv_mappings.count
   end
 
   def response_domains

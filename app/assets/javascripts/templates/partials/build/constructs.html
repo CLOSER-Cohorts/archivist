@@ -113,7 +113,20 @@
 </script>
 
 <ul ui-tree="treeOptions" class="a-construct-tree">
-    <li>{{instrument.topsequence.label}}</li>
+    <li>
+        {{instrument.topsequence.label}}
+        <a
+                class="pull-right btn btn-primary btn-xs"
+                data-nodrag
+                style="margin-right: 8px;"
+                href="#"
+                data-toggle="modal"
+                data-target="#new-construct"
+                data-ng-click="setIndex(instrument.topsequence.id, 'Sequence', null)"
+        >
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </li>
     <ul
             class="a-construct-container list-group"
             data-ng-model="instrument.topsequence.children"

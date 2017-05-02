@@ -160,47 +160,6 @@ archivist.controller('HomeController',
             ]
           }
       $scope.datasets = DataManager.getDatasets()
-      $scope.chart_two.data =
-        "cols": [
-            id: "s",
-            label: "Study",
-            type: "string"
-          ,
-            id: "s",
-            label: "Constructs",
-            type: "number"
-        ],
-        "rows": [
-            c: [
-                v: "Mushrooms"
-              ,
-                v: 3
-            ]
-          ,
-            c: [
-                v: "Onions"
-              ,
-                v: 3
-            ]
-          ,
-            c: [
-                v: "Olives"
-              ,
-                v: 31
-            ]
-          ,
-            c: [
-                v: "Zucchini"
-              ,
-                v: 1
-            ]
-          ,
-            c: [
-                v: "Pepperoni"
-              ,
-                v: 2
-            ]
-        ]
       console.log $scope
 
       $scope.chart_one.options =
