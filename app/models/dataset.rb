@@ -9,7 +9,15 @@ class Dataset < ApplicationRecord
 
   attr_accessor :var_count
 
+  def dv_count
+    self.dv_mappings.count
+  end
+
   def questions
     self.instruments.map(&:cc_questions).flatten
+  end
+
+  def qv_count
+    self.qv_mappings.count
   end
 end

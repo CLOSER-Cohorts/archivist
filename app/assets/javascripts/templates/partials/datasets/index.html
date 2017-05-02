@@ -37,6 +37,8 @@
             <th>ID</th>
             <th>Name</th>
             <th>Variables</th>
+            <th>Q-V Mappings</th>
+            <th>DV Mappings</th>
             <th>Study</th>
             <th class="editor-min">Actions</th>
         </tr>
@@ -50,6 +52,8 @@
                 </a>
             </td>
             <td>{{dataset.variables}}</td>
+            <td>{{dataset.qvs}}</td>
+            <td>{{dataset.dvs}}</td>
             <td>{{dataset.study}}</td>
             <td class="editor-min">
                 <a data-ng-href="/datasets/{{dataset.id}}/edit">
