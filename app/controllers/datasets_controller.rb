@@ -15,7 +15,7 @@ class DatasetsController < BasicController
   def index
     @var_counts = Variable.group(:dataset_id).count
     @qv_counts = QvMapping.group(:dataset_id).count
-    @qv_counts = DvMapping.group(:dataset_id).count
+    @dv_counts = DvMapping.group(:dataset_id).count
     super
   end
 
