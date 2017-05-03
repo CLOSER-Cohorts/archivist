@@ -28,10 +28,24 @@ class Dataset < ApplicationRecord
   # Make var_count both get-able and set-able
   attr_accessor :var_count
 
+  # Returns the number of DV mappings for within this Dataset
+  #
+  # @return [Integer]
+  def dv_count
+    self.dv_mappings.count
+  end
+
   # Returns a list off all possible {CcQuestion questions} for mapping to
   #
   # @return [Array]
   def questions
     self.instruments.map(&:cc_questions).flatten
+  end
+
+  # Returns the number of Q-V mappings using variables from this Dataset
+  #
+  # @return [Integer]
+  def qv_count
+    self.qv_mappings.count
   end
 end

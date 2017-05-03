@@ -13,9 +13,10 @@ class DatasetsController < BasicController
   @params_list = [:name]
 
   def index
+    @var_counts = Variable.group(:dataset_id).count
+    @qv_counts = QvMapping.group(:dataset_id).count
+    @dv_counts = DvMapping.group(:dataset_id).count
     super
-    var_counts = Variable.group(:dataset_id).count
-    @collection.each { |d| d.var_count = var_counts[d.id] }
   end
 
   def show
