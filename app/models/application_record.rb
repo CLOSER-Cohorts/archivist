@@ -18,6 +18,10 @@ class ApplicationRecord < ActiveRecord::Base
   # Call clear_cached_stats whenever a model is destroyed
   after_destroy :clear_cached_stats
 
+  def self.query_typed_id(typed_id)
+    klass, id = *typed_id.split(':')
+    klass.classify.constantize.find id
+  end
 
   ## Instance methods ##
 
@@ -70,6 +74,16 @@ class ApplicationRecord < ActiveRecord::Base
         end
       end
     end
+  end
+
+  # Returns a string of the object class and id
+  #
+  # This is primarily used for communicating object references either via the API to the frontend or
+  # via the Redis cache.
+  #
+  # @return [String] Example: CcSequence:3283
+  def typed_id
+    self.class.name + ':' + self.id.to_s
   end
 
   # Updates the last edit time of the parent instrument in Redis
