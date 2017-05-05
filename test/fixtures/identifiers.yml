@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_type: MyString
+  value: MyString
+  item: one
+  item_type: Item
+
+two:
+  id_type: MyString
+  value: MyString
+  item: two
+  item_type: Item
