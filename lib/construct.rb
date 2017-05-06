@@ -10,6 +10,8 @@ module Construct::Model
     include Comparable
     include Realtime::RtUpdate
     include Exportable
+    # This model can be tracked using an Identifier
+    include Identifiable
 
     before_create :create_control_construct
     delegate :label=, to: :cc

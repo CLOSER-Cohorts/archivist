@@ -18,6 +18,27 @@ class ApplicationRecord < ActiveRecord::Base
   # Call clear_cached_stats whenever a model is destroyed
   after_destroy :clear_cached_stats
 
+  # Find an item using an {Identifier}
+  #
+  # @param [String] id_type Type of ID, e.g. urn, closer_id
+  # @param [String] value Identifier
+  # @return [ApplicationRecord] Any object that inherits ApplicationRecord
+  def self.find_by_identifier(id_type, value)
+    cache_result = $redis.hget 'identifiers', id_type + ':' + value
+    if cache_result.nil?
+      Identifier.includes(:item).find_by_id_type_and_value(id_type, value)&.item
+    else
+      ApplicationRecord.query_typed_id cache_result
+    end
+  end
+
+  # Find any object by using its typed_id
+  #
+  # The typed_id is used to both deterline the model to be used and the id for finding the item from
+  # the database.
+  #
+  # @param [String] typed_id Example: CcSequence:6942
+  # @return [ApplicationRecord] Any object that inherits ApplicationRecord
   def self.query_typed_id(typed_id)
     klass, id = *typed_id.split(':')
     klass.classify.constantize.find id

@@ -14,6 +14,9 @@ class Instrument < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
 

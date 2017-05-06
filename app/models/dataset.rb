@@ -10,6 +10,9 @@
 # * Filename
 # * Study
 class Dataset < ApplicationRecord
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # A Dataset can have many {Instrument Instruments} through a many-to-many relationship
   has_many :instruments, through: :instruments_datasets
 

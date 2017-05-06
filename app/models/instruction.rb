@@ -1,5 +1,7 @@
 class Instruction < ActiveRecord::Base
   include Exportable
+  # This model can be tracked using an Identifier
+  include Identifiable
 
   URN_TYPE = 'ii'
   TYPE = 'Instruction'

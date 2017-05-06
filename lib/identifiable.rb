@@ -1,11 +1,13 @@
 module Identifiable
   extend ActiveSupport::Concern
   included do
+
     def self.find_by_identifier(id_type, value)
       cache_result = $redis.hget 'identifiers', id_type + ':' + value
       if cache_result.nil?
-        Identifier.includes(:item).find_by_id_type_and_value(id_type, value)&.item
+        Identifier.includes(:item).where(item_type: self.class.name).find_by_id_type_and_value(id_type, value)&.item
       else
+        return nil unless cache_result.split(':').first == self.class.name
         ApplicationRecord.query_typed_id cache_result
       end
     end
