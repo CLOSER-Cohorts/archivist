@@ -1,5 +1,5 @@
 module Importers::XML::DDI
-  class Category
+  class Category < DdiImporterBase
     def initialize(instrument)
       @instrument = instrument
     end
@@ -10,12 +10,14 @@ module Importers::XML::DDI
       rescue
         cat = Category.new label: ''
       end
-      Reference[category] = cat
       @instrument.categories << cat
+      cat.add_urn = extract_urn_identifier category
     end
 
     def XML_scheme(scheme)
-
+      scheme.xpath('.//Category').each do |category_node|
+        XML_node category_node
+      end
     end
   end
 end
