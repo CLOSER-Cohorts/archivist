@@ -14,7 +14,7 @@
 <script type="text/ng-template" id="child_render.html">
     <a
             class="btn btn-success btn-xs"
-            data-ng-if="obj.children && obj.children.length > 0"
+            data-ng-if="(obj.children && obj.children.length > 0) && obj.type == 'condition'"
             data-nodrag
             data-ng-click="toggle(this)"
     >
