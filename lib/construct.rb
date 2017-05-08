@@ -115,7 +115,7 @@ module Construct::Model
       obj.instrument = i unless defer
       obj.cc = i.control_constructs.new
 
-      parent = i.send('cc_' + params[:parent][:type].pluralize).find(params[:parent][:id])
+      parent = i.send('cc_' + params[:parent][:type].tableize).find(params[:parent][:id])
       unless parent.nil?
         if parent.has_children?
           obj.position = parent.last_child.position + 1
