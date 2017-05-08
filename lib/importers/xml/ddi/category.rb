@@ -11,11 +11,11 @@ module Importers::XML::DDI
         cat = Category.new label: ''
       end
       @instrument.categories << cat
-      cat.add_urn = extract_urn_identifier category
+      cat.add_urn extract_urn_identifier node
     end
 
     def XML_scheme(scheme)
-      scheme.xpath('.//Category').each do |category_node|
+      scheme.xpath('./Category').each do |category_node|
         XML_node category_node
       end
     end
