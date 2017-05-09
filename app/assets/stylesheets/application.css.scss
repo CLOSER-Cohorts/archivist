@@ -14,9 +14,9 @@
  *= require_self
  */
 
-$icon-font-path: "bootstrap-sass-official/assets/fonts/bootstrap/";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+$icon-font-path: "bootstrap-sass/assets/fonts/";
+@import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
 @import "angular-tree-control/css/tree-control";
 @import "angular-tree-control/css/tree-control-attribute";
 @import "angular-ui-tree/dist/angular-ui-tree";

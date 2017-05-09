@@ -12,7 +12,7 @@
 #
 #= require jquery
 #= require jquery_ujs
-#= require jquery-ui/jquery-ui
+#= require jquery-ui/ui/jquery-1-7
 #= require angular/angular
 #= require angular-route/angular-route
 #= require angular-messages/angular-messages
@@ -21,7 +21,7 @@
 #= require angular-bootstrap/ui-bootstrap-tpls
 #= require angular-base64-upload
 #= require angular-ui-sortable/sortable
-#= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
+#= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/dist/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
