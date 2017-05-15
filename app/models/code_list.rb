@@ -11,6 +11,9 @@ class CodeList < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
 
@@ -81,7 +84,7 @@ class CodeList < ApplicationRecord
   #
   # This function can handle creating, editting and deleting {Code Codes}
   #
-  # @param [Array] List of {Code Codes} to transform the existing {Code Codes} to
+  # @param [Array] codes List of {Code Codes} to transform the existing {Code Codes} to
   def update_codes(codes)
     #Check current codes against what was passed
     self.codes.each do |code|

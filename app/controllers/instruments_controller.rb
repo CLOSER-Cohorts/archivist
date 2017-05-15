@@ -11,6 +11,11 @@ class InstrumentsController < BasicController
   @model_class = Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
 
+  def index
+    @qv_counts = QvMapping.group(:instrument_id).count
+    super
+  end
+
   def show
     respond_to do |f|
       f.json {render json: @object}

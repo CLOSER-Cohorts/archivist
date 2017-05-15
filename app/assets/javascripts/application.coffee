@@ -12,7 +12,7 @@
 #
 #= require jquery
 #= require jquery_ujs
-#= require jquery-ui/jquery-ui
+#= require jquery-ui/ui/jquery-1-7
 #= require angular/angular
 #= require angular-route/angular-route
 #= require angular-messages/angular-messages
@@ -21,7 +21,7 @@
 #= require angular-bootstrap/ui-bootstrap-tpls
 #= require angular-base64-upload
 #= require angular-ui-sortable/sortable
-#= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
+#= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/dist/socket.io
 #= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
@@ -160,47 +160,6 @@ archivist.controller('HomeController',
             ]
           }
       $scope.datasets = DataManager.getDatasets()
-      $scope.chart_two.data =
-        "cols": [
-            id: "s",
-            label: "Study",
-            type: "string"
-          ,
-            id: "s",
-            label: "Constructs",
-            type: "number"
-        ],
-        "rows": [
-            c: [
-                v: "Mushrooms"
-              ,
-                v: 3
-            ]
-          ,
-            c: [
-                v: "Onions"
-              ,
-                v: 3
-            ]
-          ,
-            c: [
-                v: "Olives"
-              ,
-                v: 31
-            ]
-          ,
-            c: [
-                v: "Zucchini"
-              ,
-                v: 1
-            ]
-          ,
-            c: [
-                v: "Pepperoni"
-              ,
-                v: 2
-            ]
-        ]
       console.log $scope
 
       $scope.chart_one.options =

@@ -2,6 +2,8 @@ class Variable < ApplicationRecord
   include Linkable
   include Mappable
   include Realtime::RtUpdate
+  # This model can be tracked using an Identifier
+  include Identifiable
 
   belongs_to :dataset
   has_many :maps, dependent: :destroy

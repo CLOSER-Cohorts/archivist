@@ -10,6 +10,9 @@ class Category < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'ca'
 
