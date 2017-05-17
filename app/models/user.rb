@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  belongs_to :group
+  belongs_to :user_group
 
-  delegate :study, to: :group
+  delegate :study, to: :user_group
 
   # Others available are:
   # :timeoutable and :omniauthable

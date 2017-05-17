@@ -615,6 +615,41 @@ ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
 
 
 --
+-- Name: item_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE item_groups (
+    id integer NOT NULL,
+    item_type character varying,
+    item_id integer,
+    group_type integer,
+    root_item_type character varying,
+    root_item_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: item_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE item_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: item_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE item_groups_id_seq OWNED BY item_groups.id;
+
+
+--
 -- Name: links; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1225,6 +1260,13 @@ ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instr
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY item_groups ALTER COLUMN id SET DEFAULT nextval('item_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
 
 
@@ -1493,6 +1535,14 @@ ALTER TABLE ONLY instruments_datasets
 
 ALTER TABLE ONLY instruments
     ADD CONSTRAINT instruments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY item_groups
+    ADD CONSTRAINT item_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1802,6 +1852,20 @@ CREATE INDEX index_instruments_datasets_on_dataset_id ON instruments_datasets US
 --
 
 CREATE INDEX index_instruments_datasets_on_instrument_id ON instruments_datasets USING btree (instrument_id);
+
+
+--
+-- Name: index_item_groups_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_groups_on_item_type_and_item_id ON item_groups USING btree (item_type, item_id);
+
+
+--
+-- Name: index_item_groups_on_root_item_type_and_root_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_groups_on_root_item_type_and_root_item_id ON item_groups USING btree (root_item_type, root_item_id);
 
 
 --
@@ -2332,6 +2396,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170302132603'),
 ('20170302132849'),
 ('20170505135010'),
-('20170517105644');
+('20170517105644'),
+('20170517153047');
 
 
