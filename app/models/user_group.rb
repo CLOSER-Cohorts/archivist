@@ -1,12 +1,12 @@
-# Group representents a set of {User Users} that are interested in particular
+# UserGroup represents a set of {User Users} that are interested in particular
 # studies
 #
 # === Properties
 # * group_type
 # * label
 # * study
-class Group < ApplicationRecord
-  # Each Group can have multiple {User Users}
+class UserGroup < ApplicationRecord
+  # Each UserGroup can have multiple {User Users}
   has_many :users
 
   # Study can hold either a String or an Array, but is still stored in a single
@@ -18,7 +18,7 @@ class Group < ApplicationRecord
 
   private # Private methods
 
-  # Incase more than just the study label is submitted extract the label for
+  # In case more than just the study label is submitted extract the label for
   # saving
   def remove_study_labelling
     if study.is_a? Array

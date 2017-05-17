@@ -1,4 +1,4 @@
-class GroupsController < BasicController
+class UserGroupsController < BasicController
   only_set_object
 
   @model_class = Group

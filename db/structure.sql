@@ -482,39 +482,6 @@ CREATE VIEW dv_mappings AS
 
 
 --
--- Name: groups; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE groups (
-    id integer NOT NULL,
-    group_type character varying,
-    label character varying,
-    study character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
-
-
---
 -- Name: identifiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1047,6 +1014,39 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 
 --
+-- Name: user_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE user_groups (
+    id integer NOT NULL,
+    group_type character varying,
+    label character varying,
+    study character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE user_groups_id_seq OWNED BY user_groups.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1197,13 +1197,6 @@ ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY identifiers ALTER COLUMN id SET DEFAULT nextval('identifiers_id_seq'::regclass);
 
 
@@ -1303,6 +1296,13 @@ ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_un
 --
 
 ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_groups ALTER COLUMN id SET DEFAULT nextval('user_groups_id_seq'::regclass);
 
 
 --
@@ -1464,14 +1464,6 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY groups
-    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
-
-
---
 -- Name: identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1597,6 +1589,14 @@ ALTER TABLE ONLY topics
 
 ALTER TABLE ONLY rds_qs
     ADD CONSTRAINT unique_for_rd_order_within_question UNIQUE (question_id, question_type, rd_order) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_groups
+    ADD CONSTRAINT user_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -2262,7 +2262,7 @@ ALTER TABLE ONLY control_constructs
 --
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES groups(id);
+    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES user_groups(id);
 
 
 --
@@ -2331,6 +2331,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('20161213091354'),
 ('20170302132603'),
 ('20170302132849'),
-('20170505135010');
+('20170505135010'),
+('20170517105644');
 
 
