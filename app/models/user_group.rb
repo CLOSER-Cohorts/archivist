@@ -18,7 +18,7 @@ class UserGroup < ApplicationRecord
 
   private # Private methods
 
-  # In case more than just the study label is submitted extract the label for
+  # In case more than just the study label is submitted extract the label from
   # saving
   def remove_study_labelling
     if study.is_a? Array
