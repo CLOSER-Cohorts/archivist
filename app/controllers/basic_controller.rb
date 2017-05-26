@@ -58,6 +58,8 @@ class BasicController < ApplicationController
   end
 
   def set_object
+    Rails.logger.debug collection.inspect
+    Rails.logger.debug params[:id]
     @object = collection.find(params[:id])
   end
 

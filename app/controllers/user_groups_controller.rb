@@ -1,10 +1,10 @@
 class UserGroupsController < BasicController
   only_set_object
 
-  @model_class = Group
+  @model_class = UserGroup
   @params_list = [:group_type, :label, :study => [:label]]
 
   def external
-    @collection = Group.all
+    @collection = UserGroup.all
   end
 end

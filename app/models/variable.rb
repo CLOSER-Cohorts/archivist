@@ -12,6 +12,9 @@ class Variable < ApplicationRecord
   has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable'
   has_many :der_variables, :through => :reverse_maps, :source => :variable
 
+  has_many :groupings, as: :item
+  has_many :group, through: :groupings
+
   def add_sources(source_labels, x = nil, y = nil)
     sources = self.var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
     [*sources].compact.each do |source|
