@@ -1,0 +1,3 @@
+<% @object.dv_mappings.order(id: 'ASC').each do |map| %>
+<%= map.variable %><%= "\t" %><%= map.source %>
+<% end %>

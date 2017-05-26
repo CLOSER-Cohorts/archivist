@@ -1,0 +1,3 @@
+<% @object.qv_mappings.order(id: 'ASC').each do |map| %>
+<%= map.question_with_cell %><%= "\t" %><%= map.variable %>
+<% end %>
