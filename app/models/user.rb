@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  belongs_to :user_group
+  belongs_to :group, class_name: 'UserGroup'
 
   delegate :study, to: :user_group
 
