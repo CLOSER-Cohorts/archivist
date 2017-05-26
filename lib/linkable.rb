@@ -60,5 +60,9 @@ module Linkable
       cluster = Cluster.find_by_member self
       cluster&.suggested_topic
     end
+
+    def fully_resolved_topic_code
+      (get_topic || get_suggested_topic)&.code&.to_s || '0'
+    end
   end
 end

@@ -38,7 +38,12 @@ Rails.application.routes.draw do
       get 'external'
     end
   end
-  resources :datasets, constraints: -> (r) { (r.format == :json || r.format == :xml) } do
+
+  request_processor = lambda do |request|
+    [:json, :xml, :text].include?(request.format.symbol)
+  end
+
+  resources :datasets, constraints: request_processor do
     resources :variables do
       member do
         post 'set_topic', to: 'variables#set_topic'
@@ -49,14 +54,10 @@ Rails.application.routes.draw do
     member do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
       get 'questions', to: 'datasets#questions'
+      get 'dv', to: 'datasets#dv'
     end
   end
-
-  request_processor = lambda do |request|
-    # binding.pry if request.path =~ %r{/instruments/13/imports}
-    # 1
-    [:json, :xml, :text].include?(request.format.symbol)
-  end
+  get 'datasets/:dataset_id/tv', to: 'variables#tv', constraints: request_processor
 
   resources :instruments, constraints: request_processor do
     resources :cc_sequences
@@ -88,10 +89,12 @@ Rails.application.routes.draw do
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
+      get 'mapping', to: 'instruments#mapping'
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]
       get 'variables', to: 'instruments#variables'
     end
   end
+  get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
