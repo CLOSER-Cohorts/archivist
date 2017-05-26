@@ -318,10 +318,11 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
 
     Object::sort = ->
       newObj = {}
+      self = @
       Object.keys(@).sort().forEach((v)->
-        newObj[v] = @[v]
+        newObj[v] = self[v]
       )
-      @ = newObj
+      newObj
 
     String::replaceAll = (search, replacement) ->
       target = this

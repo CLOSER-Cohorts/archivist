@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
 
   after_action :set_csrf_cookie_for_ng
 
+  def current_user
+    super || User.where(api_key: params['api_key']).where('api_key IS NOT NULL').first
+  end
+
   def set_csrf_cookie_for_ng
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
   end
