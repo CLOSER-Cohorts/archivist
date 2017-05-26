@@ -1,13 +1,12 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
-  only_set_object { %i{ questions latest_document } }
+  only_set_object { %i{ questions latest_document dv } }
 
   has_importers({
                     dv: ImportJob::DV,
                     topicv: ImportJob::TopicV
                 })
-#   only_set_object { %i{member_imports} }
 
   @model_class = Dataset
   @params_list = [:name]
@@ -24,6 +23,13 @@ class DatasetsController < BasicController
       render 'show_with_questions'
     else
       render
+    end
+  end
+
+  def dv
+    respond_to do |format|
+      format.text { render 'dv.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
     end
   end
 

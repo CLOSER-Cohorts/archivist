@@ -6,7 +6,7 @@ class InstrumentsController < BasicController
                     qvmapping: ImportJob::Mapping,
                     topicq: ImportJob::TopicQ
                 })
-  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper member_imports variables} }
+  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
 
   @model_class = Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
