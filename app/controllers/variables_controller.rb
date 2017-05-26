@@ -5,6 +5,15 @@ class VariablesController < BasicController
   @model_class = Variable
   @params_list = [:name, :label, :var_type, :dataset_id]
 
+  def tv
+    @collection = collection.order(:id)
+    @collection.each { |v| v.strand }
+    respond_to do |format|
+      format.text { render 'tv.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
+  end
+
   def set_topic
     topic = Topic.find_by_id params[:topic_id]
 

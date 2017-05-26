@@ -9,6 +9,15 @@ class CcQuestionsController < ConstructController
     render 'variables/index'
   end
 
+  def tq
+    @collection = collection.order(:id)
+    @collection.each { |v| v.strand }
+    respond_to do |format|
+      format.text { render 'tq.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
+  end
+
   def set_topic
     topic = Topic.find params[:topic_id]
 
