@@ -1,5 +1,5 @@
 class Variable < ApplicationRecord
-  include Linkable
+  include Linkable::Model
   include Mappable
   include Realtime::RtUpdate
 

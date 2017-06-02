@@ -4,5 +4,5 @@ json.array! @collection do |cc_sequence|
   json.children cc_sequence.construct_children
   json.top cc_sequence.is_top?
   json.parent cc_sequence.parent_id
-  json.topic cc_sequence.topic || cc_sequence.get_ancestral_topic
+  json.topic cc_sequence.topic || cc_sequence.find_closest_ancestor_topic
 end

@@ -8,4 +8,4 @@ json.top @object.parent.nil?
 unless @object.parent.nil?
   json.parent @object.parent.id
 end
-json.topic @object.topic || @object.get_ancestral_topic
+json.topic @object.topic || @object.find_closest_ancestor_topic

@@ -5,4 +5,4 @@ json.children @object.children do |child|
   json.type child.construct.class.name
 end
 json.parent @object.parent.id
-json.topic @object.topic || @object.get_ancestral_topic
+json.topic @object.topic || @object.find_closest_ancestor_topic

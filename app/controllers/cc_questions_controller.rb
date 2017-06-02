@@ -1,4 +1,6 @@
 class CcQuestionsController < ConstructController
+  include Linkable::Controller
+
   only_set_object { %i{variables set_topic add_variables remove_variable} }
 
   @model_class = CcQuestion
@@ -15,20 +17,6 @@ class CcQuestionsController < ConstructController
     respond_to do |format|
       format.text { render 'tq.txt.erb', layout: false, content_type: 'text/plain' }
       format.json  {}
-    end
-  end
-
-  def set_topic
-    topic = Topic.find params[:topic_id]
-
-    begin
-      @object.topic = topic
-      @object.save!
-      head :ok
-    rescue Exceptions::TopicConflictError
-      render json: {message: 'Could not set topic as it would cause a conflict.'}, status: :conflict
-    rescue => e
-      render json: e, status: :bad_request
     end
   end
 

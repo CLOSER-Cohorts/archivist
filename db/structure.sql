@@ -126,6 +126,61 @@ ALTER SEQUENCE cc_conditions_id_seq OWNED BY cc_conditions.id;
 
 
 --
+-- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE control_constructs (
+    id integer NOT NULL,
+    label character varying,
+    construct_id integer NOT NULL,
+    construct_type character varying NOT NULL,
+    parent_id integer,
+    "position" integer,
+    branch integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
+);
+
+
+--
+-- Name: links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE links (
+    id integer NOT NULL,
+    target_id integer NOT NULL,
+    target_type character varying NOT NULL,
+    topic_id integer NOT NULL,
+    x integer,
+    y integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cc_links; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW cc_links AS
+ SELECT cc.id,
+    cc.label,
+    cc.construct_id,
+    cc.construct_type,
+    cc.parent_id,
+    cc."position",
+    cc.branch,
+    cc.created_at,
+    cc.updated_at,
+    cc.instrument_id,
+    l.topic_id
+   FROM (control_constructs cc
+     LEFT JOIN links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
+  ORDER BY cc.id DESC;
+
+
+--
 -- Name: cc_loops; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -330,24 +385,6 @@ ALTER SEQUENCE codes_id_seq OWNED BY codes.id;
 
 
 --
--- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE control_constructs (
-    id integer NOT NULL,
-    label character varying,
-    construct_id integer NOT NULL,
-    construct_type character varying NOT NULL,
-    parent_id integer,
-    "position" integer,
-    branch integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
-);
-
-
---
 -- Name: control_constructs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -482,47 +519,36 @@ CREATE VIEW dv_mappings AS
 
 
 --
--- Name: item_groups; Type: TABLE; Schema: public; Owner: -
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE item_groups (
+CREATE TABLE groups (
     id integer NOT NULL,
-    group_type integer,
-    item_type character varying,
+    group_type character varying,
     label character varying,
-    root_item_type character varying,
-    root_item_id integer,
+    study character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: streamlined_groupings; Type: TABLE; Schema: public; Owner: -
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE TABLE streamlined_groupings (
-    id integer NOT NULL,
-    item_group_id integer NOT NULL,
-    item_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
+CREATE SEQUENCE groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 --
--- Name: groupings; Type: VIEW; Schema: public; Owner: -
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-CREATE VIEW groupings AS
- SELECT sg.id,
-    sg.item_id,
-    g.item_type,
-    sg.item_group_id,
-    sg.created_at,
-    sg.updated_at
-   FROM (streamlined_groupings sg
-     JOIN item_groups g ON ((sg.item_group_id = g.id)));
+ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
@@ -656,41 +682,6 @@ CREATE SEQUENCE instruments_id_seq
 --
 
 ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
-
-
---
--- Name: item_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE item_groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: item_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE item_groups_id_seq OWNED BY item_groups.id;
-
-
---
--- Name: links; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE links (
-    id integer NOT NULL,
-    target_id integer NOT NULL,
-    target_type character varying NOT NULL,
-    topic_id integer NOT NULL,
-    x integer,
-    y integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -1043,25 +1034,6 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: streamlined_groupings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE streamlined_groupings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: streamlined_groupings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE streamlined_groupings_id_seq OWNED BY streamlined_groupings.id;
-
-
---
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1096,39 +1068,6 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 
 --
--- Name: user_groups; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE user_groups (
-    id integer NOT NULL,
-    group_type character varying,
-    label character varying,
-    study character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE user_groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE user_groups_id_seq OWNED BY user_groups.id;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1156,8 +1095,7 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     failed_attempts integer,
     unlock_token character varying,
-    locked_at timestamp without time zone,
-    api_key character varying
+    locked_at timestamp without time zone
 );
 
 
@@ -1280,6 +1218,13 @@ ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY identifiers ALTER COLUMN id SET DEFAULT nextval('identifiers_id_seq'::regclass);
 
 
@@ -1302,13 +1247,6 @@ ALTER TABLE ONLY instruments ALTER COLUMN id SET DEFAULT nextval('instruments_id
 --
 
 ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instruments_datasets_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY item_groups ALTER COLUMN id SET DEFAULT nextval('item_groups_id_seq'::regclass);
 
 
 --
@@ -1385,21 +1323,7 @@ ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_un
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY streamlined_groupings ALTER COLUMN id SET DEFAULT nextval('streamlined_groupings_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY user_groups ALTER COLUMN id SET DEFAULT nextval('user_groups_id_seq'::regclass);
 
 
 --
@@ -1561,6 +1485,14 @@ ALTER TABLE ONLY response_units
 
 
 --
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1590,14 +1522,6 @@ ALTER TABLE ONLY instruments_datasets
 
 ALTER TABLE ONLY instruments
     ADD CONSTRAINT instruments_pkey PRIMARY KEY (id);
-
-
---
--- Name: item_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY item_groups
-    ADD CONSTRAINT item_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1681,14 +1605,6 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY streamlined_groupings
-    ADD CONSTRAINT streamlined_groupings_pkey PRIMARY KEY (id);
-
-
---
 -- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1702,14 +1618,6 @@ ALTER TABLE ONLY topics
 
 ALTER TABLE ONLY rds_qs
     ADD CONSTRAINT unique_for_rd_order_within_question UNIQUE (question_id, question_type, rd_order) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY user_groups
-    ADD CONSTRAINT user_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -1918,13 +1826,6 @@ CREATE INDEX index_instruments_datasets_on_instrument_id ON instruments_datasets
 
 
 --
--- Name: index_item_groups_on_root_item_type_and_root_item_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_item_groups_on_root_item_type_and_root_item_id ON item_groups USING btree (root_item_type, root_item_id);
-
-
---
 -- Name: index_links_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2093,24 +1994,10 @@ CREATE INDEX index_response_units_on_instrument_id ON response_units USING btree
 
 
 --
--- Name: index_streamlined_groupings_on_item_group_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_streamlined_groupings_on_item_group_id ON streamlined_groupings USING btree (item_group_id);
-
-
---
 -- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_topics_on_parent_id ON topics USING btree (parent_id);
-
-
---
--- Name: index_users_on_api_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_api_key ON users USING btree (api_key);
 
 
 --
@@ -2181,23 +2068,6 @@ CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
--- Name: groupings_insert; Type: RULE; Schema: public; Owner: -
---
-
-CREATE RULE groupings_insert AS
-    ON INSERT TO groupings DO INSTEAD  INSERT INTO streamlined_groupings (item_id, item_group_id, created_at, updated_at)
-  VALUES (new.item_id, new.item_group_id, new.created_at, new.updated_at)
-  RETURNING streamlined_groupings.id,
-    streamlined_groupings.item_id,
-    ( SELECT item_groups.item_type
-           FROM item_groups
-          WHERE (streamlined_groupings.item_group_id = item_groups.id)) AS item_type,
-    streamlined_groupings.item_group_id,
-    streamlined_groupings.created_at,
-    streamlined_groupings.updated_at;
 
 
 --
@@ -2377,14 +2247,6 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: fk_rails_d75780fc8c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY streamlined_groupings
-    ADD CONSTRAINT fk_rails_d75780fc8c FOREIGN KEY (item_group_id) REFERENCES item_groups(id);
-
-
---
 -- Name: fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2421,7 +2283,7 @@ ALTER TABLE ONLY control_constructs
 --
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES user_groups(id);
+    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES groups(id);
 
 
 --
@@ -2491,9 +2353,6 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170302132603'),
 ('20170302132849'),
 ('20170505135010'),
-('20170517105644'),
-('20170517153047'),
-('20170519102218'),
-('20170525155249');
+('20170601154431');
 
 

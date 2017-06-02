@@ -11,7 +11,7 @@ class CcQuestion < ApplicationRecord
   include Construct::Model
 
   # This model can have a Topic linked to it
-  include Linkable
+  include Linkable::Model
 
   # This model can contain linkable items
   include LinkableParent

@@ -34,20 +34,22 @@ module LinkableParent
            topics AS t
         ON tree.topic_id = t.id
         WHERE
-           tree.construct_id = ? 
-           AND tree.construct_type = ? 
+           NOT (
+              tree.construct_id = ? 
+              AND tree.construct_type = ? 
+           )
            AND tree.topic_id IS NOT NULL 
         ORDER BY
            level LIMIT 1
       SQL
 
-      Topic.find_by_sql [
+      Topic.find_by_sql([
                             sql,
-                            self.construct_id,
-                            self.construct_type,
-                            self.construct_id,
-                            self.construct_type
-                        ]
+                            self.id,
+                            self.class.name,
+                            self.id,
+                            self.class.name
+                        ]).first
     end
   end
 end

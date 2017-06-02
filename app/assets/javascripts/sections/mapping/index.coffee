@@ -91,7 +91,7 @@ mapping.directive(
     )->
       nestedOptions = (scope)->
         console.log(scope)
-        '<select class="form-control" data-ng-model="model.topic.id" style="width: 100%; ' +
+        '<select class="form-control" data-ng-model="model.topic.id" data-ng-init="model.topic.id = model.topic.id || model.ancestral_topic.id" style="width: 100%; ' +
         'max-width:600px;" convert-to-number data-ng-change="updateTopic()" data-ng-if="model.topic || !model.strand">' +
         '<option value=""><em>Clear</em></option>' +
         '<option ' +

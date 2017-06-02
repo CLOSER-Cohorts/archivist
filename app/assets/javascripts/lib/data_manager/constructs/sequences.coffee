@@ -12,6 +12,11 @@ sequences.factory(
         {
           id: '@id',
           instrument_id: '@instrument_id'
+        },
+        {
+          save:           {method: 'PUT'},
+          create:         {method: 'POST'},
+          update_topic:   {method: 'POST', url: 'instruments/:instrument_id/cc_sequences/:id/set_topic.json'}
         }
       )
   ]

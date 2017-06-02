@@ -143,6 +143,48 @@ module Construct::Model
   end
 
   module LocalInstanceMethods
+    def all_children_ccs
+      sql = <<~SQL
+        WITH RECURSIVE cc_tree AS 
+        (
+           SELECT
+              ccl.*,
+              1 AS level 
+           FROM
+              cc_links AS ccl 
+           WHERE
+              construct_id = ? 
+              AND construct_type = ? 
+           UNION ALL
+           SELECT
+              ccl.*,
+              tree.level + 1 
+           FROM
+              cc_links AS ccl 
+              JOIN
+                 cc_tree AS tree 
+                 ON tree.id = ccl.parent_id
+        )
+        SELECT
+           tree.* 
+        FROM
+           cc_tree AS tree
+        WHERE
+           NOT (
+              tree.construct_id = ? 
+              AND tree.construct_type = ? 
+           )
+      SQL
+
+      ::ControlConstruct.find_by_sql([
+                            sql,
+                            self.id,
+                            self.class.name,
+                            self.id,
+                            self.class.name
+                        ])
+    end
+
     def first_child
       children.min_by { |x| x.position}
     end
@@ -181,6 +223,17 @@ module Construct::Model
         cs = query_children.call branch, self.cc
       end
       cs
+    end
+  end
+end
+
+module Construct::Controller
+  extend ActiveSupport::Concern
+  included do
+    def set_topic
+      super do
+        Realtime::Publisher.instance.batch_update @object.all_children_ccs.map { |cc| cc.construct }
+      end
     end
   end
 end
