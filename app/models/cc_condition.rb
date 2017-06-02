@@ -14,6 +14,9 @@ class CcCondition < ApplicationRecord
   # This model is a Construct
   include Construct::Model
 
+  # This model can contain linkable items
+  include LinkableParent
+
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'if'
 

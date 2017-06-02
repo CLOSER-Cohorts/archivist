@@ -96,7 +96,7 @@ module Construct::Model
 
   module ClassMethods
     def is_a_parent
-      include Linkable
+      include LinkableParent
       include Construct::Model::LocalInstanceMethods
       delegate :children, to: :cc
     end

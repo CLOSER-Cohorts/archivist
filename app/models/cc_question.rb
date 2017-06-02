@@ -13,6 +13,9 @@ class CcQuestion < ApplicationRecord
   # This model can have a Topic linked to it
   include Linkable
 
+  # This model can contain linkable items
+  include LinkableParent
+
   # This model can be used in mapping
   include Mappable
 

@@ -6,5 +6,5 @@ json.array!(@collection) do |cc_loop|
     json.type child.construct.class.name
   end
   json.parent cc_loop.parent.id
-  json.topic cc_loop.topic
+  json.topic cc_loop.topic || cc_loop.get_ancestral_topic
 end

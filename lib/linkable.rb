@@ -47,6 +47,14 @@ module Linkable
       return s
     end
 
+    def get_ancestral_topic
+      if self.respond_to? :find_closest_ancestor_topic
+        self.find_closest_ancestor_topic
+      else
+        nil
+      end
+    end
+
     def get_topic
       if @topic.nil?
         strand = Strand.find_by_member self
@@ -62,7 +70,7 @@ module Linkable
     end
 
     def fully_resolved_topic_code
-      (get_topic || get_suggested_topic)&.code&.to_s || '0'
+      (get_topic || get_suggested_topic || get_ancestral_topic)&.code&.to_s || '0'
     end
   end
 end

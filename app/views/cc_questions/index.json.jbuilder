@@ -3,6 +3,17 @@ json.array!(@collection) do |cc_question|
   json.label cc_question.label
   json.variables cc_question.variables, :id, :name, :label
   json.topic cc_question.topic
+  json.strand do
+    json.topic do
+      json.id = cc_question.strand.topic.id
+      json.code = cc_question.strand.topic.code
+      json.name = cc_question.strand.topic.name
+      json.parent_id = cc_question.strand.topic.parent_id
+    end
+    json.good cc_question.strand.good
+  end unless cc_question.strand.topic.nil?
+  json.suggested_topic cc_question.get_suggested_topic, :id, :code, :name, :parent_id unless cc_question.get_suggested_topic.nil?
+  json.ancestral_topic cc_question.get_ancestral_topic, :id, :code, :name, :parent_id unless cc_question.get_ancestral_topic.nil?
   json.parent cc_question.parent_id
   json.base_label cc_question.base_label
   json.response_unit_label cc_question.response_unit_label
