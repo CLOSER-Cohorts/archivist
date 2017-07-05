@@ -5,37 +5,23 @@ module Construct::Model
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
-    has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
 
     include Comparable
     include Realtime::RtUpdate
     include Exportable
 
     before_create :create_control_construct
-    delegate :label=, to: :cc
-    delegate :position, to: :cc
-    delegate :position=, to: :cc
-    delegate :branch, to: :cc
-    delegate :branch=, to: :cc
-
-    def self.attribute_names
-      super + ['label']
-    end
 
     def parent
-      unless self.cc.parent.nil?
+      unless self.parent.nil?
         begin
-          $redis.hset 'parents:' + self.class.to_s, self.id, self.cc.parent.construct.id
-          $redis.hset 'is_top:' + self.class.to_s, self.id, self.cc.parent.nil?
+          $redis.hset 'parents:' + self.class.to_s, self.id, self.parent.construct.id
+          $redis.hset 'is_top:' + self.class.to_s, self.id, self.parent.nil?
         rescue
           Rails.logger.warn 'Could not update parents and is_top to Redis cache.'
         end
-        self.cc.parent.construct
+        self.parent
       end
-    end
-
-    def parent=(new_parent)
-      self.cc.parent = new_parent.cc
     end
 
     def parent_id
@@ -56,10 +42,6 @@ module Construct::Model
       p
     end
 
-    def label
-      self.cc.label.nil? ? '' : self.cc.label
-    end
-
     def is_top?
       begin
         top = $redis.hget 'is_top', self.id
@@ -69,28 +51,15 @@ module Construct::Model
       top.nil? ? self.parent.nil? : top
     end
 
-    def create_control_construct
-      if self.cc.nil?
-        self.cc = ControlConstruct.new instrument_id: Prefix[instrument_id]
-      end
-      true
-    end
-
     def <=> other
       return unless other.is_a? self.class
-      if (self.cc.parent_id == other.cc.parent_id)
-        return self.cc.position <=> other.cc.position
+      if (self.parent_id == other.parent_id)
+        return self.position <=> other.position
       else
         return 1 if self.parent&.position.nil?
         return -1 if other.parent&.position.nil?
         return self.parent.position <=> other.parent.position
       end
-    end
-
-    def update(params)
-      super params
-      logger.debug params
-      self.cc.update label: params[:label]
     end
   end
 
@@ -98,17 +67,9 @@ module Construct::Model
     def is_a_parent
       include LinkableParent
       include Construct::Model::LocalInstanceMethods
-      delegate :children, to: :cc
     end
 
-    def find_by_label(label)
-        self
-          .where(nil)
-          .joins('INNER JOIN control_constructs ON cc_questions.id = construct_id AND control_constructs.construct_type = \'CcQuestion\'')
-          .where('label = ?', label)
-          .first
-    end
-
+=begin
     def create_with_position(params, defer = false)
       obj = new()
       i = Instrument.find(Prefix[params[:instrument_id]])
@@ -140,6 +101,7 @@ module Construct::Model
       obj.cc.clear_cache
       obj
     end
+=end
   end
 
   module LocalInstanceMethods
@@ -176,6 +138,7 @@ module Construct::Model
            )
       SQL
 
+      #TODO: This needs updating
       ::ControlConstruct.find_by_sql([
                             sql,
                             self.id,

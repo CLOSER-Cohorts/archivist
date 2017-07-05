@@ -302,6 +302,7 @@ class Instrument < ApplicationRecord
   end
 
   def destroy
+    InstrumentsDatasets.where(instrument_id: self.id).delete_all
     PROPERTIES.reverse.map(&:to_s).each do |r|
       next if ['datasets'].include? r
       begin

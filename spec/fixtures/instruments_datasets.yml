@@ -1,0 +1,38 @@
+---
+InstrumentsDatasets_1:
+  id: 15
+  instrument_id: 22
+  dataset_id: 508
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2017-03-06 14:03:05.376328000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2017-03-06 14:03:05.376328000 Z
+    zone: *2
+    time: *3
+InstrumentsDatasets_2:
+  id: 39
+  instrument_id: 46
+  dataset_id: 532
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2017-03-06 14:03:05.543790000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2017-03-06 14:03:05.543790000 Z
+    zone: *2
+    time: *5
+InstrumentsDatasets_3:
+  id: 51
+  instrument_id: 58
+  dataset_id: 544
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2017-03-06 14:03:05.625726000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2017-03-06 14:03:05.625726000 Z
+    zone: *2
+    time: *7

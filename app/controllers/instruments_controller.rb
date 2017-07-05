@@ -66,13 +66,6 @@ class InstrumentsController < BasicController
       head :ok, format: :json
   end
 
-  def mapper
-    respond_to do |format|
-      format.text { render 'mapper.txt.erb', layout: false, content_type: 'text/plain' }
-      format.json  {}
-    end
-  end
-
   def variables
     @collection = @object.variables
     render 'variables/index'

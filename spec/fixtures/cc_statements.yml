@@ -1,0 +1,2190 @@
+---
+CcStatement_1:
+  id: 372
+  instrument_id: 22
+  literal: BEING A GIRL
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:43.698449000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:43.710974000 Z
+    zone: *2
+    time: *3
+  label: s_intro_i
+  parent_id: 142
+  parent_type: CcSequence
+  position: 1
+CcStatement_2:
+  id: 373
+  instrument_id: 22
+  literal: This questionnaire is for the study child's mother or the person taking
+    the role of the mother.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:22:43.714653000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:22:43.726578000 Z
+    zone: *2
+    time: *5
+  label: s_intro_ii
+  parent_id: 142
+  parent_type: CcSequence
+  position: 2
+CcStatement_3:
+  id: 374
+  instrument_id: 22
+  literal: All answers are confidential
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:22:43.730104000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:22:43.741792000 Z
+    zone: *2
+    time: *7
+  label: s_intro_iii
+  parent_id: 142
+  parent_type: CcSequence
+  position: 3
+CcStatement_4:
+  id: 375
+  instrument_id: 22
+  literal: This questionnaire is for the study child's mother or person taking the
+    role of mother.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-08 12:22:43.745634000 Z
+    zone: *2
+    time: *8
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-08 12:22:43.756936000 Z
+    zone: *2
+    time: *9
+  label: s_intro_iv
+  parent_id: 142
+  parent_type: CcSequence
+  position: 4
+CcStatement_5:
+  id: 376
+  instrument_id: 22
+  literal: To answer simply tick the box which is most accurate in your opinion.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2016-11-08 12:22:43.760345000 Z
+    zone: *2
+    time: *10
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2016-11-08 12:22:43.772678000 Z
+    zone: *2
+    time: *11
+  label: s_intro_v
+  parent_id: 142
+  parent_type: CcSequence
+  position: 5
+CcStatement_6:
+  id: 377
+  instrument_id: 22
+  literal: If you do not want to answer a question or if it does not apply to you,
+    put a line through it. There are no good or bad answers. Just tell us what is
+    true for you.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &12 2016-11-08 12:22:43.776390000 Z
+    zone: *2
+    time: *12
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &13 2016-11-08 12:22:43.787894000 Z
+    zone: *2
+    time: *13
+  label: s_intro_vi
+  parent_id: 142
+  parent_type: CcSequence
+  position: 6
+CcStatement_7:
+  id: 378
+  instrument_id: 22
+  literal: THANK YOU FOR YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &14 2016-11-08 12:22:43.791153000 Z
+    zone: *2
+    time: *14
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &15 2016-11-08 12:22:43.802110000 Z
+    zone: *2
+    time: *15
+  label: s_intro_vii
+  parent_id: 142
+  parent_type: CcSequence
+  position: 7
+CcStatement_8:
+  id: 379
+  instrument_id: 22
+  literal: The health of your study child is still of great importance to us. We would
+    like to know about any recent illnesses or medical treatments.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &16 2016-11-08 12:22:43.818541000 Z
+    zone: *2
+    time: *16
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &17 2016-11-08 12:22:43.830130000 Z
+    zone: *2
+    time: *17
+  label: s_sectionA_i
+  parent_id: 143
+  parent_type: CcSequence
+  position: 1
+CcStatement_9:
+  id: 380
+  instrument_id: 22
+  literal: If no, go to A3 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &18 2016-11-08 12:22:43.888328000 Z
+    zone: *2
+    time: *18
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &19 2016-11-08 12:22:43.900325000 Z
+    zone: *2
+    time: *19
+  label: s_qA2a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 5
+CcStatement_10:
+  id: 381
+  instrument_id: 22
+  literal: If no, go to A6 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &20 2016-11-08 12:22:44.177215000 Z
+    zone: *2
+    time: *20
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &21 2016-11-08 12:22:44.189277000 Z
+    zone: *2
+    time: *21
+  label: s_qA5
+  parent_id: 143
+  parent_type: CcSequence
+  position: 19
+CcStatement_11:
+  id: 382
+  instrument_id: 22
+  literal: If no, go to A7a on page 6
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &22 2016-11-08 12:22:44.283063000 Z
+    zone: *2
+    time: *22
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &23 2016-11-08 12:22:44.295230000 Z
+    zone: *2
+    time: *23
+  label: s_qA6a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 22
+CcStatement_12:
+  id: 383
+  instrument_id: 22
+  literal: If no, go to A8a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &24 2016-11-08 12:22:44.389784000 Z
+    zone: *2
+    time: *24
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &25 2016-11-08 12:22:44.401779000 Z
+    zone: *2
+    time: *25
+  label: s_qA7a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 25
+CcStatement_13:
+  id: 384
+  instrument_id: 22
+  literal: If no, go to A9 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &26 2016-11-08 12:22:44.476845000 Z
+    zone: *2
+    time: *26
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &27 2016-11-08 12:22:44.488830000 Z
+    zone: *2
+    time: *27
+  label: s_qA8a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 28
+CcStatement_14:
+  id: 385
+  instrument_id: 22
+  literal: If no, go to A13a on page 8
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &28 2016-11-08 12:22:44.662013000 Z
+    zone: *2
+    time: *28
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &29 2016-11-08 12:22:44.674105000 Z
+    zone: *2
+    time: *29
+  label: s_qA12a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 35
+CcStatement_15:
+  id: 386
+  instrument_id: 22
+  literal: If no, go to A14a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &30 2016-11-08 12:22:44.840970000 Z
+    zone: *2
+    time: *30
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &31 2016-11-08 12:22:44.853019000 Z
+    zone: *2
+    time: *31
+  label: s_qA13a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 38
+CcStatement_16:
+  id: 387
+  instrument_id: 22
+  literal: If no, or not known, go to A15a on page 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &32 2016-11-08 12:22:44.983425000 Z
+    zone: *2
+    time: *32
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &33 2016-11-08 12:22:44.995836000 Z
+    zone: *2
+    time: *33
+  label: s_qA14a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 41
+CcStatement_17:
+  id: 388
+  instrument_id: 22
+  literal: If no, go to A15k on page 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &34 2016-11-08 12:22:45.410800000 Z
+    zone: *2
+    time: *34
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &35 2016-11-08 12:22:45.422888000 Z
+    zone: *2
+    time: *35
+  label: s_qA15a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 44
+CcStatement_18:
+  id: 389
+  instrument_id: 22
+  literal: If no, go to A17a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &36 2016-11-08 12:22:45.740281000 Z
+    zone: *2
+    time: *36
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &37 2016-11-08 12:22:45.751971000 Z
+    zone: *2
+    time: *37
+  label: s_qA16a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 50
+CcStatement_19:
+  id: 390
+  instrument_id: 22
+  literal: If no, go to A17c on page 13
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &38 2016-11-08 12:22:45.899656000 Z
+    zone: *2
+    time: *38
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &39 2016-11-08 12:22:45.911578000 Z
+    zone: *2
+    time: *39
+  label: s_qA17b
+  parent_id: 143
+  parent_type: CcSequence
+  position: 54
+CcStatement_20:
+  id: 391
+  instrument_id: 22
+  literal: This question is about problems which occur when your child does not have
+    a cold or the flu.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &40 2016-11-08 12:22:45.986101000 Z
+    zone: *2
+    time: *40
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &41 2016-11-08 12:22:45.998061000 Z
+    zone: *2
+    time: *41
+  label: s_qA18
+  parent_id: 143
+  parent_type: CcSequence
+  position: 58
+CcStatement_21:
+  id: 392
+  instrument_id: 22
+  literal: If no, go to B2a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &42 2016-11-08 12:22:46.207308000 Z
+    zone: *2
+    time: *42
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &43 2016-11-08 12:22:46.219239000 Z
+    zone: *2
+    time: *43
+  label: s_qB1b
+  parent_id: 144
+  parent_type: CcSequence
+  position: 3
+CcStatement_22:
+  id: 393
+  instrument_id: 22
+  literal: If no, go to B3a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &44 2016-11-08 12:22:46.294613000 Z
+    zone: *2
+    time: *44
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &45 2016-11-08 12:22:46.306349000 Z
+    zone: *2
+    time: *45
+  label: s_qB2a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 6
+CcStatement_23:
+  id: 394
+  instrument_id: 22
+  literal: If no, go to B4a on page 16
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &46 2016-11-08 12:22:46.401616000 Z
+    zone: *2
+    time: *46
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &47 2016-11-08 12:22:46.413414000 Z
+    zone: *2
+    time: *47
+  label: s_qB3a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 9
+CcStatement_24:
+  id: 395
+  instrument_id: 22
+  literal: If no, go to B3c below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &48 2016-11-08 12:22:46.453148000 Z
+    zone: *2
+    time: *48
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &49 2016-11-08 12:22:46.465652000 Z
+    zone: *2
+    time: *49
+  label: s_qB3b
+  parent_id: 268
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_25:
+  id: 396
+  instrument_id: 22
+  literal: If no, go to B5a on page 17
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &50 2016-11-08 12:22:46.600305000 Z
+    zone: *2
+    time: *50
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &51 2016-11-08 12:22:46.612204000 Z
+    zone: *2
+    time: *51
+  label: s_qB4a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 12
+CcStatement_26:
+  id: 397
+  instrument_id: 22
+  literal: If no, go to B4e below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &52 2016-11-08 12:22:46.651833000 Z
+    zone: *2
+    time: *52
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &53 2016-11-08 12:22:46.664433000 Z
+    zone: *2
+    time: *53
+  label: s_qB4b
+  parent_id: 271
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_27:
+  id: 398
+  instrument_id: 22
+  literal: If no, go to B6a below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &54 2016-11-08 12:22:46.804930000 Z
+    zone: *2
+    time: *54
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &55 2016-11-08 12:22:46.816211000 Z
+    zone: *2
+    time: *55
+  label: s_qB5a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 15
+CcStatement_28:
+  id: 399
+  instrument_id: 22
+  literal: If no, go to B5e below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &56 2016-11-08 12:22:46.855758000 Z
+    zone: *2
+    time: *56
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &57 2016-11-08 12:22:46.868545000 Z
+    zone: *2
+    time: *57
+  label: s_qB5b
+  parent_id: 274
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_29:
+  id: 400
+  instrument_id: 22
+  literal: If no, go to B7a on page 18
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &58 2016-11-08 12:22:47.000422000 Z
+    zone: *2
+    time: *58
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &59 2016-11-08 12:22:47.012241000 Z
+    zone: *2
+    time: *59
+  label: s_qB6a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 18
+CcStatement_30:
+  id: 401
+  instrument_id: 22
+  literal: If no, go to B6e on page 18
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &60 2016-11-08 12:22:47.052313000 Z
+    zone: *2
+    time: *60
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &61 2016-11-08 12:22:47.064719000 Z
+    zone: *2
+    time: *61
+  label: s_qB6b
+  parent_id: 277
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_31:
+  id: 402
+  instrument_id: 22
+  literal: If no, go to B8a on page 19
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &62 2016-11-08 12:22:47.202183000 Z
+    zone: *2
+    time: *62
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &63 2016-11-08 12:22:47.221570000 Z
+    zone: *2
+    time: *63
+  label: s_qB7a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 21
+CcStatement_32:
+  id: 403
+  instrument_id: 22
+  literal: If no, go to B7e below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &64 2016-11-08 12:22:47.260529000 Z
+    zone: *2
+    time: *64
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &65 2016-11-08 12:22:47.273520000 Z
+    zone: *2
+    time: *65
+  label: s_qB7b
+  parent_id: 280
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_33:
+  id: 404
+  instrument_id: 22
+  literal: If no, go to section C on page 20
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &66 2016-11-08 12:22:47.404551000 Z
+    zone: *2
+    time: *66
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &67 2016-11-08 12:22:47.416188000 Z
+    zone: *2
+    time: *67
+  label: s_qB8a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 24
+CcStatement_34:
+  id: 405
+  instrument_id: 22
+  literal: If more than 3 problems, continue below or on a separate sheet.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &68 2016-11-08 12:22:47.474021000 Z
+    zone: *2
+    time: *68
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &69 2016-11-08 12:22:47.486281000 Z
+    zone: *2
+    time: *69
+  label: s_qB8g
+  parent_id: 283
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcStatement_35:
+  id: 406
+  instrument_id: 22
+  literal: However careful a parent is, most children have accidents at some time
+    or other. Please list on the next pages the times your child has had an accident,
+    whether or not she was injured as a result.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &70 2016-11-08 12:22:47.505062000 Z
+    zone: *2
+    time: *70
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &71 2016-11-08 12:22:47.517426000 Z
+    zone: *2
+    time: *71
+  label: s_sectionC_i
+  parent_id: 145
+  parent_type: CcSequence
+  position: 1
+CcStatement_36:
+  id: 407
+  instrument_id: 22
+  literal: If no, go to C2a on page 21
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &72 2016-11-08 12:22:47.539120000 Z
+    zone: *2
+    time: *72
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &73 2016-11-08 12:22:47.551078000 Z
+    zone: *2
+    time: *73
+  label: s_qC1a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 3
+CcStatement_37:
+  id: 408
+  instrument_id: 22
+  literal: If no, go to C3a on page 22
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &74 2016-11-08 12:22:47.683325000 Z
+    zone: *2
+    time: *74
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &75 2016-11-08 12:22:47.704264000 Z
+    zone: *2
+    time: *75
+  label: s_qC2a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 6
+CcStatement_38:
+  id: 409
+  instrument_id: 22
+  literal: If no, go to C4a on page 23
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &76 2016-11-08 12:22:47.851353000 Z
+    zone: *2
+    time: *76
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &77 2016-11-08 12:22:47.864894000 Z
+    zone: *2
+    time: *77
+  label: s_qC3a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 9
+CcStatement_39:
+  id: 410
+  instrument_id: 22
+  literal: If no, go to C5a on page 24
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &78 2016-11-08 12:22:48.013496000 Z
+    zone: *2
+    time: *78
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &79 2016-11-08 12:22:48.026652000 Z
+    zone: *2
+    time: *79
+  label: s_qC4a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 12
+CcStatement_40:
+  id: 411
+  instrument_id: 22
+  literal: If no, go to C6a on page 25
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &80 2016-11-08 12:22:48.169749000 Z
+    zone: *2
+    time: *80
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &81 2016-11-08 12:22:48.183143000 Z
+    zone: *2
+    time: *81
+  label: s_qC5a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 15
+CcStatement_41:
+  id: 412
+  instrument_id: 22
+  literal: If no, go to C7 on page 26
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &82 2016-11-08 12:22:48.332592000 Z
+    zone: *2
+    time: *82
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &83 2016-11-08 12:22:48.344228000 Z
+    zone: *2
+    time: *83
+  label: s_qC6a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 18
+CcStatement_42:
+  id: 413
+  instrument_id: 22
+  literal: Include medicines prescribed by your doctor and those you may have bought
+    over the counter. If you need more lines for a particular category please include
+    the additional medicines under the 'Other conditions' section at the end of the
+    question on Page 36.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &84 2016-11-08 12:22:49.554209000 Z
+    zone: *2
+    time: *84
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &85 2016-11-08 12:22:49.566514000 Z
+    zone: *2
+    time: *85
+  label: s_qE1i
+  parent_id: 147
+  parent_type: CcSequence
+  position: 3
+CcStatement_43:
+  id: 414
+  instrument_id: 22
+  literal: Try to give the full name of the medicine and say how often it was used.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &86 2016-11-08 12:22:49.570070000 Z
+    zone: *2
+    time: *86
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &87 2016-11-08 12:22:49.582374000 Z
+    zone: *2
+    time: *87
+  label: s_qE1ii
+  parent_id: 147
+  parent_type: CcSequence
+  position: 4
+CcStatement_44:
+  id: 415
+  instrument_id: 22
+  literal: 'Regularly: most days for at least 3 months, or several times every month'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &88 2016-11-08 12:22:49.586003000 Z
+    zone: *2
+    time: *88
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &89 2016-11-08 12:22:49.606143000 Z
+    zone: *2
+    time: *89
+  label: s_qE1iii
+  parent_id: 147
+  parent_type: CcSequence
+  position: 5
+CcStatement_45:
+  id: 416
+  instrument_id: 22
+  literal: 'Few days: for a few days at a time for one or more episodes'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &90 2016-11-08 12:22:49.609784000 Z
+    zone: *2
+    time: *90
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &91 2016-11-08 12:22:49.621711000 Z
+    zone: *2
+    time: *91
+  label: s_qE1iv
+  parent_id: 147
+  parent_type: CcSequence
+  position: 6
+CcStatement_46:
+  id: 417
+  instrument_id: 22
+  literal: 'Odd occasions: on a few odd occasions'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &92 2016-11-08 12:22:49.625187000 Z
+    zone: *2
+    time: *92
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &93 2016-11-08 12:22:49.637061000 Z
+    zone: *2
+    time: *93
+  label: s_qE1v
+  parent_id: 147
+  parent_type: CcSequence
+  position: 7
+CcStatement_47:
+  id: 418
+  instrument_id: 22
+  literal: 'Once or twice: on one or two isolated occasions only'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &94 2016-11-08 12:22:49.640705000 Z
+    zone: *2
+    time: *94
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &95 2016-11-08 12:22:49.652480000 Z
+    zone: *2
+    time: *95
+  label: s_qE1vi
+  parent_id: 147
+  parent_type: CcSequence
+  position: 8
+CcStatement_48:
+  id: 419
+  instrument_id: 22
+  literal: To describe supplements containing a mixture of things e.g. calcium and
+    vitamins, or vitamins and iron etc., please write them under "Other" in part d)
+    below.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &96 2016-11-08 12:22:49.725757000 Z
+    zone: *2
+    time: *96
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &97 2016-11-08 12:22:49.737850000 Z
+    zone: *2
+    time: *97
+  label: s_qE2
+  parent_id: 147
+  parent_type: CcSequence
+  position: 13
+CcStatement_49:
+  id: 420
+  instrument_id: 22
+  literal: It's two years since we asked you about your daughter's school days, so
+    now we need to update our information
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &98 2016-11-08 12:22:49.821781000 Z
+    zone: *2
+    time: *98
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &99 2016-11-08 12:22:49.833744000 Z
+    zone: *2
+    time: *99
+  label: s_sectionG_i
+  parent_id: 149
+  parent_type: CcSequence
+  position: 2
+CcStatement_50:
+  id: 421
+  instrument_id: 22
+  literal: Thank you so much for helping us with this questionnaire. We really do
+    appreciate all the help you are giving to the Study
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &100 2016-11-08 12:22:49.837519000 Z
+    zone: *2
+    time: *100
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &101 2016-11-08 12:22:49.849155000 Z
+    zone: *2
+    time: *101
+  label: s_sectionG_ii
+  parent_id: 149
+  parent_type: CcSequence
+  position: 3
+CcStatement_51:
+  id: 422
+  instrument_id: 22
+  literal: We would like to know what happens after school.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &102 2016-11-08 12:22:50.183437000 Z
+    zone: *2
+    time: *102
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &103 2016-11-08 12:22:50.196143000 Z
+    zone: *2
+    time: *103
+  label: s_qH4
+  parent_id: 292
+  parent_type: CcCondition
+  position: 14
+  branch: 1
+CcStatement_52:
+  id: 423
+  instrument_id: 22
+  literal: If yes always, go to H4c below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &104 2016-11-08 12:22:50.217907000 Z
+    zone: *2
+    time: *104
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &105 2016-11-08 12:22:50.229914000 Z
+    zone: *2
+    time: *105
+  label: s_qH4a
+  parent_id: 292
+  parent_type: CcCondition
+  position: 16
+  branch: 1
+CcStatement_53:
+  id: 424
+  instrument_id: 22
+  literal: If no, go to H11 on page 46
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &106 2016-11-08 12:22:50.908142000 Z
+    zone: *2
+    time: *106
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &107 2016-11-08 12:22:50.920897000 Z
+    zone: *2
+    time: *107
+  label: s_qH8
+  parent_id: 292
+  parent_type: CcCondition
+  position: 47
+  branch: 1
+CcStatement_54:
+  id: 425
+  instrument_id: 22
+  literal: If no, go to H11 on page 46
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &108 2016-11-08 12:22:51.090049000 Z
+    zone: *2
+    time: *108
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &109 2016-11-08 12:22:51.102961000 Z
+    zone: *2
+    time: *109
+  label: s_qH10a
+  parent_id: 296
+  parent_type: CcCondition
+  position: 9
+  branch: 0
+CcStatement_55:
+  id: 426
+  instrument_id: 22
+  literal: If no, go to H11 on page 46
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &110 2016-11-08 12:22:51.162889000 Z
+    zone: *2
+    time: *110
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &111 2016-11-08 12:22:51.176057000 Z
+    zone: *2
+    time: *111
+  label: s_qH10b
+  parent_id: 297
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcStatement_56:
+  id: 427
+  instrument_id: 22
+  literal: If no, go to H12 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &112 2016-11-08 12:22:51.244975000 Z
+    zone: *2
+    time: *112
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &113 2016-11-08 12:22:51.257353000 Z
+    zone: *2
+    time: *113
+  label: s_qH11a
+  parent_id: 150
+  parent_type: CcSequence
+  position: 4
+CcStatement_57:
+  id: 428
+  instrument_id: 22
+  literal: If no, go to H13 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &114 2016-11-08 12:22:51.315793000 Z
+    zone: *2
+    time: *114
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &115 2016-11-08 12:22:51.328105000 Z
+    zone: *2
+    time: *115
+  label: s_qH12
+  parent_id: 150
+  parent_type: CcSequence
+  position: 7
+CcStatement_58:
+  id: 429
+  instrument_id: 22
+  literal: If no, go to H14 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &116 2016-11-08 12:22:51.386698000 Z
+    zone: *2
+    time: *116
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &117 2016-11-08 12:22:51.399262000 Z
+    zone: *2
+    time: *117
+  label: s_qH13
+  parent_id: 150
+  parent_type: CcSequence
+  position: 10
+CcStatement_59:
+  id: 430
+  instrument_id: 22
+  literal: If no, go to K7 on page 57
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &118 2016-11-08 12:22:52.143799000 Z
+    zone: *2
+    time: *118
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &119 2016-11-08 12:22:52.155997000 Z
+    zone: *2
+    time: *119
+  label: s_qK6a
+  parent_id: 152
+  parent_type: CcSequence
+  position: 25
+CcStatement_60:
+  id: 431
+  instrument_id: 22
+  literal: In order to help us find out why some children are healthier than others
+    we are looking at many aspects of their development. So far however, we have not
+    looked at the way this may be affected by their cultural background. We'd be grateful
+    if you could answer these questions as best you can.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &120 2016-11-08 12:22:52.492052000 Z
+    zone: *2
+    time: *120
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &121 2016-11-08 12:22:52.506723000 Z
+    zone: *2
+    time: *121
+  label: s_sectionL_i
+  parent_id: 153
+  parent_type: CcSequence
+  position: 1
+CcStatement_61:
+  id: 432
+  instrument_id: 22
+  literal: Many thanks for the time you have taken to fill in this questionnaire
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &122 2016-11-08 12:22:52.640010000 Z
+    zone: *2
+    time: *122
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &123 2016-11-08 12:22:52.652404000 Z
+    zone: *2
+    time: *123
+  label: s_sectionL_ii
+  parent_id: 153
+  parent_type: CcSequence
+  position: 6
+CcStatement_62:
+  id: 433
+  instrument_id: 22
+  literal: There is only the back page to complete now
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &124 2016-11-08 12:22:52.655931000 Z
+    zone: *2
+    time: *124
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &125 2016-11-08 12:22:52.667746000 Z
+    zone: *2
+    time: *125
+  label: s_sectionL_iii
+  parent_id: 153
+  parent_type: CcSequence
+  position: 7
+CcStatement_63:
+  id: 434
+  instrument_id: 22
+  literal: THANK YOU VERY MUCH FOR YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &126 2016-11-08 12:22:52.839407000 Z
+    zone: *2
+    time: *126
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &127 2016-11-08 12:22:52.851893000 Z
+    zone: *2
+    time: *127
+  label: s_outro_i
+  parent_id: 142
+  parent_type: CcSequence
+  position: 20
+CcStatement_64:
+  id: 435
+  instrument_id: 22
+  literal: NB. Please remember we cannot reply to any comment unless you sign it.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &128 2016-11-08 12:22:52.873098000 Z
+    zone: *2
+    time: *128
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &129 2016-11-08 12:22:52.884974000 Z
+    zone: *2
+    time: *129
+  label: s_outro_ii
+  parent_id: 142
+  parent_type: CcSequence
+  position: 22
+CcStatement_65:
+  id: 436
+  instrument_id: 22
+  literal: 'When completed, please return the questionnaire to: Professor Jean Golding
+    Children of the Nineties - ALSPAC Institute of Child Health'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &130 2016-11-08 12:22:52.888668000 Z
+    zone: *2
+    time: *130
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &131 2016-11-08 12:22:52.900900000 Z
+    zone: *2
+    time: *131
+  label: s_outro_iii
+  parent_id: 142
+  parent_type: CcSequence
+  position: 23
+CcStatement_66:
+  id: 915
+  instrument_id: 46
+  literal: YOUR HOME & LIFESTYLE
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &132 2016-11-08 12:25:55.235620000 Z
+    zone: *2
+    time: *132
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &133 2016-11-08 12:25:55.247761000 Z
+    zone: *2
+    time: *133
+  label: s_intro_i
+  parent_id: 416
+  parent_type: CcSequence
+  position: 1
+CcStatement_67:
+  id: 916
+  instrument_id: 46
+  literal: 'Finding out how the environment and lifestyle affects mothers and their
+    babies will help us to make the environment and lifestyle a healthier place. '
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &134 2016-11-08 12:25:55.250741000 Z
+    zone: *2
+    time: *134
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &135 2016-11-08 12:25:55.261980000 Z
+    zone: *2
+    time: *135
+  label: s_intro_ii
+  parent_id: 416
+  parent_type: CcSequence
+  position: 2
+CcStatement_68:
+  id: 917
+  instrument_id: 46
+  literal: This questionnaire asks about your environment and lifestyle. It asks about
+    where you live and work, and about what you do.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &136 2016-11-08 12:25:55.265029000 Z
+    zone: *2
+    time: *136
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &137 2016-11-08 12:25:55.276838000 Z
+    zone: *2
+    time: *137
+  label: s_intro_iii
+  parent_id: 416
+  parent_type: CcSequence
+  position: 3
+CcStatement_69:
+  id: 918
+  instrument_id: 46
+  literal: All the answers you give are confidential. We would be grateful if you
+    would answer as many questions as you can.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &138 2016-11-08 12:25:55.279931000 Z
+    zone: *2
+    time: *138
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &139 2016-11-08 12:25:55.291839000 Z
+    zone: *2
+    time: *139
+  label: s_intro_iv
+  parent_id: 416
+  parent_type: CcSequence
+  position: 4
+CcStatement_70:
+  id: 919
+  instrument_id: 46
+  literal: If there is any question you don't want to answer just leave it blank.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &140 2016-11-08 12:25:55.294871000 Z
+    zone: *2
+    time: *140
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &141 2016-11-08 12:25:55.306042000 Z
+    zone: *2
+    time: *141
+  label: s_intro_v
+  parent_id: 416
+  parent_type: CcSequence
+  position: 5
+CcStatement_71:
+  id: 920
+  instrument_id: 46
+  literal: THANK YOU VERY MUCH FOR YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &142 2016-11-08 12:25:55.309138000 Z
+    zone: *2
+    time: *142
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &143 2016-11-08 12:25:55.320450000 Z
+    zone: *2
+    time: *143
+  label: s_intro_vi
+  parent_id: 416
+  parent_type: CcSequence
+  position: 6
+CcStatement_72:
+  id: 921
+  instrument_id: 46
+  literal: If no, go to A17, on page 9.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &144 2016-11-08 12:25:56.010540000 Z
+    zone: *2
+    time: *144
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &145 2016-11-08 12:25:56.022043000 Z
+    zone: *2
+    time: *145
+  label: s_qA16a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 38
+CcStatement_73:
+  id: 922
+  instrument_id: 46
+  literal: If no, go to A19.a, on page 11.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &146 2016-11-08 12:25:56.194028000 Z
+    zone: *2
+    time: *146
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &147 2016-11-08 12:25:56.205565000 Z
+    zone: *2
+    time: *147
+  label: s_qA18a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 43
+CcStatement_74:
+  id: 923
+  instrument_id: 46
+  literal: If no, go to D4, on page 22.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &148 2016-11-08 12:25:56.977366000 Z
+    zone: *2
+    time: *148
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &149 2016-11-08 12:25:56.989368000 Z
+    zone: *2
+    time: *149
+  label: s_qD2a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 7
+CcStatement_75:
+  id: 924
+  instrument_id: 46
+  literal: If no, go to D9, on page 24.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &150 2016-11-08 12:25:57.322494000 Z
+    zone: *2
+    time: *150
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &151 2016-11-08 12:25:57.334191000 Z
+    zone: *2
+    time: *151
+  label: s_qD8a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 18
+CcStatement_76:
+  id: 925
+  instrument_id: 46
+  literal: If no, go to Section F, on page 29.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &152 2016-11-08 12:25:57.518637000 Z
+    zone: *2
+    time: *152
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &153 2016-11-08 12:25:57.530383000 Z
+    zone: *2
+    time: *153
+  label: s_qE1
+  parent_id: 421
+  parent_type: CcSequence
+  position: 2
+CcStatement_77:
+  id: 926
+  instrument_id: 46
+  literal: If no, please go to G2, on page 33.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &154 2016-11-08 12:25:58.679726000 Z
+    zone: *2
+    time: *154
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &155 2016-11-08 12:25:58.691668000 Z
+    zone: *2
+    time: *155
+  label: s_qG1a
+  parent_id: 423
+  parent_type: CcSequence
+  position: 2
+CcStatement_78:
+  id: 927
+  instrument_id: 46
+  literal: Please send us an empty packet/carton of the brand you usually smoke.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &156 2016-11-08 12:25:59.002370000 Z
+    zone: *2
+    time: *156
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &157 2016-11-08 12:25:59.014596000 Z
+    zone: *2
+    time: *157
+  label: s_qG1hii
+  parent_id: 681
+  parent_type: CcCondition
+  position: 17
+  branch: 0
+CcStatement_79:
+  id: 928
+  instrument_id: 46
+  literal: If no, or don't have a partner, go to G4, on page 34.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &158 2016-11-08 12:25:59.101847000 Z
+    zone: *2
+    time: *158
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &159 2016-11-08 12:25:59.121174000 Z
+    zone: *2
+    time: *159
+  label: s_qG3a_i
+  parent_id: 423
+  parent_type: CcSequence
+  position: 8
+CcStatement_80:
+  id: 929
+  instrument_id: 46
+  literal: Go to G4, on page 34.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &160 2016-11-08 12:25:59.124349000 Z
+    zone: *2
+    time: *160
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &161 2016-11-08 12:25:59.135855000 Z
+    zone: *2
+    time: *161
+  label: s_qG3a_ii
+  parent_id: 423
+  parent_type: CcSequence
+  position: 9
+CcStatement_81:
+  id: 930
+  instrument_id: 46
+  literal: N.B. Have you remembered to enclose an empty cigarette packet?
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &162 2016-11-08 12:25:59.861599000 Z
+    zone: *2
+    time: *162
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &163 2016-11-08 12:25:59.873675000 Z
+    zone: *2
+    time: *163
+  label: s_section_I
+  parent_id: 425
+  parent_type: CcSequence
+  position: 3
+CcStatement_82:
+  id: 931
+  instrument_id: 46
+  literal: VERY MANY THANKS FOR ALL YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &164 2016-11-08 12:25:59.894117000 Z
+    zone: *2
+    time: *164
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &165 2016-11-08 12:25:59.905788000 Z
+    zone: *2
+    time: *165
+  label: s_outro_i
+  parent_id: 416
+  parent_type: CcSequence
+  position: 16
+CcStatement_83:
+  id: 932
+  instrument_id: 46
+  literal: 'When completed, put in the envelope provided and either bring to the clinic
+    or post to:'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &166 2016-11-08 12:25:59.908658000 Z
+    zone: *2
+    time: *166
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &167 2016-11-08 12:25:59.920123000 Z
+    zone: *2
+    time: *167
+  label: s_outro_ii
+  parent_id: 416
+  parent_type: CcSequence
+  position: 17
+CcStatement_84:
+  id: 933
+  instrument_id: 46
+  literal: Dr. Jean Golding, Children of the Nineties - ALSPAC, Institute of Child
+    Health, 24 Tyndall Avenue, Bristol. BS8 1BR.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &168 2016-11-08 12:25:59.923236000 Z
+    zone: *2
+    time: *168
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &169 2016-11-08 12:25:59.935290000 Z
+    zone: *2
+    time: *169
+  label: s_outro_iii
+  parent_id: 416
+  parent_type: CcSequence
+  position: 18
+CcStatement_85:
+  id: 934
+  instrument_id: 46
+  literal: Please remember, because this is strictly confidential, the people who
+    look at this booklet will not know your name. They will be unable to give you
+    any help or contact anyone after reading what you have written. If you feel you
+    need advice, please feel free to contact our hotline (Bristol 256260, during office
+    hours). Alternatively your General Practitioner should be able to advise you.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &170 2016-11-08 12:25:59.938417000 Z
+    zone: *2
+    time: *170
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &171 2016-11-08 12:25:59.950037000 Z
+    zone: *2
+    time: *171
+  label: s_outro_iv
+  parent_id: 416
+  parent_type: CcSequence
+  position: 19
+CcStatement_86:
+  id: 1260
+  instrument_id: 58
+  literal: YOUR HEALTH, EVENTS AND FEELINGS
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &172 2016-11-08 12:28:37.694722000 Z
+    zone: *2
+    time: *172
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &173 2016-11-08 12:28:37.708591000 Z
+    zone: *2
+    time: *173
+  label: s_intro_i
+  parent_id: 609
+  parent_type: CcSequence
+  position: 1
+CcStatement_87:
+  id: 1261
+  instrument_id: 58
+  literal: This questionnaire aims to find out what problems parents have. Your answers
+    will help us to identify those problems that may be solved by changes in the health
+    care system, or in society. It should be filled in by the mother or person taking
+    the place of the mother.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &174 2016-11-08 12:28:37.712593000 Z
+    zone: *2
+    time: *174
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &175 2016-11-08 12:28:37.725083000 Z
+    zone: *2
+    time: *175
+  label: s_intro_ii
+  parent_id: 609
+  parent_type: CcSequence
+  position: 2
+CcStatement_88:
+  id: 1262
+  instrument_id: 58
+  literal: To answer simply tick the box which is most accurate in your opinion.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &176 2016-11-08 12:28:37.728977000 Z
+    zone: *2
+    time: *176
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &177 2016-11-08 12:28:37.741693000 Z
+    zone: *2
+    time: *177
+  label: s_intro_iii
+  parent_id: 609
+  parent_type: CcSequence
+  position: 3
+CcStatement_89:
+  id: 1263
+  instrument_id: 58
+  literal: Some questions are the same as those you have answered before. This is
+    so that we can tell what changes have happened to you.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &178 2016-11-08 12:28:37.745961000 Z
+    zone: *2
+    time: *178
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &179 2016-11-08 12:28:37.759211000 Z
+    zone: *2
+    time: *179
+  label: s_intro_iv
+  parent_id: 609
+  parent_type: CcSequence
+  position: 4
+CcStatement_90:
+  id: 1264
+  instrument_id: 58
+  literal: Please answer all questions if you can, even if they are similar. If you
+    cannot answer a question or if it does not apply to you, put a line through it.
+    There are no good or bad answers. Just tell us what you really think.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &180 2016-11-08 12:28:37.763179000 Z
+    zone: *2
+    time: *180
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &181 2016-11-08 12:28:37.775970000 Z
+    zone: *2
+    time: *181
+  label: s_intro_v
+  parent_id: 609
+  parent_type: CcSequence
+  position: 5
+CcStatement_91:
+  id: 1265
+  instrument_id: 58
+  literal: All answers are confidential.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &182 2016-11-08 12:28:37.780240000 Z
+    zone: *2
+    time: *182
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &183 2016-11-08 12:28:37.793182000 Z
+    zone: *2
+    time: *183
+  label: s_intro_vi
+  parent_id: 609
+  parent_type: CcSequence
+  position: 6
+CcStatement_92:
+  id: 1266
+  instrument_id: 58
+  literal: THANK YOU FOR YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &184 2016-11-08 12:28:37.797622000 Z
+    zone: *2
+    time: *184
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &185 2016-11-08 12:28:37.809613000 Z
+    zone: *2
+    time: *185
+  label: s_intro_vii
+  parent_id: 609
+  parent_type: CcSequence
+  position: 7
+CcStatement_93:
+  id: 1267
+  instrument_id: 58
+  literal: If no, go to A6 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &186 2016-11-08 12:28:37.944337000 Z
+    zone: *2
+    time: *186
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &187 2016-11-08 12:28:37.954663000 Z
+    zone: *2
+    time: *187
+  label: s_A5_a
+  parent_id: 610
+  parent_type: CcSequence
+  position: 7
+CcStatement_94:
+  id: 1268
+  instrument_id: 58
+  literal: If no, go to A10 on Page 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &188 2016-11-08 12:28:38.316283000 Z
+    zone: *2
+    time: *188
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &189 2016-11-08 12:28:38.326226000 Z
+    zone: *2
+    time: *189
+  label: s_A9_a
+  parent_id: 610
+  parent_type: CcSequence
+  position: 16
+CcStatement_95:
+  id: 1269
+  instrument_id: 58
+  literal: 'For these pregnancies please give: (If you have had more than 3 pregnancies,
+    please continue on the next page).'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &190 2016-11-08 12:28:38.367095000 Z
+    zone: *2
+    time: *190
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &191 2016-11-08 12:28:38.384387000 Z
+    zone: *2
+    time: *191
+  label: s_qA9c_i
+  parent_id: 1045
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_96:
+  id: 1270
+  instrument_id: 58
+  literal: If more than 6 pregnancies, please describe others on a separate page.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &192 2016-11-08 12:28:38.523653000 Z
+    zone: *2
+    time: *192
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &193 2016-11-08 12:28:38.536364000 Z
+    zone: *2
+    time: *193
+  label: s_qA9c_ii
+  parent_id: 1045
+  parent_type: CcCondition
+  position: 4
+  branch: 0
+CcStatement_97:
+  id: 1271
+  instrument_id: 58
+  literal: Read each of the questions below. Decide which hand you use for each activity.
+    If you are unsure, try it out.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &194 2016-11-08 12:28:38.821132000 Z
+    zone: *2
+    time: *194
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &195 2016-11-08 12:28:38.833009000 Z
+    zone: *2
+    time: *195
+  label: s_B1
+  parent_id: 612
+  parent_type: CcSequence
+  position: 1
+CcStatement_98:
+  id: 1272
+  instrument_id: 58
+  literal: 'Thinking back to your childhood, (i.e. up to the age of 16) please answer
+    the following questions:'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &196 2016-11-08 12:28:39.182401000 Z
+    zone: *2
+    time: *196
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &197 2016-11-08 12:28:39.192384000 Z
+    zone: *2
+    time: *197
+  label: s_B5
+  parent_id: 611
+  parent_type: CcSequence
+  position: 7
+CcStatement_99:
+  id: 1273
+  instrument_id: 58
+  literal: Below are some statements. Please say how true they are of you.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &198 2016-11-08 12:28:39.618676000 Z
+    zone: *2
+    time: *198
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &199 2016-11-08 12:28:39.631109000 Z
+    zone: *2
+    time: *199
+  label: s_C1
+  parent_id: 615
+  parent_type: CcSequence
+  position: 1
+CcStatement_100:
+  id: 1274
+  instrument_id: 58
+  literal: The questions in this section ask you about your feelings and the way you
+    behave. You have answered these questions in other questionnaires, but you may
+    be feeling differently now.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &200 2016-11-08 12:28:39.841646000 Z
+    zone: *2
+    time: *200
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &201 2016-11-08 12:28:39.853853000 Z
+    zone: *2
+    time: *201
+  label: s_D_i
+  parent_id: 616
+  parent_type: CcSequence
+  position: 1
+CcStatement_101:
+  id: 1275
+  instrument_id: 58
+  literal: Please indicate the way you feel.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &202 2016-11-08 12:28:39.858061000 Z
+    zone: *2
+    time: *202
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &203 2016-11-08 12:28:39.869264000 Z
+    zone: *2
+    time: *203
+  label: s_D_ii
+  parent_id: 616
+  parent_type: CcSequence
+  position: 2
+CcStatement_102:
+  id: 1276
+  instrument_id: 58
+  literal: 'In the past week:'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &204 2016-11-08 12:28:40.348990000 Z
+    zone: *2
+    time: *204
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &205 2016-11-08 12:28:40.359419000 Z
+    zone: *2
+    time: *205
+  label: s_D28
+  parent_id: 617
+  parent_type: CcSequence
+  position: 5
+CcStatement_103:
+  id: 1277
+  instrument_id: 58
+  literal: 'In the past week:'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &206 2016-11-08 12:28:40.427809000 Z
+    zone: *2
+    time: *206
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &207 2016-11-08 12:28:40.438152000 Z
+    zone: *2
+    time: *207
+  label: s_D32
+  parent_id: 617
+  parent_type: CcSequence
+  position: 10
+CcStatement_104:
+  id: 1278
+  instrument_id: 58
+  literal: Listed below are a number of events which may have brought changes in your
+    life. Have any of these occurred since the study child was 18 months old? If so,
+    please assess how much effect it had on you.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &208 2016-11-08 12:28:40.522292000 Z
+    zone: *2
+    time: *208
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &209 2016-11-08 12:28:40.534132000 Z
+    zone: *2
+    time: *209
+  label: s_E1
+  parent_id: 618
+  parent_type: CcSequence
+  position: 1
+CcStatement_105:
+  id: 1279
+  instrument_id: 58
+  literal: Below are a number of questions about your home. They are similar to some
+    you answered a year ago, and will be used to see how your circumstances might
+    have changed.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &210 2016-11-08 12:28:41.382279000 Z
+    zone: *2
+    time: *210
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &211 2016-11-08 12:28:41.394134000 Z
+    zone: *2
+    time: *211
+  label: s_F1
+  parent_id: 619
+  parent_type: CcSequence
+  position: 1
+CcStatement_106:
+  id: 1280
+  instrument_id: 58
+  literal: If no, go to F19 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &212 2016-11-08 12:28:42.068203000 Z
+    zone: *2
+    time: *212
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &213 2016-11-08 12:28:42.080063000 Z
+    zone: *2
+    time: *213
+  label: s_qF18d
+  parent_id: 619
+  parent_type: CcSequence
+  position: 36
+CcStatement_107:
+  id: 1281
+  instrument_id: 58
+  literal: If no, go to F20 on page 31
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &214 2016-11-08 12:28:42.137035000 Z
+    zone: *2
+    time: *214
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &215 2016-11-08 12:28:42.148250000 Z
+    zone: *2
+    time: *215
+  label: s_F19_a
+  parent_id: 619
+  parent_type: CcSequence
+  position: 39
+CcStatement_108:
+  id: 1282
+  instrument_id: 58
+  literal: If yes, or don't know go to G4c below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &216 2016-11-08 12:28:42.692225000 Z
+    zone: *2
+    time: *216
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &217 2016-11-08 12:28:42.703448000 Z
+    zone: *2
+    time: *217
+  label: s_G4_a
+  parent_id: 620
+  parent_type: CcSequence
+  position: 17
+CcStatement_109:
+  id: 1283
+  instrument_id: 58
+  literal: If yes, go to G5 on page 36
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &218 2016-11-08 12:28:42.798513000 Z
+    zone: *2
+    time: *218
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &219 2016-11-08 12:28:42.809739000 Z
+    zone: *2
+    time: *219
+  label: s_G4_c
+  parent_id: 620
+  parent_type: CcSequence
+  position: 20
+CcStatement_110:
+  id: 1284
+  instrument_id: 58
+  literal: If no, go to G8 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &220 2016-11-08 12:28:42.958499000 Z
+    zone: *2
+    time: *220
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &221 2016-11-08 12:28:42.969860000 Z
+    zone: *2
+    time: *221
+  label: s_qG7
+  parent_id: 620
+  parent_type: CcSequence
+  position: 26
+CcStatement_111:
+  id: 1285
+  instrument_id: 58
+  literal: If no, go to G10 on page 38
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &222 2016-11-08 12:28:43.062570000 Z
+    zone: *2
+    time: *222
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &223 2016-11-08 12:28:43.073770000 Z
+    zone: *2
+    time: *223
+  label: s_qG9a
+  parent_id: 620
+  parent_type: CcSequence
+  position: 31
+CcStatement_112:
+  id: 1286
+  instrument_id: 58
+  literal: Below are questions about financial matters. We realise this may be a sensitive
+    subject. As with all our questions you may leave this section out if you want
+    to. [However, if you can complete it, it will be of great importance to us].
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &224 2016-11-08 12:28:43.349228000 Z
+    zone: *2
+    time: *224
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &225 2016-11-08 12:28:43.360932000 Z
+    zone: *2
+    time: *225
+  label: s_qG11
+  parent_id: 620
+  parent_type: CcSequence
+  position: 35
+CcStatement_113:
+  id: 1287
+  instrument_id: 58
+  literal: If no, go to Section I on Page 49
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &226 2016-11-08 12:28:43.502980000 Z
+    zone: *2
+    time: *226
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &227 2016-11-08 12:28:43.515246000 Z
+    zone: *2
+    time: *227
+  label: s_H1_a
+  parent_id: 621
+  parent_type: CcSequence
+  position: 2
+CcStatement_114:
+  id: 1288
+  instrument_id: 58
+  literal: If no, go to H2 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &228 2016-11-08 12:28:43.554931000 Z
+    zone: *2
+    time: *228
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &229 2016-11-08 12:28:43.567435000 Z
+    zone: *2
+    time: *229
+  label: s_qH1b
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_115:
+  id: 1289
+  instrument_id: 58
+  literal: The section below is concerned with your relationship with your partner.(The
+    partner will be referred to as 'he', although the questions refer to all partners.)
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &230 2016-11-08 12:28:43.607801000 Z
+    zone: *2
+    time: *230
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &231 2016-11-08 12:28:43.620139000 Z
+    zone: *2
+    time: *231
+  label: s_H2
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 4
+  branch: 0
+CcStatement_116:
+  id: 1290
+  instrument_id: 58
+  literal: If no, go to Question H7 on Page 43
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &232 2016-11-08 12:28:43.745136000 Z
+    zone: *2
+    time: *232
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &233 2016-11-08 12:28:43.757904000 Z
+    zone: *2
+    time: *233
+  label: s_H6_a
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 11
+  branch: 0
+CcStatement_117:
+  id: 1291
+  instrument_id: 58
+  literal: "[*by glass we mean pub measures (1oz) of spirits or 1/2 pints (1/4 litre)
+    of beer or cider]"
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &234 2016-11-08 12:28:44.382734000 Z
+    zone: *2
+    time: *234
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &235 2016-11-08 12:28:44.394341000 Z
+    zone: *2
+    time: *235
+  label: s_H16
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 42
+  branch: 0
+CcStatement_118:
+  id: 1292
+  instrument_id: 58
+  literal: "(* If all sockets, windows, doors in the home are protected put 66)"
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &236 2016-11-08 12:28:44.468427000 Z
+    zone: *2
+    time: *236
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &237 2016-11-08 12:28:44.480066000 Z
+    zone: *2
+    time: *237
+  label: s_I1
+  parent_id: 622
+  parent_type: CcSequence
+  position: 2
+CcStatement_119:
+  id: 1293
+  instrument_id: 58
+  literal: If no, go to J1 on page 50
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &238 2016-11-08 12:28:44.555995000 Z
+    zone: *2
+    time: *238
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &239 2016-11-08 12:28:44.566993000 Z
+    zone: *2
+    time: *239
+  label: s_qI3
+  parent_id: 622
+  parent_type: CcSequence
+  position: 6
+CcStatement_120:
+  id: 1294
+  instrument_id: 58
+  literal: If no, go to Question J11 on Page 53
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &240 2016-11-08 12:28:44.721754000 Z
+    zone: *2
+    time: *240
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &241 2016-11-08 12:28:44.733055000 Z
+    zone: *2
+    time: *241
+  label: s_J3_a
+  parent_id: 623
+  parent_type: CcSequence
+  position: 5
+CcStatement_121:
+  id: 1295
+  instrument_id: 58
+  literal: Now go to J13 on Page 53
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &242 2016-11-08 12:28:44.830076000 Z
+    zone: *2
+    time: *242
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &243 2016-11-08 12:28:44.842308000 Z
+    zone: *2
+    time: *243
+  label: s_qJ3ci
+  parent_id: 1068
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_122:
+  id: 1296
+  instrument_id: 58
+  literal: If you are working please now go to Question J13 on page 53
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &244 2016-11-08 12:28:45.298487000 Z
+    zone: *2
+    time: *244
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &245 2016-11-08 12:28:45.310601000 Z
+    zone: *2
+    time: *245
+  label: s_qJ10b
+  parent_id: 1069
+  parent_type: CcCondition
+  position: 20
+  branch: 0
+CcStatement_123:
+  id: 1297
+  instrument_id: 58
+  literal: If yes, go to Question J12 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &246 2016-11-08 12:28:45.351953000 Z
+    zone: *2
+    time: *246
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &247 2016-11-08 12:28:45.364417000 Z
+    zone: *2
+    time: *247
+  label: s_qJ11a
+  parent_id: 1071
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_124:
+  id: 1298
+  instrument_id: 58
+  literal: If no, go to J12 below
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &248 2016-11-08 12:28:45.405043000 Z
+    zone: *2
+    time: *248
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &249 2016-11-08 12:28:45.417258000 Z
+    zone: *2
+    time: *249
+  label: s_qJ11b
+  parent_id: 1072
+  parent_type: CcCondition
+  position: 2
+  branch: 0
+CcStatement_125:
+  id: 1299
+  instrument_id: 58
+  literal: "(* by glass we mean a pub measure (1oz) of spirits, half a pint (1/4 litre)
+    of lager or cider, a wine glass of wine, etc)"
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &250 2016-11-08 12:28:45.601801000 Z
+    zone: *2
+    time: *250
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &251 2016-11-08 12:28:45.613516000 Z
+    zone: *2
+    time: *251
+  label: s_qJ14a
+  parent_id: 623
+  parent_type: CcSequence
+  position: 10
+CcStatement_126:
+  id: 1300
+  instrument_id: 58
+  literal: You and your study child.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &252 2016-11-08 12:28:45.876786000 Z
+    zone: *2
+    time: *252
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &253 2016-11-08 12:28:45.888170000 Z
+    zone: *2
+    time: *253
+  label: s_qJ18
+  parent_id: 623
+  parent_type: CcSequence
+  position: 25
+CcStatement_127:
+  id: 1301
+  instrument_id: 58
+  literal: It is now a long time since your study baby was born, but as the result
+    of our research so far there are some more questions we would like to ask about
+    that time.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &254 2016-11-08 12:28:46.115945000 Z
+    zone: *2
+    time: *254
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &255 2016-11-08 12:28:46.128514000 Z
+    zone: *2
+    time: *255
+  label: s_L0
+  parent_id: 625
+  parent_type: CcSequence
+  position: 1
+CcStatement_128:
+  id: 1302
+  instrument_id: 58
+  literal: If yes, put a * by each such scan above.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &256 2016-11-08 12:28:46.434869000 Z
+    zone: *2
+    time: *256
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &257 2016-11-08 12:28:46.446442000 Z
+    zone: *2
+    time: *257
+  label: s_L4_b
+  parent_id: 626
+  parent_type: CcSequence
+  position: 3
+CcStatement_129:
+  id: 1303
+  instrument_id: 58
+  literal: If your child has had earache or ear infections, please answer the following
+    questions.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &258 2016-11-08 12:28:46.744451000 Z
+    zone: *2
+    time: *258
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &259 2016-11-08 12:28:46.757086000 Z
+    zone: *2
+    time: *259
+  label: s_qN1
+  parent_id: 1078
+  parent_type: CcCondition
+  position: 1
+  branch: 1
+CcStatement_130:
+  id: 1304
+  instrument_id: 58
+  literal: THANK YOU VERY MUCH FOR YOUR HELP
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &260 2016-11-08 12:28:47.413904000 Z
+    zone: *2
+    time: *260
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &261 2016-11-08 12:28:47.425955000 Z
+    zone: *2
+    time: *261
+  label: s_O1
+  parent_id: 609
+  parent_type: CcSequence
+  position: 22
+CcStatement_131:
+  id: 1305
+  instrument_id: 58
+  literal: NB Please remember that we cannot respond personally to your comments unless
+    they are signed.
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &262 2016-11-08 12:28:47.536196000 Z
+    zone: *2
+    time: *262
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &263 2016-11-08 12:28:47.547545000 Z
+    zone: *2
+    time: *263
+  label: s_outro_i
+  parent_id: 609
+  parent_type: CcSequence
+  position: 29
+CcStatement_132:
+  id: 1306
+  instrument_id: 58
+  literal: 'When completed, please return the questionnaire to: Dr. Jean Golding,
+    Children of the Nineties - ALSPAC, Institute of Child Health,'
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &264 2016-11-08 12:28:47.551477000 Z
+    zone: *2
+    time: *264
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &265 2016-11-08 12:28:47.562884000 Z
+    zone: *2
+    time: *265
+  label: s_outro_ii
+  parent_id: 609
+  parent_type: CcSequence
+  position: 30

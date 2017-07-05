@@ -1,0 +1,4067 @@
+---
+ResponseDomainCode_1:
+  id: 793
+  code_list_id: 1215
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:39.130696000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:39.130696000 Z
+    zone: *2
+    time: *3
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_2:
+  id: 794
+  code_list_id: 1213
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:22:39.137037000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:22:39.137037000 Z
+    zone: *2
+    time: *5
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_3:
+  id: 795
+  code_list_id: 1216
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:22:39.142117000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:22:39.142117000 Z
+    zone: *2
+    time: *7
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_4:
+  id: 796
+  code_list_id: 1214
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-08 12:22:39.147228000 Z
+    zone: *2
+    time: *8
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-08 12:22:39.147228000 Z
+    zone: *2
+    time: *9
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_5:
+  id: 797
+  code_list_id: 1217
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2016-11-08 12:22:39.152284000 Z
+    zone: *2
+    time: *10
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2016-11-08 12:22:39.152284000 Z
+    zone: *2
+    time: *11
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_6:
+  id: 798
+  code_list_id: 1218
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &12 2016-11-08 12:22:39.157440000 Z
+    zone: *2
+    time: *12
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &13 2016-11-08 12:22:39.157440000 Z
+    zone: *2
+    time: *13
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_7:
+  id: 799
+  code_list_id: 1219
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &14 2016-11-08 12:22:39.162602000 Z
+    zone: *2
+    time: *14
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &15 2016-11-08 12:22:39.162602000 Z
+    zone: *2
+    time: *15
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_8:
+  id: 800
+  code_list_id: 1220
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &16 2016-11-08 12:22:39.167643000 Z
+    zone: *2
+    time: *16
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &17 2016-11-08 12:22:39.167643000 Z
+    zone: *2
+    time: *17
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_9:
+  id: 801
+  code_list_id: 1221
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &18 2016-11-08 12:22:39.172795000 Z
+    zone: *2
+    time: *18
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &19 2016-11-08 12:22:39.172795000 Z
+    zone: *2
+    time: *19
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_10:
+  id: 802
+  code_list_id: 1222
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &20 2016-11-08 12:22:39.177783000 Z
+    zone: *2
+    time: *20
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &21 2016-11-08 12:22:39.177783000 Z
+    zone: *2
+    time: *21
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_11:
+  id: 803
+  code_list_id: 1223
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &22 2016-11-08 12:22:39.182801000 Z
+    zone: *2
+    time: *22
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &23 2016-11-08 12:22:39.182801000 Z
+    zone: *2
+    time: *23
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_12:
+  id: 804
+  code_list_id: 1224
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &24 2016-11-08 12:22:39.187873000 Z
+    zone: *2
+    time: *24
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &25 2016-11-08 12:22:39.187873000 Z
+    zone: *2
+    time: *25
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_13:
+  id: 805
+  code_list_id: 1225
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &26 2016-11-08 12:22:39.192550000 Z
+    zone: *2
+    time: *26
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &27 2016-11-08 12:22:39.192550000 Z
+    zone: *2
+    time: *27
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_14:
+  id: 806
+  code_list_id: 1226
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &28 2016-11-08 12:22:39.197689000 Z
+    zone: *2
+    time: *28
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &29 2016-11-08 12:22:39.197689000 Z
+    zone: *2
+    time: *29
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_15:
+  id: 807
+  code_list_id: 1227
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &30 2016-11-08 12:22:39.202626000 Z
+    zone: *2
+    time: *30
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &31 2016-11-08 12:22:39.202626000 Z
+    zone: *2
+    time: *31
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_16:
+  id: 808
+  code_list_id: 1228
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &32 2016-11-08 12:22:39.207555000 Z
+    zone: *2
+    time: *32
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &33 2016-11-08 12:22:39.207555000 Z
+    zone: *2
+    time: *33
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_17:
+  id: 809
+  code_list_id: 1229
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &34 2016-11-08 12:22:39.212489000 Z
+    zone: *2
+    time: *34
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &35 2016-11-08 12:22:39.212489000 Z
+    zone: *2
+    time: *35
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_18:
+  id: 810
+  code_list_id: 1230
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &36 2016-11-08 12:22:39.217692000 Z
+    zone: *2
+    time: *36
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &37 2016-11-08 12:22:39.217692000 Z
+    zone: *2
+    time: *37
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_19:
+  id: 811
+  code_list_id: 1231
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &38 2016-11-08 12:22:39.222795000 Z
+    zone: *2
+    time: *38
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &39 2016-11-08 12:22:39.222795000 Z
+    zone: *2
+    time: *39
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_20:
+  id: 812
+  code_list_id: 1232
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &40 2016-11-08 12:22:39.227685000 Z
+    zone: *2
+    time: *40
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &41 2016-11-08 12:22:39.227685000 Z
+    zone: *2
+    time: *41
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_21:
+  id: 813
+  code_list_id: 1233
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &42 2016-11-08 12:22:39.232567000 Z
+    zone: *2
+    time: *42
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &43 2016-11-08 12:22:39.232567000 Z
+    zone: *2
+    time: *43
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_22:
+  id: 814
+  code_list_id: 1234
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &44 2016-11-08 12:22:39.237680000 Z
+    zone: *2
+    time: *44
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &45 2016-11-08 12:22:39.237680000 Z
+    zone: *2
+    time: *45
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_23:
+  id: 815
+  code_list_id: 1235
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &46 2016-11-08 12:22:39.243021000 Z
+    zone: *2
+    time: *46
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &47 2016-11-08 12:22:39.243021000 Z
+    zone: *2
+    time: *47
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_24:
+  id: 816
+  code_list_id: 1236
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &48 2016-11-08 12:22:39.247773000 Z
+    zone: *2
+    time: *48
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &49 2016-11-08 12:22:39.247773000 Z
+    zone: *2
+    time: *49
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_25:
+  id: 817
+  code_list_id: 1237
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &50 2016-11-08 12:22:39.252812000 Z
+    zone: *2
+    time: *50
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &51 2016-11-08 12:22:39.252812000 Z
+    zone: *2
+    time: *51
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_26:
+  id: 818
+  code_list_id: 1238
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &52 2016-11-08 12:22:39.257807000 Z
+    zone: *2
+    time: *52
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &53 2016-11-08 12:22:39.257807000 Z
+    zone: *2
+    time: *53
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_27:
+  id: 819
+  code_list_id: 1241
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &54 2016-11-08 12:22:39.263114000 Z
+    zone: *2
+    time: *54
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &55 2016-11-08 12:22:39.263114000 Z
+    zone: *2
+    time: *55
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_28:
+  id: 820
+  code_list_id: 1246
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &56 2016-11-08 12:22:39.268427000 Z
+    zone: *2
+    time: *56
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &57 2016-11-08 12:22:39.268427000 Z
+    zone: *2
+    time: *57
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_29:
+  id: 821
+  code_list_id: 1269
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &58 2016-11-08 12:22:39.273308000 Z
+    zone: *2
+    time: *58
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &59 2016-11-08 12:22:39.273308000 Z
+    zone: *2
+    time: *59
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_30:
+  id: 822
+  code_list_id: 1270
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &60 2016-11-08 12:22:39.278479000 Z
+    zone: *2
+    time: *60
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &61 2016-11-08 12:22:39.278479000 Z
+    zone: *2
+    time: *61
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_31:
+  id: 823
+  code_list_id: 1271
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &62 2016-11-08 12:22:39.284121000 Z
+    zone: *2
+    time: *62
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &63 2016-11-08 12:22:39.284121000 Z
+    zone: *2
+    time: *63
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_32:
+  id: 824
+  code_list_id: 1272
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &64 2016-11-08 12:22:39.289361000 Z
+    zone: *2
+    time: *64
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &65 2016-11-08 12:22:39.289361000 Z
+    zone: *2
+    time: *65
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_33:
+  id: 825
+  code_list_id: 1273
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &66 2016-11-08 12:22:39.294583000 Z
+    zone: *2
+    time: *66
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &67 2016-11-08 12:22:39.294583000 Z
+    zone: *2
+    time: *67
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_34:
+  id: 826
+  code_list_id: 1274
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &68 2016-11-08 12:22:39.299687000 Z
+    zone: *2
+    time: *68
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &69 2016-11-08 12:22:39.299687000 Z
+    zone: *2
+    time: *69
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_35:
+  id: 827
+  code_list_id: 1277
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &70 2016-11-08 12:22:39.311519000 Z
+    zone: *2
+    time: *70
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &71 2016-11-08 12:22:39.311519000 Z
+    zone: *2
+    time: *71
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_36:
+  id: 828
+  code_list_id: 1278
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &72 2016-11-08 12:22:39.316512000 Z
+    zone: *2
+    time: *72
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &73 2016-11-08 12:22:39.316512000 Z
+    zone: *2
+    time: *73
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_37:
+  id: 829
+  code_list_id: 1279
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &74 2016-11-08 12:22:39.321955000 Z
+    zone: *2
+    time: *74
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &75 2016-11-08 12:22:39.321955000 Z
+    zone: *2
+    time: *75
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_38:
+  id: 830
+  code_list_id: 1280
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &76 2016-11-08 12:22:39.327372000 Z
+    zone: *2
+    time: *76
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &77 2016-11-08 12:22:39.327372000 Z
+    zone: *2
+    time: *77
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_39:
+  id: 831
+  code_list_id: 1281
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &78 2016-11-08 12:22:39.332545000 Z
+    zone: *2
+    time: *78
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &79 2016-11-08 12:22:39.332545000 Z
+    zone: *2
+    time: *79
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_40:
+  id: 832
+  code_list_id: 1282
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &80 2016-11-08 12:22:39.337888000 Z
+    zone: *2
+    time: *80
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &81 2016-11-08 12:22:39.337888000 Z
+    zone: *2
+    time: *81
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_41:
+  id: 833
+  code_list_id: 1283
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &82 2016-11-08 12:22:39.343196000 Z
+    zone: *2
+    time: *82
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &83 2016-11-08 12:22:39.343196000 Z
+    zone: *2
+    time: *83
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_42:
+  id: 834
+  code_list_id: 1284
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &84 2016-11-08 12:22:39.348149000 Z
+    zone: *2
+    time: *84
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &85 2016-11-08 12:22:39.348149000 Z
+    zone: *2
+    time: *85
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_43:
+  id: 835
+  code_list_id: 1305
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &86 2016-11-08 12:22:39.353179000 Z
+    zone: *2
+    time: *86
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &87 2016-11-08 12:22:39.353179000 Z
+    zone: *2
+    time: *87
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_44:
+  id: 836
+  code_list_id: 1306
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &88 2016-11-08 12:22:39.358133000 Z
+    zone: *2
+    time: *88
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &89 2016-11-08 12:22:39.358133000 Z
+    zone: *2
+    time: *89
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_45:
+  id: 837
+  code_list_id: 1307
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &90 2016-11-08 12:22:39.362911000 Z
+    zone: *2
+    time: *90
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &91 2016-11-08 12:22:39.362911000 Z
+    zone: *2
+    time: *91
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_46:
+  id: 838
+  code_list_id: 1308
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &92 2016-11-08 12:22:39.368017000 Z
+    zone: *2
+    time: *92
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &93 2016-11-08 12:22:39.368017000 Z
+    zone: *2
+    time: *93
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_47:
+  id: 839
+  code_list_id: 1309
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &94 2016-11-08 12:22:39.372874000 Z
+    zone: *2
+    time: *94
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &95 2016-11-08 12:22:39.372874000 Z
+    zone: *2
+    time: *95
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_48:
+  id: 840
+  code_list_id: 1310
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &96 2016-11-08 12:22:39.377878000 Z
+    zone: *2
+    time: *96
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &97 2016-11-08 12:22:39.377878000 Z
+    zone: *2
+    time: *97
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_49:
+  id: 841
+  code_list_id: 1311
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &98 2016-11-08 12:22:39.382678000 Z
+    zone: *2
+    time: *98
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &99 2016-11-08 12:22:39.382678000 Z
+    zone: *2
+    time: *99
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_50:
+  id: 842
+  code_list_id: 1312
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &100 2016-11-08 12:22:39.387714000 Z
+    zone: *2
+    time: *100
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &101 2016-11-08 12:22:39.387714000 Z
+    zone: *2
+    time: *101
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_51:
+  id: 843
+  code_list_id: 1313
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &102 2016-11-08 12:22:39.392215000 Z
+    zone: *2
+    time: *102
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &103 2016-11-08 12:22:39.392215000 Z
+    zone: *2
+    time: *103
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_52:
+  id: 844
+  code_list_id: 1314
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &104 2016-11-08 12:22:39.397289000 Z
+    zone: *2
+    time: *104
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &105 2016-11-08 12:22:39.397289000 Z
+    zone: *2
+    time: *105
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_53:
+  id: 845
+  code_list_id: 1315
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &106 2016-11-08 12:22:39.401872000 Z
+    zone: *2
+    time: *106
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &107 2016-11-08 12:22:39.401872000 Z
+    zone: *2
+    time: *107
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_54:
+  id: 846
+  code_list_id: 1322
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &108 2016-11-08 12:22:39.406848000 Z
+    zone: *2
+    time: *108
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &109 2016-11-08 12:22:39.406848000 Z
+    zone: *2
+    time: *109
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_55:
+  id: 847
+  code_list_id: 1323
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &110 2016-11-08 12:22:39.411638000 Z
+    zone: *2
+    time: *110
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &111 2016-11-08 12:22:39.411638000 Z
+    zone: *2
+    time: *111
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_56:
+  id: 848
+  code_list_id: 1328
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &112 2016-11-08 12:22:39.416829000 Z
+    zone: *2
+    time: *112
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &113 2016-11-08 12:22:39.416829000 Z
+    zone: *2
+    time: *113
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_57:
+  id: 849
+  code_list_id: 1329
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &114 2016-11-08 12:22:39.421577000 Z
+    zone: *2
+    time: *114
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &115 2016-11-08 12:22:39.421577000 Z
+    zone: *2
+    time: *115
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_58:
+  id: 850
+  code_list_id: 1331
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &116 2016-11-08 12:22:39.426321000 Z
+    zone: *2
+    time: *116
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &117 2016-11-08 12:22:39.426321000 Z
+    zone: *2
+    time: *117
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_59:
+  id: 851
+  code_list_id: 1332
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &118 2016-11-08 12:22:39.431327000 Z
+    zone: *2
+    time: *118
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &119 2016-11-08 12:22:39.431327000 Z
+    zone: *2
+    time: *119
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_60:
+  id: 852
+  code_list_id: 1333
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &120 2016-11-08 12:22:39.436128000 Z
+    zone: *2
+    time: *120
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &121 2016-11-08 12:22:39.436128000 Z
+    zone: *2
+    time: *121
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_61:
+  id: 853
+  code_list_id: 1334
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &122 2016-11-08 12:22:39.441333000 Z
+    zone: *2
+    time: *122
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &123 2016-11-08 12:22:39.441333000 Z
+    zone: *2
+    time: *123
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_62:
+  id: 854
+  code_list_id: 1247
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &124 2016-11-08 12:22:39.446103000 Z
+    zone: *2
+    time: *124
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &125 2016-11-08 12:22:39.446103000 Z
+    zone: *2
+    time: *125
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_63:
+  id: 855
+  code_list_id: 1251
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &126 2016-11-08 12:22:39.451027000 Z
+    zone: *2
+    time: *126
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &127 2016-11-08 12:22:39.451027000 Z
+    zone: *2
+    time: *127
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_64:
+  id: 856
+  code_list_id: 1285
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &128 2016-11-08 12:22:39.455742000 Z
+    zone: *2
+    time: *128
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &129 2016-11-08 12:22:39.455742000 Z
+    zone: *2
+    time: *129
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_65:
+  id: 857
+  code_list_id: 1288
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &130 2016-11-08 12:22:39.460383000 Z
+    zone: *2
+    time: *130
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &131 2016-11-08 12:22:39.460383000 Z
+    zone: *2
+    time: *131
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_66:
+  id: 858
+  code_list_id: 1298
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &132 2016-11-08 12:22:39.465613000 Z
+    zone: *2
+    time: *132
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &133 2016-11-08 12:22:39.465613000 Z
+    zone: *2
+    time: *133
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_67:
+  id: 859
+  code_list_id: 1301
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &134 2016-11-08 12:22:39.470604000 Z
+    zone: *2
+    time: *134
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &135 2016-11-08 12:22:39.470604000 Z
+    zone: *2
+    time: *135
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_68:
+  id: 860
+  code_list_id: 1302
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &136 2016-11-08 12:22:39.475555000 Z
+    zone: *2
+    time: *136
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &137 2016-11-08 12:22:39.475555000 Z
+    zone: *2
+    time: *137
+  response_domain_type: ResponseDomainCode
+  instrument_id: 22
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_69:
+  id: 1775
+  code_list_id: 2599
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &138 2016-11-08 12:25:52.420790000 Z
+    zone: *2
+    time: *138
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &139 2016-11-08 12:25:52.420790000 Z
+    zone: *2
+    time: *139
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_70:
+  id: 1776
+  code_list_id: 2600
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &140 2016-11-08 12:25:52.426194000 Z
+    zone: *2
+    time: *140
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &141 2016-11-08 12:25:52.426194000 Z
+    zone: *2
+    time: *141
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_71:
+  id: 1777
+  code_list_id: 2601
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &142 2016-11-08 12:25:52.432145000 Z
+    zone: *2
+    time: *142
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &143 2016-11-08 12:25:52.432145000 Z
+    zone: *2
+    time: *143
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_72:
+  id: 1778
+  code_list_id: 2602
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &144 2016-11-08 12:25:52.438551000 Z
+    zone: *2
+    time: *144
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &145 2016-11-08 12:25:52.438551000 Z
+    zone: *2
+    time: *145
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_73:
+  id: 1779
+  code_list_id: 2603
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &146 2016-11-08 12:25:52.444606000 Z
+    zone: *2
+    time: *146
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &147 2016-11-08 12:25:52.444606000 Z
+    zone: *2
+    time: *147
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_74:
+  id: 1780
+  code_list_id: 2604
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &148 2016-11-08 12:25:52.450005000 Z
+    zone: *2
+    time: *148
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &149 2016-11-08 12:25:52.450005000 Z
+    zone: *2
+    time: *149
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_75:
+  id: 1781
+  code_list_id: 2605
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &150 2016-11-08 12:25:52.455449000 Z
+    zone: *2
+    time: *150
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &151 2016-11-08 12:25:52.455449000 Z
+    zone: *2
+    time: *151
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_76:
+  id: 1782
+  code_list_id: 2606
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &152 2016-11-08 12:25:52.460543000 Z
+    zone: *2
+    time: *152
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &153 2016-11-08 12:25:52.460543000 Z
+    zone: *2
+    time: *153
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_77:
+  id: 1783
+  code_list_id: 2608
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &154 2016-11-08 12:25:52.465577000 Z
+    zone: *2
+    time: *154
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &155 2016-11-08 12:25:52.465577000 Z
+    zone: *2
+    time: *155
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_78:
+  id: 1784
+  code_list_id: 2613
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &156 2016-11-08 12:25:52.471832000 Z
+    zone: *2
+    time: *156
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &157 2016-11-08 12:25:52.471832000 Z
+    zone: *2
+    time: *157
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_79:
+  id: 1785
+  code_list_id: 2614
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &158 2016-11-08 12:25:52.478833000 Z
+    zone: *2
+    time: *158
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &159 2016-11-08 12:25:52.478833000 Z
+    zone: *2
+    time: *159
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_80:
+  id: 1786
+  code_list_id: 2615
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &160 2016-11-08 12:25:52.484973000 Z
+    zone: *2
+    time: *160
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &161 2016-11-08 12:25:52.484973000 Z
+    zone: *2
+    time: *161
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_81:
+  id: 1787
+  code_list_id: 2616
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &162 2016-11-08 12:25:52.490648000 Z
+    zone: *2
+    time: *162
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &163 2016-11-08 12:25:52.490648000 Z
+    zone: *2
+    time: *163
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_82:
+  id: 1788
+  code_list_id: 2617
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &164 2016-11-08 12:25:52.495881000 Z
+    zone: *2
+    time: *164
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &165 2016-11-08 12:25:52.495881000 Z
+    zone: *2
+    time: *165
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_83:
+  id: 1789
+  code_list_id: 2619
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &166 2016-11-08 12:25:52.500904000 Z
+    zone: *2
+    time: *166
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &167 2016-11-08 12:25:52.500904000 Z
+    zone: *2
+    time: *167
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_84:
+  id: 1790
+  code_list_id: 2620
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &168 2016-11-08 12:25:52.506430000 Z
+    zone: *2
+    time: *168
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &169 2016-11-08 12:25:52.506430000 Z
+    zone: *2
+    time: *169
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_85:
+  id: 1791
+  code_list_id: 2621
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &170 2016-11-08 12:25:52.511576000 Z
+    zone: *2
+    time: *170
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &171 2016-11-08 12:25:52.511576000 Z
+    zone: *2
+    time: *171
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_86:
+  id: 1792
+  code_list_id: 2624
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &172 2016-11-08 12:25:52.516352000 Z
+    zone: *2
+    time: *172
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &173 2016-11-08 12:25:52.516352000 Z
+    zone: *2
+    time: *173
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_87:
+  id: 1793
+  code_list_id: 2625
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &174 2016-11-08 12:25:52.521418000 Z
+    zone: *2
+    time: *174
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &175 2016-11-08 12:25:52.521418000 Z
+    zone: *2
+    time: *175
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_88:
+  id: 1794
+  code_list_id: 2626
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &176 2016-11-08 12:25:52.526702000 Z
+    zone: *2
+    time: *176
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &177 2016-11-08 12:25:52.526702000 Z
+    zone: *2
+    time: *177
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_89:
+  id: 1795
+  code_list_id: 2629
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &178 2016-11-08 12:25:52.531455000 Z
+    zone: *2
+    time: *178
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &179 2016-11-08 12:25:52.531455000 Z
+    zone: *2
+    time: *179
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_90:
+  id: 1796
+  code_list_id: 2631
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &180 2016-11-08 12:25:52.536514000 Z
+    zone: *2
+    time: *180
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &181 2016-11-08 12:25:52.536514000 Z
+    zone: *2
+    time: *181
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_91:
+  id: 1797
+  code_list_id: 2639
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &182 2016-11-08 12:25:52.541408000 Z
+    zone: *2
+    time: *182
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &183 2016-11-08 12:25:52.541408000 Z
+    zone: *2
+    time: *183
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_92:
+  id: 1798
+  code_list_id: 2644
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &184 2016-11-08 12:25:52.546183000 Z
+    zone: *2
+    time: *184
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &185 2016-11-08 12:25:52.546183000 Z
+    zone: *2
+    time: *185
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_93:
+  id: 1799
+  code_list_id: 2645
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &186 2016-11-08 12:25:52.551133000 Z
+    zone: *2
+    time: *186
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &187 2016-11-08 12:25:52.551133000 Z
+    zone: *2
+    time: *187
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_94:
+  id: 1800
+  code_list_id: 2653
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &188 2016-11-08 12:25:52.555904000 Z
+    zone: *2
+    time: *188
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &189 2016-11-08 12:25:52.555904000 Z
+    zone: *2
+    time: *189
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_95:
+  id: 1801
+  code_list_id: 2654
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &190 2016-11-08 12:25:52.560893000 Z
+    zone: *2
+    time: *190
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &191 2016-11-08 12:25:52.560893000 Z
+    zone: *2
+    time: *191
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_96:
+  id: 1802
+  code_list_id: 2655
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &192 2016-11-08 12:25:52.565723000 Z
+    zone: *2
+    time: *192
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &193 2016-11-08 12:25:52.565723000 Z
+    zone: *2
+    time: *193
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_97:
+  id: 1803
+  code_list_id: 2656
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &194 2016-11-08 12:25:52.570420000 Z
+    zone: *2
+    time: *194
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &195 2016-11-08 12:25:52.570420000 Z
+    zone: *2
+    time: *195
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_98:
+  id: 1804
+  code_list_id: 2660
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &196 2016-11-08 12:25:52.575308000 Z
+    zone: *2
+    time: *196
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &197 2016-11-08 12:25:52.575308000 Z
+    zone: *2
+    time: *197
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_99:
+  id: 1805
+  code_list_id: 2661
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &198 2016-11-08 12:25:52.580138000 Z
+    zone: *2
+    time: *198
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &199 2016-11-08 12:25:52.580138000 Z
+    zone: *2
+    time: *199
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_100:
+  id: 1806
+  code_list_id: 2662
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &200 2016-11-08 12:25:52.584908000 Z
+    zone: *2
+    time: *200
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &201 2016-11-08 12:25:52.584908000 Z
+    zone: *2
+    time: *201
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_101:
+  id: 1807
+  code_list_id: 2663
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &202 2016-11-08 12:25:52.589754000 Z
+    zone: *2
+    time: *202
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &203 2016-11-08 12:25:52.589754000 Z
+    zone: *2
+    time: *203
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_102:
+  id: 1808
+  code_list_id: 2664
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &204 2016-11-08 12:25:52.594530000 Z
+    zone: *2
+    time: *204
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &205 2016-11-08 12:25:52.594530000 Z
+    zone: *2
+    time: *205
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_103:
+  id: 1809
+  code_list_id: 2665
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &206 2016-11-08 12:25:52.599283000 Z
+    zone: *2
+    time: *206
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &207 2016-11-08 12:25:52.599283000 Z
+    zone: *2
+    time: *207
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_104:
+  id: 1810
+  code_list_id: 2666
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &208 2016-11-08 12:25:52.604129000 Z
+    zone: *2
+    time: *208
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &209 2016-11-08 12:25:52.604129000 Z
+    zone: *2
+    time: *209
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_105:
+  id: 1811
+  code_list_id: 2628
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &210 2016-11-08 12:25:52.609088000 Z
+    zone: *2
+    time: *210
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &211 2016-11-08 12:25:52.609088000 Z
+    zone: *2
+    time: *211
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_106:
+  id: 1812
+  code_list_id: 2667
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &212 2016-11-08 12:25:52.614089000 Z
+    zone: *2
+    time: *212
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &213 2016-11-08 12:25:52.614089000 Z
+    zone: *2
+    time: *213
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_107:
+  id: 1813
+  code_list_id: 2668
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &214 2016-11-08 12:25:52.618835000 Z
+    zone: *2
+    time: *214
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &215 2016-11-08 12:25:52.618835000 Z
+    zone: *2
+    time: *215
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_108:
+  id: 1814
+  code_list_id: 2669
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &216 2016-11-08 12:25:52.623330000 Z
+    zone: *2
+    time: *216
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &217 2016-11-08 12:25:52.623330000 Z
+    zone: *2
+    time: *217
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_109:
+  id: 1815
+  code_list_id: 2670
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &218 2016-11-08 12:25:52.628511000 Z
+    zone: *2
+    time: *218
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &219 2016-11-08 12:25:52.628511000 Z
+    zone: *2
+    time: *219
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_110:
+  id: 1816
+  code_list_id: 2671
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &220 2016-11-08 12:25:52.633712000 Z
+    zone: *2
+    time: *220
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &221 2016-11-08 12:25:52.633712000 Z
+    zone: *2
+    time: *221
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_111:
+  id: 1817
+  code_list_id: 2672
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &222 2016-11-08 12:25:52.638542000 Z
+    zone: *2
+    time: *222
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &223 2016-11-08 12:25:52.638542000 Z
+    zone: *2
+    time: *223
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_112:
+  id: 1818
+  code_list_id: 2673
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &224 2016-11-08 12:25:52.643168000 Z
+    zone: *2
+    time: *224
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &225 2016-11-08 12:25:52.643168000 Z
+    zone: *2
+    time: *225
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_113:
+  id: 1819
+  code_list_id: 2674
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &226 2016-11-08 12:25:52.647829000 Z
+    zone: *2
+    time: *226
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &227 2016-11-08 12:25:52.647829000 Z
+    zone: *2
+    time: *227
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_114:
+  id: 1820
+  code_list_id: 2675
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &228 2016-11-08 12:25:52.653399000 Z
+    zone: *2
+    time: *228
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &229 2016-11-08 12:25:52.653399000 Z
+    zone: *2
+    time: *229
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_115:
+  id: 1821
+  code_list_id: 2691
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &230 2016-11-08 12:25:52.658555000 Z
+    zone: *2
+    time: *230
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &231 2016-11-08 12:25:52.658555000 Z
+    zone: *2
+    time: *231
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_116:
+  id: 1822
+  code_list_id: 2678
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &232 2016-11-08 12:25:52.663706000 Z
+    zone: *2
+    time: *232
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &233 2016-11-08 12:25:52.663706000 Z
+    zone: *2
+    time: *233
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_117:
+  id: 1823
+  code_list_id: 2681
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &234 2016-11-08 12:25:52.668591000 Z
+    zone: *2
+    time: *234
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &235 2016-11-08 12:25:52.668591000 Z
+    zone: *2
+    time: *235
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_118:
+  id: 1824
+  code_list_id: 2682
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &236 2016-11-08 12:25:52.673377000 Z
+    zone: *2
+    time: *236
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &237 2016-11-08 12:25:52.673377000 Z
+    zone: *2
+    time: *237
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_119:
+  id: 1825
+  code_list_id: 2683
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &238 2016-11-08 12:25:52.678206000 Z
+    zone: *2
+    time: *238
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &239 2016-11-08 12:25:52.678206000 Z
+    zone: *2
+    time: *239
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_120:
+  id: 1826
+  code_list_id: 2686
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &240 2016-11-08 12:25:52.683031000 Z
+    zone: *2
+    time: *240
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &241 2016-11-08 12:25:52.683031000 Z
+    zone: *2
+    time: *241
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_121:
+  id: 1827
+  code_list_id: 2687
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &242 2016-11-08 12:25:52.687747000 Z
+    zone: *2
+    time: *242
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &243 2016-11-08 12:25:52.687747000 Z
+    zone: *2
+    time: *243
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_122:
+  id: 1828
+  code_list_id: 2690
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &244 2016-11-08 12:25:52.692684000 Z
+    zone: *2
+    time: *244
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &245 2016-11-08 12:25:52.692684000 Z
+    zone: *2
+    time: *245
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_123:
+  id: 1829
+  code_list_id: 2692
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &246 2016-11-08 12:25:52.697460000 Z
+    zone: *2
+    time: *246
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &247 2016-11-08 12:25:52.697460000 Z
+    zone: *2
+    time: *247
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_124:
+  id: 1830
+  code_list_id: 2610
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &248 2016-11-08 12:25:52.702439000 Z
+    zone: *2
+    time: *248
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &249 2016-11-08 12:25:52.702439000 Z
+    zone: *2
+    time: *249
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_125:
+  id: 1831
+  code_list_id: 2611
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &250 2016-11-08 12:25:52.707285000 Z
+    zone: *2
+    time: *250
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &251 2016-11-08 12:25:52.707285000 Z
+    zone: *2
+    time: *251
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_126:
+  id: 1832
+  code_list_id: 2623
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &252 2016-11-08 12:25:52.712086000 Z
+    zone: *2
+    time: *252
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &253 2016-11-08 12:25:52.712086000 Z
+    zone: *2
+    time: *253
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_127:
+  id: 1833
+  code_list_id: 2634
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &254 2016-11-08 12:25:52.716946000 Z
+    zone: *2
+    time: *254
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &255 2016-11-08 12:25:52.716946000 Z
+    zone: *2
+    time: *255
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_128:
+  id: 1834
+  code_list_id: 2640
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &256 2016-11-08 12:25:52.721642000 Z
+    zone: *2
+    time: *256
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &257 2016-11-08 12:25:52.721642000 Z
+    zone: *2
+    time: *257
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_129:
+  id: 1835
+  code_list_id: 2642
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &258 2016-11-08 12:25:52.726156000 Z
+    zone: *2
+    time: *258
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &259 2016-11-08 12:25:52.726156000 Z
+    zone: *2
+    time: *259
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_130:
+  id: 1836
+  code_list_id: 2647
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &260 2016-11-08 12:25:52.731098000 Z
+    zone: *2
+    time: *260
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &261 2016-11-08 12:25:52.731098000 Z
+    zone: *2
+    time: *261
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_131:
+  id: 1837
+  code_list_id: 2677
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &262 2016-11-08 12:25:52.736040000 Z
+    zone: *2
+    time: *262
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &263 2016-11-08 12:25:52.736040000 Z
+    zone: *2
+    time: *263
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_132:
+  id: 1838
+  code_list_id: 2680
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &264 2016-11-08 12:25:52.740775000 Z
+    zone: *2
+    time: *264
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &265 2016-11-08 12:25:52.740775000 Z
+    zone: *2
+    time: *265
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_133:
+  id: 1839
+  code_list_id: 2689
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &266 2016-11-08 12:25:52.745628000 Z
+    zone: *2
+    time: *266
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &267 2016-11-08 12:25:52.745628000 Z
+    zone: *2
+    time: *267
+  response_domain_type: ResponseDomainCode
+  instrument_id: 46
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_134:
+  id: 2584
+  code_list_id: 3757
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &268 2016-11-08 12:28:32.106399000 Z
+    zone: *2
+    time: *268
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &269 2016-11-08 12:28:32.106399000 Z
+    zone: *2
+    time: *269
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_135:
+  id: 2585
+  code_list_id: 3758
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &270 2016-11-08 12:28:32.111163000 Z
+    zone: *2
+    time: *270
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &271 2016-11-08 12:28:32.111163000 Z
+    zone: *2
+    time: *271
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_136:
+  id: 2586
+  code_list_id: 3765
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &272 2016-11-08 12:28:32.116172000 Z
+    zone: *2
+    time: *272
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &273 2016-11-08 12:28:32.116172000 Z
+    zone: *2
+    time: *273
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_137:
+  id: 2587
+  code_list_id: 3766
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &274 2016-11-08 12:28:32.120975000 Z
+    zone: *2
+    time: *274
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &275 2016-11-08 12:28:32.120975000 Z
+    zone: *2
+    time: *275
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_138:
+  id: 2588
+  code_list_id: 3770
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &276 2016-11-08 12:28:32.125626000 Z
+    zone: *2
+    time: *276
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &277 2016-11-08 12:28:32.125626000 Z
+    zone: *2
+    time: *277
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_139:
+  id: 2589
+  code_list_id: 3771
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &278 2016-11-08 12:28:32.130297000 Z
+    zone: *2
+    time: *278
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &279 2016-11-08 12:28:32.130297000 Z
+    zone: *2
+    time: *279
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_140:
+  id: 2590
+  code_list_id: 3772
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &280 2016-11-08 12:28:32.135066000 Z
+    zone: *2
+    time: *280
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &281 2016-11-08 12:28:32.135066000 Z
+    zone: *2
+    time: *281
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_141:
+  id: 2591
+  code_list_id: 3773
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &282 2016-11-08 12:28:32.139950000 Z
+    zone: *2
+    time: *282
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &283 2016-11-08 12:28:32.139950000 Z
+    zone: *2
+    time: *283
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_142:
+  id: 2592
+  code_list_id: 3775
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &284 2016-11-08 12:28:32.144631000 Z
+    zone: *2
+    time: *284
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &285 2016-11-08 12:28:32.144631000 Z
+    zone: *2
+    time: *285
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_143:
+  id: 2593
+  code_list_id: 3776
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &286 2016-11-08 12:28:32.149520000 Z
+    zone: *2
+    time: *286
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &287 2016-11-08 12:28:32.149520000 Z
+    zone: *2
+    time: *287
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_144:
+  id: 2594
+  code_list_id: 3777
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &288 2016-11-08 12:28:32.154297000 Z
+    zone: *2
+    time: *288
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &289 2016-11-08 12:28:32.154297000 Z
+    zone: *2
+    time: *289
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_145:
+  id: 2595
+  code_list_id: 3778
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &290 2016-11-08 12:28:32.159194000 Z
+    zone: *2
+    time: *290
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &291 2016-11-08 12:28:32.159194000 Z
+    zone: *2
+    time: *291
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_146:
+  id: 2596
+  code_list_id: 3779
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &292 2016-11-08 12:28:32.163969000 Z
+    zone: *2
+    time: *292
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &293 2016-11-08 12:28:32.163969000 Z
+    zone: *2
+    time: *293
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_147:
+  id: 2597
+  code_list_id: 3780
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &294 2016-11-08 12:28:32.168735000 Z
+    zone: *2
+    time: *294
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &295 2016-11-08 12:28:32.168735000 Z
+    zone: *2
+    time: *295
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_148:
+  id: 2598
+  code_list_id: 3781
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &296 2016-11-08 12:28:32.173791000 Z
+    zone: *2
+    time: *296
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &297 2016-11-08 12:28:32.173791000 Z
+    zone: *2
+    time: *297
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_149:
+  id: 2599
+  code_list_id: 3782
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &298 2016-11-08 12:28:32.178709000 Z
+    zone: *2
+    time: *298
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &299 2016-11-08 12:28:32.178709000 Z
+    zone: *2
+    time: *299
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_150:
+  id: 2600
+  code_list_id: 3783
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &300 2016-11-08 12:28:32.183265000 Z
+    zone: *2
+    time: *300
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &301 2016-11-08 12:28:32.183265000 Z
+    zone: *2
+    time: *301
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_151:
+  id: 2601
+  code_list_id: 3784
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &302 2016-11-08 12:28:32.188000000 Z
+    zone: *2
+    time: *302
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &303 2016-11-08 12:28:32.188000000 Z
+    zone: *2
+    time: *303
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_152:
+  id: 2602
+  code_list_id: 3785
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &304 2016-11-08 12:28:32.193058000 Z
+    zone: *2
+    time: *304
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &305 2016-11-08 12:28:32.193058000 Z
+    zone: *2
+    time: *305
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_153:
+  id: 2603
+  code_list_id: 3790
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &306 2016-11-08 12:28:32.198592000 Z
+    zone: *2
+    time: *306
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &307 2016-11-08 12:28:32.198592000 Z
+    zone: *2
+    time: *307
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_154:
+  id: 2604
+  code_list_id: 3788
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &308 2016-11-08 12:28:32.203379000 Z
+    zone: *2
+    time: *308
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &309 2016-11-08 12:28:32.203379000 Z
+    zone: *2
+    time: *309
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_155:
+  id: 2605
+  code_list_id: 3789
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &310 2016-11-08 12:28:32.208221000 Z
+    zone: *2
+    time: *310
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &311 2016-11-08 12:28:32.208221000 Z
+    zone: *2
+    time: *311
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_156:
+  id: 2606
+  code_list_id: 3793
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &312 2016-11-08 12:28:32.213025000 Z
+    zone: *2
+    time: *312
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &313 2016-11-08 12:28:32.213025000 Z
+    zone: *2
+    time: *313
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_157:
+  id: 2607
+  code_list_id: 3794
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &314 2016-11-08 12:28:32.217919000 Z
+    zone: *2
+    time: *314
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &315 2016-11-08 12:28:32.217919000 Z
+    zone: *2
+    time: *315
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_158:
+  id: 2608
+  code_list_id: 3795
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &316 2016-11-08 12:28:32.222899000 Z
+    zone: *2
+    time: *316
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &317 2016-11-08 12:28:32.222899000 Z
+    zone: *2
+    time: *317
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_159:
+  id: 2609
+  code_list_id: 3796
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &318 2016-11-08 12:28:32.227649000 Z
+    zone: *2
+    time: *318
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &319 2016-11-08 12:28:32.227649000 Z
+    zone: *2
+    time: *319
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_160:
+  id: 2610
+  code_list_id: 3797
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &320 2016-11-08 12:28:32.232625000 Z
+    zone: *2
+    time: *320
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &321 2016-11-08 12:28:32.232625000 Z
+    zone: *2
+    time: *321
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_161:
+  id: 2611
+  code_list_id: 3798
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &322 2016-11-08 12:28:32.237340000 Z
+    zone: *2
+    time: *322
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &323 2016-11-08 12:28:32.237340000 Z
+    zone: *2
+    time: *323
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_162:
+  id: 2612
+  code_list_id: 3799
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &324 2016-11-08 12:28:32.242313000 Z
+    zone: *2
+    time: *324
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &325 2016-11-08 12:28:32.242313000 Z
+    zone: *2
+    time: *325
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_163:
+  id: 2613
+  code_list_id: 3800
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &326 2016-11-08 12:28:32.247197000 Z
+    zone: *2
+    time: *326
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &327 2016-11-08 12:28:32.247197000 Z
+    zone: *2
+    time: *327
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_164:
+  id: 2614
+  code_list_id: 3801
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &328 2016-11-08 12:28:32.252227000 Z
+    zone: *2
+    time: *328
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &329 2016-11-08 12:28:32.252227000 Z
+    zone: *2
+    time: *329
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_165:
+  id: 2615
+  code_list_id: 3802
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &330 2016-11-08 12:28:32.257182000 Z
+    zone: *2
+    time: *330
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &331 2016-11-08 12:28:32.257182000 Z
+    zone: *2
+    time: *331
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_166:
+  id: 2616
+  code_list_id: 3803
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &332 2016-11-08 12:28:32.261910000 Z
+    zone: *2
+    time: *332
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &333 2016-11-08 12:28:32.261910000 Z
+    zone: *2
+    time: *333
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_167:
+  id: 2617
+  code_list_id: 3804
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &334 2016-11-08 12:28:32.266703000 Z
+    zone: *2
+    time: *334
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &335 2016-11-08 12:28:32.266703000 Z
+    zone: *2
+    time: *335
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_168:
+  id: 2618
+  code_list_id: 3805
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &336 2016-11-08 12:28:32.271447000 Z
+    zone: *2
+    time: *336
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &337 2016-11-08 12:28:32.271447000 Z
+    zone: *2
+    time: *337
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_169:
+  id: 2619
+  code_list_id: 3807
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &338 2016-11-08 12:28:32.276219000 Z
+    zone: *2
+    time: *338
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &339 2016-11-08 12:28:32.276219000 Z
+    zone: *2
+    time: *339
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_170:
+  id: 2620
+  code_list_id: 3806
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &340 2016-11-08 12:28:32.281073000 Z
+    zone: *2
+    time: *340
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &341 2016-11-08 12:28:32.281073000 Z
+    zone: *2
+    time: *341
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_171:
+  id: 2621
+  code_list_id: 3808
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &342 2016-11-08 12:28:32.286018000 Z
+    zone: *2
+    time: *342
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &343 2016-11-08 12:28:32.286018000 Z
+    zone: *2
+    time: *343
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_172:
+  id: 2622
+  code_list_id: 3809
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &344 2016-11-08 12:28:32.290762000 Z
+    zone: *2
+    time: *344
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &345 2016-11-08 12:28:32.290762000 Z
+    zone: *2
+    time: *345
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_173:
+  id: 2623
+  code_list_id: 3810
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &346 2016-11-08 12:28:32.295639000 Z
+    zone: *2
+    time: *346
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &347 2016-11-08 12:28:32.295639000 Z
+    zone: *2
+    time: *347
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_174:
+  id: 2624
+  code_list_id: 3811
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &348 2016-11-08 12:28:32.300603000 Z
+    zone: *2
+    time: *348
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &349 2016-11-08 12:28:32.300603000 Z
+    zone: *2
+    time: *349
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_175:
+  id: 2625
+  code_list_id: 3812
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &350 2016-11-08 12:28:32.305398000 Z
+    zone: *2
+    time: *350
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &351 2016-11-08 12:28:32.305398000 Z
+    zone: *2
+    time: *351
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_176:
+  id: 2626
+  code_list_id: 3814
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &352 2016-11-08 12:28:32.310341000 Z
+    zone: *2
+    time: *352
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &353 2016-11-08 12:28:32.310341000 Z
+    zone: *2
+    time: *353
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_177:
+  id: 2627
+  code_list_id: 3815
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &354 2016-11-08 12:28:32.315427000 Z
+    zone: *2
+    time: *354
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &355 2016-11-08 12:28:32.315427000 Z
+    zone: *2
+    time: *355
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_178:
+  id: 2628
+  code_list_id: 3816
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &356 2016-11-08 12:28:32.320543000 Z
+    zone: *2
+    time: *356
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &357 2016-11-08 12:28:32.320543000 Z
+    zone: *2
+    time: *357
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_179:
+  id: 2629
+  code_list_id: 3817
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &358 2016-11-08 12:28:32.325652000 Z
+    zone: *2
+    time: *358
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &359 2016-11-08 12:28:32.325652000 Z
+    zone: *2
+    time: *359
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_180:
+  id: 2630
+  code_list_id: 3818
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &360 2016-11-08 12:28:32.330850000 Z
+    zone: *2
+    time: *360
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &361 2016-11-08 12:28:32.330850000 Z
+    zone: *2
+    time: *361
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_181:
+  id: 2631
+  code_list_id: 3823
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &362 2016-11-08 12:28:32.335609000 Z
+    zone: *2
+    time: *362
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &363 2016-11-08 12:28:32.335609000 Z
+    zone: *2
+    time: *363
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_182:
+  id: 2632
+  code_list_id: 3819
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &364 2016-11-08 12:28:32.340548000 Z
+    zone: *2
+    time: *364
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &365 2016-11-08 12:28:32.340548000 Z
+    zone: *2
+    time: *365
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_183:
+  id: 2633
+  code_list_id: 3820
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &366 2016-11-08 12:28:32.345538000 Z
+    zone: *2
+    time: *366
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &367 2016-11-08 12:28:32.345538000 Z
+    zone: *2
+    time: *367
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_184:
+  id: 2634
+  code_list_id: 3821
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &368 2016-11-08 12:28:32.350485000 Z
+    zone: *2
+    time: *368
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &369 2016-11-08 12:28:32.350485000 Z
+    zone: *2
+    time: *369
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_185:
+  id: 2635
+  code_list_id: 3824
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &370 2016-11-08 12:28:32.355478000 Z
+    zone: *2
+    time: *370
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &371 2016-11-08 12:28:32.355478000 Z
+    zone: *2
+    time: *371
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_186:
+  id: 2636
+  code_list_id: 3827
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &372 2016-11-08 12:28:32.359979000 Z
+    zone: *2
+    time: *372
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &373 2016-11-08 12:28:32.359979000 Z
+    zone: *2
+    time: *373
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_187:
+  id: 2637
+  code_list_id: 3828
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &374 2016-11-08 12:28:32.364900000 Z
+    zone: *2
+    time: *374
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &375 2016-11-08 12:28:32.364900000 Z
+    zone: *2
+    time: *375
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_188:
+  id: 2638
+  code_list_id: 3829
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &376 2016-11-08 12:28:32.369776000 Z
+    zone: *2
+    time: *376
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &377 2016-11-08 12:28:32.369776000 Z
+    zone: *2
+    time: *377
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_189:
+  id: 2639
+  code_list_id: 3830
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &378 2016-11-08 12:28:32.374804000 Z
+    zone: *2
+    time: *378
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &379 2016-11-08 12:28:32.374804000 Z
+    zone: *2
+    time: *379
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_190:
+  id: 2640
+  code_list_id: 3831
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &380 2016-11-08 12:28:32.379528000 Z
+    zone: *2
+    time: *380
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &381 2016-11-08 12:28:32.379528000 Z
+    zone: *2
+    time: *381
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_191:
+  id: 2641
+  code_list_id: 3832
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &382 2016-11-08 12:28:32.384344000 Z
+    zone: *2
+    time: *382
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &383 2016-11-08 12:28:32.384344000 Z
+    zone: *2
+    time: *383
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_192:
+  id: 2642
+  code_list_id: 3833
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &384 2016-11-08 12:28:32.389625000 Z
+    zone: *2
+    time: *384
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &385 2016-11-08 12:28:32.389625000 Z
+    zone: *2
+    time: *385
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_193:
+  id: 2643
+  code_list_id: 3834
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &386 2016-11-08 12:28:32.394597000 Z
+    zone: *2
+    time: *386
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &387 2016-11-08 12:28:32.394597000 Z
+    zone: *2
+    time: *387
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_194:
+  id: 2644
+  code_list_id: 3836
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &388 2016-11-08 12:28:32.399583000 Z
+    zone: *2
+    time: *388
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &389 2016-11-08 12:28:32.399583000 Z
+    zone: *2
+    time: *389
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_195:
+  id: 2645
+  code_list_id: 3837
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &390 2016-11-08 12:28:32.404287000 Z
+    zone: *2
+    time: *390
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &391 2016-11-08 12:28:32.404287000 Z
+    zone: *2
+    time: *391
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_196:
+  id: 2646
+  code_list_id: 3838
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &392 2016-11-08 12:28:32.409313000 Z
+    zone: *2
+    time: *392
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &393 2016-11-08 12:28:32.409313000 Z
+    zone: *2
+    time: *393
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_197:
+  id: 2647
+  code_list_id: 3844
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &394 2016-11-08 12:28:32.414194000 Z
+    zone: *2
+    time: *394
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &395 2016-11-08 12:28:32.414194000 Z
+    zone: *2
+    time: *395
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_198:
+  id: 2648
+  code_list_id: 3845
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &396 2016-11-08 12:28:32.432335000 Z
+    zone: *2
+    time: *396
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &397 2016-11-08 12:28:32.432335000 Z
+    zone: *2
+    time: *397
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_199:
+  id: 2649
+  code_list_id: 3846
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &398 2016-11-08 12:28:32.438230000 Z
+    zone: *2
+    time: *398
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &399 2016-11-08 12:28:32.438230000 Z
+    zone: *2
+    time: *399
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_200:
+  id: 2650
+  code_list_id: 3847
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &400 2016-11-08 12:28:32.443266000 Z
+    zone: *2
+    time: *400
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &401 2016-11-08 12:28:32.443266000 Z
+    zone: *2
+    time: *401
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_201:
+  id: 2651
+  code_list_id: 3848
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &402 2016-11-08 12:28:32.448093000 Z
+    zone: *2
+    time: *402
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &403 2016-11-08 12:28:32.448093000 Z
+    zone: *2
+    time: *403
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_202:
+  id: 2652
+  code_list_id: 3849
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &404 2016-11-08 12:28:32.453251000 Z
+    zone: *2
+    time: *404
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &405 2016-11-08 12:28:32.453251000 Z
+    zone: *2
+    time: *405
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_203:
+  id: 2653
+  code_list_id: 3850
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &406 2016-11-08 12:28:32.458379000 Z
+    zone: *2
+    time: *406
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &407 2016-11-08 12:28:32.458379000 Z
+    zone: *2
+    time: *407
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_204:
+  id: 2654
+  code_list_id: 3857
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &408 2016-11-08 12:28:32.463855000 Z
+    zone: *2
+    time: *408
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &409 2016-11-08 12:28:32.463855000 Z
+    zone: *2
+    time: *409
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_205:
+  id: 2655
+  code_list_id: 3858
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &410 2016-11-08 12:28:32.469049000 Z
+    zone: *2
+    time: *410
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &411 2016-11-08 12:28:32.469049000 Z
+    zone: *2
+    time: *411
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_206:
+  id: 2656
+  code_list_id: 3859
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &412 2016-11-08 12:28:32.473911000 Z
+    zone: *2
+    time: *412
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &413 2016-11-08 12:28:32.473911000 Z
+    zone: *2
+    time: *413
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_207:
+  id: 2657
+  code_list_id: 3860
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &414 2016-11-08 12:28:32.478746000 Z
+    zone: *2
+    time: *414
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &415 2016-11-08 12:28:32.478746000 Z
+    zone: *2
+    time: *415
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_208:
+  id: 2658
+  code_list_id: 3862
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &416 2016-11-08 12:28:32.483347000 Z
+    zone: *2
+    time: *416
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &417 2016-11-08 12:28:32.483347000 Z
+    zone: *2
+    time: *417
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_209:
+  id: 2659
+  code_list_id: 3863
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &418 2016-11-08 12:28:32.488524000 Z
+    zone: *2
+    time: *418
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &419 2016-11-08 12:28:32.488524000 Z
+    zone: *2
+    time: *419
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_210:
+  id: 2660
+  code_list_id: 3864
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &420 2016-11-08 12:28:32.493388000 Z
+    zone: *2
+    time: *420
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &421 2016-11-08 12:28:32.493388000 Z
+    zone: *2
+    time: *421
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_211:
+  id: 2661
+  code_list_id: 3865
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &422 2016-11-08 12:28:32.498549000 Z
+    zone: *2
+    time: *422
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &423 2016-11-08 12:28:32.498549000 Z
+    zone: *2
+    time: *423
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_212:
+  id: 2662
+  code_list_id: 3866
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &424 2016-11-08 12:28:32.503888000 Z
+    zone: *2
+    time: *424
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &425 2016-11-08 12:28:32.503888000 Z
+    zone: *2
+    time: *425
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_213:
+  id: 2663
+  code_list_id: 3867
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &426 2016-11-08 12:28:32.509606000 Z
+    zone: *2
+    time: *426
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &427 2016-11-08 12:28:32.509606000 Z
+    zone: *2
+    time: *427
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_214:
+  id: 2664
+  code_list_id: 3868
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &428 2016-11-08 12:28:32.514665000 Z
+    zone: *2
+    time: *428
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &429 2016-11-08 12:28:32.514665000 Z
+    zone: *2
+    time: *429
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_215:
+  id: 2665
+  code_list_id: 3872
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &430 2016-11-08 12:28:32.519686000 Z
+    zone: *2
+    time: *430
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &431 2016-11-08 12:28:32.519686000 Z
+    zone: *2
+    time: *431
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_216:
+  id: 2666
+  code_list_id: 3873
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &432 2016-11-08 12:28:32.524354000 Z
+    zone: *2
+    time: *432
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &433 2016-11-08 12:28:32.524354000 Z
+    zone: *2
+    time: *433
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_217:
+  id: 2667
+  code_list_id: 3874
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &434 2016-11-08 12:28:32.529260000 Z
+    zone: *2
+    time: *434
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &435 2016-11-08 12:28:32.529260000 Z
+    zone: *2
+    time: *435
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_218:
+  id: 2668
+  code_list_id: 3875
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &436 2016-11-08 12:28:32.533939000 Z
+    zone: *2
+    time: *436
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &437 2016-11-08 12:28:32.533939000 Z
+    zone: *2
+    time: *437
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_219:
+  id: 2669
+  code_list_id: 3878
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &438 2016-11-08 12:28:32.538524000 Z
+    zone: *2
+    time: *438
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &439 2016-11-08 12:28:32.538524000 Z
+    zone: *2
+    time: *439
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_220:
+  id: 2670
+  code_list_id: 3879
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &440 2016-11-08 12:28:32.543431000 Z
+    zone: *2
+    time: *440
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &441 2016-11-08 12:28:32.543431000 Z
+    zone: *2
+    time: *441
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_221:
+  id: 2671
+  code_list_id: 3884
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &442 2016-11-08 12:28:32.548333000 Z
+    zone: *2
+    time: *442
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &443 2016-11-08 12:28:32.548333000 Z
+    zone: *2
+    time: *443
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_222:
+  id: 2672
+  code_list_id: 3887
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &444 2016-11-08 12:28:32.553105000 Z
+    zone: *2
+    time: *444
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &445 2016-11-08 12:28:32.553105000 Z
+    zone: *2
+    time: *445
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_223:
+  id: 2673
+  code_list_id: 3888
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &446 2016-11-08 12:28:32.558201000 Z
+    zone: *2
+    time: *446
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &447 2016-11-08 12:28:32.558201000 Z
+    zone: *2
+    time: *447
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_224:
+  id: 2674
+  code_list_id: 3893
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &448 2016-11-08 12:28:32.563112000 Z
+    zone: *2
+    time: *448
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &449 2016-11-08 12:28:32.563112000 Z
+    zone: *2
+    time: *449
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_225:
+  id: 2675
+  code_list_id: 3894
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &450 2016-11-08 12:28:32.568194000 Z
+    zone: *2
+    time: *450
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &451 2016-11-08 12:28:32.568194000 Z
+    zone: *2
+    time: *451
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_226:
+  id: 2676
+  code_list_id: 3895
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &452 2016-11-08 12:28:32.573433000 Z
+    zone: *2
+    time: *452
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &453 2016-11-08 12:28:32.573433000 Z
+    zone: *2
+    time: *453
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_227:
+  id: 2677
+  code_list_id: 3896
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &454 2016-11-08 12:28:32.578365000 Z
+    zone: *2
+    time: *454
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &455 2016-11-08 12:28:32.578365000 Z
+    zone: *2
+    time: *455
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_228:
+  id: 2678
+  code_list_id: 3897
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &456 2016-11-08 12:28:32.583203000 Z
+    zone: *2
+    time: *456
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &457 2016-11-08 12:28:32.583203000 Z
+    zone: *2
+    time: *457
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_229:
+  id: 2679
+  code_list_id: 3898
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &458 2016-11-08 12:28:32.588261000 Z
+    zone: *2
+    time: *458
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &459 2016-11-08 12:28:32.588261000 Z
+    zone: *2
+    time: *459
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_230:
+  id: 2680
+  code_list_id: 3899
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &460 2016-11-08 12:28:32.593080000 Z
+    zone: *2
+    time: *460
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &461 2016-11-08 12:28:32.593080000 Z
+    zone: *2
+    time: *461
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_231:
+  id: 2681
+  code_list_id: 3900
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &462 2016-11-08 12:28:32.597790000 Z
+    zone: *2
+    time: *462
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &463 2016-11-08 12:28:32.597790000 Z
+    zone: *2
+    time: *463
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_232:
+  id: 2682
+  code_list_id: 3901
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &464 2016-11-08 12:28:32.602744000 Z
+    zone: *2
+    time: *464
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &465 2016-11-08 12:28:32.602744000 Z
+    zone: *2
+    time: *465
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_233:
+  id: 2683
+  code_list_id: 3903
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &466 2016-11-08 12:28:32.607551000 Z
+    zone: *2
+    time: *466
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &467 2016-11-08 12:28:32.607551000 Z
+    zone: *2
+    time: *467
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_234:
+  id: 2684
+  code_list_id: 3905
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &468 2016-11-08 12:28:32.612417000 Z
+    zone: *2
+    time: *468
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &469 2016-11-08 12:28:32.612417000 Z
+    zone: *2
+    time: *469
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_235:
+  id: 2685
+  code_list_id: 3906
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &470 2016-11-08 12:28:32.617412000 Z
+    zone: *2
+    time: *470
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &471 2016-11-08 12:28:32.617412000 Z
+    zone: *2
+    time: *471
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_236:
+  id: 2686
+  code_list_id: 3908
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &472 2016-11-08 12:28:32.622506000 Z
+    zone: *2
+    time: *472
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &473 2016-11-08 12:28:32.622506000 Z
+    zone: *2
+    time: *473
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_237:
+  id: 2687
+  code_list_id: 3909
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &474 2016-11-08 12:28:32.627426000 Z
+    zone: *2
+    time: *474
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &475 2016-11-08 12:28:32.627426000 Z
+    zone: *2
+    time: *475
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_238:
+  id: 2688
+  code_list_id: 3910
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &476 2016-11-08 12:28:32.632358000 Z
+    zone: *2
+    time: *476
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &477 2016-11-08 12:28:32.632358000 Z
+    zone: *2
+    time: *477
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_239:
+  id: 2689
+  code_list_id: 3911
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &478 2016-11-08 12:28:32.637150000 Z
+    zone: *2
+    time: *478
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &479 2016-11-08 12:28:32.637150000 Z
+    zone: *2
+    time: *479
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_240:
+  id: 2690
+  code_list_id: 3912
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &480 2016-11-08 12:28:32.641971000 Z
+    zone: *2
+    time: *480
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &481 2016-11-08 12:28:32.641971000 Z
+    zone: *2
+    time: *481
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_241:
+  id: 2691
+  code_list_id: 3913
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &482 2016-11-08 12:28:32.646701000 Z
+    zone: *2
+    time: *482
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &483 2016-11-08 12:28:32.646701000 Z
+    zone: *2
+    time: *483
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_242:
+  id: 2692
+  code_list_id: 3916
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &484 2016-11-08 12:28:32.651468000 Z
+    zone: *2
+    time: *484
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &485 2016-11-08 12:28:32.651468000 Z
+    zone: *2
+    time: *485
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_243:
+  id: 2693
+  code_list_id: 3917
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &486 2016-11-08 12:28:32.656441000 Z
+    zone: *2
+    time: *486
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &487 2016-11-08 12:28:32.656441000 Z
+    zone: *2
+    time: *487
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_244:
+  id: 2694
+  code_list_id: 3918
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &488 2016-11-08 12:28:32.661236000 Z
+    zone: *2
+    time: *488
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &489 2016-11-08 12:28:32.661236000 Z
+    zone: *2
+    time: *489
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_245:
+  id: 2695
+  code_list_id: 3919
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &490 2016-11-08 12:28:32.666272000 Z
+    zone: *2
+    time: *490
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &491 2016-11-08 12:28:32.666272000 Z
+    zone: *2
+    time: *491
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_246:
+  id: 2696
+  code_list_id: 3920
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &492 2016-11-08 12:28:32.671016000 Z
+    zone: *2
+    time: *492
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &493 2016-11-08 12:28:32.671016000 Z
+    zone: *2
+    time: *493
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_247:
+  id: 2697
+  code_list_id: 3949
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &494 2016-11-08 12:28:32.676205000 Z
+    zone: *2
+    time: *494
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &495 2016-11-08 12:28:32.676205000 Z
+    zone: *2
+    time: *495
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_248:
+  id: 2698
+  code_list_id: 3921
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &496 2016-11-08 12:28:32.681079000 Z
+    zone: *2
+    time: *496
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &497 2016-11-08 12:28:32.681079000 Z
+    zone: *2
+    time: *497
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_249:
+  id: 2699
+  code_list_id: 3922
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &498 2016-11-08 12:28:32.685832000 Z
+    zone: *2
+    time: *498
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &499 2016-11-08 12:28:32.685832000 Z
+    zone: *2
+    time: *499
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_250:
+  id: 2700
+  code_list_id: 3929
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &500 2016-11-08 12:28:32.690773000 Z
+    zone: *2
+    time: *500
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &501 2016-11-08 12:28:32.690773000 Z
+    zone: *2
+    time: *501
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_251:
+  id: 2701
+  code_list_id: 3934
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &502 2016-11-08 12:28:32.695587000 Z
+    zone: *2
+    time: *502
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &503 2016-11-08 12:28:32.695587000 Z
+    zone: *2
+    time: *503
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_252:
+  id: 2702
+  code_list_id: 3925
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &504 2016-11-08 12:28:32.700644000 Z
+    zone: *2
+    time: *504
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &505 2016-11-08 12:28:32.700644000 Z
+    zone: *2
+    time: *505
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_253:
+  id: 2703
+  code_list_id: 3930
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &506 2016-11-08 12:28:32.705587000 Z
+    zone: *2
+    time: *506
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &507 2016-11-08 12:28:32.705587000 Z
+    zone: *2
+    time: *507
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_254:
+  id: 2704
+  code_list_id: 3935
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &508 2016-11-08 12:28:32.710267000 Z
+    zone: *2
+    time: *508
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &509 2016-11-08 12:28:32.710267000 Z
+    zone: *2
+    time: *509
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_255:
+  id: 2705
+  code_list_id: 3939
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &510 2016-11-08 12:28:32.715162000 Z
+    zone: *2
+    time: *510
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &511 2016-11-08 12:28:32.715162000 Z
+    zone: *2
+    time: *511
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_256:
+  id: 2706
+  code_list_id: 3940
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &512 2016-11-08 12:28:32.720196000 Z
+    zone: *2
+    time: *512
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &513 2016-11-08 12:28:32.720196000 Z
+    zone: *2
+    time: *513
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_257:
+  id: 2707
+  code_list_id: 3941
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &514 2016-11-08 12:28:32.725010000 Z
+    zone: *2
+    time: *514
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &515 2016-11-08 12:28:32.725010000 Z
+    zone: *2
+    time: *515
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_258:
+  id: 2708
+  code_list_id: 3943
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &516 2016-11-08 12:28:32.730128000 Z
+    zone: *2
+    time: *516
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &517 2016-11-08 12:28:32.730128000 Z
+    zone: *2
+    time: *517
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_259:
+  id: 2709
+  code_list_id: 3760
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &518 2016-11-08 12:28:32.734903000 Z
+    zone: *2
+    time: *518
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &519 2016-11-08 12:28:32.734903000 Z
+    zone: *2
+    time: *519
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_260:
+  id: 2710
+  code_list_id: 3786
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &520 2016-11-08 12:28:32.739605000 Z
+    zone: *2
+    time: *520
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &521 2016-11-08 12:28:32.739605000 Z
+    zone: *2
+    time: *521
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_261:
+  id: 2711
+  code_list_id: 3825
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &522 2016-11-08 12:28:32.744380000 Z
+    zone: *2
+    time: *522
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &523 2016-11-08 12:28:32.744380000 Z
+    zone: *2
+    time: *523
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_262:
+  id: 2712
+  code_list_id: 3870
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &524 2016-11-08 12:28:32.749399000 Z
+    zone: *2
+    time: *524
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &525 2016-11-08 12:28:32.749399000 Z
+    zone: *2
+    time: *525
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_263:
+  id: 2713
+  code_list_id: 3876
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &526 2016-11-08 12:28:32.754385000 Z
+    zone: *2
+    time: *526
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &527 2016-11-08 12:28:32.754385000 Z
+    zone: *2
+    time: *527
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_264:
+  id: 2714
+  code_list_id: 3880
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &528 2016-11-08 12:28:32.759232000 Z
+    zone: *2
+    time: *528
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &529 2016-11-08 12:28:32.759232000 Z
+    zone: *2
+    time: *529
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_265:
+  id: 2715
+  code_list_id: 3882
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &530 2016-11-08 12:28:32.764240000 Z
+    zone: *2
+    time: *530
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &531 2016-11-08 12:28:32.764240000 Z
+    zone: *2
+    time: *531
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_266:
+  id: 2716
+  code_list_id: 3885
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &532 2016-11-08 12:28:32.769424000 Z
+    zone: *2
+    time: *532
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &533 2016-11-08 12:28:32.769424000 Z
+    zone: *2
+    time: *533
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_267:
+  id: 2717
+  code_list_id: 3889
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &534 2016-11-08 12:28:32.774791000 Z
+    zone: *2
+    time: *534
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &535 2016-11-08 12:28:32.774791000 Z
+    zone: *2
+    time: *535
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_268:
+  id: 2718
+  code_list_id: 3904
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &536 2016-11-08 12:28:32.779723000 Z
+    zone: *2
+    time: *536
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &537 2016-11-08 12:28:32.779723000 Z
+    zone: *2
+    time: *537
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_269:
+  id: 2719
+  code_list_id: 3914
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &538 2016-11-08 12:28:32.784745000 Z
+    zone: *2
+    time: *538
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &539 2016-11-08 12:28:32.784745000 Z
+    zone: *2
+    time: *539
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_270:
+  id: 2720
+  code_list_id: 3932
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &540 2016-11-08 12:28:32.789761000 Z
+    zone: *2
+    time: *540
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &541 2016-11-08 12:28:32.789761000 Z
+    zone: *2
+    time: *541
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1
+ResponseDomainCode_271:
+  id: 2721
+  code_list_id: 3946
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &542 2016-11-08 12:28:32.794755000 Z
+    zone: *2
+    time: *542
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &543 2016-11-08 12:28:32.794755000 Z
+    zone: *2
+    time: *543
+  response_domain_type: ResponseDomainCode
+  instrument_id: 58
+  min_responses: 1
+  max_responses: 1

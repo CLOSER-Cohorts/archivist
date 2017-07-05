@@ -97,7 +97,7 @@ group :development do
   gem 'spring'
 
   gem 'rails-erd'
-  gem 'db_fixtures_dump'
+  gem 'db_fixtures_dump', path: '/Users/utnvwpo/Documents/Business/UCL/CLOSER/Code/db_fixtures_dump'
 end
 
 group :test do

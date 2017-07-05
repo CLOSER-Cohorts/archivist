@@ -8,17 +8,16 @@
 # * Parent
 # * Branch
 class ControlConstruct < ApplicationRecord
-  # Every ControlConstruct _must_ have one construct
-  belongs_to :construct, polymorphic: true
+  self.abstract_class = true
+
+  include Comparable
+  include Realtime::RtUpdate
+  include Exportable
 
   # All categories must belong to an {Instrument}
   belongs_to :instrument
 
-  # Every ControlConstruct must have a parent, with the exception of the top sequence
-  belongs_to :parent, -> { includes :construct }, class_name: 'ControlConstruct'
-
-  # Get a collection of constructs that have this model as a parent
-  has_many :children, -> { includes(:construct).order('position ASC') }, class_name: 'ControlConstruct', foreign_key: 'parent_id', dependent: :destroy
+  belongs_to :parent, polymorphic: true
 
   # After updating, clear the cache from Redis
   after_update :clear_cache

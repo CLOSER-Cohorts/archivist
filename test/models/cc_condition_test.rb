@@ -2,15 +2,12 @@ require 'test_helper'
 
 class CcConditionTest < ActiveSupport::TestCase
   setup do
+    debugger
     @cc_condition = cc_conditions :CcCondition_1
   end
 
-  test "has one cc" do
-    assert_kind_of ControlConstruct, @cc_condition.cc
-  end
-
   test "can read parent construct" do
-    assert_kind_of Construct::Model, @cc_condition.parent
+    assert_kind_of ::ParentalConstruct, @cc_condition.parent
   end
 
   test "set a new parent" do
