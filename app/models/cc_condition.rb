@@ -19,6 +19,14 @@ class CcCondition < ::ParentalConstruct
   # XML tag name
   TYPE = 'IfThenElse'
 
+  def children
+    super.select { |c| c.branch == 0 }
+  end
+
+  def fchildren
+    ParentalConstruct.instance_method(:children).bind(self).call.select { |c| c.branch == 1 }
+  end
+
   # Returns a Hash of the attributes and properties for broadcast over
   # archivist-realtime
   #
@@ -34,8 +42,8 @@ class CcCondition < ::ParentalConstruct
         position: self.position,
         literal: self.literal,
         logic: self.logic,
-        children: self.children.where(branch: 0).map { |x| {id: x.construct.id, type: x.construct.class.name} },
-        fchildren: self.children.where(branch: 1).map { |x| {id: x.construct.id, type: x.construct.class.name} }
+        children: self.children.select {|c| c.branch == 0}.map { |x| {id: x.id, type: x.class.name} },
+        fchildren: self.children.select {|c| c.branch == 1}.map { |x| {id: x.id, type: x.class.name} }
     }
   end
 end

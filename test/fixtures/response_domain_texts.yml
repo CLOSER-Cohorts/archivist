@@ -1,86 +1,139 @@
 ---
 ResponseDomainText_1:
-  id: 25
+  id: 129
   label: Generic text
   maxlen: 255
-  created_at: 2016-06-20 13:51:24.329457000 Z
-  updated_at: 2016-06-20 13:51:24.329457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:39.492812000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:39.492812000 Z
+    zone: *2
+    time: *3
+  instrument_id: 22
   response_domain_type: ResponseDomainText
 ResponseDomainText_2:
-  id: 26
+  id: 130
   label: Other
   maxlen: 255
-  created_at: 2016-06-20 13:51:24.339457000 Z
-  updated_at: 2016-06-20 13:51:24.339457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:22:39.494906000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:22:39.494906000 Z
+    zone: *2
+    time: *5
+  instrument_id: 22
   response_domain_type: ResponseDomainText
 ResponseDomainText_3:
-  id: 27
+  id: 131
   label: Long text
-  created_at: 2016-06-20 13:51:24.366457000 Z
-  updated_at: 2016-06-20 13:51:24.366457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:22:39.501022000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:22:39.501022000 Z
+    zone: *2
+    time: *7
+  instrument_id: 22
   response_domain_type: ResponseDomainText
 ResponseDomainText_4:
-  id: 28
+  id: 193
   label: Other
   maxlen: 255
-  created_at: 2016-06-21 13:18:34.734062000 Z
-  updated_at: 2016-06-21 13:18:34.734062000 Z
-  instrument_id: 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-08 12:25:52.758726000 Z
+    zone: *2
+    time: *8
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-08 12:25:52.758726000 Z
+    zone: *2
+    time: *9
+  instrument_id: 46
   response_domain_type: ResponseDomainText
 ResponseDomainText_5:
-  id: 29
+  id: 194
   label: Generic text
   maxlen: 255
-  created_at: 2016-06-21 13:18:34.769065000 Z
-  updated_at: 2016-06-21 13:18:34.769065000 Z
-  instrument_id: 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2016-11-08 12:25:52.760832000 Z
+    zone: *2
+    time: *10
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2016-11-08 12:25:52.760832000 Z
+    zone: *2
+    time: *11
+  instrument_id: 46
   response_domain_type: ResponseDomainText
 ResponseDomainText_6:
-  id: 30
+  id: 195
   label: Long text
-  created_at: 2016-06-21 13:18:34.773066000 Z
-  updated_at: 2016-06-21 13:18:34.773066000 Z
-  instrument_id: 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &12 2016-11-08 12:25:52.764596000 Z
+    zone: *2
+    time: *12
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &13 2016-11-08 12:25:52.764596000 Z
+    zone: *2
+    time: *13
+  instrument_id: 46
   response_domain_type: ResponseDomainText
 ResponseDomainText_7:
-  id: 31
-  label: Generic text 1
-  maxlen: 255
-  created_at: 2016-06-21 13:18:34.776066000 Z
-  updated_at: 2016-06-21 13:18:34.776066000 Z
-  instrument_id: 11
-  response_domain_type: ResponseDomainText
-ResponseDomainText_8:
-  id: 32
-  label: Text
-  maxlen: 255
-  created_at: 2016-06-21 14:08:35.695152000 Z
-  updated_at: 2016-06-21 14:08:35.695152000 Z
-  instrument_id: 11
-  response_domain_type: ResponseDomainText
-ResponseDomainText_9:
-  id: 33
+  id: 228
   label: Other
   maxlen: 255
-  created_at: 2016-07-01 11:34:32.901913000 Z
-  updated_at: 2016-07-01 11:34:32.901913000 Z
-  instrument_id: 12
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &14 2016-11-08 12:28:32.817285000 Z
+    zone: *2
+    time: *14
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &15 2016-11-08 12:28:32.817285000 Z
+    zone: *2
+    time: *15
+  instrument_id: 58
   response_domain_type: ResponseDomainText
-ResponseDomainText_10:
-  id: 34
+ResponseDomainText_8:
+  id: 229
   label: Generic text
   maxlen: 255
-  created_at: 2016-07-01 11:34:32.940913000 Z
-  updated_at: 2016-07-01 11:34:32.940913000 Z
-  instrument_id: 12
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &16 2016-11-08 12:28:32.819480000 Z
+    zone: *2
+    time: *16
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &17 2016-11-08 12:28:32.819480000 Z
+    zone: *2
+    time: *17
+  instrument_id: 58
   response_domain_type: ResponseDomainText
-ResponseDomainText_11:
-  id: 35
+ResponseDomainText_9:
+  id: 230
   label: Long text
-  created_at: 2016-07-01 11:34:32.946913000 Z
-  updated_at: 2016-07-01 11:34:32.946913000 Z
-  instrument_id: 12
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &18 2016-11-08 12:28:32.821638000 Z
+    zone: *2
+    time: *18
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &19 2016-11-08 12:28:32.821638000 Z
+    zone: *2
+    time: *19
+  instrument_id: 58
+  response_domain_type: ResponseDomainText
+ResponseDomainText_10:
+  id: 231
+  label: Generic text 1
+  maxlen: 255
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &20 2016-11-08 12:28:32.824292000 Z
+    zone: *2
+    time: *20
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &21 2016-11-08 12:28:32.824292000 Z
+    zone: *2
+    time: *21
+  instrument_id: 58
   response_domain_type: ResponseDomainText

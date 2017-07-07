@@ -4,8 +4,8 @@ class TopicsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @topic = topics(:one)
-    @l2_topic = topics(:two)
+    @topic = topics(:Topic_2)
+    @l2_topic = topics(:Topic_23)
   end
 
   test "should get index" do

@@ -1,25 +1,47 @@
 ---
 Instrument_1:
-  id: 10
+  id: 22
   agency: uk.alspac
   version: '1.0'
   prefix: alspac_02_babg
   label: Being a Boy/Girl
-  created_at: 2016-06-20 13:51:05.480457000 Z
-  updated_at: 2016-06-20 13:51:05.480457000 Z
+  study: ALSPAC
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:34.968722000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:34.968722000 Z
+    zone: *2
+    time: *3
 Instrument_2:
-  id: 11
-  agency: uk.alspac
-  version: '1.0'
-  prefix: alspac_94_yheaf
-  label: Your Health Events and Feelings
-  created_at: 2016-06-21 13:18:23.932982000 Z
-  updated_at: 2016-06-21 13:18:23.932982000 Z
-Instrument_3:
-  id: 12
+  id: 46
   agency: uk.alspac
   version: '1.0'
   prefix: alspac_91_yhal
   label: Your Home and Life
-  created_at: 2016-07-01 11:34:26.709913000 Z
-  updated_at: 2016-07-01 11:34:26.709913000 Z
+  study: ALSPAC
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:25:49.045863000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:25:49.045863000 Z
+    zone: *2
+    time: *5
+Instrument_3:
+  id: 58
+  agency: uk.alspac
+  version: '1.0'
+  prefix: alspac_94_yheaf
+  label: Your Health Events and Feelings
+  study: ALSPAC
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:28:25.802164000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:28:25.802164000 Z
+    zone: *2
+    time: *7

@@ -15,6 +15,11 @@ class CcSequence < ::ParentalConstruct
   # XML tag name
   TYPE = 'Sequence'
 
+  # Determines if this sequence is the top sequence of an instrument
+  def is_top?
+    self.parent.nil?
+  end
+
   # Returns a Hash of the attributes and properties for broadcast over
   # archivist-realtime
   #
@@ -29,7 +34,7 @@ class CcSequence < ::ParentalConstruct
         parent: self.parent.nil? ? nil : self.parent.id,
         position: self.position,
         literal: self.literal,
-        children: self.children.map { |x| {id: x.construct.id, type: x.construct.class.name} }
+        children: self.children.map { |x| {id: x.id, type: x.class.name} }
     }
   end
 end

@@ -33,10 +33,9 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should destroy category" do
-    category = categories :Category_1572
-    instrument = instruments :Instrument_3
+    category = categories(:Category_99999)
     assert_difference('Category.count', -1) do
-      delete :destroy, format: :json, instrument_id: instrument.id, id: category
+      delete :destroy, format: :json, instrument_id: @instrument.id, id: category
     end
 
     assert_response :success

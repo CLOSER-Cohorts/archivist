@@ -14,7 +14,8 @@ json.array!(@collection) do |cc_question|
   end unless cc_question.strand.topic.nil?
   json.suggested_topic cc_question.get_suggested_topic, :id, :code, :name, :parent_id unless cc_question.get_suggested_topic.nil?
   json.ancestral_topic cc_question.get_ancestral_topic, :id, :code, :name, :parent_id unless cc_question.get_ancestral_topic.nil?
-  json.parent cc_question.parent_id
+  json.parent_id cc_question.parent_id
+  json.parent_type cc_question.parent_type
   json.base_label cc_question.base_label
   json.response_unit_label cc_question.response_unit_label
 end

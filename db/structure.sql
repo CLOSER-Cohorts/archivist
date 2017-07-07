@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.5
--- Dumped by pg_dump version 9.5.5
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -25,20 +26,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
 
 
 SET search_path = public, pg_catalog;
@@ -192,8 +179,7 @@ BEGIN
                             topic_id,
                             created_at, 
                             updated_at
-    ) 
-       VALUES (
+    ) VALUES (
                             cond_id,
                             'CcCondition',
                             new.topic_id, 
@@ -217,23 +203,46 @@ CREATE FUNCTION insert_cc_loop() RETURNS trigger
 DECLARE
   loop_id INTEGER;
 BEGIN
-  INSERT INTO loops(
-                          instrument_id, 
-                          loop_var, 
-                          start_val, 
-                          end_val, 
-                          loop_while, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.loop_var, 
-                          new.start_val, 
-                          new.end_val, 
-                          new.loop_while, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO loop_id;
+  IF new.id IS NULL THEN
+    INSERT INTO loops(
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO loop_id;
+  ELSE
+    INSERT INTO loops(
+                            id,
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    loop_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -287,21 +296,42 @@ CREATE FUNCTION insert_cc_question() RETURNS trigger
 DECLARE
   quest_id INTEGER;
 BEGIN
-  INSERT INTO questions(
-                          instrument_id, 
-                          question_id, 
-                          question_type, 
-                          response_unit_id, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.question_id, 
-                          new.question_type, 
-                          new.response_unit_id, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO quest_id;
+  IF new.id IS NULL THEN
+    INSERT INTO questions(
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO quest_id;
+  ELSE
+   INSERT INTO questions(
+                            id,
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    quest_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -339,17 +369,34 @@ CREATE FUNCTION insert_cc_sequence() RETURNS trigger
 DECLARE
   seq_id INTEGER;
 BEGIN
-  INSERT INTO sequences(
-                          instrument_id, 
-                          literal, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.literal, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO seq_id;
+  IF new.id IS NULL THEN
+    INSERT INTO sequences(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO seq_id;
+  ELSE
+    INSERT INTO sequences(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    seq_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -403,17 +450,34 @@ CREATE FUNCTION insert_cc_statement() RETURNS trigger
 DECLARE
   sta_id INTEGER;
 BEGIN
-  INSERT INTO statements(
-                          instrument_id, 
-                          literal, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.literal, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO sta_id;
+  IF new.id IS NULL THEN 
+    INSERT INTO statements(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO sta_id;
+  ELSE
+    INSERT INTO statements(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    sta_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -713,8 +777,8 @@ CREATE TABLE conditions (
 CREATE TABLE control_constructs (
     id integer NOT NULL,
     label character varying,
-    construct_id integer NOT NULL,
     construct_type character varying NOT NULL,
+    construct_id integer NOT NULL,
     parent_id integer,
     "position" integer,
     branch integer,
@@ -730,8 +794,8 @@ CREATE TABLE control_constructs (
 
 CREATE TABLE links (
     id integer NOT NULL,
-    target_id integer NOT NULL,
     target_type character varying NOT NULL,
+    target_id integer NOT NULL,
     topic_id integer NOT NULL,
     x integer,
     y integer,
@@ -771,8 +835,8 @@ CREATE VIEW cc_conditions AS
 CREATE VIEW cc_links AS
  SELECT cc.id,
     cc.label,
-    cc.construct_id,
     cc.construct_type,
+    cc.construct_id,
     cc.parent_id,
     cc."position",
     cc.branch,
@@ -834,8 +898,8 @@ CREATE VIEW cc_loops AS
 
 CREATE TABLE questions (
     id integer NOT NULL,
-    question_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
@@ -1120,8 +1184,8 @@ ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
 
 CREATE TABLE maps (
     id integer NOT NULL,
-    source_id integer NOT NULL,
     source_type character varying NOT NULL,
+    source_id integer NOT NULL,
     variable_id integer NOT NULL,
     x integer,
     y integer,
@@ -1190,40 +1254,6 @@ CREATE SEQUENCE groups_id_seq
 --
 
 ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
-
-
---
--- Name: identifiers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE identifiers (
-    id integer NOT NULL,
-    id_type character varying,
-    value character varying,
-    item_type character varying NOT NULL,
-    item_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: identifiers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE identifiers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: identifiers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE identifiers_id_seq OWNED BY identifiers.id;
 
 
 --
@@ -1500,10 +1530,10 @@ CREATE VIEW qv_mappings AS
 
 CREATE TABLE rds_qs (
     id integer NOT NULL,
-    response_domain_id integer NOT NULL,
     response_domain_type character varying NOT NULL,
-    question_id integer NOT NULL,
+    response_domain_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     code_id integer,
@@ -1855,210 +1885,203 @@ ALTER SEQUENCE variables_id_seq OWNED BY variables.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: code_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists ALTER COLUMN id SET DEFAULT nextval('code_lists_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes ALTER COLUMN id SET DEFAULT nextval('codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: conditions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY conditions ALTER COLUMN id SET DEFAULT nextval('conditions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: control_constructs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs ALTER COLUMN id SET DEFAULT nextval('control_constructs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets ALTER COLUMN id SET DEFAULT nextval('datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: groups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY identifiers ALTER COLUMN id SET DEFAULT nextval('identifiers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instructions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions ALTER COLUMN id SET DEFAULT nextval('instructions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments ALTER COLUMN id SET DEFAULT nextval('instruments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments_datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instruments_datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: loops id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY loops ALTER COLUMN id SET DEFAULT nextval('loops_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: maps id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps ALTER COLUMN id SET DEFAULT nextval('maps_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_grids id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids ALTER COLUMN id SET DEFAULT nextval('question_grids_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items ALTER COLUMN id SET DEFAULT nextval('question_items_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: rds_qs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs ALTER COLUMN id SET DEFAULT nextval('rds_qs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes ALTER COLUMN id SET DEFAULT nextval('response_domain_codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_datetimes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes ALTER COLUMN id SET DEFAULT nextval('response_domain_datetimes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_numerics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics ALTER COLUMN id SET DEFAULT nextval('response_domain_numerics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_texts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts ALTER COLUMN id SET DEFAULT nextval('response_domain_texts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_units id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_units_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: sequences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY sequences ALTER COLUMN id SET DEFAULT nextval('sequences_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY statements ALTER COLUMN id SET DEFAULT nextval('statements_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: variables id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -2066,7 +2089,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -2074,7 +2097,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: conditions cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY conditions
@@ -2082,7 +2105,7 @@ ALTER TABLE ONLY conditions
 
 
 --
--- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: loops cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY loops
@@ -2090,7 +2113,7 @@ ALTER TABLE ONLY loops
 
 
 --
--- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: questions cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY questions
@@ -2098,7 +2121,7 @@ ALTER TABLE ONLY questions
 
 
 --
--- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY sequences
@@ -2106,7 +2129,7 @@ ALTER TABLE ONLY sequences
 
 
 --
--- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: statements cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY statements
@@ -2114,7 +2137,7 @@ ALTER TABLE ONLY statements
 
 
 --
--- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -2122,7 +2145,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: codes codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2130,7 +2153,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2138,7 +2161,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: datasets datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets
@@ -2146,7 +2169,7 @@ ALTER TABLE ONLY datasets
 
 
 --
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents
@@ -2154,7 +2177,7 @@ ALTER TABLE ONLY documents
 
 
 --
--- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -2162,7 +2185,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -2170,7 +2193,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2178,7 +2201,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2186,7 +2209,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -2194,7 +2217,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -2202,7 +2225,7 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: groups groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY groups
@@ -2210,15 +2233,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- Name: identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY identifiers
-    ADD CONSTRAINT identifiers_pkey PRIMARY KEY (id);
-
-
---
--- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -2226,7 +2241,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -2234,7 +2249,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments
@@ -2242,7 +2257,7 @@ ALTER TABLE ONLY instruments
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: links links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -2250,7 +2265,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: maps maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -2258,7 +2273,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2266,7 +2281,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -2274,7 +2289,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -2282,7 +2297,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -2290,7 +2305,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_datetimes response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes
@@ -2298,7 +2313,7 @@ ALTER TABLE ONLY response_domain_datetimes
 
 
 --
--- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_numerics response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics
@@ -2306,7 +2321,7 @@ ALTER TABLE ONLY response_domain_numerics
 
 
 --
--- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_texts response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts
@@ -2314,7 +2329,7 @@ ALTER TABLE ONLY response_domain_texts
 
 
 --
--- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -2322,7 +2337,15 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -2330,7 +2353,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -2338,7 +2361,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2346,7 +2369,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: variables variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -2498,20 +2521,6 @@ CREATE INDEX index_documents_on_item_type_and_item_id ON documents USING btree (
 --
 
 CREATE UNIQUE INDEX index_documents_on_md5_hash ON documents USING btree (md5_hash);
-
-
---
--- Name: index_identifiers_on_id_type_and_value; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_identifiers_on_id_type_and_value ON identifiers USING btree (id_type, value);
-
-
---
--- Name: index_identifiers_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_identifiers_on_item_type_and_item_id ON identifiers USING btree (item_type, item_id);
 
 
 --
@@ -2781,119 +2790,112 @@ CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
--- Name: delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE delete_cc_condition();
 
 
 --
--- Name: delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE delete_cc_loop();
 
 
 --
--- Name: delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE delete_cc_question();
 
 
 --
--- Name: delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE delete_cc_sequence();
 
 
 --
--- Name: delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE delete_cc_statement();
 
 
 --
--- Name: insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE insert_cc_condition();
 
 
 --
--- Name: insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON cc_loops FOR EACH ROW EXECUTE PROCEDURE insert_cc_loop();
 
 
 --
--- Name: insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON cc_questions FOR EACH ROW EXECUTE PROCEDURE insert_cc_question();
 
 
 --
--- Name: insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE insert_cc_sequence();
 
 
 --
--- Name: insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON cc_statements FOR EACH ROW EXECUTE PROCEDURE insert_cc_statement();
 
 
 --
--- Name: update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE update_cc_condition();
 
 
 --
--- Name: update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE update_cc_loop();
 
 
 --
--- Name: update_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions update_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE update_cc_question();
 
 
 --
--- Name: update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
 
 
 --
--- Name: update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE update_cc_statement();
 
 
 --
--- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: conditions encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY conditions
@@ -2901,7 +2903,7 @@ ALTER TABLE ONLY conditions
 
 
 --
--- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: loops encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY loops
@@ -2909,7 +2911,7 @@ ALTER TABLE ONLY loops
 
 
 --
--- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY questions
@@ -2917,7 +2919,7 @@ ALTER TABLE ONLY questions
 
 
 --
--- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY questions
@@ -2925,7 +2927,7 @@ ALTER TABLE ONLY questions
 
 
 --
--- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY sequences
@@ -2933,7 +2935,7 @@ ALTER TABLE ONLY sequences
 
 
 --
--- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: statements encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY statements
@@ -2941,7 +2943,7 @@ ALTER TABLE ONLY statements
 
 
 --
--- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2949,7 +2951,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2957,7 +2959,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2965,7 +2967,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2973,7 +2975,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2981,7 +2983,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2989,7 +2991,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -2997,7 +2999,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -3005,7 +3007,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: variables fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -3013,7 +3015,7 @@ ALTER TABLE ONLY variables
 
 
 --
--- Name: fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -3021,7 +3023,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -3029,7 +3031,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: topics fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -3037,7 +3039,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -3045,7 +3047,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: links fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -3053,7 +3055,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -3061,7 +3063,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: maps fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -3069,7 +3071,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -3077,7 +3079,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -3085,7 +3087,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -3093,7 +3095,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -3101,7 +3103,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -3109,7 +3111,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -3153,7 +3155,6 @@ INSERT INTO schema_migrations (version) VALUES
 ('20151206185120'),
 ('20151206185659'),
 ('20151206205100'),
-('20151211153924'),
 ('20160121070958'),
 ('20160216154523'),
 ('20160413095800'),
@@ -3174,7 +3175,6 @@ INSERT INTO schema_migrations (version) VALUES
 ('20161213091354'),
 ('20170302132603'),
 ('20170302132849'),
-('20170505135010'),
 ('20170601154431'),
 ('20170605112157');
 

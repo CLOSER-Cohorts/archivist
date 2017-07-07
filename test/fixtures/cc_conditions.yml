@@ -1,843 +1,2082 @@
 ---
 CcCondition_1:
-  id: 155
+  id: 250
+  instrument_id: 22
   literal: If yes,
   logic: qc_A2_a == 1
-  created_at: 2016-06-20 13:51:39.698457000 Z
-  updated_at: 2016-06-20 13:51:39.732457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:43.904365000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:43.916343000 Z
+    zone: *2
+    time: *3
+  label: c_qA2a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 6
+  topic_id: 1
 CcCondition_2:
-  id: 156
+  id: 251
+  instrument_id: 22
   literal: If yes,
   logic: qc_A3_a == 1
-  created_at: 2016-06-20 13:51:39.822457000 Z
-  updated_at: 2016-06-20 13:51:39.846457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:22:43.957989000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:22:43.970414000 Z
+    zone: *2
+    time: *5
+  label: c_qA3a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 8
 CcCondition_3:
-  id: 157
+  id: 252
+  instrument_id: 22
   literal: If yes,
   logic: qc_A5 == 1
-  created_at: 2016-06-20 13:51:40.333457000 Z
-  updated_at: 2016-06-20 13:51:40.359457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:22:44.192846000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:22:44.204964000 Z
+    zone: *2
+    time: *7
+  label: c_qA5
+  parent_id: 143
+  parent_type: CcSequence
+  position: 20
 CcCondition_4:
-  id: 158
+  id: 253
+  instrument_id: 22
   literal: If yes,
   logic: qc_A6_a == 1
-  created_at: 2016-06-20 13:51:40.563457000 Z
-  updated_at: 2016-06-20 13:51:40.588457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-08 12:22:44.298768000 Z
+    zone: *2
+    time: *8
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-08 12:22:44.310390000 Z
+    zone: *2
+    time: *9
+  label: c_qA6a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 23
 CcCondition_5:
-  id: 159
+  id: 254
+  instrument_id: 22
   literal: If yes,
   logic: qc_A7_a == 1
-  created_at: 2016-06-20 13:51:40.859457000 Z
-  updated_at: 2016-06-20 13:51:40.883457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2016-11-08 12:22:44.405447000 Z
+    zone: *2
+    time: *10
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2016-11-08 12:22:44.417644000 Z
+    zone: *2
+    time: *11
+  label: c_qA7a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 26
 CcCondition_6:
-  id: 160
+  id: 255
+  instrument_id: 22
   literal: If yes,
   logic: qc_A8_a == 1
-  created_at: 2016-06-20 13:51:41.042457000 Z
-  updated_at: 2016-06-20 13:51:41.067457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &12 2016-11-08 12:22:44.492407000 Z
+    zone: *2
+    time: *12
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &13 2016-11-08 12:22:44.504203000 Z
+    zone: *2
+    time: *13
+  label: c_qA8a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 29
 CcCondition_7:
-  id: 161
+  id: 256
+  instrument_id: 22
   literal: If yes,
   logic: qc_A12_a == 1
-  created_at: 2016-06-20 13:51:41.422457000 Z
-  updated_at: 2016-06-20 13:51:41.447457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &14 2016-11-08 12:22:44.677605000 Z
+    zone: *2
+    time: *14
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &15 2016-11-08 12:22:44.690058000 Z
+    zone: *2
+    time: *15
+  label: c_qA12a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 36
 CcCondition_8:
-  id: 162
+  id: 257
+  instrument_id: 22
   literal: If yes,
   logic: qc_A13_a == 1 || qc_A13_a == 2 || qc_A13_a == 3
-  created_at: 2016-06-20 13:51:41.823457000 Z
-  updated_at: 2016-06-20 13:51:41.850457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &16 2016-11-08 12:22:44.856524000 Z
+    zone: *2
+    time: *16
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &17 2016-11-08 12:22:44.868359000 Z
+    zone: *2
+    time: *17
+  label: c_qA13a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 39
 CcCondition_9:
-  id: 163
+  id: 258
+  instrument_id: 22
   literal: If yes,
   logic: qc_A13_a_iii == 1
-  created_at: 2016-06-20 13:51:41.984457000 Z
-  updated_at: 2016-06-20 13:51:42.009457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &18 2016-11-08 12:22:44.928791000 Z
+    zone: *2
+    time: *18
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &19 2016-11-08 12:22:44.941256000 Z
+    zone: *2
+    time: *19
+  label: c_qA13aiii
+  parent_id: 257
+  parent_type: CcCondition
+  position: 4
+  branch: 0
 CcCondition_10:
-  id: 164
+  id: 259
+  instrument_id: 22
   literal: If yes,
   logic: qc_A14_a == 1
-  created_at: 2016-06-20 13:51:42.130457000 Z
-  updated_at: 2016-06-20 13:51:42.153457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &20 2016-11-08 12:22:44.999345000 Z
+    zone: *2
+    time: *20
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &21 2016-11-08 12:22:45.011507000 Z
+    zone: *2
+    time: *21
+  label: c_qA14a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 42
 CcCondition_11:
-  id: 165
+  id: 260
+  instrument_id: 22
   literal: If yes,
   logic: qc_A14_h == 1
-  created_at: 2016-06-20 13:51:42.611457000 Z
-  updated_at: 2016-06-20 13:51:42.642457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &22 2016-11-08 12:22:45.227041000 Z
+    zone: *2
+    time: *22
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &23 2016-11-08 12:22:45.239708000 Z
+    zone: *2
+    time: *23
+  label: c_qA14h
+  parent_id: 259
+  parent_type: CcCondition
+  position: 12
+  branch: 0
 CcCondition_12:
-  id: 166
+  id: 261
+  instrument_id: 22
   literal: If yes,
   logic: qc_A15_a == 1
-  created_at: 2016-06-20 13:51:43.064457000 Z
-  updated_at: 2016-06-20 13:51:43.089457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &24 2016-11-08 12:22:45.426347000 Z
+    zone: *2
+    time: *24
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &25 2016-11-08 12:22:45.438354000 Z
+    zone: *2
+    time: *25
+  label: c_qA15a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 45
 CcCondition_13:
-  id: 167
+  id: 262
+  instrument_id: 22
   literal: If yes,
   logic: qc_A16_a == 1
-  created_at: 2016-06-20 13:51:43.783457000 Z
-  updated_at: 2016-06-20 13:51:43.807457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &26 2016-11-08 12:22:45.755684000 Z
+    zone: *2
+    time: *26
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &27 2016-11-08 12:22:45.767811000 Z
+    zone: *2
+    time: *27
+  label: c_qA16a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 51
 CcCondition_14:
-  id: 168
+  id: 263
+  instrument_id: 22
   literal: If yes,
   logic: qc_A17_b == 1
-  created_at: 2016-06-20 13:51:44.145457000 Z
-  updated_at: 2016-06-20 13:51:44.169457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &28 2016-11-08 12:22:45.915026000 Z
+    zone: *2
+    time: *28
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &29 2016-11-08 12:22:45.926990000 Z
+    zone: *2
+    time: *29
+  label: c_qA17b
+  parent_id: 143
+  parent_type: CcSequence
+  position: 55
 CcCondition_15:
-  id: 169
+  id: 264
+  instrument_id: 22
   literal: If no, go to A18c below
   logic: qc_A18_a == 2
-  created_at: 2016-06-20 13:51:44.381457000 Z
-  updated_at: 2016-06-20 13:51:44.404457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &30 2016-11-08 12:22:46.019462000 Z
+    zone: *2
+    time: *30
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &31 2016-11-08 12:22:46.031659000 Z
+    zone: *2
+    time: *31
+  label: c_qA18a
+  parent_id: 143
+  parent_type: CcSequence
+  position: 60
 CcCondition_16:
-  id: 170
+  id: 265
+  instrument_id: 22
   literal: If Hasn't had a nose or eye problem to question A18di go to Section B on
     page 15
   logic: qc_A18_d_i == 7
-  created_at: 2016-06-20 13:51:44.538457000 Z
-  updated_at: 2016-06-20 13:51:44.563457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &32 2016-11-08 12:22:46.092066000 Z
+    zone: *2
+    time: *32
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &33 2016-11-08 12:22:46.104002000 Z
+    zone: *2
+    time: *33
+  label: c_qA18di
+  parent_id: 143
+  parent_type: CcSequence
+  position: 63
 CcCondition_17:
-  id: 171
+  id: 266
+  instrument_id: 22
   literal: If yes,
   logic: qc_B1_b == 1
-  created_at: 2016-06-20 13:51:44.807457000 Z
-  updated_at: 2016-06-20 13:51:44.842457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &34 2016-11-08 12:22:46.223005000 Z
+    zone: *2
+    time: *34
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &35 2016-11-08 12:22:46.235320000 Z
+    zone: *2
+    time: *35
+  label: c_qB1b
+  parent_id: 144
+  parent_type: CcSequence
+  position: 4
 CcCondition_18:
-  id: 172
+  id: 267
+  instrument_id: 22
   literal: If yes,
   logic: qc_B2_a == 1
-  created_at: 2016-06-20 13:51:45.007457000 Z
-  updated_at: 2016-06-20 13:51:45.030457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &36 2016-11-08 12:22:46.310047000 Z
+    zone: *2
+    time: *36
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &37 2016-11-08 12:22:46.321565000 Z
+    zone: *2
+    time: *37
+  label: c_qB2a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 7
 CcCondition_19:
-  id: 173
+  id: 268
+  instrument_id: 22
   literal: If yes,
   logic: qc_B3_a == 1
-  created_at: 2016-06-20 13:51:45.231457000 Z
-  updated_at: 2016-06-20 13:51:45.256457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &38 2016-11-08 12:22:46.417056000 Z
+    zone: *2
+    time: *38
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &39 2016-11-08 12:22:46.429030000 Z
+    zone: *2
+    time: *39
+  label: c_qB3a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 10
 CcCondition_20:
-  id: 174
+  id: 269
+  instrument_id: 22
   literal: If yes,
   logic: qc_B3_b == 1
-  created_at: 2016-06-20 13:51:45.341457000 Z
-  updated_at: 2016-06-20 13:51:45.367457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &40 2016-11-08 12:22:46.469095000 Z
+    zone: *2
+    time: *40
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &41 2016-11-08 12:22:46.484319000 Z
+    zone: *2
+    time: *41
+  label: c_qB3b
+  parent_id: 268
+  parent_type: CcCondition
+  position: 3
+  branch: 0
 CcCondition_21:
-  id: 175
+  id: 270
+  instrument_id: 22
   literal: If yes,
   logic: qc_B3_c == 1
-  created_at: 2016-06-20 13:51:45.497457000 Z
-  updated_at: 2016-06-20 13:51:45.524457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &42 2016-11-08 12:22:46.545164000 Z
+    zone: *2
+    time: *42
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &43 2016-11-08 12:22:46.558139000 Z
+    zone: *2
+    time: *43
+  label: c_qB3c
+  parent_id: 268
+  parent_type: CcCondition
+  position: 5
+  branch: 0
 CcCondition_22:
-  id: 176
+  id: 271
+  instrument_id: 22
   literal: If yes,
   logic: qc_B4_a == 1
-  created_at: 2016-06-20 13:51:45.681457000 Z
-  updated_at: 2016-06-20 13:51:45.707457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &44 2016-11-08 12:22:46.615953000 Z
+    zone: *2
+    time: *44
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &45 2016-11-08 12:22:46.627777000 Z
+    zone: *2
+    time: *45
+  label: c_qB4a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 13
 CcCondition_23:
-  id: 177
+  id: 272
+  instrument_id: 22
   literal: If yes,
   logic: qc_B4_b == 1
-  created_at: 2016-06-20 13:51:45.839457000 Z
-  updated_at: 2016-06-20 13:51:45.869457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &46 2016-11-08 12:22:46.668030000 Z
+    zone: *2
+    time: *46
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &47 2016-11-08 12:22:46.681160000 Z
+    zone: *2
+    time: *47
+  label: c_qB4b
+  parent_id: 271
+  parent_type: CcCondition
+  position: 3
+  branch: 0
 CcCondition_24:
-  id: 178
+  id: 273
+  instrument_id: 22
   literal: If yes,
   logic: qc_B4_e == 1
-  created_at: 2016-06-20 13:51:46.007457000 Z
-  updated_at: 2016-06-20 13:51:46.031457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &48 2016-11-08 12:22:46.750325000 Z
+    zone: *2
+    time: *48
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &49 2016-11-08 12:22:46.763190000 Z
+    zone: *2
+    time: *49
+  label: c_qB4e
+  parent_id: 271
+  parent_type: CcCondition
+  position: 5
+  branch: 0
 CcCondition_25:
-  id: 179
+  id: 274
+  instrument_id: 22
   literal: If yes,
   logic: qc_B5_a == 1
-  created_at: 2016-06-20 13:51:46.158457000 Z
-  updated_at: 2016-06-20 13:51:46.184457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &50 2016-11-08 12:22:46.819557000 Z
+    zone: *2
+    time: *50
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &51 2016-11-08 12:22:46.831480000 Z
+    zone: *2
+    time: *51
+  label: c_qB5a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 16
 CcCondition_26:
-  id: 180
+  id: 275
+  instrument_id: 22
   literal: If yes,
   logic: qc_B5_b == 1
-  created_at: 2016-06-20 13:51:46.306457000 Z
-  updated_at: 2016-06-20 13:51:46.333457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &52 2016-11-08 12:22:46.872059000 Z
+    zone: *2
+    time: *52
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &53 2016-11-08 12:22:46.885445000 Z
+    zone: *2
+    time: *53
+  label: c_qB5b
+  parent_id: 274
+  parent_type: CcCondition
+  position: 3
+  branch: 0
 CcCondition_27:
-  id: 181
+  id: 276
+  instrument_id: 22
   literal: If yes,
   logic: qc_B5_e == 1
-  created_at: 2016-06-20 13:51:46.486457000 Z
-  updated_at: 2016-06-20 13:51:46.511457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &54 2016-11-08 12:22:46.945937000 Z
+    zone: *2
+    time: *54
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &55 2016-11-08 12:22:46.958614000 Z
+    zone: *2
+    time: *55
+  label: c_qB5e
+  parent_id: 274
+  parent_type: CcCondition
+  position: 5
+  branch: 0
 CcCondition_28:
-  id: 182
+  id: 277
+  instrument_id: 22
   literal: If yes,
   logic: qc_B6_a == 1
-  created_at: 2016-06-20 13:51:46.637457000 Z
-  updated_at: 2016-06-20 13:51:46.662457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &56 2016-11-08 12:22:47.015710000 Z
+    zone: *2
+    time: *56
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &57 2016-11-08 12:22:47.028053000 Z
+    zone: *2
+    time: *57
+  label: c_qB6a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 19
 CcCondition_29:
-  id: 183
+  id: 278
+  instrument_id: 22
   literal: If yes,
   logic: qc_B6_b == 1
-  created_at: 2016-06-20 13:51:46.747457000 Z
-  updated_at: 2016-06-20 13:51:46.772457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &58 2016-11-08 12:22:47.068310000 Z
+    zone: *2
+    time: *58
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &59 2016-11-08 12:22:47.081466000 Z
+    zone: *2
+    time: *59
+  label: c_qB6b
+  parent_id: 277
+  parent_type: CcCondition
+  position: 3
+  branch: 0
 CcCondition_30:
-  id: 184
+  id: 279
+  instrument_id: 22
   literal: If yes,
   logic: qc_B6_e == 1
-  created_at: 2016-06-20 13:51:46.914457000 Z
-  updated_at: 2016-06-20 13:51:46.939457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &60 2016-11-08 12:22:47.146540000 Z
+    zone: *2
+    time: *60
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &61 2016-11-08 12:22:47.159268000 Z
+    zone: *2
+    time: *61
+  label: c_qB6e
+  parent_id: 277
+  parent_type: CcCondition
+  position: 5
+  branch: 0
 CcCondition_31:
-  id: 185
+  id: 280
+  instrument_id: 22
   literal: If yes,
   logic: qc_B7_a == 1
-  created_at: 2016-06-20 13:51:47.153457000 Z
-  updated_at: 2016-06-20 13:51:47.179457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &62 2016-11-08 12:22:47.225078000 Z
+    zone: *2
+    time: *62
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &63 2016-11-08 12:22:47.237108000 Z
+    zone: *2
+    time: *63
+  label: c_qB7a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 22
 CcCondition_32:
-  id: 186
+  id: 281
+  instrument_id: 22
   literal: If yes,
   logic: qc_B7_b == 1
-  created_at: 2016-06-20 13:51:47.289457000 Z
-  updated_at: 2016-06-20 13:51:47.319457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &64 2016-11-08 12:22:47.276893000 Z
+    zone: *2
+    time: *64
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &65 2016-11-08 12:22:47.289273000 Z
+    zone: *2
+    time: *65
+  label: c_qB7b
+  parent_id: 280
+  parent_type: CcCondition
+  position: 3
+  branch: 0
 CcCondition_33:
-  id: 187
+  id: 282
+  instrument_id: 22
   literal: If yes,
   logic: qc_B7_e == 1
-  created_at: 2016-06-20 13:51:47.461457000 Z
-  updated_at: 2016-06-20 13:51:47.486457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &66 2016-11-08 12:22:47.348643000 Z
+    zone: *2
+    time: *66
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &67 2016-11-08 12:22:47.361253000 Z
+    zone: *2
+    time: *67
+  label: c_qB7e
+  parent_id: 280
+  parent_type: CcCondition
+  position: 5
+  branch: 0
 CcCondition_34:
-  id: 188
+  id: 283
+  instrument_id: 22
   literal: If yes,
   logic: qc_B8_a == 1
-  created_at: 2016-06-20 13:51:47.610457000 Z
-  updated_at: 2016-06-20 13:51:47.636457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &68 2016-11-08 12:22:47.419885000 Z
+    zone: *2
+    time: *68
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &69 2016-11-08 12:22:47.432132000 Z
+    zone: *2
+    time: *69
+  label: c_qB8a
+  parent_id: 144
+  parent_type: CcSequence
+  position: 25
 CcCondition_35:
-  id: 189
+  id: 284
+  instrument_id: 22
   literal: If yes,
   logic: qc_C1_a == 1
-  created_at: 2016-06-20 13:51:47.909457000 Z
-  updated_at: 2016-06-20 13:51:47.934457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &70 2016-11-08 12:22:47.554753000 Z
+    zone: *2
+    time: *70
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &71 2016-11-08 12:22:47.567022000 Z
+    zone: *2
+    time: *71
+  label: c_qC1a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 4
 CcCondition_36:
-  id: 190
+  id: 285
+  instrument_id: 22
   literal: If yes,
   logic: qc_C2_a == 1
-  created_at: 2016-06-20 13:51:48.253457000 Z
-  updated_at: 2016-06-20 13:51:48.285457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &72 2016-11-08 12:22:47.708033000 Z
+    zone: *2
+    time: *72
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &73 2016-11-08 12:22:47.721879000 Z
+    zone: *2
+    time: *73
+  label: c_qC2a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 7
 CcCondition_37:
-  id: 191
+  id: 286
+  instrument_id: 22
   literal: If yes,
   logic: qc_C3_a == 1
-  created_at: 2016-06-20 13:51:48.589457000 Z
-  updated_at: 2016-06-20 13:51:48.615457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &74 2016-11-08 12:22:47.868646000 Z
+    zone: *2
+    time: *74
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &75 2016-11-08 12:22:47.882077000 Z
+    zone: *2
+    time: *75
+  label: c_qC3a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 10
 CcCondition_38:
-  id: 192
+  id: 287
+  instrument_id: 22
   literal: If yes,
   logic: qc_C4_a == 1
-  created_at: 2016-06-20 13:51:48.951457000 Z
-  updated_at: 2016-06-20 13:51:48.977457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &76 2016-11-08 12:22:48.030397000 Z
+    zone: *2
+    time: *76
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &77 2016-11-08 12:22:48.043791000 Z
+    zone: *2
+    time: *77
+  label: c_qC4a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 13
 CcCondition_39:
-  id: 193
+  id: 288
+  instrument_id: 22
   literal: If yes,
   logic: qc_C5_a == 1
-  created_at: 2016-06-20 13:51:49.309457000 Z
-  updated_at: 2016-06-20 13:51:49.335457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &78 2016-11-08 12:22:48.186836000 Z
+    zone: *2
+    time: *78
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &79 2016-11-08 12:22:48.200638000 Z
+    zone: *2
+    time: *79
+  label: c_qC5a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 16
 CcCondition_40:
-  id: 194
+  id: 289
+  instrument_id: 22
   literal: If yes,
   logic: qc_C6_a == 1
-  created_at: 2016-06-20 13:51:49.625457000 Z
-  updated_at: 2016-06-20 13:51:49.652457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &80 2016-11-08 12:22:48.347825000 Z
+    zone: *2
+    time: *80
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &81 2016-11-08 12:22:48.359804000 Z
+    zone: *2
+    time: *81
+  label: c_qC6a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 19
 CcCondition_41:
-  id: 195
+  id: 290
+  instrument_id: 22
   literal: For any of the above,
   logic: qc_C8_a == 1 || qc_C8_b == 1 || qc_C8_c == 1
-  created_at: 2016-06-20 13:51:50.240457000 Z
-  updated_at: 2016-06-20 13:51:50.269457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &82 2016-11-08 12:22:48.595615000 Z
+    zone: *2
+    time: *82
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &83 2016-11-08 12:22:48.607662000 Z
+    zone: *2
+    time: *83
+  label: c_qC8a
+  parent_id: 145
+  parent_type: CcSequence
+  position: 28
 CcCondition_42:
-  id: 196
+  id: 291
+  instrument_id: 22
   literal: If yes to any of the above,
   logic: qc_D13_i_a == 1 || qc_D13_i_b == 1 || qc_D13_i_c == 1
-  created_at: 2016-06-20 13:51:52.228457000 Z
-  updated_at: 2016-06-20 13:51:52.254457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &84 2016-11-08 12:22:49.429046000 Z
+    zone: *2
+    time: *84
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &85 2016-11-08 12:22:49.441457000 Z
+    zone: *2
+    time: *85
+  label: c_qD13ia
+  parent_id: 146
+  parent_type: CcSequence
+  position: 45
 CcCondition_43:
-  id: 197
+  id: 292
+  instrument_id: 22
   literal: If no, go to H11a on page 46
   logic: qc_H1_a == 2
-  created_at: 2016-06-20 13:51:53.242457000 Z
-  updated_at: 2016-06-20 13:51:53.268457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &86 2016-11-08 12:22:49.885322000 Z
+    zone: *2
+    time: *86
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &87 2016-11-08 12:22:49.897547000 Z
+    zone: *2
+    time: *87
+  label: c_qH1a
+  parent_id: 150
+  parent_type: CcSequence
+  position: 2
 CcCondition_44:
-  id: 198
+  id: 293
+  instrument_id: 22
   literal: If Yes to question H1ciii
   logic: qc_H1_c_iii == 1
-  created_at: 2016-06-20 13:51:53.449457000 Z
-  updated_at: 2016-06-20 13:51:53.476457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &88 2016-11-08 12:22:49.977850000 Z
+    zone: *2
+    time: *88
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &89 2016-11-08 12:22:49.990652000 Z
+    zone: *2
+    time: *89
+  label: c_qH1ciii
+  parent_id: 292
+  parent_type: CcCondition
+  position: 5
+  branch: 1
 CcCondition_45:
-  id: 199
+  id: 294
+  instrument_id: 22
   literal: If Yes to question H1civ
   logic: qc_H1_c_iv == 1
-  created_at: 2016-06-20 13:51:53.573457000 Z
-  updated_at: 2016-06-20 13:51:53.603457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &90 2016-11-08 12:22:50.040647000 Z
+    zone: *2
+    time: *90
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &91 2016-11-08 12:22:50.053095000 Z
+    zone: *2
+    time: *91
+  label: c_qH1civ
+  parent_id: 292
+  parent_type: CcCondition
+  position: 7
+  branch: 1
 CcCondition_46:
-  id: 200
+  id: 295
+  instrument_id: 22
   literal: If no, or most days,
   logic: qc_H4_a == 1 || qc_H4_a == 2
-  created_at: 2016-06-20 13:51:54.030457000 Z
-  updated_at: 2016-06-20 13:51:54.056457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &92 2016-11-08 12:22:50.233426000 Z
+    zone: *2
+    time: *92
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &93 2016-11-08 12:22:50.245358000 Z
+    zone: *2
+    time: *93
+  label: c_qH4a
+  parent_id: 292
+  parent_type: CcCondition
+  position: 17
+  branch: 1
 CcCondition_47:
-  id: 201
+  id: 296
+  instrument_id: 22
   literal: If yes,
   logic: qc_H8 == 1
-  created_at: 2016-06-20 13:51:55.719457000 Z
-  updated_at: 2016-06-20 13:51:55.751457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &94 2016-11-08 12:22:50.924448000 Z
+    zone: *2
+    time: *94
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &95 2016-11-08 12:22:50.937434000 Z
+    zone: *2
+    time: *95
+  label: c_qH8
+  parent_id: 292
+  parent_type: CcCondition
+  position: 48
+  branch: 1
 CcCondition_48:
-  id: 202
+  id: 297
+  instrument_id: 22
   literal: If yes,
   logic: qc_H10_a == 1
-  created_at: 2016-06-20 13:51:56.155457000 Z
-  updated_at: 2016-06-20 13:51:56.181457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &96 2016-11-08 12:22:51.106589000 Z
+    zone: *2
+    time: *96
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &97 2016-11-08 12:22:51.119770000 Z
+    zone: *2
+    time: *97
+  label: c_qH10a
+  parent_id: 296
+  parent_type: CcCondition
+  position: 10
+  branch: 0
 CcCondition_49:
-  id: 203
+  id: 298
+  instrument_id: 22
   literal: If yes,
   logic: qc_H10_b == 1
-  created_at: 2016-06-20 13:51:56.522457000 Z
-  updated_at: 2016-06-20 13:51:56.541457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &98 2016-11-08 12:22:51.179737000 Z
+    zone: *2
+    time: *98
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &99 2016-11-08 12:22:51.193107000 Z
+    zone: *2
+    time: *99
+  label: c_qH10b
+  parent_id: 297
+  parent_type: CcCondition
+  position: 4
+  branch: 0
 CcCondition_50:
-  id: 204
+  id: 299
+  instrument_id: 22
   literal: If yes,
   logic: qc_H11_a == 1
-  created_at: 2016-06-20 13:51:56.638457000 Z
-  updated_at: 2016-06-20 13:51:56.658457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &100 2016-11-08 12:22:51.261005000 Z
+    zone: *2
+    time: *100
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &101 2016-11-08 12:22:51.273916000 Z
+    zone: *2
+    time: *101
+  label: c_qH11a
+  parent_id: 150
+  parent_type: CcSequence
+  position: 5
 CcCondition_51:
-  id: 205
+  id: 300
+  instrument_id: 22
   literal: If yes,
   logic: qc_H12 == 1
-  created_at: 2016-06-20 13:51:56.773457000 Z
-  updated_at: 2016-06-20 13:51:56.803457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &102 2016-11-08 12:22:51.331573000 Z
+    zone: *2
+    time: *102
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &103 2016-11-08 12:22:51.343863000 Z
+    zone: *2
+    time: *103
+  label: c_qH12
+  parent_id: 150
+  parent_type: CcSequence
+  position: 8
 CcCondition_52:
-  id: 206
+  id: 301
+  instrument_id: 22
   literal: If yes,
   logic: qc_H13 == 1
-  created_at: 2016-06-20 13:51:56.914457000 Z
-  updated_at: 2016-06-20 13:51:56.938457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &104 2016-11-08 12:22:51.402825000 Z
+    zone: *2
+    time: *104
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &105 2016-11-08 12:22:51.414645000 Z
+    zone: *2
+    time: *105
+  label: c_qH13
+  parent_id: 150
+  parent_type: CcSequence
+  position: 11
 CcCondition_53:
-  id: 207
+  id: 302
+  instrument_id: 22
   literal: If not allowed,
   logic: qc_K4_a == 5
-  created_at: 2016-06-20 13:51:58.430457000 Z
-  updated_at: 2016-06-20 13:51:58.450457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &106 2016-11-08 12:22:52.072036000 Z
+    zone: *2
+    time: *106
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &107 2016-11-08 12:22:52.083785000 Z
+    zone: *2
+    time: *107
+  label: c_qK4a
+  parent_id: 152
+  parent_type: CcSequence
+  position: 22
 CcCondition_54:
-  id: 208
+  id: 303
+  instrument_id: 22
   literal: If yes,
   logic: qc_K6_a == 1
-  created_at: 2016-06-20 13:51:58.586457000 Z
-  updated_at: 2016-06-20 13:51:58.608457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &108 2016-11-08 12:22:52.159640000 Z
+    zone: *2
+    time: *108
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &109 2016-11-08 12:22:52.171678000 Z
+    zone: *2
+    time: *109
+  label: c_qK6a
+  parent_id: 152
+  parent_type: CcSequence
+  position: 26
 CcCondition_55:
-  id: 209
+  id: 304
+  instrument_id: 22
   literal: If Mixed to question L1
   logic: qc_L1 == 2
-  created_at: 2016-06-20 13:51:59.359457000 Z
-  updated_at: 2016-06-20 13:51:59.386457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &110 2016-11-08 12:22:52.528892000 Z
+    zone: *2
+    time: *110
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &111 2016-11-08 12:22:52.541456000 Z
+    zone: *2
+    time: *111
+  label: c_qL1_i
+  parent_id: 153
+  parent_type: CcSequence
+  position: 3
 CcCondition_56:
-  id: 210
+  id: 305
+  instrument_id: 22
   literal: If Asian to question L1
   logic: qc_L1 == 3
-  created_at: 2016-06-20 13:51:59.441457000 Z
-  updated_at: 2016-06-20 13:51:59.468457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &112 2016-11-08 12:22:52.565814000 Z
+    zone: *2
+    time: *112
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &113 2016-11-08 12:22:52.578355000 Z
+    zone: *2
+    time: *113
+  label: c_qL1_ii
+  parent_id: 153
+  parent_type: CcSequence
+  position: 4
 CcCondition_57:
-  id: 211
+  id: 306
+  instrument_id: 22
   literal: If Black to question L1
   logic: qc_L1 == 4
-  created_at: 2016-06-20 13:51:59.518457000 Z
-  updated_at: 2016-06-20 13:51:59.542457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &114 2016-11-08 12:22:52.602855000 Z
+    zone: *2
+    time: *114
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &115 2016-11-08 12:22:52.615321000 Z
+    zone: *2
+    time: *115
+  label: c_qL1_iii
+  parent_id: 153
+  parent_type: CcSequence
+  position: 5
 CcCondition_58:
-  id: 212
+  id: 663
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_A11_a_i == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &116 2016-11-08 12:25:55.687612000 Z
+    zone: *2
+    time: *116
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &117 2016-11-08 12:25:55.699110000 Z
+    zone: *2
+    time: *117
+  label: c_qA11_a_i
+  parent_id: 417
+  parent_type: CcSequence
+  position: 22
+CcCondition_59:
+  id: 664
+  instrument_id: 46
+  literal: If no,
+  logic: qc_A13_a == 2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &118 2016-11-08 12:25:55.801411000 Z
+    zone: *2
+    time: *118
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &119 2016-11-08 12:25:55.812627000 Z
+    zone: *2
+    time: *119
+  label: c_qA13a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 28
+CcCondition_60:
+  id: 665
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_A14_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &120 2016-11-08 12:25:55.849459000 Z
+    zone: *2
+    time: *120
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &121 2016-11-08 12:25:55.860930000 Z
+    zone: *2
+    time: *121
+  label: c_qA14a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 30
+CcCondition_61:
+  id: 666
+  instrument_id: 46
+  literal: If yes,,
+  logic: qc_A16_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &122 2016-11-08 12:25:56.024998000 Z
+    zone: *2
+    time: *122
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &123 2016-11-08 12:25:56.036679000 Z
+    zone: *2
+    time: *123
+  label: c_qA16a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 39
+CcCondition_62:
+  id: 667
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_A18_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &124 2016-11-08 12:25:56.208595000 Z
+    zone: *2
+    time: *124
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &125 2016-11-08 12:25:56.220260000 Z
+    zone: *2
+    time: *125
+  label: c_qA18a
+  parent_id: 417
+  parent_type: CcSequence
+  position: 44
+CcCondition_63:
+  id: 668
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_B4_a == 1 || qc_B4_a == 2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &126 2016-11-08 12:25:56.561238000 Z
+    zone: *2
+    time: *126
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &127 2016-11-08 12:25:56.572993000 Z
+    zone: *2
+    time: *127
+  label: c_qB4a
+  parent_id: 418
+  parent_type: CcSequence
+  position: 12
+CcCondition_64:
+  id: 669
+  instrument_id: 46
+  literal: If no, go to D1, on page 21
+  logic: qc_C3 == 2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &128 2016-11-08 12:25:56.692571000 Z
+    zone: *2
+    time: *128
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &129 2016-11-08 12:25:56.704374000 Z
+    zone: *2
+    time: *129
+  label: c_qC3
+  parent_id: 419
+  parent_type: CcSequence
+  position: 4
+CcCondition_65:
+  id: 670
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_D2_a == 1 || qc_D2_a == 2 || qc_D2_a == 4
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &130 2016-11-08 12:25:56.992400000 Z
+    zone: *2
+    time: *130
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &131 2016-11-08 12:25:57.004167000 Z
+    zone: *2
+    time: *131
+  label: c_qD2a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 8
+CcCondition_66:
+  id: 671
+  instrument_id: 46
+  literal: 'If your partner does live with you:'
+  logic: qc_D2_c == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &132 2016-11-08 12:25:57.043451000 Z
+    zone: *2
+    time: *132
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &133 2016-11-08 12:25:57.056295000 Z
+    zone: *2
+    time: *133
+  label: c_qD2c
+  parent_id: 670
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcCondition_67:
+  id: 672
+  instrument_id: 46
+  literal: If married,
+  logic: qc_D4_a == 5 || qc_D4_a == 6
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &134 2016-11-08 12:25:57.119405000 Z
+    zone: *2
+    time: *134
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &135 2016-11-08 12:25:57.131006000 Z
+    zone: *2
+    time: *135
+  label: c_qD4a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 10
+CcCondition_68:
+  id: 673
+  instrument_id: 46
+  literal: 'If yes, please describe:'
+  logic: qc_D7_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &136 2016-11-08 12:25:57.235642000 Z
+    zone: *2
+    time: *136
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &137 2016-11-08 12:25:57.247785000 Z
+    zone: *2
+    time: *137
+  label: c_qD7a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 16
+CcCondition_69:
+  id: 674
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_D8_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &138 2016-11-08 12:25:57.337226000 Z
+    zone: *2
+    time: *138
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &139 2016-11-08 12:25:57.349553000 Z
+    zone: *2
+    time: *139
+  label: c_qD8a
+  parent_id: 420
+  parent_type: CcSequence
+  position: 19
+CcCondition_70:
+  id: 675
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_E1 == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &140 2016-11-08 12:25:57.533468000 Z
+    zone: *2
+    time: *140
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &141 2016-11-08 12:25:57.545309000 Z
+    zone: *2
+    time: *141
+  label: c_qE1
+  parent_id: 421
+  parent_type: CcSequence
+  position: 3
+CcCondition_71:
+  id: 676
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_E4_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &142 2016-11-08 12:25:57.644630000 Z
+    zone: *2
+    time: *142
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &143 2016-11-08 12:25:57.657557000 Z
+    zone: *2
+    time: *143
+  label: c_qE4a
+  parent_id: 675
+  parent_type: CcCondition
+  position: 6
+  branch: 0
+CcCondition_72:
+  id: 677
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_E5_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &144 2016-11-08 12:25:57.697220000 Z
+    zone: *2
+    time: *144
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &145 2016-11-08 12:25:57.710486000 Z
+    zone: *2
+    time: *145
+  label: c_qE5a
+  parent_id: 675
+  parent_type: CcCondition
+  position: 8
+  branch: 0
+CcCondition_73:
+  id: 678
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_E6_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &146 2016-11-08 12:25:57.750078000 Z
+    zone: *2
+    time: *146
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &147 2016-11-08 12:25:57.762445000 Z
+    zone: *2
+    time: *147
+  label: c_qE6a
+  parent_id: 675
+  parent_type: CcCondition
+  position: 10
+  branch: 0
+CcCondition_74:
+  id: 679
+  instrument_id: 46
+  literal: 'If yes, please describe:'
+  logic: qc_E7_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &148 2016-11-08 12:25:57.801076000 Z
+    zone: *2
+    time: *148
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &149 2016-11-08 12:25:57.813585000 Z
+    zone: *2
+    time: *149
+  label: c_qE7a
+  parent_id: 675
+  parent_type: CcCondition
+  position: 12
+  branch: 0
+CcCondition_75:
+  id: 680
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_E11_c == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &150 2016-11-08 12:25:57.991272000 Z
+    zone: *2
+    time: *150
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &151 2016-11-08 12:25:58.003630000 Z
+    zone: *2
+    time: *151
+  label: c_qE11c
+  parent_id: 675
+  parent_type: CcCondition
+  position: 20
+  branch: 0
+CcCondition_76:
+  id: 681
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_G1_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &152 2016-11-08 12:25:58.694753000 Z
+    zone: *2
+    time: *152
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &153 2016-11-08 12:25:58.706617000 Z
+    zone: *2
+    time: *153
+  label: c_qG1a
+  parent_id: 423
+  parent_type: CcSequence
+  position: 3
+CcCondition_77:
+  id: 682
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_G1_e == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &154 2016-11-08 12:25:58.831831000 Z
+    zone: *2
+    time: *154
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &155 2016-11-08 12:25:58.844717000 Z
+    zone: *2
+    time: *155
+  label: c_qG1e
+  parent_id: 681
+  parent_type: CcCondition
+  position: 8
+  branch: 0
+CcCondition_78:
+  id: 683
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_G2_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &156 2016-11-08 12:25:59.034201000 Z
+    zone: *2
+    time: *156
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &157 2016-11-08 12:25:59.045991000 Z
+    zone: *2
+    time: *157
+  label: c_qG2a
+  parent_id: 423
+  parent_type: CcSequence
+  position: 5
+CcCondition_79:
+  id: 684
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_G3_a == 2 || qc_G3_a == 3 || qc_G3_a == 4 || qc_G3_a == 5
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &158 2016-11-08 12:25:59.138968000 Z
+    zone: *2
+    time: *158
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &159 2016-11-08 12:25:59.150826000 Z
+    zone: *2
+    time: *159
+  label: c_qG3a
+  parent_id: 423
+  parent_type: CcSequence
+  position: 10
+CcCondition_80:
+  id: 685
+  instrument_id: 46
+  literal: If yes,
+  logic: qc_G4_a == 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &160 2016-11-08 12:25:59.239972000 Z
+    zone: *2
+    time: *160
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &161 2016-11-08 12:25:59.252230000 Z
+    zone: *2
+    time: *161
+  label: c_qG4a
+  parent_id: 423
+  parent_type: CcSequence
+  position: 12
+CcCondition_81:
+  id: 1043
+  instrument_id: 58
   literal: If yes,
   logic: qc_A5_a == 1
-  created_at: 2016-06-21 13:18:41.956784000 Z
-  updated_at: 2016-06-21 13:18:42.026791000 Z
-  instrument_id: 11
-CcCondition_59:
-  id: 213
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &162 2016-11-08 12:28:37.958687000 Z
+    zone: *2
+    time: *162
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &163 2016-11-08 12:28:38.131823000 Z
+    zone: *2
+    time: *163
+  label: c_qA5a
+  parent_id: 610
+  parent_type: CcSequence
+  position: 8
+CcCondition_82:
+  id: 1044
+  instrument_id: 58
   literal: If yes to these go to A9 on page 8
   logic: qc_A8_a == 3 || qc_A8_a == 4
-  created_at: 2016-06-21 13:18:42.157804000 Z
-  updated_at: 2016-06-21 13:18:42.167805000 Z
-  instrument_id: 11
-CcCondition_60:
-  id: 214
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &164 2016-11-08 12:28:38.249878000 Z
+    zone: *2
+    time: *164
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &165 2016-11-08 12:28:38.260340000 Z
+    zone: *2
+    time: *165
+  label: c_qA8a
+  parent_id: 610
+  parent_type: CcSequence
+  position: 14
+CcCondition_83:
+  id: 1045
+  instrument_id: 58
   literal: If yes,
   logic: qc_A9_a == 1
-  created_at: 2016-06-21 13:18:42.279816000 Z
-  updated_at: 2016-06-21 13:18:42.296818000 Z
-  instrument_id: 11
-CcCondition_61:
-  id: 215
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &166 2016-11-08 12:28:38.329742000 Z
+    zone: *2
+    time: *166
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &167 2016-11-08 12:28:38.339854000 Z
+    zone: *2
+    time: *167
+  label: c_qA9a
+  parent_id: 610
+  parent_type: CcSequence
+  position: 17
+CcCondition_84:
+  id: 1046
+  instrument_id: 58
   literal: If yes,
   logic: qc_A9_c_iv == 1
-  created_at: 2016-06-21 13:18:42.444833000 Z
-  updated_at: 2016-06-21 13:18:42.455834000 Z
-  instrument_id: 11
-CcCondition_62:
-  id: 216
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &168 2016-11-08 12:28:38.476423000 Z
+    zone: *2
+    time: *168
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &169 2016-11-08 12:28:38.486780000 Z
+    zone: *2
+    time: *169
+  label: c_qA9civ
+  parent_id: 14
+  parent_type: CcLoop
+  position: 5
+CcCondition_85:
+  id: 1047
+  instrument_id: 58
   literal: If yes,
   logic: qc_A11 == 1
-  created_at: 2016-06-21 13:18:42.589847000 Z
-  updated_at: 2016-06-21 13:18:42.604849000 Z
-  instrument_id: 11
-CcCondition_63:
-  id: 217
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &170 2016-11-08 12:28:38.628457000 Z
+    zone: *2
+    time: *170
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &171 2016-11-08 12:28:38.639865000 Z
+    zone: *2
+    time: *171
+  label: c_qA11
+  parent_id: 610
+  parent_type: CcSequence
+  position: 23
+CcCondition_86:
+  id: 1048
+  instrument_id: 58
   literal: If yes,
   logic: qc_B5_f == 1 || qc_B5_f == 2
-  created_at: 2016-06-21 13:18:43.330922000 Z
-  updated_at: 2016-06-21 13:18:43.341923000 Z
-  instrument_id: 11
-CcCondition_64:
-  id: 218
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &172 2016-11-08 12:28:39.305602000 Z
+    zone: *2
+    time: *172
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &173 2016-11-08 12:28:39.315700000 Z
+    zone: *2
+    time: *173
+  label: c_qB5f
+  parent_id: 611
+  parent_type: CcSequence
+  position: 15
+CcCondition_87:
+  id: 1049
+  instrument_id: 58
   literal: If Single parent family always to question B5g go to h below
   logic: qc_B5_g == 7
-  created_at: 2016-06-21 13:18:43.442933000 Z
-  updated_at: 2016-06-21 13:18:43.456934000 Z
-  instrument_id: 11
-CcCondition_65:
-  id: 219
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &174 2016-11-08 12:28:39.421343000 Z
+    zone: *2
+    time: *174
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &175 2016-11-08 12:28:39.433119000 Z
+    zone: *2
+    time: *175
+  label: c_qB5g
+  parent_id: 611
+  parent_type: CcSequence
+  position: 17
+CcCondition_88:
+  id: 1050
+  instrument_id: 58
   literal: If yes,
   logic: qc_B8_a_i == 1 || qc_B8_a_ii == 1
-  created_at: 2016-06-21 13:18:43.592948000 Z
-  updated_at: 2016-06-21 13:18:43.606949000 Z
-  instrument_id: 11
-CcCondition_66:
-  id: 220
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &176 2016-11-08 12:28:39.549122000 Z
+    zone: *2
+    time: *176
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &177 2016-11-08 12:28:39.560842000 Z
+    zone: *2
+    time: *177
+  label: c_qB8ai
+  parent_id: 611
+  parent_type: CcSequence
+  position: 23
+CcCondition_89:
+  id: 1051
+  instrument_id: 58
   literal: If yes,
   logic: qc_E44_a == 1
-  created_at: 2016-06-21 13:18:45.405129000 Z
-  updated_at: 2016-06-21 13:18:45.416130000 Z
-  instrument_id: 11
-CcCondition_67:
-  id: 221
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &178 2016-11-08 12:28:41.311976000 Z
+    zone: *2
+    time: *178
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &179 2016-11-08 12:28:41.323797000 Z
+    zone: *2
+    time: *179
+  label: c_qE44a
+  parent_id: 618
+  parent_type: CcSequence
+  position: 46
+CcCondition_90:
+  id: 1052
+  instrument_id: 58
   literal: If no central heating to question F8a go to F9 below,
   logic: qc_F8_a == 7
-  created_at: 2016-06-21 13:18:45.711160000 Z
-  updated_at: 2016-06-21 13:18:45.724161000 Z
-  instrument_id: 11
-CcCondition_68:
-  id: 222
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &180 2016-11-08 12:28:41.603438000 Z
+    zone: *2
+    time: *180
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &181 2016-11-08 12:28:41.615356000 Z
+    zone: *2
+    time: *181
+  label: c_qF8a
+  parent_id: 619
+  parent_type: CcSequence
+  position: 13
+CcCondition_91:
+  id: 1053
+  instrument_id: 58
   literal: If yes,
   logic: qc_F11 == 1
-  created_at: 2016-06-21 13:18:45.877176000 Z
-  updated_at: 2016-06-21 13:18:45.891178000 Z
-  instrument_id: 11
-CcCondition_69:
-  id: 223
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &182 2016-11-08 12:28:41.767531000 Z
+    zone: *2
+    time: *182
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &183 2016-11-08 12:28:41.779506000 Z
+    zone: *2
+    time: *183
+  label: c_qF11
+  parent_id: 619
+  parent_type: CcSequence
+  position: 20
+CcCondition_92:
+  id: 1054
+  instrument_id: 58
   literal: If yes,
   logic: qc_F18_d == 1
-  created_at: 2016-06-21 13:18:46.220210000 Z
-  updated_at: 2016-06-21 13:18:46.233212000 Z
-  instrument_id: 11
-CcCondition_70:
-  id: 224
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &184 2016-11-08 12:28:42.084107000 Z
+    zone: *2
+    time: *184
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &185 2016-11-08 12:28:42.095526000 Z
+    zone: *2
+    time: *185
+  label: c_qF18d
+  parent_id: 619
+  parent_type: CcSequence
+  position: 37
+CcCondition_93:
+  id: 1055
+  instrument_id: 58
   literal: If yes,
   logic: qc_F19_a == 1
-  created_at: 2016-06-21 13:18:46.286217000 Z
-  updated_at: 2016-06-21 13:18:46.299218000 Z
-  instrument_id: 11
-CcCondition_71:
-  id: 225
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &186 2016-11-08 12:28:42.152704000 Z
+    zone: *2
+    time: *186
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &187 2016-11-08 12:28:42.164329000 Z
+    zone: *2
+    time: *187
+  label: c_qF19a
+  parent_id: 619
+  parent_type: CcSequence
+  position: 40
+CcCondition_94:
+  id: 1056
+  instrument_id: 58
   literal: If married,
   logic: qc_G3_a == 5 || qc_G3_a == 6
-  created_at: 2016-06-21 13:18:46.744263000 Z
-  updated_at: 2016-06-21 13:18:46.758264000 Z
-  instrument_id: 11
-CcCondition_72:
-  id: 226
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &188 2016-11-08 12:28:42.628685000 Z
+    zone: *2
+    time: *188
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &189 2016-11-08 12:28:42.650544000 Z
+    zone: *2
+    time: *189
+  label: c_qG3a
+  parent_id: 620
+  parent_type: CcSequence
+  position: 15
+CcCondition_95:
+  id: 1057
+  instrument_id: 58
   literal: If no,
   logic: qc_G4_a == 2 || qc_G4_a == 7
-  created_at: 2016-06-21 13:18:46.813270000 Z
-  updated_at: 2016-06-21 13:18:46.824271000 Z
-  instrument_id: 11
-CcCondition_73:
-  id: 227
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &190 2016-11-08 12:28:42.707280000 Z
+    zone: *2
+    time: *190
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &191 2016-11-08 12:28:42.718576000 Z
+    zone: *2
+    time: *191
+  label: c_qG4a
+  parent_id: 620
+  parent_type: CcSequence
+  position: 18
+CcCondition_96:
+  id: 1058
+  instrument_id: 58
   literal: If no,
   logic: qc_G4_c == 1
-  created_at: 2016-06-21 13:18:47.011290000 Z
-  updated_at: 2016-06-21 13:18:47.038292000 Z
-  instrument_id: 11
-CcCondition_74:
-  id: 228
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &192 2016-11-08 12:28:42.813936000 Z
+    zone: *2
+    time: *192
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &193 2016-11-08 12:28:42.825638000 Z
+    zone: *2
+    time: *193
+  label: c_qG4c
+  parent_id: 620
+  parent_type: CcSequence
+  position: 21
+CcCondition_97:
+  id: 1059
+  instrument_id: 58
   literal: If yes,
   logic: qc_G7 == 1
-  created_at: 2016-06-21 13:18:47.228311000 Z
-  updated_at: 2016-06-21 13:18:47.241313000 Z
-  instrument_id: 11
-CcCondition_75:
-  id: 229
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &194 2016-11-08 12:28:42.973538000 Z
+    zone: *2
+    time: *194
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &195 2016-11-08 12:28:42.985222000 Z
+    zone: *2
+    time: *195
+  label: c_qG7
+  parent_id: 620
+  parent_type: CcSequence
+  position: 27
+CcCondition_98:
+  id: 1060
+  instrument_id: 58
   literal: If yes,
   logic: qc_G9_a == 1
-  created_at: 2016-06-21 13:18:47.337322000 Z
-  updated_at: 2016-06-21 13:18:47.346323000 Z
-  instrument_id: 11
-CcCondition_76:
-  id: 230
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &196 2016-11-08 12:28:43.077851000 Z
+    zone: *2
+    time: *196
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &197 2016-11-08 12:28:43.089551000 Z
+    zone: *2
+    time: *197
+  label: c_qG9a
+  parent_id: 620
+  parent_type: CcSequence
+  position: 32
+CcCondition_99:
+  id: 1061
+  instrument_id: 58
   literal: If yes,
   logic: qc_H1_a == 1 || qc_H1_a == 2
-  created_at: 2016-06-21 13:18:47.780366000 Z
-  updated_at: 2016-06-21 13:18:47.791368000 Z
-  instrument_id: 11
-CcCondition_77:
-  id: 231
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &198 2016-11-08 12:28:43.519283000 Z
+    zone: *2
+    time: *198
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &199 2016-11-08 12:28:43.530620000 Z
+    zone: *2
+    time: *199
+  label: c_qH1a
+  parent_id: 621
+  parent_type: CcSequence
+  position: 3
+CcCondition_100:
+  id: 1062
+  instrument_id: 58
   literal: If yes,
   logic: qc_H1_b == 1
-  created_at: 2016-06-21 13:18:47.854374000 Z
-  updated_at: 2016-06-21 13:18:47.867375000 Z
-  instrument_id: 11
-CcCondition_78:
-  id: 232
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &200 2016-11-08 12:28:43.571450000 Z
+    zone: *2
+    time: *200
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &201 2016-11-08 12:28:43.583273000 Z
+    zone: *2
+    time: *201
+  label: c_qH1b
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcCondition_101:
+  id: 1063
+  instrument_id: 58
   literal: If yes,
   logic: qc_H6_a == 1
-  created_at: 2016-06-21 13:18:48.021391000 Z
-  updated_at: 2016-06-21 13:18:48.033392000 Z
-  instrument_id: 11
-CcCondition_79:
-  id: 233
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &202 2016-11-08 12:28:43.761820000 Z
+    zone: *2
+    time: *202
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &203 2016-11-08 12:28:43.774280000 Z
+    zone: *2
+    time: *203
+  label: c_qH6a
+  parent_id: 1061
+  parent_type: CcCondition
+  position: 12
+  branch: 0
+CcCondition_102:
+  id: 1064
+  instrument_id: 58
   literal: If yes,
   logic: qc_I2_a == 1
-  created_at: 2016-06-21 13:18:48.712460000 Z
-  updated_at: 2016-06-21 13:18:48.725461000 Z
-  instrument_id: 11
-CcCondition_80:
-  id: 234
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &204 2016-11-08 12:28:44.501197000 Z
+    zone: *2
+    time: *204
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &205 2016-11-08 12:28:44.512961000 Z
+    zone: *2
+    time: *205
+  label: c_qI2a
+  parent_id: 622
+  parent_type: CcSequence
+  position: 4
+CcCondition_103:
+  id: 1065
+  instrument_id: 58
   literal: If yes,
   logic: qc_I3 == 1
-  created_at: 2016-06-21 13:18:48.779466000 Z
-  updated_at: 2016-06-21 13:18:48.792468000 Z
-  instrument_id: 11
-CcCondition_81:
-  id: 235
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &206 2016-11-08 12:28:44.571037000 Z
+    zone: *2
+    time: *206
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &207 2016-11-08 12:28:44.582576000 Z
+    zone: *2
+    time: *207
+  label: c_qI3
+  parent_id: 622
+  parent_type: CcSequence
+  position: 7
+CcCondition_104:
+  id: 1066
+  instrument_id: 58
   literal: If yes,
   logic: qc_J2_a == 1
-  created_at: 2016-06-21 13:18:48.861475000 Z
-  updated_at: 2016-06-21 13:18:48.876476000 Z
-  instrument_id: 11
-CcCondition_82:
-  id: 236
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &208 2016-11-08 12:28:44.657950000 Z
+    zone: *2
+    time: *208
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &209 2016-11-08 12:28:44.679997000 Z
+    zone: *2
+    time: *209
+  label: c_qJ2a
+  parent_id: 623
+  parent_type: CcSequence
+  position: 3
+CcCondition_105:
+  id: 1067
+  instrument_id: 58
   literal: If yes,
   logic: qc_J3_a == 2 || qc_J3_a == 3
-  created_at: 2016-06-21 13:18:48.929481000 Z
-  updated_at: 2016-06-21 13:18:48.942483000 Z
-  instrument_id: 11
-CcCondition_83:
-  id: 237
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &210 2016-11-08 12:28:44.737120000 Z
+    zone: *2
+    time: *210
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &211 2016-11-08 12:28:44.748743000 Z
+    zone: *2
+    time: *211
+  label: c_qJ3a_i
+  parent_id: 623
+  parent_type: CcSequence
+  position: 6
+CcCondition_106:
+  id: 1068
+  instrument_id: 58
   literal: If no,
   logic: qc_J3_c == 2
-  created_at: 2016-06-21 13:18:48.980486000 Z
-  updated_at: 2016-06-21 13:18:48.992488000 Z
-  instrument_id: 11
-CcCondition_84:
-  id: 238
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &212 2016-11-08 12:28:44.792086000 Z
+    zone: *2
+    time: *212
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &213 2016-11-08 12:28:44.804589000 Z
+    zone: *2
+    time: *213
+  label: c_qJ3c_i
+  parent_id: 1067
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcCondition_107:
+  id: 1069
+  instrument_id: 58
   literal: If yes,
   logic: qc_J3_c == 1
-  created_at: 2016-06-21 13:18:49.030491000 Z
-  updated_at: 2016-06-21 13:18:49.042493000 Z
-  instrument_id: 11
-CcCondition_85:
-  id: 239
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &214 2016-11-08 12:28:44.846383000 Z
+    zone: *2
+    time: *214
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &215 2016-11-08 12:28:44.858292000 Z
+    zone: *2
+    time: *215
+  label: c_qJ3c_ii
+  parent_id: 1067
+  parent_type: CcCondition
+  position: 4
+  branch: 0
+CcCondition_108:
+  id: 1070
+  instrument_id: 58
   literal: If Work at home to question J8a Go to J9 below
   logic: qc_J8_a == 7
-  created_at: 2016-06-21 13:18:49.315520000 Z
-  updated_at: 2016-06-21 13:18:49.325521000 Z
-  instrument_id: 11
-CcCondition_86:
-  id: 240
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &216 2016-11-08 12:28:45.145442000 Z
+    zone: *2
+    time: *216
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &217 2016-11-08 12:28:45.158402000 Z
+    zone: *2
+    time: *217
+  label: c_qJ8a
+  parent_id: 1069
+  parent_type: CcCondition
+  position: 16
+  branch: 0
+CcCondition_109:
+  id: 1071
+  instrument_id: 58
   literal: 'If you are not working:'
   logic: qc_J3_a == 1
-  created_at: 2016-06-21 13:18:49.472536000 Z
-  updated_at: 2016-06-21 13:18:49.484537000 Z
-  instrument_id: 11
-CcCondition_87:
-  id: 241
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &218 2016-11-08 12:28:45.314854000 Z
+    zone: *2
+    time: *218
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &219 2016-11-08 12:28:45.326521000 Z
+    zone: *2
+    time: *219
+  label: c_qJ3a_ii
+  parent_id: 623
+  parent_type: CcSequence
+  position: 7
+CcCondition_110:
+  id: 1072
+  instrument_id: 58
   literal: If no,
   logic: qc_J11_a == 2
-  created_at: 2016-06-21 13:18:49.521541000 Z
-  updated_at: 2016-06-21 13:18:49.534542000 Z
-  instrument_id: 11
-CcCondition_88:
-  id: 242
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &220 2016-11-08 12:28:45.368667000 Z
+    zone: *2
+    time: *220
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &221 2016-11-08 12:28:45.380496000 Z
+    zone: *2
+    time: *221
+  label: c_qJ11a
+  parent_id: 1071
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcCondition_111:
+  id: 1073
+  instrument_id: 58
   literal: If yes,
   logic: qc_J11_b == 1
-  created_at: 2016-06-21 13:18:49.571546000 Z
-  updated_at: 2016-06-21 13:18:49.584547000 Z
-  instrument_id: 11
-CcCondition_89:
-  id: 243
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &222 2016-11-08 12:28:45.421329000 Z
+    zone: *2
+    time: *222
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &223 2016-11-08 12:28:45.434070000 Z
+    zone: *2
+    time: *223
+  label: c_qJ11b
+  parent_id: 1072
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+CcCondition_112:
+  id: 1074
+  instrument_id: 58
   literal: If yes,
   logic: qc_L1 == 1
-  created_at: 2016-06-21 13:18:50.287617000 Z
-  updated_at: 2016-06-21 13:18:50.301619000 Z
-  instrument_id: 11
-CcCondition_90:
-  id: 244
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &224 2016-11-08 12:28:46.167437000 Z
+    zone: *2
+    time: *224
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &225 2016-11-08 12:28:46.179603000 Z
+    zone: *2
+    time: *225
+  label: c_qL1
+  parent_id: 625
+  parent_type: CcSequence
+  position: 4
+CcCondition_113:
+  id: 1075
+  instrument_id: 58
   literal: If yes,
   logic: qc_L1_e == 1
-  created_at: 2016-06-21 13:18:50.387627000 Z
-  updated_at: 2016-06-21 13:18:50.401629000 Z
-  instrument_id: 11
-CcCondition_91:
-  id: 245
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &226 2016-11-08 12:28:46.278067000 Z
+    zone: *2
+    time: *226
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &227 2016-11-08 12:28:46.290060000 Z
+    zone: *2
+    time: *227
+  label: c_qL1e
+  parent_id: 1074
+  parent_type: CcCondition
+  position: 6
+  branch: 0
+CcCondition_114:
+  id: 1076
+  instrument_id: 58
   literal: If yes,
   logic: qc_L2_a == 1
-  created_at: 2016-06-21 13:18:50.449633000 Z
-  updated_at: 2016-06-21 13:18:50.460634000 Z
-  instrument_id: 11
-CcCondition_92:
-  id: 246
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &228 2016-11-08 12:28:46.332306000 Z
+    zone: *2
+    time: *228
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &229 2016-11-08 12:28:46.344201000 Z
+    zone: *2
+    time: *229
+  label: c_qL2a
+  parent_id: 625
+  parent_type: CcSequence
+  position: 6
+CcCondition_115:
+  id: 1077
+  instrument_id: 58
   literal: If yes,
   logic: qc_M2 == 1
-  created_at: 2016-06-21 13:18:50.697658000 Z
-  updated_at: 2016-06-21 13:18:50.710659000 Z
-  instrument_id: 11
-CcCondition_93:
-  id: 247
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &230 2016-11-08 12:28:46.590279000 Z
+    zone: *2
+    time: *230
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &231 2016-11-08 12:28:46.602062000 Z
+    zone: *2
+    time: *231
+  label: c_qM2
+  parent_id: 627
+  parent_type: CcSequence
+  position: 4
+CcCondition_116:
+  id: 1078
+  instrument_id: 58
   literal: If no, go to N19 on page 66
   logic: qc_N0 == 2
-  created_at: 2016-06-21 13:18:50.831672000 Z
-  updated_at: 2016-06-21 13:18:50.843673000 Z
-  instrument_id: 11
-CcCondition_94:
-  id: 248
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &232 2016-11-08 12:28:46.724284000 Z
+    zone: *2
+    time: *232
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &233 2016-11-08 12:28:46.736157000 Z
+    zone: *2
+    time: *233
+  label: c_qN0
+  parent_id: 628
+  parent_type: CcSequence
+  position: 2
+CcCondition_117:
+  id: 1079
+  instrument_id: 58
   literal: If you have never taken your child to the doctor for an earache or ear
     infection, please go to N6 on page 63.
   logic: qc_N1_a-f$1;1 == 4
-  created_at: 2016-06-21 13:18:50.899678000 Z
-  updated_at: 2016-06-21 13:18:50.957684000 Z
-  instrument_id: 11
-CcCondition_95:
-  id: 249
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &234 2016-11-08 12:28:46.797720000 Z
+    zone: *2
+    time: *234
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &235 2016-11-08 12:28:46.810218000 Z
+    zone: *2
+    time: *235
+  label: c_qN1
+  parent_id: 1078
+  parent_type: CcCondition
+  position: 4
+  branch: 1
+CcCondition_118:
+  id: 1080
+  instrument_id: 58
   literal: If No, go to N8a on page 64
   logic: qc_N6 == 2
-  created_at: 2016-06-21 13:18:51.114700000 Z
-  updated_at: 2016-06-21 13:18:51.126701000 Z
-  instrument_id: 11
-CcCondition_96:
-  id: 250
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &236 2016-11-08 12:28:46.892351000 Z
+    zone: *2
+    time: *236
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &237 2016-11-08 12:28:46.903873000 Z
+    zone: *2
+    time: *237
+  label: c_qN6
+  parent_id: 1078
+  parent_type: CcCondition
+  position: 6
+  branch: 1
+CcCondition_119:
+  id: 1081
+  instrument_id: 58
   literal: If no times go to N10a
   logic: qc_N8_a_i == '0' && qc_N8_a_ii == '0'
-  created_at: 2016-06-21 13:18:51.229711000 Z
-  updated_at: 2016-06-21 13:18:51.243713000 Z
-  instrument_id: 11
-CcCondition_97:
-  id: 251
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &238 2016-11-08 12:28:47.021406000 Z
+    zone: *2
+    time: *238
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &239 2016-11-08 12:28:47.033695000 Z
+    zone: *2
+    time: *239
+  label: c_qN8ai
+  parent_id: 1078
+  parent_type: CcCondition
+  position: 9
+  branch: 1
+CcCondition_120:
+  id: 1082
+  instrument_id: 58
   literal: If No to question N15 Go to N19 below
   logic: qc_N15 == 2
-  created_at: 2016-06-21 13:18:51.468735000 Z
-  updated_at: 2016-06-21 13:18:51.484737000 Z
-  instrument_id: 11
-CcCondition_98:
-  id: 252
-  literal: If yes,
-  logic: qc_A11_a_i == 1
-  created_at: 2016-07-01 11:34:36.810913000 Z
-  updated_at: 2016-07-01 11:34:36.908913000 Z
-  instrument_id: 12
-CcCondition_99:
-  id: 253
-  literal: If no,
-  logic: qc_A13_a == 2
-  created_at: 2016-07-01 11:34:37.003913000 Z
-  updated_at: 2016-07-01 11:34:37.013913000 Z
-  instrument_id: 12
-CcCondition_100:
-  id: 254
-  literal: If yes,
-  logic: qc_A14_a == 1
-  created_at: 2016-07-01 11:34:37.044913000 Z
-  updated_at: 2016-07-01 11:34:37.053913000 Z
-  instrument_id: 12
-CcCondition_101:
-  id: 255
-  literal: If yes,,
-  logic: qc_A16_a == 1
-  created_at: 2016-07-01 11:34:37.192913000 Z
-  updated_at: 2016-07-01 11:34:37.202913000 Z
-  instrument_id: 12
-CcCondition_102:
-  id: 256
-  literal: If yes,
-  logic: qc_A18_a == 1
-  created_at: 2016-07-01 11:34:37.358913000 Z
-  updated_at: 2016-07-01 11:34:37.368913000 Z
-  instrument_id: 12
-CcCondition_103:
-  id: 257
-  literal: If yes,
-  logic: qc_B4_a == 1 || qc_B4_a == 2
-  created_at: 2016-07-01 11:34:37.661913000 Z
-  updated_at: 2016-07-01 11:34:37.670913000 Z
-  instrument_id: 12
-CcCondition_104:
-  id: 258
-  literal: If no, go to D1, on page 21
-  logic: qc_C3 == 2
-  created_at: 2016-07-01 11:34:37.771913000 Z
-  updated_at: 2016-07-01 11:34:37.780913000 Z
-  instrument_id: 12
-CcCondition_105:
-  id: 259
-  literal: If yes,
-  logic: qc_D2_a == 1 || qc_D2_a == 2 || qc_D2_a == 4
-  created_at: 2016-07-01 11:34:38.101913000 Z
-  updated_at: 2016-07-01 11:34:38.111913000 Z
-  instrument_id: 12
-CcCondition_106:
-  id: 260
-  literal: 'If your partner does live with you:'
-  logic: qc_D2_c == 1
-  created_at: 2016-07-01 11:34:38.147913000 Z
-  updated_at: 2016-07-01 11:34:38.165913000 Z
-  instrument_id: 12
-CcCondition_107:
-  id: 261
-  literal: If married,
-  logic: qc_D4_a == 5 || qc_D4_a == 6
-  created_at: 2016-07-01 11:34:38.220913000 Z
-  updated_at: 2016-07-01 11:34:38.230913000 Z
-  instrument_id: 12
-CcCondition_108:
-  id: 262
-  literal: 'If yes, please describe:'
-  logic: qc_D7_a == 1
-  created_at: 2016-07-01 11:34:38.327913000 Z
-  updated_at: 2016-07-01 11:34:38.340913000 Z
-  instrument_id: 12
-CcCondition_109:
-  id: 263
-  literal: If yes,
-  logic: qc_D8_a == 1
-  created_at: 2016-07-01 11:34:38.416913000 Z
-  updated_at: 2016-07-01 11:34:38.426913000 Z
-  instrument_id: 12
-CcCondition_110:
-  id: 264
-  literal: If yes,
-  logic: qc_E1 == 1
-  created_at: 2016-07-01 11:34:38.580913000 Z
-  updated_at: 2016-07-01 11:34:38.590913000 Z
-  instrument_id: 12
-CcCondition_111:
-  id: 265
-  literal: If yes,
-  logic: qc_E4_a == 1
-  created_at: 2016-07-01 11:34:38.667913000 Z
-  updated_at: 2016-07-01 11:34:38.676913000 Z
-  instrument_id: 12
-CcCondition_112:
-  id: 266
-  literal: If yes,
-  logic: qc_E5_a == 1
-  created_at: 2016-07-01 11:34:38.708913000 Z
-  updated_at: 2016-07-01 11:34:38.716913000 Z
-  instrument_id: 12
-CcCondition_113:
-  id: 267
-  literal: If yes,
-  logic: qc_E6_a == 1
-  created_at: 2016-07-01 11:34:38.749913000 Z
-  updated_at: 2016-07-01 11:34:38.760913000 Z
-  instrument_id: 12
-CcCondition_114:
-  id: 268
-  literal: 'If yes, please describe:'
-  logic: qc_E7_a == 1
-  created_at: 2016-07-01 11:34:38.803913000 Z
-  updated_at: 2016-07-01 11:34:38.813913000 Z
-  instrument_id: 12
-CcCondition_115:
-  id: 269
-  literal: If yes,
-  logic: qc_E11_c == 1
-  created_at: 2016-07-01 11:34:38.966913000 Z
-  updated_at: 2016-07-01 11:34:38.975913000 Z
-  instrument_id: 12
-CcCondition_116:
-  id: 270
-  literal: If yes,
-  logic: qc_G1_a == 1
-  created_at: 2016-07-01 11:34:39.597913000 Z
-  updated_at: 2016-07-01 11:34:39.607913000 Z
-  instrument_id: 12
-CcCondition_117:
-  id: 271
-  literal: If yes,
-  logic: qc_G1_e == 1
-  created_at: 2016-07-01 11:34:39.736913000 Z
-  updated_at: 2016-07-01 11:34:39.744913000 Z
-  instrument_id: 12
-CcCondition_118:
-  id: 272
-  literal: If yes,
-  logic: qc_G2_a == 1
-  created_at: 2016-07-01 11:34:39.910913000 Z
-  updated_at: 2016-07-01 11:34:39.919913000 Z
-  instrument_id: 12
-CcCondition_119:
-  id: 273
-  literal: If yes,
-  logic: qc_G3_a == 2 || qc_G3_a == 3 || qc_G3_a == 4 || qc_G3_a == 5
-  created_at: 2016-07-01 11:34:39.993913000 Z
-  updated_at: 2016-07-01 11:34:40.001913000 Z
-  instrument_id: 12
-CcCondition_120:
-  id: 274
-  literal: If yes,
-  logic: qc_G4_a == 1
-  created_at: 2016-07-01 11:34:40.089913000 Z
-  updated_at: 2016-07-01 11:34:40.097913000 Z
-  instrument_id: 12
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &240 2016-11-08 12:28:47.264021000 Z
+    zone: *2
+    time: *240
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &241 2016-11-08 12:28:47.275886000 Z
+    zone: *2
+    time: *241
+  label: c_qN15
+  parent_id: 1078
+  parent_type: CcCondition
+  position: 19
+  branch: 1

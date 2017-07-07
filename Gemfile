@@ -97,7 +97,7 @@ group :development do
   gem 'spring'
 
   gem 'rails-erd'
-  gem 'db_fixtures_dump', path: '/Users/utnvwpo/Documents/Business/UCL/CLOSER/Code/db_fixtures_dump'
+  gem 'db_fixtures_dump'
 end
 
 group :test do
@@ -106,6 +106,7 @@ group :test do
   #gem 'ruby-prof'
   gem 'rails-controller-testing'
   gem 'resque_unit'
+  gem 'minitest', '~> 5.10', '!= 5.10.2'
 end
 
 gem 'coveralls', require: false
