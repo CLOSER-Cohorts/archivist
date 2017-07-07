@@ -6,6 +6,7 @@ json.children @object.children do |child|
 end
 json.top @object.is_top?
 unless @object.parent.nil?
-  json.parent @object.parent.id
+  json.parent_id @object.parent_id
+  json.parent_type @object.parent_type
 end
 json.topic @object.topic || @object.find_closest_ancestor_topic
