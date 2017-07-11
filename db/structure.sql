@@ -1226,6 +1226,50 @@ CREATE VIEW dv_mappings AS
 
 
 --
+-- Name: item_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE item_groups (
+    id integer NOT NULL,
+    item_type character varying,
+    item_id integer,
+    group_type integer,
+    root_item_type character varying,
+    root_item_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: streamlined_groupings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE streamlined_groupings (
+    id integer NOT NULL,
+    item_group_id integer NOT NULL,
+    item_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: groupings; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW groupings AS
+ SELECT sg.id,
+    sg.item_id,
+    g.item_type,
+    sg.item_group_id,
+    sg.created_at,
+    sg.updated_at
+   FROM (streamlined_groupings sg
+     JOIN item_groups g ON ((sg.item_group_id = g.id)));
+
+
+--
 -- Name: identifiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1356,22 +1400,6 @@ CREATE SEQUENCE instruments_id_seq
 --
 
 ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
-
-
---
--- Name: item_groups; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE item_groups (
-    id integer NOT NULL,
-    item_type character varying,
-    item_id integer,
-    group_type integer,
-    root_item_type character varying,
-    root_item_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -1819,6 +1847,25 @@ ALTER SEQUENCE statements_id_seq OWNED BY statements.id;
 
 
 --
+-- Name: streamlined_groupings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE streamlined_groupings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: streamlined_groupings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE streamlined_groupings_id_seq OWNED BY streamlined_groupings.id;
+
+
+--
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1913,7 +1960,8 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     failed_attempts integer,
     unlock_token character varying,
-    locked_at timestamp without time zone
+    locked_at timestamp without time zone,
+    api_key character varying
 );
 
 
@@ -2135,6 +2183,13 @@ ALTER TABLE ONLY sequences ALTER COLUMN id SET DEFAULT nextval('sequences_id_seq
 --
 
 ALTER TABLE ONLY statements ALTER COLUMN id SET DEFAULT nextval('statements_id_seq'::regclass);
+
+
+--
+-- Name: streamlined_groupings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings ALTER COLUMN id SET DEFAULT nextval('streamlined_groupings_id_seq'::regclass);
 
 
 --
@@ -2435,6 +2490,14 @@ ALTER TABLE ONLY response_units
 
 ALTER TABLE ONLY schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: streamlined_groupings streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings
+    ADD CONSTRAINT streamlined_groupings_pkey PRIMARY KEY (id);
 
 
 --
@@ -2849,10 +2912,24 @@ CREATE INDEX index_response_units_on_instrument_id ON response_units USING btree
 
 
 --
+-- Name: index_streamlined_groupings_on_item_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_streamlined_groupings_on_item_group_id ON streamlined_groupings USING btree (item_group_id);
+
+
+--
 -- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_topics_on_parent_id ON topics USING btree (parent_id);
+
+
+--
+-- Name: index_users_on_api_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_api_key ON users USING btree (api_key);
 
 
 --
@@ -2916,6 +2993,23 @@ CREATE UNIQUE INDEX unique_linking ON links USING btree (target_id, target_type,
 --
 
 CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, variable_id, x, y);
+
+
+--
+-- Name: groupings groupings_insert; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE groupings_insert AS
+    ON INSERT TO groupings DO INSTEAD  INSERT INTO streamlined_groupings (item_id, item_group_id, created_at, updated_at)
+  VALUES (new.item_id, new.item_group_id, new.created_at, new.updated_at)
+  RETURNING streamlined_groupings.id,
+    streamlined_groupings.item_id,
+    ( SELECT item_groups.item_type
+           FROM item_groups
+          WHERE (streamlined_groupings.item_group_id = item_groups.id)) AS item_type,
+    streamlined_groupings.item_group_id,
+    streamlined_groupings.created_at,
+    streamlined_groupings.updated_at;
 
 
 --
@@ -3200,6 +3294,14 @@ ALTER TABLE ONLY maps
 
 
 --
+-- Name: streamlined_groupings fk_rails_d75780fc8c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings
+    ADD CONSTRAINT fk_rails_d75780fc8c FOREIGN KEY (item_group_id) REFERENCES item_groups(id);
+
+
+--
 -- Name: instruments_datasets fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3307,6 +3409,8 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170505135010'),
 ('20170517105644'),
 ('20170517153047'),
+('20170519102218'),
+('20170525155249'),
 ('20170601154431'),
 ('20170605112157');
 
