@@ -101,12 +101,35 @@ angular.module('archivist.build').controller(
           arr[index].$delete(
             {},
             ->
+              obj_to_remove = arr[index].$$hashKey
+              console.log obj_to_remove
               arr.splice index, 1
+              scan = (obj, key)->
+                if obj.children != undefined
+                  for child, index in obj.children
+                    if child.$$hashKey == key
+                      obj.children.splice index, 1
+                      console.log 'splicing'
+                      return true
+                    else
+                      return true if scan(child, key)
+
+                  if obj.fchildren != undefined
+                    for child, index in obj.fchildren
+                      if child.$$hashKey == key
+                        obj.fchildren.splice index, 1
+                        console.log 'splicing'
+                        return true
+                      else
+                        return true if scan(child, key)
+                return false
+              scan($scope.instrument.topsequence, obj_to_remove)
               $timeout(
                 ->
                   $scope.change_panel {type: null, id: null}
               ,0
               )
+              console.log $scope
           )
 
       $scope.save =  ->
