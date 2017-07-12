@@ -160,7 +160,7 @@ archivist.controller('HomeController',
             i.title,
             i.ccs
           ]
-        data.sort()
+        Object.sort(data)
         for s of data
           $scope.chart_one.data['rows'].push {
             c: [
@@ -316,10 +316,10 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
             target[k] = if typeof obj[k] == 'string' then obj[k].toLowerCase() else obj[k]
       target
 
-    Object::sort = ->
+    Object.sort = (obj)->
       newObj = {}
-      Object.keys(@).sort().forEach((v)->
-        newObj[v] = @[v]
+      Object.keys(obj).sort().forEach((v)->
+        newObj[v] = obj[v]
       )
       newObj
 
