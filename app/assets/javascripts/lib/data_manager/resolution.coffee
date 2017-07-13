@@ -53,15 +53,15 @@ resolution.factory(
           item.resolved = true
 
           self = @
-          if @queue.length > currently_scheduled
-            currently_scheduled += 1
+          if @queue.length > @currently_scheduled
+            @currently_scheduled += 1
             console.log 'Scheduled resolution'
             $timeout ->
               index = 'resolving:' + self.queue[0].label
               console.time index
               self.resolve_children self.queue.shift()
               console.timeEnd index
-              currently_scheduled -= 1
+              @currently_scheduled -= 1
             , 0, false
           else
             console.log 'call digest'
