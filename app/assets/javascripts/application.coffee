@@ -59,14 +59,15 @@ archivist = angular.module('archivist', [
   'archivist.data_manager'
 ])
 
-archivist.config([ '$routeProvider', '$locationProvider',
-  ($routeProvider, $locationProvider)->
+archivist.config([ '$routeProvider', '$locationProvider', '$rootScopeProvider',
+  ($routeProvider, $locationProvider, $rootScopeProvider)->
     $routeProvider
       .when('/',
         templateUrl: 'index.html'
         controller: 'HomeController'
       )
     $locationProvider.html5Mode true
+    $rootScopeProvider.digestTtl(14);
 ])
 
 archivist.controller('RootController',
