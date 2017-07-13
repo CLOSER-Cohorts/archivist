@@ -1,12 +1,27 @@
 ---
 User_1:
-  id: 3
+  id: 1
   email: w.poynter@ucl.ac.uk
-  encrypted_password: "$2a$10$bV.N/sdut8Vl4SIN26FElehEqnwehUtBpbLANlG5FQ97s6f1uSvn2"
-  remember_created_at: 2016-06-29 12:01:53.446451000 Z
+  encrypted_password: "$2a$10$advB7q.6ux.o4edaxJDwGuGbzIziaXjj1u5ROmifyklU8nH1s9s3C"
+  reset_password_token: 713516763346bb72c1e7d4c83fb68c1ace96fbf1b0a3ac143909c898df28a5ad
+  reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2017-03-29 09:44:06.179679000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  remember_created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2017-04-20 07:31:00.868024000 Z
+    zone: *2
+    time: *3
   sign_in_count: 15
-  current_sign_in_at: 2016-07-01 11:10:12.923675000 Z
-  last_sign_in_at: 2016-06-29 12:01:53.813488000 Z
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2017-04-20 07:31:00.872501000 Z
+    zone: *2
+    time: *4
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2017-04-20 07:29:19.786221000 Z
+    zone: *2
+    time: *5
   current_sign_in_ip: !ruby/object:IPAddr
     family: 2
     addr: 2130706433
@@ -17,55 +32,153 @@ User_1:
     mask_addr: 4294967295
   first_name: Will
   last_name: Poynter
-  group_id: 5
-  created_at: 2016-05-31 17:43:01.099427000 Z
-  updated_at: 2016-07-01 11:10:12.924675000 Z
-  role: 2
-  confirmed_at: 2016-06-21 11:09:43.468000000 Z
-User_2:
-  id: 5
-  email: j.bloggs@ucl.ac.uk
-  encrypted_password: "$2a$10$PG8VRqGSMVNfOt8mwiT3Oua.IXjfNWvQ4RZGYMTDG5lPXfNZg/mv."
-  sign_in_count: 6
-  current_sign_in_at: 2016-06-20 11:07:00.774257000 Z
-  last_sign_in_at: 2016-06-20 11:06:54.892669000 Z
-  current_sign_in_ip: !ruby/object:IPAddr
-    family: 2
-    addr: 2130706433
-    mask_addr: 4294967295
-  last_sign_in_ip: !ruby/object:IPAddr
-    family: 2
-    addr: 2130706433
-    mask_addr: 4294967295
-  first_name: Joe
-  last_name: Bloggs
-  group_id: 6
-  created_at: 2016-06-02 16:25:47.567281000 Z
-  updated_at: 2016-06-20 13:53:26.547800000 Z
-  role: 2
-User_3:
-  id: 15
-  email: w.poynter@ioe.ac.uk
-  encrypted_password: "$2a$10$U3tisYmf0bXASXITFM8thOwbgr7p6MfaV2t.YPYAcsDMKtbtfDNsy"
-  remember_created_at: 2016-06-21 12:53:55.675171000 Z
-  sign_in_count: 8
-  current_sign_in_at: 2016-07-12 08:34:41.337304000 Z
-  last_sign_in_at: 2016-07-11 07:59:15.676848000 Z
-  current_sign_in_ip: !ruby/object:IPAddr
-    family: 2
-    addr: 2130706433
-    mask_addr: 4294967295
-  last_sign_in_ip: !ruby/object:IPAddr
-    family: 2
-    addr: 2130706433
-    mask_addr: 4294967295
-  first_name: Will
-  last_name: Poynter
-  group_id: 5
-  created_at: 2016-06-21 11:22:23.892066000 Z
-  updated_at: 2016-07-12 08:34:41.338304000 Z
-  role: 2
-  confirmation_token: _rgou7Kv6X3ThBKNyyQs
-  confirmed_at: 2016-06-21 11:23:15.820066000 Z
-  confirmation_sent_at: 2016-06-21 11:22:23.893066000 Z
+  group_id: 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-07 19:10:14.620838000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2017-05-09 13:13:30.952489000 Z
+    zone: *2
+    time: *7
+  role: admin
+  confirmation_token: kHoAz7qgswebkYur5iBC
+  confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-07 19:11:00.634060000 Z
+    zone: *2
+    time: *8
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-07 19:10:14.620964000 Z
+    zone: *2
+    time: *9
   failed_attempts: 0
+User_2:
+  id: 2
+  email: h.mills@ucl.ac.uk
+  encrypted_password: "$2a$10$FG.Z4AJCEChB9W3oHSN5pO0BFAaJDfVgANv4Hi5GyGirYcXui8hp2"
+  sign_in_count: 1
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2017-03-29 10:03:02.177247000 Z
+    zone: *2
+    time: *10
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2017-03-29 10:03:02.177247000 Z
+    zone: *2
+    time: *11
+  current_sign_in_ip: !ruby/object:IPAddr
+    family: 2
+    addr: 2130706433
+    mask_addr: 4294967295
+  last_sign_in_ip: !ruby/object:IPAddr
+    family: 2
+    addr: 2130706433
+    mask_addr: 4294967295
+  first_name: Hayley
+  last_name: Mills
+  group_id: 2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &12 2017-03-29 09:57:42.165806000 Z
+    zone: *2
+    time: *12
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &13 2017-03-29 10:03:02.178595000 Z
+    zone: *2
+    time: *13
+  role: admin
+  confirmation_token: Ex3XWt2VqLuHppCU2K8E
+  confirmed_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &14 2017-03-29 10:03:02.171123000 Z
+    zone: *2
+    time: *14
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &15 2017-03-29 09:57:42.166146000 Z
+    zone: *2
+    time: *15
+User_3:
+  id: 3
+  email: j.johnson@ucl.ac.uk
+  encrypted_password: ''
+  sign_in_count: 0
+  first_name: Jon
+  last_name: Johnson
+  group_id: 2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &16 2017-03-29 10:03:41.844304000 Z
+    zone: *2
+    time: *16
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &17 2017-03-29 10:03:41.844304000 Z
+    zone: *2
+    time: *17
+  role: editor
+  confirmation_token: 2f9FjfdXp28vFTCbxyCs
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &18 2017-03-29 10:03:41.844522000 Z
+    zone: *2
+    time: *18
+User_4:
+  id: 4
+  email: p.curran@ucl.ac.uk
+  encrypted_password: ''
+  sign_in_count: 0
+  first_name: Phil
+  last_name: Curran
+  group_id: 3
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &19 2017-03-29 10:08:30.703261000 Z
+    zone: *2
+    time: *19
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &20 2017-03-29 10:08:30.703261000 Z
+    zone: *2
+    time: *20
+  role: reader
+  confirmation_token: 2XPf6sPTzibSoby_UKqt
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &21 2017-03-29 10:08:30.703470000 Z
+    zone: *2
+    time: *21
+User_5:
+  id: 5
+  email: a.moore@ucl.ac.uk
+  encrypted_password: ''
+  sign_in_count: 0
+  first_name: Adam
+  last_name: Moore
+  group_id: 3
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &22 2017-03-29 10:17:18.912963000 Z
+    zone: *2
+    time: *22
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &23 2017-03-29 10:17:18.912963000 Z
+    zone: *2
+    time: *23
+  role: editor
+  confirmation_token: 19hruNUGLUPECAVufKA-
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &24 2017-03-29 10:17:18.913212000 Z
+    zone: *2
+    time: *24
+User_6:
+  id: 6
+  email: j.speigel@ucl.ac.uk
+  encrypted_password: ''
+  sign_in_count: 0
+  first_name: Jennifer
+  last_name: Speigel
+  group_id: 1
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &25 2017-03-29 10:23:10.577659000 Z
+    zone: *2
+    time: *25
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &26 2017-03-29 10:23:10.577659000 Z
+    zone: *2
+    time: *26
+  role: editor
+  confirmation_token: tzioU2VP2ZxzYkWZAXxv
+  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &27 2017-03-29 10:23:10.577884000 Z
+    zone: *2
+    time: *27

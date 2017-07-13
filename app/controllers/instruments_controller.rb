@@ -38,7 +38,7 @@ class InstrumentsController < BasicController
             cc.position = u[:position]
             cc.parent = parent
             cc.branch = u[:branch]
-            cc.cc.save!
+            cc.save!
           end
         end
       end

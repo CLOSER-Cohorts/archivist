@@ -223,17 +223,21 @@ class Cluster
   # @param [Object] do_eval Whether to evaluate the Cluster before saving
   # the Cluster's topic
   def save(do_eval = false)
-    if @id.nil?
-      @id = Cluster.redis.incr SCOPE + ':count'
-      self.class.active[@id.to_i] = self
+    begin
+      if @id.nil?
+        @id = Cluster.redis.incr SCOPE + ':count'
+        self.class.active[@id.to_i] = self
+      end
+      @strands.each do |strand|
+        strand.save
+        Cluster.redis.hset LOOKUP, strand.id, @id.to_s
+      end
+      Cluster.redis.sadd SCOPE + ':' + @id.to_s, @strands.map(&:id)
+      evaluate if do_eval
+      Cluster.redis.hset TOPICS, @id, @suggested_topic.code unless @suggested_topic.nil?
+    rescue Redis::CannotConnectError => e
+      Rails.logger.warn 'Failed to save Cluster to Redis, no connection.'
     end
-    @strands.each do |strand|
-      strand.save
-      Cluster.redis.hset LOOKUP, strand.id, @id.to_s
-    end
-    Cluster.redis.sadd SCOPE + ':' + @id.to_s, @strands.map(&:id)
-    evaluate if do_eval
-    Cluster.redis.hset TOPICS, @id, @suggested_topic.code unless @suggested_topic.nil?
   end
 
   private # Private methods

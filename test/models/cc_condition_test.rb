@@ -2,7 +2,6 @@ require 'test_helper'
 
 class CcConditionTest < ActiveSupport::TestCase
   setup do
-    debugger
     @cc_condition = cc_conditions :CcCondition_1
   end
 
@@ -17,7 +16,7 @@ class CcConditionTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of ActiveRecord::Associations::CollectionProxy, @cc_condition.children
+    assert_kind_of Array, @cc_condition.children
   end
 
   test "has one topic" do

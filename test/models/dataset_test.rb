@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DatasetTest < ActiveSupport::TestCase
   setup do
-    @dataset = datasets :one
+    @dataset = datasets :Dataset_1
   end
 
   test "has many variables" do

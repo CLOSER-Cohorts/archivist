@@ -104,8 +104,7 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
                                       topic_id,
                                       created_at, 
                                       updated_at
-              ) 
-                 VALUES (
+              ) VALUES (
                                       cond_id,
                                       'CcCondition',
                                       new.topic_id, 
@@ -217,23 +216,46 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
           DECLARE
             loop_id INTEGER;
           BEGIN
-            INSERT INTO loops(
-                                    instrument_id, 
-                                    loop_var, 
-                                    start_val, 
-                                    end_val, 
-                                    loop_while, 
-                                    created_at, 
-                                    updated_at
-            ) VALUES (
-                                    new.instrument_id, 
-                                    new.loop_var, 
-                                    new.start_val, 
-                                    new.end_val, 
-                                    new.loop_while, 
-                                    new.created_at, 
-                                    new.updated_at
-            ) RETURNING id INTO loop_id;
+            IF new.id IS NULL THEN
+              INSERT INTO loops(
+                                      instrument_id, 
+                                      loop_var, 
+                                      start_val, 
+                                      end_val, 
+                                      loop_while, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.instrument_id, 
+                                      new.loop_var, 
+                                      new.start_val, 
+                                      new.end_val, 
+                                      new.loop_while, 
+                                      new.created_at, 
+                                      new.updated_at
+              ) RETURNING id INTO loop_id;
+            ELSE
+              INSERT INTO loops(
+                                      id,
+                                      instrument_id, 
+                                      loop_var, 
+                                      start_val, 
+                                      end_val, 
+                                      loop_while, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.id,
+                                      new.instrument_id, 
+                                      new.loop_var, 
+                                      new.start_val, 
+                                      new.end_val, 
+                                      new.loop_while, 
+                                      new.created_at, 
+                                      new.updated_at
+              );
+              loop_id = new.id;
+            END IF;
             INSERT INTO control_constructs(
                                     label, 
                                     parent_id, 
@@ -373,21 +395,42 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
           DECLARE
             quest_id INTEGER;
           BEGIN
-            INSERT INTO questions(
-                                    instrument_id, 
-                                    question_id, 
-                                    question_type, 
-                                    response_unit_id, 
-                                    created_at, 
-                                    updated_at
-            ) VALUES (
-                                    new.instrument_id, 
-                                    new.question_id, 
-                                    new.question_type, 
-                                    new.response_unit_id, 
-                                    new.created_at, 
-                                    new.updated_at
-            ) RETURNING id INTO quest_id;
+            IF new.id IS NULL THEN
+              INSERT INTO questions(
+                                      instrument_id, 
+                                      question_id, 
+                                      question_type, 
+                                      response_unit_id, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.instrument_id, 
+                                      new.question_id, 
+                                      new.question_type, 
+                                      new.response_unit_id, 
+                                      new.created_at, 
+                                      new.updated_at
+              ) RETURNING id INTO quest_id;
+            ELSE
+             INSERT INTO questions(
+                                      id,
+                                      instrument_id, 
+                                      question_id, 
+                                      question_type, 
+                                      response_unit_id, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.id,
+                                      new.instrument_id, 
+                                      new.question_id, 
+                                      new.question_type, 
+                                      new.response_unit_id, 
+                                      new.created_at, 
+                                      new.updated_at
+              );
+              quest_id = new.id;
+            END IF;
             INSERT INTO control_constructs(
                                     label, 
                                     parent_id, 
@@ -489,17 +532,34 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
           DECLARE
             seq_id INTEGER;
           BEGIN
-            INSERT INTO sequences(
-                                    instrument_id, 
-                                    literal, 
-                                    created_at, 
-                                    updated_at
-            ) VALUES (
-                                    new.instrument_id, 
-                                    new.literal, 
-                                    new.created_at, 
-                                    new.updated_at
-            ) RETURNING id INTO seq_id;
+            IF new.id IS NULL THEN
+              INSERT INTO sequences(
+                                      instrument_id, 
+                                      literal, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.instrument_id, 
+                                      new.literal, 
+                                      new.created_at, 
+                                      new.updated_at
+              ) RETURNING id INTO seq_id;
+            ELSE
+              INSERT INTO sequences(
+                                      id,
+                                      instrument_id, 
+                                      literal, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.id,
+                                      new.instrument_id, 
+                                      new.literal, 
+                                      new.created_at, 
+                                      new.updated_at
+              );
+              seq_id = new.id;
+            END IF;
             INSERT INTO control_constructs(
                                     label, 
                                     parent_id, 
@@ -634,17 +694,34 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
           DECLARE
             sta_id INTEGER;
           BEGIN
-            INSERT INTO statements(
-                                    instrument_id, 
-                                    literal, 
-                                    created_at, 
-                                    updated_at
-            ) VALUES (
-                                    new.instrument_id, 
-                                    new.literal, 
-                                    new.created_at, 
-                                    new.updated_at
-            ) RETURNING id INTO sta_id;
+            IF new.id IS NULL THEN 
+              INSERT INTO statements(
+                                      instrument_id, 
+                                      literal, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.instrument_id, 
+                                      new.literal, 
+                                      new.created_at, 
+                                      new.updated_at
+              ) RETURNING id INTO sta_id;
+            ELSE
+              INSERT INTO statements(
+                                      id,
+                                      instrument_id, 
+                                      literal, 
+                                      created_at, 
+                                      updated_at
+              ) VALUES (
+                                      new.id,
+                                      new.instrument_id, 
+                                      new.literal, 
+                                      new.created_at, 
+                                      new.updated_at
+              );
+              sta_id = new.id;
+            END IF;
             INSERT INTO control_constructs(
                                     label, 
                                     parent_id, 

@@ -1,18 +1,22 @@
 ---
 CcLoop_1:
-  id: 4
+  id: 14
+  instrument_id: 58
   loop_var: _pregnancy
   start_val: '1'
   loop_while: "(_pregnancy <= qc_A9_b) AND (_pregnancy < 7)"
-  created_at: 2016-06-21 13:18:42.335822000 Z
-  updated_at: 2016-06-21 13:18:42.361825000 Z
-  instrument_id: 11
-
-CcLoop_2:
-  id: 5
-  loop_var: _pregnancy
-  start_val: '1'
-  loop_while: "(_pregnancy <= qc_A9_b) AND (_pregnancy < 7)"
-  created_at: 2016-06-21 13:18:42.335822000 Z
-  updated_at: 2016-06-21 13:18:42.361825000 Z
-  instrument_id: 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:28:38.389181000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:28:38.406357000 Z
+    zone: *2
+    time: *3
+  label: l_qA9_c_i-iv
+  parent_id: 1045
+  parent_type: CcCondition
+  position: 3
+  branch: 0
+  topic_id: 34

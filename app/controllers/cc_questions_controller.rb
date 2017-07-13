@@ -4,7 +4,7 @@ class CcQuestionsController < ConstructController
   only_set_object { %i{variables set_topic add_variables remove_variable} }
 
   @model_class = CcQuestion
-  @params_list = [:label, :question_id, :question_type, :response_unit_id, :topic, :parent, :position, :branch]
+  @params_list = [:label, :question_id, :question_type, :response_unit_id, :topic, :parent_id, :parent_type, :position, :branch]
 
   def variables
     @collection = @object.variables

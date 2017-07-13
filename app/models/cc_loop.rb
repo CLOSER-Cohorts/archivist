@@ -38,7 +38,7 @@ class CcLoop < ::ParentalConstruct
         start_val: self.start_val,
         end_val: self.end_val,
         loop_while: self.loop_while,
-        children: self.children.map { |x| {id: x.construct.id, type: x.construct.class.name} }
+        children: self.children.map { |x| {id: x.id, type: x.class.name} }
     }
   end
 end
