@@ -5,7 +5,7 @@ module Construct::Model
   extend ActiveSupport::Concern
   included do
     belongs_to :instrument
-    has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy
+    has_one :cc, class_name: 'ControlConstruct', as: :construct, dependent: :destroy, inverse_of: :construct
 
     include Comparable
     include Realtime::RtUpdate

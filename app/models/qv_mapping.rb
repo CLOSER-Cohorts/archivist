@@ -1,4 +1,4 @@
-class QvMapping < ActiveRecord::Base
+class QvMapping < ReadOnlyRecord
   self.primary_key = :id
 
   belongs_to :dataset

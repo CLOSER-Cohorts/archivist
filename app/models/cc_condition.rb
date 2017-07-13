@@ -23,6 +23,9 @@ class CcCondition < ApplicationRecord
   # This model can be a parent and contain child constructs
   is_a_parent
 
+  # All CcConditions require a literal
+  validates :literal, presence: true
+
   # In order to create a construct, it must be positioned within another construct.
   # This positional information is held on the corresponding ConstrolConstruct
   # model. This overloaded method is to allow the setting of the custom properties

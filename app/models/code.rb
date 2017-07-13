@@ -31,6 +31,9 @@ class Code < ApplicationRecord
   # Before creating a Code in the database ensure the instrument has been set
   before_create :set_instrument
 
+  # All Codes require a CodeList and Category
+  validates :category, :code_list, presence: true
+
   # Delegates label to Category, protecting against nil Category
   #
   # @return [String|Nil]
