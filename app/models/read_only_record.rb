@@ -1,7 +1,7 @@
 class ReadOnlyRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  attr_readonly *column_names
+  #attr_readonly *column_names
 
   def readonly?
     true
