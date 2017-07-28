@@ -14,6 +14,9 @@ class Instrument < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
 
@@ -147,6 +150,9 @@ class Instrument < ApplicationRecord
   # This is used as a scoping mechanism to speed up CcQuestion to
   # Variable mapping
   has_many :datasets, through: :instruments_datasets
+
+  # List of all documents attached to this instrument
+  has_many :documents, -> { order :created_at }, as: :item
 
   # Allows an instrument to access a database view that reformats
   # an instruments Q-V mapping file

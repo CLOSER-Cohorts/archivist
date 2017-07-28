@@ -1,11 +1,15 @@
 class DatasetPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      return scope.none if user.nil?
-      if user.group.study == '*'
-        scope.all
-      else
-        scope.where(study: user.group.study)
+      u = user #|| User.where(api_key: params[:api_key]).where('api_key IS NOT NULL').first
+      begin
+        if u.group.study == '*'
+          return scope.all
+        else
+          return scope.where(study: u.group.study)
+        end
+      rescue
+        return scope.none
       end
     end
   end

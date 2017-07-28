@@ -25,8 +25,28 @@ module Importers::XML::DDI
       end
     end
 
+    def import_category_schemes
+      import_scheme Importers::XML::DDI::Category, 'CategoryScheme'
+    end
+
+    def import_code_list_schemes
+      import_scheme Importers::XML::DDI::CodeList, 'CodeListScheme'
+    end
+
+    def import_instruction_schemes
+      import_scheme Importers::XML::DDI::Instruction, 'InterviewerInstructionScheme'
+    end
+
+    def import_scheme(import_klass, scheme_tag_name)
+      importer = import_klass.new @instrument
+      @doc.xpath('//' + scheme_tag_name).each do |scheme|
+        importer.XML_scheme scheme
+      end
+    end
+
     def read_code_lists
       #Read categories first
+
       categories = @doc.xpath('//Category')
       categories.each do |category|
         begin
@@ -198,24 +218,21 @@ module Importers::XML::DDI
 
         @instrument.question_items << qi
 
-        order_counter = 0
         rds.each do |rd|
-          order_counter += 1
-          type = rd.name
-          if type == 'CodeDomain'
+          if rd.name == 'CodeDomain'
             RdsQs.create({
                              question: qi,
                              response_domain: Reference[rd.at_xpath('./CodeListReference')].response_domain,
                              rd_order: order_counter
                          })
           else
-            if type == 'NumericDomain'
+            if rd.name == 'NumericDomain'
               prefix_char = 'N'
               klass = ResponseDomainNumeric
-            elsif type == 'TextDomain'
+            elsif rd.name == 'TextDomain'
               prefix_char = 'T'
               klass = ResponseDomainText
-            elsif type == 'DatetimeDomain'
+            elsif rd.name == 'DatetimeDomain'
               prefix_char = 'D'
               klass = ResponseDomainDatetime
             else

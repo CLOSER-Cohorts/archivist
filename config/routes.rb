@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :groups, constraints: -> (r) { (r.format == :json) } do
+  resources :user_groups, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'external'
     end

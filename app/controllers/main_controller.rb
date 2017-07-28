@@ -1,6 +1,6 @@
 class MainController < ApplicationController
   def index
-    if User.all.count > 0 && Group.all.count > 0
+    if User.all.count > 0 && UserGroup.all.count > 0
       render :index
     else
       render :first

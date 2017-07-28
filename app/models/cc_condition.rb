@@ -26,6 +26,8 @@ class CcCondition < ::ParentalConstruct
   def fchildren
     ParentalConstruct.instance_method(:children).bind(self).call.select { |c| c.branch == 1 }
   end
+  # All CcConditions require a literal
+  validates :literal, presence: true
 
   # Returns a Hash of the attributes and properties for broadcast over
   # archivist-realtime

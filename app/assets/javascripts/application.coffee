@@ -59,14 +59,15 @@ archivist = angular.module('archivist', [
   'archivist.data_manager'
 ])
 
-archivist.config([ '$routeProvider', '$locationProvider',
-  ($routeProvider, $locationProvider)->
+archivist.config([ '$routeProvider', '$locationProvider', '$rootScopeProvider',
+  ($routeProvider, $locationProvider, $rootScopeProvider)->
     $routeProvider
       .when('/',
         templateUrl: 'index.html'
         controller: 'HomeController'
       )
     $locationProvider.html5Mode true
+    $rootScopeProvider.digestTtl(14);
 ])
 
 archivist.controller('RootController',
@@ -107,7 +108,8 @@ archivist.controller('HomeController',
       $scope.chart_two = {}
       $scope.chart_three = {}
       $scope.chart_four = {}
-      $scope.chart_one.type = $scope.chart_two.type = $scope.chart_three.type = $scope.chart_four.type =  "ColumnChart"
+      $scope.chart_one.type = $scope.chart_three.type = $scope.chart_four.type =  "ColumnChart"
+      $scope.chart_two.type = "Histogram"
       $scope.instruments = DataManager.getInstruments {}, (res)->
         $scope.chart_one.data = {
           cols: [
@@ -123,6 +125,12 @@ archivist.controller('HomeController',
             }
           ]
         }
+        $scope.chart_two.data = [
+          [
+            'Instrument',
+            'Control Constructs'
+          ]
+        ]
         $scope.chart_three.data = {
           cols: [
             {
@@ -148,6 +156,12 @@ archivist.controller('HomeController',
             data[i.study] =
               'instruments' : 1
               'ccs'         : i.ccs
+
+          $scope.chart_two.data.push [
+            i.title,
+            i.ccs
+          ]
+        Object.sort(data)
         for s of data
           $scope.chart_one.data['rows'].push {
             c: [
@@ -159,6 +173,7 @@ archivist.controller('HomeController',
               {v: s}, {v: data[s]['ccs'] / data[s]['instruments']}
             ]
           }
+        $scope.studies = Object.keys data
       $scope.datasets = DataManager.getDatasets()
       console.log $scope
 
@@ -166,10 +181,17 @@ archivist.controller('HomeController',
         'title': 'Instruments'
         'legend':
           'position': 'none'
+        'colors': ['#652C90']
+      $scope.chart_two.options =
+        'title': 'Control Construct Distribution'
+        'legend':
+          'position': 'none'
+        'colors': ['#FBAF3F']
       $scope.chart_three.options =
         'title': 'Avg. Constructs per Instrument'
         'legend':
           'position': 'none'
+        'colors': ['#00ADEF']
   ]
 )
 
@@ -294,6 +316,13 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
           else
             target[k] = if typeof obj[k] == 'string' then obj[k].toLowerCase() else obj[k]
       target
+
+    Object.sort = (obj)->
+      newObj = {}
+      Object.keys(obj).sort().forEach((v)->
+        newObj[v] = obj[v]
+      )
+      newObj
 
     String::replaceAll = (search, replacement) ->
       target = this

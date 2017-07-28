@@ -54,12 +54,12 @@ resolution.factory(
           self = @
           if @queue.length > 0
             console.log 'Scheduled resolution'
-            $timeout ->
-              index = 'resolving:' + self.queue[0].label
+            $timeout (item)->
+              index = 'resolving:' + item.label
               console.time index
-              self.resolve_children self.queue.shift()
+              self.resolve_children item
               console.timeEnd index
-            , 0, false
+            , 0, false, self.queue.shift()
           else
             console.log 'call digest'
             $rootScope.$digest()

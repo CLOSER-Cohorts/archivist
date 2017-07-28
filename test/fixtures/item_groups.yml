@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  item_type: Item
+  group_type: MyString
+  root_item: one
+  root_item_type: Root item
+
+two:
+  item: two
+  item_type: Item
+  group_type: MyString
+  root_item: two
+  root_item_type: Root item
