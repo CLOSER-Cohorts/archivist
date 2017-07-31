@@ -1,7 +1,7 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
-  only_set_object { %i{ questions latest_document dv } }
+  only_set_object { %i{ questions dv latest_document } }
 
   has_importers({
                     dv: ImportJob::DV,

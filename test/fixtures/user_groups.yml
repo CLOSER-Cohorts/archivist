@@ -1,0 +1,43 @@
+---
+Group_1:
+  id: 5
+  group_type: Centre
+  label: CLOSER
+  study: "*"
+  created_at: 2016-05-31 17:43:01.037421000 Z
+  updated_at: 2016-06-02 10:19:22.494162000 Z
+Group_2:
+  id: 6
+  group_type: Centre
+  label: CLS
+  study:
+  - BCS
+  - MCS
+  - NCDS
+  created_at: 2016-06-01 15:24:56.906394000 Z
+  updated_at: 2016-06-02 11:13:46.959290000 Z
+Group_3:
+  id: 7
+  group_type: Study
+  label: ALSPAC
+  study:
+  - ALSPAC
+  created_at: 2016-06-01 15:25:30.668770000 Z
+  updated_at: 2016-06-01 15:27:42.935995000 Z
+Group_4:
+  id: 8
+  group_type: Centre
+  label: SOTON
+  study:
+  - HCS
+  - SWS
+  created_at: 2016-06-02 13:36:07.156757000 Z
+  updated_at: 2016-06-02 13:36:07.156757000 Z
+Group_5:
+  id: 9
+  group_type: Study
+  label: NSHD
+  study:
+  - NSHD
+  created_at: 2016-06-02 13:38:47.003517000 Z
+  updated_at: 2016-06-02 13:38:47.003517000 Z
