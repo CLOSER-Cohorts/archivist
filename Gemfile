@@ -61,6 +61,9 @@ gem 'parallel'
 gem 'oj'
 gem 'jbuilder_cache_multi'
 
+# Used in DataTools
+gem 'fuzzy_match'
+
 # Heroku email service
 gem 'postmark-rails', '>= 0.10.0'
 

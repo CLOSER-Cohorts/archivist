@@ -1,27 +1,21 @@
 module DataTools
   class << self
     def similar_strands(datasets)
-      vars = []
-      datasets.each do |d|
-        obj = {}
-        d.variables.each do |v|
-          obj[v.name] = v.label
-        end
-        vars << obj
-      end
+      datasets = datasets.to_a
 
-      first = vars.shift
+      first = datasets.shift
 
       output = []
-      first.each_key do |k|
-        output << { 0 => k }
-        vars.each_with_index do |set, i|
-          found = set.select { |name, label| label == first[k] }
-          output.last[i + 1] = found.keys.first if found&.count == 1
+      first.variables.find_each do |v|
+        output << { 0 => v.name }
+        datasets.each_with_index do |dataset, i|
+          fz = FuzzyMatch.new(dataset.variables, read: :label, gather_last_result: :true)
+          fz.find(v.label)
+          output.last[i + 1] = fz.last_result.winner.name if fz.last_result&.score&.to_f > 0.5
         end
       end
 
-      return output
+      return output.select{ |o| o.size > 1 }
     end
   end
 end
