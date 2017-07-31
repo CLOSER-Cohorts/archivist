@@ -26,7 +26,10 @@ class Category < ApplicationRecord
   before_create :no_duplicates
 
   # Each Category can be used by many {Code Codes}
-  has_many :codes
+  has_many :codes, inverse_of: :category
+
+  # All Categories require a label
+  validates :label, presence: true
 
   private # Private methods
 

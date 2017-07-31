@@ -7,7 +7,7 @@ one:
   item_type: Item
 
 two:
-  id_type: MyString
-  value: MyString
+  id_type: MyStringTwo
+  value: MyStringTwo
   item: two
   item_type: Item

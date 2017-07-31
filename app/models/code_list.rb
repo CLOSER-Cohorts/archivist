@@ -30,7 +30,7 @@ class CodeList < ApplicationRecord
   belongs_to :instrument
 
   # Each CodeList can have multiple {Code Codes}
-  has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy
+  has_many :codes, -> { includes(:category).order('"order" ASC') }, dependent: :destroy, inverse_of: :code_list
 
   # Each CodeList can have multiple {Category Categories} through a {Code} as a
   # many-to-many relationship

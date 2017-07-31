@@ -155,6 +155,9 @@ class Instrument < ApplicationRecord
   # Variable mapping
   has_many :datasets, through: :instruments_datasets
 
+  # List of all documents attached to this instrument
+  has_many :documents, -> { order :created_at }, as: :item
+
   # Allows an instrument to access a database view that reformats
   # an instruments Q-V mapping file
   has_many :qv_mappings

@@ -4,7 +4,7 @@
 # * id
 # * source
 # * variable
-class DvMapping < ActiveRecord::Base
+class DvMapping < ReadOnlyRecord
   # Use id as a primary key
   self.primary_key = :id
 

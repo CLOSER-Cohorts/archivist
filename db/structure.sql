@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.5
--- Dumped by pg_dump version 9.5.5
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -27,21 +28,686 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
 SET search_path = public, pg_catalog;
+
+--
+-- Name: delete_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_cc_condition() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcCondition';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcCondition';
+  DELETE FROM conditions WHERE id = old.id;
+  RETURN old;
+END;
+$$;
+
+
+--
+-- Name: delete_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_cc_loop() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcLoop';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcLoop';
+  DELETE FROM loops WHERE id = old.id;
+  RETURN old;
+END;
+$$;
+
+
+--
+-- Name: delete_cc_question(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_cc_question() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcQuestion';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcQuestion';
+  DELETE FROM questions WHERE id = old.id;
+  RETURN old;
+END;
+$$;
+
+
+--
+-- Name: delete_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_cc_sequence() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcSequence';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcSequence';
+  DELETE FROM sequences WHERE id = old.id;
+  RETURN old;
+END;
+$$;
+
+
+--
+-- Name: delete_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_cc_statement() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcStatement';
+  DELETE FROM statements WHERE id = old.id;
+  RETURN old;
+END;
+$$;
+
+
+--
+-- Name: insert_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_cc_condition() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  cond_id INTEGER;
+BEGIN
+  IF new.id IS NULL THEN
+    INSERT INTO conditions(
+                            instrument_id, 
+                            literal, 
+                            logic, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.logic, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO cond_id;
+  ELSE
+    INSERT INTO conditions(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            logic, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.logic, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    cond_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label, 
+                          parent_id, 
+                          position, 
+                          branch, 
+                          construct_id,
+                          construct_type,
+                          instrument_id, 
+                          created_at, 
+                          updated_at
+  )  VALUES (
+                          new.label, 
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+                          new.position, 
+                          new.branch, 
+                          cond_id,
+                          'CcCondition',
+                          new.instrument_id, 
+                          new.created_at, 
+                          new.updated_at
+  );
+  RAISE NOTICE 'Topic id: %', new.topic_id;
+  IF new.topic_id <> NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+    ) 
+       VALUES (
+                            cond_id,
+                            'CcCondition',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+    );
+  END IF;
+  new.id = cond_id;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: insert_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_cc_loop() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  loop_id INTEGER;
+BEGIN
+  IF new.id IS NULL THEN
+    INSERT INTO loops(
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO loop_id;
+  ELSE
+    INSERT INTO loops(
+                            id,
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    loop_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label, 
+                          parent_id, 
+                          position, 
+                          branch, 
+                          construct_id,
+                          construct_type,
+                          instrument_id, 
+                          created_at, 
+                          updated_at
+  )  VALUES (
+                          new.label, 
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+                          new.position, 
+                          new.branch, 
+                          loop_id,
+                          'CcLoop',
+                          new.instrument_id, 
+                          new.created_at, 
+                          new.updated_at
+  );
+  IF new.topic_id <> NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+    ) 
+       VALUES (
+                            loop_id,
+                            'CcLoop',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+    );
+  END IF;
+  new.id = loop_id;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: insert_cc_question(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_cc_question() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  quest_id INTEGER;
+BEGIN
+  IF new.id IS NULL THEN
+    INSERT INTO questions(
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO quest_id;
+  ELSE
+   INSERT INTO questions(
+                            id,
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    quest_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label, 
+                          parent_id, 
+                          position, 
+                          branch, 
+                          construct_id,
+                          construct_type,
+                          instrument_id, 
+                          created_at, 
+                          updated_at
+  )  VALUES (
+                          new.label, 
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+                          new.position, 
+                          new.branch, 
+                          quest_id,
+                          'CcQuestion',
+                          new.instrument_id, 
+                          new.created_at, 
+                          new.updated_at
+  );
+  new.id = quest_id;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: insert_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_cc_sequence() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  seq_id INTEGER;
+BEGIN
+  IF new.id IS NULL THEN
+    INSERT INTO sequences(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO seq_id;
+  ELSE
+    INSERT INTO sequences(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    seq_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label, 
+                          parent_id, 
+                          position, 
+                          branch, 
+                          construct_id,
+                          construct_type,
+                          instrument_id, 
+                          created_at, 
+                          updated_at
+  )  VALUES (
+                          new.label, 
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+                          new.position, 
+                          new.branch, 
+                          seq_id,
+                          'CcSequence',
+                          new.instrument_id, 
+                          new.created_at, 
+                          new.updated_at
+  );
+  IF new.topic_id <> NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+    ) 
+       VALUES (
+                            seq_id,
+                            'CcSequence',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+    );
+  END IF;
+  new.id = seq_id;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: insert_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_cc_statement() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  sta_id INTEGER;
+BEGIN
+  IF new.id IS NULL THEN 
+    INSERT INTO statements(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO sta_id;
+  ELSE
+    INSERT INTO statements(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    sta_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label, 
+                          parent_id, 
+                          position, 
+                          branch, 
+                          construct_id,
+                          construct_type,
+                          instrument_id, 
+                          created_at, 
+                          updated_at
+  )  VALUES (
+                          new.label, 
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+                          new.position, 
+                          new.branch, 
+                          sta_id,
+                          'CcStatement',
+                          new.instrument_id, 
+                          new.created_at, 
+                          new.updated_at
+  );
+  new.id = sta_id;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: update_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION update_cc_condition() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE conditions 
+  SET
+          literal     = new.literal, 
+          logic       = new.logic, 
+          updated_at  = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs 
+  SET
+          label       = new.label, 
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          position    = new.position,
+          branch      = new.branch, 
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcCondition';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcCondition';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+      ) 
+         VALUES (
+                            new.id,
+                            'CcCondition',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcCondition';
+    END IF;
+  END IF;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: update_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION update_cc_loop() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE loops 
+  SET
+          loop_var          = new.loop_var, 
+          start_val         = new.start_val,
+          end_val           = new.end_val,
+          loop_while        = new.loop_while, 
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs 
+  SET
+          label       = new.label, 
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          position    = new.position,
+          branch      = new.branch, 
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcLoop';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcLoop';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+      ) 
+         VALUES (
+                            new.id,
+                            'CcLoop',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcLoop';
+    END IF;
+  END IF;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: update_cc_question(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION update_cc_question() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE questions 
+  SET
+          question_id       = new.question_id, 
+          question_type     = new.question_type,
+          response_unit_id  = new.response_unit_id,
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs 
+  SET
+          label       = new.label, 
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          position    = new.position,
+          branch      = new.branch, 
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcQuestion';
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: update_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION update_cc_sequence() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE sequences 
+  SET
+          literal           = new.literal, 
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs 
+  SET
+          label       = new.label, 
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          position    = new.position,
+          branch      = new.branch, 
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcSequence';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcSequence';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at, 
+                            updated_at
+      ) 
+         VALUES (
+                            new.id,
+                            'CcSequence',
+                            new.topic_id, 
+                            new.created_at, 
+                            new.updated_at 
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcSequence';
+    END IF;
+  END IF;
+  RETURN new;
+END;
+$$;
+
+
+--
+-- Name: update_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION update_cc_statement() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  UPDATE statements 
+  SET
+          literal           = new.literal, 
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs 
+  SET
+          label       = new.label, 
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          position    = new.position,
+          branch      = new.branch, 
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcStatement';
+  RETURN new;
+END;
+$$;
+
 
 SET default_tablespace = '';
 
@@ -92,10 +758,10 @@ ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
 
 
 --
--- Name: cc_conditions; Type: TABLE; Schema: public; Owner: -
+-- Name: conditions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE cc_conditions (
+CREATE TABLE conditions (
     id integer NOT NULL,
     literal character varying,
     logic character varying,
@@ -107,29 +773,89 @@ CREATE TABLE cc_conditions (
 
 
 --
--- Name: cc_conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cc_conditions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE TABLE control_constructs (
+    id integer NOT NULL,
+    label character varying,
+    construct_type character varying NOT NULL,
+    construct_id integer NOT NULL,
+    parent_id integer,
+    "position" integer,
+    branch integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
+);
 
 
 --
--- Name: cc_conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: links; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE cc_conditions_id_seq OWNED BY cc_conditions.id;
+CREATE TABLE links (
+    id integer NOT NULL,
+    target_type character varying NOT NULL,
+    target_id integer NOT NULL,
+    topic_id integer NOT NULL,
+    x integer,
+    y integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
 
 
 --
--- Name: cc_loops; Type: TABLE; Schema: public; Owner: -
+-- Name: cc_conditions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE TABLE cc_loops (
+CREATE VIEW cc_conditions AS
+ SELECT con.id,
+    con.instrument_id,
+    con.literal,
+    con.logic,
+    con.created_at,
+    con.updated_at,
+    cc.label,
+    parent.construct_id AS parent_id,
+    parent.construct_type AS parent_type,
+    cc."position",
+    cc.branch,
+    links.topic_id
+   FROM (((conditions con
+     JOIN control_constructs cc ON (((con.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcCondition'::text))))
+     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN links ON (((con.id = links.target_id) AND ((links.target_type)::text = 'CcCondition'::text))))
+  ORDER BY con.id;
+
+
+--
+-- Name: cc_links; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW cc_links AS
+ SELECT cc.id,
+    cc.label,
+    cc.construct_type,
+    cc.construct_id,
+    cc.parent_id,
+    cc."position",
+    cc.branch,
+    cc.created_at,
+    cc.updated_at,
+    cc.instrument_id,
+    l.topic_id
+   FROM (control_constructs cc
+     LEFT JOIN links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
+  ORDER BY cc.id DESC;
+
+
+--
+-- Name: loops; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE loops (
     id integer NOT NULL,
     loop_var character varying,
     start_val character varying,
@@ -143,32 +869,39 @@ CREATE TABLE cc_loops (
 
 
 --
--- Name: cc_loops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: cc_loops; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cc_loops_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE VIEW cc_loops AS
+ SELECT l.id,
+    l.instrument_id,
+    l.loop_var,
+    l.start_val,
+    l.end_val,
+    l.loop_while,
+    l.created_at,
+    l.updated_at,
+    cc.label,
+    parent.construct_id AS parent_id,
+    parent.construct_type AS parent_type,
+    cc."position",
+    cc.branch,
+    links.topic_id
+   FROM (((loops l
+     JOIN control_constructs cc ON (((l.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcLoop'::text))))
+     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN links ON (((l.id = links.target_id) AND ((links.target_type)::text = 'CcLoop'::text))))
+  ORDER BY l.id;
 
 
 --
--- Name: cc_loops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: questions; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE cc_loops_id_seq OWNED BY cc_loops.id;
-
-
---
--- Name: cc_questions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE cc_questions (
+CREATE TABLE questions (
     id integer NOT NULL,
-    question_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
@@ -178,29 +911,33 @@ CREATE TABLE cc_questions (
 
 
 --
--- Name: cc_questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: cc_questions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cc_questions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE VIEW cc_questions AS
+ SELECT q.id,
+    q.instrument_id,
+    q.question_id,
+    q.question_type,
+    q.response_unit_id,
+    q.created_at,
+    q.updated_at,
+    cc.label,
+    parent.construct_id AS parent_id,
+    parent.construct_type AS parent_type,
+    cc."position",
+    cc.branch
+   FROM ((questions q
+     JOIN control_constructs cc ON (((q.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))))
+     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+  ORDER BY q.id;
 
 
 --
--- Name: cc_questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: sequences; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE cc_questions_id_seq OWNED BY cc_questions.id;
-
-
---
--- Name: cc_sequences; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE cc_sequences (
+CREATE TABLE sequences (
     id integer NOT NULL,
     literal character varying,
     created_at timestamp without time zone NOT NULL,
@@ -211,29 +948,33 @@ CREATE TABLE cc_sequences (
 
 
 --
--- Name: cc_sequences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: cc_sequences; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cc_sequences_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE VIEW cc_sequences AS
+ SELECT s.id,
+    s.instrument_id,
+    s.literal,
+    s.created_at,
+    s.updated_at,
+    cc.label,
+    parent.construct_id AS parent_id,
+    parent.construct_type AS parent_type,
+    cc."position",
+    cc.branch,
+    links.topic_id
+   FROM (((sequences s
+     JOIN control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcSequence'::text))))
+     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN links ON (((s.id = links.target_id) AND ((links.target_type)::text = 'CcSequence'::text))))
+  ORDER BY s.id;
 
 
 --
--- Name: cc_sequences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: statements; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE cc_sequences_id_seq OWNED BY cc_sequences.id;
-
-
---
--- Name: cc_statements; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE cc_statements (
+CREATE TABLE statements (
     id integer NOT NULL,
     literal character varying,
     created_at timestamp without time zone NOT NULL,
@@ -244,22 +985,24 @@ CREATE TABLE cc_statements (
 
 
 --
--- Name: cc_statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: cc_statements; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cc_statements_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: cc_statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE cc_statements_id_seq OWNED BY cc_statements.id;
+CREATE VIEW cc_statements AS
+ SELECT s.id,
+    s.instrument_id,
+    s.literal,
+    s.created_at,
+    s.updated_at,
+    cc.label,
+    parent.construct_id AS parent_id,
+    parent.construct_type AS parent_type,
+    cc."position",
+    cc.branch
+   FROM ((statements s
+     JOIN control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcStatement'::text))))
+     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+  ORDER BY s.id;
 
 
 --
@@ -330,21 +1073,22 @@ ALTER SEQUENCE codes_id_seq OWNED BY codes.id;
 
 
 --
--- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
+-- Name: conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE TABLE control_constructs (
-    id integer NOT NULL,
-    label character varying,
-    construct_id integer NOT NULL,
-    construct_type character varying NOT NULL,
-    parent_id integer,
-    "position" integer,
-    branch integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
-);
+CREATE SEQUENCE conditions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE conditions_id_seq OWNED BY conditions.id;
 
 
 --
@@ -442,8 +1186,8 @@ ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
 
 CREATE TABLE maps (
     id integer NOT NULL,
-    source_id integer NOT NULL,
     source_type character varying NOT NULL,
+    source_id integer NOT NULL,
     variable_id integer NOT NULL,
     x integer,
     y integer,
@@ -479,6 +1223,50 @@ CREATE VIEW dv_mappings AS
    FROM ((maps m
      JOIN variables v ON ((m.variable_id = v.id)))
      JOIN variables s ON (((s.id = m.source_id) AND ((m.source_type)::text = 'Variable'::text))));
+
+
+--
+-- Name: item_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE item_groups (
+    id integer NOT NULL,
+    item_type character varying,
+    item_id integer,
+    group_type integer,
+    root_item_type character varying,
+    root_item_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: streamlined_groupings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE streamlined_groupings (
+    id integer NOT NULL,
+    item_group_id integer NOT NULL,
+    item_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: groupings; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW groupings AS
+ SELECT sg.id,
+    sg.item_id,
+    g.item_type,
+    sg.item_group_id,
+    sg.created_at,
+    sg.updated_at
+   FROM (streamlined_groupings sg
+     JOIN item_groups g ON ((sg.item_group_id = g.id)));
 
 
 --
@@ -615,19 +1403,22 @@ ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
 
 
 --
--- Name: links; Type: TABLE; Schema: public; Owner: -
+-- Name: item_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE TABLE links (
-    id integer NOT NULL,
-    target_id integer NOT NULL,
-    target_type character varying NOT NULL,
-    topic_id integer NOT NULL,
-    x integer,
-    y integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
+CREATE SEQUENCE item_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: item_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE item_groups_id_seq OWNED BY item_groups.id;
 
 
 --
@@ -647,6 +1438,25 @@ CREATE SEQUENCE links_id_seq
 --
 
 ALTER SEQUENCE links_id_seq OWNED BY links.id;
+
+
+--
+-- Name: loops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE loops_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: loops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE loops_id_seq OWNED BY loops.id;
 
 
 --
@@ -744,6 +1554,25 @@ ALTER SEQUENCE question_items_id_seq OWNED BY question_items.id;
 
 
 --
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+
+
+--
 -- Name: qv_mappings; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -757,7 +1586,7 @@ CREATE VIEW qv_mappings AS
     v.dataset_id
    FROM (((variables v
      LEFT JOIN maps m ON ((m.variable_id = v.id)))
-     JOIN cc_questions qc ON (((qc.id = m.source_id) AND ((m.source_type)::text = 'CcQuestion'::text))))
+     JOIN questions qc ON (((qc.id = m.source_id) AND ((m.source_type)::text = 'CcQuestion'::text))))
      JOIN control_constructs cc ON (((qc.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))));
 
 
@@ -767,10 +1596,10 @@ CREATE VIEW qv_mappings AS
 
 CREATE TABLE rds_qs (
     id integer NOT NULL,
-    response_domain_id integer NOT NULL,
     response_domain_type character varying NOT NULL,
-    question_id integer NOT NULL,
+    response_domain_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     code_id integer,
@@ -980,6 +1809,63 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: sequences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sequences_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sequences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sequences_id_seq OWNED BY sequences.id;
+
+
+--
+-- Name: statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE statements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE statements_id_seq OWNED BY statements.id;
+
+
+--
+-- Name: streamlined_groupings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE streamlined_groupings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: streamlined_groupings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE streamlined_groupings_id_seq OWNED BY streamlined_groupings.id;
+
+
+--
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1074,7 +1960,8 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     failed_attempts integer,
     unlock_token character varying,
-    locked_at timestamp without time zone
+    locked_at timestamp without time zone,
+    api_key character varying
 );
 
 
@@ -1117,210 +2004,224 @@ ALTER SEQUENCE variables_id_seq OWNED BY variables.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cc_conditions ALTER COLUMN id SET DEFAULT nextval('cc_conditions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cc_loops ALTER COLUMN id SET DEFAULT nextval('cc_loops_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cc_questions ALTER COLUMN id SET DEFAULT nextval('cc_questions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cc_sequences ALTER COLUMN id SET DEFAULT nextval('cc_sequences_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cc_statements ALTER COLUMN id SET DEFAULT nextval('cc_statements_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: code_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists ALTER COLUMN id SET DEFAULT nextval('code_lists_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes ALTER COLUMN id SET DEFAULT nextval('codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: conditions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY conditions ALTER COLUMN id SET DEFAULT nextval('conditions_id_seq'::regclass);
+
+
+--
+-- Name: control_constructs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs ALTER COLUMN id SET DEFAULT nextval('control_constructs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets ALTER COLUMN id SET DEFAULT nextval('datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: identifiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY identifiers ALTER COLUMN id SET DEFAULT nextval('identifiers_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instructions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions ALTER COLUMN id SET DEFAULT nextval('instructions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments ALTER COLUMN id SET DEFAULT nextval('instruments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments_datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instruments_datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: item_groups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY item_groups ALTER COLUMN id SET DEFAULT nextval('item_groups_id_seq'::regclass);
+
+
+--
+-- Name: links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: loops id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY loops ALTER COLUMN id SET DEFAULT nextval('loops_id_seq'::regclass);
+
+
+--
+-- Name: maps id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps ALTER COLUMN id SET DEFAULT nextval('maps_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_grids id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids ALTER COLUMN id SET DEFAULT nextval('question_grids_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items ALTER COLUMN id SET DEFAULT nextval('question_items_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+
+
+--
+-- Name: rds_qs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs ALTER COLUMN id SET DEFAULT nextval('rds_qs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes ALTER COLUMN id SET DEFAULT nextval('response_domain_codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_datetimes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes ALTER COLUMN id SET DEFAULT nextval('response_domain_datetimes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_numerics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics ALTER COLUMN id SET DEFAULT nextval('response_domain_numerics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_texts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts ALTER COLUMN id SET DEFAULT nextval('response_domain_texts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_units id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_units_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: sequences id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sequences ALTER COLUMN id SET DEFAULT nextval('sequences_id_seq'::regclass);
+
+
+--
+-- Name: statements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY statements ALTER COLUMN id SET DEFAULT nextval('statements_id_seq'::regclass);
+
+
+--
+-- Name: streamlined_groupings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings ALTER COLUMN id SET DEFAULT nextval('streamlined_groupings_id_seq'::regclass);
+
+
+--
+-- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_groups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_groups ALTER COLUMN id SET DEFAULT nextval('user_groups_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: variables id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -1328,7 +2229,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -1336,47 +2237,47 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: conditions cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_conditions
+ALTER TABLE ONLY conditions
     ADD CONSTRAINT cc_conditions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: loops cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_loops
+ALTER TABLE ONLY loops
     ADD CONSTRAINT cc_loops_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: questions cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_questions
+ALTER TABLE ONLY questions
     ADD CONSTRAINT cc_questions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_sequences
+ALTER TABLE ONLY sequences
     ADD CONSTRAINT cc_sequences_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: statements cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_statements
+ALTER TABLE ONLY statements
     ADD CONSTRAINT cc_statements_pkey PRIMARY KEY (id);
 
 
 --
--- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -1384,7 +2285,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: codes codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -1392,7 +2293,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1400,7 +2301,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: datasets datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY datasets
@@ -1408,7 +2309,7 @@ ALTER TABLE ONLY datasets
 
 
 --
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY documents
@@ -1416,7 +2317,7 @@ ALTER TABLE ONLY documents
 
 
 --
--- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY categories
@@ -1424,7 +2325,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY code_lists
@@ -1432,7 +2333,7 @@ ALTER TABLE ONLY code_lists
 
 
 --
--- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1440,7 +2341,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -1448,7 +2349,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -1456,7 +2357,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -1464,7 +2365,7 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: identifiers identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY identifiers
@@ -1472,7 +2373,7 @@ ALTER TABLE ONLY identifiers
 
 
 --
--- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instructions
@@ -1480,7 +2381,7 @@ ALTER TABLE ONLY instructions
 
 
 --
--- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -1488,7 +2389,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments
@@ -1496,7 +2397,15 @@ ALTER TABLE ONLY instruments
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: item_groups item_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY item_groups
+    ADD CONSTRAINT item_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: links links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -1504,7 +2413,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: maps maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -1512,7 +2421,7 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -1520,7 +2429,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -1528,7 +2437,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -1536,7 +2445,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -1544,7 +2453,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_datetimes response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_datetimes
@@ -1552,7 +2461,7 @@ ALTER TABLE ONLY response_domain_datetimes
 
 
 --
--- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_numerics response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_numerics
@@ -1560,7 +2469,7 @@ ALTER TABLE ONLY response_domain_numerics
 
 
 --
--- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_texts response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_texts
@@ -1568,7 +2477,7 @@ ALTER TABLE ONLY response_domain_texts
 
 
 --
--- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_units
@@ -1576,7 +2485,23 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: streamlined_groupings streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings
+    ADD CONSTRAINT streamlined_groupings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -1584,7 +2509,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -1592,7 +2517,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_groups user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_groups
@@ -1600,7 +2525,7 @@ ALTER TABLE ONLY user_groups
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -1608,7 +2533,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: variables variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -1640,49 +2565,49 @@ CREATE UNIQUE INDEX index_categories_on_label_and_instrument_id ON categories US
 -- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_conditions_on_instrument_id ON cc_conditions USING btree (instrument_id);
+CREATE INDEX index_cc_conditions_on_instrument_id ON conditions USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_loops_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_loops_on_instrument_id ON cc_loops USING btree (instrument_id);
+CREATE INDEX index_cc_loops_on_instrument_id ON loops USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_questions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_instrument_id ON cc_questions USING btree (instrument_id);
+CREATE INDEX index_cc_questions_on_instrument_id ON questions USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_questions_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_question_type_and_question_id ON cc_questions USING btree (question_type, question_id);
+CREATE INDEX index_cc_questions_on_question_type_and_question_id ON questions USING btree (question_type, question_id);
 
 
 --
 -- Name: index_cc_questions_on_response_unit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_response_unit_id ON cc_questions USING btree (response_unit_id);
+CREATE INDEX index_cc_questions_on_response_unit_id ON questions USING btree (response_unit_id);
 
 
 --
 -- Name: index_cc_sequences_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_sequences_on_instrument_id ON cc_sequences USING btree (instrument_id);
+CREATE INDEX index_cc_sequences_on_instrument_id ON sequences USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_statements_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_statements_on_instrument_id ON cc_statements USING btree (instrument_id);
+CREATE INDEX index_cc_statements_on_instrument_id ON statements USING btree (instrument_id);
 
 
 --
@@ -1802,6 +2727,20 @@ CREATE INDEX index_instruments_datasets_on_dataset_id ON instruments_datasets US
 --
 
 CREATE INDEX index_instruments_datasets_on_instrument_id ON instruments_datasets USING btree (instrument_id);
+
+
+--
+-- Name: index_item_groups_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_groups_on_item_type_and_item_id ON item_groups USING btree (item_type, item_id);
+
+
+--
+-- Name: index_item_groups_on_root_item_type_and_root_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_item_groups_on_root_item_type_and_root_item_id ON item_groups USING btree (root_item_type, root_item_id);
 
 
 --
@@ -1973,10 +2912,24 @@ CREATE INDEX index_response_units_on_instrument_id ON response_units USING btree
 
 
 --
+-- Name: index_streamlined_groupings_on_item_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_streamlined_groupings_on_item_group_id ON streamlined_groupings USING btree (item_group_id);
+
+
+--
 -- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_topics_on_parent_id ON topics USING btree (parent_id);
+
+
+--
+-- Name: index_users_on_api_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_api_key ON users USING btree (api_key);
 
 
 --
@@ -2043,62 +2996,177 @@ CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: groupings groupings_insert; Type: RULE; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE RULE groupings_insert AS
+    ON INSERT TO groupings DO INSTEAD  INSERT INTO streamlined_groupings (item_id, item_group_id, created_at, updated_at)
+  VALUES (new.item_id, new.item_group_id, new.created_at, new.updated_at)
+  RETURNING streamlined_groupings.id,
+    streamlined_groupings.item_id,
+    ( SELECT item_groups.item_type
+           FROM item_groups
+          WHERE (streamlined_groupings.item_group_id = item_groups.id)) AS item_type,
+    streamlined_groupings.item_group_id,
+    streamlined_groupings.created_at,
+    streamlined_groupings.updated_at;
 
 
 --
--- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: cc_conditions delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_conditions
+CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE delete_cc_condition();
+
+
+--
+-- Name: cc_loops delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE delete_cc_loop();
+
+
+--
+-- Name: cc_questions delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE delete_cc_question();
+
+
+--
+-- Name: cc_sequences delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE delete_cc_sequence();
+
+
+--
+-- Name: cc_statements delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE delete_cc_statement();
+
+
+--
+-- Name: cc_conditions insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE insert_cc_condition();
+
+
+--
+-- Name: cc_loops insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON cc_loops FOR EACH ROW EXECUTE PROCEDURE insert_cc_loop();
+
+
+--
+-- Name: cc_questions insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON cc_questions FOR EACH ROW EXECUTE PROCEDURE insert_cc_question();
+
+
+--
+-- Name: cc_sequences insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE insert_cc_sequence();
+
+
+--
+-- Name: cc_statements insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON cc_statements FOR EACH ROW EXECUTE PROCEDURE insert_cc_statement();
+
+
+--
+-- Name: cc_conditions update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE update_cc_condition();
+
+
+--
+-- Name: cc_loops update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE update_cc_loop();
+
+
+--
+-- Name: cc_questions update_cc_question; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE update_cc_question();
+
+
+--
+-- Name: cc_sequences update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
+
+
+--
+-- Name: cc_statements update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE update_cc_statement();
+
+
+--
+-- Name: conditions encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY conditions
     ADD CONSTRAINT encapsulate_cc_conditions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: loops encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_loops
+ALTER TABLE ONLY loops
     ADD CONSTRAINT encapsulate_cc_loops_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_questions
+ALTER TABLE ONLY questions
     ADD CONSTRAINT encapsulate_cc_questions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_questions
+ALTER TABLE ONLY questions
     ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_sequences
+ALTER TABLE ONLY sequences
     ADD CONSTRAINT encapsulate_cc_sequences_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: statements encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cc_statements
+ALTER TABLE ONLY statements
     ADD CONSTRAINT encapsulate_cc_statements_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2106,7 +3174,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2114,7 +3182,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2122,7 +3190,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2130,7 +3198,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2138,7 +3206,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_grids
@@ -2146,7 +3214,7 @@ ALTER TABLE ONLY question_grids
 
 
 --
--- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY question_items
@@ -2154,7 +3222,7 @@ ALTER TABLE ONLY question_items
 
 
 --
--- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2162,7 +3230,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: variables fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY variables
@@ -2170,7 +3238,7 @@ ALTER TABLE ONLY variables
 
 
 --
--- Name: fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -2178,7 +3246,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -2186,7 +3254,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: topics fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY topics
@@ -2194,7 +3262,7 @@ ALTER TABLE ONLY topics
 
 
 --
--- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY response_domain_codes
@@ -2202,7 +3270,7 @@ ALTER TABLE ONLY response_domain_codes
 
 
 --
--- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: links fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY links
@@ -2210,7 +3278,7 @@ ALTER TABLE ONLY links
 
 
 --
--- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2218,7 +3286,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: maps fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maps
@@ -2226,7 +3294,15 @@ ALTER TABLE ONLY maps
 
 
 --
--- Name: fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: streamlined_groupings fk_rails_d75780fc8c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY streamlined_groupings
+    ADD CONSTRAINT fk_rails_d75780fc8c FOREIGN KEY (item_group_id) REFERENCES item_groups(id);
+
+
+--
+-- Name: instruments_datasets fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY instruments_datasets
@@ -2234,7 +3310,7 @@ ALTER TABLE ONLY instruments_datasets
 
 
 --
--- Name: fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2242,7 +3318,7 @@ ALTER TABLE ONLY codes
 
 
 --
--- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY rds_qs
@@ -2250,7 +3326,7 @@ ALTER TABLE ONLY rds_qs
 
 
 --
--- Name: fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY control_constructs
@@ -2258,7 +3334,7 @@ ALTER TABLE ONLY control_constructs
 
 
 --
--- Name: fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2266,7 +3342,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY codes
@@ -2310,7 +3386,6 @@ INSERT INTO schema_migrations (version) VALUES
 ('20151206185120'),
 ('20151206185659'),
 ('20151206205100'),
-('20151211153924'),
 ('20160121070958'),
 ('20160216154523'),
 ('20160413095800'),
@@ -2332,6 +3407,11 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170302132603'),
 ('20170302132849'),
 ('20170505135010'),
-('20170517105644');
+('20170517105644'),
+('20170517153047'),
+('20170519102218'),
+('20170525155249'),
+('20170601154431'),
+('20170605112157');
 
 

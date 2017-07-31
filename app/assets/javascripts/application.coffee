@@ -59,14 +59,15 @@ archivist = angular.module('archivist', [
   'archivist.data_manager'
 ])
 
-archivist.config([ '$routeProvider', '$locationProvider',
-  ($routeProvider, $locationProvider)->
+archivist.config([ '$routeProvider', '$locationProvider', '$rootScopeProvider',
+  ($routeProvider, $locationProvider, $rootScopeProvider)->
     $routeProvider
       .when('/',
         templateUrl: 'index.html'
         controller: 'HomeController'
       )
     $locationProvider.html5Mode true
+    $rootScopeProvider.digestTtl(14);
 ])
 
 archivist.controller('RootController',
@@ -160,7 +161,7 @@ archivist.controller('HomeController',
             i.title,
             i.ccs
           ]
-        data.sort()
+        Object.sort(data)
         for s of data
           $scope.chart_one.data['rows'].push {
             c: [
@@ -316,12 +317,12 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
             target[k] = if typeof obj[k] == 'string' then obj[k].toLowerCase() else obj[k]
       target
 
-    Object::sort = ->
+    Object.sort = (obj)->
       newObj = {}
-      Object.keys(@).sort().forEach((v)->
-        newObj[v] = @[v]
+      Object.keys(obj).sort().forEach((v)->
+        newObj[v] = obj[v]
       )
-      @ = newObj
+      newObj
 
     String::replaceAll = (search, replacement) ->
       target = this
