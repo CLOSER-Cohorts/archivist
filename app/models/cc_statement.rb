@@ -6,9 +6,8 @@
 # made to the respondent for clarification or framing purposes.
 #
 # Please visit
-class CcStatement < ApplicationRecord
-  # This model is a Construct
-  include Construct::Model
+class CcStatement < ::ControlConstruct
+  self.primary_key = :id
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'si'

@@ -6,12 +6,14 @@
 # point of an questionnaire to an individual denoted by the response unit.
 #
 # Please visits
-class CcQuestion < ApplicationRecord
-  # This model is a Construct
-  include Construct::Model
+class CcQuestion < ::ControlConstruct
+  self.primary_key = :id
 
   # This model can have a Topic linked to it
-  include Linkable
+  include Linkable::Model
+
+  # This model can contain linkable items
+  include LinkableParent
 
   # This model can be used in mapping
   include Mappable

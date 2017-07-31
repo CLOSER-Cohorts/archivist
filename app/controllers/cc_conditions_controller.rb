@@ -1,6 +1,8 @@
 class CcConditionsController < ConstructController
-  only_set_object
+  include Linkable::Controller
+
+  only_set_object { %i{set_topic} }
 
   @model_class = CcCondition
-  @params_list = [:label, :literal, :logic, :parent, :position, :branch]
+  @params_list = [:label, :literal, :logic, :parent_id, :parent_type, :position, :branch]
 end

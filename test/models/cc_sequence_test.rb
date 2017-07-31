@@ -9,12 +9,8 @@ class CcSequenceTest < ActiveSupport::TestCase
     assert_kind_of Instrument, @cc_sequence.instrument
   end
 
-  test "has one cc" do
-    assert_kind_of ControlConstruct, @cc_sequence.cc
-  end
-
   test "can read parent construct" do
-    assert_kind_of Construct::Model, @cc_sequence.parent
+    assert_kind_of ParentalConstruct, @cc_sequence.parent
   end
 
   test "set a new parent" do
@@ -28,6 +24,6 @@ class CcSequenceTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of ActiveRecord::Associations::CollectionProxy, @cc_sequence.children
+    assert_kind_of Array, @cc_sequence.children
   end
 end

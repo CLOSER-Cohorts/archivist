@@ -28,9 +28,11 @@ class AddInstrumentEncapsulation < ActiveRecord::Migration
           c.save!
         end
 
-        ControlConstruct.find_each do |cc|
-          cc.instrument_id = cc.construct.instrument_id
-          cc.save!
+        unless ControlConstruct.abstract_class
+          ControlConstruct.find_each do |cc|
+            cc.instrument_id = cc.construct.instrument_id
+            cc.save!
+          end
         end
 
         RdsQs.find_each do |rq|

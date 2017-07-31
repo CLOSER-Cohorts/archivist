@@ -2,7 +2,10 @@ require 'test_helper'
 
 class VariableTest < ActiveSupport::TestCase
   setup do
-    @variable = variables :one
+    @variable = variables :Variable_1
+    topic = topics :Topic_2
+    @variable.topic = topic
+    @variable.save!
   end
 
   test "belongs to dataset" do

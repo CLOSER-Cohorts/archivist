@@ -156,17 +156,21 @@ class Strand
   end
 
   def save (do_eval = false)
-    if @id.nil?
-      @id = Strand.redis.incr SCOPE + ':count'
-      self.class.active[@id.to_i] = self
+    begin
+      if @id.nil?
+        @id = Strand.redis.incr SCOPE + ':count'
+        self.class.active[@id.to_i] = self
+      end
+      Strand.redis.sadd SCOPE + ':' + @id.to_s, @members.map(&:typed_id)
+      @members.each do |member|
+        Strand.redis.hset LOOKUP, member.typed_id, @id.to_s
+      end
+      evaluate if do_eval
+      Strand.redis.hset TOPICS, @id, @topic.code unless @topic.nil?
+      Strand.redis.hset STATUS, @id, @good
+    rescue Redis::CannotConnectError => e
+      Rails.logger.warn 'Failed to save Strand to Redis, no connection.'
     end
-    Strand.redis.sadd SCOPE + ':' + @id.to_s, @members.map(&:typed_id)
-    @members.each do |member|
-      Strand.redis.hset LOOKUP, member.typed_id, @id.to_s
-    end
-    evaluate if do_eval
-    Strand.redis.hset TOPICS, @id, @topic.code unless @topic.nil?
-    Strand.redis.hset STATUS, @id, @good
   end
 
   private

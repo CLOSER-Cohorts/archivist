@@ -12,36 +12,14 @@
 # * StartVal
 # * EndVal
 # * LoopWhile
-class CcLoop < ApplicationRecord
-  # This model is a Construct
-  include Construct::Model
+class CcLoop < ::ParentalConstruct
+  self.primary_key = :id
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'lp'
 
   # XML tag name
   TYPE = 'Loop'
-
-  # This model can be a parent and contain child constructs
-  is_a_parent
-
-  # In order to create a construct, it must be positioned within another construct.
-  # This positional information is held on the corresponding ConstrolConstruct
-  # model. This overloaded method is to allow the setting of the custom properties
-  # for a loop.
-  #
-  # @param [Hash] params Parameters for creating a new loop
-  #
-  # @return [CcLoop] Returns newly created CcLoop
-  def self.create_with_position(params)
-    super do |obj|
-      obj.label = params[:label]
-      obj.end_val = params[:end_val]
-      obj.loop_var = params[:loop_var]
-      obj.loop_while = params[:loop_while]
-      obj.start_val = params[:start_val]
-    end
-  end
 
   # Returns a Hash of the attributes and properties for broadcast over
   # archivist-realtime
@@ -60,7 +38,7 @@ class CcLoop < ApplicationRecord
         start_val: self.start_val,
         end_val: self.end_val,
         loop_while: self.loop_while,
-        children: self.children.map { |x| {id: x.construct.id, type: x.construct.class.name} }
+        children: self.children.map { |x| {id: x.id, type: x.class.name} }
     }
   end
 end

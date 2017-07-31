@@ -58,16 +58,15 @@ class Instrument < ApplicationRecord
 
   # An instrument can have many CcConditions
   has_many :cc_conditions,
-           -> { includes( :topic, cc: [:children, :parent]) }, dependent: :destroy
+           -> { includes( :topic ) }, dependent: :destroy
   # An instrument can have many CcLoops
   has_many :cc_loops,
-           -> { includes( :topic,  cc: [:children, :parent]) }, dependent: :destroy
+           -> { includes( :topic ) }, dependent: :destroy
   # An instrument can have many CcSequences
   has_many :cc_sequences,
-           -> { includes( :topic, cc: [:children, :parent]) }, dependent: :destroy
+           -> { includes( :topic ) }, dependent: :destroy
   # An instrument can have many CcStatement
-  has_many :cc_statements,
-           -> { includes cc: [:children, :parent] }, dependent: :destroy
+  has_many :cc_statements, dependent: :destroy
   # An instrument can have many CodeLists
   has_many :code_lists, dependent: :destroy
 
@@ -119,11 +118,8 @@ class Instrument < ApplicationRecord
 
   # An instrument can have many CcQuestions
   has_many :cc_questions,
-           -> { includes(:question, :response_unit, :variables, :topic, cc: [:children, :parent]) },
+           -> { includes(:question, :response_unit, :variables, :topic) },
            dependent: :destroy
-
-  # An instrument keeps track of many ControlConstructs as junctions
-  has_many :control_constructs, dependent: :destroy
 
   # An instrument can have many Instructions
   has_many :instructions, dependent: :destroy
@@ -245,7 +241,7 @@ class Instrument < ApplicationRecord
     harvest = lambda do |parent|
       output.append parent
       if parent.class.method_defined? :children
-        parent.children.each { |child| harvest.call child.construct }
+        parent.children.each &harvest
       end
     end
     harvest.call self.top_sequence
@@ -308,6 +304,7 @@ class Instrument < ApplicationRecord
   end
 
   def destroy
+    InstrumentsDatasets.where(instrument_id: self.id).delete_all
     PROPERTIES.reverse.map(&:to_s).each do |r|
       next if ['datasets'].include? r
       begin

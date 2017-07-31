@@ -17,7 +17,7 @@ class Dataset < ApplicationRecord
   has_many :instruments, through: :instruments_datasets
 
   # The junction model for the many-to-many relationship with {Instrument Instruments}
-  has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+  has_many :instruments_datasets, class_name: 'InstrumentsDatasets', dependent: :destroy
 
   # List of all documents attached to this dataset
   has_many :documents, -> { order :created_at }, as: :item
