@@ -2,7 +2,6 @@ module DataTools
   class << self
     def similar_strands(datasets)
       datasets = datasets.to_a
-
       first = datasets.shift
 
       output = []
