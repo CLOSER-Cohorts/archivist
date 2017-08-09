@@ -396,7 +396,7 @@ class Instrument < ApplicationRecord
   private
   # Creates an empty sequence
   def add_top_sequence
-    self.cc_sequences.create
+    self.cc_sequences.create(label: 'TopSequence')
   end
 
   def deregister_prefix

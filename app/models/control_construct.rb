@@ -25,9 +25,6 @@ class ControlConstruct < ApplicationRecord
   # After destroying, clear the cache from Redis
   after_destroy :clear_cache
 
-  # All ControlConstructs require position and a construct
-  validates :construct, :position, presence: true
-
   # Clears the Redis cache of construct positional information
   def clear_cache
     begin

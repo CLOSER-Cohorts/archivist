@@ -4,5 +4,5 @@ class CcSequencesController < ConstructController
   only_set_object { %i{set_topic} }
 
   @model_class = CcSequence
-  @params_list = [:label, :literal, :parent_id, :parent_type, :position, :branch]
+  @params_list = [:literal]
 end
