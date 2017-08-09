@@ -8,6 +8,8 @@ class InstrumentsController < BasicController
                 })
   only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
 
+  skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
+
   @model_class = Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
 

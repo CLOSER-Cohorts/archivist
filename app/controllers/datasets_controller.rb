@@ -8,6 +8,8 @@ class DatasetsController < BasicController
                     topicv: ImportJob::TopicV
                 })
 
+  skip_before_action :authenticate_user!, only: [:latest_document, :dv]
+
   @model_class = Dataset
   @params_list = [:name]
 
