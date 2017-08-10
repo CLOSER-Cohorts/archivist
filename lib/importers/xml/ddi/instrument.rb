@@ -533,7 +533,7 @@ module Importers::XML::DDI
           parent.children << cc_l.cc
           cc_l.save!
 
-          sub_sequence.call child, './ControlConstructReference', cc_l
+          sub_sequence.call child, './ControlConstructReference', cc_l, nil
 
         end
       end
