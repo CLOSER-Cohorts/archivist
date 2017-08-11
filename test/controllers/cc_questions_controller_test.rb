@@ -4,7 +4,7 @@ class CcQuestionsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @cc_question = cc_questions(:CcQuestion_1)
+    @cc_question = cc_questions(:CcQuestion_4)
     @instrument = instruments(:Instrument_1)
   end
 

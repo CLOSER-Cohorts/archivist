@@ -4,7 +4,7 @@ class CcConditionsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @cc_condition = cc_conditions(:CcCondition_1)
+    @cc_condition = cc_conditions(:CcCondition_9)
     @instrument = instruments(:Instrument_1)
   end
 

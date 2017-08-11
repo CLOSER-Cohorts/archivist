@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcQuestionTest < ActiveSupport::TestCase
   setup do
-    @cc_question = cc_questions :CcQuestion_1
+    @cc_question = cc_questions :CcQuestion_4
     topic = topics :Topic_2
     @cc_question.topic = topic
     @cc_question.save!

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CcConditionTest < ActiveSupport::TestCase
   setup do
-    @cc_condition = cc_conditions :CcCondition_1
+    @cc_condition = cc_conditions :CcCondition_9
   end
 
   test "can read parent construct" do

@@ -27,20 +27,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -192,8 +178,7 @@ BEGIN
                             topic_id,
                             created_at, 
                             updated_at
-    ) 
-       VALUES (
+    ) VALUES (
                             cond_id,
                             'CcCondition',
                             new.topic_id, 
@@ -217,23 +202,46 @@ CREATE FUNCTION insert_cc_loop() RETURNS trigger
 DECLARE
   loop_id INTEGER;
 BEGIN
-  INSERT INTO loops(
-                          instrument_id, 
-                          loop_var, 
-                          start_val, 
-                          end_val, 
-                          loop_while, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.loop_var, 
-                          new.start_val, 
-                          new.end_val, 
-                          new.loop_while, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO loop_id;
+  IF new.id IS NULL THEN
+    INSERT INTO loops(
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO loop_id;
+  ELSE
+    INSERT INTO loops(
+                            id,
+                            instrument_id, 
+                            loop_var, 
+                            start_val, 
+                            end_val, 
+                            loop_while, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.loop_var, 
+                            new.start_val, 
+                            new.end_val, 
+                            new.loop_while, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    loop_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -287,21 +295,42 @@ CREATE FUNCTION insert_cc_question() RETURNS trigger
 DECLARE
   quest_id INTEGER;
 BEGIN
-  INSERT INTO questions(
-                          instrument_id, 
-                          question_id, 
-                          question_type, 
-                          response_unit_id, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.question_id, 
-                          new.question_type, 
-                          new.response_unit_id, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO quest_id;
+  IF new.id IS NULL THEN
+    INSERT INTO questions(
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO quest_id;
+  ELSE
+   INSERT INTO questions(
+                            id,
+                            instrument_id, 
+                            question_id, 
+                            question_type, 
+                            response_unit_id, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.question_id, 
+                            new.question_type, 
+                            new.response_unit_id, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    quest_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -339,17 +368,34 @@ CREATE FUNCTION insert_cc_sequence() RETURNS trigger
 DECLARE
   seq_id INTEGER;
 BEGIN
-  INSERT INTO sequences(
-                          instrument_id, 
-                          literal, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.literal, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO seq_id;
+  IF new.id IS NULL THEN
+    INSERT INTO sequences(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO seq_id;
+  ELSE
+    INSERT INTO sequences(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    seq_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -403,17 +449,34 @@ CREATE FUNCTION insert_cc_statement() RETURNS trigger
 DECLARE
   sta_id INTEGER;
 BEGIN
-  INSERT INTO statements(
-                          instrument_id, 
-                          literal, 
-                          created_at, 
-                          updated_at
-  ) VALUES (
-                          new.instrument_id, 
-                          new.literal, 
-                          new.created_at, 
-                          new.updated_at
-  ) RETURNING id INTO sta_id;
+  IF new.id IS NULL THEN 
+    INSERT INTO statements(
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    ) RETURNING id INTO sta_id;
+  ELSE
+    INSERT INTO statements(
+                            id,
+                            instrument_id, 
+                            literal, 
+                            created_at, 
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id, 
+                            new.literal, 
+                            new.created_at, 
+                            new.updated_at
+    );
+    sta_id = new.id;
+  END IF;
   INSERT INTO control_constructs(
                           label, 
                           parent_id, 
@@ -713,8 +776,8 @@ CREATE TABLE conditions (
 CREATE TABLE control_constructs (
     id integer NOT NULL,
     label character varying,
-    construct_id integer NOT NULL,
     construct_type character varying NOT NULL,
+    construct_id integer NOT NULL,
     parent_id integer,
     "position" integer,
     branch integer,
@@ -730,8 +793,8 @@ CREATE TABLE control_constructs (
 
 CREATE TABLE links (
     id integer NOT NULL,
-    target_id integer NOT NULL,
     target_type character varying NOT NULL,
+    target_id integer NOT NULL,
     topic_id integer NOT NULL,
     x integer,
     y integer,
@@ -771,8 +834,8 @@ CREATE VIEW cc_conditions AS
 CREATE VIEW cc_links AS
  SELECT cc.id,
     cc.label,
-    cc.construct_id,
     cc.construct_type,
+    cc.construct_id,
     cc.parent_id,
     cc."position",
     cc.branch,
@@ -834,8 +897,8 @@ CREATE VIEW cc_loops AS
 
 CREATE TABLE questions (
     id integer NOT NULL,
-    question_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
@@ -1120,8 +1183,8 @@ ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
 
 CREATE TABLE maps (
     id integer NOT NULL,
-    source_id integer NOT NULL,
     source_type character varying NOT NULL,
+    source_id integer NOT NULL,
     variable_id integer NOT NULL,
     x integer,
     y integer,
@@ -1530,10 +1593,10 @@ CREATE VIEW qv_mappings AS
 
 CREATE TABLE rds_qs (
     id integer NOT NULL,
-    response_domain_id integer NOT NULL,
     response_domain_type character varying NOT NULL,
-    question_id integer NOT NULL,
+    response_domain_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     code_id integer,
@@ -2419,6 +2482,14 @@ ALTER TABLE ONLY response_units
 
 
 --
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
 -- Name: streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2915,10 +2986,12 @@ CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, 
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: groupings_delete; Type: RULE; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE RULE groupings_delete AS
+    ON DELETE TO groupings DO INSTEAD  DELETE FROM streamlined_groupings
+  WHERE (streamlined_groupings.id = old.id);
 
 
 --
@@ -3312,7 +3385,6 @@ INSERT INTO schema_migrations (version) VALUES
 ('20151206185120'),
 ('20151206185659'),
 ('20151206205100'),
-('20151211153924'),
 ('20160121070958'),
 ('20160216154523'),
 ('20160413095800'),

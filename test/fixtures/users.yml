@@ -32,7 +32,7 @@ User_1:
     mask_addr: 4294967295
   first_name: Will
   last_name: Poynter
-  group_id: 1
+  group_id: 5
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &6 2016-11-07 19:10:14.620838000 Z
     zone: *2
@@ -55,7 +55,7 @@ User_1:
 User_2:
   id: 2
   email: h.mills@ucl.ac.uk
-  encrypted_password: "$2a$10$FG.Z4AJCEChB9W3oHSN5pO0BFAaJDfVgANv4Hi5GyGirYcXui8hp2"
+  encrypted_password: ''
   sign_in_count: 1
   current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &10 2017-03-29 10:03:02.177247000 Z
@@ -75,7 +75,7 @@ User_2:
     mask_addr: 4294967295
   first_name: Hayley
   last_name: Mills
-  group_id: 2
+  group_id: 5
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &12 2017-03-29 09:57:42.165806000 Z
     zone: *2
@@ -101,7 +101,7 @@ User_3:
   sign_in_count: 0
   first_name: Jon
   last_name: Johnson
-  group_id: 2
+  group_id: 6
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &16 2017-03-29 10:03:41.844304000 Z
     zone: *2
@@ -116,69 +116,3 @@ User_3:
     utc: &18 2017-03-29 10:03:41.844522000 Z
     zone: *2
     time: *18
-User_4:
-  id: 4
-  email: p.curran@ucl.ac.uk
-  encrypted_password: ''
-  sign_in_count: 0
-  first_name: Phil
-  last_name: Curran
-  group_id: 3
-  created_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &19 2017-03-29 10:08:30.703261000 Z
-    zone: *2
-    time: *19
-  updated_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &20 2017-03-29 10:08:30.703261000 Z
-    zone: *2
-    time: *20
-  role: reader
-  confirmation_token: 2XPf6sPTzibSoby_UKqt
-  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &21 2017-03-29 10:08:30.703470000 Z
-    zone: *2
-    time: *21
-User_5:
-  id: 5
-  email: a.moore@ucl.ac.uk
-  encrypted_password: ''
-  sign_in_count: 0
-  first_name: Adam
-  last_name: Moore
-  group_id: 3
-  created_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &22 2017-03-29 10:17:18.912963000 Z
-    zone: *2
-    time: *22
-  updated_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &23 2017-03-29 10:17:18.912963000 Z
-    zone: *2
-    time: *23
-  role: editor
-  confirmation_token: 19hruNUGLUPECAVufKA-
-  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &24 2017-03-29 10:17:18.913212000 Z
-    zone: *2
-    time: *24
-User_6:
-  id: 6
-  email: j.speigel@ucl.ac.uk
-  encrypted_password: ''
-  sign_in_count: 0
-  first_name: Jennifer
-  last_name: Speigel
-  group_id: 1
-  created_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &25 2017-03-29 10:23:10.577659000 Z
-    zone: *2
-    time: *25
-  updated_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &26 2017-03-29 10:23:10.577659000 Z
-    zone: *2
-    time: *26
-  role: editor
-  confirmation_token: tzioU2VP2ZxzYkWZAXxv
-  confirmation_sent_at: !ruby/object:ActiveSupport::TimeWithZone
-    utc: &27 2017-03-29 10:23:10.577884000 Z
-    zone: *2
-    time: *27

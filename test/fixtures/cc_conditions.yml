@@ -155,6 +155,7 @@ CcCondition_9:
   parent_type: CcCondition
   position: 4
   branch: 0
+  topic_id: 1
 CcCondition_10:
   id: 259
   instrument_id: 22

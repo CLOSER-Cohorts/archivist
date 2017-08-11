@@ -27,11 +27,15 @@ class CreateGroupings < ActiveRecord::Migration[5.0]
           item_group_id,
           created_at,
           updated_at;
+          CREATE RULE groupings_delete AS
+          ON DELETE TO groupings DO
+          INSTEAD DELETE FROM streamlined_groupings WHERE id = old.id;
         SQL
       end
       dir.down do
         execute <<~SQL
           DROP RULE groupings_insert ON groupings;
+          DROP RULE groupings_delete ON groupings;
           DROP VIEW groupings;
         SQL
       end
