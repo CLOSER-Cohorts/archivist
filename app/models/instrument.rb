@@ -248,6 +248,11 @@ class Instrument < ApplicationRecord
     output
   end
 
+  # Clears the control construct tree cache
+  def clear_cache
+    ccs.each &:clear_cache
+  end
+
   # Deep copies an instrument
   #
   # In order to deep copy an instrument, all models that belong to the original

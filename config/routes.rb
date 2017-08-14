@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     resources :categories
     member do
       post 'copy/:new_prefix', to: 'instruments#copy'
+      get 'clear_cache', to: 'instruments#clear_cache'
       get 'response_domains', to: 'instruments#response_domains'
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
