@@ -5,7 +5,8 @@
 # and the construct layer. They typically represent a question asked at a particular
 # point of an questionnaire to an individual denoted by the response unit.
 #
-# Please visits
+# Please visits http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/QuestionConstruct.html
+#
 class CcQuestion < ::ControlConstruct
   self.primary_key = :id
 

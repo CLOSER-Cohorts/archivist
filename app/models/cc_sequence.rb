@@ -1,11 +1,12 @@
-# The CcSequence model directly relates to the DDI3.X SequenceConstruct model
+# The CcSequence model directly relates to the DDI3.X Sequence model
 #
 # Sequences are one of the five control constructs used in the questionnaire profile
 # and used in Archivist. This control construct provides a single branch as a grouping
 # method. They typically represent a section  of a questionnaire, often with a
 # particular focus.
 #
-# Please visit
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/Sequence.html
+#
 class CcSequence < ::ParentalConstruct
   self.primary_key = :id
 

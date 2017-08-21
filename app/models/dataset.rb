@@ -35,6 +35,8 @@ class Dataset < ApplicationRecord
   attr_accessor :var_count
 
   # Returns an array of all the datasets with identical variables
+  #
+  # TODO: Complete function
   def self.find_duplicates
     
   end

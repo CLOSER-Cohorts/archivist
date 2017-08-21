@@ -308,6 +308,9 @@ class Instrument < ApplicationRecord
     new_i
   end
 
+  # Destroys an entire instrument with all contents
+  #
+  # TODO: Correctly configure relations and dependants to allow Rails default to work correctly
   def destroy
     InstrumentsDatasets.where(instrument_id: self.id).delete_all
     PROPERTIES.reverse.map(&:to_s).each do |r|
@@ -323,6 +326,9 @@ class Instrument < ApplicationRecord
     ActiveRecord::Base.connection.execute(sql)
   end
 
+  # Gets the time of the last export from the Redis cache
+  #
+  # @returns [String] Last export time
   def export_time
     begin
       $redis.hget 'export:instrument:' + self.id.to_s, 'time'
@@ -331,6 +337,9 @@ class Instrument < ApplicationRecord
     end
   end
 
+  # The the URL of the last export from the Redis cache
+  #
+  # @returns [String] Last export URL
   def export_url
     begin
       $redis.hget 'export:instrument:' + self.id.to_s, 'url'
@@ -339,6 +348,9 @@ class Instrument < ApplicationRecord
     end
   end
 
+  # Gets the time of the last edit to an instrument item from the cache
+  #
+  # @returns [String] Time of last edit
   def last_edited_time
     begin
       $redis.hget 'last_edit:instrument', self.id
@@ -347,6 +359,10 @@ class Instrument < ApplicationRecord
     end
   end
 
+  # Gets the modified time of the last file export to tmp
+  #
+  # @deprecated Do we still export to file and this is not thread safe
+  # @returns [String] Last export time from file
   def last_export_time
     begin
       File.mtime 'tmp/exports/' + prefix + '.xml'
@@ -355,37 +371,60 @@ class Instrument < ApplicationRecord
     end
   end
 
+  # Simple alias for cc_loops
+  #
+  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcLoop loops}
   def loops
     self.cc_loops
   end
 
+  # Accepts a block for which realtime updates should not be run
   def pause_rt
     Realtime.do_silently do
       yield
     end
   end
 
+  # Simple alias for cc_questions
+  #
+  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcQuestion question} constructs
   def questions
     self.cc_questions
   end
 
+  # Returns the number of Q-V maps
+  #
+  # @returns [Number] Number of Q-V maps
   def qv_count
     self.qv_mappings.count
   end
 
+  # Returns an array of all response domains
+  #
+  # @returns [Array] All response domains
   def response_domains
     self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
   end
 
+  # Simple alias for cc_sequences
+  #
+  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcSequence sequences}
   def sequences
     self.cc_sequences
   end
 
+  # Simple alias for cc_statements
+  #
+  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcStatement statements}
   def statements
     self.cc_statements
   end
 
+  # Returns the top sequence for the instrument
+  #
+  # @deprecated Should be replaced with a db-view based function
+  # @returns [CcSequence] Top sequence
   def top_sequence
     self
         .cc_sequences
@@ -394,24 +433,30 @@ class Instrument < ApplicationRecord
         .first
   end
 
+  # Returns a list of all variables scoped for mapping
+  #
+  # @returns [ActiveRecord::Relation] All possible variables for mapping
   def variables
     Variable.where(dataset_id: self.datasets.map(&:id))
   end
 
   private
-  # Creates an empty sequence
+  # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
     self.cc_sequences.create(label: 'TopSequence')
   end
 
+  # Removes prefix from Redis cache
   def deregister_prefix
     ::Prefix.destroy self.prefix
   end
 
+  # Adds prefix to Redis cache as alias of id
   def register_prefix
     ::Prefix[self.prefix] = self.id
   end
 
+  # Removed the prefix and then re-add it to Redis cache
   def reregister_prefix
     deregister_prefix
     register_prefix

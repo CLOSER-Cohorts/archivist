@@ -1,5 +1,14 @@
+# The Prefix model is a pure Redis cache model that allows an
+# {Instrument Instruments} prefix to be used instead of an id
+# during routing
+#
+# Prefix acts as a singleton class
 class Prefix
   class << self
+    # Access operator to retrieve an {Instrument} id using a prefix from the cache
+    #
+    # @param [String] prefix Instrument prefix
+    # @returns [String] Instrument id
     def [](prefix)
       begin
         if (id = redis.hget hash, prefix).nil?
@@ -14,6 +23,10 @@ class Prefix
       end
     end
 
+    # Setting operator to add an {Instrument} prefix to the cahce
+    #
+    # @param [String] prefix {Instrument} prefix
+    # @param [Integer] id {Instrument} id
     def []=(prefix, id)
       begin
         redis.hset hash, prefix, id
@@ -23,6 +36,7 @@ class Prefix
       end
     end
 
+    # Removes a prefix from the cache
     def destroy(prefix)
       begin
         redis.hdel hash, prefix
@@ -32,11 +46,17 @@ class Prefix
       end
     end
 
-    private
+    private # Private method
+    # Returns key of hash in Redis
+    #
+    # @returns [String] Redis key of hash storing prefixes
     def hash
       'instrument_ids'
     end
 
+    # Wraps the global connection to the Redis cache
+    #
+    # @returns [Redis] Redis connection
     def redis
       $redis
     end

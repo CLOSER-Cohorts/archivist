@@ -1,20 +1,25 @@
-# The ControlConstruct model is used to hold the positional information
-# for all five of the construct models. Every construct must have one
-# ControlConstruct and vice-versa.
-#
-# === Properties
-# * Label
-# * Position
-# * Parent
-# * Branch
+# The ParentalConstruct model is an abstract class that provides
+# the relationships for models that can have children to be able
+# to access them.
 class ParentalConstruct < ControlConstruct
   self.abstract_class = true
 
+  # All {CcCondition} children
   has_many :cc_conditions, as: :parent , dependent: :destroy
+
+  # All {CcLoop} children
   has_many :cc_loops, as: :parent , dependent: :destroy
+
+  # All {CcQuestion} children
   has_many :cc_questions, as: :parent , dependent: :destroy
+
+  # All {CcSequence} children
   has_many :cc_sequences, as: :parent , dependent: :destroy
+
+  # All {CcStatement} children
   has_many :cc_statements, as: :parent , dependent: :destroy
+
+  # Any parental construct can have a topic directly
   belongs_to :topic
 
   #TODO: Needs updating
@@ -62,6 +67,9 @@ class ParentalConstruct < ControlConstruct
 =end
   end
 
+  # Returns an array of all children in order
+  #
+  # @returns [Array] All children
   def children
     (
           cc_conditions +
@@ -72,18 +80,28 @@ class ParentalConstruct < ControlConstruct
     ).sort_by { |cc| [branch, cc.position] }
   end
 
+  # Returns the first child construct
+  #
+  # @returns [ControlConstruct] First child construct
   def first_child
     children.min_by { |x| x.position}
   end
 
+  # Returns the last child construct
+  #
+  # @returns [ControlConstruct] Last child construct
   def last_child
     children.max_by { |x| x.position}
   end
 
+  # Returns true if the construct has any children
+  #
+  # @returns [Boolean] True for having children; False for no children
   def has_children?
     children.count > 0
   end
 
+  # TODO: Needs updating or replacing
   def find_closest_ancestor_topic
     sql = <<~SQL
         WITH RECURSIVE cc_tree AS 

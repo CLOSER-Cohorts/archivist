@@ -2,6 +2,9 @@
 # for all five of the construct models. Every construct must have one
 # ControlConstruct and vice-versa.
 #
+# This is the abstract class that all five of the control constructs are
+# eventually derived from.
+#
 # === Properties
 # * Label
 # * Position
@@ -10,13 +13,19 @@
 class ControlConstruct < ApplicationRecord
   self.abstract_class = true
 
+  # Control constructs are comparable to allow sorting into positional order
   include Comparable
+
+  # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
+
+  # This model is exportable as DDI
   include Exportable
 
   # All categories must belong to an {Instrument}
   belongs_to :instrument
 
+  # Each control construct must have one parent, except the top-sequence which has no parent
   belongs_to :parent, polymorphic: true
 
   # After updating, clear the cache from Redis
