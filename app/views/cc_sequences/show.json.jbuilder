@@ -1,9 +1,6 @@
 json.extract! @object, :id, :literal, :position
 json.label @object.label
-json.children @object.children do |child|
-  json.id child.id
-  json.type child.class.name
-end
+json.children @object.construct_children
 json.top @object.is_top?
 unless @object.parent.nil?
   json.parent_id @object.parent_id

@@ -34,6 +34,7 @@ module Importers::XML::DDI
     end
 
     def question_item_node(node)
+      Rails.logger.debug "question_item_node called"
       question = QuestionItem.new(
           {
               label: node.at_xpath('./QuestionItemName/String').content,
@@ -41,13 +42,16 @@ module Importers::XML::DDI
           }
       )
 
+      Rails.logger.debug "Before QI save"
       @instrument.question_items << question
 
-      node.xpath('./CodeDomain | '\
-          './NumericDomain | '\
-          './TextDomain | '\
+      Rails.logger.debug "About to add RDs"
+      node.xpath('./CodeDomain|'\
+          './NumericDomain|'\
+          './TextDomain|'\
           './DateTimeDomain'\
           ).each_with_index do |rd, i|
+        Rails.logger.debug i
 
         if rd.name == 'CodeDomain'
           cl = CodeList.find_by_identifier(

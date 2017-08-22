@@ -27,6 +27,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -776,8 +790,8 @@ CREATE TABLE conditions (
 CREATE TABLE control_constructs (
     id integer NOT NULL,
     label character varying,
-    construct_type character varying NOT NULL,
     construct_id integer NOT NULL,
+    construct_type character varying NOT NULL,
     parent_id integer,
     "position" integer,
     branch integer,
@@ -793,8 +807,8 @@ CREATE TABLE control_constructs (
 
 CREATE TABLE links (
     id integer NOT NULL,
-    target_type character varying NOT NULL,
     target_id integer NOT NULL,
+    target_type character varying NOT NULL,
     topic_id integer NOT NULL,
     x integer,
     y integer,
@@ -834,8 +848,8 @@ CREATE VIEW cc_conditions AS
 CREATE VIEW cc_links AS
  SELECT cc.id,
     cc.label,
-    cc.construct_type,
     cc.construct_id,
+    cc.construct_type,
     cc.parent_id,
     cc."position",
     cc.branch,
@@ -897,8 +911,8 @@ CREATE VIEW cc_loops AS
 
 CREATE TABLE questions (
     id integer NOT NULL,
-    question_type character varying NOT NULL,
     question_id integer NOT NULL,
+    question_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
@@ -1183,8 +1197,8 @@ ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
 
 CREATE TABLE maps (
     id integer NOT NULL,
-    source_type character varying NOT NULL,
     source_id integer NOT NULL,
+    source_type character varying NOT NULL,
     variable_id integer NOT NULL,
     x integer,
     y integer,
@@ -1593,10 +1607,10 @@ CREATE VIEW qv_mappings AS
 
 CREATE TABLE rds_qs (
     id integer NOT NULL,
-    response_domain_type character varying NOT NULL,
     response_domain_id integer NOT NULL,
-    question_type character varying NOT NULL,
+    response_domain_type character varying NOT NULL,
     question_id integer NOT NULL,
+    question_type character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     code_id integer,
@@ -2482,14 +2496,6 @@ ALTER TABLE ONLY response_units
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY schema_migrations
-    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
 -- Name: streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2986,6 +2992,13 @@ CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, 
 
 
 --
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
 -- Name: groupings_delete; Type: RULE; Schema: public; Owner: -
 --
 
@@ -3385,6 +3398,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('20151206185120'),
 ('20151206185659'),
 ('20151206205100'),
+('20151211153924'),
 ('20160121070958'),
 ('20160216154523'),
 ('20160413095800'),

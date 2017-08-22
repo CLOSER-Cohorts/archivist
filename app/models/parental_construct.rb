@@ -63,13 +63,41 @@ class ParentalConstruct < ControlConstruct
   end
 
   def children
-    (
-          cc_conditions +
-          cc_loops +
-          cc_questions +
-          cc_sequences +
-          cc_statements
-    ).sort_by { |cc| [branch, cc.position] }
+    Children.new({
+        cc_conditions: self.association( :cc_conditions),
+        cc_loops:      self.association( :cc_loops),
+        cc_questions:  self.association( :cc_questions),
+        cc_sequences:  self.association( :cc_sequences),
+        cc_statements: self.association( :cc_statements)
+    })
+  end
+
+  def construct_children(branch = nil)
+    query_children = lambda do |query_branch, cc|
+      if query_branch.nil?
+        return cc.children.map { |c| {id: c.id, type: c.class.name } }
+      else
+        return cc.children.select { |c| c.branch == query_branch }.map { |c| {id: c.id, type: c.class.name } }
+      end
+    end
+
+    begin
+      cs = $redis.hget 'construct_children:' +
+                           self.class.to_s +
+                           (branch.nil? ? '' : (':' + branch.to_s)), self.id
+
+      if cs.nil?
+        cs = query_children.call branch, self
+        $redis.hset 'construct_children:' +
+                        self.class.to_s +
+                        (branch.nil? ? '' : (':' + branch.to_s)), self.id,  cs.to_json
+      else
+        cs = JSON.parse cs
+      end
+    rescue
+      cs = query_children.call branch, self
+    end
+    cs
   end
 
   def first_child

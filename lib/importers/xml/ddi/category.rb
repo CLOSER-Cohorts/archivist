@@ -6,9 +6,9 @@ module Importers::XML::DDI
 
     def XML_node(node)
       begin
-        cat = Category.new label: category.at_xpath('./Label/Content').content
+        cat = ::Category.new label: category.at_xpath('./Label/Content').content
       rescue
-        cat = Category.new label: ''
+        cat = ::Category.new label: ''
       end
       @instrument.categories << cat
       cat.add_urn extract_urn_identifier node

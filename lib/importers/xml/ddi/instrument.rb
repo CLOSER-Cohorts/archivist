@@ -50,9 +50,9 @@ module Importers::XML::DDI
       categories = @doc.xpath('//Category')
       categories.each do |category|
         begin
-          cat = Category.new label: category.at_xpath('./Label/Content').content
+          cat = ::Category.new label: category.at_xpath('./Label/Content').content
         rescue
-          cat = Category.new label: ''
+          cat = ::Category.new label: ''
         end
         Reference[category] = cat
         @instrument.categories << cat
@@ -81,9 +81,9 @@ module Importers::XML::DDI
         end
 
         begin
-          cl = CodeList.new label: code_list.at_xpath('./Label/Content').content
+          cl = ::CodeList.new label: code_list.at_xpath('./Label/Content').content
         rescue
-          cl = CodeList.new label: codes_to_add.map {|c| c.category.label.gsub(/\s*(\S)\S*/, '\1')}.join('_')
+          cl = ::CodeList.new label: codes_to_add.map {|c| c.category.label.gsub(/\s*(\S)\S*/, '\1')}.join('_')
         end
         Reference[code_list] = cl
         @instrument.code_lists << cl
@@ -115,7 +115,7 @@ module Importers::XML::DDI
       instructions = @doc.xpath('//Instruction')
       @counters['instructions'] = instructions.length
       instructions.each do |instruction|
-        instr = Instruction.new({text: instruction.at_xpath('./InstructionText/LiteralText/Text').content})
+        instr = ::Instruction.new({text: instruction.at_xpath('./InstructionText/LiteralText/Text').content})
         @instrument.instructions << instr
         Reference[instruction] = instr
       end
@@ -136,7 +136,7 @@ module Importers::XML::DDI
             end
           end
           unless @response_domain_index.has_key? 'T' + index_label
-            rdt = ResponseDomainText.new({label: index_label})
+            rdt = ::ResponseDomainText.new({label: index_label})
             unless text_domain['maxLength'].nil?
               rdt.maxlen = text_domain['maxLength'].to_i
             end
@@ -155,7 +155,7 @@ module Importers::XML::DDI
         begin
           index_label = numeric_domain.at_xpath('./Label/Content')&.content
           unless @response_domain_index.has_key? 'N' + index_label.to_s
-            rdn = ResponseDomainNumeric.new({
+            rdn = ::ResponseDomainNumeric.new({
                                                 label: index_label,
                                                 numeric_type: numeric_domain.at_xpath('NumericTypeCode').content
                                             })
@@ -176,7 +176,7 @@ module Importers::XML::DDI
         begin
           index_label = datetime_domain.at_xpath('Label/Content')&.content
           if not @response_domain_index.has_key? 'D' + index_label
-            rdd = ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath('DateTypeCode').content})
+            rdd = ::ResponseDomainDatetime.new({label: index_label, datetime_type: datetime_domain.at_xpath('DateTypeCode').content})
             format = datetime_domain.at_xpath('DateFieldFormat').content
             if format.length > 0
               rdd.format = format
@@ -201,7 +201,7 @@ module Importers::XML::DDI
       question_items = @doc.xpath('//QuestionItem')
       @counters['question_items'] = question_items.length
       question_items.each do |question_item|
-        qi = QuestionItem.new({label: question_item.at_xpath('./QuestionItemName/String').content})
+        qi = ::QuestionItem.new({label: question_item.at_xpath('./QuestionItemName/String').content})
         begin
           qi.literal = question_item.at_xpath('./QuestionText/LiteralText/Text').content
         rescue
@@ -218,23 +218,23 @@ module Importers::XML::DDI
 
         @instrument.question_items << qi
 
-        rds.each do |rd|
+        rds.each_with_index do |rd, i|
           if rd.name == 'CodeDomain'
             RdsQs.create({
                              question: qi,
                              response_domain: Reference[rd.at_xpath('./CodeListReference')].response_domain,
-                             rd_order: order_counter
+                             rd_order: i + 1
                          })
           else
             if rd.name == 'NumericDomain'
               prefix_char = 'N'
-              klass = ResponseDomainNumeric
+              klass = ::ResponseDomainNumeric
             elsif rd.name == 'TextDomain'
               prefix_char = 'T'
-              klass = ResponseDomainText
+              klass = ::ResponseDomainText
             elsif rd.name == 'DatetimeDomain'
               prefix_char = 'D'
-              klass = ResponseDomainDatetime
+              klass = ::ResponseDomainDatetime
             else
               Rails.logger.warn 'ResponseDomain not supported'
               next
@@ -248,7 +248,7 @@ module Importers::XML::DDI
             RdsQs.create({
                              question: qi,
                              response_domain: response_domain,
-                             rd_order: order_counter
+                             rd_order: i + 1
                          })
           end
         end
@@ -266,7 +266,7 @@ module Importers::XML::DDI
       question_grids = @doc.xpath('//QuestionGrid')
       @counters['question_grids'] = question_grids.length
       question_grids.each do |question_grid|
-        qg = QuestionGrid.new({label: question_grid.at_xpath('./QuestionGridName/String').content})
+        qg = ::QuestionGrid.new({label: question_grid.at_xpath('./QuestionGridName/String').content})
         qg.literal = question_grid.at_xpath('./QuestionText/LiteralText/Text').content
         Reference[question_grid] = qg
         qg_X = question_grid.at_xpath("./GridDimension[@rank='2']/CodeDomain/CodeListReference")
@@ -290,7 +290,7 @@ module Importers::XML::DDI
         read_q_rds = lambda do |obj, collection, index_prefix, arr|
           collection.each do |x|
             if x.parent.name == "GridResponseDomain"
-              RdsQs.create({
+              ::RdsQs.create({
                                question: obj,
                                response_domain: @response_domain_index[
                                    index_prefix +
@@ -316,7 +316,7 @@ module Importers::XML::DDI
         rdcs.each do |rdc|
           if not rdc.parent.name == 'GridDimension'
             if rdc.parent.name == 'GridResponseDomain'
-              RdsQs.create({
+              ::RdsQs.create({
                                question: qg,
                                response_domain: Reference[rdc.at_xpath('./CodeListReference')].response_domain,
                                code_id: rdc.parent.at_xpath("./GridAttachment/CellCoordinatesAsDefined/SelectDimension[@rank='2']").attribute('specificValue').value.to_i
@@ -414,8 +414,10 @@ module Importers::XML::DDI
             end
           end
           cc_s.position = position_counter
+
           cc_s.branch = branch
-          parent.children << cc_s.cc
+          cc_s.parent = parent
+
           read_sequence_children(child, cc_s)
           cc_s.save!
         elsif child.name == 'StatementItem'
@@ -433,8 +435,10 @@ module Importers::XML::DDI
           cc_s.position = position_counter
           cc_s.branch = branch
           cc_s.literal = child.at_xpath('./DisplayText/LiteralText/Text').content
-          parent.children << cc_s.cc
+
+          cc_s.parent = parent
           cc_s.save!
+
         elsif child.name == 'QuestionConstruct'
           q_ref = child.at_xpath('./QuestionReference')
           base_question = Reference[q_ref]
@@ -466,7 +470,7 @@ module Importers::XML::DDI
             end
             cc_q.position = position_counter
             cc_q.branch = branch
-            parent.children << cc_q.cc
+            cc_q.parent = parent
             cc_q.save!
           end
         elsif child.name == 'IfThenElse'
@@ -494,7 +498,7 @@ module Importers::XML::DDI
             cc_c.logic = ''
           end
 
-          parent.children << cc_c.cc
+          cc_c.parent = parent
           cc_c.save!
 
           sub_sequence.call child, './ThenConstructReference', cc_c, 0
@@ -530,7 +534,8 @@ module Importers::XML::DDI
           unless while_node.nil? then
             cc_l.loop_while = while_node.content
           end
-          parent.children << cc_l.cc
+
+          cc_l.parent = parent
           cc_l.save!
 
           sub_sequence.call child, './ControlConstructReference', cc_l, nil
@@ -572,7 +577,7 @@ module Importers::XML::DDI
           end
         end
       end
-      i.version = "1.0"
+      i.version = '1.0'
       if save
         i.save!
       end
