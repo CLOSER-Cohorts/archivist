@@ -5,7 +5,7 @@
 # instrument logic to progress. They typically represent a sequence of questions to be asked
 # repeatedly until a condition is satisfied.
 #
-# Please visit
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/Loop.html
 #
 # === Properties
 # * LoopVar

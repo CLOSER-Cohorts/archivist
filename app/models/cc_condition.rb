@@ -1,11 +1,11 @@
-# The CcCondition model directly relates to the DDI3.X IfThenElseConstruct model
+# The CcCondition model directly relates to the DDI3.X IfThenElse model
 #
 # Conditions are one of the five control constructs used in the questionnaire profile
 # and used in Archivist. This control construct provides two branches for the
 # instrument logic to progress. They typically represent a filter or conditional sequence
 # with a questionnaire.
 #
-# Please visit
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/IfThenElse.html
 #
 # === Properties
 # * Literal
@@ -19,13 +19,20 @@ class CcCondition < ::ParentalConstruct
   # XML tag name
   TYPE = 'IfThenElse'
 
+  # Returns an {Array} of all the construct children in the true branch
+  #
+  # @return [Array] True branch children
   def children
     super.select { |c| c.branch == 0 }
   end
 
+  # Returns an {Array} of all the construct children in the false branch
+  #
+  # @return [Array] False branch children
   def fchildren
     ParentalConstruct.instance_method(:children).bind(self).call.select { |c| c.branch == 1 }
   end
+
   # All CcConditions require a literal
   validates :literal, presence: true
 
