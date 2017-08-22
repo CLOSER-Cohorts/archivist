@@ -10,8 +10,9 @@ class ClustersController < ApplicationController
   # and ID must be provided. Currently there is no way to load
   # a Cluster from its own id.
   #
-  # Example:
-  #   GET /clusters/:class/:id
+  # === Example
+  # @example GET /clusters/:class/:id
+  #   GET /clusters/Variable/100123
   def show
     @object = params[:class].classify.constantize.find params[:id]
     @strand = @object.strand

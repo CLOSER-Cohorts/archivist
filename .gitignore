@@ -29,8 +29,6 @@ node_modules/
 # Ignore application configuration
 /config/application.yml
 
-
-
 .env.*
 !*.example
 
@@ -39,3 +37,6 @@ node_modules/
 
 .byebug_history
 npm-debug.log.*
+
+.yardoc/
+doc/

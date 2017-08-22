@@ -31,7 +31,7 @@ class Instruction < ActiveRecord::Base
 
   # Returns an array of all questions where this instruction is used
   #
-  # @returns [Array] All questions using this instruction
+  # @return [Array] All questions using this instruction
   def questions
     self.question_items.to_a + self.question_grids.to_a
   end

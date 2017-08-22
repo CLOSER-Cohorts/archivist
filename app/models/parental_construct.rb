@@ -69,7 +69,7 @@ class ParentalConstruct < ControlConstruct
 
   # Returns an array of all children in order
   #
-  # @returns [Array] All children
+  # @return [Array] All children
   def children
     Children.new({
         cc_conditions: self.association( :cc_conditions),
@@ -110,21 +110,21 @@ class ParentalConstruct < ControlConstruct
 
   # Returns the first child construct
   #
-  # @returns [ControlConstruct] First child construct
+  # @return [ControlConstruct] First child construct
   def first_child
     children.min_by { |x| x.position}
   end
 
   # Returns the last child construct
   #
-  # @returns [ControlConstruct] Last child construct
+  # @return [ControlConstruct] Last child construct
   def last_child
     children.max_by { |x| x.position}
   end
 
   # Returns true if the construct has any children
   #
-  # @returns [Boolean] True for having children; False for no children
+  # @return [Boolean] True for having children; False for no children
   def has_children?
     children.count > 0
   end

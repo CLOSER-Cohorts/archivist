@@ -65,7 +65,7 @@ class Identifier < ApplicationRecord
 
   # Wraps the global connection to the Redis cache
   #
-  # @returns [Redis] Redis connection
+  # @return [Redis] Redis connection
   def redis
     $redis
   end

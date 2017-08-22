@@ -1,4 +1,15 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::Category}
+  #
+  # {::Category} is a direct alias of DDI 3.2 Category.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   cat = Category.first
+  #   exporter = Exporters::XML::DDI::Category.new doc
+  #   xml_string = exporter.V3_2(cat)
+  #
+  #
   class Category < DdiExporterBase
     def V3_2(category_id)
       if category_id.is_a? ::Category

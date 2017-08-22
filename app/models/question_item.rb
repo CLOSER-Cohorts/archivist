@@ -17,14 +17,14 @@ class QuestionItem < ApplicationRecord
 
   # Returns all response domains in order
   #
-  # @returns [Array] All response domains
+  # @return [Array] All response domains
   def response_domains
     self.rds_qs.order(:rd_order).includes(:response_domain).map &:response_domain
   end
 
   # Exports as an XML fragment
   #
-  # @returns [String] XML fragment
+  # @return [String] XML fragment
   def to_xml_fragment
     Exporters::XML::DDI::Fragment.export_3_2 Exporters::XML::DDI::QuestionItem, self
   end

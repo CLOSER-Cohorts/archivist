@@ -19,14 +19,14 @@ class CcCondition < ::ParentalConstruct
   # XML tag name
   TYPE = 'IfThenElse'
 
-  # Returns an {Array} of all the construct children in the true branch
+  # Returns an array of all the construct children in the true branch
   #
   # @return [Array] True branch children
   def children
     super.select { |c| c.branch == 0 }
   end
 
-  # Returns an {Array} of all the construct children in the false branch
+  # Returns an array of all the construct children in the false branch
   #
   # @return [Array] False branch children
   def fchildren

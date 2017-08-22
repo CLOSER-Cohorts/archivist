@@ -21,21 +21,15 @@ class Instrument < ApplicationRecord
   include Realtime::RtUpdate
 
   # Used to create CLOSER UserID and URNs
-  #
-  # @type [String]
   URN_TYPE = 'in'
 
   # XML tag name
-  #
-  # @type [String]
   TYPE = 'Instrument'
 
   # List of direct properties that an instrument has
   #
   # This is effectively the list of associations, but with some of
   # the junction tables removed.
-  #
-  # @type [Array]
   PROPERTIES = [
       :categories,
       :code_lists,
@@ -328,7 +322,7 @@ class Instrument < ApplicationRecord
 
   # Gets the time of the last export from the Redis cache
   #
-  # @returns [String] Last export time
+  # @return [String] Last export time
   def export_time
     begin
       $redis.hget 'export:instrument:' + self.id.to_s, 'time'
@@ -339,7 +333,7 @@ class Instrument < ApplicationRecord
 
   # The the URL of the last export from the Redis cache
   #
-  # @returns [String] Last export URL
+  # @return [String] Last export URL
   def export_url
     begin
       $redis.hget 'export:instrument:' + self.id.to_s, 'url'
@@ -350,7 +344,7 @@ class Instrument < ApplicationRecord
 
   # Gets the time of the last edit to an instrument item from the cache
   #
-  # @returns [String] Time of last edit
+  # @return [String] Time of last edit
   def last_edited_time
     begin
       $redis.hget 'last_edit:instrument', self.id
@@ -362,7 +356,7 @@ class Instrument < ApplicationRecord
   # Gets the modified time of the last file export to tmp
   #
   # @deprecated Do we still export to file and this is not thread safe
-  # @returns [String] Last export time from file
+  # @return [String] Last export time from file
   def last_export_time
     begin
       File.mtime 'tmp/exports/' + prefix + '.xml'
@@ -373,7 +367,7 @@ class Instrument < ApplicationRecord
 
   # Simple alias for cc_loops
   #
-  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcLoop loops}
+  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcLoop loops}
   def loops
     self.cc_loops
   end
@@ -387,21 +381,21 @@ class Instrument < ApplicationRecord
 
   # Simple alias for cc_questions
   #
-  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcQuestion question} constructs
+  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcQuestion question} constructs
   def questions
     self.cc_questions
   end
 
   # Returns the number of Q-V maps
   #
-  # @returns [Number] Number of Q-V maps
+  # @return [Number] Number of Q-V maps
   def qv_count
     self.qv_mappings.count
   end
 
   # Returns an array of all response domains
   #
-  # @returns [Array] All response domains
+  # @return [Array] All response domains
   def response_domains
     self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
@@ -409,14 +403,14 @@ class Instrument < ApplicationRecord
 
   # Simple alias for cc_sequences
   #
-  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcSequence sequences}
+  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcSequence sequences}
   def sequences
     self.cc_sequences
   end
 
   # Simple alias for cc_statements
   #
-  # @returns [ActiveRecord::Associations::CollectionProxy] List of all {CcStatement statements}
+  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcStatement statements}
   def statements
     self.cc_statements
   end
@@ -424,7 +418,7 @@ class Instrument < ApplicationRecord
   # Returns the top sequence for the instrument
   #
   # @deprecated Should be replaced with a db-view based function
-  # @returns [CcSequence] Top sequence
+  # @return [CcSequence] Top sequence
   def top_sequence
     self
         .cc_sequences
@@ -435,7 +429,7 @@ class Instrument < ApplicationRecord
 
   # Returns a list of all variables scoped for mapping
   #
-  # @returns [ActiveRecord::Relation] All possible variables for mapping
+  # @return [ActiveRecord::Relation] All possible variables for mapping
   def variables
     Variable.where(dataset_id: self.datasets.map(&:id))
   end

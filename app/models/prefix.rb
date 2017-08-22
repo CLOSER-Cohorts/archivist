@@ -8,7 +8,7 @@ class Prefix
     # Access operator to retrieve an {Instrument} id using a prefix from the cache
     #
     # @param [String] prefix Instrument prefix
-    # @returns [String] Instrument id
+    # @return [String] Instrument id
     def [](prefix)
       begin
         if (id = redis.hget hash, prefix).nil?
@@ -49,14 +49,14 @@ class Prefix
     private # Private method
     # Returns key of hash in Redis
     #
-    # @returns [String] Redis key of hash storing prefixes
+    # @return [String] Redis key of hash storing prefixes
     def hash
       'instrument_ids'
     end
 
     # Wraps the global connection to the Redis cache
     #
-    # @returns [Redis] Redis connection
+    # @return [Redis] Redis connection
     def redis
       $redis
     end

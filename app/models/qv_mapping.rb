@@ -19,7 +19,7 @@ class QvMapping < ReadOnlyRecord
 
   # Return question reference with grid cell reference
   #
-  # @returns [String] Question reference
+  # @return [String] Question reference
   def question_with_cell
     self.question + ((self.x.nil? || self.y.nil?) ? '' : "$#{self.x};#{self.y}")
   end

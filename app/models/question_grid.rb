@@ -26,21 +26,21 @@ class QuestionGrid < ApplicationRecord
 
   # Returns the number of columns
   #
-  # @returns [Integer] Number of columns
+  # @return [Integer] Number of columns
   def max_x
     horizontal_code_list.codes.count
   end
 
   # Returns the total number of rows, including the rosters
   #
-  # @returns [Integer] Number of rows
+  # @return [Integer] Number of rows
   def max_y
     vertical_code_list&.codes&.count.to_i + roster_rows.to_i
   end
 
   # Returns the display corner label
   #
-  # @returns [String] Corner label
+  # @return [String] Corner label
   def pretty_corner_label
     if corner_label == 'V'
       vertical_code_list.label
@@ -53,7 +53,7 @@ class QuestionGrid < ApplicationRecord
 
   # Returns all response domains in order
   #
-  # @returns [Array] All response domains
+  # @return [Array] All response domains
   def response_domains
     sql = <<~SQL
       SELECT *
@@ -72,7 +72,7 @@ class QuestionGrid < ApplicationRecord
 
   # Exports as an XML fragment
   #
-  # @returns [String] XML fragment
+  # @return [String] XML fragment
   def to_xml_fragment
     Exporters::XML::DDI::Fragment.export_3_2 Exporters::XML::DDI::QuestionGrid, self
   end
