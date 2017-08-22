@@ -1,5 +1,20 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::Dataset}
+  #
+  # {::Dataset} is a direct alias of DDI 3.2 Dataset.
+  #
+  # This is not a real exporter, it actually performs transformations
+  # on the file imported and held in the database as a Document.
+  #
+  # @see ::Dataset
   class Dataset
+    # Exports the {::Dataset} in DDI 3.2
+    #
+    # Performs transformations to the existing XML document to add
+    # CLOSER IDs.
+    #
+    # @param [::Dataset] dataset Either the Dataset exporting
+    # @return [Nokogiri::XML::Document] Updated XML document
     def run(dataset)
       documents = Document.where(item: dataset).order(created_at: :asc)
       unless documents.empty?

@@ -1,5 +1,24 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::CcCondition}
+  #
+  # {::CcCondition} is a direct alias of DDI 3.2 IfThenElse.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   con = CcCondition.first
+  #   exporter = Exporters::XML::DDI::CcCondition.new doc
+  #   xml_node = exporter.V3_2(con)
+  #
+  # @see ::CcCondition
   class CcCondition < DdiExporterBase
+    # Exports the {::CcCondition} in DDI 3.2
+    #
+    # Create a single XML node as an export of a single {::CcCondition}.
+    # In order to be valid DDI, this node then needs to be wrapped
+    # either in a ControlConstructScheme or a Fragment.
+    #
+    # @param [::CcCondition|Integer] con_id Either the CcCondition or CcCondition ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(con_id)
       if con_id.is_a? ::CcCondition
         cc = con_id
