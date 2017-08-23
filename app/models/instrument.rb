@@ -229,6 +229,7 @@ class Instrument < ApplicationRecord
   end
 
   # Get all of the constructs in order from the top sequence down
+  #
   # @return [Array] Flat array of constructs
   def ccs_in_ddi_order
     output = []
@@ -450,9 +451,11 @@ class Instrument < ApplicationRecord
     ::Prefix[self.prefix] = self.id
   end
 
-  # Removed the prefix and then re-add it to Redis cache
+  # Removed the old prefix and then add the new one to Redis cache
   def reregister_prefix
-    deregister_prefix
-    register_prefix
+    if self.changes.has_key? :prefix
+      ::Prefix.destroy self.changes[:prefix].first
+      register_prefix
+    end
   end
 end
