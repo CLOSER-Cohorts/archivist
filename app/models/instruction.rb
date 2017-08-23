@@ -20,7 +20,7 @@ class Instruction < ActiveRecord::Base
   # XML tag name
   TYPE = 'Instruction'
 
-  # All categories must belong to an instrument
+  # All instructions must belong to an instrument
   belongs_to :instrument
 
   # Each instruction can be used for many {QuestionItems QuestionItem}

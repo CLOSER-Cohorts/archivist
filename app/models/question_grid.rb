@@ -9,7 +9,7 @@
 # * Roster Rows
 # * Corner Label
 class QuestionGrid < ApplicationRecord
-  # This model had all the standard Question features from DDI3.X
+  # This model has all the standard {Question::Model Question} features from DDI3.X
   include Question::Model
 
   # Used to create CLOSER UserID and URNs

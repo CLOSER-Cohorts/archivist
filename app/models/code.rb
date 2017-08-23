@@ -18,13 +18,16 @@ class Code < ApplicationRecord
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'co'
+
   # XML tag name
   TYPE = 'Code'
 
   # All Codes must belong to a Code List
   belongs_to :code_list
+
   # Each Code must have one Category
   belongs_to :category
+
   # Each Code belongs to an instrument to ensure security and validity
   belongs_to :instrument
 

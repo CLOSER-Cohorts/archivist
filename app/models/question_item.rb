@@ -6,7 +6,7 @@
 # * Label
 # * Literal
 class QuestionItem < ApplicationRecord
-  # This model had all the standard Question features from DDI3.X
+  # This model has all the standard Question features from DDI3.X
   include Question::Model
 
   # Used to create CLOSER UserID and URNs
