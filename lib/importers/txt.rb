@@ -1,4 +1,5 @@
 module Importers::TXT
+  # Utility class for importing tab delimited text files
   class TabDelimited
     def initialize(thing)
       @config = {}
