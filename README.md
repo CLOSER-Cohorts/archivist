@@ -8,7 +8,7 @@
 
 ### Model Relationship Diagram
 Run `rails generate_erd` to regenerate (must have graphvis).
-![](/app/assets/images/diagrams/erd-wp.png)
+![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
 * Ruby: 2.3.1
