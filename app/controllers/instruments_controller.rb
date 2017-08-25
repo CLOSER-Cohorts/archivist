@@ -39,7 +39,7 @@ class InstrumentsController < BasicController
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
-            cc.branch = u[:branch]
+            cc.branch = u[:parent][:type].classify.constantize.is_a?(CcCondition) ? u[:branch] : nil
             cc.save!
           end
         end

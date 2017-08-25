@@ -24,6 +24,6 @@ class CcSequenceTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of Array, @cc_sequence.children
+    assert_kind_of Enumerable, @cc_sequence.children
   end
 end

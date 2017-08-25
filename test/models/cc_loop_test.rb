@@ -24,6 +24,6 @@ class CcLoopTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of Array, @cc_loop.children
+    assert_kind_of Enumerable, @cc_loop.children
   end
 end
