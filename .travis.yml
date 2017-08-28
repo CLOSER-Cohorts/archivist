@@ -3,6 +3,7 @@ rvm:
   - 2.3.1
 services:
   - postgresql
+  - redis-server
 #before_install:
 #  - rm -f Gemfile.lock
 before_script:

@@ -11,10 +11,12 @@ module Question::Model
     has_many :response_domain_datetimes, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainDatetime'
     has_many :response_domain_numerics, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainNumeric'
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
-    has_many :cc_questions, as: :question, dependent: :destroy
+    has_many :cc_questions, as: :question, dependent: :destroy, inverse_of: :question
 
     include Realtime::RtUpdate
     include Exportable
+    # This model can be tracked using an Identifier
+    include Identifiable
 
     NS ||= 'd'
 

@@ -1,5 +1,7 @@
 module Importers::XML::DDI
   class Dataset
+    alias object dataset
+
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
@@ -10,6 +12,10 @@ module Importers::XML::DDI
         @filepath = @document.filename
       end
       @counters = {}
+    end
+
+    def cancel
+      @dataset.destroy
     end
 
     def parse

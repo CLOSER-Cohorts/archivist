@@ -1,5 +1,24 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::QuestionGrid}
+  #
+  # {::QuestionGrid} is a direct alias of DDI 3.2 QuestionItem.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   qg = QuestionGrid.first
+  #   exporter = Exporters::XML::DDI::QuestionGrid.new doc
+  #   xml_node = exporter.V3_2(qg)
+  #
+  # @see ::QuestionGrid
   class QuestionGrid < Exporters::XML::DDI::Question
+    # Exports the {::QuestionGrid} in DDI 3.2
+    #
+    # Create a single XML node as an export of a single {::QuestionGrid}.
+    # In order to be valid DDI, this node then needs to be wrapped
+    # either in a QuestionScheme or a Fragment.
+    #
+    # @param [::QuestionGrid|Integer] qgrid_id Either the QuestionGrid or QuestionGrid ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(qgrid_id)
       @klass = ::QuestionGrid
 
@@ -94,7 +113,18 @@ module Exporters::XML::DDI
       end
     end
 
-    private
+    private  # Private methods
+    # Attaches a response domain to a specific grid column
+    #
+    # If the {::QuestionGrid} has more than one different type of response
+    # domain then they need to be attached to specific columns.
+    #
+    # TODO: Does this function need rd_count?
+    #
+    # @param [Nokogiri::XML::Node] node Response domain for wrapping
+    # @param [Integer] rd_count Number of response domains the grid has
+    # @param [Integer] col Column to attach the response domain to
+    # @return [Nokogiri::XML::Node] Wrapped response domain node
     def wrap_grid_response_domain(node, rd_count, col)
       if rd_count > 1
         wrapper = Nokogiri::XML::Node.new 'd:GridResponseDomain', @doc

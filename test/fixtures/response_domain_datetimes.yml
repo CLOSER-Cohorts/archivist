@@ -1,50 +1,72 @@
 ---
 ResponseDomainDatetime_1:
-  id: 25
+  id: 42
   datetime_type: Time
   label: Time
-  created_at: 2016-06-20 13:51:24.477457000 Z
-  updated_at: 2016-06-20 13:51:24.477457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-11-08 12:22:39.515578000 Z
+    zone: &2 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-11-08 12:22:39.515578000 Z
+    zone: *2
+    time: *3
+  instrument_id: 22
   response_domain_type: ResponseDomainDatetime
 ResponseDomainDatetime_2:
-  id: 26
+  id: 43
   datetime_type: Date
   label: Generic date
-  created_at: 2016-06-20 13:51:24.488457000 Z
-  updated_at: 2016-06-20 13:51:24.488457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-11-08 12:22:39.518125000 Z
+    zone: *2
+    time: *4
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-11-08 12:22:39.518125000 Z
+    zone: *2
+    time: *5
+  instrument_id: 22
   response_domain_type: ResponseDomainDatetime
 ResponseDomainDatetime_3:
-  id: 27
+  id: 44
   datetime_type: Date
   label: Date of birth
-  created_at: 2016-06-20 13:51:24.507457000 Z
-  updated_at: 2016-06-20 13:51:24.507457000 Z
-  instrument_id: 10
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2016-11-08 12:22:39.520324000 Z
+    zone: *2
+    time: *6
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2016-11-08 12:22:39.520324000 Z
+    zone: *2
+    time: *7
+  instrument_id: 22
   response_domain_type: ResponseDomainDatetime
 ResponseDomainDatetime_4:
-  id: 28
+  id: 85
   datetime_type: Date
   label: Generic date
-  created_at: 2016-06-21 13:18:34.855074000 Z
-  updated_at: 2016-06-21 13:18:34.855074000 Z
-  instrument_id: 11
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2016-11-08 12:25:52.785227000 Z
+    zone: *2
+    time: *8
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &9 2016-11-08 12:25:52.785227000 Z
+    zone: *2
+    time: *9
+  instrument_id: 46
   response_domain_type: ResponseDomainDatetime
 ResponseDomainDatetime_5:
-  id: 29
-  datetime_type: Duration
-  label: Dur
-  format: PTnnMnnS
-  created_at: 2016-06-21 14:22:13.739948000 Z
-  updated_at: 2016-06-21 14:22:13.739948000 Z
-  instrument_id: 11
-  response_domain_type: ResponseDomainDatetime
-ResponseDomainDatetime_6:
-  id: 30
+  id: 99
   datetime_type: Date
   label: Generic date
-  created_at: 2016-07-01 11:34:33.044913000 Z
-  updated_at: 2016-07-01 11:34:33.044913000 Z
-  instrument_id: 12
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &10 2016-11-08 12:28:32.848172000 Z
+    zone: *2
+    time: *10
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &11 2016-11-08 12:28:32.848172000 Z
+    zone: *2
+    time: *11
+  instrument_id: 58
   response_domain_type: ResponseDomainDatetime

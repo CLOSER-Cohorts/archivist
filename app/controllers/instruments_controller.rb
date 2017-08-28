@@ -6,7 +6,7 @@ class InstrumentsController < BasicController
                     qvmapping: ImportJob::Mapping,
                     topicq: ImportJob::TopicQ
                 })
-  only_set_object { %i{copy response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -39,8 +39,8 @@ class InstrumentsController < BasicController
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
-            cc.branch = u[:branch]
-            cc.cc.save!
+            cc.branch = u[:parent][:type].classify.constantize.is_a?(CcCondition) ? u[:branch] : nil
+            cc.save!
           end
         end
       end
@@ -66,13 +66,6 @@ class InstrumentsController < BasicController
   def export
       Resque.enqueue ExportJob::Instrument, @object.id
       head :ok, format: :json
-  end
-
-  def mapper
-    respond_to do |format|
-      format.text { render 'mapper.txt.erb', layout: false, content_type: 'text/plain' }
-      format.json  {}
-    end
   end
 
   def variables
@@ -120,6 +113,11 @@ class InstrumentsController < BasicController
     rescue  => e
       render json: {message: e}, status: :bad_request
     end
+  end
+
+  def clear_cache
+    @object.clear_cache
+    head :ok
   end
 
   def copy

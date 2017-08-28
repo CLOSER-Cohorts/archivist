@@ -2,15 +2,11 @@ require 'test_helper'
 
 class CcConditionTest < ActiveSupport::TestCase
   setup do
-    @cc_condition = cc_conditions :CcCondition_1
-  end
-
-  test "has one cc" do
-    assert_kind_of ControlConstruct, @cc_condition.cc
+    @cc_condition = cc_conditions :CcCondition_9
   end
 
   test "can read parent construct" do
-    assert_kind_of Construct::Model, @cc_condition.parent
+    assert_kind_of ::ParentalConstruct, @cc_condition.parent
   end
 
   test "set a new parent" do
@@ -20,7 +16,7 @@ class CcConditionTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of ActiveRecord::Associations::CollectionProxy, @cc_condition.children
+    assert_kind_of Array, @cc_condition.children
   end
 
   test "has one topic" do

@@ -1,20 +1,25 @@
-# The CcStatement model directly relates to the DDI3.X StatementConstruct model
+# The CcStatement model directly relates to the DDI3.X Statement model
 #
 # Statements are one of the five control constructs used in the questionnaire profile
 # and used in Archivist. This control construct allows a one-off text string to be
 # placed into the structure of a questionnaire. They typically represent a statement
 # made to the respondent for clarification or framing purposes.
 #
-# Please visit
-class CcStatement < ApplicationRecord
-  # This model is a Construct
-  include Construct::Model
+# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/archive_xsd/elements/Statement.html
+#
+# === Properties
+# * Literal
+class CcStatement < ::ControlConstruct
+  self.primary_key = :id
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'si'
 
   # XML tag name
   TYPE = 'StatementItem'
+
+  # All CcStatements require a literal
+  validates :literal, presence: true
 
   # In order to create a construct, it must be positioned within another construct.
   # This positional information is held on the corresponding ConstrolConstruct

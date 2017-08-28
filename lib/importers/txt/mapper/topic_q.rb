@@ -9,6 +9,9 @@ class Importers::TXT::Mapper::TopicQ
     @instrument = instrument
   end
 
+  def cancel
+  end
+
   def import
     @doc.each do |q, t|
       qc = @instrument.cc_questions.find_by_label q

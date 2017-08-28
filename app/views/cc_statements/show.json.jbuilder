@@ -1,3 +1,4 @@
 json.extract! @object, :id, :literal, :position
 json.label @object.label
-json.parent @object.parent.id
+json.parent_id @object.parent_id
+json.parent_type @object.parent_type

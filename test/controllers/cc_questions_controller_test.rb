@@ -4,7 +4,7 @@ class CcQuestionsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @cc_question = cc_questions(:CcQuestion_1)
+    @cc_question = cc_questions(:CcQuestion_4)
     @instrument = instruments(:Instrument_1)
   end
 
@@ -17,16 +17,19 @@ class CcQuestionsControllerTest < ActionController::TestCase
   test "should create cc_question" do
     assert_difference('CcQuestion.count') do
       post :create,
-        format: :json,
-        instrument_id: @instrument.id,
-        question_id: @cc_question.question_id,
-        question_type: @cc_question.question_type,
-        response_unit_id: @cc_question.response_unit.id,
-        type: 'question',
-        parent: {
-            id: @cc_question.parent.id,
-            type: 'sequence'
-        }
+           instrument_id: @instrument.id,
+           cc_question: {
+               instrument_id: @instrument.id,
+               question_id: @cc_question.question_id,
+               question_type: @cc_question.question_type,
+               response_unit_id: @cc_question.response_unit.id,
+               type: 'question',
+               parent: {
+                   id: @cc_question.parent.id,
+                   type: 'sequence'
+               }
+           },
+        format: :json
     end
 
     assert_response :success

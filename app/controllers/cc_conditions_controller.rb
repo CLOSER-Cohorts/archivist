@@ -1,6 +1,14 @@
+# A controller for the model {CcCondition}
 class CcConditionsController < ConstructController
-  only_set_object
+  # Allow topic linking
+  include Linkable::Controller
 
+  # Initialise finding object for item based actions
+  only_set_object { %i{set_topic} }
+
+  # Set model for automatic CRUD actions
   @model_class = CcCondition
-  @params_list = [:label, :literal, :logic, :parent, :position, :branch]
+
+  # List of params that can be set and edited
+  @params_list = [:literal, :logic]
 end

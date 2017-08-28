@@ -17,13 +17,16 @@ class CcSequencesControllerTest < ActionController::TestCase
   test "should create cc_sequence" do
     assert_difference('CcSequence.count') do
       post :create, format: :json,
-          instrument_id: @instrument.id,
-          literal: @cc_sequence.literal,
-          type: 'sequence',
-          parent: {
-              id: @instrument.cc_sequences.first.id,
-              type: 'sequence'
-          }
+           cc_sequence: {
+               instrument_id: @instrument.id,
+               literal: @cc_sequence.literal,
+               type: 'sequence',
+               parent: {
+                   id: @instrument.cc_sequences.first.id,
+                   type: 'sequence'
+               }
+           },
+          instrument_id: @instrument.id
     end
 
     assert_response :success

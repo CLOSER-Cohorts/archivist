@@ -9,12 +9,8 @@ class CcLoopTest < ActiveSupport::TestCase
     assert_kind_of Instrument, @cc_loop.instrument
   end
 
-  test "has one cc" do
-    assert_kind_of ControlConstruct, @cc_loop.cc
-  end
-
   test "can read parent construct" do
-    assert_kind_of Construct::Model, @cc_loop.parent
+    assert_kind_of ParentalConstruct, @cc_loop.parent
   end
 
   test "set a new parent" do
@@ -28,6 +24,6 @@ class CcLoopTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of ActiveRecord::Associations::CollectionProxy, @cc_loop.children
+    assert_kind_of Enumerable, @cc_loop.children
   end
 end

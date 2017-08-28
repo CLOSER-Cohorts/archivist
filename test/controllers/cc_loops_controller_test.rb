@@ -5,7 +5,7 @@ class CcLoopsControllerTest < ActionController::TestCase
     @user = users :User_1
     sign_in @user
     @cc_loop = cc_loops(:CcLoop_1)
-    @instrument = instruments(:Instrument_2)
+    @instrument = instruments(:Instrument_3)
   end
 
   test "should get index" do
@@ -17,16 +17,19 @@ class CcLoopsControllerTest < ActionController::TestCase
   test "should create cc_loop" do
     assert_difference('CcLoop.count') do
       post :create, format: :json,
-          instrument_id: @instrument.id,
-          end_val: @cc_loop.end_val,
-          loop_var: @cc_loop.loop_var,
-          loop_while: @cc_loop.loop_while,
-          start_val: @cc_loop.start_val,
-          type: 'loop',
-          parent: {
-            id: @cc_loop.parent.id,
-            type: 'condition'
-          }
+           instrument_id: @instrument.id,
+            cc_loop: {
+                instrument_id: @instrument.id,
+                end_val: @cc_loop.end_val,
+                loop_var: @cc_loop.loop_var,
+                loop_while: @cc_loop.loop_while,
+                start_val: @cc_loop.start_val,
+                type: 'loop',
+                parent: {
+                    id: @cc_loop.parent.id,
+                    type: 'condition'
+                }
+            }
     end
 
     assert_response :success

@@ -7,8 +7,7 @@
 [![Issue Stats](http://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](http://issuestats.com/github/CLOSER-Cohorts/archivist)
 
 ### Model Relationship Diagram
-Run `rails generate_erd` to regenerate (must have graphvis).
-![](/app/assets/images/diagrams/erd-wp.png)
+![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
 * Ruby: 2.3.1
@@ -40,20 +39,20 @@ To run the test suite just call `rails test`. Currently 197 tests and 256 assert
 ## Stats
 | Name                 |   Lines |     LOC | Classes | Methods | M/C | LOC/M |
 |----------------------|---------|---------|---------|---------|-----|-------|
-| Controllers          |    1011 |     710 |      33 |      71 |   2 |     8 |
+| Controllers          |    1168 |     746 |      33 |      76 |   2 |     7 |
 | Jobs                 |     206 |     167 |      10 |       9 |   0 |    16 |
-| Models               |    1568 |    1264 |      34 |     121 |   3 |     8 |
+| Models               |    2895 |    1615 |      40 |     158 |   3 |     8 |
 | Mailers              |      12 |      11 |       2 |       1 |   0 |     9 |
-| Javascripts          |    3906 |    3335 |       0 |     410 |   0 |     6 |
-| Libraries            |    2624 |    2310 |      24 |     100 |   4 |    21 |
-| Tasks                |     397 |     328 |       0 |       1 |   0 |   326 |
-| Controller tests     |     848 |     699 |      18 |      93 |   5 |     5 |
-| Model tests          |     671 |     491 |      28 |     104 |   3 |     2 |
+| Javascripts          |    4527 |    3929 |       0 |     477 |   0 |     6 |
+| Libraries            |    3463 |    2750 |      32 |     126 |   3 |    19 |
+| Tasks                |     390 |     322 |       0 |       1 |   0 |   320 |
+| Controller tests     |     862 |     713 |      18 |      93 |   5 |     5 |
+| Model tests          |     663 |     478 |      30 |      97 |   3 |     2 |
 | Mailer tests         |      11 |       5 |       2 |       0 |   0 |     0 |
-| **Total**            |**11278**| **9339**|  **151**|  **912**|**6**|  **8**|
+| **Total**            |**14221**|**10755**|  **167**| **1040**|**6**|  **8**|
 
-  - Code LOC: 8144
-  - Test LOC: 1195
+  - Code LOC: 9559
+  - Test LOC: 1196
   - Code to Test Ratio: 1:0.1
 
 ## Archivist Realtime

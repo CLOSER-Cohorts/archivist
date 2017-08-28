@@ -1,5 +1,24 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::CodeList}
+  #
+  # {::CodeList} is a direct alias of DDI 3.2 CodeList.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   cl = CodeList.first
+  #   exporter = Exporters::XML::DDI::CodeList.new doc
+  #   xml_node = exporter.V3_2(cl)
+  #
+  # @see ::CodeList
   class CodeList < DdiExporterBase
+    # Exports the {::CodeList} in DDI 3.2
+    #
+    # Create a single XML node as an export of a single {::CodeList}.
+    # In order to be valid DDI, this node then needs to be wrapped
+    # either in a CodeListScheme or a Fragment.
+    #
+    # @param [::CodeList|Integer] codelist_id Either the CodeList or CodeList ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(codelist_id)
       if codelist_id.is_a? ::CodeList
         codelist = codelist_id

@@ -9,6 +9,9 @@ class Importers::TXT::Mapper::DV
     @dataset = dataset
   end
 
+  def cancel
+  end
+
   def import
     @doc.each do |v, s|
       var = @dataset.variables.find_by_name v
