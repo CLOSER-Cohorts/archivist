@@ -1,7 +1,7 @@
 # A controller for the model {Topic}
 class TopicsController < BasicController
   # Initialise finding object for item based actions
-  only_set_object
+  only_set_object { %i{ question_statistics variable_statistics } }
 
   # Set model for automatic CRUD actions
   @model_class = Topic
@@ -24,5 +24,19 @@ class TopicsController < BasicController
   def flattened_nest
     @collection = Topic.flattened_nest
     render :index
+  end
+
+  # Loads summary statistics for {Topic} to {CcQuestion} mapping
+  #
+  # Example:
+  #   GET /topics/1/question_statistics.json
+  def question_statistics
+  end
+
+  # Loads summary statistics for {Topic} to {Variable} mapping
+  #
+  # Example:
+  #   GET /topics/1/variable_statistics.json
+  def variable_statistics
   end
 end

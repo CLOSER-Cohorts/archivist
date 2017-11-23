@@ -31,6 +31,10 @@ Rails.application.routes.draw do
       get 'nested_index', to: 'topics#nested_index'
       get 'flattened_nest', to: 'topics#flattened_nest'
     end
+    member do
+      get 'question_statistics', to: 'topics#question_statistics'
+      get 'variable_statistics', to: 'topics#variable_statistics'
+    end
   end
 
   resources :user_groups, constraints: -> (r) { (r.format == :json) } do

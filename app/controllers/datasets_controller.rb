@@ -10,8 +10,8 @@ class DatasetsController < BasicController
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :dv]
 
-  @model_class = Dataset
-  @params_list = [:name]
+  @model_class = ::Dataset
+  @params_list = [:name, :doi, :study]
 
   def index
     @var_counts = Variable.group(:dataset_id).count

@@ -5,7 +5,8 @@ datasets = angular.module('archivist.datasets', [
   'templates',
   'ngRoute',
   'archivist.datasets.index',
-  'archivist.datasets.show'
+  'archivist.datasets.show',
+  'archivist.datasets.edit'
 ])
 
 datasets.config(
@@ -22,7 +23,7 @@ datasets.config(
         controller: 'DatasetsShowController'
       )
       .when('/datasets/:id/edit',
-        templateUrl: 'partials/instruments/edit.html'
+        templateUrl: 'partials/datasets/edit.html'
         controller: 'DatasetsEditController'
       )
   ]
