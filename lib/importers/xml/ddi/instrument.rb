@@ -1,5 +1,7 @@
 module Importers::XML::DDI
   class Instrument
+    alias object instrument
+
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
@@ -12,6 +14,10 @@ module Importers::XML::DDI
           (options['question_grids'] == 'true' && options['question_grids'].is_a?(String)) ||
           (!!options['question_grids'] == options['question_grids'] && options['question_grids']) ? true : false
       @counters = {}
+    end
+
+    def cancel
+      @instrument.destroy
     end
 
     def parse

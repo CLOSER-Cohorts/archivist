@@ -9,6 +9,9 @@ class Importers::TXT::Mapper::TopicV
     @dataset = dataset
   end
 
+  def cancel
+  end
+
   def import
     @doc.each do |v, t|
       if @config[0].include? :icase

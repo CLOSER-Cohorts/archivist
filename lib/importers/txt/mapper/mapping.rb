@@ -10,6 +10,9 @@ class Importers::TXT::Mapper::Mapping
     @variables = instrument.datasets.map &:variables
   end
 
+  def cancel
+  end
+
   def import
     @doc.each do |q, v|
       q_ident, q_coords = *q.split('$')
