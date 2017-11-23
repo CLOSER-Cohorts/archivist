@@ -14,6 +14,7 @@ instruments.factory(
           save: {method: 'PUT'},
           create: {method: 'POST'}
           copy: {method: 'POST', url: 'instruments/:id/copy/:prefix.json'}
+          clear_cache: {method: 'GET', url: 'instruments/:id/clear_cache.json'}
         }
       )
   ]

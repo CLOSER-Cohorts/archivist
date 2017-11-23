@@ -1,4 +1,4 @@
-# This model is for storing documents into the database
+# Stores documents into the database
 #
 # Instead of a shared file store between web server nodes, Archivist
 # makes use of the database as files are not accessed frequently

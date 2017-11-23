@@ -41,7 +41,7 @@ users.controller(
           false
         )
 
-      $http.get('/groups/external.json').then (res)->
+      $http.get('/user_groups/external.json').then (res)->
         $scope.sign_up_groups = res.data
       console.log $scope
   ]

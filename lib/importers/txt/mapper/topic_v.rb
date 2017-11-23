@@ -9,9 +9,16 @@ class Importers::TXT::Mapper::TopicV
     @dataset = dataset
   end
 
+  def cancel
+  end
+
   def import
     @doc.each do |v, t|
-      var = @dataset.variables.find_by_name v
+      if @config[0].include? :icase
+        var = @dataset.variables.where('lower(name) = ?', v.downcase).first
+      else
+        var = @dataset.variables.find_by_name v
+      end
       topic = Topic.find_by_code t
       unless var.nil? or topic.nil?
         var.topic = topic

@@ -202,6 +202,9 @@ admin.controller('AdminInstrumentsController',
         if $scope.mapping.files
           $scope.mapping.files = undefined
 
+      $scope.clearCache = (id)->
+        $scope.instruments.select_resource_by_id(id).$clear_cache()
+
       $scope.prepareImport = (prefix,id)->
         $scope.id = id
         $scope.modal={}

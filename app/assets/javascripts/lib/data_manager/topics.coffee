@@ -24,6 +24,16 @@ topics.factory(
             url: '/topics/flattened_nest.json'
             isArray: true
           },
+          questionStatistics: {
+            method: 'GET',
+            url: '/topics/:id/question_statistics.json',
+            isArray: true
+          },
+          variableStatistics: {
+            method: 'GET',
+            url: '/topics/:id/variable_statistics.json',
+            isArray: true
+          },
           save: {
             method: 'PUT'
           },
@@ -32,6 +42,12 @@ topics.factory(
           }
         }
       )
+
+      wr.questionStatistics = (parameters, success, error)->
+        wr.resource.questionStatistics parameters, success, error
+
+      wr.variableStatistics = (parameters, success, error)->
+        wr.resource.variableStatistics parameters, success, error
 
       wr.getNested = (parameters, success, error)->
         if not wr.data['getNested']?

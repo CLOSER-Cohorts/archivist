@@ -3,12 +3,15 @@
 # Typically multiple categories are used to create {CodeList CodeLists}.
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/logicalproduct_xsd/elements/Category.html
-#s
+#
 # === Properties
 # * Label
 class Category < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
+
+  # This model can be tracked using an Identifier
+  include Identifiable
 
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'ca'
@@ -23,7 +26,10 @@ class Category < ApplicationRecord
   before_create :no_duplicates
 
   # Each Category can be used by many {Code Codes}
-  has_many :codes
+  has_many :codes, inverse_of: :category
+
+  # All Categories require a label
+  validates :label, presence: true
 
   private # Private methods
 

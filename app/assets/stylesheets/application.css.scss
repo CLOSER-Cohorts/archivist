@@ -15,8 +15,8 @@
  */
 
 $icon-font-path: "bootstrap-sass/assets/fonts/";
-@import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
-@import "bootstrap-sass/assets/stylesheets/bootstrap";
+@import "bootstrap-sass/assets/stylesheets/_bootstrap-sprockets";
+@import "bootstrap-sass/assets/stylesheets/_bootstrap";
 @import "angular-tree-control/css/tree-control";
 @import "angular-tree-control/css/tree-control-attribute";
 @import "angular-ui-tree/dist/angular-ui-tree";

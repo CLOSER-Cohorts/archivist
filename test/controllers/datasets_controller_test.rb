@@ -4,7 +4,7 @@ class DatasetsControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @dataset = datasets(:one)
+    @dataset = datasets(:Dataset_1)
   end
 
   test "should get index" do
@@ -32,7 +32,7 @@ class DatasetsControllerTest < ActionController::TestCase
   end
 
   test "should destroy dataset" do
-    dataset = datasets(:two)
+    dataset = datasets(:Dataset_2)
     assert_difference('Dataset.count', -1) do
       delete :destroy, format: :json, id: dataset
     end

@@ -1,9 +1,40 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::Instrument}
+  #
+  # {::Instrument} is a direct alias of DDI 3.2 Instrument.
+  #
+  # @example Exporting to file
+  #   i = Instrument.first
+  #   exp = Exporters::XML::DDI::Instrument.new
+  #   exp.add_root_attributes
+  #   filepath = exp.run i
+  #
+  # @example Exporting to string
+  #   i = Instrument.first
+  #   exp = Exporters::XML::DDI::Instrument.new
+  #   exp.add_root_attributes
+  #   exp.export_instrument i
+  #   exp.build_rp
+  #   exp.build_iis
+  #   exp.build_cs
+  #   exp.build_cls
+  #   exp.build_qis
+  #   exp.build_qgs
+  #   exp.build_is
+  #   exp.build_ccs
+  #   xml_string = exp.doc.to_xml &:no_empty_tags
+  #
+  # @see ::Instruction
   class Instrument < DdiExporterBase
+    # Creates the XML document for exporting to as
+    # a DDIInstance
     def initialize
       @doc = Nokogiri::XML '<ddi:DDIInstance></ddi:DDIInstance>'
     end
 
+    # Sets the essentiall attributes against the root node
+    # and also takes the current time for the version date
+    # for all schemes.
     def add_root_attributes
       @datetimestring = Time.now.strftime '%Y-%m-%dT%H:%M:%S%:z'
       @doc.root['versionDate'] = @datetimestring
@@ -14,6 +45,10 @@ module Exporters::XML::DDI
       @doc.root['xmlns:r'] = 'ddi:reusable:3_2'
     end
 
+    # Performs a full instrument export to file
+    #
+    # @param [Instrument] instrument Instrument for exporting
+    # @return [String] Path to the exported file
     def run(instrument)
       export_instrument instrument
 
@@ -38,6 +73,12 @@ module Exporters::XML::DDI
       filename
     end
 
+    # Creates the citation for the instance and creates the resoruce
+    # package
+    #
+    # Both are added to @doc
+    #
+    # @param [Instrument] instrument Instrument for exporting
     def export_instrument(instrument)
       @instrument = instrument
       @urn_prefix = 'urn:ddi:%{agency}:%{prefix}' %
@@ -57,6 +98,8 @@ module Exporters::XML::DDI
       cit.add_next_sibling @rp
     end
 
+    # Populates the Resouse Package with all of the schemes
+    # used in the questionnaire profile
     def build_rp
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
       urn.content = @urn_prefix + '-rp-000001:1.0.0'
@@ -91,26 +134,32 @@ module Exporters::XML::DDI
       @cls.add_next_sibling @is
     end
 
+    # Populates the InterviewerInstructionScheme with all of the instrument's {Instruction Instructions}
     def build_iis
       build_scheme Exporters::XML::DDI::Instruction, @instrument.instructions, @iis
     end
 
+    # Populates the CategoryScheme with all of the instrument's {Category Categories}
     def build_cs
       build_scheme Exporters::XML::DDI::Category, @instrument.categories, @cs
     end
 
+    # Populates the CodeListScheme with all of the instrument's {CodeList CodeLists}
     def build_cls
       build_scheme Exporters::XML::DDI::CodeList, @instrument.code_lists, @cls
     end
 
+    # Populates the first QuestionScheme with all of the instrument's {QuestionItem QuestionItems}
     def build_qis
       build_scheme Exporters::XML::DDI::QuestionItem, @instrument.question_items, @qis
     end
 
+    # Populates the second QuestionScheme with all of the instrument's {QuestionGrid QuestionGrids}
     def build_qgs
       build_scheme Exporters::XML::DDI::QuestionGrid, @instrument.question_grids, @qgs
     end
 
+    # Populates the ControlConstructScheme with all of the instrument's constructs
     def build_ccs
       exporters = {}
       exporters[::CcCondition] = Exporters::XML::DDI::CcCondition.new @doc
@@ -124,6 +173,7 @@ module Exporters::XML::DDI
       end
     end
 
+    # Populates the InstrumentScheme with the {::Instrument} details
     def build_is
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
       urn.content = @urn_prefix + '-ins-000001:1.0.0'
@@ -140,11 +190,20 @@ module Exporters::XML::DDI
       isn.add_next_sibling i
     end
 
+    # Accessor reader for @doc
+    #
+    # @return [Nokogiri::XML::Document] Export XML document
     def doc
       @doc
     end
 
-    private
+    private  # Private methods
+    # Generic builder to create a scheme
+    #
+    # @param [String] tag Name of scheme to be created
+    # @param [String] urn_suffix Identifing string for scheme URN
+    # @param [String] name Name of the scheme
+    # @return [Nokogiri::XML::Node] New XML scheme node
     def create_scheme(tag, urn_suffix, name)
       s = Nokogiri::XML::Node.new tag, @doc
       s['versionDate'] = @datetimestring
@@ -158,6 +217,11 @@ module Exporters::XML::DDI
       s
     end
 
+    # Generic method for populating a scheme with items
+    #
+    # @param [DdiExporterBase] exporter_klass Exporter class for item
+    # @param [ActiveRecord::Associations::CollectionProxy] set Collection of items for export to scheme
+    # @param [Nokogiri::XML::Node] scheme Scheme for populating
     def build_scheme(exporter_klass, set, scheme)
       exporter = exporter_klass.new @doc
       set.find_each do |obj|

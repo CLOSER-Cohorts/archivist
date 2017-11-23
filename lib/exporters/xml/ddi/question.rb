@@ -1,5 +1,11 @@
 module Exporters::XML::DDI
+  # Base class for exporting DDI questions
   class Question < DdiExporterBase
+    # Performs the generic functions for exporting a question
+    # in DDI 3.2
+    #
+    # @param [Question::Model|Integer] id Either the question or question ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(id)
       if id.is_a? @klass
         obj = id

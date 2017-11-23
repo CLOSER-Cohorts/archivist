@@ -4,8 +4,8 @@ class VariablesControllerTest < ActionController::TestCase
   setup do
     @user = users :User_1
     sign_in @user
-    @variable = variables(:one)
-    @dataset = datasets(:one)
+    @variable = variables(:Variable_1)
+    @dataset = datasets(:Dataset_1)
   end
 
   test "should get index" do

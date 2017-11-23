@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TopicTest < ActiveSupport::TestCase
   setup do
-    @topic = topics :two
+    @topic = topics :Topic_32
   end
 
   test "has a parent" do

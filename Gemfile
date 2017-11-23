@@ -61,6 +61,9 @@ gem 'parallel'
 gem 'oj'
 gem 'jbuilder_cache_multi'
 
+# Used in DataTools
+gem 'fuzzy_match'
+
 # Heroku email service
 gem 'postmark-rails', '>= 0.10.0'
 
@@ -106,6 +109,7 @@ group :test do
   #gem 'ruby-prof'
   gem 'rails-controller-testing'
   gem 'resque_unit'
+  gem 'minitest', '~> 5.10', '!= 5.10.2'
 end
 
 gem 'coveralls', require: false

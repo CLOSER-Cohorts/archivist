@@ -29,11 +29,14 @@ node_modules/
 # Ignore application configuration
 /config/application.yml
 
-
-
 .env.*
 !*.example
 
 # .gitignore compiled assets
 #public/assets/*
 
+.byebug_history
+npm-debug.log.*
+
+.yardoc/
+doc/

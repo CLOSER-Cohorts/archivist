@@ -1,6 +1,13 @@
 module Exporters::XML::DDI
+  # Static class to wrap DDI node exports into correctly formatted
+  # fragments
   module Fragment
     class << self
+      # Exports DDI 3.2 Fragment
+      #
+      # @param [DdiExporterBase] exporter_klass DDI node exporter class to use
+      # @param [Exportable] obj Item for exporting
+      # @return [String] DDI 3.2 fragment
       def export_3_2 (exporter_klass, obj)
         doc = Nokogiri::XML '<Fragment></Fragment>'
         datetimestring = Time.now.strftime '%Y-%m-%dT%H:%M:%S%:z'

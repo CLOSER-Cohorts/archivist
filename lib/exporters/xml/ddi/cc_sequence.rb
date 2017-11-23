@@ -1,5 +1,24 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::CcSequence}
+  #
+  # {::CcSequence} is a direct alias of DDI 3.2 Sequence.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   seq = CcSequence.first
+  #   exporter = Exporters::XML::DDI::CcSequence.new doc
+  #   xml_node = exporter.V3_2(seq)
+  #
+  # @see ::CcSequence
   class CcSequence < DdiExporterBase
+    # Exports the {::CcSequence} in DDI 3.2
+    #
+    # Create a single XML node as an export of a single {::CcSequence}.
+    # In order to be valid DDI, this node then needs to be wrapped
+    # either in a ControlConstructScheme or a Fragment.
+    #
+    # @param [::CcSequence|Integer] seq_id Either the CcSequence or CcSequence ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(seq_id)
       if seq_id.is_a? ::CcSequence
         cc = seq_id

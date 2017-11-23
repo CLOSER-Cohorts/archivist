@@ -2,23 +2,31 @@
 # for all five of the construct models. Every construct must have one
 # ControlConstruct and vice-versa.
 #
+# This is the abstract class that all five of the control constructs are
+# eventually derived from.
+#
 # === Properties
 # * Label
 # * Position
 # * Parent
 # * Branch
 class ControlConstruct < ApplicationRecord
-  # Every ControlConstruct _must_ have one construct
-  belongs_to :construct, polymorphic: true
+  self.abstract_class = true
+
+  # Control constructs are comparable to allow sorting into positional order
+  include Comparable
+
+  # This model is an update point for archivist-realtime
+  include Realtime::RtUpdate
+
+  # This model is exportable as DDI
+  include Exportable
 
   # All categories must belong to an {Instrument}
   belongs_to :instrument
 
-  # Every ControlConstruct must have a parent, with the exception of the top sequence
-  belongs_to :parent, -> { includes :construct }, class_name: 'ControlConstruct'
-
-  # Get a collection of constructs that have this model as a parent
-  has_many :children, -> { includes(:construct).order('position ASC') }, class_name: 'ControlConstruct', foreign_key: 'parent_id', dependent: :destroy
+  # Each control construct must have one parent, except the top-sequence which has no parent
+  belongs_to :parent, polymorphic: true
 
   # After updating, clear the cache from Redis
   after_update :clear_cache
@@ -29,16 +37,16 @@ class ControlConstruct < ApplicationRecord
   # Clears the Redis cache of construct positional information
   def clear_cache
     begin
-      unless self.parent.nil?
-        if self.parent.construct_type == 'CcCondition'
-          $redis.hdel 'construct_children:CcCondition:0', self.parent.construct_id
-          $redis.hdel 'construct_children:CcCondition:1', self.parent.construct_id
+      unless self.parent_id.nil?
+        if self.parent_type == 'CcCondition'
+          $redis.hdel 'construct_children:CcCondition:0', self.parent_id
+          $redis.hdel 'construct_children:CcCondition:1', self.parent_id
         else
-          $redis.hdel 'construct_children:' + self.parent.construct_type, self.parent.construct_id
+          $redis.hdel 'construct_children:' + self.parent_type, self.parent_id
         end
       end
-      $redis.hdel 'parents', self.construct_id
-      $redis.hdel 'is_top', self.construct_id
+      $redis.hdel 'parents', self.id
+      $redis.hdel 'is_top', self.id
     rescue
       Rails.logger.warn 'Cannot connect to Redis'
     end

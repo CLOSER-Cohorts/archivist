@@ -1,7 +1,7 @@
 class DatasetsController < BasicController
   include Importers::Controller
 
-  only_set_object { %i{ questions dv } }
+  only_set_object { %i{ questions dv latest_document } }
 
   has_importers({
                     dv: ImportJob::DV,
@@ -10,8 +10,8 @@ class DatasetsController < BasicController
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :dv]
 
-  @model_class = Dataset
-  @params_list = [:name]
+  @model_class = ::Dataset
+  @params_list = [:name, :doi, :study]
 
   def index
     @var_counts = Variable.group(:dataset_id).count
@@ -52,7 +52,7 @@ class DatasetsController < BasicController
   end
 
   def latest_document
-    d = Document.where(item_id: params[:id], item_type: 'Dataset').order(created_at: :desc).limit(1).first
+    d = @object.documents.last
     if d.nil?
       head :ok
     else

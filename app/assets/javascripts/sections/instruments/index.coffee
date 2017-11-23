@@ -70,27 +70,32 @@ instruments.controller('InstrumentsController',
                 $scope.page['title'] = $scope.instrument.prefix + ' | View'
                 DataManager.resolveConstructs()
                 DataManager.resolveQuestions()
-                $scope.breadcrumbs = [
-                  {
-                    label: 'Instruments',
-                    link: '/instruments',
-                    active: false
-                  },
-                  {
-                    label: $scope.instrument.prefix,
-                    link: false,
-                    active: false,
-                    subs: [
-                      {label: 'Build', link: '/instruments/' + $routeParams.id + '/build'}
-                    ]
-                  },
-                  {
-                    label: 'View',
-                    link: false,
-                    active: true
-                  }
-                ]
                 console.log $scope
+              $scope.breadcrumbs = [
+                {
+                  label: 'Instruments',
+                  link: '/instruments',
+                  active: false
+                },
+                {
+                  label: $scope.instrument.prefix,
+                  link: false,
+                  active: false,
+                  subs: [
+                    {
+                      label: if loadStructure then 'Edit' else 'View',
+                      link: '/instruments/' + $routeParams.id + if loadStructure then '/edit' else ''
+                    },
+                    {label: 'Build', link: '/instruments/' + $routeParams.id + '/build'},
+                    {label: 'Map', link: '/instruments/' + $routeParams.id + '/map'}
+                  ]
+                },
+                {
+                  label: if loadStructure then 'View' else 'Edit',
+                  link: false,
+                  active: true
+                }
+              ]
               $scope.loading.state = "Done"
             , 100)
 

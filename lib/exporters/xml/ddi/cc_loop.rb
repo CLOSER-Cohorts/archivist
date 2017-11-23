@@ -1,5 +1,24 @@
 module Exporters::XML::DDI
+  # DDI 3.2 XML Exporter for {::CcLoop}
+  #
+  # {::CcLoop} is a direct alias of DDI 3.2 Loop.
+  #
+  # === Example
+  #   doc = Nokogiri::XML::Document.new
+  #   loop = CcLoop.first
+  #   exporter = Exporters::XML::DDI::CcLoop.new doc
+  #   xml_node = exporter.V3_2(loop)
+  #
+  # @see ::CcLoop
   class CcLoop < DdiExporterBase
+    # Exports the {::CcLoop} in DDI 3.2
+    #
+    # Create a single XML node as an export of a single {::CcLoop}.
+    # In order to be valid DDI, this node then needs to be wrapped
+    # either in a ControlConstructScheme or a Fragment.
+    #
+    # @param [::CcLoop|Integer] lp_id Either the CcLoop or CcLoop ID for exporting
+    # @return [Nokogiri::XML::Node] New XML node
     def V3_2(lp_id)
       if lp_id.is_a? ::CcLoop
         cc = lp_id

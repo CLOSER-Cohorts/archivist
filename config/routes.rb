@@ -31,9 +31,13 @@ Rails.application.routes.draw do
       get 'nested_index', to: 'topics#nested_index'
       get 'flattened_nest', to: 'topics#flattened_nest'
     end
+    member do
+      get 'question_statistics', to: 'topics#question_statistics'
+      get 'variable_statistics', to: 'topics#variable_statistics'
+    end
   end
 
-  resources :groups, constraints: -> (r) { (r.format == :json) } do
+  resources :user_groups, constraints: -> (r) { (r.format == :json) } do
     collection do
       get 'external'
     end
@@ -60,7 +64,11 @@ Rails.application.routes.draw do
   get 'datasets/:dataset_id/tv', to: 'variables#tv', constraints: request_processor
 
   resources :instruments, constraints: request_processor do
-    resources :cc_sequences
+    resources :cc_sequences do
+      member do
+        post 'set_topic', to: 'cc_sequences#set_topic'
+      end
+    end
     resources :cc_statements
     resources :cc_questions do
       member do
@@ -70,8 +78,16 @@ Rails.application.routes.draw do
         post 'set_topic', to: 'cc_questions#set_topic'
       end
     end
-    resources :cc_loops
-    resources :cc_conditions
+    resources :cc_loops do
+      member do
+        post 'set_topic', to: 'cc_loops#set_topic'
+      end
+    end
+    resources :cc_conditions do
+      member do
+        post 'set_topic', to: 'cc_conditions#set_topic'
+      end
+    end
     resources :response_units
     resources :response_domain_datetimes
     resources :response_domain_numerics
@@ -83,6 +99,7 @@ Rails.application.routes.draw do
     resources :categories
     member do
       post 'copy/:new_prefix', to: 'instruments#copy'
+      get 'clear_cache', to: 'instruments#clear_cache'
       get 'response_domains', to: 'instruments#response_domains'
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'

@@ -13,20 +13,29 @@ class Code < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # This model can be tracked using an Identifier
+  include Identifiable
+
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'co'
+
   # XML tag name
   TYPE = 'Code'
 
   # All Codes must belong to a Code List
   belongs_to :code_list
+
   # Each Code must have one Category
   belongs_to :category
+
   # Each Code belongs to an instrument to ensure security and validity
   belongs_to :instrument
 
   # Before creating a Code in the database ensure the instrument has been set
   before_create :set_instrument
+
+  # All Codes require a CodeList and Category
+  validates :category, :code_list, presence: true
 
   # Delegates label to Category, protecting against nil Category
   #

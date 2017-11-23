@@ -5,13 +5,16 @@
 # and the construct layer. They typically represent a question asked at a particular
 # point of an questionnaire to an individual denoted by the response unit.
 #
-# Please visits
-class CcQuestion < ApplicationRecord
-  # This model is a Construct
-  include Construct::Model
+# Please visits http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/QuestionConstruct.html
+#
+class CcQuestion < ::ControlConstruct
+  self.primary_key = :id
 
   # This model can have a Topic linked to it
-  include Linkable
+  include Linkable::Model
+
+  # This model can contain linkable items
+  include LinkableParent
 
   # This model can be used in mapping
   include Mappable
@@ -34,6 +37,9 @@ class CcQuestion < ApplicationRecord
 
   # All Variables associated through mapping
   has_many :variables, through: :maps
+
+  # All CcQuestions require a ResponseUnit
+  validates :question, :response_unit, presence: true
 
   # In order to create a construct, it must be positioned within another construct.
   # This positional information is held on the corresponding ConstrolConstruct
