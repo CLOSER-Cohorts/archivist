@@ -16,9 +16,9 @@ module Importers::XML::DDI
       @counters = {}
     end
 
-    def cancel
-      @instrument.destroy
-    end
+   def cancel
+     @instrument.destroy
+   end
 
     def parse
       Realtime.do_silently do

@@ -10,7 +10,7 @@ class InstrumentsController < BasicController
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
-  @model_class = Instrument
+  @model_class = ::Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
 
   def index

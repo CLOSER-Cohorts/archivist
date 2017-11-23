@@ -2,9 +2,8 @@ module ImportJob
   class Basic
     @queue = :in_and_out
 
-    def self.perform(document_id, options = {})
+    def self.perform(item, options = {})
       begin
-        item = yield document_id, options
         trap 'TERM' do
 
           item.cancel
@@ -24,42 +23,42 @@ end
 
 class ImportJob::Instrument < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, options|
-    Importers::XML::DDI::Instrument.new document_id, options
+  def self.perform(document_id, options = {})
+    super Importers::XML::DDI::Instrument.new document_id, options
   end
 end
 
 class ImportJob::Dataset < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, options|
-    Importers::XML::DDI::Dataset.new document_id, options
+  def self.perform(document_id, options = {})
+    super Importers::XML::DDI::Dataset.new document_id, options
   end
 end
 
 class ImportJob::Mapping < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, instrument_id|
-    Importers::TXT::Mapper::Mapping.new document_id, Instrument.find(instrument_id)
+  def self.perform(document_id, options = {})
+    super Importers::TXT::Mapper::Mapping.new document_id, options
   end
 end
 
 class ImportJob::DV < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, dataset_id|
-    Importers::TXT::Mapper::DV.new document_id, Dataset.find(dataset_id)
+  def self.perform(document_id, options = {})
+    super Importers::TXT::Mapper::DV.new document_id, options
   end
 end
 
 class ImportJob::TopicQ < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, instrument_id|
-    Importers::TXT::Mapper::TopicQ.new document_id, Instrument.find(instrument_id)
+  def self.perform(document_id, options = {})
+    super Importers::TXT::Mapper::TopicQ.new document_id, options
   end
 end
 
 class ImportJob::TopicV < ImportJob::Basic
   @queue = :in_and_out
-  super do |document_id, dataset_id|
-    Importers::TXT::Mapper::TopicV.new document_id, Dataset.find(dataset_id)
+  def self.perform(document_id, options = {})
+    super Importers::TXT::Mapper::TopicV.new document_id, options
   end
 end
