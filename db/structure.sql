@@ -519,6 +519,20 @@ $$;
 
 
 --
+-- Name: refresh_ancestral_topics(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION refresh_ancestral_topics() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  REFRESH MATERIALIZED VIEW ancestral_topic;
+  RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: update_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -725,6 +739,127 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE control_constructs (
+    id integer NOT NULL,
+    label character varying,
+    construct_id integer NOT NULL,
+    construct_type character varying NOT NULL,
+    parent_id integer,
+    "position" integer,
+    branch integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer NOT NULL
+);
+
+
+--
+-- Name: links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE links (
+    id integer NOT NULL,
+    target_id integer NOT NULL,
+    target_type character varying NOT NULL,
+    topic_id integer NOT NULL,
+    x integer,
+    y integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cc_links; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW cc_links AS
+ SELECT cc.id,
+    cc.label,
+    cc.construct_id,
+    cc.construct_type,
+    cc.parent_id,
+    cc."position",
+    cc.branch,
+    cc.created_at,
+    cc.updated_at,
+    cc.instrument_id,
+    l.topic_id
+   FROM (control_constructs cc
+     LEFT JOIN links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
+  ORDER BY cc.id DESC;
+
+
+--
+-- Name: topics; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE topics (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    parent_id integer,
+    code character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    description text
+);
+
+
+--
+-- Name: ancestral_topic; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW ancestral_topic AS
+ WITH RECURSIVE cc_tree AS (
+         SELECT ccl.id,
+            ccl.label,
+            ccl.construct_id,
+            ccl.construct_type,
+            ccl.parent_id,
+            ccl."position",
+            ccl.branch,
+            ccl.created_at,
+            ccl.updated_at,
+            ccl.instrument_id,
+            ccl.topic_id,
+            1 AS level
+           FROM cc_links ccl
+        UNION ALL
+         SELECT ccl.id,
+            ccl.label,
+            ccl.construct_id,
+            ccl.construct_type,
+            ccl.parent_id,
+            ccl."position",
+            ccl.branch,
+            ccl.created_at,
+            ccl.updated_at,
+            ccl.instrument_id,
+            ccl.topic_id,
+            (tree_1.level + 1)
+           FROM (cc_links ccl
+             JOIN cc_tree tree_1 ON ((tree_1.parent_id = ccl.id)))
+        )
+ SELECT t.id,
+    t.name,
+    t.parent_id,
+    t.code,
+    t.created_at,
+    t.updated_at,
+    t.description,
+    tree.construct_id,
+    tree.construct_type
+   FROM (cc_tree tree
+     JOIN topics t ON ((tree.topic_id = t.id)))
+  WHERE (tree.topic_id IS NOT NULL)
+  ORDER BY tree.level
+  WITH NO DATA;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -784,40 +919,6 @@ CREATE TABLE conditions (
 
 
 --
--- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE control_constructs (
-    id integer NOT NULL,
-    label character varying,
-    construct_id integer NOT NULL,
-    construct_type character varying NOT NULL,
-    parent_id integer,
-    "position" integer,
-    branch integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    instrument_id integer NOT NULL
-);
-
-
---
--- Name: links; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE links (
-    id integer NOT NULL,
-    target_id integer NOT NULL,
-    target_type character varying NOT NULL,
-    topic_id integer NOT NULL,
-    x integer,
-    y integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: cc_conditions; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -839,27 +940,6 @@ CREATE VIEW cc_conditions AS
      LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
      LEFT JOIN links ON (((con.id = links.target_id) AND ((links.target_type)::text = 'CcCondition'::text))))
   ORDER BY con.id;
-
-
---
--- Name: cc_links; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW cc_links AS
- SELECT cc.id,
-    cc.label,
-    cc.construct_id,
-    cc.construct_type,
-    cc.parent_id,
-    cc."position",
-    cc.branch,
-    cc.created_at,
-    cc.updated_at,
-    cc.instrument_id,
-    l.topic_id
-   FROM (control_constructs cc
-     LEFT JOIN links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
-  ORDER BY cc.id DESC;
 
 
 --
@@ -1874,21 +1954,6 @@ CREATE SEQUENCE streamlined_groupings_id_seq
 --
 
 ALTER SEQUENCE streamlined_groupings_id_seq OWNED BY streamlined_groupings.id;
-
-
---
--- Name: topics; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE topics (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    parent_id integer,
-    code character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    description text
-);
 
 
 --
@@ -3130,6 +3195,13 @@ CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON cc_statements FOR EACH R
 
 
 --
+-- Name: update_links; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_links AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON links FOR EACH STATEMENT EXECUTE PROCEDURE refresh_ancestral_topics();
+
+
+--
 -- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3425,6 +3497,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170519102218'),
 ('20170525155249'),
 ('20170601154431'),
-('20170605112157');
+('20170605112157'),
+('20171124115905');
 
 
