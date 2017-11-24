@@ -28,7 +28,8 @@ class AddingAncestoralTopicMaterializedView < ActiveRecord::Migration[5.0]
               tree.topic_id IS NOT NULL
               ORDER BY
               level
-            );
+            )
+          WITH DATA;
   
           CREATE FUNCTION refresh_ancestral_topics()
           RETURNS trigger
@@ -45,7 +46,7 @@ class AddingAncestoralTopicMaterializedView < ActiveRecord::Migration[5.0]
       end
       dir.down do
         execute <<~SQL
-          DROP TRIGGER update_links;
+          DROP TRIGGER update_links ON links;
           DROP FUNCTION refresh_ancestral_topics();
           DROP MATERIALIZED VIEW ancestral_topic;
         SQL
