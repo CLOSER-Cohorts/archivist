@@ -8,6 +8,10 @@ class BasicController < ApplicationController
 
   def index
     @collection = collection
+    respond_to do |format|
+      format.text { render 'index.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json { render 'index.json.jbuilder' }
+    end
   end
 
   def show

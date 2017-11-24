@@ -26,7 +26,11 @@ Rails.application.routes.draw do
   # adding a route.
   match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
 
-  resources :topics, constraints: -> (r) { (r.format == :json) } do
+  request_processor = lambda do |request|
+    [:json, :xml, :text].include?(request.format.symbol)
+  end
+
+  resources :topics, constraints: request_processor do
     collection do
       get 'nested_index', to: 'topics#nested_index'
       get 'flattened_nest', to: 'topics#flattened_nest'
@@ -41,10 +45,6 @@ Rails.application.routes.draw do
     collection do
       get 'external'
     end
-  end
-
-  request_processor = lambda do |request|
-    [:json, :xml, :text].include?(request.format.symbol)
   end
 
   resources :datasets, constraints: request_processor do
