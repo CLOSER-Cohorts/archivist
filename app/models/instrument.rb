@@ -179,12 +179,7 @@ class Instrument < ApplicationRecord
     last_edit_times = {}
 
     find_max_edit_time = lambda do |res, id|
-      res.each do |r|
-        last_edit_times[r[id]] = [
-            last_edit_times[r[id]],
-            r['max']
-        ].reject { |x| x.nil? }.max
-      end
+      res.each { |r| last_edit_times[r[id]] = [last_edit_times[r[id]],r['max']].reject { |x| x.nil? }.max }
     end
 
     Instrument.reflections.keys.each do |res|
@@ -193,8 +188,7 @@ class Instrument < ApplicationRecord
       results = ActiveRecord::Base.connection.execute sql
       find_max_edit_time.call results, 'instrument_id'
     end
-    sql = 'SELECT id, updated_at FROM instruments'
-    results = ActiveRecord::Base.connection.execute sql
+    results = ActiveRecord::Base.connection.execute 'SELECT id, updated_at FROM instruments'
     find_max_edit_time.call results, 'id'
 
     begin
@@ -229,7 +223,7 @@ class Instrument < ApplicationRecord
     harvest = lambda do |parent|
       output.append parent
       if parent.class.method_defined? :children
-        parent.children.each &harvest
+        parent.children.each(&harvest)
       end
     end
     harvest.call self.top_sequence
@@ -238,7 +232,7 @@ class Instrument < ApplicationRecord
 
   # Clears the control construct tree cache
   def clear_cache
-    ccs.each &:clear_cache
+    ccs.each(&:clear_cache)
   end
 
   # Deep copies an instrument
