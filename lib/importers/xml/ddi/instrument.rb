@@ -428,7 +428,7 @@ module Importers::XML::DDI
           cc_s.save!
         elsif child.name == 'StatementItem'
           cc_s = CcStatement.new
-          @instrument.statements << cc_s
+          @instrument.cc_statements << cc_s
           begin
             cc_s.label = child.at_xpath('./ConstructName/String').content
           rescue
@@ -481,7 +481,7 @@ module Importers::XML::DDI
           end
         elsif child.name == 'IfThenElse'
           cc_c = CcCondition.new
-          @instrument.conditions << cc_c
+          @instrument.cc_conditions << cc_c
           begin
             cc_c.label = child.at_xpath('./ConstructName/String').content
           rescue
@@ -513,7 +513,7 @@ module Importers::XML::DDI
         elsif child.name == 'Loop'
 
           cc_l = CcLoop.new
-          @instrument.loops << cc_l
+          @instrument.cc_loops << cc_l
           start_node = child.at_xpath('./InitialValue/Command/CommandContent')
           end_node = child.at_xpath('./EndValue/Command/CommandContent')
           while_node = child.at_xpath('./LoopWhile/Command/CommandContent')
