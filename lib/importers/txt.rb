@@ -1,4 +1,21 @@
 module Importers::TXT
+  class Basic
+    def initialize(thing, object)
+      if thing.is_a? String
+        @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
+      else
+        document = ::Document.find thing
+        @doc = Importers::TXT::TabDelimited.new document.file_contents
+      end
+      @object = object
+    end
+
+    def cancel
+    end
+
+    def import
+    end
+  end
   # Utility class for importing tab delimited text files
   class TabDelimited
     def initialize(thing)
