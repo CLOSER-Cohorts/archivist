@@ -76,7 +76,6 @@ class InstrumentsController < BasicController
   def import
     files = params[:files].nil? ? [] : params[:files]
     options = {}
-    options[:question_grids] = params[:question_grids].nil? ? true : params[:question_grids]
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
