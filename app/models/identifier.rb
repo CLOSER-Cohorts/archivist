@@ -8,6 +8,9 @@ class Identifier < ApplicationRecord
   # After creating an identifier, it is added to the Redis cache
   after_create :add_to_cache
 
+  # After destroying an identifier, it is removed from the Redis cache
+  after_destroy :remove_from_cache
+
   # Every identifier must belong to an importable/exportable item
   belongs_to :item, polymorphic: true
 
@@ -44,9 +47,9 @@ class Identifier < ApplicationRecord
   end
 
   # Identifiers are readonly and should never be editted or deleted
-  def readonly?
-    !new_record?
-  end
+  #def readonly?
+  #  !new_record?
+  #end
 
   protected # Protected methods
   # Joins the ID type and value using a colon
@@ -68,5 +71,11 @@ class Identifier < ApplicationRecord
   # @return [Redis] Redis connection
   def redis
     $redis
+  end
+
+  # Removes ID into the Redis cache
+  def remove_from_cache
+    redis.hdel 'identifiers', self.typed_id
+    redis.srem 'identifier:' + item.typed_id, self.typed_id
   end
 end

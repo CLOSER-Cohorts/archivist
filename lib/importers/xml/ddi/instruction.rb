@@ -5,7 +5,7 @@ module Importers::XML::DDI
     end
 
     def XML_node(node)
-      instruction = Instruction.new({text: node.at_xpath('./InstructionText/LiteralText/Text').content})
+      instruction = ::Instruction.new({text: node.at_xpath('./InstructionText/LiteralText/Text').content})
 
       @instrument.instructions << instruction
       instruction.add_urn extract_urn_identifier node

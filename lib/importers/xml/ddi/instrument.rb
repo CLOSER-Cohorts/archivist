@@ -1,7 +1,5 @@
 module Importers::XML::DDI
-  class Instrument
-    alias object instrument
-
+  class Instrument < DdiImporterBase
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
@@ -84,7 +82,7 @@ module Importers::XML::DDI
         child = Reference.find_node doc, child_ref
         if child.name == 'Sequence'
           cc_s = CcSequence.new
-          @instrument.sequences << cc_s
+          @instrument.cc_sequences << cc_s
           begin
             cc_s.label = child.at_xpath('./ConstructName/String').content
           rescue
@@ -122,9 +120,8 @@ module Importers::XML::DDI
 
         elsif child.name == 'QuestionConstruct'
           q_ref = child.at_xpath('./QuestionReference')
-          # Although QuestionItem is used, find_by_identifier is a generic method and can return any type
-          # so it may also return a QuestionGrid
-          base_question = QuestionItem.find_by_identifier(
+          # ApplicationRecord can perform generic queries
+          base_question = ApplicationRecord.find_by_identifier(
               'urn',
               extract_urn_identifier(q_ref)
           )
@@ -143,7 +140,7 @@ module Importers::XML::DDI
             @response_unit_index[ru_val] = ru
           end
           cc_q.response_unit = ru
-          @instrument.questions << cc_q
+          @instrument.cc_questions << cc_q
           begin
             cc_q.label = child.at_xpath('./ConstructName/String').content
           rescue
@@ -272,7 +269,7 @@ module Importers::XML::DDI
       @doc
     end
 
-    def instrument
+    def object
       @instrument
     end
   end
