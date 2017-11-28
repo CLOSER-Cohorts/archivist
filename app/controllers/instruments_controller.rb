@@ -1,4 +1,4 @@
-class InstrumentsController < BasicController
+class InstrumentsController < ImportableController
   include Importers::Controller
   include Exporters
 
@@ -12,6 +12,7 @@ class InstrumentsController < BasicController
 
   @model_class = ::Instrument
   @params_list = %i{agency version prefix label study files import_question_grids}
+  @model_importer_class = ImportJob::Instrument
 
   def index
     @qv_counts = QvMapping.group(:instrument_id).count
@@ -71,22 +72,6 @@ class InstrumentsController < BasicController
   def variables
     @collection = @object.variables
     render 'variables/index'
-  end
-
-  def import
-    files = params[:files].nil? ? [] : params[:files]
-    options = {}
-    head :ok, format: :json if files.empty?
-    begin
-      files.each do |file|
-        doc = Document.new file: file
-        doc.save_or_get
-        Resque.enqueue ImportJob::Instrument, doc.id, options
-      end
-      head :ok, format: :json
-    rescue  => e
-      render json: {message: e}, status: :bad_request
-    end
   end
 
   # Used by importing the TXT instrument files that mapper used

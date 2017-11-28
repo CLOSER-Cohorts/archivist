@@ -1,4 +1,4 @@
-class DatasetsController < BasicController
+class DatasetsController < ImportableController
   include Importers::Controller
 
   only_set_object { %i{ questions dv latest_document } }
@@ -12,6 +12,7 @@ class DatasetsController < BasicController
 
   @model_class = ::Dataset
   @params_list = [:name, :doi, :study]
+  @model_importer_class = ImportJob::Dataset
 
   def index
     @var_counts = Variable.group(:dataset_id).count
@@ -32,22 +33,6 @@ class DatasetsController < BasicController
     respond_to do |format|
       format.text { render 'dv.txt.erb', layout: false, content_type: 'text/plain' }
       format.json  {}
-    end
-  end
-
-  def import
-    files = params[:files].nil? ? [] : params[:files]
-    options = {}
-    head :ok, format: :json if files.empty?
-    begin
-      files.each do |file|
-        doc = Document.new file: file
-        doc.save_or_get
-        Resque.enqueue ImportJob::Dataset, doc.id, options
-      end
-      head :ok, format: :json
-    rescue  => e
-      render json: {message: e}, status: :bad_request
     end
   end
 
