@@ -94,6 +94,13 @@ module Linkable
           render json: e, status: :bad_request
         end
       end
+
+      protected
+      def topic_mapping(&block)
+        @collection = collection.order(:id)
+        @collection.each { |v| v.strand }
+        respond_to &block
+      end
     end
   end
 end

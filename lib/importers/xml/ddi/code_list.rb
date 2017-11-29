@@ -23,11 +23,12 @@ module Importers::XML::DDI
       end
 
       begin
-        cl = CodeList.new label: node.at_xpath('./Label/Content').content
+        cl = ::CodeList.new label: node.at_xpath('./Label/Content').content
       rescue
-        cl = CodeList.new label: codes_to_add.map {|c| c.category.label.gsub(/\s*(\S)\S*/, '\1')}.join('_')
+        cl = ::CodeList.new label: codes_to_add.map {|c| c.category.label.gsub(/\s*(\S)\S*/, '\1')}.join('_')
       end
-      @instrument.code_lists << cl
+      cl.instrument_id = @instrument.id
+      cl.save!
       codes_to_add.each {|c| cl.codes << c}
       cl.add_urn extract_urn_identifier node
     end
