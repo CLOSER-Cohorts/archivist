@@ -13,7 +13,7 @@ gem 'puma', '~>2.16.0'
 gem 'pg'
 
 # Use Redis for caching
-gem 'redis'
+gem 'redis', '~>3.3.2'
 
 # Production gems
 group :production do
