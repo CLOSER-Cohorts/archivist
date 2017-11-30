@@ -7,7 +7,7 @@
 #
 # === Properties
 # * Label
-class Instruction < ActiveRecord::Base
+class Instruction < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 

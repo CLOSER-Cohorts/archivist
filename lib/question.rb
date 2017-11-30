@@ -26,21 +26,15 @@ module Question::Model
     alias constructs cc_questions
 
     def instruction=(text)
-      if text.nil? || text == ''
+      if text.to_s == ''
         association(:instruction).writer nil
-      else
-        if association(:instruction).reader.nil? || association(:instruction).reader.text != text
-          if (instruction = self.instrument.instructions.find_by_text(text)).nil?
-            association(:instruction).writer Instruction.new text: text, instrument: self.instrument
-          else
-            association(:instruction).writer instruction
-          end
-        end
+      elsif association(:instruction).reader.nil? || association(:instruction).reader.text != text
+        association(:instruction).writer Instruction.find_or_create_by(text: text, instrument: self.instrument)
       end
     end
 
     def update_cols(cols)
-      if cols.nil? || cols.empty?
+      if cols.to_a.empty?
         self.rds_qs.delete_all
       else
         cols.sort_by! { |x| x[:order] }

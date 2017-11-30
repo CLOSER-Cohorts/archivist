@@ -255,32 +255,6 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
     Array::clean = ->
       (val for val in @ when val? and val isnt '')
 
-    Array::label_sort = ->
-      sorter = (a, b)->
-        re = /([^-^_\d]+)|([^-^_\D]+)/
-        a_pieces = a.split(re).clean()
-        b_pieces = b.split(re).clean()
-        limit = if a_pieces.length > b_pieces.length then b_pieces.length else a_pieces.length
-
-        for i in [0...limit]
-          a_pieces[i] = parseInt a_pieces[i] if !isNaN a_pieces[i]
-          b_pieces[i] = parseInt b_pieces[i] if !isNaN b_pieces[i]
-          if a_pieces[i] == b_pieces[i]
-            continue
-          if a_pieces[i] > b_pieces[i]
-            return 1
-          else
-            return -1
-
-        if a_pieces.length > b_pieces.length
-          return 1
-        if a_pieces.length < b_pieces.length
-          return -1
-
-        return 0
-
-      return @concat().sort(sorter)
-
     Array::sort_by_property = (prop = 'label')->
       sorter = (a, b)->
         re = /([^-^_\d]+)|([^-^_\D]+)/

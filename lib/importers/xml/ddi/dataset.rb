@@ -1,7 +1,5 @@
 module Importers::XML::DDI
   class Dataset
-    alias object dataset
-
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
@@ -48,7 +46,7 @@ module Importers::XML::DDI
       d
     end
 
-    def dataset
+    def object
       @dataset
     end
   end

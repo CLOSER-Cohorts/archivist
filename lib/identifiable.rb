@@ -1,13 +1,14 @@
 module Identifiable
   extend ActiveSupport::Concern
   included do
+    has_many :identifiers, as: :item, dependent: :destroy
 
     def self.find_by_identifier(id_type, value)
       cache_result = $redis.hget 'identifiers', id_type + ':' + value
       if cache_result.nil?
         Identifier.includes(:item).where(item_type: self.class.name).find_by_id_type_and_value(id_type, value)&.item
       else
-        return nil unless cache_result.split(':').first == self.class.name
+        return nil unless cache_result.split(':').first == self.name
         ApplicationRecord.query_typed_id cache_result
       end
     end
@@ -15,7 +16,7 @@ module Identifiable
     def get_identifiers
       cache_result = $redis.smembers('identifier:' + self.typed_id).to_a
       if cache_result.empty?
-        return Identifier.where(item: self).to_a
+        return self.identifiers
       else
         return cache_result
       end

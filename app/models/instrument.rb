@@ -137,7 +137,7 @@ class Instrument < ApplicationRecord
   has_many :response_units, dependent: :destroy
 
   # Junction relationship to Datasets
-  has_many :instruments_datasets, class_name: 'InstrumentsDatasets'
+  has_many :instruments_datasets, class_name: 'InstrumentsDatasets', dependent: :destroy
 
   # Many-to-many relationship with Datasets
   #
@@ -179,12 +179,7 @@ class Instrument < ApplicationRecord
     last_edit_times = {}
 
     find_max_edit_time = lambda do |res, id|
-      res.each do |r|
-        last_edit_times[r[id]] = [
-            last_edit_times[r[id]],
-            r['max']
-        ].reject { |x| x.nil? }.max
-      end
+      res.each { |r| last_edit_times[r[id]] = [last_edit_times[r[id]],r['max']].reject { |x| x.nil? }.max }
     end
 
     Instrument.reflections.keys.each do |res|
@@ -193,8 +188,7 @@ class Instrument < ApplicationRecord
       results = ActiveRecord::Base.connection.execute sql
       find_max_edit_time.call results, 'instrument_id'
     end
-    sql = 'SELECT id, updated_at FROM instruments'
-    results = ActiveRecord::Base.connection.execute sql
+    results = ActiveRecord::Base.connection.execute 'SELECT id, updated_at FROM instruments'
     find_max_edit_time.call results, 'id'
 
     begin
@@ -205,13 +199,6 @@ class Instrument < ApplicationRecord
       Rails.logger.warn 'Could not set last edit times'
       Rails.logger.warn e.message
     end
-  end
-
-  # Alias for accessing CcConditions relation
-  #
-  # @return [ActiveRecord::Associations::CollectionProxy]
-  def conditions
-    self.cc_conditions
   end
 
   def ccs
@@ -236,7 +223,7 @@ class Instrument < ApplicationRecord
     harvest = lambda do |parent|
       output.append parent
       if parent.class.method_defined? :children
-        parent.children.each &harvest
+        parent.children.each(&harvest)
       end
     end
     harvest.call self.top_sequence
@@ -245,7 +232,7 @@ class Instrument < ApplicationRecord
 
   # Clears the control construct tree cache
   def clear_cache
-    ccs.each &:clear_cache
+    ccs.each(&:clear_cache)
   end
 
   # Deep copies an instrument
@@ -303,24 +290,6 @@ class Instrument < ApplicationRecord
     new_i
   end
 
-  # Destroys an entire instrument with all contents
-  #
-  # TODO: Correctly configure relations and dependants to allow Rails default to work correctly
-  def destroy
-    InstrumentsDatasets.where(instrument_id: self.id).delete_all
-    PROPERTIES.reverse.map(&:to_s).each do |r|
-      next if ['datasets'].include? r
-      begin
-        klass = r.classify.constantize
-      rescue
-        klass = r.classify.pluralize.constantize
-      end
-      klass.where(instrument_id: self.id).destroy_all
-    end
-    sql = 'DELETE FROM instruments WHERE id = ' + self.id.to_s
-    ActiveRecord::Base.connection.execute(sql)
-  end
-
   # Gets the time of the last export from the Redis cache
   #
   # @return [String] Last export time
@@ -354,25 +323,6 @@ class Instrument < ApplicationRecord
     end
   end
 
-  # Gets the modified time of the last file export to tmp
-  #
-  # @deprecated Do we still export to file and this is not thread safe
-  # @return [String] Last export time from file
-  def last_export_time
-    begin
-      File.mtime 'tmp/exports/' + prefix + '.xml'
-    rescue
-      false
-    end
-  end
-
-  # Simple alias for cc_loops
-  #
-  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcLoop loops}
-  def loops
-    self.cc_loops
-  end
-
   # Accepts a block for which realtime updates should not be run
   def pause_rt
     Realtime.do_silently do
@@ -400,20 +350,6 @@ class Instrument < ApplicationRecord
   def response_domains
     self.response_domain_datetimes.to_a + self.response_domain_numerics.to_a +
         self.response_domain_texts.to_a + self.response_domain_codes.to_a
-  end
-
-  # Simple alias for cc_sequences
-  #
-  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcSequence sequences}
-  def sequences
-    self.cc_sequences
-  end
-
-  # Simple alias for cc_statements
-  #
-  # @return [ActiveRecord::Associations::CollectionProxy] List of all {CcStatement statements}
-  def statements
-    self.cc_statements
   end
 
   # Returns the top sequence for the instrument

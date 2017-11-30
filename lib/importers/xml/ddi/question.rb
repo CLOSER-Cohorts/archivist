@@ -5,7 +5,7 @@ module Importers::XML::DDI
     end
 
     def question_grid_node(node)
-      question = QuestionGrid.new(
+      question = ::QuestionGrid.new(
           {
               label: node.at_xpath('./QuestionGridName/String').content,
               literal: node.at_xpath('./QuestionText/LiteralText/Text')&.content.to_s
@@ -34,27 +34,22 @@ module Importers::XML::DDI
     end
 
     def question_item_node(node)
-      Rails.logger.debug "question_item_node called"
-      question = QuestionItem.new(
+      question = ::QuestionItem.new(
           {
               label: node.at_xpath('./QuestionItemName/String').content,
               literal: node.at_xpath('./QuestionText/LiteralText/Text')&.content.to_s
           }
       )
-
-      Rails.logger.debug "Before QI save"
       @instrument.question_items << question
 
-      Rails.logger.debug "About to add RDs"
       node.xpath('./CodeDomain|'\
           './NumericDomain|'\
           './TextDomain|'\
           './DateTimeDomain'\
           ).each_with_index do |rd, i|
-        Rails.logger.debug i
 
         if rd.name == 'CodeDomain'
-          cl = CodeList.find_by_identifier(
+          cl = ::CodeList.find_by_identifier(
               'urn',
               extract_urn_identifier(rd.at_xpath('./CodeListReference'))
           )
@@ -72,7 +67,7 @@ module Importers::XML::DDI
             next
           end
         end
-        RdsQs.create(
+        ::RdsQs.create(
             {
                          question: question,
                          response_domain: response_domain,
@@ -141,10 +136,12 @@ module Importers::XML::DDI
       else
 
       end
-      question.instruction = Instruction.find_by_identifier(
-          'url',
-          extract_urn_identifier(node.at_xpath('./InterviewerInstructionReference'))
-      )
+      unless node.at_xpath('./InterviewerInstructionReference').nil?
+        question.instruction = ::Instruction.find_by_identifier(
+            'url',
+            extract_urn_identifier(node.at_xpath('./InterviewerInstructionReference'))
+        )
+      end
       question.save!
       question.add_urn extract_urn_identifier node
     end

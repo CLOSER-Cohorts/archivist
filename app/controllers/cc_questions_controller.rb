@@ -12,11 +12,9 @@ class CcQuestionsController < ConstructController
   end
 
   def tq
-    @collection = collection.order(:id)
-    @collection.each { |v| v.strand }
-    respond_to do |format|
+    topic_mapping do |format|
       format.text { render 'tq.txt.erb', layout: false, content_type: 'text/plain' }
-      format.json  {}
+      format.json  { render 'tq.json.jbuilder' }
     end
   end
 

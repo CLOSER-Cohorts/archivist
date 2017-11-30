@@ -8,11 +8,9 @@ class VariablesController < BasicController
   @params_list = [:name, :label, :var_type, :dataset_id]
 
   def tv
-    @collection = collection.order(:id)
-    @collection.each { |v| v.strand }
-    respond_to do |format|
+    topic_mapping do |format|
       format.text { render 'tv.txt.erb', layout: false, content_type: 'text/plain' }
-      format.json  {}
+      format.json  { render 'tv.json.jbuilder' }
     end
   end
 
