@@ -39,19 +39,19 @@ To run the test suite just call `rails test`. Currently 197 tests and 256 assert
 ## Stats
 | Name                 |   Lines |     LOC | Classes | Methods | M/C | LOC/M |
 |----------------------|---------|---------|---------|---------|-----|-------|
-| Controllers          |    1168 |     746 |      33 |      76 |   2 |     7 |
-| Jobs                 |     206 |     167 |      10 |       9 |   0 |    16 |
-| Models               |    2895 |    1615 |      40 |     158 |   3 |     8 |
+| Controllers          |    1188 |     755 |      34 |      79 |   2 |     7 |
+| Jobs                 |     136 |     117 |      10 |      10 |   1 |     9 |
+| Models               |    2835 |    1571 |      40 |     154 |   3 |     8 |
 | Mailers              |      12 |      11 |       2 |       1 |   0 |     9 |
-| Javascripts          |    4527 |    3929 |       0 |     477 |   0 |     6 |
-| Libraries            |    3463 |    2750 |      32 |     126 |   3 |    19 |
-| Tasks                |     390 |     322 |       0 |       1 |   0 |   320 |
+| Javascripts          |    4137 |    3550 |       0 |     432 |   0 |     6 |
+| Libraries            |    3041 |    2359 |      33 |     124 |   3 |    17 |
+| Tasks                |     362 |     297 |       0 |       0 |   0 |     0 |
 | Controller tests     |     862 |     713 |      18 |      93 |   5 |     5 |
 | Model tests          |     663 |     478 |      30 |      97 |   3 |     2 |
 | Mailer tests         |      11 |       5 |       2 |       0 |   0 |     0 |
-| **Total**            |**14221**|**10755**|  **167**| **1040**|**6**|  **8**|
+| **Total**            |**13271**| **9875**|  **169**|  **992**|**5**|  **7**|
 
-  - Code LOC: 9559
+  - Code LOC: 8679
   - Test LOC: 1196
   - Code to Test Ratio: 1:0.1
 
