@@ -9,13 +9,13 @@ Dir.chdir APP_ROOT do
   # Add necessary setup steps to this file:
 
   puts "== Installing Ruby dependencies =="
-  system "gem install bundler --conservative"
+  system "sudo gem install bundler --conservative"
   system "bundle install"
 
   puts "\n== Preparing database =="
   system "sudo -u postgres createuser -s archivist"
   system 'sudo -u postgres psql -c "ALTER ROLE archivist WITH LOGIN PASSWORD \'farandwide\'"'
-  system "bin/rake db:setup"
+  system "bin/rails db:setup"
 
   puts "\n== Downloading assets =="
   system "sudo npm install bower -g"
