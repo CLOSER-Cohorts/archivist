@@ -19,7 +19,7 @@ Dir.chdir APP_ROOT do
 
   puts "\n== Preparing database =="
   system "sudo -u postgres createuser -s archivist"
-  system 'sudo -u psql -c "ALTER ROLE archivist WITH LOGIN PASSWORD \'farandwide\'"'
+  system 'sudo -u postgres psql -c "ALTER ROLE archivist WITH LOGIN PASSWORD \'farandwide\'"'
   system "bin/rake db:setup"
 
   puts "\n== Removing old logs and tempfiles =="
