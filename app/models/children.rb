@@ -38,6 +38,6 @@ class Children
       @cc_questions.reader  +
       @cc_sequences.reader  +
       @cc_statements.reader
-    ).sort_by { |cc| [cc.branch, cc.position] }
+    ).sort_by { |cc| [cc.branch.to_i, cc.position.to_i] }
   end
 end
