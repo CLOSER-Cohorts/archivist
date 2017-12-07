@@ -35,7 +35,7 @@ class InstrumentsController < ImportableController
     unless params[:updates].nil?
       params[:updates].each do |u|
         unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
-          cc = @object.send(u[:type].tableize).find(u[:id])
+          cc = @object.send('cc_'+u[:type].tableize).find(u[:id])
           parent = @object.send(u[:parent][:type].tableize).find(u[:parent][:id])
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
