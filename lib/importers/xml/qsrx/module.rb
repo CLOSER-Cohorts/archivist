@@ -23,6 +23,13 @@ module Importers::XML::QSRX
     def read_question(node)
       case node['type']
         when 'time'
+        when 'choice'
+        when 'number'
+        when 'string'
+        when 'multichoice'
+        when 'date'
+        when 'text'
+
       end
     end
   end
