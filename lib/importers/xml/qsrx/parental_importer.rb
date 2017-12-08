@@ -1,8 +1,10 @@
 module Importers::XML::QSRX
   class ParentalImporter
     protected
-    def read_children
-      @node.xpath('./specification_elements/*').each(&:read_element)
+    def read_children(parent)
+      @node.xpath('./specification_elements/*').each do |child_node|
+        parent.children << read_element(child_node)
+      end
     end
 
     def read_element(node)

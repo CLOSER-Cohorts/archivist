@@ -12,7 +12,7 @@ module Importers::XML::QSRX
 
       @module_importer = Importers::XML::QSRX::Module.new @instrument
 
-      read_children
+      read_children(@instrument.top_sequence)
     end
 
     def read_module(node)

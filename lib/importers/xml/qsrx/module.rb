@@ -14,10 +14,16 @@ module Importers::XML::QSRX
       read_children(sequence)
     end
 
-    def read_dcomment
+    def read_dcomment(node)
       statement = @instrument.cc_statements.new(
-
+        literal: node.content
       )
+    end
+
+    def read_question(node)
+      case node['type']
+        when 'time'
+      end
     end
   end
 end
