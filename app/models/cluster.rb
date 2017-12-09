@@ -14,7 +14,7 @@ class Cluster
   # The scope used for all keys in Redis
   SCOPE = 'mapper:clusters'
 
-  # The key of the lookup hash to quickly find Clusters from Strand id
+  # The key of the lookup hash to quickly find Clusters from {Strand} id
   LOOKUP = SCOPE + ':lookup'
 
   # The key of the hash storing the suggested_topics for each Cluster
