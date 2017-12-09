@@ -1,7 +1,11 @@
 class CodeListsController < BasicInstrumentController
+  # Initialise finding object for item based actions
   only_set_object
 
+  # Set model for automatic CRUD actions
   @model_class = CodeList
+
+  # List of params that can be set and edited
   @params_list = [:label, :codes, :min_responses, :max_responses]
 
   # POST /instruments/1/code_lists.json

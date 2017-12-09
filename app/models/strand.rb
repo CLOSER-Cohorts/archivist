@@ -45,28 +45,9 @@ class Strand
   #
   # @return [Array]
   def self.all
-    all_strands = Strand.all_keys
-
-    all_ids = all_strands.map { |x| x.split(':').last.to_i }
-    all_strands = []
-    all_ids.each do |id|
-      c = Strand.find id
-      all_strands << c unless c.nil?
+    super do |id|
+      Strand.find id
     end
-    all_strands
-  end
-
-  # Returns all the keys of Strands in Redis
-  #
-  # @return [Array]
-  def self.all_keys
-    all_keys = []
-    iterator = 0
-    begin
-      iterator, results = Strand.redis.scan iterator, {match: SCOPE + ':[0-9]*', count: 10000}
-      all_keys += results
-    end while iterator.to_i != 0
-    all_keys
   end
 
   # Deletes all Strands from Redis
@@ -186,17 +167,12 @@ class Strand
 
   # Deletes a Strand from both Redis and the active memory list
   def delete
-    self.class.active.delete(@id.to_i)
-    unless @id.nil?
-      Strand.redis.del SCOPE + ':' + @id.to_s
+    super do
       @members.each do |member|
         Strand.redis.hdel LOOKUP, member.typed_id
       end
       Strand.redis.hdel TOPICS, @id
     end
-    @members = []
-    @id = nil
-    @topic = nil
   end
 
   # Returns all members with explicit {Topic Topics}
@@ -233,6 +209,13 @@ class Strand
       @good = Strand.redis.hget STATUS, @id
     end
     self
+  end
+
+  # Resets the properties of the Strand
+  def reset
+    @id = nil
+    @members = []
+    @topic = nil
   end
 
   # Saves a Strand to Redis
