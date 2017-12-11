@@ -49,6 +49,18 @@ mapping.controller(
       $scope.deleteVariable = (question_id,idx)->
         $scope.tags[question_id].splice idx,1
 
+      $scope.detectKey = (event, question, x = null, y = null)->
+        if event.keyCode == 13
+          variables = event.target.value.split ','
+          question.$add_mapping {
+            variable_names: variables
+            x: null
+            y: null
+          }
+          , ->
+            DataManager.resolveQuestions()
+        console.log question
+
       # $scope.detectKey = (event,question_id)->
       #   key = event.which || event.keyCode;
       #   if key == 44 || key == 13 || key ==32

@@ -34,7 +34,7 @@ class CcQuestionsController < ConstructController
       end
     end
     respond_to do |format|
-      format.json { render json: true, status: :accepted }
+      format.json { render 'show' }
     end
   end
 

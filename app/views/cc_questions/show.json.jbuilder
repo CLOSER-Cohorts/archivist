@@ -1,4 +1,4 @@
-json.extract! @object, :id, :question_id, :question_type, :position, :response_unit_id
+json.extract! @object, :id, :question_id, :question_type, :position, :branch, :response_unit_id
 json.label @object.label
 json.parent_id @object.parent_id
 json.parent_type @object.parent_type

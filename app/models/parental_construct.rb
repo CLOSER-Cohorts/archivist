@@ -85,7 +85,7 @@ class ParentalConstruct < ControlConstruct
       if query_branch.nil?
         return cc.children.map { |c| {id: c.id, type: c.class.name } }
       else
-        return cc.children.select { |c| c.branch == query_branch }.map { |c| {id: c.id, type: c.class.name } }
+        return cc.children.select { |c| c.branch.to_i == query_branch }.map { |c| {id: c.id, type: c.class.name } }
       end
     end
 
@@ -119,7 +119,7 @@ class ParentalConstruct < ControlConstruct
   #
   # @return [ControlConstruct] Last child construct
   def last_child
-    children.max_by { |x| x.position}
+    children.max_by { |x| x.position.to_i}
   end
 
   # Returns true if the construct has any children

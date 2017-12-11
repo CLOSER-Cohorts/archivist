@@ -22,14 +22,17 @@ class ControlConstruct < ApplicationRecord
   # This model is exportable as DDI
   include Exportable
 
+  # Before creating, populate position fields
+  before_create :pre_create_position_prep
+
   # All categories must belong to an {Instrument}
   belongs_to :instrument
 
   # Each control construct must have one parent, except the top-sequence which has no parent
   belongs_to :parent, polymorphic: true
 
-  # After updating, clear the cache from Redis
-  after_update :clear_cache
+  # After creating or updating, clear the cache from Redis
+  after_save :clear_cache
 
   # After destroying, clear the cache from Redis
   after_destroy :clear_cache
@@ -50,5 +53,12 @@ class ControlConstruct < ApplicationRecord
     rescue
       Rails.logger.warn 'Cannot connect to Redis'
     end
+  end
+
+  private # Private methods
+
+  def pre_create_position_prep
+    self.position = parent.last_child&.position.to_i + 1 if self.position.nil?
+    self.branch = 0 if self.branch.nil?
   end
 end

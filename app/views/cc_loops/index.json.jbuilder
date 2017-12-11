@@ -1,5 +1,5 @@
 json.array!(@collection) do |cc_loop|
-  json.extract! cc_loop, :id, :loop_var, :start_val, :end_val, :loop_while, :position
+  json.extract! cc_loop, :id, :loop_var, :start_val, :end_val, :loop_while, :position, :branch
   json.label cc_loop.label
   json.children cc_loop.construct_children
   json.parent_id cc_loop.parent_id

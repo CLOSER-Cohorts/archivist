@@ -1,4 +1,4 @@
-json.extract! @object, :id, :literal, :position
+json.extract! @object, :id, :literal, :position, :branch
 json.label @object.label
 json.children @object.construct_children
 json.top @object.is_top?
