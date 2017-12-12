@@ -40,7 +40,7 @@ class InstrumentsController < ImportableController
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
-            cc.branch = ('Cc'+u[:parent][:type].classify).constantize.is_a?(CcCondition) ? u[:branch] : nil
+            cc.branch = u[:branch]
             cc.save!
           end
         end

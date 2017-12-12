@@ -20,12 +20,28 @@ class InstrumentsControllerTest < ControllerTest
           instrument: {
               agency: @instrument.agency,
               label: @instrument.label,
-              prefix: @instrument.prefix,
+              prefix: @instrument.prefix + '_new',
               study: @instrument.study,
               version: @instrument.version
           }
       }
       assert_response :success
+    end
+  end
+
+  test "same prefix issue" do
+    assert_difference('Instrument.count', 0) do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        post instruments_url, as: :json, params: {
+            instrument: {
+                agency: @instrument.agency,
+                label: @instrument.label,
+                prefix: @instrument.prefix,
+                study: @instrument.study,
+                version: @instrument.version
+            }
+        }
+      end
     end
   end
 
