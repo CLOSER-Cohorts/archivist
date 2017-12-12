@@ -1,9 +1,27 @@
+# Topic represents a single entry from a controlled vocabulary of
+# terms that can be applied to {CcQuestion questions} and
+# {Variable variables}.
+#
+# Each item can only have one Topic.
+#
+# === Properties
+# * Name
+# * Code
+# * Description
 class Topic < ApplicationRecord
+  # Each Topic can have a single parent Topic
   belongs_to :parent, class_name: 'Topic'
+
+  # Each Topic can have multiple child Topics
   has_many :children, class_name: 'Topic', foreign_key: :parent_id, dependent: :destroy
 
+  # Make the level set and get-able
   attr_accessor :level
 
+  # Returns counts for the number of uses by each study on
+  # {CcQuestion questions}
+  #
+  # @return [Array] List of use counts by study
   def question_statistics
     sql = <<~SQL
         SELECT
@@ -18,6 +36,10 @@ class Topic < ApplicationRecord
     ActiveRecord::Base.connection.execute sql
   end
 
+  # Returns counts for the number of uses by each study on
+  # {Variable variables}
+  #
+  # @return [Array] List of use counts by study
   def variable_statistics
     sql = <<~SQL
         SELECT
@@ -32,6 +54,10 @@ class Topic < ApplicationRecord
     ActiveRecord::Base.connection.execute sql
   end
 
+  # Returns all Topics in hierarchical order, but as a flat
+  # array.
+  #
+  # @return [Array] Topics in hierarchical order
   def self.flattened_nest
     output = []
     tops = Topic.where parent_id: nil

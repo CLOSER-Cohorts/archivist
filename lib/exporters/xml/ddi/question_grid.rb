@@ -77,31 +77,15 @@ module Exporters::XML::DDI
               rd_wrapper.add_child wrap_grid_response_domain cd, qgrid.response_domains.count, i + 1
 
             when ResponseDomainText
-              td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
-              unless rd.maxlen.nil?
-                td['maxLength'] = rd.maxlen
-              end
-              td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {label: rd.label}
-
+              td = build_response_domain_text(rd)
               rd_wrapper.add_child wrap_grid_response_domain td, qgrid.response_domains.count, i + 1
 
             when ResponseDomainDatetime
-              dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
-              dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {label: rd.label, type: rd.datetime_type, format: rd.format || ''}
-
+              dd = build_response_domain_datetime(rd)
               rd_wrapper.add_child wrap_grid_response_domain dd, qgrid.response_domains.count, i + 1
 
             when ResponseDomainNumeric
-              nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
-              nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {
-                                   label: rd.label,
-                                   type: rd.numeric_type,
-                                   range: (if rd.min then "<r:Low>%d</r:Low>" % rd.min else '' end) + (if rd.max then "<r:High>%d</r:High>" % rd.max else '' end)
-                               }
-
+              nd = build_response_domain_numeric rd
               rd_wrapper.add_child wrap_grid_response_domain nd, qgrid.response_domains.count, i + 1
           end
         end

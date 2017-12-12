@@ -1,6 +1,10 @@
+# The User class representers a user account, controlling
+# authentication and authorization
 class User < ApplicationRecord
+  # All Users must belong to a {UserGroup}
   belongs_to :group, class_name: 'UserGroup'
 
+  # Users do not have their own label, so it is delegated to the {UserGroup} it belongs to
   delegate :study, to: :user_group
 
   # Others available are:
@@ -9,8 +13,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable
 
+  # Enum holding the possible roles for any User
   enum role: [:reader, :editor, :admin]
 
+  # Used to create the first {User} when the app is first
+  # initialized
+  #
+  # @param [Hash] params First User parameters
   def self.setup_initial_superuser(params)
     begin
       if params['su-password'] == params['su-confirm'] && params['su-password'].length > 7
@@ -29,8 +38,10 @@ class User < ApplicationRecord
     end
   end
 
-  # new function to set the password without knowing the current
+  # Sets the password without knowing the current
   # password used in our confirmation controller.
+  #
+  # @param [Hash] params New password and confirmation
   def attempt_set_password(params)
     p = {}
     p[:password] = params[:password]
@@ -38,17 +49,25 @@ class User < ApplicationRecord
     update_attributes(p)
   end
 
-  # new function to return whether a password has been set
+  # Returns whether a password has been set
+  #
+  # @return [Boolean] True if no password has been set
   def has_no_password?
     self.encrypted_password.blank?
   end
 
-  # Devise::Models:unless_confirmed` method doesn't exist in Devise 2.0.0 anymore.
-  # Instead you should use `pending_any_confirmation`.
+  # Method wrapper for performing if the User has not
+  # be confirmed
+  #
+  # @yield Method to be executed only if User is not confirmed
   def only_if_unconfirmed
     pending_any_confirmation { yield }
   end
 
+  # Checks whether the password is suitable and matches
+  # the confirmation
+  #
+  # @return [Boolean] True if the password is good for use
   def password_match?
     self.errors[:password] << "can't be blank" if password.blank?
     self.errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
@@ -56,6 +75,9 @@ class User < ApplicationRecord
     password == password_confirmation && !password.blank?
   end
 
+  # Checks whether a password is required
+  #
+  # @return [Boolean] True if a password is required
   def password_required?
     # Password is required if it is being set, but not for new records
     if !persisted?
@@ -65,6 +87,9 @@ class User < ApplicationRecord
     end
   end
 
+  # Returns pretty label of the current User status
+  #
+  # @return [String] Pretty status label
   def status
     return 'unconfirmed' unless self.confirmed?
     return 'locked' if self.access_locked?

@@ -37,6 +37,8 @@ class Prefix
     end
 
     # Removes a prefix from the cache
+    #
+    # @param [String] prefix {Instrument} prefix
     def destroy(prefix)
       begin
         redis.hdel hash, prefix

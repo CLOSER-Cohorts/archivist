@@ -35,27 +35,11 @@ module Exporters::XML::DDI
 
               return cd
             when ::ResponseDomainDatetime
-              dd = Nokogiri::XML::Node.new 'd:DateTimeDomain', @doc
-              dd.add_child "<r:DateFieldFormat>%{format}</r:DateFieldFormat><r:DateTypeCode>%{type}</r:DateTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {label: rd.label, type: rd.datetime_type, format: rd.format || ''}
-
-              return dd
+              return build_response_domain_datetime(rd)
             when ::ResponseDomainNumeric
-              nd = Nokogiri::XML::Node.new 'd:NumericDomain', @doc
-              nd.add_child "<r:NumberRange>%{range}</r:NumberRange><r:NumericTypeCode>%{type}</r:NumericTypeCode><r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {label: rd.label, type: rd.numeric_type, range: (if rd.min then "<r:Low>%d</r:Low>" % rd.min else '' end) + (if rd.max then "<r:High>%d</r:High>" % rd.max else '' end)}
-
-
-              return nd
+              return build_response_domain_numeric(rd)
             when ::ResponseDomainText
-              td = Nokogiri::XML::Node.new 'd:TextDomain', @doc
-              unless rd.maxlen.nil?
-                td['maxLength'] = rd.maxlen
-              end
-              td.add_child "<r:Label><r:Content xml:lang=\"en-GB\">%{label}</r:Content></r:Label>" %
-                               {label: rd.label}
-
-              return td
+              return build_response_domain_text(rd)
           end
         end
 
