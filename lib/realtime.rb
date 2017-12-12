@@ -26,7 +26,7 @@ module Realtime
       private
       def rt_create
         Realtime::Publisher.instance.update self, 'ADD'
-        if self.is_a?(Construct::Model) && !self.parent.nil?
+        if self.is_a?(::ControlConstruct) && !self.parent.nil?
           Realtime::Publisher.instance.update self.parent
         end
       end

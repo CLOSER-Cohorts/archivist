@@ -16,7 +16,7 @@ class CcConditionTest < ActiveSupport::TestCase
   end
 
   test "has many children" do
-    assert_kind_of Array, @cc_condition.children
+    assert_kind_of ::Children, @cc_condition.children
   end
 
   test "has one topic" do

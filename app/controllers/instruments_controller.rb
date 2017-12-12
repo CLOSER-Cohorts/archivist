@@ -116,9 +116,9 @@ class InstrumentsController < ImportableController
   def copy
     new_details = params.select do |k|
         %w(new_label new_agency new_version new_study).include? k.to_s
-    end.map do |k, v|
+    end.to_h.map do |k, v|
       [k.gsub('new_',''), v]
-    end.to_h
+    end
     new_prefix = params['new_prefix']
 
     begin
