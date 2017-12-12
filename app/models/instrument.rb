@@ -183,7 +183,7 @@ class Instrument < ApplicationRecord
     end
 
     Instrument.reflections.keys.each do |res|
-      next if %w(instruments_datasets datasets).include? res
+      next if %w(instruments_datasets datasets identifiers documents qv_mappings dv_mappings).include? res
       sql = 'SELECT instrument_id, MAX(updated_at) FROM ' + res + ' GROUP BY instrument_id'
       results = ActiveRecord::Base.connection.execute sql
       find_max_edit_time.call results, 'instrument_id'
@@ -198,6 +198,16 @@ class Instrument < ApplicationRecord
     rescue => e
       Rails.logger.warn 'Could not set last edit times'
       Rails.logger.warn e.message
+    end
+  end
+
+  def add_export_document(doc)
+    self.documents << doc
+    begin
+      $redis.hset 'export:instrument:' + self.id.to_s, 'time', doc.created_at
+      $redis.hset 'export:instrument:' + self.id.to_s, 'url', "/instruments/#{self.id}/export/#{doc.id}"
+    rescue
+      nil
     end
   end
 
@@ -270,10 +280,6 @@ class Instrument < ApplicationRecord
           end
         end
         new_i.__send__(key) << new_obj
-        if new_obj.is_a? Construct::Model
-          ccs[new_obj.cc.id] = obj.cc
-          ref[:control_constructs][obj.cc.id] = new_obj.cc
-        end
       end
     end
 

@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   end
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
+  get 'instruments/:id/export/:doc_id', to: 'instruments#document'
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
 

@@ -24,8 +24,8 @@ class ExportJob::Instrument
       d.content_type = 'text/xml'
       d.file_contents = exp.doc.to_xml(&:no_empty_tags)
       d.md5_hash = Digest::MD5.hexdigest d.file_contents
-      d.item = i
       d.save!
+      i.add_export_document d
     rescue => e
       Rails.logger.fatal 'Job failed.'
       Rails.logger.fatal e

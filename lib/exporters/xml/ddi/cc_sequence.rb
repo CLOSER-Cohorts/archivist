@@ -43,7 +43,7 @@ module Exporters::XML::DDI
       cn.add_next_sibling l
       inner_prev = l
       cc.children.each do |child|
-        ccf = create_reference_string 'd:ControlConstructReference', child.construct
+        ccf = create_reference_string 'd:ControlConstructReference', child
         inner_prev.add_next_sibling ccf
         inner_prev = ccf
       end

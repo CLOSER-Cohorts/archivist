@@ -92,7 +92,7 @@ module Exporters::XML::DDI
 
       selp_inner_prev = selp_l
       children.each do |child|
-        ccf = create_reference_string 'd:ControlConstructReference', child.construct
+        ccf = create_reference_string 'd:ControlConstructReference', child
         selp_inner_prev.add_next_sibling ccf
         selp_inner_prev = ccf
       end

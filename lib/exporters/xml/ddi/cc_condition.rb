@@ -76,7 +76,7 @@ module Exporters::XML::DDI
 
         seth_inner_prev = seth_l
         cc.children.where(branch: branch).each do |child|
-          ccf = create_reference_string 'd:ControlConstructReference', child.construct
+          ccf = create_reference_string 'd:ControlConstructReference', child
           seth_inner_prev.add_next_sibling ccf
           seth_inner_prev = ccf
         end
@@ -86,13 +86,13 @@ module Exporters::XML::DDI
       ns = Nokogiri::XML::NodeSet.new @doc
       ns.push con
 
-      if cc.children.where(branch: 0).count > 0
+      if cc.children.branch(0).count > 0
         tcr, seth = process_condition_branch.call(0, 'seth', 'then')
         con.add_child tcr
         ns.push seth
       end
 
-      if cc.children.where(branch: 1).count > 0
+      if cc.children.branch(1).count > 0
         fcr, seel = process_condition_branch.call(1, 'seel', 'else')
         con.add_child fcr
         ns.push seel

@@ -27,6 +27,12 @@ class Children
     end
   end
 
+  def branch(branch_number)
+    to_ary.select do |c|
+      c.branch == branch_number
+    end
+  end
+
   def each(&block)
     to_ary.each &block
   end

@@ -55,6 +55,15 @@ class InstrumentsController < ImportableController
   def response_domain_codes
   end
 
+  def document
+    begin
+      d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').find(params[:doc_id])
+      render body: d.file_contents, content_type: 'application/xml'
+    rescue => e
+      render xml: {error: 'Not found'}, status: 404
+    end
+  end
+
   def latest_document
     d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').order(created_at: :desc).limit(1).first
     if d.nil?

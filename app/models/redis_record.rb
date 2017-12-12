@@ -1,9 +1,6 @@
 # An abstract class for all Redis-backed models to
 # derive from
 class RedisRecord
-  # Declare as an abstract class
-  self.abstract_class = true
-
   # Returns a list of all items from Redis
   #
   # @return [Array]
