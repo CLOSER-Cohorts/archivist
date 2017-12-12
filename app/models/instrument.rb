@@ -169,6 +169,8 @@ class Instrument < ApplicationRecord
   # After destroying an instrument, remove its Prefix from cache
   after_destroy :deregister_prefix
 
+  validates :prefix, uniqueness: true
+
   # Update cache with freshly generated last editted times for  all
   # instruments
   #

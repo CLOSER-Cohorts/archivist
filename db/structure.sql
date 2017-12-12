@@ -3439,7 +3439,7 @@ ALTER TABLE ONLY codes
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES
+INSERT INTO "schema_migrations" (version) VALUES
 ('20151129203547'),
 ('20151129204534'),
 ('20151129204903'),
@@ -3498,6 +3498,7 @@ INSERT INTO schema_migrations (version) VALUES
 ('20170525155249'),
 ('20170601154431'),
 ('20170605112157'),
-('20171124115905');
+('20171124115905'),
+('20171212182936');
 
 
