@@ -19,20 +19,6 @@ class CcCondition < ::ParentalConstruct
   # XML tag name
   TYPE = 'IfThenElse'
 
-  # Returns an array of all the construct children in the true branch
-  #
-  # @return [Array] True branch children
-  def children
-    super.select { |c| c.branch == 0 }
-  end
-
-  # Returns an array of all the construct children in the false branch
-  #
-  # @return [Array] False branch children
-  def fchildren
-    ParentalConstruct.instance_method(:children).bind(self).call.select { |c| c.branch == 1 }
-  end
-
   # All CcConditions require a literal
   validates :literal, presence: true
 

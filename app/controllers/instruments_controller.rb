@@ -36,11 +36,11 @@ class InstrumentsController < ImportableController
       params[:updates].each do |u|
         unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
           cc = @object.send('cc_'+u[:type].tableize).find(u[:id])
-          parent = @object.send(u[:parent][:type].tableize).find(u[:parent][:id])
+          parent = @object.send('cc_'+u[:parent][:type].tableize).find(u[:parent][:id])
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
-            cc.branch = u[:parent][:type].classify.constantize.is_a?(CcCondition) ? u[:branch] : nil
+            cc.branch = ('Cc'+u[:parent][:type].classify).constantize.is_a?(CcCondition) ? u[:branch] : nil
             cc.save!
           end
         end

@@ -20,14 +20,14 @@
             </div>
             <input
                     type="text"
-                    data-ng-model="variable.added[obi.id]"
+                    data-ng-model="obj.new_variables"
                     placeholder="Add a variable"
                     data-uib-typeahead="variable as variable.name for variable in instrument.Variables | filter:{name:$viewValue}"
                     class="form-control input-variable"
-                    data-typeahead-on-select="addVariable($item, obj.id,$index)"
                     typehead-editable="true"
                     data-uib-tooltip="You can only add existent variables"
                     data-tooltip-placement="top-right"
+                    data-ng-keyup="detectKey($event, obj)"
             >
         </div>
         <div

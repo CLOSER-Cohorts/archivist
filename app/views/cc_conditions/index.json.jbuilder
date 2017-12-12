@@ -1,5 +1,5 @@
 json.array!(@collection) do |cc_condition|
-  json.extract! cc_condition, :id, :literal, :logic, :position
+  json.extract! cc_condition, :id, :literal, :logic, :position, :branch
   json.label cc_condition.label
   json.children cc_condition.construct_children 0
   json.fchildren cc_condition.construct_children 1

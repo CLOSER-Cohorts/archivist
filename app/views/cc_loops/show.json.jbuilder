@@ -1,4 +1,4 @@
-json.extract! @object, :id, :loop_var, :start_val, :end_val, :loop_while, :position
+json.extract! @object, :id, :loop_var, :start_val, :end_val, :loop_while, :position, :branch
 json.label @object.label
 json.children @object.construct_children
 json.parent_id @object.parent_id
