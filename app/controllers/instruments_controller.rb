@@ -40,7 +40,7 @@ class InstrumentsController < ImportableController
           unless cc.nil? or parent.nil?
             cc.position = u[:position]
             cc.parent = parent
-            cc.branch = ('Cc'+u[:parent][:type].classify).constantize.is_a?(CcCondition) ? u[:branch] : nil
+            cc.branch = u[:branch]
             cc.save!
           end
         end
@@ -53,6 +53,15 @@ class InstrumentsController < ImportableController
   end
 
   def response_domain_codes
+  end
+
+  def document
+    begin
+      d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').find(params[:doc_id])
+      render body: d.file_contents, content_type: 'application/xml'
+    rescue => e
+      render xml: {error: 'Not found'}, status: 404
+    end
   end
 
   def latest_document
@@ -107,9 +116,9 @@ class InstrumentsController < ImportableController
   def copy
     new_details = params.select do |k|
         %w(new_label new_agency new_version new_study).include? k.to_s
-    end.map do |k, v|
+    end.to_h.map do |k, v|
       [k.gsub('new_',''), v]
-    end.to_h
+    end
     new_prefix = params['new_prefix']
 
     begin

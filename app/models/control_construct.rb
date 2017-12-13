@@ -58,7 +58,7 @@ class ControlConstruct < ApplicationRecord
   private # Private methods
 
   def pre_create_position_prep
-    self.position = parent.last_child&.position.to_i + 1 if self.position.nil?
+    self.position = parent&.last_child&.position.to_i + 1 if self.position.nil?
     self.branch = 0 if self.branch.nil?
   end
 end

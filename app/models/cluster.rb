@@ -14,7 +14,7 @@ class Cluster
   # The scope used for all keys in Redis
   SCOPE = 'mapper:clusters'
 
-  # The key of the lookup hash to quickly find Clusters from Strand id
+  # The key of the lookup hash to quickly find Clusters from {Strand} id
   LOOKUP = SCOPE + ':lookup'
 
   # The key of the hash storing the suggested_topics for each Cluster
@@ -37,27 +37,9 @@ class Cluster
   #
   # @return [Array]
   def self.all
-    all_clusters = Cluster.all_keys
-
-    all_ids = all_clusters.map { |x| x.split(':').last.to_i }
-    all_clusters = []
-    all_ids.each do |id|
-      c = Cluster.find id
-      all_clusters << c unless c.nil?
+    super do |id|
+      Cluster.find id
     end
-  end
-
-  # Returns all the keys of Clusters in Redis
-  #
-  # @return [Array]
-  def self.all_keys
-    all_keys = []
-    iterator = 0
-    begin
-      iterator, results = Cluster.redis.scan iterator, {match: SCOPE + ':[0-9]*', count: 10000}
-      all_keys += results
-    end while iterator.to_i != 0
-    all_keys
   end
 
   # Deletes all Clusters from Redis
@@ -180,17 +162,12 @@ class Cluster
 
   # Deletes a Cluster from both Redis and the active memory list
   def delete
-    self.class.active.delete(@id.to_i)
-    unless @id.nil?
-      Cluster.redis.del SCOPE + ':' + @id.to_s
+    super do
       @strands.each do |strand|
         Cluster.redis.hdel LOOKUP, strand.id
       end
       Cluster.redis.hdel TOPICS, @id
     end
-    @strands = []
-    @id = nil
-    @topic = nil
   end
 
   # Load a Cluster from Redis
@@ -210,6 +187,13 @@ class Cluster
       end
     end
     self
+  end
+
+  # Resets the properties of the Cluster
+  def reset
+    @id = nil
+    @strands = []
+    @suggested_topic = nil
   end
 
   # Broadcasts a batch update using archivist-realtime for

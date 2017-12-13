@@ -30,7 +30,7 @@ class Document < ApplicationRecord
       self.file_contents = file.read
       self.md5_hash = Digest::MD5.hexdigest self.file_contents
     elsif file.is_a? String # i.e. comes from a base encoding
-      self.filename = "mapping_#{Devise.friendly_token}.txt"
+      self.filename = Digest::MD5.hexdigest(Time.now.to_s) + '.txt'
       self.file_contents = file
       self.md5_hash = Digest::MD5.hexdigest file
     end

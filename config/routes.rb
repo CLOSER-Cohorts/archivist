@@ -98,7 +98,7 @@ Rails.application.routes.draw do
     resources :code_lists
     resources :categories
     member do
-      post 'copy/:new_prefix', to: 'instruments#copy'
+      post 'copy/:new_prefix', to: 'instruments#copy', as: :copy
       get 'clear_cache', to: 'instruments#clear_cache'
       get 'response_domains', to: 'instruments#response_domains'
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   end
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
+  get 'instruments/:id/export/:doc_id', to: 'instruments#document'
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
 

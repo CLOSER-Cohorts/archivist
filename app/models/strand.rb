@@ -1,38 +1,58 @@
+# The Strand model is a non-SQL database model that uses Redis to store
+# its data. A Strand represents a collection of {CcQuestion Questions}
+# and {Variable Variables} that form an interconnected collection of
+# Mappable objects. It is used to control the application and linking of
+# topics.
+#
+# === Properties
+# * id
+# * topic
+# * members
+# * good
 class Strand
+  # Include basic Rails model functionality, without using an SQL database
   include ActiveModel::Model
 
+  # The scope used for all keys in Redis
   SCOPE = 'mapper:strands'
+
+  # The key of the lookup hash to quickly find Strands from member typedid
   LOOKUP = SCOPE + ':lookup'
+
+  # The key of the hash storing the topics for each Strand
   TOPICS = SCOPE + ':topics'
+
+  # The key of the hash storing the statuses for each Strand
   STATUS = SCOPE + ':status'
 
-  attr_accessor :id, :topic
-  attr_reader :members, :good
+  # Make the id set and get-able
+  attr_accessor :id
 
+  # Make the topic set and get-able
+  attr_accessor :topic
+
+  # Make the list of members only get-able
+  attr_reader :members
+
+  # Make the good status only get-able
+  attr_reader :good
+
+  # A collection of all active Strands held in memory
+  # @type [Hash]
   @active = {}
 
+  # Returns a list of Strands from Redis
+  #
+  # @return [Array]
   def self.all
-    all_strands = Strand.all_keys
-
-    all_ids = all_strands.map { |x| x.split(':').last.to_i }
-    all_strands = []
-    all_ids.each do |id|
-      c = Strand.find id
-      all_strands << c unless c.nil?
+    super do |id|
+      Strand.find id
     end
-    all_strands
   end
 
-  def self.all_keys
-    all_keys = []
-    iterator = 0
-    begin
-      iterator, results = Strand.redis.scan iterator, {match: SCOPE + ':[0-9]*', count: 10000}
-      all_keys += results
-    end while iterator.to_i != 0
-    all_keys
-  end
-
+  # Deletes all Strands from Redis
+  #
+  # Also deletes all {Cluster Clusters}
   def self.delete_all
     Cluster.delete_all
     all_keys = Strand.all_keys
@@ -44,10 +64,18 @@ class Strand
     Strand.redis.del STATUS
   end
 
+  # Gets a Strand by id, either from active memory list or Redis
+  #
+  # @param [Integer] id Id of Strand to be retrieved
+  # @return [Strand]
   def self.find(id)
     return @active.has_key?(id.to_i) ? @active[id.to_i] : Strand.new(id.to_i)
   end
 
+  # Gets a Strand by a member mappable item
+  #
+  # @param [Mappable] member Member item to find by
+  # @return [Strand]
   def self.find_by_member(member)
     begin
       id = redis.hget LOOKUP, member.typed_id
@@ -58,6 +86,10 @@ class Strand
     return Strand.find(id.to_i)
   end
 
+  # Rebuilds all Strands
+  #
+  # Causes all current Strands to be deleted, which
+  # could be dangerous if users are using Archivist.
   def self.rebuild_all
     Strand.delete_all
     CcQuestion.includes(link: :topic).find_each { |qc| Strand.new([qc]).save }
@@ -72,10 +104,17 @@ class Strand
     end
   end
 
+  # Returns the active Redis connection
+  #
+  # @return [Redis]
   def self.redis
     $redis
   end
 
+  # Creates a new Strand
+  #
+  # @param [Array|Integer] thing Either an array of initial members or a Strand id
+  # @return [Strand]
   def initialize(thing = [])
     @good = true
     if thing.is_a?(Integer) || thing.is_a?(String)
@@ -91,6 +130,10 @@ class Strand
     end
   end
 
+  # Merges two Strands into one 'new' Strand
+  #
+  # @param [Strand] other Second Strand to be merged
+  # @return [Strand] New combined Strand
   def +(other)
     new_members = []
     new_members += @members
@@ -105,32 +148,45 @@ class Strand
     s
   end
 
+  # Test if two Strands are the same
+  #
+  # Two Strands are considered equal if they have exactly the same members
+  #
+  # @param [Strand] other Second Strand to be compared
+  # @return [Boolean] Whether the Strands are the same
   def ==(other)
     @members.map(&:typed_id).sort.join('') == other.members.map(&:typed_id).sort.join('')
   end
 
+  # Retrieves the {Cluster} this Strand belongs to
+  #
+  # @return [Cluster] Cluster this Strand belongs to
   def cluster
     Cluster.find_by_strand self
   end
 
+  # Deletes a Strand from both Redis and the active memory list
   def delete
-    self.class.active.delete(@id.to_i)
-    unless @id.nil?
-      Strand.redis.del SCOPE + ':' + @id.to_s
+    super do
       @members.each do |member|
         Strand.redis.hdel LOOKUP, member.typed_id
       end
       Strand.redis.hdel TOPICS, @id
     end
-    @members = []
-    @id = nil
-    @topic = nil
   end
 
+  # Returns all members with explicit {Topic Topics}
+  #
+  # @return [Array] All members with fixed {Topic Topics}
   def get_fixed_points
     @members.map { |m| m.association(:topic).reload.nil? ? nil : {point: m, topic: m.topic} }.compact
   end
 
+  # Load a Strand from Redis
+  #
+  # This only works if the id has been set
+  #
+  # @return [Strand] Loaded Strand
   def load
     unless @id.nil?
       typed_member_ids = Strand.redis.smembers(SCOPE + ':' + @id.to_s).map { |x| x.split(':') }.group_by(&:first).map { |c, xs| [c, xs.map(&:last)] }
@@ -155,6 +211,17 @@ class Strand
     self
   end
 
+  # Resets the properties of the Strand
+  def reset
+    @id = nil
+    @members = []
+    @topic = nil
+  end
+
+  # Saves a Strand to Redis
+  #
+  # @param [Object] do_eval Whether to evaluate the Strand before saving
+  # the Strand's topic
   def save (do_eval = false)
     begin
       if @id.nil?
@@ -173,11 +240,17 @@ class Strand
     end
   end
 
-  private
+  private  # Private methods
+
+  # Returns the array of active Strands in memory
+  #
+  # @return [Hash]
   def self.active
     @active
   end
 
+  # Takes the initial Strand members and walks all of the edges
+  # until all the members have been found and added to the Strand
   def compile
     begin
       edges = []
@@ -189,6 +262,13 @@ class Strand
     end while edges.count > 0
   end
 
+  # Assess the Strand and determine the topic
+  #
+  # Each member is checked, if no member has a {Topic}, then the
+  # Strand has no {Topic}. If the members only have no {Topic}, or a
+  # single {Topic} then that {Topic} becomes the Strand's {Topic}.
+  # If the members have more than one {Topic}, the Strand's status
+  # is set to bad.
   def evaluate(reload = true)
     @topic = nil
     @members.each do |member|
@@ -197,6 +277,14 @@ class Strand
     end
   end
 
+  # Sets the Strands {Topic}
+  #
+  # While setting the {Topic}, the current/previous {Topic} is
+  # checked and if the new {Topic} is in conflict false is
+  # returned, otherwise true is returned.
+  #
+  # @param [Topic] topic New {Topic} value
+  # @return [Boolean] False if the new topic causes a conflict
   def set_topic(topic)
     return true if topic.nil?
     if @topic.nil?
