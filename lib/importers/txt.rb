@@ -1,13 +1,19 @@
 module Importers::TXT
   class Basic
-    def initialize(thing, object)
+    def initialize(thing, options)
       if thing.is_a? String
         @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
       else
         document = ::Document.find thing
         @doc = Importers::TXT::TabDelimited.new document.file_contents
       end
-      @object = object
+      if options.has_key? :object
+        if options[:object].is_a?(String) || options[:object].is_a?(Integer)
+          @object = yield options[:object]
+        else
+          @object = options[:object]
+        end
+      end
     end
 
     def cancel
