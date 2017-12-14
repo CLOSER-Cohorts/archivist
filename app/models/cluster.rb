@@ -7,7 +7,7 @@
 # * id
 # * suggested_topic
 # * strands
-class Cluster
+class Cluster < RedisRecord
   # Include basic Rails model functionality, without using an SQL database
   include ActiveModel::Model
 

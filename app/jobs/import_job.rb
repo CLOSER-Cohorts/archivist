@@ -12,7 +12,7 @@ module ImportJob
           exit 0
         end
 
-        item.parse
+        item.import
       rescue => e
         Rails.logger.fatal 'Fatal error while importing'
         Rails.logger.fatal e.message
