@@ -19,7 +19,6 @@
         "version": "9.5"
       }
     },
-    "heroku-redis",
-    "postmark"
+    "heroku-redis"
   ]
 }

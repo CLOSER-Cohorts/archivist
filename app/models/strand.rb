@@ -9,7 +9,7 @@
 # * topic
 # * members
 # * good
-class Strand
+class Strand < RedisRecord
   # Include basic Rails model functionality, without using an SQL database
   include ActiveModel::Model
 

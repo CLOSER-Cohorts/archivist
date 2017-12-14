@@ -8,7 +8,7 @@ task :load_instruments => :environment do
     if File.exist? file
 
       im = Importers::XML::DDI::Instrument.new file
-      im.parse
+      im.import
 
     end
 
@@ -28,7 +28,7 @@ task :load_datasets => :environment do
       doc.save_or_get
 
       da = Importers::XML::DDI::Dataset.new(doc)
-      da.parse
+      da.import
       doc.item = da.dataset
       doc.save!
 

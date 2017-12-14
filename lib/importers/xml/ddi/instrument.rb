@@ -15,7 +15,7 @@ module Importers::XML::DDI
      @instrument.destroy
    end
 
-    def parse
+    def import
       Realtime.do_silently do
         @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
         import_category_schemes
