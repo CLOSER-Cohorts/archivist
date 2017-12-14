@@ -59,9 +59,9 @@ class DatasetsController < ImportableController
         type = import[:type]&.downcase&.to_sym
 
         if type == :dv
-          Resque.enqueue ImportJob::DV, doc.id, params[:id]
+          Resque.enqueue ImportJob::DV, doc.id, {object: params[:id]}
         elsif type == :topicv
-          Resque.enqueue ImportJob::TopicV, doc.id, params[:id]
+          Resque.enqueue ImportJob::TopicV, doc.id, {object: params[:id]}
         end
 
       end

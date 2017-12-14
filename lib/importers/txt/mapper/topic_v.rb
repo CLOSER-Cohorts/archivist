@@ -1,7 +1,7 @@
-class Importers::TXT::Mapper::TopicV < Importers::TXT::Basic
+class Importers::TXT::Mapper::TopicV < Importers::TXT::Mapper::Dataset
   def import
     @doc.each do |v, t|
-      if @config[0].include? :icase
+      if @doc.config[0]&.include? :icase
         var = @object.variables.where('lower(name) = ?', v.downcase).first
       else
         var = @object.variables.find_by_name v

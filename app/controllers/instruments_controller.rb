@@ -100,7 +100,7 @@ class InstrumentsController < ImportableController
 
         type = import[:type]&.downcase&.to_sym
 
-        Resque.enqueue(@@map[type], doc.id, params[:id])
+        Resque.enqueue(@@map[type], doc.id, {object: params[:id]})
       end
       head :ok, format: :json
     rescue  => e

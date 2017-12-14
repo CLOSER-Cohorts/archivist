@@ -1,4 +1,4 @@
-class Importers::TXT::Mapper::DV < Importers::TXT::Basic
+class Importers::TXT::Mapper::DV < Importers::TXT::Mapper::Dataset
   def import
     @doc.each do |v, s|
       var = @object.variables.find_by_name v
