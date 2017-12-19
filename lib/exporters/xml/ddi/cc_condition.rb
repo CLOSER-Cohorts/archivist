@@ -75,7 +75,7 @@ module Exporters::XML::DDI
         seth_cn.add_next_sibling seth_l
 
         seth_inner_prev = seth_l
-        cc.children.where(branch: branch).each do |child|
+        cc.children.branch(branch).each do |child|
           ccf = create_reference_string 'd:ControlConstructReference', child
           seth_inner_prev.add_next_sibling ccf
           seth_inner_prev = ccf
