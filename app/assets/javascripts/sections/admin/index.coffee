@@ -314,7 +314,7 @@ admin.controller('AdminExportController',
           v.has_export = v.export_url != null
         )
       )
-      $scope.pageSize = 16
+      $scope.pageSize = 24
 
       console.log $scope
 
