@@ -269,6 +269,7 @@ class Instrument < ApplicationRecord
     ref = {control_constructs: {}}
     ccs = {}
     PROPERTIES.each do |key|
+      next if [:cc_conditions, :cc_loops, :cc_questions, :cc_sequences, :cc_statements].include?(key)
       ref[key] = {}
       self.__send__(key).find_each do |obj|
         new_obj = obj.dup
@@ -285,15 +286,32 @@ class Instrument < ApplicationRecord
       end
     end
 
-    ### Rebuild the control construct tree
-    new_i.control_constructs.find_each do |cc|
-      cc.position = ccs[cc.id].position
-      cc.branch = ccs[cc.id].branch
-      cc.label = ccs[cc.id].label
+    ### Copy the control construct tree
+    new_top_sequence = self.top_sequence.dup
+    new_top_sequence.instrument_id = new_i.id
+    new_top_sequence.save!
+    deep_copy_children = lambda do |new_item, item|
+      item.children.each do |child|
+        new_child = child.dup
+        new_child.instrument_id = new_i.id
 
-      cc.parent = ref[:control_constructs][ccs[cc.id].parent_id]
-      cc.save!
+        child.class.reflections.select do |association_name, reflection|
+          if association_name.to_s != 'instrument' && association_name.to_s != 'parent' && reflection.macro == :belongs_to
+            unless child.__send__(association_name).nil?
+              new_child.association(association_name).writer(ref[child.__send__(association_name).class.name.tableize.to_sym][child.__send__(association_name).id])
+            end
+          end
+        end
+
+        new_item.children << new_child
+        new_item.save!
+        if child.is_a?(ParentalConstruct)
+          deep_copy_children.call(new_child, child)
+        end
+      end
     end
+
+    deep_copy_children.call(new_top_sequence, self.top_sequence)
 
     new_i
   end
