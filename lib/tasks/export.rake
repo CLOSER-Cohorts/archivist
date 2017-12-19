@@ -7,7 +7,6 @@ namespace :export do
       if i.export_time.nil? || Date.parse(i.export_time.to_s) < Date.parse(i.last_edited_time.to_s)
         exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes
-        i = Instrument.find(id)
         exp.export_instrument i
 
         exp.build_rp
