@@ -7,11 +7,12 @@ module Importers::TXT
         document = ::Document.find thing
         @doc = Importers::TXT::TabDelimited.new document.file_contents
       end
-      if options.has_key? :object
-        if options[:object].is_a?(String) || options[:object].is_a?(Integer)
-          @object = yield options[:object]
+
+      if options.has_key? 'object'
+        if options['object'].is_a?(String) || options['object'].is_a?(Integer) || options['object'].is_a?(Symbol)
+          @object = yield options['object']
         else
-          @object = options[:object]
+          @object = options['object']
         end
       end
     end
@@ -31,7 +32,7 @@ module Importers::TXT
       else
         @contents = thing.read
       end
-      @lines = @contents.split(/\r?\n/)
+      @lines = @contents.split(/\r\n|\r|\n/)
 
       while @lines.first[0] == '#'
         column, command = @lines.shift[1..-1].split(' ')
