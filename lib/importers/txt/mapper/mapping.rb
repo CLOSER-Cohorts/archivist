@@ -1,7 +1,7 @@
 class Importers::TXT::Mapper::Mapping < Importers::TXT::Mapper::Instrument
-  def initialize(thing, object)
-    super
-    @variables = object.datasets.map &:variables
+  def initialize(thing, options)
+    super(thing, options)
+    @variables = @object.datasets.map &:variables
   end
 
   def import
