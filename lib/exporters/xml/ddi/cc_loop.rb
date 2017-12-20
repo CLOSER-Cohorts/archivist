@@ -20,7 +20,7 @@ module Exporters::XML::DDI
     # @param [::CcLoop|Integer] lp_id Either the CcLoop or CcLoop ID for exporting
     # @return [Nokogiri::XML::Node] New XML node
     def V3_2(lp_id)
-      cc = lp_id.is_a? ::CcLoop ? lp_id : ::CcLoop.find(lp_id)
+      cc = lp_id.is_a?(::CcLoop) ? lp_id : ::CcLoop.find(lp_id)
 
       lp = Nokogiri::XML::Node.new 'd:Loop', @doc
       urn = create_urn_node cc
