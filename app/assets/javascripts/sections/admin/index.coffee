@@ -179,7 +179,7 @@ admin.controller('AdminInstrumentsController',
               Flash.add 'success', 'Instrument deleted successfully'
           ,
             (response)->
-              console.log response
+              console.error response
               Flash.add 'danger', 'Failed to delete instrument - ' + response.message
         else
           Flash.add 'danger', 'The prefixes did not match. The instrument was not deleted.'
@@ -252,6 +252,20 @@ admin.controller('AdminDatasetsController',[
       ), (error) ->
         console.log error
         Flash.add 'danger', 'Something went wrong, please import the file again.'
+
+    $scope.prepareDelete = (id)->
+      $scope.dataset = $scope.datasets.select_resource_by_id(id)
+
+    $scope.delete = ->
+      $scope.dataset.$delete {},
+        ->
+          DataManager.Data = {}
+          $scope.datasets = DataManager.Dataset.requery()
+          Flash.add 'success', 'Dataset deleted successfully'
+      ,
+        (response)->
+          console.error response
+          Flash.add 'danger', 'Failed to delete dataset - ' + response.message
   ])
 
 admin.controller('AdminImportController',

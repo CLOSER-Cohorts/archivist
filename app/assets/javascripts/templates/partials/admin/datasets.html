@@ -48,6 +48,16 @@
                         >
                             Import Mappings
                         </button>
+                        |
+                        <button
+                                type="button"
+                                class="btn btn-link btn-sm"
+                                data-toggle="modal"
+                                data-target="#delete-dataset"
+                                data-ng-click="prepareDelete(dataset.id)"
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -62,4 +72,5 @@
     </div>
 </div>
 
+<div data-ng-include="'partials/admin/modals/dataset-delete.html'"></div>
 <div data-ng-include="'partials/admin/modals/import-mapping.html'"></div>
