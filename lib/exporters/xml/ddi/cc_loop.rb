@@ -33,7 +33,7 @@ module Exporters::XML::DDI
       lp.add_child cn
       lp.add_child '<d:InitialValue><r:Command><r:ProgramLanguage>pseudo-code</r:ProgramLanguage>' +
                        '<r:CommandContent>%{command}</r:CommandContent></r:Command></d:InitialValue>' % {
-                           command: CGI::escapeHTML(cc.loop_var.to_s) + ' = ' + cc.start_val
+                           command: CGI::escapeHTML(cc.loop_var.to_s) + ' = ' + cc.start_val.to_s
                        }
 
       lp.add_child build_loop_while(cc)

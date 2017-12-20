@@ -7,7 +7,7 @@ groups.factory(
   [ 'WrappedResource',
     (WrappedResource)->
       new WrappedResource(
-        'groups/:id.json',
+        'user_groups/:id.json',
         {
           id: '@id'
         }
