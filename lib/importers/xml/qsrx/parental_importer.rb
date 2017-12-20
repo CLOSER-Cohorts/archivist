@@ -12,7 +12,7 @@ module Importers::XML::QSRX
     end
 
     def method_missing(m, *args, &block)
-      m.slice!(0..4)
+      m.slice(0..4)
       Rails.logger.warn "QSRX importer does not support #{m} tags. It will be skipped."
     end
   end
