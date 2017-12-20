@@ -41,7 +41,7 @@ module Exporters::XML::DDI
 
       ns = Nokogiri::XML::NodeSet.new @doc
       ns.push lp
-      ns.push build_loop_sequence(cc.children)
+      ns.push build_loop_sequence(cc)
       ns
     end
 
@@ -73,7 +73,7 @@ module Exporters::XML::DDI
       }
     end
 
-    def build_loop_sequence(children)
+    def build_loop_sequence(cc)
       selp = Nokogiri::XML::Node.new 'd:Sequence', @doc
       selp.add_child create_urn_node(cc, 'selp')
       selp_cn = Nokogiri::XML::Node.new 'd:ConstructName', @doc
@@ -91,7 +91,7 @@ module Exporters::XML::DDI
       selp_cn.add_next_sibling selp_l
 
       selp_inner_prev = selp_l
-      children.each do |child|
+      cc.children.each do |child|
         ccf = create_reference_string 'd:ControlConstructReference', child
         selp_inner_prev.add_next_sibling ccf
         selp_inner_prev = ccf
