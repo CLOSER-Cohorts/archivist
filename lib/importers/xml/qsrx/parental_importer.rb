@@ -49,7 +49,23 @@ module Importers::XML::QSRX
         question_item.instruction = instruction_text
       end
 
+      case node['number']
+      when 'number'
+        response_domain = @instrument.response_domain_numbers.new(
+          label: node['name'],
+          numeric_type: node.at_xpath('./qt_properties/decimals')&.content&.to_i == 0 ? 'Integer' : 'Float',
+        )
+        range_node = node.at_xpath('./qt_properties/range')
+        unless range_node.nil?
+          response_domain.min = range_node['min']
+          response_domain.max = range_node['max']
+        end
+
+      end
+
+      response_domain.save!
       question_item.save!
+      question_item.add_rds [response_domain]
 
       @instrument.cc_questions.new(
           label: node['name'],
