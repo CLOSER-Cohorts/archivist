@@ -1,12 +1,11 @@
 module Importers::XML::QSRX
   class Branch < ParentalImporter
-    @counter = 0
     def XML_node(node)
       @node = node.at_xpath('./if')
-      @counter += 1
+      @@condition_counter += 1
       condition = @instrument.cc_conditions.new(
-          label: @counter.to_s,
-          literal: @node.at_xpath('./condition')&.content,
+          label: 'c_' + @@condition_counter.to_s,
+          literal: @node.at_xpath('./condition')&.content.to_s,
           logic: @node.at_xpath('./sd_properties/label')&.content
       )
       condition.save!
