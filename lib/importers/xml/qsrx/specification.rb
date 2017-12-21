@@ -12,8 +12,8 @@ module Importers::XML::QSRX
       @node = @doc.at_xpath('./qsrx/specification')
     end
 
-    def import_instrument(agency, prefix, study='')
-      @instrument = Instrument.new prefix: prefix, agency: agency, study: study, version: '1'
+    def import(options)
+      @instrument = Instrument.new options
       @instrument.label = @node.at_xpath('./sd_properties/label')&.content
       @instrument.save!
 

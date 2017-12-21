@@ -15,7 +15,7 @@ module Importers::XML::DDI
      @instrument.destroy
    end
 
-    def import
+    def import(options = {})
       Realtime.do_silently do
         @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
         import_category_schemes
@@ -24,6 +24,10 @@ module Importers::XML::DDI
         import_question_schemes
         read_constructs
       end
+      @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
+      @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
+      @instrument.label = options[:label] unless options[:label].to_s.empty?
+      @instrument.study = options[:study] unless options[:study].to_s.empty?
     end
 
     def import_category_schemes

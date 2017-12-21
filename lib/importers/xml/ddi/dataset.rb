@@ -17,7 +17,7 @@ module Importers::XML::DDI
       @dataset.destroy
     end
 
-    def import
+    def import(options = {})
       @dataset = self.class.build_dataset( @doc, filename: File.basename(@filepath))
       unless @document.nil?
         @document.item = @dataset
