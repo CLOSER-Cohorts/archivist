@@ -322,9 +322,9 @@ admin.controller('AdminExportController',
     '$http',
     'DataManager',
     ($scope, $http, DataManager)->
-      $scope.instruments = DataManager.Instruments.query({},->
-        angular.forEach($scope.instruments, (v,k)->
-          v.can_export = (Date.parse(v.export_time) < Date.parse(v.last_edited_time))
+      $scope.instruments = DataManager.Instruments.query({}, (instruments)->
+        angular.forEach(instruments, (v,k)->
+          v.can_export = (Date.parse(v.export_time) < Date.parse(v.last_edited_time)) || v.export_time == null
           v.has_export = v.export_url != null
         )
       )
