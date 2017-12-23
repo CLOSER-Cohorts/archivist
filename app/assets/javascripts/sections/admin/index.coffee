@@ -292,8 +292,8 @@ admin.controller('AdminImportController',
           'instrument-study'
         ]
         for key in possible_options
-          if $scope.options[possible_options]?
-            fd.set possible_options, $scope.options[possible_options]
+          if $scope.options[key]?
+            fd.set key, $scope.options[key]
 
         if $scope.options
           $http {
