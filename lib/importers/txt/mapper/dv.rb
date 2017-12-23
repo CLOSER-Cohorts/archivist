@@ -1,5 +1,5 @@
 class Importers::TXT::Mapper::DV < Importers::TXT::Mapper::Dataset
-  def import
+  def import(options = {})
     @doc.each do |v, s|
       var = @object.variables.find_by_name v
       src = @object.variables.find_by_name s

@@ -4,7 +4,7 @@ class Importers::TXT::Mapper::Mapping < Importers::TXT::Mapper::Instrument
     @variables = @object.datasets.map &:variables
   end
 
-  def import
+  def import(options = {})
     @doc.each do |q, v|
       q_ident, q_coords = *q.split('$')
       qc = @object.cc_questions.find_by_label q_ident

@@ -56,7 +56,7 @@ class QuestionGrid < ApplicationRecord
   # @return [Array] All response domains
   def response_domains
     sql = <<~SQL
-      SELECT *
+      SELECT rds_qs.*
       FROM rds_qs
       INNER JOIN question_grids
       ON question_grids.id = rds_qs.question_id

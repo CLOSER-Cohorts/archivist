@@ -13,6 +13,7 @@ class Children
   end
 
   def <<(new_child)
+    return if new_child.nil?
     case new_child
       when CcCondition
         @cc_conditions.reader << new_child
@@ -25,6 +26,7 @@ class Children
       when CcStatement
         @cc_statements.reader << new_child
     end
+    new_child.save!
   end
 
   def branch(branch_number)

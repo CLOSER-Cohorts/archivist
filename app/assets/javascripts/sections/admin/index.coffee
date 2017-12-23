@@ -179,7 +179,7 @@ admin.controller('AdminInstrumentsController',
               Flash.add 'success', 'Instrument deleted successfully'
           ,
             (response)->
-              console.log response
+              console.error response
               Flash.add 'danger', 'Failed to delete instrument - ' + response.message
         else
           Flash.add 'danger', 'The prefixes did not match. The instrument was not deleted.'
@@ -252,6 +252,20 @@ admin.controller('AdminDatasetsController',[
       ), (error) ->
         console.log error
         Flash.add 'danger', 'Something went wrong, please import the file again.'
+
+    $scope.prepareDelete = (id)->
+      $scope.dataset = $scope.datasets.select_resource_by_id(id)
+
+    $scope.delete = ->
+      $scope.dataset.$delete {},
+        ->
+          DataManager.Data = {}
+          $scope.datasets = DataManager.Dataset.requery()
+          Flash.add 'success', 'Dataset deleted successfully'
+      ,
+        (response)->
+          console.error response
+          Flash.add 'danger', 'Failed to delete dataset - ' + response.message
   ])
 
 admin.controller('AdminImportController',
@@ -269,19 +283,31 @@ admin.controller('AdminImportController',
         fd = new FormData()
         angular.forEach $scope.files, (item) ->
           fd.append 'files[]', item
-        fd.set 'question_grids', $scope.options.import_question_grids
-        $http {
-          method: 'POST'
-          url: '/admin/import/instruments'
-          data: fd
-          transformRequest: angular.identity
-          headers :
-            'Content-Type': undefined
-        }
-        .success ->
-          Flash.add 'success', 'Instrument imported.'
-        .error (res)->
-          Flash.add 'danger', 'Instrument failed to import - ' + res.message
+
+        possible_options = [
+          'question_grids',
+          'instrument-prefix',
+          'instrument-agency',
+          'instrument-label',
+          'instrument-study'
+        ]
+        for key in possible_options
+          if $scope.options[possible_options]?
+            fd.set possible_options, $scope.options[possible_options]
+
+        if $scope.options
+          $http {
+            method: 'POST'
+            url: '/admin/import/instruments'
+            data: fd
+            transformRequest: angular.identity
+            headers :
+              'Content-Type': undefined
+          }
+          .success ->
+            Flash.add 'success', 'Instrument imported.'
+          .error (res)->
+            Flash.add 'danger', 'Instrument failed to import - ' + res.message
 
       $scope.uploadDatasetImport = ()->
         $scope.publish_flash()
@@ -308,9 +334,9 @@ admin.controller('AdminExportController',
     '$http',
     'DataManager',
     ($scope, $http, DataManager)->
-      $scope.instruments = DataManager.Instruments.query({},->
-        angular.forEach($scope.instruments, (v,k)->
-          v.can_export = (Date.parse(v.export_time) < Date.parse(v.last_edited_time))
+      $scope.instruments = DataManager.Instruments.query({}, (instruments)->
+        angular.forEach(instruments, (v,k)->
+          v.can_export = (Date.parse(v.export_time) < Date.parse(v.last_edited_time)) || v.export_time == null
           v.has_export = v.export_url != null
         )
       )

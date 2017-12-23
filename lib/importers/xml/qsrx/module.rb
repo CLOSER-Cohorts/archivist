@@ -1,36 +1,15 @@
 module Importers::XML::QSRX
-  class Module
-    def initialize(instrument)
-      @instrument = instrument
-    end
-
+  class Module < ParentalImporter
     def XML_node(node)
+      @node = node
       sequence = @instrument.cc_sequences.new(
-          label: node.at_xpath('./context')&.content,
-          literal: node.at_xpath('./rm_properties/label')
+          label: @node.at_xpath('./context')&.content,
+          literal: @node.at_xpath('./rm_properties/label')&.content
       )
       sequence.save!
 
       read_children(sequence)
-    end
-
-    def read_dcomment(node)
-      statement = @instrument.cc_statements.new(
-        literal: node.content
-      )
-    end
-
-    def read_question(node)
-      case node['type']
-        when 'time'
-        when 'choice'
-        when 'number'
-        when 'string'
-        when 'multichoice'
-        when 'date'
-        when 'text'
-
-      end
+      sequence
     end
   end
 end

@@ -1,5 +1,5 @@
 class Importers::TXT::Mapper::TopicV < Importers::TXT::Mapper::Dataset
-  def import
+  def import(options = {})
     @doc.each do |v, t|
       if @doc.config[0]&.include? :icase
         var = @object.variables.where('lower(name) = ?', v.downcase).first
