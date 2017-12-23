@@ -283,19 +283,31 @@ admin.controller('AdminImportController',
         fd = new FormData()
         angular.forEach $scope.files, (item) ->
           fd.append 'files[]', item
-        fd.set 'question_grids', $scope.options.import_question_grids
-        $http {
-          method: 'POST'
-          url: '/admin/import/instruments'
-          data: fd
-          transformRequest: angular.identity
-          headers :
-            'Content-Type': undefined
-        }
-        .success ->
-          Flash.add 'success', 'Instrument imported.'
-        .error (res)->
-          Flash.add 'danger', 'Instrument failed to import - ' + res.message
+
+        possible_options = [
+          'question_grids',
+          'instrument-prefix',
+          'instrument-agency',
+          'instrument-label',
+          'instrument-study'
+        ]
+        for key in possible_options
+          if $scope.options[possible_options]?
+            fd.set possible_options, $scope.options[possible_options]
+
+        if $scope.options
+          $http {
+            method: 'POST'
+            url: '/admin/import/instruments'
+            data: fd
+            transformRequest: angular.identity
+            headers :
+              'Content-Type': undefined
+          }
+          .success ->
+            Flash.add 'success', 'Instrument imported.'
+          .error (res)->
+            Flash.add 'danger', 'Instrument failed to import - ' + res.message
 
       $scope.uploadDatasetImport = ()->
         $scope.publish_flash()
