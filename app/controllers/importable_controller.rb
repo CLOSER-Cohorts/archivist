@@ -6,10 +6,10 @@ class ImportableController < BasicController
   def import
     files = params[:files].nil? ? [] : params[:files]
     options = {}
-    options[:prefix] = params[:prefix] if params.has_key? :prefix
-    options[:agency] = params[:agency] if params.has_key? :agency
-    options[:label] = params[:label] if params.has_key? :label
-    options[:study] = params[:study] if params.has_key? :study
+    options[:prefix] = params[:instrument_prefix] if params.has_key? :instrument_prefix
+    options[:agency] = params[:instrument_agency] if params.has_key? :instrument_agency
+    options[:label] = params[:instrument_label] if params.has_key? :instrument_label
+    options[:study] = params[:instrument_study] if params.has_key? :instrument_study
     head :ok, format: :json if files.empty?
     begin
       files.each do |file|
