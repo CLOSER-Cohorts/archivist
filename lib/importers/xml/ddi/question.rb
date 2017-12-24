@@ -131,7 +131,7 @@ module Importers::XML::DDI
     def XML_node(node)
       if node.name == 'QuestionItem'
         question = question_item_node node
-      elsif node.name == 'QuestionGird'
+      elsif node.name == 'QuestionGrid'
         question = question_grid_node node
       else
 

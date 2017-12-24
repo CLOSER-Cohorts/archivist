@@ -83,6 +83,19 @@ class InstrumentsController < ImportableController
     render 'variables/index'
   end
 
+  # Destroy action queues a job to destroy an instrument
+  def destroy
+    begin
+      Resque.enqueue DeleteJob::Instrument, @object.id
+      head :ok, format: :json
+    rescue => e
+      logger.fatal 'Failed to destroy instrument'
+      logger.fatal e.message
+      logger.fatal e.backtrace
+      render json: {message: e}, status: :bad_request
+    end
+  end
+
   # Used by importing the TXT instrument files that mapper used
   # Please note that for multiple upload to work within a nested
   # Angular 1.X form, base64 encoding was needed so we need to
