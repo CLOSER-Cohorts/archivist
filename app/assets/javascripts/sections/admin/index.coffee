@@ -276,7 +276,7 @@ admin.controller('AdminImportController',
     ($scope, $http, Flash)->
       $scope.files = []
       $scope.options =
-        import_question_grids: true
+        question_grids: true
 
       $scope.uploadInstrumentImport = ()->
         $scope.publish_flash()
@@ -286,10 +286,10 @@ admin.controller('AdminImportController',
 
         possible_options = [
           'question_grids',
-          'instrument-prefix',
-          'instrument-agency',
-          'instrument-label',
-          'instrument-study'
+          'instrument_prefix',
+          'instrument_agency',
+          'instrument_label',
+          'instrument_study'
         ]
         for key in possible_options
           if $scope.options[key]?
