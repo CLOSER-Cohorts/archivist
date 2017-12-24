@@ -8,7 +8,6 @@ class ImportableController < BasicController
     options = {}
     options[:prefix] = params[:instrument_prefix] if params.has_key? :instrument_prefix
     options[:agency] = params[:instrument_agency] if params.has_key? :instrument_agency
-    options[:label] = params[:instrument_label] if params.has_key? :instrument_label
     options[:study] = params[:instrument_study] if params.has_key? :instrument_study
     head :ok, format: :json if files.empty?
     begin

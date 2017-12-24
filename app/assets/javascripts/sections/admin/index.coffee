@@ -288,7 +288,6 @@ admin.controller('AdminImportController',
           'question_grids',
           'instrument_prefix',
           'instrument_agency',
-          'instrument_label',
           'instrument_study'
         ]
         for key in possible_options
