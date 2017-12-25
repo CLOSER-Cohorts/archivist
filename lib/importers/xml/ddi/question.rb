@@ -31,6 +31,9 @@ module Importers::XML::DDI
       question.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H' unless corner.nil?
 
       # Response domain work
+      
+
+      question
     end
 
     def question_item_node(node)
@@ -134,7 +137,8 @@ module Importers::XML::DDI
       elsif node.name == 'QuestionGrid'
         question = question_grid_node node
       else
-
+        Rails.logger.debug 'Question not recogonised: ' + node.name
+        return
       end
       unless node.at_xpath('./InterviewerInstructionReference').nil?
         question.instruction = ::Instruction.find_by_identifier(
