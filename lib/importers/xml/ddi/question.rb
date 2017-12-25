@@ -11,11 +11,11 @@ module Importers::XML::DDI
               literal: node.at_xpath('./QuestionText/LiteralText/Text')&.content.to_s
           }
       )
-      question.horizontal_code_list = CodeList.find_by_identifier(
+      question.horizontal_code_list = ::CodeList.find_by_identifier(
           'urn',
           extract_urn_identifier(node.at_xpath("./GridDimension[@rank='2']/CodeDomain/CodeListReference"))
       )
-      question.vertical_code_list = CodeList.find_by_identifier(
+      question.vertical_code_list = ::CodeList.find_by_identifier(
           'urn',
           extract_urn_identifier(node.at_xpath("./GridDimension[@rank='1']/CodeDomain/CodeListReference"))
       )
