@@ -25,10 +25,10 @@ module Importers::XML::DDI
         question.roster_rows = roster.attribute('minimumRequired').value.nil? ? 0 : roster.attribute('minimumRequired').value.to_i
       end
 
-      @instrument.question_grids << qg
+      @instrument.question_grids << question
 
       corner = node.at_xpath("./GridDimension[@displayLabel='true']")
-      qg.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H' unless corner.nil?
+      question.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H' unless corner.nil?
 
       # Response domain work
     end
