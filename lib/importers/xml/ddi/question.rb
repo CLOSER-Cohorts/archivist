@@ -44,7 +44,7 @@ module Importers::XML::DDI
 							 question: question,
 							 response_domain: response_domain,
 							 code_id: rank_node.attribute('specificValue').value
-				}
+				})
       	end
       else
         rd_node = node.at_xpath(RESPONSE_DOMAIN_XPATH)
