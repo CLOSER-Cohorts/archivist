@@ -1,5 +1,7 @@
 module Importers::XML::DDI
   class Question < DdiImporterBase
+    RESPONSE_DOMAIN_XPATH = './CodeDomain|./NumericDomain|./TextDomain|./DateTimeDomain'
+  
     def initialize(instrument)
       @instrument = instrument
     end
@@ -31,8 +33,31 @@ module Importers::XML::DDI
       question.corner_label = corner.attribute('rank').value.to_i == 1 ? 'V' : 'H' unless corner.nil?
 
       # Response domain work
-      
-
+      structured_mixed_grid_rd_node = node.at_xpath('./StructuredMixedGridResponseDomain')
+      unless structured_mixed_grid_rd_node.nil?
+      	structured_mixed_grid_rd_node.xpath('./GridResponseDomain').each do |grd_node|
+      	  response_domain = read_response_domain(grd_node.at_xpath(RESPONSE_DOMAIN_XPATH))
+      	  
+      	  rank_node = grd_node.xpath('./GridAttachment/CellCoordinatesAsDefined/SelectDimension[@rank='2']')
+      	  ::RdsQs.create(
+				{
+							 question: question,
+							 response_domain: response_domain,
+							 code_id: rank_node.attribute('specificValue').value
+				}
+      	end
+      else
+        rd_node = node.at_xpath(RESPONSE_DOMAIN_XPATH)
+        unless rd_node.nil?
+		  response_domain = read_response_domain(rd_node)
+	      ::RdsQs.create(
+				{
+							 question: question,
+							 response_domain: response_domain,
+							 rd_order: 1
+				}
+    	end
+	  end
       question
     end
 
@@ -45,40 +70,39 @@ module Importers::XML::DDI
       )
       @instrument.question_items << question
 
-      node.xpath('./CodeDomain|'\
-          './NumericDomain|'\
-          './TextDomain|'\
-          './DateTimeDomain'\
-          ).each_with_index do |rd, i|
-
-        if rd.name == 'CodeDomain'
-          cl = ::CodeList.find_by_identifier(
-              'urn',
-              extract_urn_identifier(rd.at_xpath('./CodeListReference'))
-          )
-          cl.response_domain = true
-          response_domain = cl.response_domain
-        else
-          if rd.name == 'NumericDomain'
-            response_domain = read_rdn_node rd
-          elsif rd.name == 'TextDomain'
-            response_domain = read_rdt_node rd
-          elsif rd.name == 'DatetimeDomain'
-            response_domain = read_rdd_node rd
-          else
-            Rails.logger.warn 'ResponseDomain not supported'
-            next
-          end
-        end
+      node.xpath(RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
+        response_domain = read_response_domain(rd)
         ::RdsQs.create(
             {
                          question: question,
                          response_domain: response_domain,
                          rd_order: i + 1
-                     }
+            }
         )
       end
       return question
+    end
+    
+    def read_response_domain(node)
+      if node.name == 'CodeDomain'
+          cl = ::CodeList.find_by_identifier(
+              'urn',
+              extract_urn_identifier(node.at_xpath('./CodeListReference'))
+          )
+          cl.response_domain = true
+          response_domain = cl.response_domain
+        else
+          if node.name == 'NumericDomain'
+            response_domain = read_rdn_node node
+          elsif node.name == 'TextDomain'
+            response_domain = read_rdt_node node
+          elsif node.name == 'DatetimeDomain'
+            response_domain = read_rdd_node node
+          else
+            Rails.logger.warn 'ResponseDomain not supported'
+            next
+          end
+        end
     end
 
     def read_rdd_node(node)

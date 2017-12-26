@@ -8,11 +8,11 @@ module Importers::XML::DDI
       codes_to_add = []
       node.xpath('./Code').each_with_index do |code, i|
         begin
-          co = Code.new ({
+          co = ::Code.new ({
               value: code.at_xpath('./Value').content,
               order: i + 1
           })
-          co.category = Category.find_by_identifier(
+          co.category = ::Category.find_by_identifier(
               'urn',
               extract_urn_identifier(code.at_xpath('./CategoryReference'))
           )
