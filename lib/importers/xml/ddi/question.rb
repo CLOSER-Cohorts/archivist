@@ -38,7 +38,7 @@ module Importers::XML::DDI
       	structured_mixed_grid_rd_node.xpath('./GridResponseDomain').each do |grd_node|
       	  response_domain = read_response_domain(grd_node.at_xpath(RESPONSE_DOMAIN_XPATH))
       	  
-      	  rank_node = grd_node.xpath('./GridAttachment/CellCoordinatesAsDefined/SelectDimension[@rank='2']')
+      	  rank_node = grd_node.xpath("./GridAttachment/CellCoordinatesAsDefined/SelectDimension[@rank='2']")
       	  ::RdsQs.create(
 				{
 							 question: question,
