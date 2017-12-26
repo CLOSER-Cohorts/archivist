@@ -37,6 +37,7 @@ module Importers::XML::DDI
       unless structured_mixed_grid_rd_node.nil?
       	structured_mixed_grid_rd_node.xpath('./GridResponseDomain').each do |grd_node|
       	  response_domain = read_response_domain(grd_node.at_xpath(RESPONSE_DOMAIN_XPATH))
+      	  next if response_domain.nil?
       	  
       	  rank_node = grd_node.xpath("./GridAttachment/CellCoordinatesAsDefined/SelectDimension[@rank='2']")
       	  ::RdsQs.create(
@@ -50,13 +51,15 @@ module Importers::XML::DDI
         rd_node = node.at_xpath(RESPONSE_DOMAIN_XPATH)
         unless rd_node.nil?
 		  response_domain = read_response_domain(rd_node)
-	      ::RdsQs.create(
+		  unless response_domain.nil?
+	        ::RdsQs.create(
 				{
 							 question: question,
 							 response_domain: response_domain,
 							 rd_order: 1
 				}
 			)
+		  end
     	end
 	  end
       question
@@ -73,6 +76,7 @@ module Importers::XML::DDI
 
       node.xpath(RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
         response_domain = read_response_domain(rd)
+        next if response_domain.nil?
         ::RdsQs.create(
             {
                          question: question,
@@ -86,24 +90,25 @@ module Importers::XML::DDI
     
     def read_response_domain(node)
       if node.name == 'CodeDomain'
-          cl = ::CodeList.find_by_identifier(
-              'urn',
-              extract_urn_identifier(node.at_xpath('./CodeListReference'))
-          )
-          cl.response_domain = true
-          response_domain = cl.response_domain
-        else
-          if node.name == 'NumericDomain'
-            response_domain = read_rdn_node node
-          elsif node.name == 'TextDomain'
-            response_domain = read_rdt_node node
-          elsif node.name == 'DatetimeDomain'
-            response_domain = read_rdd_node node
-          else
-            Rails.logger.warn 'ResponseDomain not supported'
-            next
-          end
-        end
+		  cl = ::CodeList.find_by_identifier(
+			  'urn',
+			  extract_urn_identifier(node.at_xpath('./CodeListReference'))
+		  )
+		  cl.response_domain = true
+		  response_domain = cl.response_domain
+		else
+		  if node.name == 'NumericDomain'
+			response_domain = read_rdn_node node
+		  elsif node.name == 'TextDomain'
+			response_domain = read_rdt_node node
+		  elsif node.name == 'DatetimeDomain'
+			response_domain = read_rdd_node node
+		  else
+			Rails.logger.warn 'ResponseDomain not supported'
+			return nil
+		  end
+		end
+		return response_domain
     end
 
     def read_rdd_node(node)
