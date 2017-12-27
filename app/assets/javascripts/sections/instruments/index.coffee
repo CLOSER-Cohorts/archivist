@@ -101,7 +101,8 @@ instruments.controller('InstrumentsController',
 
       else
         $scope.instruments = DataManager.getInstruments()
-        $scope.pageSize = 20
+        $scope.pageSize = 24
+        $scope.currentPage = 1
         $scope.filterStudy = (study)->
           $scope.filteredStudy = study
 

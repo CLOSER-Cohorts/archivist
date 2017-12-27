@@ -148,7 +148,8 @@ admin.controller('AdminInstrumentsController',
     'AdminMappingImportsFactory',
     ($scope, DataManager, Flash, $http, AdminMappingImportsFactory)->
       $scope.instruments = DataManager.Instruments.query()
-      $scope.pageSize = 16
+      $scope.pageSize = 24
+      $scope.currentPage = 1
       $scope.confirmation = {prefix: ''}
       $scope.mapping = {}
 
@@ -232,7 +233,8 @@ admin.controller('AdminDatasetsController',[
   'AdminMappingImportsFactory',
   ($scope, DataManager, Flash, $http,AdminMappingImportsFactory)->
     $scope.datasets = DataManager.getDatasets()
-    $scope.pageSize = 20
+    $scope.pageSize = 24
+    $scope.currentPage = 1
     $scope.mapping = {}
 
     $scope.prepareImport = (name,id)->
@@ -340,6 +342,7 @@ admin.controller('AdminExportController',
         )
       )
       $scope.pageSize = 24
+      $scope.currentPage = 1
 
       console.log $scope
 
