@@ -106,11 +106,13 @@ Rails.application.routes.draw do
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
-      get 'mapping', to: 'instruments#mapping'
+      get 'qv', to: 'instruments#mapping'
+      
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]
       get 'variables', to: 'instruments#variables'
     end
   end
+  get 'instruments/:id/mapping', to: redirect('/instruments/%{id}/qv')
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
   get 'instruments/:id/export/:doc_id', to: 'instruments#document'
