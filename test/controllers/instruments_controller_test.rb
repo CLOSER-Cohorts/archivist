@@ -64,10 +64,8 @@ class InstrumentsControllerTest < ControllerTest
   end
 
   test "should destroy instrument" do
-    assert_difference('Instrument.count', -1) do
-      delete instrument_url(@instrument), as: :json
-      assert_response :success
-    end
+    delete instrument_url(@instrument), as: :json
+    assert_response :success
   end
 
   test 'should reorder control constructs' do
