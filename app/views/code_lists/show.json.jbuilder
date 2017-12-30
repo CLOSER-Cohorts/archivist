@@ -12,12 +12,8 @@ unless @object.response_domain.nil?
   json.min_responses @object.response_domain.min_responses
   json.max_responses @object.response_domain.max_responses
 end
-if @object.response_domain.nil?
-  json.used_by []
-else
-  json.used_by @object.used_by do |obj|
-    json.type obj.class.name
-    json.id obj.id
-    json.label obj.label
-  end
+json.used_by @object.used_by do |obj|
+  json.type obj.class.name
+  json.id obj.id
+  json.label obj.label
 end
