@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'w.poynter@ucl.ac.uk'
+  default from: (ENV["FROM_ADDRESS"] || '')
   layout 'mailer'
 end

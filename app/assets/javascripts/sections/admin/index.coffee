@@ -40,7 +40,6 @@ admin.controller('AdminDashController',
     'DataManager',
     ($scope, DataManager)->
       $scope.counts = DataManager.getApplicationStats()
-      console.log $scope.counts
   ])
 
 admin.controller('AdminUsersController',
@@ -51,9 +50,14 @@ admin.controller('AdminUsersController',
     ($scope, DataManager, Flash)->
       DataManager.getUsers()
       $scope.groups = DataManager.Data.Groups
-      $scope.users = []
-      $scope.mode = false
-      $scope.editing = false
+
+      $scope.reset = ->
+        $scope.users = []
+        $scope.current = null
+        $scope.mode = false
+        $scope.editing = false
+
+      $scope.reset()
 
       $scope.selectGroup = (group)->
         $scope.users = group.users
@@ -119,16 +123,19 @@ admin.controller('AdminUsersController',
         )
 
       $scope.reset_password = ->
-        console.log $scope
         $scope.current.$reset_password()
 
+      $scope.lock = ->
+        $scope.current.$lock()
+
       $scope.delete = ->
-        arr = if $scope.mode = 'group' then $scope.groups else DataManager.Data.Users
-        index = arr.indexOf $scope.current
+        arr = $scope[$scope.mode + 's']
+        index = arr.indexOf($scope.current)
         arr[index].$delete(
           {},
           ->
             arr.splice index, 1
+            $scope.reset()
         )
 
       $scope.only_group_check = ->

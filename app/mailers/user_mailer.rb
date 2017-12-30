@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: 'w.poynter@ucl.ac.uk'
+  default from: (ENV["FROM_ADDRESS"] || '')
 
   def welcome(user)
     @user = user

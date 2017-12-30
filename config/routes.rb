@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     resources :admin, constraints: -> (r) { (r.format == :json) } do
       member do
         post 'password', to: 'admin#reset_password'
+        post 'lock', to: 'admin#lock'
+        delete 'delete', to: 'admin#destroy'
       end
     end
   end
@@ -107,7 +109,7 @@ Rails.application.routes.draw do
       get 'export', to: 'instruments#export'
       get 'mapper', to: 'instruments#mapper'
       get 'qv', to: 'instruments#mapping'
-      
+
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]
       get 'variables', to: 'instruments#variables'
     end

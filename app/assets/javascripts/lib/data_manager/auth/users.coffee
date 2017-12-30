@@ -13,8 +13,10 @@ users.factory(
         },
         {
           save: {method: 'PUT'},
-          create: {method: 'POST'}
-          reset_password: {method: 'POST', url: 'users/admin/:id/password.json'}
+          create: {method: 'POST'},
+          delete: {method: 'DELETE', url: 'users/admin/:id.json'},
+          reset_password: {method: 'POST', url: 'users/admin/:id/password.json'},
+          lock: {method: 'POST', url: 'users/admin/:id/lock.json'}
         }
       )
   ])

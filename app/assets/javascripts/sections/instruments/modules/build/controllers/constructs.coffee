@@ -57,15 +57,6 @@ angular.module('archivist.build').controller(
               if parent[dimension]?
                 for child_key of parent[dimension]
                   if parent[dimension].hasOwnProperty child_key
-                    console.log '======='
-                    console.log 'parent[dimension][child_key].branch:'
-                    console.log parent[dimension][child_key].branch
-                    console.log 'parent[dimension][child_key].position:'
-                    console.log parent[dimension][child_key].position
-                    console.log '(parseInt child_key) + 1'
-                    console.log (parseInt child_key) + 1
-                    console.log 'parent[dimension][child_key].parent'
-                    console.log parent[dimension][child_key].parent
                     if (
                       parent[dimension][child_key].position != (parseInt child_key) + 1 or
                       parent[dimension][child_key].parent != parent.id or (
@@ -102,14 +93,12 @@ angular.module('archivist.build').controller(
             {},
             ->
               obj_to_remove = arr[index].$$hashKey
-              console.log obj_to_remove
               arr.splice index, 1
               scan = (obj, key)->
                 if obj.children != undefined
                   for child, index in obj.children
                     if child.$$hashKey == key
                       obj.children.splice index, 1
-                      console.log 'splicing'
                       return true
                     else
                       return true if scan(child, key)
@@ -118,7 +107,6 @@ angular.module('archivist.build').controller(
                     for child, index in obj.fchildren
                       if child.$$hashKey == key
                         obj.fchildren.splice index, 1
-                        console.log 'splicing'
                         return true
                       else
                         return true if scan(child, key)
@@ -129,13 +117,10 @@ angular.module('archivist.build').controller(
                   $scope.change_panel {type: null, id: null}
               ,0
               )
-              console.log $scope
           )
 
       $scope.save =  ->
-        console.log $scope.current
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
-        console.log arr
         if $routeParams.construct_id == 'new'
           arr.push $scope.current
           index = arr.length - 1
@@ -146,7 +131,6 @@ angular.module('archivist.build').controller(
         arr[index].save(
           {}
         ,(value, rh)->
-          console.log "save returned"
           value['instrument_id'] = $scope.instrument.id
           value['type'] = $routeParams.construct_type
           Flash.add('success', 'Construct updated successfully!')
@@ -163,12 +147,11 @@ angular.module('archivist.build').controller(
           $scope.change_panel {type: null, id: null}
           $scope.reset()
         ,->
-          console.log("error")
+          Flash.add('danger', 'Construct failed to update')
+          console.error("Construct failed to update")
         )
 
       $scope.reset = ->
-        console.time 'reset'
-        console.log $routeParams
         if $routeParams.construct_type? and !isNaN(parseInt($routeParams.construct_id))
           for cc in $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
             if cc.type.pascal_case_to_underscore() == $routeParams.construct_type and cc.id.toString() == $routeParams.construct_id.toString()
@@ -176,7 +159,6 @@ angular.module('archivist.build').controller(
               $scope.current = angular.copy cc
               break
 
-        console.timeEnd 'reset'
         null
 
       $scope.build_ru_options = ->
@@ -234,7 +216,6 @@ angular.module('archivist.build').controller(
         })
         $location.search {construct_type: cc_type, construct_id: 'new'}
 
-        console.log $scope.current
         $scope.reset()
         $scope.editMode = true
 
@@ -252,7 +233,6 @@ angular.module('archivist.build').controller(
         }
       )
       console.timeEnd 'load base'
-      console.log $scope
   ]
 )
 

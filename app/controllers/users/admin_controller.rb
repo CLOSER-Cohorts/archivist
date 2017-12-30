@@ -38,12 +38,28 @@ class Users::AdminController < ApplicationController
     end
   end
 
+  def lock
+    @object = User.find safe_params['id']
+    if @object.access_locked?
+      @object.unlock_access!
+    else
+      @object.lock_access!({ send_instructions: false })
+    end
+
+    if @object.errors.empty?
+      render :show, status: :ok
+    else
+      render json: @object.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     begin
-      @object = User.find safe_params['id']
+      @object = User.find params['id']
       @object.destroy
       head :ok
-    rescue
+    rescue => e
+      Rails.logger.error e.message
       head :bad_request
     end
   end
