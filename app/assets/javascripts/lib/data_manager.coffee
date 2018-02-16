@@ -175,7 +175,7 @@ data_manager.factory(
             DataManager.Data.Constructs.Sequences   =
               DataManager.Constructs.Sequences.query instrument_id: instrument_id
             promises.push DataManager.Data.Constructs.Sequences.$promise.then (collection)->
-              console.log 'seqeunce altering'
+              console.log 'sequence altering'
               for obj, index in collection
                 collection[index].type = 'sequence'
 
