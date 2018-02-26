@@ -56,13 +56,13 @@ To run the test suite just call `rails test`. Currently 197 tests and 256 assert
   - Code to Test Ratio: 1:0.1
 
 ## Archivist Realtime
-Archivist is both a module within Archivist and an entirely separate 
-webapp. [Archivist-realtime][realtime] is very slim Node.js app that 
-provides a communications channel between the [Redis][redis] cache and 
-all active users via websockets (Socket.io). The purpose of this is to 
-be able to lock objects while editing them and to update a users 
+Archivist is both a module within Archivist and an entirely separate
+webapp. [Archivist-realtime][realtime] is very slim Node.js app that
+provides a communications channel between the [Redis][redis] cache and
+all active users via websockets (Socket.io). The purpose of this is to
+be able to lock objects while editing them and to update a users
 screen as changes are made to an instrument.
 
 [realtime]: https://github.com/CLOSER-Cohorts/archivist-realtime
-[redis]: http://redis.io
-[heroku]: http://heroku.com
+[redis]: https://redis.io
+[heroku]: https://heroku.com
