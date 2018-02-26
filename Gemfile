@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '~> 2.5.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -16,7 +16,7 @@ gem 'coveralls', '0.8.21' ,require: false
 # To search for memory leaks and memory bloat
 gem 'derailed', '0.1.0'
 # Use Devise and Pundit for authentication and authorization respectively
-gem 'devise', '4.3.0'
+gem 'devise', '4.4.0'
 # To better enable custom configurations
 gem 'figaro', '1.1.1'
 # Used in DataTools
