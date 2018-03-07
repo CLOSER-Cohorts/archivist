@@ -99,7 +99,7 @@ module Linkable
       def topic_mapping(&block)
         @collection = collection.order(:id)
         @collection.each { |v| v.strand }
-        respond_to &block
+        respond_to(&block)
       end
     end
   end

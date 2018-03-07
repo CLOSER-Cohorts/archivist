@@ -100,7 +100,7 @@ class BasicController < ApplicationController
   # @return [Array] White listed parameters
   def safe_params
     params
-        .require( self.class.model_class.name.underscore.to_sym )
-        .permit( self.class.params_list )
+    .require( self.class.model_class.name.underscore.to_sym )
+    .permit( self.class.params_list )
   end
 end

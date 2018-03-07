@@ -20,7 +20,7 @@ class Document < ApplicationRecord
   def initialize(params={})
     file = params.delete :file
     super
-    if file.is_a? ActionDispatch::SSL::UploadedFile
+    if file.is_a? ActionDispatch::Http::UploadedFile
       self.filename = sanitize_filename file.original_filename
       self.content_type = file.content_type
       self.file_contents = file.read

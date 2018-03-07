@@ -26,13 +26,6 @@
     <base href="/">
   </head>
   <body data-ng-controller="RootController" data-ng-class="user.role">
-    <div class="row">
-      <% flash.each do |key, message| %>
-        <div class='alert alert-<%= key %>'>
-          <%= message %>
-        </div>
-      <% end %>
-    </div>
     <%= yield %>
   </body>
 </html>

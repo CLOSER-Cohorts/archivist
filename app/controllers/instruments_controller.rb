@@ -3,9 +3,9 @@ class InstrumentsController < ImportableController
   include Exporters
 
   has_importers({
-                    qvmapping: ImportJob::Mapping,
-                    topicq: ImportJob::TopicQ
-                })
+                  qvmapping: ImportJob::Mapping,
+                  topicq: ImportJob::TopicQ
+  })
   only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
@@ -74,8 +74,8 @@ class InstrumentsController < ImportableController
   end
 
   def export
-      Resque.enqueue ExportJob::Instrument, @object.id
-      head :ok, format: :json
+    Resque.enqueue ExportJob::Instrument, @object.id
+    head :ok, format: :json
   end
 
   def variables
@@ -128,7 +128,7 @@ class InstrumentsController < ImportableController
 
   def copy
     new_details = params.select do |k|
-        %w(new_label new_agency new_version new_study).include? k.to_s
+      %w(new_label new_agency new_version new_study).include? k.to_s
     end.to_h.map do |k, v|
       [k.gsub('new_',''), v]
     end

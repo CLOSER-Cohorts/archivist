@@ -56,7 +56,6 @@ gem 'sdoc', '0.4.2', group: :doc
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '4.0.2'
 
-
 # Production gems
 group :production do
   # Heroku logging
@@ -69,6 +68,8 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '9.1.0'
+  gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
+  gem 'stackprof', group: :development
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 end

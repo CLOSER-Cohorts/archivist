@@ -4,9 +4,9 @@ class DatasetsController < ImportableController
   only_set_object { %i{ questions dv latest_document } }
 
   has_importers({
-                    dv: ImportJob::DV,
-                    topicv: ImportJob::TopicV
-                })
+                  dv: ImportJob::DV,
+                  topicv: ImportJob::TopicV
+  })
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :dv]
 
@@ -42,6 +42,19 @@ class DatasetsController < ImportableController
       head :ok
     else
       render body: d.file_contents, content_type: 'application/xml'
+    end
+  end
+
+  # Destroy action queues a job to destroy a dataset
+  def destroy
+    begin
+      Resque.enqueue DeleteJob::Dataset, @object.id
+      head :ok, format: :json
+    rescue => e
+      logger.fatal 'Failed to destroy dataset'
+      logger.fatal e.message
+      logger.fatal e.backtrace
+      render json: {message: e}, status: :bad_request
     end
   end
 
