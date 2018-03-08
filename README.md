@@ -10,10 +10,10 @@
 ![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
-* Ruby: 2.3.1
+* Ruby: 2.5.0
 * Rails: 5.0.X
 * Postgres: 9.5.X
-* Redis: 3.2.X
+* Redis: 3.3.X
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
@@ -29,7 +29,7 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 6. Copy `config/application.yml.dist` to `config/application.yml`
 7. Set the mailer and database password in the above file
 8. `rails db:migrate`
-9. Start server: `foreman run web`
+9. Start server: `foreman start` - you may need to instal the Foreman gem: `gem install foreman`
 
 This _could_ cause the webserver to start...
 
