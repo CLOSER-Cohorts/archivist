@@ -13699,7 +13699,7 @@ function publishExternalAPI(angular) {
         $$forceReflow: $$ForceReflowProvider,
         $interpolate: $InterpolateProvider,
         $interval: $IntervalProvider,
-          $scope.instrument.topsequence$http: $HttpProvider,
+        $http: $HttpProvider,
         $httpParamSerializer: $HttpParamSerializerProvider,
         $httpParamSerializerJQLike: $HttpParamSerializerJQLikeProvider,
         $httpBackend: $HttpBackendProvider,
@@ -46312,7 +46312,7 @@ angular.module('ngResource', ['ng']).
 //
 // angular_templates.ignore_prefix: ["templates/"]
 // angular_templates.markups: ["erb", "str"]
-// angular_templates.htmlcompressor:
+// angular_templates.htmlcompressor: 
 
 angular.module("templates", []);
 
@@ -51560,7 +51560,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
 
               if (tooltip) {
                 tooltip.remove();
-
+                
                 tooltip = null;
                 if (adjustmentTimeout) {
                   $timeout.cancel(adjustmentTimeout);
@@ -51568,7 +51568,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               openedTooltips.remove(ttScope);
-
+              
               if (tooltipLinkedScope) {
                 tooltipLinkedScope.$destroy();
                 tooltipLinkedScope = null;
@@ -57488,7 +57488,7 @@ angular
 /*
 * @description Google Chart Api Directive Module for AngularJS
 * @version 0.1.0
-* @author GitHub Contributors <https://github.com/angular-google-chart/angular-google-chart/graphs/contributors>
+* @author GitHub Contributors <https://github.com/angular-google-chart/angular-google-chart/graphs/contributors> 
 * @license MIT
 * @year 2013
 */
@@ -57497,9 +57497,9 @@ angular
 (function(){
     angular.module('googlechart', [])
         .run(registerResizeEvent);
-
+        
     registerResizeEvent.$inject = ['$rootScope', '$window'];
-
+    
     function registerResizeEvent($rootScope, $window){
         angular.element($window).bind('resize', function () {
                 $rootScope.$emit('resizeMsg');
@@ -57510,7 +57510,7 @@ angular
 (function(){
     angular.module('googlechart')
         .factory('FormatManager', formatManagerFactory);
-
+        
         function formatManagerFactory(){
             // Handles the processing of Google Charts API Formats
             function FormatManager($google){
@@ -57518,7 +57518,7 @@ angular
                 var oldFormatTemplates = {};
                 self.iFormats = {}; // Holds instances of formats (ie. self.iFormats.date[0] = new $google.visualization.DateFormat(params))
                 self.applyFormats = applyFormats;
-
+                
                 // apply formats of type to datatable
                 function apply(tFormats, dataTable){
                     var i, formatType;
@@ -57532,7 +57532,7 @@ angular
                         }
                     }
                 }
-
+                
                 function applyFormat(formatType, FormatClass, tFormats){
                     var i;
                     if (angular.isArray(tFormats[formatType])) {
@@ -57540,7 +57540,7 @@ angular
                         if (!angular.equals(tFormats[formatType], oldFormatTemplates[formatType])) {
                             oldFormatTemplates[formatType] = tFormats[formatType];
                             self.iFormats[formatType] = [];
-
+            
                             if (formatType === 'color') {
                                 instantiateColorFormatters(tFormats);
                             } else {
@@ -57553,7 +57553,7 @@ angular
                         }
                     }
                 }
-
+                
                 function applyFormats(dataTable, tFormats, customFormatters) {
                     var formatType, FormatClass, requiresHtml = false;
                     if (!angular.isDefined(tFormats) || !angular.isDefined(dataTable)){
@@ -57568,7 +57568,7 @@ angular
                                 continue;
                             }
                             applyFormat(formatType, FormatClass, tFormats);
-
+                            
                             //Many formatters require HTML tags to display special formatting
                             if (formatType === 'arrow' || formatType === 'bar' || formatType === 'color') {
                                 requiresHtml = true;
@@ -57578,7 +57578,7 @@ angular
                     apply(tFormats, dataTable);
                     return { requiresHtml: requiresHtml };
                 }
-
+                
                 function instantiateColorFormatters(tFormats){
                     var t, colorFormat, i, data, formatType = 'color';
                     for (t = 0; t < tFormats[formatType].length; t++) {
@@ -57597,7 +57597,7 @@ angular
                         self.iFormats[formatType].push(colorFormat);
                     }
                 }
-
+                
                 function getFormatClass(formatType, customFormatters){
                     var className = formatType.charAt(0).toUpperCase() + formatType.slice(1).toLowerCase() + "Format";
                     if ($google.visualization.hasOwnProperty(className)){
@@ -57608,7 +57608,7 @@ angular
                     return;
                 }
             }
-
+            
             return FormatManager;
         }
 })();
@@ -57658,11 +57658,11 @@ angular
         function init() {
             // Instantiate service
             googleChartService = new GoogleChartService();
-
+            
             self.registerChartListener = googleChartService.registerChartListener;
             self.registerWrapperListener = googleChartService.registerWrapperListener;
             self.registerServiceListener = googleChartService.registerServiceListener;
-
+            
             /* Watches, to refresh the chart when its data, formatters, options, view,
             or type change. All other values intentionally disregarded to avoid double
             calls to the draw function. Please avoid making changes to these objects
@@ -57712,7 +57712,7 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('agcBeforeDraw', onReadyDirective);
-
+        
     function onReadyDirective(){
         return {
             restrict: 'A',
@@ -57787,7 +57787,7 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseout', agcOnMouseoutDirective);
-
+    
     function agcOnMouseoutDirective(){
         return {
             restrict: 'A',
@@ -57817,7 +57817,7 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('agcOnMouseover', agcOnMouseoverDirective);
-
+    
     function agcOnMouseoverDirective(){
         return {
             restrict: 'A',
@@ -57846,7 +57846,7 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('agcOnReady', onReadyDirective);
-
+        
     function onReadyDirective(){
         return {
             restrict: 'A',
@@ -57868,7 +57868,7 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('agcOnSelect', onSelectDirective);
-
+        
     function onSelectDirective(){
         return {
             restrict: 'A',
@@ -57896,9 +57896,9 @@ angular
 (function(){
     angular.module('googlechart')
         .directive('googleChart', googleChartDirective);
-
+        
     googleChartDirective.$inject = [];
-
+        
     function googleChartDirective() {
 
         return {
@@ -57923,9 +57923,9 @@ angular
 (function(){
     angular.module('googlechart')
         .factory('googleChartApiPromise', googleChartApiPromiseFactory);
-
+        
     googleChartApiPromiseFactory.$inject = ['$rootScope', '$q', 'googleChartApiConfig', 'googleJsapiUrl'];
-
+        
     function googleChartApiPromiseFactory($rootScope, $q, apiConfig, googleJsapiUrl) {
         apiConfig.optionalSettings = apiConfig.optionalSettings || {};
         var apiReady = $q.defer();
@@ -58182,7 +58182,7 @@ angular
 
             function getChartWrapper() {
                 // Most get functions on this interface return copies,
-                // this one should return reference so as to expose the
+                // this one should return reference so as to expose the 
                 //chart api to users
                 return _chartWrapper;
             }
@@ -58286,11 +58286,11 @@ angular
 (function(){
     angular.module('googlechart')
         .provider('googleJsapiUrl', googleJsapiUrlProvider);
-
+        
     function googleJsapiUrlProvider() {
         var protocol = 'https:';
         var url = '//www.google.com/jsapi';
-
+        
         this.setProtocol = function (newProtocol) {
             protocol = newProtocol;
         };
@@ -58387,7 +58387,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
         ensureDefault($scope.options, "allowDeselect", true);
         ensureDefault($scope.options, "isSelectable", defaultIsSelectable);
     }
-
+    
     angular.module( 'treeControl', [] )
         .constant('treeConfig', {
             templateUrl: null
@@ -58407,9 +58407,9 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                 else
                     return "";
             }
-
-
-
+            
+            
+            
             return {
                 restrict: 'EA',
                 require: "treecontrol",
@@ -58428,11 +58428,11 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
                     filterComparator: "=?"
                 },
                 controller: ['$scope', '$templateCache', '$interpolate', 'treeConfig', function ($scope, $templateCache, $interpolate, treeConfig) {
-
+                    
                     $scope.options = $scope.options || {};
-
+                    
                     ensureAllDefaultOptions($scope);
-
+                  
                     $scope.selectedNodes = $scope.selectedNodes || [];
                     $scope.expandedNodes = $scope.expandedNodes || [];
                     $scope.expandedNodesMap = {};
@@ -59136,12 +59136,12 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             if (element.prop('tagName').toLowerCase() === 'table') {
               scope.$emptyElm = angular.element($window.document.createElement('tr'));
               $trElm = element.find('tr');
-
+              
               //If we can find a tr, then we can use its td children as the empty element colspan.
               if ($trElm.length > 0) {
                 emptyElmColspan = angular.element($trElm).children().length;
               } else {
-
+                
                 //If not, by setting a huge colspan we make sure it takes full width.
                 //TODO(jcarter): Check for negative side effects.
                 emptyElmColspan = 1000000;
@@ -60265,7 +60265,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
           /**
            * Get the event object for touches.
-           *
+           * 
            * @param  {MouseEvent|TouchEvent} e MouseEvent or TouchEvent that kicked off dragX method.
            * @return {MouseEvent|TouchEvent} Object returned as original event object.
            */
@@ -60283,7 +60283,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
           /**
            * Generate object used to store data about node being moved.
-           *
+           * 
            * {angular.$scope} node Scope of the node that is being moved.
            */
           dragInfo: function (node) {
@@ -60513,19 +60513,19 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
             pos.nowX = pageX;
             pos.nowY = pageY;
 
-            //Distance mouse moved between events.
+            //Distance mouse moved between events.          
             pos.distX = pos.nowX - pos.lastX;
             pos.distY = pos.nowY - pos.lastY;
 
-            //Direction mouse was moving.
+            //Direction mouse was moving.           
             pos.lastDirX = pos.dirX;
             pos.lastDirY = pos.dirY;
 
-            //Direction mouse is now moving (on both axis).
+            //Direction mouse is now moving (on both axis).          
             pos.dirX = pos.distX === 0 ? 0 : pos.distX > 0 ? 1 : -1;
             pos.dirY = pos.distY === 0 ? 0 : pos.distY > 0 ? 1 : -1;
 
-            //Axis mouse is now moving on.
+            //Axis mouse is now moving on.         
             newAx = Math.abs(pos.distX) > Math.abs(pos.distY) ? 1 : 0;
 
             //Do nothing on first move.
@@ -60535,7 +60535,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
               return;
             }
 
-            //Calc distance moved on this axis (and direction).
+            //Calc distance moved on this axis (and direction).          
             if (pos.dirAx !== newAx) {
               pos.distAxX = 0;
               pos.distAxY = 0;
@@ -71018,7 +71018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports) {
 
-
+  
   /**
    * Expose `Emitter`.
    */
@@ -78440,7 +78440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   /**
    * used in Core to convert the options into a volatile variable
-   *
+   * 
    * @param {function} moment
    * @param {Object} body
    * @param {Array | Object} hiddenDates
@@ -90336,7 +90336,7 @@ return /******/ (function(modules) { // webpackBootstrap
       }
 
       /**
-       * @param {string} url                      The Url to cache the image as
+       * @param {string} url                      The Url to cache the image as 
         * @return {Image} imageToLoadBrokenUrlOn  The image object
        */
 
@@ -90403,7 +90403,7 @@ return /******/ (function(modules) { // webpackBootstrap
           value: function load(url, brokenUrl, id) {
               var _this2 = this;
 
-              //Try and get the image from the cache, if successful then return the cached image
+              //Try and get the image from the cache, if successful then return the cached image  
               var cachedImage = this.images[url];
               if (cachedImage) return cachedImage;
 
