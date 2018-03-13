@@ -70,14 +70,12 @@ group :development, :test do
   gem 'byebug', '9.1.0'
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
   gem 'stackprof', group: :development
-  gem 'rack-test_app', '~> 1.0'
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 end
 
 group :development do
   gem 'db_fixtures_dump', '0.1.1'
-  gem 'httpclient', '~> 2.8', '>= 2.8.3'
   gem 'rails-erd', '1.5.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '2.0.2'
