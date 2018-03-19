@@ -1,0 +1,10 @@
+<% @object.cc_sequences.order(id: 'ASC').each do |sequence| %>
+  <%=raw sequence.urn %>|Sequence|-|<%=raw (p = sequence.parent) ? '-|' : p %><%=raw sequence.label.gsub("\n","").gsub("\r","") %>
+  <% end %>
+  <% @object.cc_questions.order(id: 'ASC').each do |qc| %>
+  <% if qc.question_type == 'QuestionItem' %>
+  <%=raw qc.label %> |Question|-|<%=raw qc.parent.urn %>| -> <%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
+  <% else %>
+  <%=raw qc.label %> |Question|[<%=raw qc.question.max_y %>,<%=raw qc.question.max_x %>]|  <%=raw qc.parent.urn %> |<%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
+  <% end %>
+<% end %>
