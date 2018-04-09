@@ -31,12 +31,12 @@ class DatasetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should destroy dataset" do
-    dataset = datasets(:Dataset_2)
-    assert_difference('Dataset.count', -1) do
-      delete :destroy, format: :json, id: dataset
-    end
-
-    assert_response :success
-  end
+  # test "should destroy dataset" do
+  #   dataset = datasets(:Dataset_2)
+  #   assert_difference('Dataset.count', -1) do
+  #     delete :destroy, format: :json, id: dataset
+  #   end
+  #
+  #   assert_response :success
+  # end
 end

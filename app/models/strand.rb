@@ -192,11 +192,11 @@ class Strand < RedisRecord
       typed_member_ids = Strand.redis.smembers(SCOPE + ':' + @id.to_s).map { |x| x.split(':') }.group_by(&:first).map { |c, xs| [c, xs.map(&:last)] }
       typed_member_ids.each do |typed_ids|
         @members += typed_ids.first.constantize.find_by_sql(
-            [
-                'SELECT x.*, l.topic_id FROM ' + typed_ids.first.tableize + ' x LEFT OUTER JOIN links l ON l.target_id = x.id AND target_type = ? WHERE x.id IN (?)',
-                typed_ids.first.classify,
-                typed_ids.last
-            ]
+          [
+            'SELECT x.*, l.topic_id FROM ' + typed_ids.first.tableize + ' x LEFT OUTER JOIN links l ON l.target_id = x.id AND target_type = ? WHERE x.id IN (?)',
+            typed_ids.first.classify,
+            typed_ids.last
+          ]
         )
       end
       topic_ids = @members.map(&:topic_id).compact.uniq

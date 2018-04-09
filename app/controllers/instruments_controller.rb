@@ -32,6 +32,7 @@ class InstrumentsController < ImportableController
   end
 
   def reorder_ccs
+    byebug
     unless params[:updates].nil?
       params[:updates].each do |u|
         unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
