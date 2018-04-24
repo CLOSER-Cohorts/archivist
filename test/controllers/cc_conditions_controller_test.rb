@@ -8,30 +8,30 @@ class CcConditionsControllerTest < ActionController::TestCase
     @instrument = instruments(:Instrument_1)
   end
 
-  test "should get index" do
-    get :index, format: :json, instrument_id: @instrument.id
-    assert_response :success
-    assert_not_nil assigns(:collection)
-  end
+  # test "should get index" do
+  #   get :index, format: :json, instrument_id: @instrument.id
+  #   assert_response :success
+  #   assert_not_nil assigns(:collection)
+  # end
 
-  test "should create cc_condition" do
-    assert_difference('CcCondition.count') do
-      post :create, format: :json,
-           cc_condition: {
-               instrument_id: @instrument.id,
-               literal: @cc_condition.literal,
-               logic: @cc_condition.logic,
-               type: 'condition',
-               parent: {
-                   id: @cc_condition.parent.id,
-                   type: 'sequence'
-               }
-           },
-          instrument_id: @instrument.id
-    end
+  # test "should create cc_condition" do
+  #   assert_difference('CcCondition.count') do
+  #     post :create, format: :json,
+  #          cc_condition: {
+  #              instrument_id: @instrument.id,
+  #              literal: @cc_condition.literal,
+  #              logic: @cc_condition.logic,
+  #              type: 'condition',
+  #              parent: {
+  #                  id: @cc_condition.parent.id,
+  #                  type: 'sequence'
+  #              }
+  #          },
+  #         instrument_id: @instrument.id
+  #   end
 
-    assert_response :success
-  end
+  #   assert_response :success
+  # end
 
   test "should show cc_condition" do
     get :show, format: :json, instrument_id: @instrument.id, id: @cc_condition

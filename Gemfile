@@ -42,9 +42,10 @@ gem 'postmark-rails', '0.15.0'
 # Use Puma as the web server
 gem 'puma', '2.16.0'
 gem 'pundit', '1.1.0'
+gem 'rake', '12.3.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
-gem 'rails', '5.0.6'
+gem 'rails', '~> 5.0.0'
 # Use Redis for caching
 gem 'redis', '3.3.5'
 # Create background workers

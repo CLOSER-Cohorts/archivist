@@ -95,12 +95,19 @@ class Strand < RedisRecord
     CcQuestion.includes(link: :topic).find_each { |qc| Strand.new([qc]).save }
     Variable.includes(link: :topic).find_each { |v| Strand.new([v]).save }
 
-    Map.includes([:source, :variable]).where(source_type: CcQuestion.name).find_each do |map|
-      s1 = Strand.find_by_member map.source
-      s2 = Strand.find_by_member map.variable
+    begin
+      Map.includes([:source, :variable]).where(source_type: CcQuestion.name).find_each do |map|
+        s1 = Strand.find_by_member map.source
+        s2 = Strand.find_by_member map.variable
 
-      s3 = s1 + s2
-      s3.save
+        puts "Concatenating..."
+        s3 = s1 + s2
+        s3.save
+      end
+      Instrument.find_each { |i| i.send :register_prefix }
+    rescue StandardError => e
+      puts "StandardError:#{e.class} error: #{e.message}"
+      raise
     end
   end
 
