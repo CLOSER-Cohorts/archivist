@@ -2,7 +2,7 @@
 #
 # Typically multiple categories are used to create {CodeList CodeLists}.
 #
-# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/logicalproduct_xsd/elements/Category.html
+# Please visit https://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/logicalproduct_xsd/elements/Category.html
 #
 # === Properties
 # * Label

@@ -9,18 +9,21 @@ class QuestionItemsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, format: :json, instrument_id: @instrument.id
+    get :index, format: :json, params: { instrument_id: @instrument.id }
     assert_response :success
     assert_not_nil assigns(:collection)
   end
 
   test "should create question_item" do
     assert_difference('QuestionItem.count') do
-      post :create, format: :json, instrument_id: @instrument.id, question_item: {
+      post :create, format: :json, params: {
+        instrument_id: @instrument.id,
+        question_item: {
           instruction_id: @question_item.instruction_id,
           label: @question_item.label + '_i',
           literal: @question_item.literal,
           instrument_id: @instrument.id
+        }
       }
     end
 
@@ -28,18 +31,18 @@ class QuestionItemsControllerTest < ActionController::TestCase
   end
 
   test "should show question_item" do
-    get :show, id: @question_item, format: :json, instrument_id: @instrument.id
+    get :show, format: :json, params: { instrument_id: @instrument.id, id: @question_item }
     assert_response :success
   end
 
   test "should update question_item" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @question_item, question_item: {instruction_id: @question_item.instruction_id, label: @question_item.label, literal: @question_item.literal}
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @question_item, question_item: {instruction_id: @question_item.instruction_id, label: @question_item.label, literal: @question_item.literal} }
     assert_response :success
   end
 
   test "should destroy question_item" do
     assert_difference('QuestionItem.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: @question_item
+      delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @question_item }
     end
 
     assert_response :success

@@ -16,26 +16,26 @@ class TopicsControllerTest < ActionController::TestCase
 
   test "should create topic" do
     assert_difference('Topic.count') do
-      post :create, format: :json, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
+      post :create, format: :json, params: { topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id} }
     end
 
     assert_response :success
   end
 
   test "should show topic" do
-    get :show, id: @topic, format: :json
+    get :show, format: :json, params: { id: @topic }
     assert_response :success
   end
 
   test "should update topic" do
-    patch :update, format: :json, id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id}
+    patch :update, format: :json, params: { id: @topic, topic: {code: @topic.code, name: @topic.name, parent_id: @topic.parent_id} }
     assert_response :success
   end
 
   test "should destroy topic" do
 
     assert_difference('Topic.count', -1) do
-      delete :destroy, format: :json, id: @l2_topic
+      delete :destroy, format: :json, params: { id: @l2_topic }
     end
 
     assert_response :success

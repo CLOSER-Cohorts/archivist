@@ -5,7 +5,7 @@
 # instrument logic to progress. They typically represent a filter or conditional sequence
 # with a questionnaire.
 #
-# Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/IfThenElse.html
+# Please visit https://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/IfThenElse.html
 #
 # === Properties
 # * Literal

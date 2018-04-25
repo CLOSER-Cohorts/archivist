@@ -46,7 +46,7 @@ class DatasetsController < ImportableController
   end
 
   # Destroy action queues a job to destroy a dataset
-  def destroy
+  def delete
     begin
       Resque.enqueue DeleteJob::Dataset, @object.id
       head :ok, format: :json
@@ -57,6 +57,7 @@ class DatasetsController < ImportableController
       render json: {message: e}, status: :bad_request
     end
   end
+
 
   # Used by importing the TXT instrument files that mapper used
   # Please note that for multiple upload to work within a nested

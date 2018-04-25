@@ -1,41 +1,41 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.0.6)
-      actionpack (= 5.0.6)
+    actioncable (5.0.7)
+      actionpack (= 5.0.7)
       nio4r (>= 1.2, < 3.0)
       websocket-driver (~> 0.6.1)
-    actionmailer (5.0.6)
-      actionpack (= 5.0.6)
-      actionview (= 5.0.6)
-      activejob (= 5.0.6)
+    actionmailer (5.0.7)
+      actionpack (= 5.0.7)
+      actionview (= 5.0.7)
+      activejob (= 5.0.7)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.0.6)
-      actionview (= 5.0.6)
-      activesupport (= 5.0.6)
+    actionpack (5.0.7)
+      actionview (= 5.0.7)
+      activesupport (= 5.0.7)
       rack (~> 2.0)
       rack-test (~> 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.0.6)
-      activesupport (= 5.0.6)
+    actionview (5.0.7)
+      activesupport (= 5.0.7)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.0.6)
-      activesupport (= 5.0.6)
+    activejob (5.0.7)
+      activesupport (= 5.0.7)
       globalid (>= 0.3.6)
-    activemodel (5.0.6)
-      activesupport (= 5.0.6)
-    activerecord (5.0.6)
-      activemodel (= 5.0.6)
-      activesupport (= 5.0.6)
+    activemodel (5.0.7)
+      activesupport (= 5.0.7)
+    activerecord (5.0.7)
+      activemodel (= 5.0.7)
+      activesupport (= 5.0.7)
       arel (~> 7.0)
-    activesupport (5.0.6)
+    activesupport (5.0.7)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (~> 0.7)
+      i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     angular-rails-templates (1.0.2)
@@ -105,7 +105,7 @@ GEM
       activesupport (>= 4.2.0)
     heapy (0.1.3)
     hirefire-resource (0.4.2)
-    i18n (0.9.5)
+    i18n (1.0.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -155,17 +155,17 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.4.2)
-    rails (5.0.6)
-      actioncable (= 5.0.6)
-      actionmailer (= 5.0.6)
-      actionpack (= 5.0.6)
-      actionview (= 5.0.6)
-      activejob (= 5.0.6)
-      activemodel (= 5.0.6)
-      activerecord (= 5.0.6)
-      activesupport (= 5.0.6)
+    rails (5.0.7)
+      actioncable (= 5.0.7)
+      actionmailer (= 5.0.7)
+      actionpack (= 5.0.7)
+      actionview (= 5.0.7)
+      activejob (= 5.0.7)
+      activemodel (= 5.0.7)
+      activerecord (= 5.0.7)
+      activesupport (= 5.0.7)
       bundler (>= 1.3.0)
-      railties (= 5.0.6)
+      railties (= 5.0.7)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.2)
       actionpack (~> 5.x, >= 5.0.1)
@@ -186,13 +186,13 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (5.0.6)
-      actionpack (= 5.0.6)
-      activesupport (= 5.0.6)
+    railties (5.0.7)
+      actionpack (= 5.0.7)
+      activesupport (= 5.0.7)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.3.1)
+    rake (12.3.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -203,7 +203,7 @@ GEM
     redis-rack-cache (2.0.2)
       rack-cache (>= 1.6, < 2)
       redis-store (>= 1.2, < 2)
-    redis-store (1.4.1)
+    redis-store (1.5.0)
       redis (>= 2.2, < 5)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -280,52 +280,52 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  angular-rails-templates (= 1.0.2)
-  aws-sdk (= 2.10.101)
-  bower-rails (= 0.11.0)
-  byebug (= 9.1.0)
-  coffee-rails (= 4.2.2)
-  coveralls (= 0.8.21)
-  db_fixtures_dump (= 0.1.1)
-  derailed (= 0.1.0)
+  angular-rails-templates (~> 1.0)
+  aws-sdk (~> 2)
+  bower-rails
+  byebug
+  coffee-rails (~> 4.2.0)
+  coveralls
+  db_fixtures_dump
+  derailed
   derailed_benchmarks (~> 1.3, >= 1.3.2)
-  devise (= 4.4.0)
-  figaro (= 1.1.1)
-  fuzzy_match (= 2.1.0)
-  genericons-rails (= 0.5.0)
-  hirefire-resource (= 0.4.2)
-  jbuilder (= 2.7.0)
-  jbuilder_cache_multi (= 0.1.0)
-  jquery-rails (= 4.3.1)
-  json (= 1.8.6)
-  minitest (= 5.10.3, != 5.10.2)
-  oj (= 3.3.9)
-  parallel (= 1.12.0)
+  devise
+  figaro
+  fuzzy_match
+  genericons-rails
+  hirefire-resource
+  jbuilder (~> 2.0)
+  jbuilder_cache_multi
+  jquery-rails
+  json
+  minitest (~> 5.10, != 5.10.2)
+  oj
+  parallel
   pg (= 0.21.0)
-  postmark-rails (= 0.15.0)
-  puma (= 2.16.0)
-  pundit (= 1.1.0)
-  rack-timeout (= 0.4.2)
-  rails (= 5.0.6)
-  rails-controller-testing (= 1.0.2)
-  rails-erd (= 1.5.2)
-  rails_12factor (= 0.0.3)
-  redis (= 3.3.5)
-  redis-rack-cache (= 2.0.2)
-  resque (= 1.27.4)
+  postmark-rails (>= 0.10.0)
+  puma (~> 2.16.0)
+  pundit
+  rack-timeout
+  rails (~> 5.0.0)
+  rails-controller-testing
+  rails-erd
+  rails_12factor
+  redis (~> 3.3.2)
+  redis-rack-cache
+  resque
   resque_unit
-  sass-rails (= 5.0.7)
-  sdoc (= 0.4.2)
-  skylight (= 1.5.0)
-  spring (= 2.0.2)
+  sass-rails (~> 5.0)
+  sdoc (~> 0.4.0)
+  skylight
+  spring
   stackprof
   sys-proctable
   tzinfo-data
-  uglifier (= 4.0.2)
-  web-console (= 2.3.0)
+  uglifier (>= 1.3.0)
+  web-console (~> 2.0)
 
 RUBY VERSION
-   ruby 2.5.0p0
+   ruby 2.4.3p205
 
 BUNDLED WITH
    1.16.1

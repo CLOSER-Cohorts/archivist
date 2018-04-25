@@ -1,6 +1,8 @@
 # An abstract class for all Redis-backed models to
 # derive from
 class RedisRecord
+
+  class SCOPE; end
   # Returns a list of all items from Redis
   #
   # @return [Array]
@@ -23,7 +25,7 @@ class RedisRecord
     all_keys = []
     iterator = 0
     begin
-      iterator, results = RedisRecord.redis.scan iterator, {match: self::SCOPE + ':[0-9]*', count: 10000}
+      iterator, results = RedisRecord.redis.scan iterator, {match: self::SCOPE.to_s + ':[0-9]*', count: 10000}
       all_keys += results
     end while iterator.to_i != 0
     all_keys
@@ -40,7 +42,7 @@ class RedisRecord
   def delete
     self.class.active.delete(@id.to_i)
     unless @id.nil?
-      RedisRecord.redis.del self::SCOPE + ':' + @id.to_s
+      RedisRecord.redis.del self.class::SCOPE.to_s + ':' + @id.to_s
       yield
     end
     reset

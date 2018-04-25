@@ -37,10 +37,10 @@ CREATE FUNCTION delete_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-DELETE FROM links WHERE target_id = old.id AND target_type = 'CcCondition';
-DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcCondition';
-DELETE FROM conditions WHERE id = old.id;
-RETURN old;
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcCondition';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcCondition';
+  DELETE FROM conditions WHERE id = old.id;
+  RETURN old;
 END;
 $$;
 
@@ -53,10 +53,10 @@ CREATE FUNCTION delete_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-DELETE FROM links WHERE target_id = old.id AND target_type = 'CcLoop';
-DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcLoop';
-DELETE FROM loops WHERE id = old.id;
-RETURN old;
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcLoop';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcLoop';
+  DELETE FROM loops WHERE id = old.id;
+  RETURN old;
 END;
 $$;
 
@@ -69,10 +69,10 @@ CREATE FUNCTION delete_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-DELETE FROM links WHERE target_id = old.id AND target_type = 'CcQuestion';
-DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcQuestion';
-DELETE FROM questions WHERE id = old.id;
-RETURN old;
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcQuestion';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcQuestion';
+  DELETE FROM questions WHERE id = old.id;
+  RETURN old;
 END;
 $$;
 
@@ -85,10 +85,10 @@ CREATE FUNCTION delete_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-DELETE FROM links WHERE target_id = old.id AND target_type = 'CcSequence';
-DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcSequence';
-DELETE FROM sequences WHERE id = old.id;
-RETURN old;
+  DELETE FROM links WHERE target_id = old.id AND target_type = 'CcSequence';
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcSequence';
+  DELETE FROM sequences WHERE id = old.id;
+  RETURN old;
 END;
 $$;
 
@@ -101,9 +101,9 @@ CREATE FUNCTION delete_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcStatement';
-DELETE FROM statements WHERE id = old.id;
-RETURN old;
+  DELETE FROM control_constructs WHERE construct_id = old.id AND construct_type = 'CcStatement';
+  DELETE FROM statements WHERE id = old.id;
+  RETURN old;
 END;
 $$;
 
@@ -116,78 +116,78 @@ CREATE FUNCTION insert_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
-cond_id INTEGER;
+  cond_id INTEGER;
 BEGIN
-IF new.id IS NULL THEN
-INSERT INTO conditions(
-  instrument_id,
-  literal,
-  logic,
-  created_at,
-  updated_at
-) VALUES (
-  new.instrument_id,
-  new.literal,
-  new.logic,
-  new.created_at,
-  new.updated_at
-) RETURNING id INTO cond_id;
-ELSE
-INSERT INTO conditions(
-  id,
-  instrument_id,
-  literal,
-  logic,
-  created_at,
-  updated_at
-) VALUES (
-  new.id,
-  new.instrument_id,
-  new.literal,
-  new.logic,
-  new.created_at,
-  new.updated_at
-);
-cond_id = new.id;
-END IF;
-INSERT INTO control_constructs(
-  label,
-  parent_id,
-  position,
-  branch,
-  construct_id,
-  construct_type,
-  instrument_id,
-  created_at,
-  updated_at
-)  VALUES (
-  new.label,
-  (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  new.position,
-  new.branch,
-  cond_id,
-  'CcCondition',
-  new.instrument_id,
-  new.created_at,
-  new.updated_at
-);
-IF new.topic_id IS NOT NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-) VALUES (
-  cond_id,
-  'CcCondition',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-END IF;
-new.id = cond_id;
-RETURN new;
+  IF new.id IS NULL THEN
+    INSERT INTO conditions(
+                            instrument_id,
+                            literal,
+                            logic,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.instrument_id,
+                            new.literal,
+                            new.logic,
+                            new.created_at,
+                            new.updated_at
+    ) RETURNING id INTO cond_id;
+  ELSE
+    INSERT INTO conditions(
+                            id,
+                            instrument_id,
+                            literal,
+                            logic,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id,
+                            new.literal,
+                            new.logic,
+                            new.created_at,
+                            new.updated_at
+    );
+    cond_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label,
+                          parent_id,
+                          position,
+                          branch,
+                          construct_id,
+                          construct_type,
+                          instrument_id,
+                          created_at,
+                          updated_at
+  )  VALUES (
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
+                          cond_id,
+                          'CcCondition',
+                          new.instrument_id,
+                          new.created_at,
+                          new.updated_at
+  );
+  IF new.topic_id IS NOT NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            cond_id,
+                            'CcCondition',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+    );
+  END IF;
+  new.id = cond_id;
+  RETURN new;
 END;
 $$;
 
@@ -200,87 +200,87 @@ CREATE FUNCTION insert_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
-loop_id INTEGER;
+  loop_id INTEGER;
 BEGIN
-IF new.id IS NULL THEN
-INSERT INTO loops(
-  instrument_id,
-  loop_var,
-  start_val,
-  end_val,
-  loop_while,
-  created_at,
-  updated_at
-) VALUES (
-  new.instrument_id,
-  new.loop_var,
-  new.start_val,
-  new.end_val,
-  new.loop_while,
-  new.created_at,
-  new.updated_at
-) RETURNING id INTO loop_id;
-ELSE
-INSERT INTO loops(
-  id,
-  instrument_id,
-  loop_var,
-  start_val,
-  end_val,
-  loop_while,
-  created_at,
-  updated_at
-) VALUES (
-  new.id,
-  new.instrument_id,
-  new.loop_var,
-  new.start_val,
-  new.end_val,
-  new.loop_while,
-  new.created_at,
-  new.updated_at
-);
-loop_id = new.id;
-END IF;
-INSERT INTO control_constructs(
-  label,
-  parent_id,
-  position,
-  branch,
-  construct_id,
-  construct_type,
-  instrument_id,
-  created_at,
-  updated_at
-)  VALUES (
-  new.label,
-  (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  new.position,
-  new.branch,
-  loop_id,
-  'CcLoop',
-  new.instrument_id,
-  new.created_at,
-  new.updated_at
-);
-IF new.topic_id IS NOT NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-)
-VALUES (
-  loop_id,
-  'CcLoop',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-END IF;
-new.id = loop_id;
-RETURN new;
+  IF new.id IS NULL THEN
+    INSERT INTO loops(
+                            instrument_id,
+                            loop_var,
+                            start_val,
+                            end_val,
+                            loop_while,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.instrument_id,
+                            new.loop_var,
+                            new.start_val,
+                            new.end_val,
+                            new.loop_while,
+                            new.created_at,
+                            new.updated_at
+    ) RETURNING id INTO loop_id;
+  ELSE
+    INSERT INTO loops(
+                            id,
+                            instrument_id,
+                            loop_var,
+                            start_val,
+                            end_val,
+                            loop_while,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id,
+                            new.loop_var,
+                            new.start_val,
+                            new.end_val,
+                            new.loop_while,
+                            new.created_at,
+                            new.updated_at
+    );
+    loop_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label,
+                          parent_id,
+                          position,
+                          branch,
+                          construct_id,
+                          construct_type,
+                          instrument_id,
+                          created_at,
+                          updated_at
+  )  VALUES (
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
+                          loop_id,
+                          'CcLoop',
+                          new.instrument_id,
+                          new.created_at,
+                          new.updated_at
+  );
+  IF new.topic_id IS NOT NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+    )
+       VALUES (
+                            loop_id,
+                            'CcLoop',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+    );
+  END IF;
+  new.id = loop_id;
+  RETURN new;
 END;
 $$;
 
@@ -293,67 +293,67 @@ CREATE FUNCTION insert_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
-quest_id INTEGER;
+  quest_id INTEGER;
 BEGIN
-IF new.id IS NULL THEN
-INSERT INTO questions(
-  instrument_id,
-  question_id,
-  question_type,
-  response_unit_id,
-  created_at,
-  updated_at
-) VALUES (
-  new.instrument_id,
-  new.question_id,
-  new.question_type,
-  new.response_unit_id,
-  new.created_at,
-  new.updated_at
-) RETURNING id INTO quest_id;
-ELSE
-INSERT INTO questions(
-  id,
-  instrument_id,
-  question_id,
-  question_type,
-  response_unit_id,
-  created_at,
-  updated_at
-) VALUES (
-  new.id,
-  new.instrument_id,
-  new.question_id,
-  new.question_type,
-  new.response_unit_id,
-  new.created_at,
-  new.updated_at
-);
-quest_id = new.id;
-END IF;
-INSERT INTO control_constructs(
-  label,
-  parent_id,
-  position,
-  branch,
-  construct_id,
-  construct_type,
-  instrument_id,
-  created_at,
-  updated_at
-)  VALUES (
-  new.label,
-  (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  new.position,
-  new.branch,
-  quest_id,
-  'CcQuestion',
-  new.instrument_id,
-  new.created_at,
-  new.updated_at
-);
-new.id = quest_id;
-RETURN new;
+  IF new.id IS NULL THEN
+    INSERT INTO questions(
+                            instrument_id,
+                            question_id,
+                            question_type,
+                            response_unit_id,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.instrument_id,
+                            new.question_id,
+                            new.question_type,
+                            new.response_unit_id,
+                            new.created_at,
+                            new.updated_at
+    ) RETURNING id INTO quest_id;
+  ELSE
+   INSERT INTO questions(
+                            id,
+                            instrument_id,
+                            question_id,
+                            question_type,
+                            response_unit_id,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id,
+                            new.question_id,
+                            new.question_type,
+                            new.response_unit_id,
+                            new.created_at,
+                            new.updated_at
+    );
+    quest_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label,
+                          parent_id,
+                          position,
+                          branch,
+                          construct_id,
+                          construct_type,
+                          instrument_id,
+                          created_at,
+                          updated_at
+  )  VALUES (
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
+                          quest_id,
+                          'CcQuestion',
+                          new.instrument_id,
+                          new.created_at,
+                          new.updated_at
+  );
+  new.id = quest_id;
+  RETURN new;
 END;
 $$;
 
@@ -366,75 +366,75 @@ CREATE FUNCTION insert_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
-seq_id INTEGER;
+  seq_id INTEGER;
 BEGIN
-IF new.id IS NULL THEN
-INSERT INTO sequences(
-  instrument_id,
-  literal,
-  created_at,
-  updated_at
-) VALUES (
-  new.instrument_id,
-  new.literal,
-  new.created_at,
-  new.updated_at
-) RETURNING id INTO seq_id;
-ELSE
-INSERT INTO sequences(
-  id,
-  instrument_id,
-  literal,
-  created_at,
-  updated_at
-) VALUES (
-  new.id,
-  new.instrument_id,
-  new.literal,
-  new.created_at,
-  new.updated_at
-);
-seq_id = new.id;
-END IF;
-INSERT INTO control_constructs(
-  label,
-  parent_id,
-  position,
-  branch,
-  construct_id,
-  construct_type,
-  instrument_id,
-  created_at,
-  updated_at
-)  VALUES (
-  new.label,
-  (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  new.position,
-  new.branch,
-  seq_id,
-  'CcSequence',
-  new.instrument_id,
-  new.created_at,
-  new.updated_at
-);
-IF new.topic_id IS NOT NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-)
-VALUES (
-  seq_id,
-  'CcSequence',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-END IF;
-new.id = seq_id;
-RETURN new;
+  IF new.id IS NULL THEN
+    INSERT INTO sequences(
+                            instrument_id,
+                            literal,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
+                            new.updated_at
+    ) RETURNING id INTO seq_id;
+  ELSE
+    INSERT INTO sequences(
+                            id,
+                            instrument_id,
+                            literal,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
+                            new.updated_at
+    );
+    seq_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label,
+                          parent_id,
+                          position,
+                          branch,
+                          construct_id,
+                          construct_type,
+                          instrument_id,
+                          created_at,
+                          updated_at
+  )  VALUES (
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
+                          seq_id,
+                          'CcSequence',
+                          new.instrument_id,
+                          new.created_at,
+                          new.updated_at
+  );
+  IF new.topic_id IS NOT NULL THEN
+    INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+    )
+       VALUES (
+                            seq_id,
+                            'CcSequence',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+    );
+  END IF;
+  new.id = seq_id;
+  RETURN new;
 END;
 $$;
 
@@ -447,59 +447,59 @@ CREATE FUNCTION insert_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
-sta_id INTEGER;
+  sta_id INTEGER;
 BEGIN
-IF new.id IS NULL THEN
-INSERT INTO statements(
-  instrument_id,
-  literal,
-  created_at,
-  updated_at
-) VALUES (
-  new.instrument_id,
-  new.literal,
-  new.created_at,
-  new.updated_at
-) RETURNING id INTO sta_id;
-ELSE
-INSERT INTO statements(
-  id,
-  instrument_id,
-  literal,
-  created_at,
-  updated_at
-) VALUES (
-  new.id,
-  new.instrument_id,
-  new.literal,
-  new.created_at,
-  new.updated_at
-);
-sta_id = new.id;
-END IF;
-INSERT INTO control_constructs(
-  label,
-  parent_id,
-  position,
-  branch,
-  construct_id,
-  construct_type,
-  instrument_id,
-  created_at,
-  updated_at
-)  VALUES (
-  new.label,
-  (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  new.position,
-  new.branch,
-  sta_id,
-  'CcStatement',
-  new.instrument_id,
-  new.created_at,
-  new.updated_at
-);
-new.id = sta_id;
-RETURN new;
+  IF new.id IS NULL THEN
+    INSERT INTO statements(
+                            instrument_id,
+                            literal,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
+                            new.updated_at
+    ) RETURNING id INTO sta_id;
+  ELSE
+    INSERT INTO statements(
+                            id,
+                            instrument_id,
+                            literal,
+                            created_at,
+                            updated_at
+    ) VALUES (
+                            new.id,
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
+                            new.updated_at
+    );
+    sta_id = new.id;
+  END IF;
+  INSERT INTO control_constructs(
+                          label,
+                          parent_id,
+                          position,
+                          branch,
+                          construct_id,
+                          construct_type,
+                          instrument_id,
+                          created_at,
+                          updated_at
+  )  VALUES (
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
+                          sta_id,
+                          'CcStatement',
+                          new.instrument_id,
+                          new.created_at,
+                          new.updated_at
+  );
+  new.id = sta_id;
+  RETURN new;
 END;
 $$;
 
@@ -526,43 +526,43 @@ CREATE FUNCTION update_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-UPDATE conditions
-SET
-literal     = new.literal,
-  logic       = new.logic,
-  updated_at  = new.updated_at
-WHERE id = new.id;
-UPDATE control_constructs
-SET
-label       = new.label,
-  parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  position    = new.position,
-  branch      = new.branch,
-  updated_at = new.updated_at
-WHERE construct_id = new.id AND construct_type = 'CcCondition';
-IF new.topic_id <> old.topic_id THEN
-IF new.topic_id IS NULL THEN
-DELETE FROM links WHERE target_id = new.id AND target_type = 'CcCondition';
-ELSIF old.topic_id IS NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-)
-VALUES (
-  new.id,
-  'CcCondition',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-ELSE
-UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcCondition';
-END IF;
-END IF;
-RETURN new;
+  UPDATE conditions
+  SET
+          literal     = new.literal,
+          logic       = new.logic,
+          updated_at  = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs
+  SET
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+          position    = new.position,
+          branch      = new.branch,
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcCondition';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcCondition';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+      )
+         VALUES (
+                            new.id,
+                            'CcCondition',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcCondition';
+    END IF;
+  END IF;
+  RETURN new;
 END;
 $$;
 
@@ -575,45 +575,45 @@ CREATE FUNCTION update_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-UPDATE loops
-SET
-loop_var          = new.loop_var,
-  start_val         = new.start_val,
-  end_val           = new.end_val,
-  loop_while        = new.loop_while,
-  updated_at        = new.updated_at
-WHERE id = new.id;
-UPDATE control_constructs
-SET
-label       = new.label,
-  parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  position    = new.position,
-  branch      = new.branch,
-  updated_at = new.updated_at
-WHERE construct_id = new.id AND construct_type = 'CcLoop';
-IF new.topic_id <> old.topic_id THEN
-IF new.topic_id IS NULL THEN
-DELETE FROM links WHERE target_id = new.id AND target_type = 'CcLoop';
-ELSIF old.topic_id IS NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-)
-VALUES (
-  new.id,
-  'CcLoop',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-ELSE
-UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcLoop';
-END IF;
-END IF;
-RETURN new;
+  UPDATE loops
+  SET
+          loop_var          = new.loop_var,
+          start_val         = new.start_val,
+          end_val           = new.end_val,
+          loop_while        = new.loop_while,
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs
+  SET
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+          position    = new.position,
+          branch      = new.branch,
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcLoop';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcLoop';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+      )
+         VALUES (
+                            new.id,
+                            'CcLoop',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcLoop';
+    END IF;
+  END IF;
+  RETURN new;
 END;
 $$;
 
@@ -626,22 +626,22 @@ CREATE FUNCTION update_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-UPDATE questions
-SET
-question_id       = new.question_id,
-  question_type     = new.question_type,
-  response_unit_id  = new.response_unit_id,
-  updated_at        = new.updated_at
-WHERE id = new.id;
-UPDATE control_constructs
-SET
-label       = new.label,
-  parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  position    = new.position,
-  branch      = new.branch,
-  updated_at = new.updated_at
-WHERE construct_id = new.id AND construct_type = 'CcQuestion';
-RETURN new;
+  UPDATE questions
+  SET
+          question_id       = new.question_id,
+          question_type     = new.question_type,
+          response_unit_id  = new.response_unit_id,
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs
+  SET
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+          position    = new.position,
+          branch      = new.branch,
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcQuestion';
+  RETURN new;
 END;
 $$;
 
@@ -654,42 +654,42 @@ CREATE FUNCTION update_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-UPDATE sequences
-SET
-literal           = new.literal,
-  updated_at        = new.updated_at
-WHERE id = new.id;
-UPDATE control_constructs
-SET
-label       = new.label,
-  parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  position    = new.position,
-  branch      = new.branch,
-  updated_at = new.updated_at
-WHERE construct_id = new.id AND construct_type = 'CcSequence';
-IF new.topic_id <> old.topic_id THEN
-IF new.topic_id IS NULL THEN
-DELETE FROM links WHERE target_id = new.id AND target_type = 'CcSequence';
-ELSIF old.topic_id IS NULL THEN
-INSERT INTO links(
-  target_id,
-  target_type,
-  topic_id,
-  created_at,
-  updated_at
-)
-VALUES (
-  new.id,
-  'CcSequence',
-  new.topic_id,
-  new.created_at,
-  new.updated_at
-);
-ELSE
-UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcSequence';
-END IF;
-END IF;
-RETURN new;
+  UPDATE sequences
+  SET
+          literal           = new.literal,
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs
+  SET
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+          position    = new.position,
+          branch      = new.branch,
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcSequence';
+  IF new.topic_id <> old.topic_id THEN
+    IF new.topic_id IS NULL THEN
+      DELETE FROM links WHERE target_id = new.id AND target_type = 'CcSequence';
+    ELSIF old.topic_id IS NULL THEN
+      INSERT INTO links(
+                            target_id,
+                            target_type,
+                            topic_id,
+                            created_at,
+                            updated_at
+      )
+         VALUES (
+                            new.id,
+                            'CcSequence',
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
+      );
+    ELSE
+      UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcSequence';
+    END IF;
+  END IF;
+  RETURN new;
 END;
 $$;
 
@@ -702,20 +702,20 @@ CREATE FUNCTION update_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-UPDATE statements
-SET
-literal           = new.literal,
-  updated_at        = new.updated_at
-WHERE id = new.id;
-UPDATE control_constructs
-SET
-label       = new.label,
-  parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
-  position    = new.position,
-  branch      = new.branch,
-  updated_at = new.updated_at
-WHERE construct_id = new.id AND construct_type = 'CcStatement';
-RETURN new;
+  UPDATE statements
+  SET
+          literal           = new.literal,
+          updated_at        = new.updated_at
+  WHERE id = new.id;
+  UPDATE control_constructs
+  SET
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+          position    = new.position,
+          branch      = new.branch,
+          updated_at = new.updated_at
+  WHERE construct_id = new.id AND construct_type = 'CcStatement';
+  RETURN new;
 END;
 $$;
 
@@ -3168,10 +3168,10 @@ CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON cc_questions FOR EACH ROW
 
 
 --
--- Name: update_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+-- Name: update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_sequence INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
+CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
 
 
 --
