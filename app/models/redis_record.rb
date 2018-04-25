@@ -1,6 +1,8 @@
 # An abstract class for all Redis-backed models to
 # derive from
 class RedisRecord
+
+  class SCOPE; end
   # Returns a list of all items from Redis
   #
   # @return [Array]
@@ -40,7 +42,6 @@ class RedisRecord
   def delete
     self.class.active.delete(@id.to_i)
     unless @id.nil?
-      puts "#{self.class::SCOPE.to_s}"
       RedisRecord.redis.del self.class::SCOPE.to_s + ':' + @id.to_s
       yield
     end

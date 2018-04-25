@@ -9,32 +9,32 @@ class ResponseDomainNumericsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, format: :json, instrument_id: @instrument.id
+    get :index, format: :json, params: { instrument_id: @instrument.id }
     assert_response :success
     assert_not_nil assigns(:collection)
   end
 
   test "should create response_domain_numeric" do
     assert_difference('ResponseDomainNumeric.count') do
-      post :create, format: :json, instrument_id: @instrument.id, response_domain_numeric: {label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type, instrument_id: @instrument.id}
+      post :create, format: :json, params: { instrument_id: @instrument.id, response_domain_numeric: {label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type, instrument_id: @instrument.id} }
     end
 
     assert_response :success
   end
 
   test "should show response_domain_numeric" do
-    get :show, id: @response_domain_numeric, format: :json, instrument_id: @instrument.id
+    get :show, format: :json, params: { instrument_id: @instrument.id, id: @response_domain_numeric }
     assert_response :success
   end
 
   test "should update response_domain_numeric" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @response_domain_numeric, response_domain_numeric: {label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type}
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @response_domain_numeric, response_domain_numeric: {label: @response_domain_numeric.label, max: @response_domain_numeric.max, min: @response_domain_numeric.min, numeric_type: @response_domain_numeric.numeric_type} }
     assert_response :success
   end
 
   test "should destroy response_domain_numeric" do
     assert_difference('ResponseDomainNumeric.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: @response_domain_numeric
+      delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @response_domain_numeric }
     end
 
     assert_response :success

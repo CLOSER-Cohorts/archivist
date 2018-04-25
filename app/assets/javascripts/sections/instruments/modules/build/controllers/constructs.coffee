@@ -27,6 +27,7 @@ angular.module('archivist.build').controller(
         rus: true
       }
       $scope.index = {}
+
       $scope.details_path = ->
         'partials/build/details/' + $routeParams.construct_type + '.html'
 

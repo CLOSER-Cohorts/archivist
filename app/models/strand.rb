@@ -100,13 +100,13 @@ class Strand < RedisRecord
         s1 = Strand.find_by_member map.source
         s2 = Strand.find_by_member map.variable
 
-        puts "Concatenating..."
         s3 = s1 + s2
+        puts "Concatenating id \"#{map.source.id}\" and label \"#{map.source.label}\" with variable \"#{map.variable_id}\" ..."
         s3.save
       end
       Instrument.find_each { |i| i.send :register_prefix }
-    rescue StandardError => e
-      puts "StandardError:#{e.class} error: #{e.message}"
+    rescue => e
+      puts "Error: #{e.class} -> #{e.message}"
       raise
     end
   end

@@ -5,8 +5,8 @@ Rails.application.configure do
   config.cache_classes = true
 
   config.action_dispatch.rack_cache = {
-    metastore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/metastore',
-    entitystore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/entitystore'
+      metastore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/metastore',
+      entitystore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/entitystore'
   }
 
   # Eager load code on boot. This eager loads most of Rails and
