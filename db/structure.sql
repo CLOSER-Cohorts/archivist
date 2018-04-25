@@ -512,7 +512,7 @@ CREATE FUNCTION refresh_ancestral_topics() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  REFRESH MATERIALIZED VIEW ancestral_topic;
+  REFRESH MATERIALIZED VIEW CONCURRENTLY ancestral_topic;
   RETURN NULL;
 END;
 $$;

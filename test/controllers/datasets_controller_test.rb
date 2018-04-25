@@ -32,7 +32,7 @@ class DatasetsControllerTest < ActionController::TestCase
   end
 
   test "should destroy dataset" do
-    assert_difference("Dataset.count", -1) do
+    assert_difference('Dataset.count', -1) do
       delete :destroy, format: :json, params: { id: @dataset.id }
     end
 
