@@ -136,7 +136,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     oj (3.3.9)
     orm_adapter (0.5.0)
-    parallel (1.12.0)
+    parallel (1.12.1)
     pg (0.21.0)
     postmark (1.10.0)
       json
@@ -302,7 +302,6 @@ DEPENDENCIES
   oj
   parallel
   pg (= 0.21.0)
-<<<<<<< HEAD
   postmark-rails (>= 0.10.0)
   puma (~> 2.16.0)
   pundit
@@ -314,20 +313,6 @@ DEPENDENCIES
   redis (~> 3.3.2)
   redis-rack-cache
   resque
-=======
-  postmark-rails (= 0.15.0)
-  puma (= 2.16.0)
-  pundit (= 1.1.0)
-  rack-timeout (= 0.4.2)
-  rails (~> 5.0.0)
-  rails-controller-testing (= 1.0.2)
-  rails-erd (= 1.5.2)
-  rails_12factor (= 0.0.3)
-  rake (= 12.3.0)
-  redis (= 3.3.5)
-  redis-rack-cache (= 2.0.2)
-  resque (= 1.27.4)
->>>>>>> ff9bbc136d456004bd1cfea3abe0f91a53050a05
   resque_unit
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
