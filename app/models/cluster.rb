@@ -44,11 +44,8 @@ class Cluster < RedisRecord
 
   # Deletes all Clusters from Redis
   def self.delete_all
-    all_keys = []
-    all_keys += cluster_keys = {match: Cluster::SCOPE.to_s + ':[0-9]*', count: 10000}.to_a
-    all_keys += strand_keys = {match: Strand::SCOPE.to_s + ':[0-9]*', count: 10000}.to_a
+    all_keys = Cluster.all_keys
     while all_keys.count > 0
-      puts 'Deleting...'
       Cluster.redis.del all_keys.pop(1000)
     end
     Cluster.redis.del LOOKUP
