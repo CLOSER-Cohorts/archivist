@@ -96,6 +96,7 @@ class Cluster < RedisRecord
       c3 = c1 + c2
       c3.save
     end
+    Instrument.find_each { |i| i.send :register_prefix }
   end
 
   # Returns the active Redis connection

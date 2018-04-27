@@ -153,6 +153,13 @@ class InstrumentsController < ImportableController
     end
   end
 
+  def mapper
+    respond_to do |format|
+      format.text { render 'mapper.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
+  end
+
   private
   def set_object
     @object = collection.find(::Prefix[params[:id]])

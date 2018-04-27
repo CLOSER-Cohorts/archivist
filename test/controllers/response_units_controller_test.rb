@@ -9,32 +9,32 @@ class ResponseUnitsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, format: :json, instrument_id: @instrument.id
+    get :index, format: :json, params: { instrument_id: @instrument.id }
     assert_response :success
     assert_not_nil assigns(:collection)
   end
 
   test "should create response_unit" do
     assert_difference('ResponseUnit.count') do
-      post :create, format: :json, instrument_id: @instrument.id, response_unit: {label: @response_unit.label, instrument_id: @instrument.id}
+      post :create, format: :json, params: { instrument_id: @instrument.id, response_unit: {label: @response_unit.label, instrument_id: @instrument.id} }
     end
 
     assert_response :success
   end
 
   test "should show response_unit" do
-    get :show, id: @response_unit, format: :json, instrument_id: @instrument.id
+    get :show, format: :json, params: { instrument_id: @instrument.id, id: @response_unit }
     assert_response :success
   end
 
   test "should update response_unit" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @response_unit, response_unit: {label: @response_unit.label}
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @response_unit, response_unit: {label: @response_unit.label} }
     assert_response :success
   end
 
   test "should destroy response_unit" do
     assert_difference('ResponseUnit.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: @response_unit
+      delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @response_unit }
     end
 
     assert_response :success

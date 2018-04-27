@@ -95,12 +95,19 @@ class Strand < RedisRecord
     CcQuestion.includes(link: :topic).find_each { |qc| Strand.new([qc]).save }
     Variable.includes(link: :topic).find_each { |v| Strand.new([v]).save }
 
-    Map.includes([:source, :variable]).where(source_type: CcQuestion.name).find_each do |map|
-      s1 = Strand.find_by_member map.source
-      s2 = Strand.find_by_member map.variable
+    begin
+      Map.includes([:source, :variable]).where(source_type: CcQuestion.name).find_each do |map|
+        s1 = Strand.find_by_member map.source
+        s2 = Strand.find_by_member map.variable
 
-      s3 = s1 + s2
-      s3.save
+        s3 = s1 + s2
+        puts "Concatenating id \"#{map.source.id}\" and label \"#{map.source.label}\" with variable \"#{map.variable_id}\" ..."
+        s3.save
+      end
+      Instrument.find_each { |i| i.send :register_prefix }
+    rescue => e
+      puts "Error: #{e.class} -> #{e.message}"
+      raise
     end
   end
 
@@ -192,11 +199,11 @@ class Strand < RedisRecord
       typed_member_ids = Strand.redis.smembers(SCOPE + ':' + @id.to_s).map { |x| x.split(':') }.group_by(&:first).map { |c, xs| [c, xs.map(&:last)] }
       typed_member_ids.each do |typed_ids|
         @members += typed_ids.first.constantize.find_by_sql(
-            [
-                'SELECT x.*, l.topic_id FROM ' + typed_ids.first.tableize + ' x LEFT OUTER JOIN links l ON l.target_id = x.id AND target_type = ? WHERE x.id IN (?)',
-                typed_ids.first.classify,
-                typed_ids.last
-            ]
+          [
+            'SELECT x.*, l.topic_id FROM ' + typed_ids.first.tableize + ' x LEFT OUTER JOIN links l ON l.target_id = x.id AND target_type = ? WHERE x.id IN (?)',
+            typed_ids.first.classify,
+            typed_ids.last
+          ]
         )
       end
       topic_ids = @members.map(&:topic_id).compact.uniq

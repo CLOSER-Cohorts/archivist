@@ -1,16 +1,16 @@
 ## README
 
 [![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=develop)](https://travis-ci.org/CLOSER-Cohorts/archivist)
-[![Inline docs](http://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](http://inch-ci.org/github/CLOSER-Cohorts/archivist)
+[![Inline docs](https://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](https://inch-ci.org/github/CLOSER-Cohorts/archivist)
 [![Coverage Status](https://coveralls.io/repos/github/CLOSER-Cohorts/archivist/badge.svg?branch=develop)](https://coveralls.io/github/CLOSER-Cohorts/archivist?branch=master)
 [![Code Climate](https://codeclimate.com/github/CLOSER-Cohorts/archivist/badges/gpa.svg)](https://codeclimate.com/github/CLOSER-Cohorts/archivist)
-[![Issue Stats](http://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](http://issuestats.com/github/CLOSER-Cohorts/archivist)
+[![Issue Stats](https://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](https://issuestats.com/github/CLOSER-Cohorts/archivist)
 
 ### Model Relationship Diagram
 ![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
-* Ruby: 2.5.0
+* Ruby: 2.4.3
 * Rails: 5.0.X
 * Postgres: 9.5.X
 * Redis: 3.3.X

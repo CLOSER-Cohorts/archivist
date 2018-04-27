@@ -12,3 +12,16 @@ class DeleteJob::Instrument
     end
   end
 end
+
+class DeleteJob::Dataset
+  @queue = :in_and_out
+
+  def self.perform (dataset_id)
+    begin
+      dataset = Dataset.find dataset_id
+      dataset.destroy
+    rescue => e
+      Rails.logger.fatal e
+    end
+  end
+end

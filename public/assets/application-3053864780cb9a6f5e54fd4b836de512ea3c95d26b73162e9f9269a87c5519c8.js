@@ -33224,12 +33224,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The wrong way to write it:
  * ```html
- * <a href="https://www.gravatar.com/avatar/{{hash}}">link1</a>
+ * <a href="http://www.gravatar.com/avatar/{{hash}}">link1</a>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <a ng-href="https://www.gravatar.com/avatar/{{hash}}">link1</a>
+ * <a ng-href="http://www.gravatar.com/avatar/{{hash}}">link1</a>
  * ```
  *
  * @element A
@@ -33321,12 +33321,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img src="https://www.gravatar.com/avatar/{{hash}}" alt="Description"/>
+ * <img src="http://www.gravatar.com/avatar/{{hash}}" alt="Description"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-src="https://www.gravatar.com/avatar/{{hash}}" alt="Description" />
+ * <img ng-src="http://www.gravatar.com/avatar/{{hash}}" alt="Description" />
  * ```
  *
  * @element IMG
@@ -33347,12 +33347,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img srcset="https://www.gravatar.com/avatar/{{hash}} 2x" alt="Description"/>
+ * <img srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Description"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-srcset="https://www.gravatar.com/avatar/{{hash}} 2x" alt="Description" />
+ * <img ng-srcset="http://www.gravatar.com/avatar/{{hash}} 2x" alt="Description" />
  * ```
  *
  * @element IMG

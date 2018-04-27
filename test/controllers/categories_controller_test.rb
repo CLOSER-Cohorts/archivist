@@ -9,33 +9,33 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, format: :json, instrument_id: @instrument.id
+    get :index, format: :json, params: { instrument_id: @instrument.id }
     assert_response :success
     assert_not_nil assigns(:collection)
   end
 
   test "should create category" do
     assert_difference('Category.count') do
-      post :create, format: :json, instrument_id: @instrument.id, category: {label: @category.label + '_i', instrument_id: @instrument.id}
+      post :create, format: :json, params: { instrument_id: @instrument.id, category: {label: @category.label + '_i', instrument_id: @instrument.id} }
     end
 
     assert_response :success
   end
 
   test "should show category" do
-    get :show, format: :json, instrument_id: @instrument.id, id: @category.id
+    get :show, format: :json, params: { instrument_id: @instrument.id, id: @category.id }
     assert_response :success
   end
 
   test "should update category" do
-    patch :update, format: :json, instrument_id: @instrument.id, id: @category, category: {label: @category.label}
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @category, category: {label: @category.label} }
     assert_response :success
   end
 
   test "should destroy category" do
     category = categories(:Category_99999)
     assert_difference('Category.count', -1) do
-      delete :destroy, format: :json, instrument_id: @instrument.id, id: category
+      delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: category }
     end
 
     assert_response :success

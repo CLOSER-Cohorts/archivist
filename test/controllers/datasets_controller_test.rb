@@ -15,26 +15,25 @@ class DatasetsControllerTest < ActionController::TestCase
 
   test "should create dataset" do
     assert_difference('Dataset.count') do
-      post :create, format: :json, dataset: {name: @dataset.name}
+      post :create, format: :json, params: { dataset: {name: @dataset.name} }
     end
 
     assert_response :success
   end
 
   test "should show dataset" do
-    get :show, format: :json, id: @dataset, format: :json
+    get :show, format: :json, params: { id: @dataset }
     assert_response :success
   end
 
   test "should update dataset" do
-    patch :update, format: :json, id: @dataset, dataset: {name: @dataset.name}
+    patch :update, format: :json, params: { id: @dataset, dataset: {name: @dataset.name} }
     assert_response :success
   end
 
   test "should destroy dataset" do
-    dataset = datasets(:Dataset_2)
     assert_difference('Dataset.count', -1) do
-      delete :destroy, format: :json, id: dataset
+      delete :destroy, format: :json, params: { id: @dataset.id }
     end
 
     assert_response :success
