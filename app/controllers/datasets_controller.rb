@@ -58,7 +58,6 @@ class DatasetsController < ImportableController
     end
   end
 
-
   # Used by importing the TXT instrument files that mapper used
   # Please note that for multiple upload to work within a nested
   # Angular 1.X form, base64 encoding was needed so we need to
