@@ -101,7 +101,7 @@ class Strand < RedisRecord
         s2 = Strand.find_by_member map.variable
 
         s3 = s1 + s2
-        puts "Concatenating id \"#{map.source.id}\" and label \"#{map.source.label}\" with variable \"#{map.variable_id}\" ..."
+        puts "Concatenating id \"#{map.source.id}\" and label \"#{map.source.label}\" with variable \"#{map.variable.name}(id: #{map.variable.id})\" ..."
         s3.save
       end
       Instrument.find_each { |i| i.send :register_prefix }
