@@ -83,4 +83,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.enable_dependency_loading = true
+
+  # enable resque as active job adapter
+  config.active_job.queue_adapter = :resque
 end
