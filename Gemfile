@@ -46,7 +46,7 @@ gem 'pundit', '1.1.0'
 gem 'rack-timeout', '0.4.2'
 gem 'rails', '5.0.6'
 # Use Redis for caching
-gem 'redis', '3.2.2'
+gem 'redis', '3.3.5'
 # Create background workers
 gem 'resque', '1.27.4'
 # Use SCSS for stylesheets
