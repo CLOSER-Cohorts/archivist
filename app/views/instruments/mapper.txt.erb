@@ -1,5 +1,5 @@
 <% @object.cc_sequences.order(id: 'ASC').each do |sequence| %>
-  <%=raw sequence.urn %>|Sequence|-|<%=raw (p = sequence.parent(CcSequence)).nil? ? '-' : p.urn %>| <%= (raw sequence.label.gsub("\n","").gsub("\r","") || "Top Sequence") %>
+  <%=raw sequence.urn %>|Sequence|-|<%=raw (p = sequence.parent(CcSequence)).nil? ? '-' : p.urn %>| <%=raw sequence.label.gsub("\n","").gsub("\r","") %>
   <% end %>
   <% @object.cc_questions.order(id: 'ASC').each do |qc| %>
   <% if qc.question_type == 'QuestionItem' %>
