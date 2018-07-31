@@ -49,17 +49,16 @@ class InstrumentsController < ImportableController
     head :ok, format: :json
   end
 
-  def response_domains
-  end
+  def response_domains; end
 
-  def response_domain_codes
-  end
+  def response_domain_codes; end
 
   def document
     begin
       d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').find(params[:doc_id])
       render body: d.file_contents, content_type: 'application/xml'
     rescue => e
+      puts "#{e}"
       render xml: {error: 'Not found'}, status: 404
     end
   end

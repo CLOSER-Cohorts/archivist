@@ -8944,34 +8944,39 @@ button.close {
 }
 
 /* line 6, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.a-construct-tree li.ng-binding {
+  list-style: none;
+  padding-bottom: 20px;
+}
+/* line 10, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 .a-construct-tree .a-construct-container {
   border-radius: 4px;
   background: lightgrey;
   min-height: 80px;
 }
-/* line 11, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 15, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 .a-construct-tree .new-construct {
   min-height: 20px;
   text-align: center;
 }
-/* line 15, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 19, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 .a-construct-tree .btn {
   margin-bottom: 10px;
 }
 
-/* line 19, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 23, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 ul.nav-sidebar li.new {
   background-color: #5CB85C;
 }
-/* line 22, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 26, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 ul.nav-sidebar li.new a {
   color: white;
 }
-/* line 25, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 29, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 ul.nav-sidebar li.new a:hover {
   background-color: #3C763D;
 }
-/* line 28, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+/* line 32, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
 ul.nav-sidebar .a-type {
   color: #999999;
   float: right;
@@ -18414,7 +18419,7 @@ treecontrol.tree-boot .tree-label:hover {
 }
 
 /* line 4, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
-.angular-ui-tree-empty, .angular-ui-tree-dropzone {
+.angular-ui-tree-empty {
   border: 1px dashed #bbb;
   min-height: 100px;
   background-color: #e5e5e5;
@@ -18423,14 +18428,10 @@ treecontrol.tree-boot .tree-label:hover {
   background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
   background-size: 60px 60px;
   background-position: 0 0, 30px 30px;
-}
-
-/* line 15, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
-.angular-ui-tree-empty {
   pointer-events: none;
 }
 
-/* line 19, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 16, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-nodes {
   position: relative;
   margin: 0;
@@ -18438,12 +18439,12 @@ treecontrol.tree-boot .tree-label:hover {
   list-style: none;
 }
 
-/* line 26, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 23, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-nodes .angular-ui-tree-nodes {
   padding-left: 20px;
 }
 
-/* line 30, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 27, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-node, .angular-ui-tree-placeholder {
   position: relative;
   margin: 0;
@@ -18452,19 +18453,19 @@ treecontrol.tree-boot .tree-label:hover {
   line-height: 20px;
 }
 
-/* line 38, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 35, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-hidden {
   display: none;
 }
 
-/* line 42, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 39, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-placeholder {
   margin: 10px;
   padding: 0;
   min-height: 30px;
 }
 
-/* line 48, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 45, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-handle {
   cursor: move;
   text-decoration: none;
@@ -18476,7 +18477,7 @@ treecontrol.tree-boot .tree-label:hover {
   line-height: 20px;
 }
 
-/* line 59, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 56, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-drag {
   position: absolute;
   pointer-events: none;
@@ -18484,7 +18485,7 @@ treecontrol.tree-boot .tree-label:hover {
   opacity: .8;
 }
 
-/* line 66, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+/* line 63, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
 .angular-ui-tree-drag .tree-node-content {
   margin-top: 0;
 }

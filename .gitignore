@@ -13,6 +13,7 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+/db/seeds.rb
 
 # Ignore schema_cache.dump
 /db/schema_cache.dump

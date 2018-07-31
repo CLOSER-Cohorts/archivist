@@ -512,7 +512,7 @@ CREATE FUNCTION refresh_ancestral_topics() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  REFRESH MATERIALIZED VIEW CONCURRENTLY ancestral_topic;
+  REFRESH MATERIALIZED VIEW ancestral_topic;
   RETURN NULL;
 END;
 $$;
@@ -3168,10 +3168,10 @@ CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON cc_questions FOR EACH ROW
 
 
 --
--- Name: update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
+-- Name: update_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
+CREATE TRIGGER update_cc_sequence INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
 
 
 --

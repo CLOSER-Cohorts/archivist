@@ -10,7 +10,7 @@
 ![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
-* Ruby: 2.4.3
+* Ruby: 2.5.0
 * Rails: 5.0.X
 * Postgres: 9.5.X
 * Redis: 3.3.X

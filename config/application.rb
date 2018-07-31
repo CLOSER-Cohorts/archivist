@@ -43,6 +43,10 @@ module Archivist
         authentication:         (ENV['STMP_AUTH'] || '').to_sym,
         enable_starttls_auto:   ENV['STMP_TLSAUTO']
     }
+
+    # enable resque as active job adapter
+    config.active_job.queue_adapter = :resque
+
     config.action_mailer.default_url_options = {host: (ENV['HOSTNAME'] || 'localhost')}
 
     config.after_initialize do

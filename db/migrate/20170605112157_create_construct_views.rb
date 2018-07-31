@@ -649,7 +649,7 @@ class CreateConstructViews < ActiveRecord::Migration[5.0]
           END;
           $$ LANGUAGE plpgsql;
 
-          CREATE TRIGGER update_cc_seqeunce
+          CREATE TRIGGER update_cc_sequence
           INSTEAD OF UPDATE ON cc_sequences
           FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
 

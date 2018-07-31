@@ -25,35 +25,35 @@ class ParentalConstruct < ControlConstruct
   #TODO: Needs updating
   def all_children_ccs
     sql = <<~SQL
-    WITH RECURSIVE cc_tree AS
-    (
-      SELECT
-      ccl.*,
-      1 AS level
-      FROM
-      cc_links AS ccl
-      WHERE
-      construct_id = ?
-      AND construct_type = ?
-      UNION ALL
-      SELECT
-      ccl.*,
-      tree.level + 1
-      FROM
-      cc_links AS ccl
-      JOIN
-      cc_tree AS tree
-      ON tree.id = ccl.parent_id
-    )
-    SELECT
-    tree.*
-    FROM
-    cc_tree AS tree
-    WHERE
-    NOT (
-      tree.construct_id = ?
-      AND tree.construct_type = ?
-    )
+        WITH RECURSIVE cc_tree AS
+        (
+           SELECT
+              ccl.*,
+              1 AS level
+           FROM
+              cc_links AS ccl
+           WHERE
+              construct_id = ?
+              AND construct_type = ?
+           UNION ALL
+           SELECT
+              ccl.*,
+              tree.level + 1
+           FROM
+              cc_links AS ccl
+              JOIN
+                 cc_tree AS tree
+                 ON tree.id = ccl.parent_id
+        )
+        SELECT
+           tree.*
+        FROM
+           cc_tree AS tree
+        WHERE
+           NOT (
+              tree.construct_id = ?
+              AND tree.construct_type = ?
+           )
     SQL
 
 =begin

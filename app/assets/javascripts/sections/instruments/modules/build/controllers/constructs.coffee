@@ -13,7 +13,7 @@ angular.module('archivist.build').controller(
     'DataManager',
     'RealTimeListener',
     'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, bsLoadingOverlayService, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, bsLoadingOverlayService, Flash, DataManager, RealTimeListener, RealTimeLocking )->
       console.time 'end to end'
       $scope.title = 'Constructs'
       $scope.details_bar = true
@@ -50,7 +50,7 @@ angular.module('archivist.build').controller(
       $scope.treeOptions =
         dropped: ->
           bsLoadingOverlayService.start()
-          updates = []
+          $scope.updates = []
           positionUpdater = (parent)->
             child_dimensions = ['children', 'fchildren']
             for dimension, index in child_dimensions
@@ -64,21 +64,21 @@ angular.module('archivist.build').controller(
                         Number.isInteger parent[dimension][child_key].branch
                       )
                     )
-                      updates.push {
+                      $scope.updates.push {
                         id: parent[dimension][child_key].id,
                         type: parent[dimension][child_key].type,
                         position: (parseInt child_key) + 1,
                         parent: {id: parent.id, type: parent.type},
                         branch: index
                       }
-                      parent[dimension][child_key].position = updates[updates.length-1]['position']
-                      parent[dimension][child_key].parent = updates[updates.length-1]['parent']
+                      parent[dimension][child_key].position = $scope.updates[$scope.updates.length-1]['position']
+                      parent[dimension][child_key].parent = $scope.updates[$scope.updates.length-1]['parent']
                     positionUpdater parent[dimension][child_key]
 
           positionUpdater $scope.instrument.topsequence
           $http.post(
             '/instruments/' + $scope.instrument.id.toString() + '/reorder_ccs.json',
-            updates: updates
+            updates: $scope.updates
           ).finally ->
             bsLoadingOverlayService.stop()
 
