@@ -47,3 +47,4 @@ dump.rdb
 
 .yardoc/
 doc/
+coverage
