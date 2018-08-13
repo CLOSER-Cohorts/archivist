@@ -72,10 +72,10 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '9.1.0'
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
+  gem 'pry-rails', '~> 0.3.6'
   gem 'stackprof', group: :development
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-  gem 'simplecov', require: false
 end
 
 group :development do
@@ -94,4 +94,5 @@ group :test do
   #gem 'ruby-prof'
   gem 'rails-controller-testing', '1.0.2'
   gem 'resque_unit'
+  gem 'simplecov', require: false, group: :test
 end
