@@ -1,10 +1,11 @@
 <% @object.cc_sequences.order(id: 'ASC').each do |sequence| %>
-  <%=raw sequence.urn %>|Sequence|-|<%=raw (p = sequence.parent(CcSequence)).nil? ? '-' : p.urn %>| <%=raw sequence.label.gsub("\n","").gsub("\r","") %>
+  <%=raw sequence.urn %>|Sequence|-|<%=raw (p = sequence.parent(CcSequence)).nil? ? '-' : p.urn %>| <%=raw (s = sequence.label).nil? ? s = 'Empty label' : s = (raw sequence.label.gsub("\n","").gsub("\r","")) %>
   <% end %>
+  <%= puts %>
   <% @object.cc_questions.order(id: 'ASC').each do |qc| %>
-  <% if qc.question_type == 'QuestionItem' %>
-  <%=raw qc.label %> |Question|-|<%=raw qc.parent(CcSequence).urn %>|-|<%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
-  <% else %>
-  <%=raw qc.label %> |Question|[<%=raw qc.question.max_y %>,<%=raw qc.question.max_x %>]|  <%=raw qc.parent(CcSequence).urn %> |<%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
-  <% end %>
+    <% if qc.question_type == 'QuestionItem' %>
+    <%=raw qc.label %> |Question|-|<%=raw qc.parent(CcSequence).urn %>|-|<%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
+    <% else %>
+    <%=raw qc.label %> |Question|[<%=raw qc.question.max_y %>,<%=raw qc.question.max_x %>]|  <%=raw qc.parent(CcSequence).urn %> |<%=raw qc.question.literal.gsub("\n","").gsub("\r","") %>
+    <% end %>
 <% end %>
