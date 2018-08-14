@@ -269,7 +269,7 @@ GEM
     tins (1.16.3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.0.2)
+    uglifier (4.1.18)
       execjs (>= 0.3.0, < 3)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -332,7 +332,7 @@ DEPENDENCIES
   stackprof
   sys-proctable
   tzinfo-data
-  uglifier (= 4.0.2)
+  uglifier (= 4.1.18)
   web-console (= 2.3.0)
 
 RUBY VERSION

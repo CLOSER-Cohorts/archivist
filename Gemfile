@@ -57,7 +57,7 @@ gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '0.4.2', group: :doc
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '4.0.2'
+gem 'uglifier', '4.1.18'
 
 # Production gems
 group :production do
