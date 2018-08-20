@@ -400,7 +400,7 @@ class Instrument < ApplicationRecord
   private
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
-    self.cc_sequences.create(label: 'TopSequence')
+    self.cc_sequences.create(label: nil)
   end
 
   # Removes prefix from Redis cache

@@ -12,7 +12,7 @@ gem 'aws-sdk', '2.10.101'
 gem 'bower-rails', '0.11.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '4.2.2'
-gem 'coveralls', '0.8.21' ,require: false
+gem 'coveralls', '0.8.21', require: false
 # To search for memory leaks and memory bloat
 gem 'derailed', '0.1.0'
 # Use Devise and Pundit for authentication and authorization respectively
@@ -23,6 +23,9 @@ gem 'figaro', '1.1.1'
 gem 'fuzzy_match', '2.1.0'
 # TODO: Should this be managed through Bower
 gem 'genericons-rails', '0.5.0'
+# Heroku-deflater compresses assets and application responses on Heroku, while not wasting CPU cycles
+# on pointlessly compressing images and other binary responses
+gem 'heroku-deflater', '~> 0.6.3', :group => :production
 # Automatically scales dynos
 gem 'hirefire-resource', '0.4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -54,7 +57,7 @@ gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '0.4.2', group: :doc
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '4.0.2'
+gem 'uglifier', '4.1.18'
 
 # Production gems
 group :production do
@@ -69,6 +72,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '9.1.0'
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
+  gem 'pry-rails', '~> 0.3.6'
   gem 'stackprof', group: :development
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
@@ -90,4 +94,5 @@ group :test do
   #gem 'ruby-prof'
   gem 'rails-controller-testing', '1.0.2'
   gem 'resque_unit'
+  gem 'simplecov', require: false, group: :test
 end

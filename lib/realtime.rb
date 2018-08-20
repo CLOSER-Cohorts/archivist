@@ -58,6 +58,7 @@ module Realtime
         begin
           $redis.publish 'rt-update', output.to_json
         rescue
+          puts 'Rescued!'
         end
       end
     end
@@ -90,6 +91,7 @@ module Realtime
         begin
           $redis.publish 'rt-update', output.to_json
         rescue
+          puts 'Rescued!'
         end
       end
     end
