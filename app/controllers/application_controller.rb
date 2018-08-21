@@ -1,3 +1,4 @@
+# Application Controller
 class ApplicationController < ActionController::Base
   include Pundit
   # Prevent CSRF attacks by raising an exception.
@@ -7,6 +8,15 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   after_action :set_csrf_cookie_for_ng
+
+  # around_action :collect_metrics
+
+  # def collect_metrics
+  #   start = Time.now
+  #   yield
+  #   duration = Time.now - start
+  #   Rails.logger.info "#{controller_name}##{action_name}: #{duration}s"
+  # end
 
   def current_user
     super || User.where(api_key: params['api_key']).where('api_key IS NOT NULL').first
