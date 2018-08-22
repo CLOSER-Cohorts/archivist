@@ -7,13 +7,10 @@
 			"navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type=
 			"button"><span class="sr-only">Toggle navigation</span> <span class=
 			"icon-bar"></span> <span class="icon-bar"></span> <span class=
-			"icon-bar"></span></button> <a class="navbar-brand" href="/">{{softwareName}}</a>
+			"icon-bar"></span></button> <a class="navbar-brand" href="/instruments">{{softwareName}}</a>
 		</div>
 		<div class="navbar-collapse collapse" id="navbar">
 			<ul class="nav navbar-nav" data-ng-show="user.logged_in">
-				<li data-ng-class="{active: isActive('/')}">
-					<a href="/">Home</a>
-				</li>
 				<li data-ng-class="{active: isActive('/instruments')}">
 					<a href="/instruments">Instruments</a>
 				</li>

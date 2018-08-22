@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   as :user do
     patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
+
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       confirmations: 'users/confirmations',
@@ -20,6 +21,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  authenticated :user do
+    root 'main#index', to: 'instruments#index',  as: :authenticated_root
+  end
+
   root 'main#index'
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
