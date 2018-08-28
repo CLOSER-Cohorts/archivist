@@ -99,12 +99,12 @@ archivist.controller('RootController',
         DataManager.clearCache()
 ])
 
-archivist.controller('HomeController',
-  [
-    '$scope',
-    'DataManager'
-    ($scope, DataManager)->
-      console.log 'HomeController loading...'
+# archivist.controller('HomeController',
+  # [
+    # '$scope',
+    # 'DataManager'
+    # ($scope, DataManager)->
+      # console.log 'HomeController loading...'
       # $scope.chart_one = {}
       # $scope.chart_two = {}
       # $scope.chart_three = {}
@@ -193,8 +193,8 @@ archivist.controller('HomeController',
       #   'legend':
       #     'position': 'none'
       #   'colors': ['#00ADEF']
-  ]
-)
+  # ]
+# )
 
 archivist.directive 'notices', ->
   {

@@ -32,6 +32,7 @@ vendor/
 node_modules/
 # Ignore application configuration
 /config/application.yml
+/config/initializers/rack_profiler.rb
 
 .env.*
 !*.example

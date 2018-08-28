@@ -79,7 +79,10 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bullet', '~> 5.7', '>= 5.7.6', group: 'development'
   gem 'db_fixtures_dump', '0.1.1'
+  gem 'flay', '~> 2.12'
+  gem 'rack-mini-profiler', require: false, group: :development
   gem 'rails-erd', '1.5.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '2.0.2'
