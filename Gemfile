@@ -43,7 +43,7 @@ gem 'pg', '0.21.0'
 # Heroku email service
 gem 'postmark-rails', '0.15.0'
 # Use Puma as the web server
-gem 'puma', '2.16.0'
+gem 'puma', '3.11.3'
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
@@ -72,6 +72,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '9.1.0'
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
+  gem 'newrelic_rpm', '~> 5.4', '>= 5.4.0.347'
   gem 'pry-rails', '~> 0.3.6'
   gem 'stackprof', group: :development
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
