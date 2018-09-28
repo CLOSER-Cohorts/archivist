@@ -1,6 +1,8 @@
 class MainController < ApplicationController
   def index
-    if User.all.count > 0 && UserGroup.all.count > 0
+    user_count ||= User.all.size
+    user_group_count ||= UserGroup.all.size
+    unless user_count == 0 && user_group_count == 0
       render :index
     else
       render :first
@@ -29,10 +31,10 @@ class MainController < ApplicationController
 
   def stats
     counts = {
-        instruments: Instrument.all.count,
-        questions: CcQuestion.all.count,
-        variables: Variable.all.count,
-        users: User.all.count
+        instruments: Instrument.all.size,
+        questions: CcQuestion.all.size,
+        variables: Variable.all.size,
+        users: User.all.size
     }
     render json: counts
   end
