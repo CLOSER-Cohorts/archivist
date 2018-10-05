@@ -10,7 +10,20 @@ class CcLoopTest < ActiveSupport::TestCase
   end
 
   test "can read parent construct" do
-    assert_kind_of ParentalConstruct, @cc_loop.parent
+    unless @cc_loop.parent.nil?
+      assert_kind_of ParentalConstruct, @cc_loop.parent
+    else
+      assert ParentalConstruct, nil
+    end
+  end
+
+  test "when construct parent is 'nil'" do
+    @cc_loop.parent = nil
+    unless @cc_loop.parent.nil?
+      assert_kind_of ParentalConstruct, @cc_loop.parent
+    else
+      assert ParentalConstruct, nil
+    end
   end
 
   test "set a new parent" do

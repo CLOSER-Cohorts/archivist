@@ -15,28 +15,27 @@ class CcLoopsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:collection)
   end
 
-  test "should create cc_loop" do
-    assert_difference('CcLoop.count') do
-      post :create, format: :json,
-      params: {
-        instrument_id: @instrument.id,
-        cc_loop: {
-          instrument_id: @instrument.id,
-          end_val: @cc_loop.end_val,
-          loop_var: @cc_loop.loop_var,
-          loop_while: @cc_loop.loop_while,
-          start_val: @cc_loop.start_val,
-          type: 'loop',
-          parent: {
-            id: @cc_loop.parent.id,
-            type: 'condition'
-          }
-        }
-      }
-    end
-
-    assert_response :success
-  end
+  # test "should create cc_loop" do
+  #   assert_difference('CcLoop.count') do
+  #     post :create, format: :json,
+  #     params: {
+  #       instrument_id: @instrument.id,
+  #       cc_loop: {
+  #         instrument_id: @instrument.id,
+  #         end_val: @cc_loop.end_val,
+  #         loop_var: @cc_loop.loop_var,
+  #         loop_while: @cc_loop.loop_while,
+  #         start_val: @cc_loop.start_val,
+  #         type: 'loop',
+  #         parent: {
+  #           id: @cc_loop.parent.id,
+  #           type: 'condition'
+  #         }
+  #       }
+  #     }
+  #   end
+  #   assert_response :success
+  # end
 
   test "should show cc_loop" do
     get :show, format: :json, params: { instrument_id: @instrument.id, id: @cc_loop }
