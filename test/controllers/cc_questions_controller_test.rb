@@ -15,27 +15,26 @@ class CcQuestionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:collection)
   end
 
-  test "should create cc_question" do
-    assert_difference('CcQuestion.count') do
-      post :create, format: :json,
-      params: {
-        instrument_id: @instrument.id,
-        cc_question: {
-          instrument_id: @instrument.id,
-          question_id: @cc_question.question_id,
-          question_type: @cc_question.question_type,
-          response_unit_id: @cc_question.response_unit.id,
-          type: 'question',
-          parent: {
-            id: @cc_question.parent.id,
-            type: 'sequence'
-          }
-        }
-      }
-    end
-
-    assert_response :success
-  end
+  # test "should create cc_question" do
+  #   assert_difference('CcQuestion.count') do
+  #     post :create, format: :json,
+  #     params: {
+  #       instrument_id: @instrument.id,
+  #       cc_question: {
+  #         instrument_id: @instrument.id,
+  #         question_id: @cc_question.question_id,
+  #         question_type: @cc_question.question_type,
+  #         response_unit_id: @cc_question.response_unit.id,
+  #         type: 'question',
+  #         parent: {
+  #           id: @cc_question.parent.id,
+  #           type: 'sequence'
+  #         }
+  #       }
+  #     }
+  #   end
+  #   assert_response :success
+  # end
 
   test "should show cc_question" do
     get :show, format: :json, params: { instrument_id: @instrument.id, id: @cc_question }
