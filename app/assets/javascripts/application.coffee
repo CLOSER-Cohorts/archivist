@@ -99,102 +99,14 @@ archivist.controller('RootController',
         DataManager.clearCache()
 ])
 
-# archivist.controller('HomeController',
-  # [
-    # '$scope',
-    # 'DataManager'
-    # ($scope, DataManager)->
-      # console.log 'HomeController loading...'
-      # $scope.chart_one = {}
-      # $scope.chart_two = {}
-      # $scope.chart_three = {}
-      # $scope.chart_four = {}
-      # $scope.chart_one.type = $scope.chart_three.type = $scope.chart_four.type =  "ColumnChart"
-      # $scope.chart_two.type = "Histogram"
-      # $scope.instruments = DataManager.getInstruments {}, (res)->
-      #   $scope.chart_one.data = {
-      #     cols: [
-      #       {
-      #         id: "s",
-      #         label: "Study",
-      #         type: "string"
-      #       },
-      #       {
-      #         id: "i",
-      #         label: "Instruments",
-      #         type: "number"
-      #       }
-      #     ]
-      #   }
-      #   $scope.chart_two.data = [
-      #     [
-      #       'Instrument',
-      #       'Control Constructs'
-      #     ]
-      #   ]
-      #   $scope.chart_three.data = {
-      #     cols: [
-      #       {
-      #         id: "s",
-      #         label: "Study",
-      #         type: "string"
-      #       },
-      #       {
-      #         id: "s",
-      #         label: "Avg. Constructs Per Instrument",
-      #         type: "number"
-      #       }
-      #     ]
-      #   }
-      #   $scope.chart_one.data['rows'] = []
-      #   $scope.chart_three.data['rows'] = []
-      #   data = {}
-      #   for i in res
-      #     if i.study of data
-      #       data[i.study]['instruments'] += 1
-      #       data[i.study]['ccs'] += i.ccs
-      #     else
-      #       data[i.study] =
-      #         'instruments' : 1
-      #         'ccs'         : i.ccs
-      #
-      #     $scope.chart_two.data.push [
-      #       i.title,
-      #       i.ccs
-      #     ]
-      #   Object.sort(data)
-      #   for s of data
-      #     $scope.chart_one.data['rows'].push {
-      #       c: [
-      #         {v: s}, {v: data[s]['instruments']}
-      #       ]
-      #     }
-      #     $scope.chart_three.data['rows'].push {
-      #       c: [
-      #         {v: s}, {v: data[s]['ccs'] / data[s]['instruments']}
-      #       ]
-      #     }
-      #   $scope.studies = Object.keys data
-      # $scope.datasets = DataManager.getDatasets()
-      # console.log $scope
-      #
-      # $scope.chart_one.options =
-      #   'title': 'Instruments'
-      #   'legend':
-      #     'position': 'none'
-      #   'colors': ['#652C90']
-      # $scope.chart_two.options =
-      #   'title': 'Control Construct Distribution'
-      #   'legend':
-      #     'position': 'none'
-      #   'colors': ['#FBAF3F']
-      # $scope.chart_three.options =
-      #   'title': 'Avg. Constructs per Instrument'
-      #   'legend':
-      #     'position': 'none'
-      #   'colors': ['#00ADEF']
-  # ]
-# )
+archivist.controller('HomeController',
+  [
+    '$scope'
+    ($scope)->
+      $scope.welcome_message = 'Welcome to Archivist'
+      $scope.successful_login_message = 'You have successfully logged in.'
+  ]
+)
 
 archivist.directive 'notices', ->
   {
