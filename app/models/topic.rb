@@ -13,7 +13,7 @@ class Topic < ApplicationRecord
   belongs_to :parent, class_name: 'Topic'
 
   # Each Topic can have multiple child Topics
-  has_many :children, class_name: 'Topic', foreign_key: :parent_id, dependent: :destroy
+  has_many :children, -> { includes(:children) }, class_name: 'Topic', foreign_key: :parent_id, dependent: :destroy
 
   # Make the level set and get-able
   attr_accessor :level
