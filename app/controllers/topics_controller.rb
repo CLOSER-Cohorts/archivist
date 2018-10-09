@@ -14,7 +14,7 @@ class TopicsController < BasicController
   # Example:
   #   GET /topics/nested_index.json
   def nested_index
-    @collection = collection.where parent_id: nil
+    @collection = collection.includes(:children).where parent_id: nil
   end
 
   # Loads the full {Topic} list, flattened, but in order
