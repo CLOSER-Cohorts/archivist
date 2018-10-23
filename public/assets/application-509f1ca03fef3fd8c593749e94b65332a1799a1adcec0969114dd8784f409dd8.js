@@ -107411,8 +107411,8 @@ return /******/ (function(modules) { // webpackBootstrap
       // Triggers right after any context menu is opened
       ContextMenuOpened: 'context-menu-opened'
     })
-    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window',
-      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window) {
+    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window', '$compile',
+      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window, $compile) {
 
         var _contextMenus = [];
         // Contains the element that was clicked to show the context menu
@@ -107438,8 +107438,13 @@ return /******/ (function(modules) { // webpackBootstrap
               // runs the function that expects a jQuery/jqLite element
               optionText = item.html($scope);
             } else {
-              // Assumes that the developer already placed a valid jQuery/jqLite element
-              optionText = item.html;
+              // Incase we want to compile html string to initialize their custom directive in html string
+              if (item.compile) {
+                optionText = $compile(item.html)($scope);
+              } else {
+                // Assumes that the developer already placed a valid jQuery/jqLite element
+                optionText = item.html;
+              }
             }
           } else {
 
@@ -107792,7 +107797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             var leftCoordinate = event.pageX;
             var menuWidth = angular.element($ul[0]).prop('offsetWidth');
-            var winWidth = event.view.innerWidth;
+            var winWidth = event.view.innerWidth + window.pageXOffset;
             var padding = 5;
 
             if (leftOriented) {
@@ -108005,6 +108010,12 @@ return /******/ (function(modules) { // webpackBootstrap
               });
             });
           });
+
+          if (attrs.closeMenuOn) {
+            $scope.$on(attrs.closeMenuOn, function () {
+              removeAllContextMenus();
+            });
+          }
         };
       }]);
 // eslint-disable-next-line angular/window-service
@@ -111984,7 +111995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 // source: app/assets/javascripts/templates/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("index.html", '<div class="container">\n    <h1>Welcome to Archivist.</h1>\n    <h4>You have successfully logged in.</h4>\n</div>')
+  $templateCache.put("index.html", '<div class="container">\n    <h1>{{ welcome_message }}</h1>\n    <h4>{{ successful_login_message }}</h4>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -112393,6 +112404,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           return DataManager.clearCache();
         });
       };
+    }
+  ]);
+
+  archivist.controller('HomeController', [
+    '$scope', function($scope) {
+      $scope.welcome_message = 'Welcome to Archivist';
+      return $scope.successful_login_message = 'You have successfully logged in.';
     }
   ]);
 

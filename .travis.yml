@@ -11,4 +11,4 @@ before_script:
   - cp config/database.yml.travis config/database.yml
   - bundle exec rails db:migrate RAILS_ENV=test
 addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
