@@ -1,6 +1,446 @@
-@charset "UTF-8";
+/*
+ * Base structure
+ */
+
+/*
+ * Global add-ons
+ */
+
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    display: none;
+}
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed !important;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: block;
+        padding: 71px 20px 20px 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+    .sidebar-left {
+        left: 0;
+    }
+    .sidebar-right {
+        right: 0;
+    }
+    .navbar-static-top {
+        z-index: 1100 !important;
+    }
+
+    .modal-dialog {
+        margin-top: 100px !important;
+    }
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.placeholders h4 {
+    margin-bottom: 0;
+}
+.placeholder {
+    margin-bottom: 20px;
+}
+.placeholder div {
+    display: inline-block;
+    border-radius: 50%;
+    height: 16vw;
+    width: 16vw;
+    line-height: 16vw;
+    max-width: 200px;
+    max-height: 200px;
+    vertical-align: middle;
+    font-size: 30px;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .placeholder div {
+        height: 28vw;
+        width: 28vw;
+        line-height: 28vw;
+    }
+}
+
+.sidebar a,
+.sidebar a:visited {
+    color: #337ab7;
+}
+
+.sidebar .active a:visited {
+    color: #ccc;
+}
+
+
+.sidebar .active a:hover {
+    color: #fff;
+}
+/* line 1, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/instruments/import-mapping.sass */
+.import-mapping-margin-top {
+  margin-top: 8px;
+}
+
+/* line 3, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/instruments/import-mapping.sass */
+.import-mapping-width-auto {
+  width: auto !important;
+}
+/* line 2, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.admin .reader-max {
+  display: none;
+}
+/* line 5, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.admin .editor-max {
+  display: none;
+}
+
+/* line 9, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.editor .reader-max {
+  display: none;
+}
+/* line 12, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.editor .admin-min {
+  display: none;
+}
+
+/* line 16, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.reader .editor-min {
+  display: none;
+}
+/* line 19, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.reader .admin-min {
+  display: none;
+}
+
+/* line 24, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body, .users .main .list-group {
+  height: calc(100vh - 220px);
+  max-height: 600px;
+  position: relative;
+}
+/* line 29, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body .panel-content, .users .main .list-group .panel-content {
+  height: calc(100% - 48px);
+  overflow-y: auto;
+}
+/* line 33, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .panel-body .buttons, .users .main .list-group .buttons {
+  position: absolute;
+  bottom: 20px;
+}
+/* line 37, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/admin/user.sass */
+.users .main .list-group {
+  overflow-y: auto;
+}
 /*
  *
+ */
+/* line 1, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.edit-cancel-save {
+  float: right;
+  margin-top: -65px;
+}
+
+/* line 6, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.a-construct-tree li.ng-binding {
+  list-style: none;
+  margin-top: -10px;
+  padding-bottom: 35px;
+}
+/* line 11, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.a-construct-tree .a-construct-container {
+  border-radius: 4px;
+  background: lightgrey;
+  min-height: 80px;
+}
+/* line 16, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.a-construct-tree .new-construct {
+  min-height: 20px;
+  text-align: center;
+}
+/* line 20, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+.a-construct-tree .btn {
+  margin-bottom: 10px;
+}
+
+/* line 24, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+ul.nav-sidebar li.new {
+  background-color: #5CB85C;
+}
+/* line 27, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+ul.nav-sidebar li.new a {
+  color: white;
+}
+/* line 30, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+ul.nav-sidebar li.new a:hover {
+  background-color: #3C763D;
+}
+/* line 33, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/build.css.sass */
+ul.nav-sidebar .a-type {
+  color: #999999;
+  float: right;
+}
+/* line 3, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/cc_questions.sass */
+#tree div.a-response-domains span.a-response-domain {
+  background: #333;
+  color: white;
+  padding: 2px 4px;
+  width: 400px;
+  display: block;
+  border: 1px solid #777;
+  margin-bottom: 6px;
+}
+/* line 12, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/cc_questions.sass */
+#tree .table > thead > tr > th,
+#tree .table > thead > tr > td,
+#tree .table > tbody > tr > th,
+#tree .table > tbody > tr > td,
+#tree .table > tfoot > tr > th,
+#tree .table > tfoot > tr > td {
+  border-color: white;
+}
+/* line 5, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/datasets.sass */
+.table-double-striped > tbody > tr.odd {
+  background-color: #f9f9f9;
+}
+@charset "UTF-8";
+/* line 1, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+.a-glyphicon, #tree .a-statement > .tree-container > .a-label:before, #tree .a-condition > .tree-container > .a-label:before, #tree .a-question > .tree-container > .a-label:before, #tree .a-loop > .tree-container > .a-label:before {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* line 13, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree code {
+  color: #333;
+}
+/* line 16, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-sequence > .row > span.a-label {
+  width: 100%;
+}
+/* line 19, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-sequence > .row > span.a-label,
+#tree span.a-branch-label {
+  background: #333;
+  display: block;
+  color: white;
+}
+/* line 25, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-label, #tree .a-literal, #tree .a-instruction,
+#tree .a-branch-label {
+  padding: 6px 12px;
+  display: block;
+}
+/* line 30, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-branch-label {
+  margin-bottom: -12px;
+  margin-left: -15px;
+  width: calc(100% + 18px);
+}
+/* line 35, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-instruction {
+  font-style: italic;
+  color: #777;
+}
+/* line 43, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-literal span {
+  margin-left: 22px;
+}
+/* line 46, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .tree-item {
+  margin: 12px auto;
+}
+/* line 49, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .tree-container {
+  background: rgba(0, 0, 0, 0.05);
+  border-right: 3px solid rgba(0, 0, 0, 0.1);
+  margin-right: -3px;
+  margin-top: 2px;
+}
+/* line 55, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-condition .a-label,
+#tree .a-loop .a-label,
+#tree .a-question .a-label,
+#tree .a-statement .a-label {
+  color: #777;
+  font-style: italic;
+}
+/* line 62, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-icon, #tree .a-statement > .tree-container > .a-label:before, #tree .a-condition > .tree-container > .a-label:before, #tree .a-question > .tree-container > .a-label:before, #tree .a-loop > .tree-container > .a-label:before {
+  margin-right: 10px;
+  color: #333;
+}
+/* line 66, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-label {
+  word-wrap: break-word;
+}
+/* line 69, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-label-clarity {
+  background: #CCCCCC;
+  border-bottom-right-radius: 4px;
+}
+/* line 73, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-statement > .tree-container > .a-label:before {
+  content: "";
+}
+/* line 78, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-condition > .tree-container > .a-label:before {
+  content: "";
+}
+/* line 83, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-question > .tree-container > .a-label:before {
+  content: "";
+}
+/* line 88, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/instruments.sass */
+#tree .a-loop > .tree-container > .a-label:before {
+  content: "";
+}
+/* line 1, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/map.sass */
+.errorTag {
+  background: #a94442;
+}
+
+/* line 3, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/map.sass */
+.display-inline {
+  display: inline !important;
+}
+
+/* line 5, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/map.sass */
+.delete-icon {
+  top: 2px !important;
+  margin-left: 5px;
+}
+
+/* line 8, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/map.sass */
+.tag-variable {
+  padding: 4px 5px !important;
+  margin: 5px;
+}
+
+/* line 11, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/map.sass */
+.input-variable {
+  margin: 10px 0;
+}
+/* line 1, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 9, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+/* line 15, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* line 21, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+a {
+  color: #000;
+}
+/* line 24, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+a:visited {
+  color: #666;
+}
+/* line 28, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+a:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+/* line 35, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+/* line 40, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+#notice {
+  color: green;
+}
+
+/* line 44, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+/* line 50, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px 7px 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+/* line 57, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0;
+  background-color: #c00;
+  color: #fff;
+}
+/* line 68, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/scaffolds.scss */
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+@charset "UTF-8";
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
  */
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
@@ -370,8 +810,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("/fonts/bootstrap-sass-official/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-13634da87d9e23f8c3ed9108ce1724d183a39ad072e73e1b3d8cbf646d2d0407.eot");
+  src: url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-13634da87d9e23f8c3ed9108ce1724d183a39ad072e73e1b3d8cbf646d2d0407.eot?#iefix") format("embedded-opentype"), url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-fe185d11a49676890d47bb783312a0cda5a44c4039214094e7957b4c040ef11c.woff2") format("woff2"), url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-a26394f7ede100ca118eff2eda08596275a9839b959c226e15439557a5a80742.woff") format("woff"), url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-e395044093757d82afcb138957d06a1ea9361bdcf0b442d06a18a8051af57456.ttf") format("truetype"), url("/assets/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular-42f60659d265c1a3c30f9fa42abcbb56bd4a53af4d83d316d6dd7a36903c43e5.svg#glyphicons_halflingsregular") format("svg");
 }
 /* line 24, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
@@ -8781,4 +9221,2186 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+/* line 1, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol {
+  /* prevent user selection */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* default */
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+}
+
+/* line 16, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+  overflow: hidden;
+}
+
+/* line 24, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li {
+  position: relative;
+  padding: 0 0 0 20px;
+  line-height: 20px;
+}
+
+/* line 30, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li.tree-expanded i.tree-leaf-head, treecontrol li.tree-collapsed i.tree-leaf-head {
+  display: none;
+}
+
+/* line 31, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li.tree-expanded i.tree-branch-head, treecontrol li.tree-collapsed i.tree-branch-head {
+  display: inline;
+}
+
+/* line 32, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li.tree-leaf i.tree-branch-head {
+  display: none;
+}
+
+/* line 33, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li.tree-leaf i.tree-leaf-head {
+  display: inline;
+}
+
+/* line 35, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li i.tree-branch-head {
+  cursor: pointer;
+}
+
+/* line 39, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li .tree-label {
+  cursor: pointer;
+  display: inline;
+}
+
+/* line 44, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol li .tree-unselectable {
+  cursor: not-allowed;
+}
+
+/* line 48, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-classic li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder.png") no-repeat;
+}
+
+/* line 53, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-classic li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder-closed.png") no-repeat;
+}
+
+/* line 58, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-classic li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../images/file.png") no-repeat;
+}
+
+/* line 63, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-classic li .tree-selected {
+  background-color: #aaddff;
+  font-weight: bold;
+}
+
+/* line 68, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-classic li .tree-unselectable {
+  color: #ddd;
+}
+
+/* line 72, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-light li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-opened-2.png") no-repeat;
+}
+
+/* line 77, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-light li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-closed-2.png") no-repeat;
+}
+
+/* line 82, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-light li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px;
+  height: 16px;
+  background: none no-repeat;
+}
+
+/* line 88, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-light li .tree-selected {
+  font-weight: bold;
+}
+
+/* line 92, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-light li .tree-unselectable {
+  color: #ddd;
+}
+
+/* line 96, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-opened-light.png") no-repeat;
+}
+
+/* line 101, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-closed-light.png") no-repeat;
+}
+
+/* line 106, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px;
+  height: 16px;
+  background: none no-repeat;
+}
+
+/* line 112, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark li .tree-selected {
+  font-weight: bold;
+}
+
+/* line 116, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark li .tree-unselectable {
+  color: #777;
+}
+
+/* line 120, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-dark {
+  color: #ddd;
+}
+
+/* line 124, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot {
+  color: #428bca;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* line 130, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot > ul > li {
+  padding: 0;
+}
+
+/* line 134, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot li > .tree-label {
+  display: block;
+  padding: 3px 0;
+  border-radius: 4px;
+}
+
+/* line 140, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot i.tree-branch-head,
+treecontrol.tree-boot i.tree-leaf-head {
+  float: left;
+  height: 16px;
+  margin: 5px;
+}
+
+/* line 147, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder.png") no-repeat;
+}
+
+/* line 152, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder-closed.png") no-repeat;
+}
+
+/* line 157, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../images/file.png") no-repeat;
+}
+
+/* line 162, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot .tree-label.tree-selected,
+treecontrol.tree-boot .tree-label.tree-selected:hover {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/* line 168, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control.css */
+treecontrol.tree-boot .tree-label:hover {
+  background-color: #eee;
+}
+
+/* line 1, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] {
+  /* prevent user selection */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* default */
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+}
+
+/* line 16, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+  overflow: hidden;
+}
+
+/* line 24, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li {
+  position: relative;
+  padding: 0 0 0 20px;
+  line-height: 20px;
+}
+
+/* line 30, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li.tree-expanded i.tree-leaf-head, [treecontrol] li.tree-collapsed i.tree-leaf-head {
+  display: none;
+}
+
+/* line 31, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li.tree-expanded i.tree-branch-head, [treecontrol] li.tree-collapsed i.tree-branch-head {
+  display: inline;
+}
+
+/* line 32, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li.tree-leaf i.tree-branch-head {
+  display: none;
+}
+
+/* line 33, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li.tree-leaf i.tree-leaf-head {
+  display: inline;
+}
+
+/* line 35, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li i {
+  cursor: pointer;
+}
+
+/* line 39, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol] li .tree-label {
+  cursor: pointer;
+  display: inline;
+}
+
+/* line 45, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-classic li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder.png") no-repeat;
+}
+
+/* line 50, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-classic li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder-closed.png") no-repeat;
+}
+
+/* line 55, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-classic li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../images/file.png") no-repeat;
+}
+
+/* line 60, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-classic li .tree-selected {
+  background-color: #aaddff;
+  font-weight: bold;
+}
+
+/* line 66, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-light li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-opened-2.png") no-repeat;
+}
+
+/* line 71, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-light li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-closed-2.png") no-repeat;
+}
+
+/* line 76, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-light li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px;
+  height: 16px;
+  background: none no-repeat;
+}
+
+/* line 82, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-light li .tree-selected {
+  font-weight: bold;
+}
+
+/* line 87, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-dark li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-opened-light.png") no-repeat;
+}
+
+/* line 92, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-dark li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/node-closed-light.png") no-repeat;
+}
+
+/* line 97, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-dark li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  width: 16px;
+  height: 16px;
+  background: none no-repeat;
+}
+
+/* line 103, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-dark li .tree-selected {
+  font-weight: bold;
+}
+
+/* line 107, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-dark {
+  color: #ddd;
+}
+
+/* line 111, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot {
+  color: #428bca;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* line 117, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot > ul > li {
+  padding: 0;
+}
+
+/* line 121, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot li > .tree-label {
+  display: block;
+  padding: 3px 0;
+  border-radius: 4px;
+}
+
+/* line 127, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot i.tree-branch-head,
+[treecontrol].tree-boot i.tree-leaf-head {
+  float: left;
+  height: 16px;
+  margin: 5px;
+}
+
+/* line 134, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot li.tree-expanded i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder.png") no-repeat;
+}
+
+/* line 139, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot li.tree-collapsed i.tree-branch-head {
+  padding: 1px 10px;
+  background: url("../images/folder-closed.png") no-repeat;
+}
+
+/* line 144, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot li.tree-leaf i.tree-leaf-head {
+  padding: 1px 10px;
+  background: url("../images/file.png") no-repeat;
+}
+
+/* line 149, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot .tree-label.tree-selected,
+[treecontrol].tree-boot .tree-label.tree-selected:hover {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/* line 155, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-tree-control/css/tree-control-attribute.css */
+[treecontrol].tree-boot .tree-label:hover {
+  background-color: #eee;
+}
+
+/* line 4, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-empty {
+  border: 1px dashed #bbb;
+  min-height: 100px;
+  background-color: #e5e5e5;
+  background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+  background-image: -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+  background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+  pointer-events: none;
+}
+
+/* line 16, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-nodes {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* line 23, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-nodes .angular-ui-tree-nodes {
+  padding-left: 20px;
+}
+
+/* line 27, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-node, .angular-ui-tree-placeholder {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-height: 20px;
+  line-height: 20px;
+}
+
+/* line 35, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-hidden {
+  display: none;
+}
+
+/* line 39, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-placeholder {
+  margin: 10px;
+  padding: 0;
+  min-height: 30px;
+}
+
+/* line 45, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-handle {
+  cursor: move;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 20px;
+  line-height: 20px;
+}
+
+/* line 56, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .8;
+}
+
+/* line 63, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/angular-ui-tree/dist/angular-ui-tree.css */
+.angular-ui-tree-drag .tree-node-content {
+  margin-top: 0;
+}
+
+/* line 1, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Must be displayed above for example selected Timeline items */
+  z-index: 10;
+}
+
+/* line 12, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-active {
+  box-shadow: 0 0 10px #86d5f8;
+}
+
+/* override some bootstrap styles screwing up the timelines css */
+/* line 18, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis [class*="span"] {
+  min-height: 0;
+  width: auto;
+}
+
+/* line 23, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration {
+  position: relative;
+  display: block;
+  float: left;
+  font-size: 12px;
+}
+
+/* line 30, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration-wrapper {
+  display: block;
+  width: 700px;
+}
+
+/* line 35, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration-wrapper::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+
+/* line 41, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-option-container {
+  display: block;
+  width: 495px;
+  background-color: #ffffff;
+  border: 2px solid #f7f8fa;
+  border-radius: 4px;
+  margin-top: 20px;
+  left: 10px;
+  padding-left: 5px;
+}
+
+/* line 52, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-button {
+  display: block;
+  width: 495px;
+  height: 25px;
+  vertical-align: middle;
+  line-height: 25px;
+  background-color: #f7f8fa;
+  border: 2px solid #ceced0;
+  border-radius: 4px;
+  margin-top: 20px;
+  left: 10px;
+  padding-left: 5px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+/* line 68, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-button.hover {
+  background-color: #4588e6;
+  border: 2px solid #214373;
+  color: #ffffff;
+}
+
+/* line 74, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-item {
+  display: block;
+  float: left;
+  width: 495px;
+  height: 25px;
+  vertical-align: middle;
+  line-height: 25px;
+}
+
+/* line 84, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-item.vis-config-s2 {
+  left: 10px;
+  background-color: #f7f8fa;
+  padding-left: 5px;
+  border-radius: 3px;
+}
+
+/* line 90, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-item.vis-config-s3 {
+  left: 20px;
+  background-color: #e4e9f0;
+  padding-left: 5px;
+  border-radius: 3px;
+}
+
+/* line 96, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-item.vis-config-s4 {
+  left: 30px;
+  background-color: #cfd8e6;
+  padding-left: 5px;
+  border-radius: 3px;
+}
+
+/* line 103, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-header {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* line 108, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-label {
+  width: 120px;
+  height: 25px;
+  line-height: 25px;
+}
+
+/* line 114, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-label.vis-config-s3 {
+  width: 110px;
+}
+
+/* line 117, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-label.vis-config-s4 {
+  width: 100px;
+}
+
+/* line 121, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-configuration.vis-config-colorBlock {
+  top: 1px;
+  width: 30px;
+  height: 19px;
+  border: 1px solid #444444;
+  border-radius: 2px;
+  padding: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+/* line 132, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-checkbox {
+  left: -5px;
+}
+
+/* line 137, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-rangeinput {
+  position: relative;
+  top: -5px;
+  width: 60px;
+  /*height:13px;*/
+  padding: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* line 147, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range {
+  /*removes default webkit styles*/
+  -webkit-appearance: none;
+  /*fix for FF unable to apply focus style bug */
+  border: 0px solid white;
+  background-color: rgba(0, 0, 0, 0);
+  /*required for proper track sizing in FF*/
+  width: 300px;
+  height: 20px;
+}
+
+/* line 159, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-webkit-slider-runnable-track {
+  width: 300px;
+  height: 5px;
+  background: #dedede;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dedede), color-stop(99%, #c8c8c8));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #dedede 0%, #c8c8c8 99%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dedede', endColorstr='#c8c8c8',GradientType=0 );
+  /* IE6-9 */
+  border: 1px solid #999999;
+  box-shadow: #aaaaaa 0px 0px 3px 0px;
+  border-radius: 3px;
+}
+
+/* line 175, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #14334b;
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #3876c2;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #3876c2 0%, #385380 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3876c2), color-stop(100%, #385380));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #3876c2 0%, #385380 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #3876c2 0%, #385380 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #3876c2 0%, #385380 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #3876c2 0%, #385380 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3876c2', endColorstr='#385380',GradientType=0 );
+  /* IE6-9 */
+  box-shadow: #111927 0px 0px 1px 0px;
+  margin-top: -7px;
+}
+
+/* line 192, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range:focus {
+  outline: none;
+}
+
+/* line 195, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range:focus::-webkit-slider-runnable-track {
+  background: #9d9d9d;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #9d9d9d 0%, #c8c8c8 99%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9d9d9d), color-stop(99%, #c8c8c8));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #9d9d9d 0%, #c8c8c8 99%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #9d9d9d 0%, #c8c8c8 99%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #9d9d9d 0%, #c8c8c8 99%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #9d9d9d 0%, #c8c8c8 99%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9d9d9d', endColorstr='#c8c8c8',GradientType=0 );
+  /* IE6-9 */
+}
+
+/* line 206, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-moz-range-track {
+  width: 300px;
+  height: 10px;
+  background: #dedede;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dedede), color-stop(99%, #c8c8c8));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #dedede 0%, #c8c8c8 99%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #dedede 0%, #c8c8c8 99%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dedede', endColorstr='#c8c8c8',GradientType=0 );
+  /* IE6-9 */
+  border: 1px solid #999999;
+  box-shadow: #aaaaaa 0px 0px 3px 0px;
+  border-radius: 3px;
+}
+
+/* line 222, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #385380;
+}
+
+/*hide the outline behind the border*/
+/* line 232, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range:-moz-focusring {
+  outline: 1px solid white;
+  outline-offset: -1px;
+}
+
+/* line 237, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-ms-track {
+  width: 300px;
+  height: 5px;
+  /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+  background: transparent;
+  /*leave room for the larger thumb to overflow with a transparent border */
+  border-color: transparent;
+  border-width: 6px 0;
+  /*remove default tick marks*/
+  color: transparent;
+}
+
+/* line 251, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-ms-fill-lower {
+  background: #777;
+  border-radius: 10px;
+}
+
+/* line 255, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-ms-fill-upper {
+  background: #ddd;
+  border-radius: 10px;
+}
+
+/* line 259, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range::-ms-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #385380;
+}
+
+/* line 266, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range:focus::-ms-fill-lower {
+  background: #888;
+}
+
+/* line 269, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+input.vis-configuration.vis-config-range:focus::-ms-fill-upper {
+  background: #ccc;
+}
+
+/* line 273, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-configuration-popup {
+  position: absolute;
+  background: rgba(57, 76, 89, 0.85);
+  border: 2px solid #f2faff;
+  line-height: 30px;
+  height: 30px;
+  width: 150px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 4px;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* line 288, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-configuration-popup:after, .vis-configuration-popup:before {
+  left: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* line 299, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-configuration-popup:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-left-color: rgba(57, 76, 89, 0.85);
+  border-width: 8px;
+  margin-top: -8px;
+}
+
+/* line 305, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-configuration-popup:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-left-color: #f2faff;
+  border-width: 12px;
+  margin-top: -12px;
+}
+
+/* line 312, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline {
+  position: relative;
+  border: 1px solid #bfbfbf;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* line 324, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* line 333, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-center,
+.vis-panel.vis-left,
+.vis-panel.vis-right,
+.vis-panel.vis-top,
+.vis-panel.vis-bottom {
+  border: 1px #bfbfbf;
+}
+
+/* line 341, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-center,
+.vis-panel.vis-left,
+.vis-panel.vis-right {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  overflow: hidden;
+}
+
+/* line 349, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-center,
+.vis-panel.vis-top,
+.vis-panel.vis-bottom {
+  border-left-style: solid;
+  border-right-style: solid;
+}
+
+/* line 356, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-background {
+  overflow: hidden;
+}
+
+/* line 360, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel > .vis-content {
+  position: relative;
+}
+
+/* line 364, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel .vis-shadow {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  /* TODO: find a nice way to ensure vis-shadows are drawn on top of items
+  z-index: 1;
+  */
+}
+
+/* line 374, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel .vis-shadow.vis-top {
+  top: -1px;
+  left: 0;
+}
+
+/* line 379, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel .vis-shadow.vis-bottom {
+  bottom: -1px;
+  left: 0;
+}
+
+/* line 384, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* line 392, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: #4d4d4d;
+  box-sizing: border-box;
+}
+
+/* line 402, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label {
+  border-bottom: 1px solid #bfbfbf;
+}
+
+/* line 406, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label.draggable {
+  cursor: pointer;
+}
+
+/* line 410, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label:last-child {
+  border-bottom: none;
+}
+
+/* line 414, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label .vis-inner {
+  display: inline-block;
+  padding: 5px;
+}
+
+/* line 419, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-labelset .vis-label .vis-inner.vis-hidden {
+  padding: 0;
+}
+
+/* line 424, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-itemset {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* line 432, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-itemset .vis-background,
+.vis-itemset .vis-foreground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* line 440, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-axis {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* line 448, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-foreground .vis-group {
+  position: relative;
+  box-sizing: border-box;
+  border-bottom: 1px solid #bfbfbf;
+}
+
+/* line 454, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-foreground .vis-group:last-child {
+  border-bottom: none;
+}
+
+/* line 458, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+/* line 467, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item {
+  position: absolute;
+  color: #1A1A1A;
+  border-color: #97B0F8;
+  border-width: 1px;
+  background-color: #D5DDF6;
+  display: inline-block;
+  /*overflow: hidden;*/
+}
+
+/* line 477, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-selected {
+  border-color: #FFC200;
+  background-color: #FFF785;
+  /* z-index must be higher than the z-index of custom time bar and current time bar */
+  z-index: 2;
+}
+
+/* line 485, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-editable.vis-selected {
+  cursor: move;
+}
+
+/* line 489, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-point.vis-selected {
+  background-color: #FFF785;
+}
+
+/* line 493, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-box {
+  text-align: center;
+  border-style: solid;
+  border-radius: 2px;
+}
+
+/* line 499, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-point {
+  background: none;
+}
+
+/* line 503, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-dot {
+  position: absolute;
+  padding: 0;
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+/* line 511, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-range {
+  border-style: solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+/* line 517, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-background {
+  border: none;
+  background-color: rgba(213, 221, 246, 0.4);
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 525, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item .vis-item-overflow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* line 534, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-range .vis-item-content {
+  position: relative;
+  display: inline-block;
+}
+
+/* line 539, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-background .vis-item-content {
+  position: absolute;
+  display: inline-block;
+}
+
+/* line 544, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-line {
+  padding: 0;
+  position: absolute;
+  width: 0;
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+/* line 552, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item .vis-item-content {
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+/* line 558, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item .vis-delete {
+  background: url("img/timeline/delete.png") no-repeat center;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -4px;
+  right: -24px;
+  cursor: pointer;
+}
+
+/* line 568, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item .vis-delete-rtl {
+  background: url("img/timeline/delete.png") no-repeat center;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -4px;
+  left: -24px;
+  cursor: pointer;
+}
+
+/* line 579, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-range .vis-drag-left {
+  position: absolute;
+  width: 24px;
+  max-width: 20%;
+  min-width: 2px;
+  height: 100%;
+  top: 0;
+  left: -4px;
+  cursor: w-resize;
+}
+
+/* line 591, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-item.vis-range .vis-drag-right {
+  position: absolute;
+  width: 24px;
+  max-width: 20%;
+  min-width: 2px;
+  height: 100%;
+  top: 0;
+  right: -4px;
+  cursor: e-resize;
+}
+
+/* line 603, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-range.vis-item.vis-readonly .vis-drag-left,
+.vis-range.vis-item.vis-readonly .vis-drag-right {
+  cursor: auto;
+}
+
+/* line 608, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis {
+  position: relative;
+  overflow: hidden;
+}
+
+/* line 613, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis.vis-foreground {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* line 619, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis.vis-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 627, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-text {
+  position: absolute;
+  color: #4d4d4d;
+  padding: 3px;
+  overflow: hidden;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* line 637, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-text.vis-measure {
+  position: absolute;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  visibility: hidden;
+}
+
+/* line 646, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-grid.vis-vertical {
+  position: absolute;
+  border-left: 1px solid;
+}
+
+/* line 651, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-grid.vis-vertical-rtl {
+  position: absolute;
+  border-right: 1px solid;
+}
+
+/* line 656, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-grid.vis-minor {
+  border-color: #e5e5e5;
+}
+
+/* line 660, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-time-axis .vis-grid.vis-major {
+  border-color: #bfbfbf;
+}
+
+/* line 664, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-current-time {
+  background-color: #FF7F6E;
+  width: 2px;
+  z-index: 1;
+}
+
+/* line 669, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-custom-time {
+  background-color: #6E94FF;
+  width: 2px;
+  cursor: move;
+  z-index: 1;
+}
+
+/* line 675, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline {
+  /*
+  -webkit-transition: height .4s ease-in-out;
+  transition:         height .4s ease-in-out;
+  */
+}
+
+/* line 682, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel {
+  /*
+  -webkit-transition: height .4s ease-in-out, top .4s ease-in-out;
+  transition:         height .4s ease-in-out, top .4s ease-in-out;
+  */
+}
+
+/* line 689, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-axis {
+  /*
+  -webkit-transition: top .4s ease-in-out;
+  transition:         top .4s ease-in-out;
+  */
+}
+
+/* TODO: get animation working nicely
+
+.vis-item {
+  -webkit-transition: top .4s ease-in-out;
+  transition:         top .4s ease-in-out;
+}
+
+.vis-item.line {
+  -webkit-transition: height .4s ease-in-out, top .4s ease-in-out;
+  transition:         height .4s ease-in-out, top .4s ease-in-out;
+}
+/**/
+/* line 709, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-background.vis-horizontal .vis-grid.vis-horizontal {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px solid;
+}
+
+/* line 716, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-background.vis-horizontal .vis-grid.vis-minor {
+  border-color: #e5e5e5;
+}
+
+/* line 720, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-panel.vis-background.vis-horizontal .vis-grid.vis-major {
+  border-color: #bfbfbf;
+}
+
+/* line 725, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-major {
+  width: 100%;
+  position: absolute;
+  color: #4d4d4d;
+  white-space: nowrap;
+}
+
+/* line 732, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-major.vis-measure {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  visibility: hidden;
+  width: auto;
+}
+
+/* line 741, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-minor {
+  position: absolute;
+  width: 100%;
+  color: #bebebe;
+  white-space: nowrap;
+}
+
+/* line 748, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-minor.vis-measure {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  visibility: hidden;
+  width: auto;
+}
+
+/* line 756, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-title {
+  position: absolute;
+  color: #4d4d4d;
+  white-space: nowrap;
+  bottom: 20px;
+  text-align: center;
+}
+
+/* line 764, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-title.vis-measure {
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+  width: auto;
+}
+
+/* line 771, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-title.vis-left {
+  bottom: 0;
+  -webkit-transform-origin: left top;
+  -moz-transform-origin: left top;
+  -ms-transform-origin: left top;
+  -o-transform-origin: left top;
+  transform-origin: left bottom;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+
+/* line 785, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-data-axis .vis-y-axis.vis-title.vis-right {
+  bottom: 0;
+  -webkit-transform-origin: right bottom;
+  -moz-transform-origin: right bottom;
+  -ms-transform-origin: right bottom;
+  -o-transform-origin: right bottom;
+  transform-origin: right bottom;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* line 799, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-legend {
+  background-color: rgba(247, 252, 255, 0.65);
+  padding: 5px;
+  border: 1px solid #b3b3b3;
+  box-shadow: 2px 2px 10px rgba(154, 154, 154, 0.55);
+}
+
+/* line 806, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-legend-text {
+  /*font-size: 10px;*/
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* line 811, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group0 {
+  fill: #4f81bd;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #4f81bd;
+}
+
+/* line 818, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group1 {
+  fill: #f79646;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #f79646;
+}
+
+/* line 825, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group2 {
+  fill: #8c51cf;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #8c51cf;
+}
+
+/* line 832, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group3 {
+  fill: #75c841;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #75c841;
+}
+
+/* line 839, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group4 {
+  fill: #ff0100;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #ff0100;
+}
+
+/* line 846, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group5 {
+  fill: #37d8e6;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #37d8e6;
+}
+
+/* line 853, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group6 {
+  fill: #042662;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #042662;
+}
+
+/* line 860, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group7 {
+  fill: #00ff26;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #00ff26;
+}
+
+/* line 867, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group8 {
+  fill: #ff00ff;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #ff00ff;
+}
+
+/* line 874, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-graph-group9 {
+  fill: #8f3938;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #8f3938;
+}
+
+/* line 881, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-fill {
+  fill-opacity: 0.1;
+  stroke: none;
+}
+
+/* line 887, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-bar {
+  fill-opacity: 0.5;
+  stroke-width: 1px;
+}
+
+/* line 892, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-point {
+  stroke-width: 2px;
+  fill-opacity: 1.0;
+}
+
+/* line 898, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-legend-background {
+  stroke-width: 1px;
+  fill-opacity: 0.9;
+  fill: #ffffff;
+  stroke: #c2c2c2;
+}
+
+/* line 906, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-outline {
+  stroke-width: 1px;
+  fill-opacity: 1;
+  fill: #ffffff;
+  stroke: #e5e5e5;
+}
+
+/* line 913, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+.vis-timeline .vis-icon-fill {
+  fill-opacity: 0.3;
+  stroke: none;
+}
+
+/* line 918, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation {
+  border-width: 0;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: #d6d9d8;
+  background: #ffffff;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #fcfcfc 48%, #fafafa 50%, #fcfcfc 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(48%, #fcfcfc), color-stop(50%, #fafafa), color-stop(100%, #fcfcfc));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%, #fcfcfc 48%, #fafafa 50%, #fcfcfc 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%, #fcfcfc 48%, #fafafa 50%, #fcfcfc 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%, #fcfcfc 48%, #fafafa 50%, #fcfcfc 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 48%, #fafafa 50%, #fcfcfc 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#fcfcfc',GradientType=0 );
+  /* IE6-9 */
+  padding-top: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 28px;
+}
+
+/* line 940, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-edit-mode {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: 30px;
+}
+
+/* FIXME: shouldn't the vis-close button be a child of the vis-manipulation div? */
+/* line 949, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  background-position: 20px 3px;
+  background-repeat: no-repeat;
+  background-image: url("img/network/cross.png");
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* line 968, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-close:hover {
+  opacity: 0.6;
+}
+
+/* line 972, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button,
+div.vis-network div.vis-edit-mode div.vis-button {
+  float: left;
+  font-family: verdana;
+  font-size: 12px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  display: inline-block;
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  height: 24px;
+  margin-left: 10px;
+  /*vertical-align:middle;*/
+  cursor: pointer;
+  padding: 0px 8px 0px 8px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* line 995, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button:hover {
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* line 999, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button:active {
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* line 1003, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-back {
+  background-image: url("img/network/backIcon.png");
+}
+
+/* line 1007, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-none:hover {
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0);
+  cursor: default;
+}
+
+/* line 1011, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-none:active {
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0);
+}
+
+/* line 1014, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-none {
+  padding: 0;
+}
+
+/* line 1017, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.notification {
+  margin: 2px;
+  font-weight: bold;
+}
+
+/* line 1022, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-add {
+  background-image: url("img/network/addNodeIcon.png");
+}
+
+/* line 1026, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-edit,
+div.vis-network div.vis-edit-mode div.vis-button.vis-edit {
+  background-image: url("img/network/editIcon.png");
+}
+
+/* line 1031, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-edit-mode div.vis-button.vis-edit.vis-edit-mode {
+  background-color: #fcfcfc;
+  border: 1px solid #cccccc;
+}
+
+/* line 1036, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-connect {
+  background-image: url("img/network/connectIcon.png");
+}
+
+/* line 1040, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-button.vis-delete {
+  background-image: url("img/network/deleteIcon.png");
+}
+
+/* top right bottom left */
+/* line 1044, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-label,
+div.vis-network div.vis-edit-mode div.vis-label {
+  margin: 0 0 0 23px;
+  line-height: 25px;
+}
+
+/* line 1049, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-manipulation div.vis-separator-line {
+  float: left;
+  display: inline-block;
+  width: 1px;
+  height: 21px;
+  background-color: #bdbdbd;
+  margin: 0px 7px 0 15px;
+  /*top right bottom left*/
+}
+
+/* TODO: is this redundant?
+div.network-navigation_wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+*/
+/* line 1067, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network-tooltip {
+  position: absolute;
+  visibility: hidden;
+  padding: 5px;
+  white-space: nowrap;
+  font-family: verdana;
+  font-size: 14px;
+  color: #000000;
+  background-color: #f5f4ed;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #808074;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* line 1086, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button {
+  width: 34px;
+  height: 34px;
+  -moz-border-radius: 17px;
+  border-radius: 17px;
+  position: absolute;
+  display: inline-block;
+  background-position: 2px 2px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* line 1104, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button:hover {
+  box-shadow: 0 0 3px 3px rgba(56, 207, 21, 0.3);
+}
+
+/* line 1108, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button:active {
+  box-shadow: 0 0 1px 3px rgba(56, 207, 21, 0.95);
+}
+
+/* line 1112, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-up {
+  background-image: url("img/network/upArrow.png");
+  bottom: 50px;
+  left: 55px;
+}
+
+/* line 1117, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-down {
+  background-image: url("img/network/downArrow.png");
+  bottom: 10px;
+  left: 55px;
+}
+
+/* line 1122, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-left {
+  background-image: url("img/network/leftArrow.png");
+  bottom: 10px;
+  left: 15px;
+}
+
+/* line 1127, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-right {
+  background-image: url("img/network/rightArrow.png");
+  bottom: 10px;
+  left: 95px;
+}
+
+/* line 1132, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-zoomIn {
+  background-image: url("img/network/plus.png");
+  bottom: 10px;
+  right: 15px;
+}
+
+/* line 1137, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-zoomOut {
+  background-image: url("img/network/minus.png");
+  bottom: 10px;
+  right: 55px;
+}
+
+/* line 1142, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
+  background-image: url("img/network/zoomExtends.png");
+  bottom: 50px;
+  right: 15px;
+}
+
+/* line 1148, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker {
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  margin-top: -140px;
+  margin-left: 30px;
+  width: 310px;
+  height: 444px;
+  z-index: 1;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  display: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 0px;
+}
+
+/* line 1164, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-arrow {
+  position: absolute;
+  top: 147px;
+  left: 5px;
+}
+
+/* line 1170, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-arrow::after,
+div.vis-color-picker div.vis-arrow::before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* line 1182, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-arrow:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-right-color: #ffffff;
+  border-width: 30px;
+  margin-top: -30px;
+}
+
+/* line 1189, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-color {
+  position: absolute;
+  width: 289px;
+  height: 289px;
+  cursor: pointer;
+}
+
+/* line 1198, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-brightness {
+  position: absolute;
+  top: 313px;
+}
+
+/* line 1203, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-opacity {
+  position: absolute;
+  top: 350px;
+}
+
+/* line 1208, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-selector {
+  position: absolute;
+  top: 137px;
+  left: 137px;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  border: 1px solid #ffffff;
+  background: #4c4c4c;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4c4c4c), color-stop(12%, #595959), color-stop(25%, #666666), color-stop(39%, #474747), color-stop(50%, #2c2c2c), color-stop(51%, #000000), color-stop(60%, #111111), color-stop(76%, #2b2b2b), color-stop(91%, #1c1c1c), color-stop(100%, #131313));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 );
+  /* IE6-9 */
+}
+
+/* line 1228, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-new-color {
+  position: absolute;
+  width: 140px;
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  top: 380px;
+  left: 159px;
+  text-align: right;
+  padding-right: 2px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.4);
+  vertical-align: middle;
+  line-height: 20px;
+}
+
+/* line 1245, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-initial-color {
+  position: absolute;
+  width: 140px;
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  top: 380px;
+  left: 10px;
+  text-align: left;
+  padding-left: 2px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.4);
+  vertical-align: middle;
+  line-height: 20px;
+}
+
+/* line 1261, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-label {
+  position: absolute;
+  width: 300px;
+  left: 10px;
+}
+
+/* line 1267, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-label.vis-brightness {
+  top: 300px;
+}
+
+/* line 1271, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-label.vis-opacity {
+  top: 338px;
+}
+
+/* line 1275, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-button {
+  position: absolute;
+  width: 68px;
+  height: 25px;
+  border-radius: 10px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 25px;
+  top: 410px;
+  border: 2px solid #d9d9d9;
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+/* line 1289, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-button.vis-cancel {
+  /*border:2px solid #ff4e33;*/
+  /*background-color: #ff7761;*/
+  left: 5px;
+}
+
+/* line 1294, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-button.vis-load {
+  /*border:2px solid #a153e6;*/
+  /*background-color: #cb8dff;*/
+  left: 82px;
+}
+
+/* line 1299, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-button.vis-apply {
+  /*border:2px solid #4588e6;*/
+  /*background-color: #82b6ff;*/
+  left: 159px;
+}
+
+/* line 1304, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker div.vis-button.vis-save {
+  /*border:2px solid #45e655;*/
+  /*background-color: #6dff7c;*/
+  left: 236px;
+}
+
+/* line 1311, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/vis/dist/vis.css */
+div.vis-color-picker input.vis-range {
+  width: 290px;
+  height: 20px;
+}
+
+/* TODO: is this redundant?
+div.vis-color-picker input.vis-range-brightness {
+  width: 289px !important;
+}
+
+
+div.vis-color-picker input.vis-saturation-range {
+  width: 289px !important;
+}*/
+/* line 26, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.monospaced {
+  font-family: menlo, "Courier New", "Lucida Console";
+}
+
+/* Sidebar navigation */
+/* line 31, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.nav-sidebar {
+  margin-right: -21px;
+  /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+
+/* line 36, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+/* line 40, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/* line 47, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.nav li .badge {
+  float: right;
+}
+
+/* line 51, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.a-navbar-text {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+/* line 57, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.equal, .equal > div[class*='col-'] {
+  display: -webkit-flex;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+/*
+ * Main content
+ */
+/* line 66, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.main {
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  /* line 70, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+/* line 75, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.main .page-header {
+  margin-top: 0;
+}
+
+/* line 79, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.tab-pane > form > .form-group:first-child {
+  margin-top: 15px;
+}
+
+/* line 83, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* line 90, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.transparent {
+  color: transparent;
+}
+
+/* line 94, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 98, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #eeeeee !important;
+}
+
+/* line 102, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.bg-purple {
+  background: #652C90;
+}
+
+/* line 106, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.bg-blue {
+  background: #00ADEF;
+}
+
+/* line 110, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.bg-green {
+  background: #38B449;
+}
+
+/* line 114, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.bg-pink {
+  background: #EC008B;
+}
+
+/* line 118, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.bg-orange {
+  background: #FBAF3F;
+}
+
+/* line 122, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+p.rt-online {
+  color: #3c763d !important;
+}
+
+/* line 126, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+p.rt-offline {
+  color: #a94442 !important;
+}
+
+/* line 130, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.tree-boot li.tree-leaf i.tree-leaf-head {
+  background: url(/images/file.png);
+}
+
+/* line 134, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+#overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -10000;
+}
+
+/* line 144, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+#overlay.loading {
+  background: rgba(50, 50, 50, 0.5);
+  z-index: 10000;
+}
+
+/* line 149, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.a-tree-placeholder {
+  background: #428bca;
+}
+
+/* line 153, /Users/qtnvcd8/Cloned/archivist/app/assets/stylesheets/application.css.scss */
+.a-tree-hidden,
+.a-tree-drag {
+  display: none;
 }
