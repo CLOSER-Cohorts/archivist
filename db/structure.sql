@@ -2,13 +2,15 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.11
--- Dumped by pg_dump version 9.5.11
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
@@ -41,13 +43,11 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
 COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
 
 
-SET search_path = public, pg_catalog;
-
 --
 -- Name: count_rows(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION count_rows(schema text, tablename text) RETURNS integer
+CREATE FUNCTION public.count_rows(schema text, tablename text) RETURNS integer
     LANGUAGE plpgsql
     AS $$
 declare
@@ -65,7 +65,7 @@ $$;
 -- Name: delete_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION delete_cc_condition() RETURNS trigger
+CREATE FUNCTION public.delete_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -81,7 +81,7 @@ $$;
 -- Name: delete_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION delete_cc_loop() RETURNS trigger
+CREATE FUNCTION public.delete_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -97,7 +97,7 @@ $$;
 -- Name: delete_cc_question(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION delete_cc_question() RETURNS trigger
+CREATE FUNCTION public.delete_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -113,7 +113,7 @@ $$;
 -- Name: delete_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION delete_cc_sequence() RETURNS trigger
+CREATE FUNCTION public.delete_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -129,7 +129,7 @@ $$;
 -- Name: delete_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION delete_cc_statement() RETURNS trigger
+CREATE FUNCTION public.delete_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -144,7 +144,7 @@ $$;
 -- Name: insert_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION insert_cc_condition() RETURNS trigger
+CREATE FUNCTION public.insert_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -228,7 +228,7 @@ $$;
 -- Name: insert_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION insert_cc_loop() RETURNS trigger
+CREATE FUNCTION public.insert_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -321,7 +321,7 @@ $$;
 -- Name: insert_cc_question(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION insert_cc_question() RETURNS trigger
+CREATE FUNCTION public.insert_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -394,7 +394,7 @@ $$;
 -- Name: insert_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION insert_cc_sequence() RETURNS trigger
+CREATE FUNCTION public.insert_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -475,7 +475,7 @@ $$;
 -- Name: insert_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION insert_cc_statement() RETURNS trigger
+CREATE FUNCTION public.insert_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
@@ -540,7 +540,7 @@ $$;
 -- Name: refresh_ancestral_topics(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION refresh_ancestral_topics() RETURNS trigger
+CREATE FUNCTION public.refresh_ancestral_topics() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -554,7 +554,7 @@ $$;
 -- Name: update_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_cc_condition() RETURNS trigger
+CREATE FUNCTION public.update_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -603,7 +603,7 @@ $$;
 -- Name: update_cc_loop(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_cc_loop() RETURNS trigger
+CREATE FUNCTION public.update_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -654,7 +654,7 @@ $$;
 -- Name: update_cc_question(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_cc_question() RETURNS trigger
+CREATE FUNCTION public.update_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -682,7 +682,7 @@ $$;
 -- Name: update_cc_sequence(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_cc_sequence() RETURNS trigger
+CREATE FUNCTION public.update_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -730,7 +730,7 @@ $$;
 -- Name: update_cc_statement(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_cc_statement() RETURNS trigger
+CREATE FUNCTION public.update_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -760,7 +760,7 @@ SET default_with_oids = false;
 -- Name: control_constructs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE control_constructs (
+CREATE TABLE public.control_constructs (
     id integer NOT NULL,
     label character varying,
     construct_id integer NOT NULL,
@@ -778,7 +778,7 @@ CREATE TABLE control_constructs (
 -- Name: links; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE links (
+CREATE TABLE public.links (
     id integer NOT NULL,
     target_id integer NOT NULL,
     target_type character varying NOT NULL,
@@ -794,7 +794,7 @@ CREATE TABLE links (
 -- Name: cc_links; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_links AS
+CREATE VIEW public.cc_links AS
  SELECT cc.id,
     cc.label,
     cc.construct_id,
@@ -806,8 +806,8 @@ CREATE VIEW cc_links AS
     cc.updated_at,
     cc.instrument_id,
     l.topic_id
-   FROM (control_constructs cc
-     LEFT JOIN links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
+   FROM (public.control_constructs cc
+     LEFT JOIN public.links l ON (((l.target_id = cc.construct_id) AND ((l.target_type)::text = (cc.construct_type)::text))))
   ORDER BY cc.id DESC;
 
 
@@ -815,7 +815,7 @@ CREATE VIEW cc_links AS
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE topics (
+CREATE TABLE public.topics (
     id integer NOT NULL,
     name character varying NOT NULL,
     parent_id integer,
@@ -830,7 +830,7 @@ CREATE TABLE topics (
 -- Name: ancestral_topic; Type: MATERIALIZED VIEW; Schema: public; Owner: -
 --
 
-CREATE MATERIALIZED VIEW ancestral_topic AS
+CREATE MATERIALIZED VIEW public.ancestral_topic AS
  WITH RECURSIVE cc_tree AS (
          SELECT ccl.id,
             ccl.label,
@@ -844,7 +844,7 @@ CREATE MATERIALIZED VIEW ancestral_topic AS
             ccl.instrument_id,
             ccl.topic_id,
             1 AS level
-           FROM cc_links ccl
+           FROM public.cc_links ccl
         UNION ALL
          SELECT ccl.id,
             ccl.label,
@@ -858,7 +858,7 @@ CREATE MATERIALIZED VIEW ancestral_topic AS
             ccl.instrument_id,
             ccl.topic_id,
             (tree_1.level + 1)
-           FROM (cc_links ccl
+           FROM (public.cc_links ccl
              JOIN cc_tree tree_1 ON ((tree_1.parent_id = ccl.id)))
         )
  SELECT t.id,
@@ -871,7 +871,7 @@ CREATE MATERIALIZED VIEW ancestral_topic AS
     tree.construct_id,
     tree.construct_type
    FROM (cc_tree tree
-     JOIN topics t ON ((tree.topic_id = t.id)))
+     JOIN public.topics t ON ((tree.topic_id = t.id)))
   WHERE (tree.topic_id IS NOT NULL)
   ORDER BY tree.level
   WITH NO DATA;
@@ -881,7 +881,7 @@ CREATE MATERIALIZED VIEW ancestral_topic AS
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ar_internal_metadata (
+CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
     created_at timestamp without time zone NOT NULL,
@@ -893,7 +893,7 @@ CREATE TABLE ar_internal_metadata (
 -- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE categories (
+CREATE TABLE public.categories (
     id integer NOT NULL,
     label character varying,
     created_at timestamp without time zone NOT NULL,
@@ -906,7 +906,7 @@ CREATE TABLE categories (
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE categories_id_seq
+CREATE SEQUENCE public.categories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -918,14 +918,14 @@ CREATE SEQUENCE categories_id_seq
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
 -- Name: conditions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE conditions (
+CREATE TABLE public.conditions (
     id integer NOT NULL,
     literal character varying,
     logic character varying,
@@ -940,7 +940,7 @@ CREATE TABLE conditions (
 -- Name: cc_conditions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_conditions AS
+CREATE VIEW public.cc_conditions AS
  SELECT con.id,
     con.instrument_id,
     con.literal,
@@ -953,10 +953,10 @@ CREATE VIEW cc_conditions AS
     cc."position",
     cc.branch,
     links.topic_id
-   FROM (((conditions con
-     JOIN control_constructs cc ON (((con.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcCondition'::text))))
-     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
-     LEFT JOIN links ON (((con.id = links.target_id) AND ((links.target_type)::text = 'CcCondition'::text))))
+   FROM (((public.conditions con
+     JOIN public.control_constructs cc ON (((con.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcCondition'::text))))
+     LEFT JOIN public.control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN public.links ON (((con.id = links.target_id) AND ((links.target_type)::text = 'CcCondition'::text))))
   ORDER BY con.id;
 
 
@@ -964,7 +964,7 @@ CREATE VIEW cc_conditions AS
 -- Name: loops; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE loops (
+CREATE TABLE public.loops (
     id integer NOT NULL,
     loop_var character varying,
     start_val character varying,
@@ -981,7 +981,7 @@ CREATE TABLE loops (
 -- Name: cc_loops; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_loops AS
+CREATE VIEW public.cc_loops AS
  SELECT l.id,
     l.instrument_id,
     l.loop_var,
@@ -996,10 +996,10 @@ CREATE VIEW cc_loops AS
     cc."position",
     cc.branch,
     links.topic_id
-   FROM (((loops l
-     JOIN control_constructs cc ON (((l.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcLoop'::text))))
-     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
-     LEFT JOIN links ON (((l.id = links.target_id) AND ((links.target_type)::text = 'CcLoop'::text))))
+   FROM (((public.loops l
+     JOIN public.control_constructs cc ON (((l.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcLoop'::text))))
+     LEFT JOIN public.control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN public.links ON (((l.id = links.target_id) AND ((links.target_type)::text = 'CcLoop'::text))))
   ORDER BY l.id;
 
 
@@ -1007,7 +1007,7 @@ CREATE VIEW cc_loops AS
 -- Name: questions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE questions (
+CREATE TABLE public.questions (
     id integer NOT NULL,
     question_id integer NOT NULL,
     question_type character varying NOT NULL,
@@ -1023,7 +1023,7 @@ CREATE TABLE questions (
 -- Name: cc_questions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_questions AS
+CREATE VIEW public.cc_questions AS
  SELECT q.id,
     q.instrument_id,
     q.question_id,
@@ -1036,9 +1036,9 @@ CREATE VIEW cc_questions AS
     parent.construct_type AS parent_type,
     cc."position",
     cc.branch
-   FROM ((questions q
-     JOIN control_constructs cc ON (((q.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))))
-     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+   FROM ((public.questions q
+     JOIN public.control_constructs cc ON (((q.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))))
+     LEFT JOIN public.control_constructs parent ON ((cc.parent_id = parent.id)))
   ORDER BY q.id;
 
 
@@ -1046,7 +1046,7 @@ CREATE VIEW cc_questions AS
 -- Name: sequences; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE sequences (
+CREATE TABLE public.sequences (
     id integer NOT NULL,
     literal character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1060,7 +1060,7 @@ CREATE TABLE sequences (
 -- Name: cc_sequences; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_sequences AS
+CREATE VIEW public.cc_sequences AS
  SELECT s.id,
     s.instrument_id,
     s.literal,
@@ -1072,10 +1072,10 @@ CREATE VIEW cc_sequences AS
     cc."position",
     cc.branch,
     links.topic_id
-   FROM (((sequences s
-     JOIN control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcSequence'::text))))
-     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
-     LEFT JOIN links ON (((s.id = links.target_id) AND ((links.target_type)::text = 'CcSequence'::text))))
+   FROM (((public.sequences s
+     JOIN public.control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcSequence'::text))))
+     LEFT JOIN public.control_constructs parent ON ((cc.parent_id = parent.id)))
+     LEFT JOIN public.links ON (((s.id = links.target_id) AND ((links.target_type)::text = 'CcSequence'::text))))
   ORDER BY s.id;
 
 
@@ -1083,7 +1083,7 @@ CREATE VIEW cc_sequences AS
 -- Name: statements; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE statements (
+CREATE TABLE public.statements (
     id integer NOT NULL,
     literal character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1097,7 +1097,7 @@ CREATE TABLE statements (
 -- Name: cc_statements; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW cc_statements AS
+CREATE VIEW public.cc_statements AS
  SELECT s.id,
     s.instrument_id,
     s.literal,
@@ -1108,9 +1108,9 @@ CREATE VIEW cc_statements AS
     parent.construct_type AS parent_type,
     cc."position",
     cc.branch
-   FROM ((statements s
-     JOIN control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcStatement'::text))))
-     LEFT JOIN control_constructs parent ON ((cc.parent_id = parent.id)))
+   FROM ((public.statements s
+     JOIN public.control_constructs cc ON (((s.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcStatement'::text))))
+     LEFT JOIN public.control_constructs parent ON ((cc.parent_id = parent.id)))
   ORDER BY s.id;
 
 
@@ -1118,7 +1118,7 @@ CREATE VIEW cc_statements AS
 -- Name: code_lists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE code_lists (
+CREATE TABLE public.code_lists (
     id integer NOT NULL,
     label character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1131,7 +1131,7 @@ CREATE TABLE code_lists (
 -- Name: code_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE code_lists_id_seq
+CREATE SEQUENCE public.code_lists_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1143,14 +1143,14 @@ CREATE SEQUENCE code_lists_id_seq
 -- Name: code_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE code_lists_id_seq OWNED BY code_lists.id;
+ALTER SEQUENCE public.code_lists_id_seq OWNED BY public.code_lists.id;
 
 
 --
 -- Name: codes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE codes (
+CREATE TABLE public.codes (
     id integer NOT NULL,
     value character varying,
     "order" integer,
@@ -1166,7 +1166,7 @@ CREATE TABLE codes (
 -- Name: codes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE codes_id_seq
+CREATE SEQUENCE public.codes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1178,14 +1178,14 @@ CREATE SEQUENCE codes_id_seq
 -- Name: codes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE codes_id_seq OWNED BY codes.id;
+ALTER SEQUENCE public.codes_id_seq OWNED BY public.codes.id;
 
 
 --
 -- Name: conditions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE conditions_id_seq
+CREATE SEQUENCE public.conditions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1197,14 +1197,14 @@ CREATE SEQUENCE conditions_id_seq
 -- Name: conditions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE conditions_id_seq OWNED BY conditions.id;
+ALTER SEQUENCE public.conditions_id_seq OWNED BY public.conditions.id;
 
 
 --
 -- Name: control_constructs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE control_constructs_id_seq
+CREATE SEQUENCE public.control_constructs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1216,14 +1216,14 @@ CREATE SEQUENCE control_constructs_id_seq
 -- Name: control_constructs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE control_constructs_id_seq OWNED BY control_constructs.id;
+ALTER SEQUENCE public.control_constructs_id_seq OWNED BY public.control_constructs.id;
 
 
 --
 -- Name: datasets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE datasets (
+CREATE TABLE public.datasets (
     id integer NOT NULL,
     name character varying NOT NULL,
     doi character varying,
@@ -1238,7 +1238,7 @@ CREATE TABLE datasets (
 -- Name: datasets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE datasets_id_seq
+CREATE SEQUENCE public.datasets_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1250,14 +1250,14 @@ CREATE SEQUENCE datasets_id_seq
 -- Name: datasets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE datasets_id_seq OWNED BY datasets.id;
+ALTER SEQUENCE public.datasets_id_seq OWNED BY public.datasets.id;
 
 
 --
 -- Name: documents; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE documents (
+CREATE TABLE public.documents (
     id integer NOT NULL,
     filename character varying,
     content_type character varying,
@@ -1274,7 +1274,7 @@ CREATE TABLE documents (
 -- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE documents_id_seq
+CREATE SEQUENCE public.documents_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1286,14 +1286,14 @@ CREATE SEQUENCE documents_id_seq
 -- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
+ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
 
 
 --
 -- Name: maps; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE maps (
+CREATE TABLE public.maps (
     id integer NOT NULL,
     source_id integer NOT NULL,
     source_type character varying NOT NULL,
@@ -1309,7 +1309,7 @@ CREATE TABLE maps (
 -- Name: variables; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE variables (
+CREATE TABLE public.variables (
     id integer NOT NULL,
     name character varying NOT NULL,
     label character varying,
@@ -1324,21 +1324,21 @@ CREATE TABLE variables (
 -- Name: dv_mappings; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW dv_mappings AS
+CREATE VIEW public.dv_mappings AS
  SELECT row_number() OVER () AS id,
     s.name AS source,
     v.name AS variable,
     v.dataset_id
-   FROM ((maps m
-     JOIN variables v ON ((m.variable_id = v.id)))
-     JOIN variables s ON (((s.id = m.source_id) AND ((m.source_type)::text = 'Variable'::text))));
+   FROM ((public.maps m
+     JOIN public.variables v ON ((m.variable_id = v.id)))
+     JOIN public.variables s ON (((s.id = m.source_id) AND ((m.source_type)::text = 'Variable'::text))));
 
 
 --
 -- Name: item_groups; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE item_groups (
+CREATE TABLE public.item_groups (
     id integer NOT NULL,
     group_type integer,
     item_type character varying,
@@ -1354,7 +1354,7 @@ CREATE TABLE item_groups (
 -- Name: streamlined_groupings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE streamlined_groupings (
+CREATE TABLE public.streamlined_groupings (
     id integer NOT NULL,
     item_group_id integer NOT NULL,
     item_id integer NOT NULL,
@@ -1367,22 +1367,22 @@ CREATE TABLE streamlined_groupings (
 -- Name: groupings; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW groupings AS
+CREATE VIEW public.groupings AS
  SELECT sg.id,
     sg.item_id,
     g.item_type,
     sg.item_group_id,
     sg.created_at,
     sg.updated_at
-   FROM (streamlined_groupings sg
-     JOIN item_groups g ON ((sg.item_group_id = g.id)));
+   FROM (public.streamlined_groupings sg
+     JOIN public.item_groups g ON ((sg.item_group_id = g.id)));
 
 
 --
 -- Name: identifiers; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE identifiers (
+CREATE TABLE public.identifiers (
     id integer NOT NULL,
     id_type character varying,
     value character varying,
@@ -1397,7 +1397,7 @@ CREATE TABLE identifiers (
 -- Name: identifiers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE identifiers_id_seq
+CREATE SEQUENCE public.identifiers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1409,14 +1409,14 @@ CREATE SEQUENCE identifiers_id_seq
 -- Name: identifiers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE identifiers_id_seq OWNED BY identifiers.id;
+ALTER SEQUENCE public.identifiers_id_seq OWNED BY public.identifiers.id;
 
 
 --
 -- Name: instructions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE instructions (
+CREATE TABLE public.instructions (
     id integer NOT NULL,
     text character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1429,7 +1429,7 @@ CREATE TABLE instructions (
 -- Name: instructions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE instructions_id_seq
+CREATE SEQUENCE public.instructions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1441,14 +1441,14 @@ CREATE SEQUENCE instructions_id_seq
 -- Name: instructions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE instructions_id_seq OWNED BY instructions.id;
+ALTER SEQUENCE public.instructions_id_seq OWNED BY public.instructions.id;
 
 
 --
 -- Name: instruments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE instruments (
+CREATE TABLE public.instruments (
     id integer NOT NULL,
     agency character varying,
     version character varying,
@@ -1464,7 +1464,7 @@ CREATE TABLE instruments (
 -- Name: instruments_datasets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE instruments_datasets (
+CREATE TABLE public.instruments_datasets (
     id integer NOT NULL,
     instrument_id integer NOT NULL,
     dataset_id integer NOT NULL,
@@ -1477,7 +1477,7 @@ CREATE TABLE instruments_datasets (
 -- Name: instruments_datasets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE instruments_datasets_id_seq
+CREATE SEQUENCE public.instruments_datasets_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1489,14 +1489,14 @@ CREATE SEQUENCE instruments_datasets_id_seq
 -- Name: instruments_datasets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE instruments_datasets_id_seq OWNED BY instruments_datasets.id;
+ALTER SEQUENCE public.instruments_datasets_id_seq OWNED BY public.instruments_datasets.id;
 
 
 --
 -- Name: instruments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE instruments_id_seq
+CREATE SEQUENCE public.instruments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1508,14 +1508,14 @@ CREATE SEQUENCE instruments_id_seq
 -- Name: instruments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE instruments_id_seq OWNED BY instruments.id;
+ALTER SEQUENCE public.instruments_id_seq OWNED BY public.instruments.id;
 
 
 --
 -- Name: item_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE item_groups_id_seq
+CREATE SEQUENCE public.item_groups_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1527,14 +1527,14 @@ CREATE SEQUENCE item_groups_id_seq
 -- Name: item_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE item_groups_id_seq OWNED BY item_groups.id;
+ALTER SEQUENCE public.item_groups_id_seq OWNED BY public.item_groups.id;
 
 
 --
 -- Name: links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE links_id_seq
+CREATE SEQUENCE public.links_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1546,14 +1546,14 @@ CREATE SEQUENCE links_id_seq
 -- Name: links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE links_id_seq OWNED BY links.id;
+ALTER SEQUENCE public.links_id_seq OWNED BY public.links.id;
 
 
 --
 -- Name: loops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE loops_id_seq
+CREATE SEQUENCE public.loops_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1565,14 +1565,14 @@ CREATE SEQUENCE loops_id_seq
 -- Name: loops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE loops_id_seq OWNED BY loops.id;
+ALTER SEQUENCE public.loops_id_seq OWNED BY public.loops.id;
 
 
 --
 -- Name: maps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE maps_id_seq
+CREATE SEQUENCE public.maps_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1584,14 +1584,14 @@ CREATE SEQUENCE maps_id_seq
 -- Name: maps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE maps_id_seq OWNED BY maps.id;
+ALTER SEQUENCE public.maps_id_seq OWNED BY public.maps.id;
 
 
 --
 -- Name: question_grids; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE question_grids (
+CREATE TABLE public.question_grids (
     id integer NOT NULL,
     label character varying NOT NULL,
     literal character varying,
@@ -1612,7 +1612,7 @@ CREATE TABLE question_grids (
 -- Name: question_grids_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE question_grids_id_seq
+CREATE SEQUENCE public.question_grids_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1624,14 +1624,14 @@ CREATE SEQUENCE question_grids_id_seq
 -- Name: question_grids_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE question_grids_id_seq OWNED BY question_grids.id;
+ALTER SEQUENCE public.question_grids_id_seq OWNED BY public.question_grids.id;
 
 
 --
 -- Name: question_items; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE question_items (
+CREATE TABLE public.question_items (
     id integer NOT NULL,
     label character varying NOT NULL,
     literal character varying,
@@ -1647,7 +1647,7 @@ CREATE TABLE question_items (
 -- Name: question_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE question_items_id_seq
+CREATE SEQUENCE public.question_items_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1659,14 +1659,14 @@ CREATE SEQUENCE question_items_id_seq
 -- Name: question_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE question_items_id_seq OWNED BY question_items.id;
+ALTER SEQUENCE public.question_items_id_seq OWNED BY public.question_items.id;
 
 
 --
 -- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE questions_id_seq
+CREATE SEQUENCE public.questions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1678,14 +1678,14 @@ CREATE SEQUENCE questions_id_seq
 -- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
 
 
 --
 -- Name: qv_mappings; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW qv_mappings AS
+CREATE VIEW public.qv_mappings AS
  SELECT row_number() OVER () AS id,
     COALESCE(cc.label, '0'::character varying) AS question,
     v.name AS variable,
@@ -1693,17 +1693,17 @@ CREATE VIEW qv_mappings AS
     m.y,
     qc.instrument_id,
     v.dataset_id
-   FROM (((variables v
-     LEFT JOIN maps m ON ((m.variable_id = v.id)))
-     JOIN questions qc ON (((qc.id = m.source_id) AND ((m.source_type)::text = 'CcQuestion'::text))))
-     JOIN control_constructs cc ON (((qc.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))));
+   FROM (((public.variables v
+     LEFT JOIN public.maps m ON ((m.variable_id = v.id)))
+     JOIN public.questions qc ON (((qc.id = m.source_id) AND ((m.source_type)::text = 'CcQuestion'::text))))
+     JOIN public.control_constructs cc ON (((qc.id = cc.construct_id) AND ((cc.construct_type)::text = 'CcQuestion'::text))));
 
 
 --
 -- Name: rds_qs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE rds_qs (
+CREATE TABLE public.rds_qs (
     id integer NOT NULL,
     response_domain_id integer NOT NULL,
     response_domain_type character varying NOT NULL,
@@ -1721,7 +1721,7 @@ CREATE TABLE rds_qs (
 -- Name: rds_qs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE rds_qs_id_seq
+CREATE SEQUENCE public.rds_qs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1733,14 +1733,14 @@ CREATE SEQUENCE rds_qs_id_seq
 -- Name: rds_qs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE rds_qs_id_seq OWNED BY rds_qs.id;
+ALTER SEQUENCE public.rds_qs_id_seq OWNED BY public.rds_qs.id;
 
 
 --
 -- Name: response_domain_codes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE response_domain_codes (
+CREATE TABLE public.response_domain_codes (
     id integer NOT NULL,
     code_list_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1756,7 +1756,7 @@ CREATE TABLE response_domain_codes (
 -- Name: response_domain_codes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE response_domain_codes_id_seq
+CREATE SEQUENCE public.response_domain_codes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1768,14 +1768,14 @@ CREATE SEQUENCE response_domain_codes_id_seq
 -- Name: response_domain_codes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE response_domain_codes_id_seq OWNED BY response_domain_codes.id;
+ALTER SEQUENCE public.response_domain_codes_id_seq OWNED BY public.response_domain_codes.id;
 
 
 --
 -- Name: response_domain_datetimes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE response_domain_datetimes (
+CREATE TABLE public.response_domain_datetimes (
     id integer NOT NULL,
     datetime_type character varying,
     label character varying,
@@ -1791,7 +1791,7 @@ CREATE TABLE response_domain_datetimes (
 -- Name: response_domain_datetimes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE response_domain_datetimes_id_seq
+CREATE SEQUENCE public.response_domain_datetimes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1803,14 +1803,14 @@ CREATE SEQUENCE response_domain_datetimes_id_seq
 -- Name: response_domain_datetimes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE response_domain_datetimes_id_seq OWNED BY response_domain_datetimes.id;
+ALTER SEQUENCE public.response_domain_datetimes_id_seq OWNED BY public.response_domain_datetimes.id;
 
 
 --
 -- Name: response_domain_numerics; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE response_domain_numerics (
+CREATE TABLE public.response_domain_numerics (
     id integer NOT NULL,
     numeric_type character varying,
     label character varying,
@@ -1827,7 +1827,7 @@ CREATE TABLE response_domain_numerics (
 -- Name: response_domain_numerics_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE response_domain_numerics_id_seq
+CREATE SEQUENCE public.response_domain_numerics_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1839,14 +1839,14 @@ CREATE SEQUENCE response_domain_numerics_id_seq
 -- Name: response_domain_numerics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE response_domain_numerics_id_seq OWNED BY response_domain_numerics.id;
+ALTER SEQUENCE public.response_domain_numerics_id_seq OWNED BY public.response_domain_numerics.id;
 
 
 --
 -- Name: response_domain_texts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE response_domain_texts (
+CREATE TABLE public.response_domain_texts (
     id integer NOT NULL,
     label character varying,
     maxlen integer,
@@ -1861,7 +1861,7 @@ CREATE TABLE response_domain_texts (
 -- Name: response_domain_texts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE response_domain_texts_id_seq
+CREATE SEQUENCE public.response_domain_texts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1873,14 +1873,14 @@ CREATE SEQUENCE response_domain_texts_id_seq
 -- Name: response_domain_texts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE response_domain_texts_id_seq OWNED BY response_domain_texts.id;
+ALTER SEQUENCE public.response_domain_texts_id_seq OWNED BY public.response_domain_texts.id;
 
 
 --
 -- Name: response_units; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE response_units (
+CREATE TABLE public.response_units (
     id integer NOT NULL,
     label character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1893,7 +1893,7 @@ CREATE TABLE response_units (
 -- Name: response_units_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE response_units_id_seq
+CREATE SEQUENCE public.response_units_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1905,14 +1905,14 @@ CREATE SEQUENCE response_units_id_seq
 -- Name: response_units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE response_units_id_seq OWNED BY response_units.id;
+ALTER SEQUENCE public.response_units_id_seq OWNED BY public.response_units.id;
 
 
 --
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
 
@@ -1921,7 +1921,7 @@ CREATE TABLE schema_migrations (
 -- Name: sequences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE sequences_id_seq
+CREATE SEQUENCE public.sequences_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1933,14 +1933,14 @@ CREATE SEQUENCE sequences_id_seq
 -- Name: sequences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE sequences_id_seq OWNED BY sequences.id;
+ALTER SEQUENCE public.sequences_id_seq OWNED BY public.sequences.id;
 
 
 --
 -- Name: statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE statements_id_seq
+CREATE SEQUENCE public.statements_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1952,14 +1952,14 @@ CREATE SEQUENCE statements_id_seq
 -- Name: statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE statements_id_seq OWNED BY statements.id;
+ALTER SEQUENCE public.statements_id_seq OWNED BY public.statements.id;
 
 
 --
 -- Name: streamlined_groupings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE streamlined_groupings_id_seq
+CREATE SEQUENCE public.streamlined_groupings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1971,14 +1971,14 @@ CREATE SEQUENCE streamlined_groupings_id_seq
 -- Name: streamlined_groupings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE streamlined_groupings_id_seq OWNED BY streamlined_groupings.id;
+ALTER SEQUENCE public.streamlined_groupings_id_seq OWNED BY public.streamlined_groupings.id;
 
 
 --
 -- Name: topics_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE topics_id_seq
+CREATE SEQUENCE public.topics_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1990,14 +1990,14 @@ CREATE SEQUENCE topics_id_seq
 -- Name: topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
+ALTER SEQUENCE public.topics_id_seq OWNED BY public.topics.id;
 
 
 --
 -- Name: user_groups; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE user_groups (
+CREATE TABLE public.user_groups (
     id integer NOT NULL,
     group_type character varying,
     label character varying,
@@ -2011,7 +2011,7 @@ CREATE TABLE user_groups (
 -- Name: user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE user_groups_id_seq
+CREATE SEQUENCE public.user_groups_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2023,14 +2023,14 @@ CREATE SEQUENCE user_groups_id_seq
 -- Name: user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE user_groups_id_seq OWNED BY user_groups.id;
+ALTER SEQUENCE public.user_groups_id_seq OWNED BY public.user_groups.id;
 
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -2063,7 +2063,7 @@ CREATE TABLE users (
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2075,14 +2075,14 @@ CREATE SEQUENCE users_id_seq
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
 -- Name: variables_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE variables_id_seq
+CREATE SEQUENCE public.variables_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2094,535 +2094,535 @@ CREATE SEQUENCE variables_id_seq
 -- Name: variables_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE variables_id_seq OWNED BY variables.id;
+ALTER SEQUENCE public.variables_id_seq OWNED BY public.variables.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: code_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY code_lists ALTER COLUMN id SET DEFAULT nextval('code_lists_id_seq'::regclass);
+ALTER TABLE ONLY public.code_lists ALTER COLUMN id SET DEFAULT nextval('public.code_lists_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes ALTER COLUMN id SET DEFAULT nextval('codes_id_seq'::regclass);
+ALTER TABLE ONLY public.codes ALTER COLUMN id SET DEFAULT nextval('public.codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: conditions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY conditions ALTER COLUMN id SET DEFAULT nextval('conditions_id_seq'::regclass);
+ALTER TABLE ONLY public.conditions ALTER COLUMN id SET DEFAULT nextval('public.conditions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: control_constructs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs ALTER COLUMN id SET DEFAULT nextval('control_constructs_id_seq'::regclass);
+ALTER TABLE ONLY public.control_constructs ALTER COLUMN id SET DEFAULT nextval('public.control_constructs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY datasets ALTER COLUMN id SET DEFAULT nextval('datasets_id_seq'::regclass);
+ALTER TABLE ONLY public.datasets ALTER COLUMN id SET DEFAULT nextval('public.datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
+ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: identifiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY identifiers ALTER COLUMN id SET DEFAULT nextval('identifiers_id_seq'::regclass);
+ALTER TABLE ONLY public.identifiers ALTER COLUMN id SET DEFAULT nextval('public.identifiers_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instructions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instructions ALTER COLUMN id SET DEFAULT nextval('instructions_id_seq'::regclass);
+ALTER TABLE ONLY public.instructions ALTER COLUMN id SET DEFAULT nextval('public.instructions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments ALTER COLUMN id SET DEFAULT nextval('instruments_id_seq'::regclass);
+ALTER TABLE ONLY public.instruments ALTER COLUMN id SET DEFAULT nextval('public.instruments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: instruments_datasets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments_datasets ALTER COLUMN id SET DEFAULT nextval('instruments_datasets_id_seq'::regclass);
+ALTER TABLE ONLY public.instruments_datasets ALTER COLUMN id SET DEFAULT nextval('public.instruments_datasets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: item_groups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY item_groups ALTER COLUMN id SET DEFAULT nextval('item_groups_id_seq'::regclass);
+ALTER TABLE ONLY public.item_groups ALTER COLUMN id SET DEFAULT nextval('public.item_groups_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
+ALTER TABLE ONLY public.links ALTER COLUMN id SET DEFAULT nextval('public.links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: loops id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY loops ALTER COLUMN id SET DEFAULT nextval('loops_id_seq'::regclass);
+ALTER TABLE ONLY public.loops ALTER COLUMN id SET DEFAULT nextval('public.loops_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: maps id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY maps ALTER COLUMN id SET DEFAULT nextval('maps_id_seq'::regclass);
+ALTER TABLE ONLY public.maps ALTER COLUMN id SET DEFAULT nextval('public.maps_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_grids id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids ALTER COLUMN id SET DEFAULT nextval('question_grids_id_seq'::regclass);
+ALTER TABLE ONLY public.question_grids ALTER COLUMN id SET DEFAULT nextval('public.question_grids_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: question_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_items ALTER COLUMN id SET DEFAULT nextval('question_items_id_seq'::regclass);
+ALTER TABLE ONLY public.question_items ALTER COLUMN id SET DEFAULT nextval('public.question_items_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.questions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: rds_qs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY rds_qs ALTER COLUMN id SET DEFAULT nextval('rds_qs_id_seq'::regclass);
+ALTER TABLE ONLY public.rds_qs ALTER COLUMN id SET DEFAULT nextval('public.rds_qs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_codes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_codes ALTER COLUMN id SET DEFAULT nextval('response_domain_codes_id_seq'::regclass);
+ALTER TABLE ONLY public.response_domain_codes ALTER COLUMN id SET DEFAULT nextval('public.response_domain_codes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_datetimes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_datetimes ALTER COLUMN id SET DEFAULT nextval('response_domain_datetimes_id_seq'::regclass);
+ALTER TABLE ONLY public.response_domain_datetimes ALTER COLUMN id SET DEFAULT nextval('public.response_domain_datetimes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_numerics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_numerics ALTER COLUMN id SET DEFAULT nextval('response_domain_numerics_id_seq'::regclass);
+ALTER TABLE ONLY public.response_domain_numerics ALTER COLUMN id SET DEFAULT nextval('public.response_domain_numerics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_domain_texts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_texts ALTER COLUMN id SET DEFAULT nextval('response_domain_texts_id_seq'::regclass);
+ALTER TABLE ONLY public.response_domain_texts ALTER COLUMN id SET DEFAULT nextval('public.response_domain_texts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: response_units id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_units ALTER COLUMN id SET DEFAULT nextval('response_units_id_seq'::regclass);
+ALTER TABLE ONLY public.response_units ALTER COLUMN id SET DEFAULT nextval('public.response_units_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: sequences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sequences ALTER COLUMN id SET DEFAULT nextval('sequences_id_seq'::regclass);
+ALTER TABLE ONLY public.sequences ALTER COLUMN id SET DEFAULT nextval('public.sequences_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY statements ALTER COLUMN id SET DEFAULT nextval('statements_id_seq'::regclass);
+ALTER TABLE ONLY public.statements ALTER COLUMN id SET DEFAULT nextval('public.statements_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: streamlined_groupings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY streamlined_groupings ALTER COLUMN id SET DEFAULT nextval('streamlined_groupings_id_seq'::regclass);
+ALTER TABLE ONLY public.streamlined_groupings ALTER COLUMN id SET DEFAULT nextval('public.streamlined_groupings_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
+ALTER TABLE ONLY public.topics ALTER COLUMN id SET DEFAULT nextval('public.topics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_groups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY user_groups ALTER COLUMN id SET DEFAULT nextval('user_groups_id_seq'::regclass);
+ALTER TABLE ONLY public.user_groups ALTER COLUMN id SET DEFAULT nextval('public.user_groups_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: variables id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY variables ALTER COLUMN id SET DEFAULT nextval('variables_id_seq'::regclass);
+ALTER TABLE ONLY public.variables ALTER COLUMN id SET DEFAULT nextval('public.variables_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ar_internal_metadata
+ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories
+ALTER TABLE ONLY public.categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: conditions cc_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY conditions
+ALTER TABLE ONLY public.conditions
     ADD CONSTRAINT cc_conditions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: loops cc_loops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY loops
+ALTER TABLE ONLY public.loops
     ADD CONSTRAINT cc_loops_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: questions cc_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions
+ALTER TABLE ONLY public.questions
     ADD CONSTRAINT cc_questions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences cc_sequences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sequences
+ALTER TABLE ONLY public.sequences
     ADD CONSTRAINT cc_sequences_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: statements cc_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY statements
+ALTER TABLE ONLY public.statements
     ADD CONSTRAINT cc_statements_pkey PRIMARY KEY (id);
 
 
 --
--- Name: code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists code_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY code_lists
+ALTER TABLE ONLY public.code_lists
     ADD CONSTRAINT code_lists_pkey PRIMARY KEY (id);
 
 
 --
--- Name: codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: codes codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
+ALTER TABLE ONLY public.codes
     ADD CONSTRAINT codes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs control_constructs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
+ALTER TABLE ONLY public.control_constructs
     ADD CONSTRAINT control_constructs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: datasets datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY datasets
+ALTER TABLE ONLY public.datasets
     ADD CONSTRAINT datasets_pkey PRIMARY KEY (id);
 
 
 --
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY documents
+ALTER TABLE ONLY public.documents
     ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
 
 
 --
--- Name: encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories encapsulate_unique_for_categories; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories
+ALTER TABLE ONLY public.categories
     ADD CONSTRAINT encapsulate_unique_for_categories UNIQUE (id, instrument_id);
 
 
 --
--- Name: encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: code_lists encapsulate_unique_for_code_lists; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY code_lists
+ALTER TABLE ONLY public.code_lists
     ADD CONSTRAINT encapsulate_unique_for_code_lists UNIQUE (id, instrument_id);
 
 
 --
--- Name: encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
+ALTER TABLE ONLY public.control_constructs
     ADD CONSTRAINT encapsulate_unique_for_control_constructs UNIQUE (construct_id, construct_type, instrument_id);
 
 
 --
--- Name: encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_unique_for_control_constructs_internally; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
+ALTER TABLE ONLY public.control_constructs
     ADD CONSTRAINT encapsulate_unique_for_control_constructs_internally UNIQUE (id, instrument_id);
 
 
 --
--- Name: encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions encapsulate_unique_for_instructions; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instructions
+ALTER TABLE ONLY public.instructions
     ADD CONSTRAINT encapsulate_unique_for_instructions UNIQUE (id, instrument_id);
 
 
 --
--- Name: encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units encapsulate_unique_for_response_units; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_units
+ALTER TABLE ONLY public.response_units
     ADD CONSTRAINT encapsulate_unique_for_response_units UNIQUE (id, instrument_id);
 
 
 --
--- Name: identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: identifiers identifiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY identifiers
+ALTER TABLE ONLY public.identifiers
     ADD CONSTRAINT identifiers_pkey PRIMARY KEY (id);
 
 
 --
--- Name: instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instructions instructions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instructions
+ALTER TABLE ONLY public.instructions
     ADD CONSTRAINT instructions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets instruments_datasets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments_datasets
+ALTER TABLE ONLY public.instruments_datasets
     ADD CONSTRAINT instruments_datasets_pkey PRIMARY KEY (id);
 
 
 --
--- Name: instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments instruments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments
+ALTER TABLE ONLY public.instruments
     ADD CONSTRAINT instruments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: item_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: item_groups item_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY item_groups
+ALTER TABLE ONLY public.item_groups
     ADD CONSTRAINT item_groups_pkey PRIMARY KEY (id);
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: links links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY links
+ALTER TABLE ONLY public.links
     ADD CONSTRAINT links_pkey PRIMARY KEY (id);
 
 
 --
--- Name: maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: maps maps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY maps
+ALTER TABLE ONLY public.maps
     ADD CONSTRAINT maps_pkey PRIMARY KEY (id);
 
 
 --
--- Name: question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids question_grids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
+ALTER TABLE ONLY public.question_grids
     ADD CONSTRAINT question_grids_pkey PRIMARY KEY (id);
 
 
 --
--- Name: question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items question_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_items
+ALTER TABLE ONLY public.question_items
     ADD CONSTRAINT question_items_pkey PRIMARY KEY (id);
 
 
 --
--- Name: rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs rds_qs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY rds_qs
+ALTER TABLE ONLY public.rds_qs
     ADD CONSTRAINT rds_qs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes response_domain_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_codes
+ALTER TABLE ONLY public.response_domain_codes
     ADD CONSTRAINT response_domain_codes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_datetimes response_domain_datetimes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_datetimes
+ALTER TABLE ONLY public.response_domain_datetimes
     ADD CONSTRAINT response_domain_datetimes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_numerics response_domain_numerics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_numerics
+ALTER TABLE ONLY public.response_domain_numerics
     ADD CONSTRAINT response_domain_numerics_pkey PRIMARY KEY (id);
 
 
 --
--- Name: response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_texts response_domain_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_texts
+ALTER TABLE ONLY public.response_domain_texts
     ADD CONSTRAINT response_domain_texts_pkey PRIMARY KEY (id);
 
 
 --
--- Name: response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: response_units response_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_units
+ALTER TABLE ONLY public.response_units
     ADD CONSTRAINT response_units_pkey PRIMARY KEY (id);
 
 
 --
--- Name: streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: streamlined_groupings streamlined_groupings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY streamlined_groupings
+ALTER TABLE ONLY public.streamlined_groupings
     ADD CONSTRAINT streamlined_groupings_pkey PRIMARY KEY (id);
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY topics
+ALTER TABLE ONLY public.topics
     ADD CONSTRAINT topics_pkey PRIMARY KEY (id);
 
 
 --
--- Name: unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs unique_for_rd_order_within_question; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY rds_qs
+ALTER TABLE ONLY public.rds_qs
     ADD CONSTRAINT unique_for_rd_order_within_question UNIQUE (question_id, question_type, rd_order) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_groups user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY user_groups
+ALTER TABLE ONLY public.user_groups
     ADD CONSTRAINT user_groups_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: variables variables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY variables
+ALTER TABLE ONLY public.variables
     ADD CONSTRAINT variables_pkey PRIMARY KEY (id);
 
 
@@ -2630,477 +2630,477 @@ ALTER TABLE ONLY variables
 -- Name: index_categories_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_categories_on_instrument_id ON categories USING btree (instrument_id);
+CREATE INDEX index_categories_on_instrument_id ON public.categories USING btree (instrument_id);
 
 
 --
 -- Name: index_categories_on_label; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_categories_on_label ON categories USING btree (label);
+CREATE INDEX index_categories_on_label ON public.categories USING btree (label);
 
 
 --
 -- Name: index_categories_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_categories_on_label_and_instrument_id ON categories USING btree (label, instrument_id);
+CREATE UNIQUE INDEX index_categories_on_label_and_instrument_id ON public.categories USING btree (label, instrument_id);
 
 
 --
 -- Name: index_cc_conditions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_conditions_on_instrument_id ON conditions USING btree (instrument_id);
+CREATE INDEX index_cc_conditions_on_instrument_id ON public.conditions USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_loops_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_loops_on_instrument_id ON loops USING btree (instrument_id);
+CREATE INDEX index_cc_loops_on_instrument_id ON public.loops USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_questions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_instrument_id ON questions USING btree (instrument_id);
+CREATE INDEX index_cc_questions_on_instrument_id ON public.questions USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_questions_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_question_type_and_question_id ON questions USING btree (question_type, question_id);
+CREATE INDEX index_cc_questions_on_question_type_and_question_id ON public.questions USING btree (question_type, question_id);
 
 
 --
 -- Name: index_cc_questions_on_response_unit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_questions_on_response_unit_id ON questions USING btree (response_unit_id);
+CREATE INDEX index_cc_questions_on_response_unit_id ON public.questions USING btree (response_unit_id);
 
 
 --
 -- Name: index_cc_sequences_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_sequences_on_instrument_id ON sequences USING btree (instrument_id);
+CREATE INDEX index_cc_sequences_on_instrument_id ON public.sequences USING btree (instrument_id);
 
 
 --
 -- Name: index_cc_statements_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cc_statements_on_instrument_id ON statements USING btree (instrument_id);
+CREATE INDEX index_cc_statements_on_instrument_id ON public.statements USING btree (instrument_id);
 
 
 --
 -- Name: index_code_lists_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_code_lists_on_instrument_id ON code_lists USING btree (instrument_id);
+CREATE INDEX index_code_lists_on_instrument_id ON public.code_lists USING btree (instrument_id);
 
 
 --
 -- Name: index_code_lists_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_code_lists_on_label_and_instrument_id ON code_lists USING btree (label, instrument_id);
+CREATE UNIQUE INDEX index_code_lists_on_label_and_instrument_id ON public.code_lists USING btree (label, instrument_id);
 
 
 --
 -- Name: index_codes_on_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_codes_on_category_id ON codes USING btree (category_id);
+CREATE INDEX index_codes_on_category_id ON public.codes USING btree (category_id);
 
 
 --
 -- Name: index_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_codes_on_code_list_id ON codes USING btree (code_list_id);
+CREATE INDEX index_codes_on_code_list_id ON public.codes USING btree (code_list_id);
 
 
 --
 -- Name: index_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_codes_on_instrument_id ON codes USING btree (instrument_id);
+CREATE INDEX index_codes_on_instrument_id ON public.codes USING btree (instrument_id);
 
 
 --
 -- Name: index_control_constructs_on_construct_type_and_construct_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_control_constructs_on_construct_type_and_construct_id ON control_constructs USING btree (construct_type, construct_id);
+CREATE INDEX index_control_constructs_on_construct_type_and_construct_id ON public.control_constructs USING btree (construct_type, construct_id);
 
 
 --
 -- Name: index_control_constructs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_control_constructs_on_instrument_id ON control_constructs USING btree (instrument_id);
+CREATE INDEX index_control_constructs_on_instrument_id ON public.control_constructs USING btree (instrument_id);
 
 
 --
 -- Name: index_control_constructs_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_control_constructs_on_label_and_instrument_id ON control_constructs USING btree (label, instrument_id);
+CREATE UNIQUE INDEX index_control_constructs_on_label_and_instrument_id ON public.control_constructs USING btree (label, instrument_id);
 
 
 --
 -- Name: index_control_constructs_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_control_constructs_on_parent_id ON control_constructs USING btree (parent_id);
+CREATE INDEX index_control_constructs_on_parent_id ON public.control_constructs USING btree (parent_id);
 
 
 --
 -- Name: index_documents_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_documents_on_item_type_and_item_id ON documents USING btree (item_type, item_id);
+CREATE INDEX index_documents_on_item_type_and_item_id ON public.documents USING btree (item_type, item_id);
 
 
 --
 -- Name: index_documents_on_md5_hash; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_documents_on_md5_hash ON documents USING btree (md5_hash);
+CREATE UNIQUE INDEX index_documents_on_md5_hash ON public.documents USING btree (md5_hash);
 
 
 --
 -- Name: index_identifiers_on_id_type_and_value; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_identifiers_on_id_type_and_value ON identifiers USING btree (id_type, value);
+CREATE UNIQUE INDEX index_identifiers_on_id_type_and_value ON public.identifiers USING btree (id_type, value);
 
 
 --
 -- Name: index_identifiers_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_identifiers_on_item_type_and_item_id ON identifiers USING btree (item_type, item_id);
+CREATE INDEX index_identifiers_on_item_type_and_item_id ON public.identifiers USING btree (item_type, item_id);
 
 
 --
 -- Name: index_instructions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_instructions_on_instrument_id ON instructions USING btree (instrument_id);
+CREATE INDEX index_instructions_on_instrument_id ON public.instructions USING btree (instrument_id);
 
 
 --
 -- Name: index_instructions_on_text_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_instructions_on_text_and_instrument_id ON instructions USING btree (text, instrument_id);
+CREATE UNIQUE INDEX index_instructions_on_text_and_instrument_id ON public.instructions USING btree (text, instrument_id);
 
 
 --
 -- Name: index_instruments_datasets_on_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_instruments_datasets_on_dataset_id ON instruments_datasets USING btree (dataset_id);
+CREATE INDEX index_instruments_datasets_on_dataset_id ON public.instruments_datasets USING btree (dataset_id);
 
 
 --
 -- Name: index_instruments_datasets_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_instruments_datasets_on_instrument_id ON instruments_datasets USING btree (instrument_id);
+CREATE INDEX index_instruments_datasets_on_instrument_id ON public.instruments_datasets USING btree (instrument_id);
 
 
 --
 -- Name: index_item_groups_on_root_item_type_and_root_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_item_groups_on_root_item_type_and_root_item_id ON item_groups USING btree (root_item_type, root_item_id);
+CREATE INDEX index_item_groups_on_root_item_type_and_root_item_id ON public.item_groups USING btree (root_item_type, root_item_id);
 
 
 --
 -- Name: index_links_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_links_on_target_type_and_target_id ON links USING btree (target_type, target_id);
+CREATE INDEX index_links_on_target_type_and_target_id ON public.links USING btree (target_type, target_id);
 
 
 --
 -- Name: index_links_on_topic_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_links_on_topic_id ON links USING btree (topic_id);
+CREATE INDEX index_links_on_topic_id ON public.links USING btree (topic_id);
 
 
 --
 -- Name: index_maps_on_source_id_and_variable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id ON maps USING btree (source_id, variable_id) WHERE ((source_type)::text = 'Variable'::text);
+CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id ON public.maps USING btree (source_id, variable_id) WHERE ((source_type)::text = 'Variable'::text);
 
 
 --
 -- Name: index_maps_on_source_id_and_variable_id_and_x_and_y; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id_and_x_and_y ON maps USING btree (source_id, variable_id, x, y) WHERE ((source_type)::text = 'Question'::text);
+CREATE UNIQUE INDEX index_maps_on_source_id_and_variable_id_and_x_and_y ON public.maps USING btree (source_id, variable_id, x, y) WHERE ((source_type)::text = 'Question'::text);
 
 
 --
 -- Name: index_maps_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_maps_on_source_type_and_source_id ON maps USING btree (source_type, source_id);
+CREATE INDEX index_maps_on_source_type_and_source_id ON public.maps USING btree (source_type, source_id);
 
 
 --
 -- Name: index_maps_on_variable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_maps_on_variable_id ON maps USING btree (variable_id);
+CREATE INDEX index_maps_on_variable_id ON public.maps USING btree (variable_id);
 
 
 --
 -- Name: index_question_grids_on_horizontal_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_grids_on_horizontal_code_list_id ON question_grids USING btree (horizontal_code_list_id);
+CREATE INDEX index_question_grids_on_horizontal_code_list_id ON public.question_grids USING btree (horizontal_code_list_id);
 
 
 --
 -- Name: index_question_grids_on_instruction_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_grids_on_instruction_id ON question_grids USING btree (instruction_id);
+CREATE INDEX index_question_grids_on_instruction_id ON public.question_grids USING btree (instruction_id);
 
 
 --
 -- Name: index_question_grids_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_grids_on_instrument_id ON question_grids USING btree (instrument_id);
+CREATE INDEX index_question_grids_on_instrument_id ON public.question_grids USING btree (instrument_id);
 
 
 --
 -- Name: index_question_grids_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_question_grids_on_label_and_instrument_id ON question_grids USING btree (label, instrument_id);
+CREATE UNIQUE INDEX index_question_grids_on_label_and_instrument_id ON public.question_grids USING btree (label, instrument_id);
 
 
 --
 -- Name: index_question_grids_on_vertical_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_grids_on_vertical_code_list_id ON question_grids USING btree (vertical_code_list_id);
+CREATE INDEX index_question_grids_on_vertical_code_list_id ON public.question_grids USING btree (vertical_code_list_id);
 
 
 --
 -- Name: index_question_items_on_instruction_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_items_on_instruction_id ON question_items USING btree (instruction_id);
+CREATE INDEX index_question_items_on_instruction_id ON public.question_items USING btree (instruction_id);
 
 
 --
 -- Name: index_question_items_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_question_items_on_instrument_id ON question_items USING btree (instrument_id);
+CREATE INDEX index_question_items_on_instrument_id ON public.question_items USING btree (instrument_id);
 
 
 --
 -- Name: index_question_items_on_label_and_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_question_items_on_label_and_instrument_id ON question_items USING btree (label, instrument_id);
+CREATE UNIQUE INDEX index_question_items_on_label_and_instrument_id ON public.question_items USING btree (label, instrument_id);
 
 
 --
 -- Name: index_rds_qs_on_code_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_rds_qs_on_code_id ON rds_qs USING btree (code_id);
+CREATE INDEX index_rds_qs_on_code_id ON public.rds_qs USING btree (code_id);
 
 
 --
 -- Name: index_rds_qs_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_rds_qs_on_instrument_id ON rds_qs USING btree (instrument_id);
+CREATE INDEX index_rds_qs_on_instrument_id ON public.rds_qs USING btree (instrument_id);
 
 
 --
 -- Name: index_rds_qs_on_question_type_and_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_rds_qs_on_question_type_and_question_id ON rds_qs USING btree (question_type, question_id);
+CREATE INDEX index_rds_qs_on_question_type_and_question_id ON public.rds_qs USING btree (question_type, question_id);
 
 
 --
 -- Name: index_rds_qs_on_response_domain_type_and_response_domain_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_rds_qs_on_response_domain_type_and_response_domain_id ON rds_qs USING btree (response_domain_type, response_domain_id);
+CREATE INDEX index_rds_qs_on_response_domain_type_and_response_domain_id ON public.rds_qs USING btree (response_domain_type, response_domain_id);
 
 
 --
 -- Name: index_response_domain_codes_on_code_list_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_domain_codes_on_code_list_id ON response_domain_codes USING btree (code_list_id);
+CREATE INDEX index_response_domain_codes_on_code_list_id ON public.response_domain_codes USING btree (code_list_id);
 
 
 --
 -- Name: index_response_domain_codes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_domain_codes_on_instrument_id ON response_domain_codes USING btree (instrument_id);
+CREATE INDEX index_response_domain_codes_on_instrument_id ON public.response_domain_codes USING btree (instrument_id);
 
 
 --
 -- Name: index_response_domain_datetimes_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_domain_datetimes_on_instrument_id ON response_domain_datetimes USING btree (instrument_id);
+CREATE INDEX index_response_domain_datetimes_on_instrument_id ON public.response_domain_datetimes USING btree (instrument_id);
 
 
 --
 -- Name: index_response_domain_numerics_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_domain_numerics_on_instrument_id ON response_domain_numerics USING btree (instrument_id);
+CREATE INDEX index_response_domain_numerics_on_instrument_id ON public.response_domain_numerics USING btree (instrument_id);
 
 
 --
 -- Name: index_response_domain_texts_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_domain_texts_on_instrument_id ON response_domain_texts USING btree (instrument_id);
+CREATE INDEX index_response_domain_texts_on_instrument_id ON public.response_domain_texts USING btree (instrument_id);
 
 
 --
 -- Name: index_response_units_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_response_units_on_instrument_id ON response_units USING btree (instrument_id);
+CREATE INDEX index_response_units_on_instrument_id ON public.response_units USING btree (instrument_id);
 
 
 --
 -- Name: index_streamlined_groupings_on_item_group_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_streamlined_groupings_on_item_group_id ON streamlined_groupings USING btree (item_group_id);
+CREATE INDEX index_streamlined_groupings_on_item_group_id ON public.streamlined_groupings USING btree (item_group_id);
 
 
 --
 -- Name: index_topics_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_topics_on_parent_id ON topics USING btree (parent_id);
+CREATE INDEX index_topics_on_parent_id ON public.topics USING btree (parent_id);
 
 
 --
 -- Name: index_users_on_api_key; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_api_key ON users USING btree (api_key);
+CREATE UNIQUE INDEX index_users_on_api_key ON public.users USING btree (api_key);
 
 
 --
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
 
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
 -- Name: index_users_on_group_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_users_on_group_id ON users USING btree (group_id);
+CREATE INDEX index_users_on_group_id ON public.users USING btree (group_id);
 
 
 --
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
 -- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
+CREATE UNIQUE INDEX index_users_on_unlock_token ON public.users USING btree (unlock_token);
 
 
 --
 -- Name: index_variables_on_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_variables_on_dataset_id ON variables USING btree (dataset_id);
+CREATE INDEX index_variables_on_dataset_id ON public.variables USING btree (dataset_id);
 
 
 --
 -- Name: index_variables_on_name_and_dataset_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_variables_on_name_and_dataset_id ON variables USING btree (name, dataset_id);
+CREATE UNIQUE INDEX index_variables_on_name_and_dataset_id ON public.variables USING btree (name, dataset_id);
 
 
 --
 -- Name: unique_linking; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_linking ON links USING btree (target_id, target_type, topic_id, x, y);
+CREATE UNIQUE INDEX unique_linking ON public.links USING btree (target_id, target_type, topic_id, x, y);
 
 
 --
 -- Name: unique_mapping; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_mapping ON maps USING btree (source_id, source_type, variable_id, x, y);
+CREATE UNIQUE INDEX unique_mapping ON public.maps USING btree (source_id, source_type, variable_id, x, y);
 
 
 --
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
--- Name: groupings_delete; Type: RULE; Schema: public; Owner: -
+-- Name: groupings groupings_delete; Type: RULE; Schema: public; Owner: -
 --
 
 CREATE RULE groupings_delete AS
-    ON DELETE TO groupings DO INSTEAD  DELETE FROM streamlined_groupings
+    ON DELETE TO public.groupings DO INSTEAD  DELETE FROM public.streamlined_groupings
   WHERE (streamlined_groupings.id = old.id);
 
 
 --
--- Name: groupings_insert; Type: RULE; Schema: public; Owner: -
+-- Name: groupings groupings_insert; Type: RULE; Schema: public; Owner: -
 --
 
 CREATE RULE groupings_insert AS
-    ON INSERT TO groupings DO INSTEAD  INSERT INTO streamlined_groupings (item_id, item_group_id, created_at, updated_at)
+    ON INSERT TO public.groupings DO INSTEAD  INSERT INTO public.streamlined_groupings (item_id, item_group_id, created_at, updated_at)
   VALUES (new.item_id, new.item_group_id, new.created_at, new.updated_at)
   RETURNING streamlined_groupings.id,
     streamlined_groupings.item_id,
     ( SELECT item_groups.item_type
-           FROM item_groups
+           FROM public.item_groups
           WHERE (streamlined_groupings.item_group_id = item_groups.id)) AS item_type,
     streamlined_groupings.item_group_id,
     streamlined_groupings.created_at,
@@ -3108,347 +3108,347 @@ CREATE RULE groupings_insert AS
 
 
 --
--- Name: delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE delete_cc_condition();
+CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_condition();
 
 
 --
--- Name: delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE delete_cc_loop();
+CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_loop();
 
 
 --
--- Name: delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE delete_cc_question();
+CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_question();
 
 
 --
--- Name: delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE delete_cc_sequence();
+CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_sequence();
 
 
 --
--- Name: delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE delete_cc_statement();
+CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_statement();
 
 
 --
--- Name: insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE insert_cc_condition();
+CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_condition();
 
 
 --
--- Name: insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON cc_loops FOR EACH ROW EXECUTE PROCEDURE insert_cc_loop();
+CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_loop();
 
 
 --
--- Name: insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON cc_questions FOR EACH ROW EXECUTE PROCEDURE insert_cc_question();
+CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_question();
 
 
 --
--- Name: insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE insert_cc_sequence();
+CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_sequence();
 
 
 --
--- Name: insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON cc_statements FOR EACH ROW EXECUTE PROCEDURE insert_cc_statement();
+CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_statement();
 
 
 --
--- Name: update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_conditions update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON cc_conditions FOR EACH ROW EXECUTE PROCEDURE update_cc_condition();
+CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.update_cc_condition();
 
 
 --
--- Name: update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_loops update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON cc_loops FOR EACH ROW EXECUTE PROCEDURE update_cc_loop();
+CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.update_cc_loop();
 
 
 --
--- Name: update_cc_question; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_questions update_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON cc_questions FOR EACH ROW EXECUTE PROCEDURE update_cc_question();
+CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.update_cc_question();
 
 
 --
--- Name: update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences update_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON cc_sequences FOR EACH ROW EXECUTE PROCEDURE update_cc_sequence();
+CREATE TRIGGER update_cc_sequence INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.update_cc_sequence();
 
 
 --
--- Name: update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_statements update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON cc_statements FOR EACH ROW EXECUTE PROCEDURE update_cc_statement();
+CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.update_cc_statement();
 
 
 --
--- Name: update_links; Type: TRIGGER; Schema: public; Owner: -
+-- Name: links update_links; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_links AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON links FOR EACH STATEMENT EXECUTE PROCEDURE refresh_ancestral_topics();
+CREATE TRIGGER update_links AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.links FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_ancestral_topics();
 
 
 --
--- Name: encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: conditions encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY conditions
-    ADD CONSTRAINT encapsulate_cc_conditions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.conditions
+    ADD CONSTRAINT encapsulate_cc_conditions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES public.control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: loops encapsulate_cc_loops_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY loops
-    ADD CONSTRAINT encapsulate_cc_loops_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.loops
+    ADD CONSTRAINT encapsulate_cc_loops_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES public.control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions
-    ADD CONSTRAINT encapsulate_cc_questions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES public.control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: questions encapsulate_cc_questions_and_response_units; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions
-    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES response_units(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.questions
+    ADD CONSTRAINT encapsulate_cc_questions_and_response_units FOREIGN KEY (response_unit_id, instrument_id) REFERENCES public.response_units(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sequences encapsulate_cc_sequences_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sequences
-    ADD CONSTRAINT encapsulate_cc_sequences_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.sequences
+    ADD CONSTRAINT encapsulate_cc_sequences_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES public.control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: statements encapsulate_cc_statements_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY statements
-    ADD CONSTRAINT encapsulate_cc_statements_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.statements
+    ADD CONSTRAINT encapsulate_cc_statements_and_control_constructs FOREIGN KEY (id, construct_type, instrument_id) REFERENCES public.control_constructs(construct_id, construct_type, instrument_id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_categories; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
-    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES categories(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.codes
+    ADD CONSTRAINT encapsulate_codes_and_categories FOREIGN KEY (category_id, instrument_id) REFERENCES public.categories(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes encapsulate_codes_and_codes_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
-    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.codes
+    ADD CONSTRAINT encapsulate_codes_and_codes_lists FOREIGN KEY (code_list_id, instrument_id) REFERENCES public.code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs encapsulate_control_constructs_to_its_self; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
-    ADD CONSTRAINT encapsulate_control_constructs_to_its_self FOREIGN KEY (parent_id, instrument_id) REFERENCES control_constructs(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.control_constructs
+    ADD CONSTRAINT encapsulate_control_constructs_to_its_self FOREIGN KEY (parent_id, instrument_id) REFERENCES public.control_constructs(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_horizontal_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_horizontal_code_lists FOREIGN KEY (horizontal_code_list_id, instrument_id) REFERENCES public.code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES public.instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_grids encapsulate_question_grids_and_vertical_code_lists; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_grids
-    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.question_grids
+    ADD CONSTRAINT encapsulate_question_grids_and_vertical_code_lists FOREIGN KEY (vertical_code_list_id, instrument_id) REFERENCES public.code_lists(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: question_items encapsulate_question_items_and_instructions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY question_items
-    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.question_items
+    ADD CONSTRAINT encapsulate_question_items_and_instructions FOREIGN KEY (instruction_id, instrument_id) REFERENCES public.instructions(id, instrument_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_1d78394359; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
-    ADD CONSTRAINT fk_rails_1d78394359 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+ALTER TABLE ONLY public.codes
+    ADD CONSTRAINT fk_rails_1d78394359 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
 
 
 --
--- Name: fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: variables fk_rails_33f3b47104; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY variables
-    ADD CONSTRAINT fk_rails_33f3b47104 FOREIGN KEY (dataset_id) REFERENCES datasets(id);
+ALTER TABLE ONLY public.variables
+    ADD CONSTRAINT fk_rails_33f3b47104 FOREIGN KEY (dataset_id) REFERENCES public.datasets(id);
 
 
 --
--- Name: fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_3d0d853840; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments_datasets
-    ADD CONSTRAINT fk_rails_3d0d853840 FOREIGN KEY (dataset_id) REFERENCES datasets(id);
+ALTER TABLE ONLY public.instruments_datasets
+    ADD CONSTRAINT fk_rails_3d0d853840 FOREIGN KEY (dataset_id) REFERENCES public.datasets(id);
 
 
 --
--- Name: fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_codes
-    ADD CONSTRAINT fk_rails_572ea44f7b FOREIGN KEY (code_list_id) REFERENCES code_lists(id);
+ALTER TABLE ONLY public.response_domain_codes
+    ADD CONSTRAINT fk_rails_572ea44f7b FOREIGN KEY (code_list_id) REFERENCES public.code_lists(id);
 
 
 --
--- Name: fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: topics fk_rails_5f3c091f12; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY topics
-    ADD CONSTRAINT fk_rails_5f3c091f12 FOREIGN KEY (parent_id) REFERENCES topics(id);
+ALTER TABLE ONLY public.topics
+    ADD CONSTRAINT fk_rails_5f3c091f12 FOREIGN KEY (parent_id) REFERENCES public.topics(id);
 
 
 --
--- Name: fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: response_domain_codes fk_rails_948d561862; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY response_domain_codes
-    ADD CONSTRAINT fk_rails_948d561862 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+ALTER TABLE ONLY public.response_domain_codes
+    ADD CONSTRAINT fk_rails_948d561862 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
 
 
 --
--- Name: fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: links fk_rails_9e38e93f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY links
-    ADD CONSTRAINT fk_rails_9e38e93f70 FOREIGN KEY (topic_id) REFERENCES topics(id);
+ALTER TABLE ONLY public.links
+    ADD CONSTRAINT fk_rails_9e38e93f70 FOREIGN KEY (topic_id) REFERENCES public.topics(id);
 
 
 --
--- Name: fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_aebc678501; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
-    ADD CONSTRAINT fk_rails_aebc678501 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+ALTER TABLE ONLY public.control_constructs
+    ADD CONSTRAINT fk_rails_aebc678501 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
 
 
 --
--- Name: fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: maps fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY maps
-    ADD CONSTRAINT fk_rails_ce690a0b27 FOREIGN KEY (variable_id) REFERENCES variables(id);
+ALTER TABLE ONLY public.maps
+    ADD CONSTRAINT fk_rails_ce690a0b27 FOREIGN KEY (variable_id) REFERENCES public.variables(id);
 
 
 --
--- Name: fk_rails_d75780fc8c; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: streamlined_groupings fk_rails_d75780fc8c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY streamlined_groupings
-    ADD CONSTRAINT fk_rails_d75780fc8c FOREIGN KEY (item_group_id) REFERENCES item_groups(id);
+ALTER TABLE ONLY public.streamlined_groupings
+    ADD CONSTRAINT fk_rails_d75780fc8c FOREIGN KEY (item_group_id) REFERENCES public.item_groups(id);
 
 
 --
--- Name: fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: instruments_datasets fk_rails_d7ce9bc772; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY instruments_datasets
-    ADD CONSTRAINT fk_rails_d7ce9bc772 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+ALTER TABLE ONLY public.instruments_datasets
+    ADD CONSTRAINT fk_rails_d7ce9bc772 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
 
 
 --
--- Name: fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_db1a343fc8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
-    ADD CONSTRAINT fk_rails_db1a343fc8 FOREIGN KEY (code_list_id) REFERENCES code_lists(id);
+ALTER TABLE ONLY public.codes
+    ADD CONSTRAINT fk_rails_db1a343fc8 FOREIGN KEY (code_list_id) REFERENCES public.code_lists(id);
 
 
 --
--- Name: fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rds_qs fk_rails_e49dc1bfb6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY rds_qs
-    ADD CONSTRAINT fk_rails_e49dc1bfb6 FOREIGN KEY (instrument_id) REFERENCES instruments(id);
+ALTER TABLE ONLY public.rds_qs
+    ADD CONSTRAINT fk_rails_e49dc1bfb6 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
 
 
 --
--- Name: fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: control_constructs fk_rails_f312241fda; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY control_constructs
-    ADD CONSTRAINT fk_rails_f312241fda FOREIGN KEY (parent_id) REFERENCES control_constructs(id);
+ALTER TABLE ONLY public.control_constructs
+    ADD CONSTRAINT fk_rails_f312241fda FOREIGN KEY (parent_id) REFERENCES public.control_constructs(id);
 
 
 --
--- Name: fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_f40b3f4da6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES user_groups(id);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_f40b3f4da6 FOREIGN KEY (group_id) REFERENCES public.user_groups(id);
 
 
 --
--- Name: fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: codes fk_rails_f8e439e0d7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY codes
-    ADD CONSTRAINT fk_rails_f8e439e0d7 FOREIGN KEY (category_id) REFERENCES categories(id);
+ALTER TABLE ONLY public.codes
+    ADD CONSTRAINT fk_rails_f8e439e0d7 FOREIGN KEY (category_id) REFERENCES public.categories(id);
 
 
 --

@@ -58,7 +58,7 @@ class Instrument < ApplicationRecord
            -> { includes( :topic ) }, dependent: :destroy
   # An instrument can have many CcSequences
   has_many :cc_sequences,
-           -> { includes( :topic ) }, dependent: :destroy
+           -> { includes( :topic, :parent ) }, dependent: :destroy
   # An instrument can have many CcStatement
   has_many :cc_statements, dependent: :destroy
   # An instrument can have many CodeLists
@@ -73,16 +73,6 @@ class Instrument < ApplicationRecord
   # An instrument can have many QuestionGrids
   has_many :question_grids, -> { includes [
                                               :instruction,
-                                              :response_domain_datetimes,
-                                              :response_domain_numerics,
-                                              :response_domain_texts,
-                                              response_domain_codes: [
-                                                  code_list: [
-                                                      codes: [
-                                                          :category
-                                                      ]
-                                                  ]
-                                              ],
                                               vertical_code_list: [
                                                   codes: [
                                                       :category
@@ -97,22 +87,12 @@ class Instrument < ApplicationRecord
 
   # An instrument can have many QuestionItems
   has_many :question_items, -> { includes [
-                                              :instruction,
-                                              :response_domain_datetimes,
-                                              :response_domain_numerics,
-                                              :response_domain_texts,
-                                              response_domain_codes: [
-                                                  code_list: [
-                                                      codes: [
-                                                          :category
-                                                      ]
-                                                  ]
-                                              ]
+                                              :instruction
                                           ] }, dependent: :destroy
 
   # An instrument can have many CcQuestions
   has_many :cc_questions,
-           -> { includes(:question, :response_unit, :variables, :topic) },
+           -> { includes(:variables, :topic) },
            dependent: :destroy
 
   # An instrument can have many Instructions

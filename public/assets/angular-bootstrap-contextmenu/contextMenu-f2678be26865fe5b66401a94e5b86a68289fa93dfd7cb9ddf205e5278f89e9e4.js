@@ -23,8 +23,8 @@
       // Triggers right after any context menu is opened
       ContextMenuOpened: 'context-menu-opened'
     })
-    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window',
-      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window) {
+    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window', '$compile',
+      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window, $compile) {
 
         var _contextMenus = [];
         // Contains the element that was clicked to show the context menu
@@ -50,8 +50,13 @@
               // runs the function that expects a jQuery/jqLite element
               optionText = item.html($scope);
             } else {
-              // Assumes that the developer already placed a valid jQuery/jqLite element
-              optionText = item.html;
+              // Incase we want to compile html string to initialize their custom directive in html string
+              if (item.compile) {
+                optionText = $compile(item.html)($scope);
+              } else {
+                // Assumes that the developer already placed a valid jQuery/jqLite element
+                optionText = item.html;
+              }
             }
           } else {
 
@@ -404,7 +409,7 @@
 
             var leftCoordinate = event.pageX;
             var menuWidth = angular.element($ul[0]).prop('offsetWidth');
-            var winWidth = event.view.innerWidth;
+            var winWidth = event.view.innerWidth + window.pageXOffset;
             var padding = 5;
 
             if (leftOriented) {
@@ -617,6 +622,12 @@
               });
             });
           });
+
+          if (attrs.closeMenuOn) {
+            $scope.$on(attrs.closeMenuOn, function () {
+              removeAllContextMenus();
+            });
+          }
         };
       }]);
 // eslint-disable-next-line angular/window-service

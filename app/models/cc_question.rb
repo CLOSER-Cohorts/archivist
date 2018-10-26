@@ -36,7 +36,7 @@ class CcQuestion < ::ControlConstruct
   has_many :maps, as: :source, dependent: :destroy
 
   # All Variables associated through mapping
-  has_many :variables, through: :maps
+  has_many :variables, through: :maps, dependent: :destroy
 
   # All CcQuestions require a ResponseUnit
   validates :question, :response_unit, presence: true

@@ -107411,8 +107411,8 @@ return /******/ (function(modules) { // webpackBootstrap
       // Triggers right after any context menu is opened
       ContextMenuOpened: 'context-menu-opened'
     })
-    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window',
-      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window) {
+    .directive('contextMenu', ['$rootScope', 'ContextMenuEvents', '$parse', '$q', 'CustomService', '$sce', '$document', '$window', '$compile',
+      function ($rootScope, ContextMenuEvents, $parse, $q, custom, $sce, $document, $window, $compile) {
 
         var _contextMenus = [];
         // Contains the element that was clicked to show the context menu
@@ -107438,8 +107438,13 @@ return /******/ (function(modules) { // webpackBootstrap
               // runs the function that expects a jQuery/jqLite element
               optionText = item.html($scope);
             } else {
-              // Assumes that the developer already placed a valid jQuery/jqLite element
-              optionText = item.html;
+              // Incase we want to compile html string to initialize their custom directive in html string
+              if (item.compile) {
+                optionText = $compile(item.html)($scope);
+              } else {
+                // Assumes that the developer already placed a valid jQuery/jqLite element
+                optionText = item.html;
+              }
             }
           } else {
 
@@ -107792,7 +107797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
             var leftCoordinate = event.pageX;
             var menuWidth = angular.element($ul[0]).prop('offsetWidth');
-            var winWidth = event.view.innerWidth;
+            var winWidth = event.view.innerWidth + window.pageXOffset;
             var padding = 5;
 
             if (leftOriented) {
@@ -108005,6 +108010,12 @@ return /******/ (function(modules) { // webpackBootstrap
               });
             });
           });
+
+          if (attrs.closeMenuOn) {
+            $scope.$on(attrs.closeMenuOn, function () {
+              removeAllContextMenus();
+            });
+          }
         };
       }]);
 // eslint-disable-next-line angular/window-service
@@ -111984,7 +111995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 // source: app/assets/javascripts/templates/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("index.html", '<div class="container">\n    <h1>Welcome to Archivist.</h1>\n    <h4>You have successfully logged in.</h4>\n</div>')
+  $templateCache.put("index.html", '<div class="container">\n    <h1>{{ welcome_message }}</h1>\n    <h4>{{ successful_login_message }}</h4>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -112005,7 +112016,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/import.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/import.html", '<div class="row import">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <div class="row">\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadInstrumentImport()" novalidate>\n                    <div class="form-group">\n                        <label for="instrument-files">\n                            Upload DDI Instrument files\n                        </label>\n                        <input id="instrument-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <div class="checkbox">\n                        <label for="import_question_grids">\n                            <input\n                                    id="import_question_grids"\n                                    data-ng-model="options.question_grids"\n                                    type="checkbox"\n                            >\n                            Import QuestionGrids\n                        </label>\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-prefix">\n                            Prefix\n                        </label>\n                        <input id="instrument-prefix" data-ng-model="options.instrument_prefix" class="form-control" type="text" />\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-agency">\n                            Agency\n                        </label>\n                        <input id="instrument-agency" data-ng-model="options.instrument_agency" class="form-control" type="text" />\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-study">\n                            Study\n                        </label>\n                        <input id="instrument-study" data-ng-model="options.instrument_study" class="form-control" type="text" />\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Instrument</button>\n                </form>\n            </div>\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadDatasetImport()" novalidate>\n                    <div class="form-group">\n                        <label for="dataset-files">\n                            Upload DDI Dataset files\n                        </label>\n                        <input id="dataset-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Dataset</button>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/admin/import.html", '<div class="row import">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Import\n        </h1>\n\n        <notices></notices>\n\n        <div class="row">\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadInstrumentImport()">\n                    <div class="form-group">\n                        <label for="instrument-files">\n                            Upload DDI Instrument files\n                        </label>\n                        <input id="instrument-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <div class="checkbox">\n                        <label for="import_question_grids">\n                            <input\n                                    id="import_question_grids"\n                                    data-ng-model="options.question_grids"\n                                    type="checkbox"\n                            >\n                            Import QuestionGrids\n                        </label>\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-prefix">\n                            Prefix\n                        </label>\n                        <input id="instrument-prefix" data-ng-model="options.instrument_prefix" class="form-control" type="text" />\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-agency">\n                            Agency\n                        </label>\n                        <input id="instrument-agency" data-ng-model="options.instrument_agency" class="form-control" type="text" />\n                    </div>\n                    <div class="form-group">\n                        <label for="instrument-study">\n                            Study\n                        </label>\n                        <input id="instrument-study" data-ng-model="options.instrument_study" class="form-control" type="text" />\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Instrument</button>\n                </form>\n            </div>\n            <div class="col-md-6 col-sm-12">\n                <form data-ng-submit="uploadDatasetImport()">\n                    <div class="form-group">\n                        <label for="dataset-files">\n                            Upload DDI Dataset files\n                        </label>\n                        <input id="dataset-files" ng-file-model="files" type="file" multiple required />\n                        <p class="help-block">Only DDI-L 3.2 files are accepted.</p>\n                    </div>\n                    <button type="submit" class="btn btn-default">Import Dataset</button>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -112393,6 +112404,13 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           return DataManager.clearCache();
         });
       };
+    }
+  ]);
+
+  archivist.controller('HomeController', [
+    '$scope', function($scope) {
+      $scope.welcome_message = 'Welcome to Archivist';
+      return $scope.successful_login_message = 'You have successfully logged in.';
     }
   ]);
 

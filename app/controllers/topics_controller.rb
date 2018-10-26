@@ -22,7 +22,7 @@ class TopicsController < BasicController
   # Example:
   #   GET /topics/flattened_nest.json
   def flattened_nest
-    @collection = Topic.flattened_nest
+    @collection = Topic.includes(:children).flattened_nest
     render :index
   end
 

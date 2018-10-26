@@ -25,3 +25,7 @@ end
 class ControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 end
+
+def time_diff_milli(start, finish)
+  puts "#{(finish - start) * 1000.0} milliseconds"
+end
