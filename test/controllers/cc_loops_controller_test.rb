@@ -6,7 +6,6 @@ class CcLoopsControllerTest < ActionController::TestCase
     sign_in @user
     @cc_loop = cc_loops(:CcLoop_1)
     @instrument = instruments(:Instrument_3)
-    ActiveRecord::Base.connection.execute('REFRESH MATERIALIZED VIEW ancestral_topic WITH DATA')
   end
 
   test "should get index" do

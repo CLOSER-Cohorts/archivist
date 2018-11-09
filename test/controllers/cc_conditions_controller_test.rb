@@ -6,7 +6,6 @@ class CcConditionsControllerTest < ActionController::TestCase
     sign_in @user
     @cc_condition = cc_conditions(:CcCondition_9)
     @instrument = instruments(:Instrument_1)
-    ActiveRecord::Base.connection.execute('REFRESH MATERIALIZED VIEW ancestral_topic WITH DATA')
   end
 
   test "should get index" do

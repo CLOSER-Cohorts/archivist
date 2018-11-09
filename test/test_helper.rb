@@ -27,5 +27,9 @@ class ControllerTest < ActionDispatch::IntegrationTest
 end
 
 def time_diff_milli(start, finish)
-  puts "#{(finish - start) * 1000.0} milliseconds"
+  puts "Time to complete -> #{(finish - start) * 1000.0} milliseconds"
+end
+
+def file_data(name)
+  File.read(Rails.root.to_s + "/test/fixtures/files/#{name}")
 end

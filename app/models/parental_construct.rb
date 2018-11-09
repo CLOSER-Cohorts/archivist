@@ -24,7 +24,7 @@ class ParentalConstruct < ControlConstruct
 
   #TODO: Needs updating
   def all_children_ccs
-    sql = <<~SQL
+    sql ||= <<~SQL
         WITH RECURSIVE cc_tree AS
         (
            SELECT
@@ -72,11 +72,11 @@ class ParentalConstruct < ControlConstruct
   # @return [Array] All children
   def children
     Children.new({
-                   cc_conditions: self.association( :cc_conditions),
-                   cc_loops:      self.association( :cc_loops),
-                   cc_questions:  self.association( :cc_questions),
-                   cc_sequences:  self.association( :cc_sequences),
-                   cc_statements: self.association( :cc_statements)
+        cc_conditions: self.association( :cc_conditions),
+        cc_loops:      self.association( :cc_loops),
+        cc_questions:  self.association( :cc_questions),
+        cc_sequences:  self.association( :cc_sequences),
+        cc_statements: self.association( :cc_statements)
     })
   end
 
@@ -85,20 +85,20 @@ class ParentalConstruct < ControlConstruct
       if query_branch.nil?
         return cc.children.map { |c| {id: c.id, type: c.class.name } }
       else
-        return cc.children.select { |c| c.branch.to_i == query_branch }.map { |c| {id: c.id, type: c.class.name } }
+        return cc.children.select { |c| c.branch == query_branch }.map { |c| {id: c.id, type: c.class.name } }
       end
     end
 
     begin
       cs = $redis.hget 'construct_children:' +
-        self.class.to_s +
-        (branch.nil? ? '' : (':' + branch.to_s)), self.id
+                           self.class.to_s +
+                           (branch.nil? ? '' : (':' + branch.to_s)), self.id
 
       if cs.nil?
         cs = query_children.call branch, self
         $redis.hset 'construct_children:' +
-          self.class.to_s +
-          (branch.nil? ? '' : (':' + branch.to_s)), self.id,  cs.to_json
+                        self.class.to_s +
+                        (branch.nil? ? '' : (':' + branch.to_s)), self.id,  cs.to_json
       else
         cs = JSON.parse cs
       end
@@ -119,7 +119,7 @@ class ParentalConstruct < ControlConstruct
   #
   # @return [ControlConstruct] Last child construct
   def last_child
-    children.max_by { |x| x.position.to_i}
+    children.max_by { |x| x.position}
   end
 
   # Returns true if the construct has any children
@@ -132,17 +132,49 @@ class ParentalConstruct < ControlConstruct
   # TODO: Needs updating or replacing
   def find_closest_ancestor_topic
     sql = <<~SQL
-    SELECT id, name, parent_id, code, created_at, updated_at, description
-    FROM ancestral_topic
-    WHERE construct_id = ?
-      AND construct_type = ?
-      SQL
-
+        WITH RECURSIVE cc_tree AS
+        (
+           SELECT
+              ccl.*,
+              1 AS level
+           FROM
+              cc_links AS ccl
+           WHERE
+              construct_id = ?
+              AND construct_type = ?
+           UNION ALL
+           SELECT
+              ccl.*,
+              tree.level + 1
+           FROM
+              cc_links AS ccl
+              JOIN
+                 cc_tree AS tree
+                 ON tree.parent_id = ccl.id
+        )
+        SELECT
+           t.*
+        FROM
+           cc_tree AS tree
+        INNER JOIN
+           topics AS t
+        ON tree.topic_id = t.id
+        WHERE
+           NOT (
+              tree.construct_id = ?
+              AND tree.construct_type = ?
+           )
+           AND tree.topic_id IS NOT NULL
+        ORDER BY
+           level LIMIT 1
+    SQL
 
     Topic.find_by_sql([
-                        sql,
-                        self.id,
-                        self.class.name,
-    ]).first
+                          sql,
+                          self.id,
+                          self.class.name,
+                          self.id,
+                          self.class.name
+                      ]).first
   end
 end
