@@ -111,7 +111,7 @@ class Instrument < ApplicationRecord
   has_many :response_domain_texts, dependent: :destroy
 
   # An instrument keeps track of many RdsQs as junctions
-  has_many :rds_qs, class_name: 'RdsQs', dependent: :destroy
+  has_many :rds_qs, -> { includes(:question_item) }, class_name: 'RdsQs', dependent: :destroy
 
   # An instrument can have many ResponseUnits
   has_many :response_units, dependent: :destroy
