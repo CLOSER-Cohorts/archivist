@@ -9,7 +9,6 @@ asset 'angular-ui-sortable'
 asset 'angular-ui-tree', "2.22.5"
 asset 'jquery-ui'
 asset 'socket.io-client'
-asset 'angular-google-chart'
 asset 'angular-tree-control'
 asset 'angular-base64-upload'
 asset 'angular-loading-overlay'

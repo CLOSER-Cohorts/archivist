@@ -23,7 +23,6 @@
 #= require angular-ui-sortable/sortable
 #= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 #= require socket.io-client/dist/socket.io
-#= require angular-google-chart/ng-google-chart
 #= require angular-tree-control/angular-tree-control
 #= require angular-ui-tree/dist/angular-ui-tree
 #= require angular-loading-overlay/dist/angular-loading-overlay
@@ -42,7 +41,6 @@ archivist = angular.module('archivist', [
   'ui.bootstrap',
   'ui.sortable',
   'ui.tree',
-  'googlechart',
   'treeControl',
   'bsLoadingOverlay',
   'bsLoadingOverlaySpinJs',
