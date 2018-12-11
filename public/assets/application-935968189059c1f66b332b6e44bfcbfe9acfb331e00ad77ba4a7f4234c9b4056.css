@@ -5291,7 +5291,7 @@ tbody.collapse.in {
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
-  border-top: 4px solid \9;
+  border-top: 4px solid \	;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -5432,7 +5432,7 @@ tbody.collapse.in {
 .navbar-fixed-bottom .dropdown .caret {
   border-top: 0;
   border-bottom: 4px dashed;
-  border-bottom: 4px solid \9;
+  border-bottom: 4px solid \	;
   content: "";
 }
 /* line 193, /Users/qtnvcd8/Cloned/archivist/vendor/assets/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_dropdowns.scss */
