@@ -1,0 +1,1 @@
+define(["../var/document","../var/support"],function(e,t){"use strict";var a,c;return a=e.createElement("input"),c=e.createElement("select").appendChild(e.createElement("option")),a.type="checkbox",t.checkOn=""!==a.value,t.optSelected=c.selected,(a=e.createElement("input")).value="t",a.type="radio",t.radioValue="t"===a.value,t});

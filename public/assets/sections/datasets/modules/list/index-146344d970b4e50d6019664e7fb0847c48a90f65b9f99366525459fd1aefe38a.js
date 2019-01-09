@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.datasets.index",["archivist.data_manager"]).controller("DatasetsIndexController",["$scope","$http","DataManager",function(t,e,a){return t.datasets=a.getDatasets(),t.pageSize=24,t.currentPage=1,t.filterStudy=function(e){return t.filteredStudy=e},e.get("/studies.json").success(function(e){return t.studies=e}),console.log(t)}])}).call(this);

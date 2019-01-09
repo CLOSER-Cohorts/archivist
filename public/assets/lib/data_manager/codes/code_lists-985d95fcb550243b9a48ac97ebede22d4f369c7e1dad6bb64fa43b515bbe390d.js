@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.data_manager.codes.code_lists",["archivist.resource"]).factory("CodeLists",["WrappedResource",function(i){return new i("instruments/:instrument_id/code_lists/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

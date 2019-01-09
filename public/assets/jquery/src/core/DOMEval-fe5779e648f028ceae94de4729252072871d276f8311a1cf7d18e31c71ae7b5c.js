@@ -1,0 +1,1 @@
+define(["../var/document"],function(e){"use strict";function t(t,r,i){var d,o=(r=r||e).createElement("script");if(o.text=t,i)for(d in n)i[d]&&(o[d]=i[d]);r.head.appendChild(o).parentNode.removeChild(o)}var n={type:!0,src:!0,noModule:!0};return t});

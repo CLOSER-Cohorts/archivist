@@ -1,0 +1,1 @@
+define([],function(){"use strict";function e(e,r){return r.toUpperCase()}function r(r){return r.replace(n,"ms-").replace(t,e)}var n=/^-ms-/,t=/-([a-z])/g;return r});

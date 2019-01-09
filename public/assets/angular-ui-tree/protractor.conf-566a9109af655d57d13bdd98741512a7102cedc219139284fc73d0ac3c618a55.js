@@ -1,0 +1,1 @@
+exports.config={baseUrl:"http://localhost:9000",capabilities:{browserName:"firefox"},specs:["e2e/**/*.js"],jasmineNodeOpts:{showColors:!0,defaultTimeoutInterval:3e4}};

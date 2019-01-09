@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.data_manager.codes.categories",["archivist.resource"]).factory("Categories",["WrappedResource",function(e){return new e("instruments/:instrument_id/categories/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

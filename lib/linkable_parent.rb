@@ -5,51 +5,31 @@ module LinkableParent
     has_one :topic, through: :link
 
     def find_closest_ancestor_topic
-      sql ||= <<~SQL
-        WITH RECURSIVE cc_tree AS
-        (
-           SELECT
-              ccl.*,
-              1 AS level
-           FROM
-              cc_links AS ccl
-           WHERE
-              construct_id = ?
+      @sql ||= begin
+        <<~SQL
+          WITH constructs_selection AS (
+            SELECT *
+            FROM cc_links
+            WHERE construct_id = ?
               AND construct_type = ?
-           UNION ALL
-           SELECT
-              ccl.*,
-              tree.level + 1
-           FROM
-              cc_links AS ccl
-              JOIN
-                 cc_tree AS tree
-                 ON tree.parent_id = ccl.id
-        )
-        SELECT
-           t.*
-        FROM
-           cc_tree AS tree
-        INNER JOIN
-           topics AS t
-        ON tree.topic_id = t.id
-        WHERE
-           NOT (
-              tree.construct_id = ?
-              AND tree.construct_type = ?
-           )
-           AND tree.topic_id IS NOT NULL
-        ORDER BY
-           level LIMIT 1
-      SQL
+            ORDER BY id, construct_id, parent_id, branch
+          ) SELECT topics.id, "name", topics.parent_id, code, topics.created_at, topics.updated_at, description
+              FROM constructs_selection
+              LEFT JOIN topics
+                ON constructs_selection.topic_id = topics.id
+                where constructs_selection.topic_id IS NOT NULL
+          ;
+        SQL
+      end
 
-      Topic.find_by_sql([
-                            sql,
-                            self.id,
-                            self.class.name,
+      @topic ||= begin
+        Topic.find_by_sql([
+                            @sql,
                             self.id,
                             self.class.name
                         ]).first
+      end
+
     end
   end
 end

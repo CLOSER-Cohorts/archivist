@@ -1,0 +1,1 @@
+function on(n,o,e){return n.on(o,e),{destroy:function(){n.removeListener(o,e)}}}module.exports=on;

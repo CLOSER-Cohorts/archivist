@@ -58,7 +58,7 @@ class Instrument < ApplicationRecord
            -> { includes( :topic ) }, dependent: :destroy
   # An instrument can have many CcSequences
   has_many :cc_sequences,
-           -> { includes( :topic, :parent ) }, dependent: :destroy
+           -> { includes( :parent, :cc_questions ) }, dependent: :destroy
   # An instrument can have many CcStatement
   has_many :cc_statements, dependent: :destroy
   # An instrument can have many CodeLists

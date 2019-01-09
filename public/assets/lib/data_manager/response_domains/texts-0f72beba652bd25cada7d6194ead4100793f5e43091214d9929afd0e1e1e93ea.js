@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.data_manager.response_domains.texts",["archivist.resource"]).factory("ResponseDomainTexts",["WrappedResource",function(n){return new n("instruments/:instrument_id/response_domain_texts/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

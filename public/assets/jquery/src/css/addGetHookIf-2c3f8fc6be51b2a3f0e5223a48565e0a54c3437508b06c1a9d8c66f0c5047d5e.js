@@ -1,0 +1,1 @@
+define(function(){"use strict";function t(t,e){return{get:function(){if(!t())return(this.get=e).apply(this,arguments);delete this.get}}}return t});

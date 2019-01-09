@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.data_manager.variables_instrument",["archivist.resource"]).factory("VariablesInstrument",["WrappedResource",function(i){return new i("instruments/:instrument_id/variables/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

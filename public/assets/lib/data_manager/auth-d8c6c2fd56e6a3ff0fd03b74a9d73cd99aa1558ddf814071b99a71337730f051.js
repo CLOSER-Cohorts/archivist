@@ -1,0 +1,1 @@
+(function(){angular.module("archivist.data_manager.auth",["archivist.data_manager.auth.groups","archivist.data_manager.auth.users"]).factory("Auth",["Groups","Users",function(a,r){var t;return(t={}).Groups=a,t.Users=r,t.clearCache=function(){return t.Groups.clearCache(),t.Users.clearCache()},t}])}).call(this);

@@ -1,0 +1,1 @@
+var webpack=require("webpack"),merge=require("webpack-merge"),baseConfig=require("./webpack.config.dev.js");module.exports=merge(baseConfig,{output:{library:"io",libraryTarget:"umd",filename:"socket.io.js"},plugins:[new webpack.optimize.UglifyJsPlugin({compress:{screw_ie8:!1},mangle:{screw_ie8:!1},output:{screw_ie8:!1,beautify:!1}})]});
