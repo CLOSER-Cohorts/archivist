@@ -38,11 +38,10 @@
                     <td>{{instrument.last_edited_time}}</td>
                     <td>{{instrument.export_time}}</td>
                     <td>
-                        <a data-ng-href="{{instrument.export_url}}" data-ng-show="instrument.has_export" target="_self">Download latest</a>
-                        <span data-ng-show="instrument.has_export && instrument.can_export">&nbsp;|&nbsp;</span>
+                        <a data-ng-href="{{instrument.export_url}}" data-ng-show="instrument.has_export" target="_self">Download latest | </a>
+                        <!-- <span>&nbsp;|&nbsp;</span> -->
                         <a
-                                data-ng-click="export(instrument)"
-                                data-ng-show="instrument.can_export">Export</a>
+                                data-ng-click="export(instrument)">Export</a>
                     </td>
                 </tr>
             </table>

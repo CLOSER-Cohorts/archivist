@@ -81,7 +81,7 @@ end
 
 group :development do
   gem 'bullet', '~> 5.7', '>= 5.7.6', group: 'development'
-  gem 'rails-erd', '1.5.2'
+  gem 'rails-erd', '1.5.2'  # run "bundle exec erb" to generate pdf graph
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '2.0.2'
   # Access an IRB console on exception pages or by using <%= console %> in views
