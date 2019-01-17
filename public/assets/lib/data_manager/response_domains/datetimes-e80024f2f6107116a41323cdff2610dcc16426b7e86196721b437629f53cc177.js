@@ -1,1 +1,0 @@
-(function(){angular.module("archivist.data_manager.response_domains.datetimes",["archivist.resource"]).factory("ResponseDomainDatetimes",["WrappedResource",function(e){return new e("instruments/:instrument_id/response_domain_datetimes/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

@@ -1,1 +1,0 @@
-var webpack=require("webpack"),merge=require("webpack-merge"),baseConfig=require("./webpack.config.slim.dev.js");module.exports=merge(baseConfig,{output:{library:"io",libraryTarget:"umd",filename:"socket.io.slim.js"},plugins:[new webpack.optimize.UglifyJsPlugin]});

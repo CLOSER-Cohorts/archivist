@@ -1,1 +1,0 @@
-(function(){angular.module("archivist.data_manager.datasets",["archivist.resource"]).factory("Datasets",["WrappedResource",function(a){return new a("datasets/:id.json",{id:"@id"},{save:{method:"PUT"},create:{method:"POST"}})}])}).call(this);

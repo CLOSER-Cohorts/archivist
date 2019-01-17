@@ -1,1 +1,0 @@
-(function(){var t;(t=angular.module("archivist.data_manager.stats",[])).factory("ApplicationStats",["$http",function(t){return t.get("/stats.json",{cache:!0})}]),t.factory("InstrumentStats",["$http",function(t){return function(n){return t.get("/instruments/"+n+"/stats.json",{cache:!0})}}])}).call(this);

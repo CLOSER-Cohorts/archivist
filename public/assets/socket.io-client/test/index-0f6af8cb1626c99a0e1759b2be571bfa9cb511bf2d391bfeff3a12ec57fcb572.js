@@ -1,1 +1,0 @@
-require("./support/env"),global.mocha&&global.mocha.globals(["___eio","eio_iframe_*"]),require("./url"),require("./connection"),require("./socket");

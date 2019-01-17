@@ -1,1 +1,0 @@
-(function(){angular.module("archivist.data_manager.response_units",["archivist.resource"]).factory("ResponseUnits",["WrappedResource",function(n){return new n("instruments/:instrument_id/response_units/:id.json",{id:"@id",instrument_id:"@instrument_id"})}])}).call(this);

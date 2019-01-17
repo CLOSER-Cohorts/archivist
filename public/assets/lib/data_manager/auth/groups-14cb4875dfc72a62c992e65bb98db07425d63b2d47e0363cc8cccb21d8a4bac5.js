@@ -1,1 +1,0 @@
-(function(){angular.module("archivist.data_manager.auth.groups",["archivist.resource"]).factory("Groups",["WrappedResource",function(r){return new r("user_groups/:id.json",{id:"@id"})}])}).call(this);

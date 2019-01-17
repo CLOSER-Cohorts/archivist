@@ -1,1 +1,0 @@
-(function(){angular.module("archivist.build").filter("stripRD",function(){return function(n){return n.replace("ResponseDomain","")}})}).call(this);

@@ -1,1 +1,0 @@
-define(["../core"],function(r){"use strict";return r.parseXML=function(e){var n;if(!e||"string"!=typeof e)return null;try{n=(new window.DOMParser).parseFromString(e,"text/xml")}catch(t){n=undefined}return n&&!n.getElementsByTagName("parsererror").length||r.error("Invalid XML: "+e),n},r.parseXML});

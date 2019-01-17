@@ -1,1 +1,0 @@
-define(function(){"use strict";return function(n){return"function"==typeof n&&"number"!=typeof n.nodeType}});
