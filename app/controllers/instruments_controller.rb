@@ -15,7 +15,7 @@ class InstrumentsController < ImportableController
   @model_importer_class = ImportJob::Instrument
 
   def index
-    @qv_counts = QvMapping.group(:instrument_id).count
+    @qv_counts = QvMapping.group(:instrument_id).size
     super
   end
 

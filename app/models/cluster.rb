@@ -45,7 +45,7 @@ class Cluster < RedisRecord
   # Deletes all Clusters from Redis
   def self.delete_all
     all_keys = Cluster.all_keys
-    while all_keys.count > 0
+    while all_keys.size > 0
       Cluster.redis.del all_keys.pop(1000)
     end
     Cluster.redis.del LOOKUP
@@ -150,7 +150,7 @@ class Cluster < RedisRecord
   # Cluster. Then evaluate is called to deteremine the suggested_topic
   def compile
     queue = all_members
-    while queue.count > 0
+    while queue.size > 0
       found_strands = queue.shift.cluster_maps.map do |obj|
         obj.strand(false)
       end

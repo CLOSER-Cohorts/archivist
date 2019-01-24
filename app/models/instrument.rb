@@ -347,7 +347,7 @@ class Instrument < ApplicationRecord
   #
   # @return [Number] Number of Q-V maps
   def qv_count
-    self.qv_mappings.count
+    self.qv_mappings.size
   end
 
   # Returns an array of all response domains

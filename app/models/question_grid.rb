@@ -28,7 +28,7 @@ class QuestionGrid < ApplicationRecord
   #
   # @return [Integer] Number of columns
   def max_x
-    horizontal_code_list.codes.count
+    horizontal_code_list.codes.size
   end
 
   # Returns the total number of rows, including the rosters

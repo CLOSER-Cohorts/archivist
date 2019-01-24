@@ -15,9 +15,9 @@ class DatasetsController < ImportableController
   @model_importer_class = ImportJob::Dataset
 
   def index
-    @var_counts = Variable.group(:dataset_id).count
-    @qv_counts = QvMapping.group(:dataset_id).count
-    @dv_counts = DvMapping.group(:dataset_id).count
+    @var_counts = Variable.group(:dataset_id).size
+    @qv_counts = QvMapping.group(:dataset_id).size
+    @dv_counts = DvMapping.group(:dataset_id).size
     super
   end
 

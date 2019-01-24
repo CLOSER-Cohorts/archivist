@@ -91,6 +91,6 @@ class ParentalConstruct < ControlConstruct
   #
   # @return [Boolean] True for having children; False for no children
   def has_children?
-    children.count > 0
+    children.size > 0
   end
 end

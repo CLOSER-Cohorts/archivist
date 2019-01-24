@@ -89,11 +89,11 @@ class CodeList < ApplicationRecord
     #Check current codes against what was passed
     self.codes.each do |code|
       matching = codes.select { |x| x[:id] == code[:id] }
-      if matching.count == 0
+      if matching.size == 0
         #Code is no longer included
         #TODO: What implications does destroying a code have for grid axises?
         code.destroy
-      elsif matching.count == 1
+      elsif matching.size == 1
         code.order = matching.first[:order]
         code.value = matching.first[:value]
         code.label = matching.first[:label]
