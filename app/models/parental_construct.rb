@@ -2,16 +2,21 @@
 # the relationships for models that can have children to be able
 # to access them.
 class ParentalConstruct < ControlConstruct
+  include LinkableParent
   self.abstract_class = true
 
   # All {CcCondition} children
-  has_many :cc_conditions, as: :parent , dependent: :destroy
+  has_many :cc_conditions,
+        -> { includes(link: :topic) },
+            as: :parent , dependent: :destroy
 
   # All {CcLoop} children
   has_many :cc_loops, as: :parent , dependent: :destroy
 
   # All {CcQuestion} children
-  has_many :cc_questions, as: :parent , dependent: :destroy
+  has_many :cc_questions,
+           -> { includes(link: :topic) },
+           as: :parent, dependent: :destroy
 
   # All {CcSequence} children
   has_many :cc_sequences, as: :parent , dependent: :destroy
@@ -24,47 +29,7 @@ class ParentalConstruct < ControlConstruct
 
   #TODO: Needs updating
   def all_children_ccs
-    sql ||= <<~SQL
-        WITH RECURSIVE cc_tree AS
-        (
-           SELECT
-              ccl.*,
-              1 AS level
-           FROM
-              cc_links AS ccl
-           WHERE
-              construct_id = ?
-              AND construct_type = ?
-           UNION ALL
-           SELECT
-              ccl.*,
-              tree.level + 1
-           FROM
-              cc_links AS ccl
-              JOIN
-                 cc_tree AS tree
-                 ON tree.id = ccl.parent_id
-        )
-        SELECT
-           tree.*
-        FROM
-           cc_tree AS tree
-        WHERE
-           NOT (
-              tree.construct_id = ?
-              AND tree.construct_type = ?
-           )
-    SQL
 
-=begin
-    ::ControlConstruct.find_by_sql([
-                                       sql,
-                                       self.id,
-                                       self.class.name,
-                                       self.id,
-                                       self.class.name
-                                   ])
-=end
   end
 
   # Returns an array of all children in order
@@ -126,55 +91,6 @@ class ParentalConstruct < ControlConstruct
   #
   # @return [Boolean] True for having children; False for no children
   def has_children?
-    children.count > 0
-  end
-
-  # TODO: Needs updating or replacing
-  def find_closest_ancestor_topic
-    sql = <<~SQL
-        WITH RECURSIVE cc_tree AS
-        (
-           SELECT
-              ccl.*,
-              1 AS level
-           FROM
-              cc_links AS ccl
-           WHERE
-              construct_id = ?
-              AND construct_type = ?
-           UNION ALL
-           SELECT
-              ccl.*,
-              tree.level + 1
-           FROM
-              cc_links AS ccl
-              JOIN
-                 cc_tree AS tree
-                 ON tree.parent_id = ccl.id
-        )
-        SELECT
-           t.*
-        FROM
-           cc_tree AS tree
-        INNER JOIN
-           topics AS t
-        ON tree.topic_id = t.id
-        WHERE
-           NOT (
-              tree.construct_id = ?
-              AND tree.construct_type = ?
-           )
-           AND tree.topic_id IS NOT NULL
-        ORDER BY
-           level LIMIT 1
-    SQL
-
-    Topic.find_by_sql([
-                          sql,
-                          self.id,
-                          self.class.name,
-                          self.id,
-                          self.class.name
-                      ]).first
+    children.size > 0
   end
 end

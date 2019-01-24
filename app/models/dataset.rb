@@ -37,15 +37,13 @@ class Dataset < ApplicationRecord
   # Returns an array of all the datasets with identical variables
   #
   # TODO: Complete function
-  def self.find_duplicates
-    
-  end
+  def self.find_duplicates; end
 
   # Compares two datasets to determine if they have identical variables
-  # 
+  #
   # @param [Dataset] one First dataset for comparison
   # @param [Dataset] two Second dataset for comparison
-  # @return [True|False] 
+  # @return [True|False]
   def self.identical_by_variables(one, two)
     ActiveRecord::Associations::Preloader.new.preload one, :variables
     ActiveRecord::Associations::Preloader.new.preload two, :variables
@@ -57,7 +55,7 @@ class Dataset < ApplicationRecord
   #
   # @return [Integer]
   def dv_count
-    self.dv_mappings.count
+    self.dv_mappings.size
   end
 
   # Compares if this dataset has identical variables to another
@@ -79,6 +77,6 @@ class Dataset < ApplicationRecord
   #
   # @return [Integer]
   def qv_count
-    self.qv_mappings.count
+    self.qv_mappings.size
   end
 end
