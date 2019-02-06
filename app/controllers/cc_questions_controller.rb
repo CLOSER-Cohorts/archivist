@@ -7,7 +7,7 @@ class CcQuestionsController < ConstructController
   @params_list = [:question_id, :question_type, :response_unit_id, :topic]
 
   def variables
-    @collection = @object.variables
+    @collection ||= @object.variables
     render 'variables/index'
   end
 
