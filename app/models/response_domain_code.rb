@@ -25,7 +25,7 @@ class ResponseDomainCode < ApplicationRecord
   #
   # @return [Array] List of codes as hashes
   def codes
-    self.code_list.codes.map do |x|
+    self.code_list.codes.includes(:code_list).map do |x|
       {
           label: x.category.label,
           value: x.value,

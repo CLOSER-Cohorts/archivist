@@ -78,12 +78,12 @@ class Strand < RedisRecord
   # @return [Strand]
   def self.find_by_member(member)
     begin
-      id = redis.hget LOOKUP, member.typed_id
+      @id ||= redis.hget LOOKUP, member.typed_id
     rescue Redis::CannotConnectError
       Rails.logger.warn 'Cannot connect to Redis'
     end
-    return nil if id.nil?
-    return Strand.find(id.to_i)
+    return nil if @id.nil?
+    return Strand.find(@id.to_i)
   end
 
   # Rebuilds all Strands
