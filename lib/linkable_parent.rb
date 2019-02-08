@@ -4,8 +4,8 @@ module LinkableParent
     has_one :link, as: :target, dependent: :destroy
     has_one :topic, through: :link
 
-    def find_closest_ancestor_topic
-      @sql ||= begin
+    def find_closest_ancestor
+      begin
         <<~SQL
           WITH constructs_selection AS (
             SELECT *
@@ -21,7 +21,10 @@ module LinkableParent
           ;
         SQL
       end
+    end
 
+    def find_closest_ancestor_topic
+      @sql ||= find_closest_ancestor
       @topic ||= begin
         Topic.find_by_sql([
                             @sql,
@@ -29,7 +32,6 @@ module LinkableParent
                             self.class.name
                         ]).first
       end
-
     end
   end
 end

@@ -7,12 +7,7 @@ json.response_unit_label @object.response_unit_label
 json.variables @object.variables, :id, :name, :label
 json.topic @object.topic
 json.strand do
-  json.topic do
-    json.id = @object.strand.topic.id
-    json.code = @object.strand.topic.code
-    json.name = @object.strand.topic.name
-    json.parent_id = @object.strand.topic.parent_id
-  end
+  json.topic @object.topic
   json.good @object.strand.good
 end unless @object.strand.topic.nil?
 json.suggested_topic @object.get_suggested_topic, :id, :code, :name, :parent_id unless @object.get_suggested_topic.nil?
