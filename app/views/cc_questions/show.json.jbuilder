@@ -11,5 +11,5 @@ json.strand do
   json.good @object.strand.good
 end unless @object.strand.topic.nil?
 json.suggested_topic @object.get_suggested_topic, :id, :code, :name, :parent_id unless @object.get_suggested_topic.nil?
-json.ancestral_topic @object.get_ancestral_topic, :id, :code, :name, :parent_id unless @object.get_ancestral_topic.nil?
+json.ancestral_topic @object.topic, :id, :code, :name, :parent_id unless @object.topic.nil?
 json.type 'CcQuestion'

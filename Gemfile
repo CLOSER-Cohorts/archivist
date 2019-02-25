@@ -25,6 +25,8 @@ gem 'fuzzy_match', '2.1.0'
 # Heroku-deflater compresses assets and application responses on Heroku, while not wasting CPU cycles
 # on pointlessly compressing images and other binary responses
 gem 'heroku-deflater', '~> 0.6.3', :group => :production
+# Create background workers
+gem 'resque', '1.27.4'
 # Automatically scales dynos
 gem 'hirefire-resource', '0.4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -48,8 +50,6 @@ gem 'rack-timeout', '0.4.2'
 gem 'rails', '5.0.7.1'
 # Use Redis for caching
 gem 'redis', '3.3.5'
-# Create background workers
-gem 'resque', '1.27.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
