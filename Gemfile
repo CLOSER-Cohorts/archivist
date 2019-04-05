@@ -15,7 +15,7 @@ gem 'coffee-rails', '4.2.2'
 # Shows which parts of code are not covered by test suites
 gem 'coveralls', '~> 0.8.22', require: false
 # Use Devise for authentication and authorization
-gem 'devise', '4.4.0'
+gem 'devise', '>= 4.6.0'
 # To better enable custom configurations
 gem 'figaro', '1.1.1'
 # Used in DataTools
@@ -47,7 +47,7 @@ gem 'puma', '3.11.3'
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
-gem 'rails', '5.0.7.1'
+gem 'rails', '5.0.7.2'
 # Use Redis for caching
 gem 'redis', '3.3.5'
 # Use SCSS for stylesheets
