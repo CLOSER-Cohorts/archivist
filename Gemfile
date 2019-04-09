@@ -15,7 +15,7 @@ gem 'coffee-rails', '4.2.2'
 # Shows which parts of code are not covered by test suites
 gem 'coveralls', '~> 0.8.22', require: false
 # Use Devise for authentication and authorization
-gem 'devise', '4.4.0'
+gem 'devise', '>= 4.6.0'
 # To better enable custom configurations
 gem 'figaro', '1.1.1'
 # Used in DataTools
@@ -25,6 +25,8 @@ gem 'fuzzy_match', '2.1.0'
 # Heroku-deflater compresses assets and application responses on Heroku, while not wasting CPU cycles
 # on pointlessly compressing images and other binary responses
 gem 'heroku-deflater', '~> 0.6.3', :group => :production
+# Create background workers
+gem 'resque', '1.27.4'
 # Automatically scales dynos
 gem 'hirefire-resource', '0.4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -45,11 +47,9 @@ gem 'puma', '3.11.3'
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
-gem 'rails', '5.0.7.1'
+gem 'rails', '5.0.7.2'
 # Use Redis for caching
 gem 'redis', '3.3.5'
-# Create background workers
-gem 'resque', '1.27.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -85,7 +85,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '2.0.2'
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '2.3.0'
+  gem 'web-console', '~> 3.7'
 end
 
 group :test do

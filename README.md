@@ -4,15 +4,16 @@
 [![Inline docs](https://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](https://inch-ci.org/github/CLOSER-Cohorts/archivist)
 [![Coverage Status](https://coveralls.io/repos/github/CLOSER-Cohorts/archivist/badge.svg?branch=develop)](https://coveralls.io/github/CLOSER-Cohorts/archivist?branch=master)
 [![Code Climate](https://codeclimate.com/github/CLOSER-Cohorts/archivist/badges/gpa.svg)](https://codeclimate.com/github/CLOSER-Cohorts/archivist)
-[![Issue Stats](https://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](https://issuestats.com/github/CLOSER-Cohorts/archivist)
+<!-- [![Issue Stats](https://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](https://issuestats.com/github/CLOSER-Cohorts/archivist) -->
 
 ### Model Relationship Diagram
 ![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
-* Ruby: 2.5.0
+* Ruby: 2.5.X
 * Rails: 5.0.X
-* Postgres: 9.5.X
+* AngularJS: 1.5.11
+* Postgres: 9.6.X
 * Redis: 3.3.X
 
 ## Deployment
@@ -20,18 +21,11 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CLOSER-Cohorts/archivist/tree/master)
 
-#### Some basic steps
-1. `git clone -b master --single-branch https://github.com/CLOSER-Cohorts/archivist.git`
-2. `cd archivist`
-3. `gem install bundler`
-4. `bundler install`
-5. Set the environment variable  `RAILS_ENV=production` (e.g. `export RAILS_ENV=production`)
-6. Copy `config/application.yml.dist` to `config/application.yml`
-7. Set the mailer and database password in the above file
-8. `rails db:migrate`
-9. Start server: `foreman start` - you may need to instal the Foreman gem: `gem install foreman`
+### Installation
 
-This _could_ cause the webserver to start...
+For detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist) page.
+
+Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [AngularJS](https://code.angularjs.org/1.5.11/docs/api), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
 
 ## Testing
 To run the test suite just call `rails test`. Currently 197 tests and 256 assertions.
