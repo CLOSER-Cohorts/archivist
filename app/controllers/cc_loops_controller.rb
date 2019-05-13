@@ -10,5 +10,5 @@ class CcLoopsController < ConstructController
   @model_class = CcLoop
 
   # List of params that can be set and edited
-  @params_list = [:loop_var, :start_val, :end_val, :loop_while]
+  @params_list = [:id, :loop_var, :start_val, :end_val, :loop_while]
 end

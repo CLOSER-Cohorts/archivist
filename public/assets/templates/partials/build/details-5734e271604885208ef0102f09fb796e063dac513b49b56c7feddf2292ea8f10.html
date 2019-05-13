@@ -1,6 +1,0 @@
-<form name="detail" novalidate>
-    <div data-ng-include="details_path()"></div>
-</form>
-
-<button class="btn btn-danger" data-ng-if="!current.new" data-ng-click="delete()">Delete</button>
-<button data-ng-show="detail.$dirty" data-ng-disabled="detail.$invalid" class="btn btn-primary" data-ng-click="save()">Save</button>

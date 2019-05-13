@@ -238,7 +238,6 @@ class Instrument < ApplicationRecord
   #
   # @return [Instrument] Returns the newly copied instrument
   def copy(new_prefix, other_vals = {})
-
     new_i = self.dup
     new_i.prefix = new_prefix
     other_vals.select { |key, val| new_i[key] = val }

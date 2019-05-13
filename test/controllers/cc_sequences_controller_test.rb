@@ -16,21 +16,25 @@ class CcSequencesControllerTest < ActionController::TestCase
 
   test "should create cc_sequence" do
     assert_difference('CcSequence.count') do
+      # puts '----- BEFORE -----'
+      # puts CcSequence.count
       post :create, format: :json,
       params: {
+        instrument_id: @instrument.id,
         cc_sequence: {
-          instrument_id: @instrument.id,
-          literal: @cc_sequence.literal,
-          type: 'sequence',
-          parent: {
-            id: @instrument.cc_sequences.first.id,
-            type: 'sequence'
-          }
-          },
-          instrument_id: @instrument.id
+          id: 629,
+          literal: nil,
+          label: "New Test Label",
+          parent_id: @instrument.cc_sequences.first.id,
+          parent_type: 'CcSequence'
         }
+      }
     end
-
+    # puts '----- AFTER -----'
+    # puts CcSequence.count
+    # puts CcSequence.last.id
+    # puts CcSequence.last.label
+    # puts CcSequence.last.created_at
     assert_response :success
   end
 
@@ -40,15 +44,28 @@ class CcSequencesControllerTest < ActionController::TestCase
   end
 
   test "should update cc_sequence" do
-    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_sequence, cc_sequence: {literal: @cc_sequence.literal} }
+    # puts '----- BEFORE -----'
+    # puts CcSequence.find(146).label
+    patch :update, format: :json, params: {
+      instrument_id: @instrument.id,
+      id: @cc_sequence.id,
+      cc_sequence: {
+        label: "Updated label"
+      }
+    }
+    # puts '----- AFTER -----'
+    # puts CcSequence.find(146).label
     assert_response :success
   end
 
   test "should destroy cc_sequence" do
+    # puts '----- Before deleting count -----'
+    # puts CcSequence.count
     assert_difference('CcSequence.count', -1) do
       delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @cc_sequence.id }
     end
-
+    # puts '----- After deleting count -----'
+    # puts CcSequence.count
     assert_response :success
   end
 end

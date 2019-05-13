@@ -42,16 +42,27 @@ class ControlConstruct < ApplicationRecord
     begin
       unless self.parent_id.nil?
         if self.parent_type == 'CcCondition'
+          $redis.ping
+          # puts 'Connecting to Redis...'
+          # puts "Id: #{self.id}"
+          # puts "Parent_id: #{self.parent_id}"
+          # puts "Parent_type: #{self.parent_type}"
           $redis.hdel 'construct_children:CcCondition:0', self.parent_id
           $redis.hdel 'construct_children:CcCondition:1', self.parent_id
         else
+          $redis.ping
+          # puts 'Connecting to Redis...'
+          # puts "Id: #{self.id}"
+          # puts "Parent_id: #{self.parent_id}"
+          # puts "Parent_type: #{self.parent_type}"
           $redis.hdel 'construct_children:' + self.parent_type, self.parent_id
         end
       end
       $redis.hdel 'parents', self.id
       $redis.hdel 'is_top', self.id
-    rescue
-      Rails.logger.warn 'Cannot connect to Redis'
+    rescue => err
+      Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
+      exit 1
     end
   end
 
