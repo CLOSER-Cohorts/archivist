@@ -10,5 +10,5 @@ class CcSequencesController < ConstructController
   @model_class = CcSequence
 
   # List of params that can be set and edited
-  @params_list = [:literal]
+  @params_list = [:id, :literal]
 end

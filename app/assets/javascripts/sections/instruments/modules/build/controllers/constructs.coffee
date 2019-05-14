@@ -119,36 +119,53 @@ angular.module('archivist.build').controller(
               )
           )
 
-      $scope.save =  ->
+      $scope.save_construct =  ->
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
+        console.log '<<<<<<<<'
+        console.log 'Arr variable: '
+        console.log arr
+        console.log '<<<<<<<<'
         if $routeParams.construct_id == 'new'
+          console.info 'Adding a new construct'
           arr.push $scope.current
           index = arr.length - 1
           arr[index].instrument_id = $routeParams.id
         else
+          console.info 'Construct id: ' + $routeParams.construct_id
+          console.info 'Saving an existing construct'
+          console.log '-------------------------------------------------------'
+          console.log 'Current scope: '
+          console.log $scope.current
+          console.log '-------------------------------------------------------'
           angular.copy $scope.current, arr.select_resource_by_id(parseInt($routeParams.construct_id))
           index = arr.get_index_by_id parseInt($routeParams.construct_id)
+          console.log '-------------------------------------------------------'
+          console.log 'Array index: ' + index
+          console.log 'Parent id: ' + $scope.current.parent_id + ' | ' + 'Parent type: ' + $scope.current.parent_type
+          console.log '-------------------------------------------------------'
         arr[index].save(
           {}
-        ,(value, rh)->
-          value['instrument_id'] = $scope.instrument.id
-          value['type'] = $routeParams.construct_type
-          Flash.add('success', 'Construct updated successfully!')
+          ,(value, rh)->
+            value['instrument_id'] = $scope.instrument.id
+            value['type'] = $routeParams.construct_type
+            Flash.add('success', 'Construct updated successfully!')
+            console.info value
 
-          if $routeParams.construct_id == 'new'
-            parent = DataManager.Data.Instrument.Constructs[$scope.index.parent_type.capitalizeFirstLetter() + 's'].select_resource_by_id($scope.index.parent_id)
-            if $scope.index.branch == 0 or $scope.index.branch == null
-              parent.children.push arr[index]
-            else
-              parent.fchildren.push arr[index]
+            if $routeParams.construct_id == 'new'
+              parent = DataManager.Data.Instrument.Constructs[$scope.index.parent_type.capitalizeFirstLetter() + 's'].select_resource_by_id($scope.index.parent_id)
+              if $scope.index.branch == 0 or $scope.index.branch == null
+                parent.children.push arr[index]
+              else
+                parent.fchildren.push arr[index]
 
-            $scope.change_panel arr[index]
+              $scope.change_panel arr[index]
 
-          $scope.change_panel {type: null, id: null}
-          $scope.reset()
-        ,->
-          Flash.add('danger', 'Construct failed to update')
-          console.error("Construct failed to update")
+
+            $scope.change_panel {type: null, id: null}
+            $scope.reset()
+          ,->
+            Flash.add('danger', 'Construct failed to update')
+            console.error("Construct failed to update - save_construct (Cannot connect to Redis)")
         )
 
       $scope.reset = ->
@@ -192,6 +209,7 @@ angular.module('archivist.build').controller(
         console.timeEnd 'after instrument'
         console.timeEnd 'end to end'
 
+      # Saving response units
       $scope.save_ru = (new_interviewee)->
         DataManager.Data.ResponseUnits.push new DataManager.ResponseUnits.resource({
           label: new_interviewee.label,

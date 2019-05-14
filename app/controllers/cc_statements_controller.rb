@@ -7,5 +7,5 @@ class CcStatementsController < ConstructController
   @model_class = CcStatement
 
   # List of params that can be set and edited
-  @params_list = [:literal]
+  @params_list = [:id, :literal]
 end

@@ -48,7 +48,6 @@ angular.module('archivist.build').controller(
         $scope.cancel = ->
           console.log "cancel called"
           if $scope.newMode
-
             $scope.editMode = $scope.newMode = false
           else
             $scope.reset()

@@ -10,5 +10,5 @@ class CcConditionsController < ConstructController
   @model_class = CcCondition
 
   # List of params that can be set and edited
-  @params_list = [:literal, :logic]
+  @params_list = [:id, :literal, :logic]
 end

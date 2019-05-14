@@ -60,7 +60,7 @@ class ApplicationRecord < ActiveRecord::Base
     begin
       counts = $redis.get key
     rescue Redis::CannotConnectError
-      Rails.logger.warn 'Cannot connect to Redis'
+      Rails.logger.warn 'Cannot connect to Redis [association_stats 1]'
     end
     if counts.nil?
       counts = {}
@@ -72,7 +72,7 @@ class ApplicationRecord < ActiveRecord::Base
       begin
         $redis.set key, counts.to_json
       rescue Redis::CannotConnectError
-        Rails.logger.warn 'Cannot connect to Redis'
+        Rails.logger.warn 'Cannot connect to Redis [association_stats 2]'
       end
     else
       counts = JSON.parse counts
@@ -90,7 +90,7 @@ class ApplicationRecord < ActiveRecord::Base
           begin
             $redis.del key.classify + self.send(key).id.to_s + 'counts'
           rescue Redis::CannotConnectError
-            Rails.logger.warn 'Cannot connect to Redis'
+            Rails.logger.warn 'Cannot connect to Redis [clear_cached_stats]'
           end
         end
       end
@@ -122,7 +122,7 @@ class ApplicationRecord < ActiveRecord::Base
         $redis.hset 'last_edit:instrument', self.instrument.id, self.updated_at
       end
     rescue
-      Rails.logger.warn 'Cannot connect to Redis'
+      Rails.logger.warn 'Cannot connect to Redis [update_last_edit_time]'
     end
   end
 end
