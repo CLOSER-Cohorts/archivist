@@ -40,8 +40,23 @@ class CcStatementsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_statement" do
-    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_statement, cc_statement: {literal: @cc_statement.literal} }
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_statement, cc_statement: {literal: @cc_statement.literal, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'sequence'
+          }} }
     assert_response :success
+
+    assert_equal @cc_statement.reload.parent, @instrument.cc_sequences.first
+  end
+
+  test "should update cc_statement when parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_statement, cc_statement: {literal: @cc_statement.literal, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }} }
+    assert_response :success
+
+    assert_equal @cc_statement.reload.parent, @instrument.cc_sequences.first
   end
 
   test "should destroy cc_statement" do

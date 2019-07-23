@@ -50,12 +50,28 @@ class CcSequencesControllerTest < ActionController::TestCase
       instrument_id: @instrument.id,
       id: @cc_sequence.id,
       cc_sequence: {
-        label: "Updated label"
+        label: "Updated label",
+        parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'sequence'
+        }
       }
     }
     # puts '----- AFTER -----'
     # puts CcSequence.find(146).label
     assert_response :success
+
+    assert_equal @cc_sequence.reload.parent, @instrument.cc_sequences.first
+  end
+
+  test "should update cc_sequence when parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_sequence, cc_sequence: {literal: @cc_sequence.literal, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }} }
+    assert_response :success
+
+    assert_equal @cc_sequence.reload.parent, @instrument.cc_sequences.first
   end
 
   test "should destroy cc_sequence" do

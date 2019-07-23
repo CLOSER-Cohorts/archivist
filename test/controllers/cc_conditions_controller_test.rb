@@ -39,8 +39,23 @@ class CcConditionsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_condition" do
-    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_condition, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic} }
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_condition, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'sequence'
+          }} }
     assert_response :success
+
+    assert_equal @cc_condition.reload.parent, @instrument.cc_sequences.first
+  end
+
+  test "should update cc_condition when parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_condition, cc_condition: {literal: @cc_condition.literal, logic: @cc_condition.logic, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }} }
+    assert_response :success
+
+    assert_equal @cc_condition.reload.parent, @instrument.cc_sequences.first
   end
 
   test "should destroy cc_condition" do
