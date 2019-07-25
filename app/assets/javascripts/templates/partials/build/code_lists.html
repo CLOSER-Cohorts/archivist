@@ -86,36 +86,34 @@
                         autocomplete="off"
                 />
             </td>
-            <td>
-                <button
-                        class="btn btn-link"
-                        data-ng-click="removeCode(code)"
-                        data-ng-show="editMode"
-                        tabindex="-1"
-                >
-                    Remove
-                </button>
-            </td>
-            <td>
-                <button
-                        class="btn btn-link"
-                        data-ng-click="moveUp(code)"
-                        data-ng-show="editMode"
-                        tabindex="-1"
-                >
-                    Up
-                </button>
-            </td>
-            <td>
-                <button
-                        class="btn btn-link"
+            <div class="btn-group" role="group">
+                <td>
+                    <a
+                            class="btn btn-primary"
+                            data-ng-click="moveUp(code)"
+                            data-ng-show="editMode"
+                            tabindex="-1"
+                    >
+                        Up
+                    </a>
+                <a
+                        class="btn btn-primary"
                         data-ng-click="moveDown(code)"
                         data-ng-show="editMode"
                         tabindex="-1"
                 >
                     Down
-                </button>
-            </td>
+                </a>
+                    <a
+                            class="btn btn-danger"
+                            data-ng-click="removeCode(code)"
+                            data-ng-show="editMode"
+                            tabindex="-1"
+                    >
+                        Remove
+                    </a>
+                </td>
+            </div>
         </tr>
         <tr>
             <td></td>
