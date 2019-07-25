@@ -55,15 +55,14 @@ class ControlConstruct < ApplicationRecord
           # puts "Id: #{self.id}"
           # puts "Parent_id: #{self.parent_id}"
           # puts "Parent_type: #{self.parent_type}"
-          $redis.hdel 'construct_children:' + self.parent_type, self.parent_id
+          $redis.hdel "construct_children:#{self.parent_type}", self.parent_id
         end
       end
       $redis.hdel 'parents', self.id
       $redis.hdel 'is_top', self.id
-    rescue => err
-      Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
-      exit 1
-    end
+   rescue => err
+     Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
+   end
   end
 
   private # Private methods
