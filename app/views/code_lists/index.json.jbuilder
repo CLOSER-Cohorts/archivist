@@ -6,6 +6,7 @@ json.array!(@collection) do |code_list|
     json.category_id code.category.id
     json.value code.value
     json.order code.order
+    json.label code.category.label
   end
   json.rd !code_list.response_domain.nil?
   unless code_list.response_domain.nil?
