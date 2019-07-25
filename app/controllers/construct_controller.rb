@@ -18,13 +18,14 @@ class ConstructController < BasicInstrumentController
     obj_name = self.class.model_class.name.underscore.to_sym
     params = wrap_parent_param(self.params, obj_name)
     params[obj_name] = shim_construct_type(params[obj_name])
-    # Do not add permition to :parent_type as it causes the parent_id to go missing
     params.require( obj_name )
-        .permit( [:label, :parent_id, :position, :branch, :instrument_id]  + self.class.params_list )
+        .permit( [:label, :parent_id, :parent_type, :position, :branch, :instrument_id]  + self.class.params_list )
   end
 
   private
   def shim_construct_type(p)
+    # Ensure that if the parent_type is a valid ParentalContstruct class name
+    # or that it can be matched to one.
     parental_classes = %w(CcCondition CcLoop CcQuestion CcSequence CcStatement)
     unless p[:parent_type].nil? || parental_classes.include?(p[:parent_type])
       p[:parent_type] = case p[:parent_type].downcase
