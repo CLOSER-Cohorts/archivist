@@ -49,6 +49,10 @@ class CodeList < ApplicationRecord
   # Each CodeList can optionally be represented as a {ResponseDomainCode}
   has_one :response_domain_code, dependent: :destroy
 
+  # Accept nested attributes for Codes so that we can manage associated
+  # Codes from within a CodeList form.
+  accepts_nested_attributes_for :codes
+
   # Returns all the {QuestionGrid QuestionGrids} that this CodeList has been
   # used as an axis in
   #
@@ -77,52 +81,6 @@ class CodeList < ApplicationRecord
     unless be_code_answer || response_domain.nil?
       self.response_domain_code.delete
     end
-  end
-
-  # Update the {Code Codes} attached to this CodeList using an array of
-  # {Code Codes} given
-  #
-  # This function can handle creating, editting and deleting {Code Codes}
-  #
-  # @param [Array] codes List of {Code Codes} to transform the existing {Code Codes} to
-  def update_codes(codes)
-    #Check current codes against what was passed
-    self.codes.each do |code|
-      matching = codes.select { |x| x[:id] == code[:id] }
-      if matching.size == 0
-        #Code is no longer included
-        #TODO: What implications does destroying a code have for grid axises?
-        code.destroy
-      elsif matching.size == 1
-        code.order = matching.first[:order]
-        code.value = matching.first[:value]
-        code.label = matching.first[:label]
-        code.save!
-      else
-        #TODO: Throw a wobbler
-      end
-    end
-
-    unless codes.nil?
-      self.codes.reload
-      if self.codes.length < codes.length
-        # There are codes to add
-        new_codes_values = codes.select { |x| x[:id].nil? }
-        new_codes_values.each do |new_code_values|
-          unless new_code_values[:value].to_s == '' || new_code_values[:label].to_s == ''
-            new_code = Code.new
-            new_code.order = new_code_values[:order]
-            new_code.value = new_code_values[:value]
-            new_code.set_label new_code_values[:label], self.instrument
-            self.codes << new_code
-          end
-        end
-
-      elsif self.codes.length > codes.length
-        #TODO: Throw a massive wobbler
-      end
-    end
-    self.reload
   end
 
   # Returns an array of all objects that use this CodeList

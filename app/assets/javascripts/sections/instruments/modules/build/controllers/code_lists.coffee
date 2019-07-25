@@ -20,6 +20,8 @@ angular.module('archivist.build').controller(
           cl.count = cl.used_by.length
           cl
         $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists).sort_by_property()
+        DataManager.Data.Codes.Categories.$promise.then ->
+          $scope.categories = DataManager.Data.Codes.Categories
         $timeout ->
           offset = localStorage.getItem 'sidebar_scroll'
           if offset != null
@@ -73,7 +75,7 @@ angular.module('archivist.build').controller(
           DataManager.Data.ResponseDomains.Codes.$promise.then ->
             DataManager.groupResponseDomains()
         ,->
-          console.log("error")
+          Flash.add('danger', 'Code list failed to update!')
         )
 
         DataManager.Data.ResponseDomains[$routeParams.id] = null
