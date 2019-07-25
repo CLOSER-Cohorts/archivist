@@ -42,8 +42,23 @@ class CcLoopsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_loop" do
-    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_loop, cc_loop: {end_val: @cc_loop.end_val, loop_var: @cc_loop.loop_var, loop_while: @cc_loop.loop_while, start_val: @cc_loop.start_val} }
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_loop, cc_loop: {end_val: @cc_loop.end_val, loop_var: @cc_loop.loop_var, loop_while: @cc_loop.loop_while, start_val: @cc_loop.start_val, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'sequence'
+          }} }
     assert_response :success
+
+    assert_equal @cc_loop.reload.parent, @instrument.cc_sequences.first
+  end
+
+  test "should update cc_loop when parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_loop, cc_loop: {end_val: @cc_loop.end_val, loop_var: @cc_loop.loop_var, loop_while: @cc_loop.loop_while, start_val: @cc_loop.start_val, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }} }
+    assert_response :success
+
+    assert_equal @cc_loop.reload.parent, @instrument.cc_sequences.first
   end
 
   test "should destroy cc_loop" do
