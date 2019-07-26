@@ -1,4 +1,915 @@
 (function() {
+  var admin;
+
+  admin = angular.module('archivist.admin', ['templates', 'ngRoute', 'archivist.data_manager', 'archivist.flash']);
+
+  admin.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/admin', {
+        templateUrl: 'partials/admin/index.html',
+        controller: 'AdminDashController'
+      }).when('/admin/instruments', {
+        templateUrl: 'partials/admin/instruments.html',
+        controller: 'AdminInstrumentsController'
+      }).when('/admin/datasets', {
+        templateUrl: 'partials/admin/datasets.html',
+        controller: 'AdminDatasetsController'
+      }).when('/admin/users', {
+        templateUrl: 'partials/admin/users.html',
+        controller: 'AdminUsersController'
+      }).when('/admin/import', {
+        templateUrl: 'partials/admin/import.html',
+        controller: 'AdminImportController'
+      }).when('/admin/export', {
+        templateUrl: 'partials/admin/export.html',
+        controller: 'AdminExportController'
+      });
+    }
+  ]);
+
+  admin.controller('AdminDashController', [
+    '$scope', 'DataManager', function($scope, DataManager) {
+      return $scope.counts = DataManager.getApplicationStats();
+    }
+  ]);
+
+  admin.controller('AdminUsersController', [
+    '$scope', 'DataManager', 'Flash', function($scope, DataManager, Flash) {
+      DataManager.getUsers();
+      $scope.groups = DataManager.Data.Groups;
+      $scope.reset = function() {
+        $scope.users = [];
+        $scope.current = null;
+        $scope.mode = false;
+        return $scope.editing = false;
+      };
+      $scope.reset();
+      $scope.selectGroup = function(group) {
+        $scope.users = group.users;
+        $scope.current = group;
+        $scope.mode = 'group';
+        return $scope.editing = false;
+      };
+      $scope.selectUser = function(user) {
+        $scope.current = user;
+        $scope.mode = 'user';
+        return $scope.editing = false;
+      };
+      $scope.newGroup = function() {
+        $scope.original = null;
+        $scope.current = new DataManager.Auth.Groups.resource();
+        $scope.current.study = [
+          {
+            label: ''
+          }
+        ];
+        $scope.mode = 'group';
+        return $scope.editing = true;
+      };
+      $scope.newUser = function() {
+        $scope.original = null;
+        $scope.current = new DataManager.Auth.Users.resource();
+        $scope.mode = 'user';
+        $scope.users = [];
+        return $scope.editing = true;
+      };
+      $scope.addStudy = function() {
+        return $scope.current.study.push({
+          label: ''
+        });
+      };
+      $scope.edit = function() {
+        $scope.original = $scope.current;
+        $scope.current = null;
+        $scope.current = angular.copy($scope.original);
+        return $scope.editing = true;
+      };
+      $scope.cancel = function() {
+        if ($scope.original != null) {
+          $scope.current = $scope.original;
+        } else {
+          $scope.current = null;
+          $scope.mode = false;
+        }
+        return $scope.editing = false;
+      };
+      $scope.save = function() {
+        console.log($scope);
+        if ($scope.original != null) {
+          angular.copy($scope.current, $scope.original);
+        } else {
+          if ($scope.mode === 'group') {
+            $scope.groups.push($scope.current);
+          } else {
+            DataManager.Data.Users.push($scope.current);
+            DataManager.GroupResolver.resolve();
+          }
+          $scope.original = $scope.current;
+        }
+        return $scope.original.save({}, function(a, b, c, d, e) {
+          return $scope.editing = false;
+        }, function() {
+          $scope.original = null;
+          return Flash.add('danger', 'Could not save ' + $scope.mode + '.');
+        });
+      };
+      $scope.reset_password = function() {
+        return $scope.current.$reset_password();
+      };
+      $scope.lock = function() {
+        return $scope.current.$lock();
+      };
+      $scope["delete"] = function() {
+        var arr, index;
+        arr = $scope[$scope.mode + 's'];
+        index = arr.indexOf($scope.current);
+        return arr[index].$delete({}, function() {
+          arr.splice(index, 1);
+          return $scope.reset();
+        });
+      };
+      $scope.only_group_check = function() {
+        if ($scope.groups.length === 1) {
+          return $scope.selectGroup($scope.groups[$scope.groups.length - 1]);
+        }
+      };
+      return $scope.groups.$promise.then(function() {
+        return $scope.only_group_check();
+      });
+    }
+  ]);
+
+  admin.controller('AdminInstrumentsController', [
+    '$scope', 'DataManager', 'Flash', '$http', 'AdminMappingImportsFactory', function($scope, DataManager, Flash, $http, AdminMappingImportsFactory) {
+      $scope.instruments = DataManager.Instruments.query();
+      $scope.pageSize = 24;
+      $scope.currentPage = 1;
+      $scope.confirmation = {
+        prefix: ''
+      };
+      $scope.mapping = {};
+      $scope.prepareCopy = function(id) {
+        $scope.original = $scope.instruments.select_resource_by_id(id);
+        $scope.copiedInstrument = {};
+        $scope.copiedInstrument['new_study'] = $scope.original.study;
+        $scope.copiedInstrument['new_agency'] = $scope.original.agency;
+        return $scope.copiedInstrument['new_version'] = $scope.original.version;
+      };
+      $scope.copy = function() {
+        return $scope.copiedInstrument = $scope.original.$copy($scope.copiedInstrument, function() {
+          return Flash.add('success', 'Instrument copied successfully');
+        }, function(response) {
+          return Flash.add('danger', 'Instrument failed to copy - ' + response.message);
+        });
+      };
+      $scope.prepareDelete = function(id) {
+        return $scope.instrument = $scope.instruments.select_resource_by_id(id);
+      };
+      $scope["delete"] = function() {
+        if ($scope.confirmation.prefix === $scope.instrument.prefix) {
+          $scope.instrument.$delete({}, function() {
+            DataManager.Data = {};
+            $scope.instruments = DataManager.Instruments.requery();
+            return Flash.add('success', 'Instrument deleted successfully');
+          }, function(response) {
+            console.error(response);
+            return Flash.add('danger', 'Failed to delete instrument - ' + response.message);
+          });
+        } else {
+          Flash.add('danger', 'The prefixes did not match. The instrument was not deleted.');
+        }
+        return $scope.confirmation.prefix = '';
+      };
+      $scope.prepareNew = function() {
+        return $scope.newInstrument = new DataManager.Instruments.resource();
+      };
+      $scope["new"] = function() {
+        $scope.newInstrument.$create({}, function() {
+          return Flash.add('success', 'New instrument created successfully');
+        }, function(response) {
+          return Flash.add('danger', 'Failed to create new instrument - ' + response.message);
+        });
+        return $scope.instruments.push($scope.newInstrument);
+      };
+      $scope.cleanInputImport = function() {
+        if ($scope.mapping.files) {
+          return $scope.mapping.files = void 0;
+        }
+      };
+      $scope.clearCache = function(id) {
+        return $scope.instruments.select_resource_by_id(id).$clear_cache();
+      };
+      $scope.prepareImport = function(prefix, id) {
+        $scope.id = id;
+        $scope.modal = {};
+        $scope.modal.title = prefix;
+        $scope.modal.msgFileType = "Q-V and T-Q";
+        return $scope.modal.fileTypes = [
+          {
+            value: 'qvmapping',
+            label: 'Q-V Mapping'
+          }, {
+            value: 'topicq',
+            label: 'T-Q Mapping'
+          }
+        ];
+      };
+      return $scope["import"] = function(id) {
+        return AdminMappingImportsFactory["import"]($scope.mapping.files, $scope.mapping.type, 'POST', '/instruments/' + $scope.id + '/imports.json').then((function(response) {
+          if (response.status === 200) {
+            return Flash.add('success', 'File imported.');
+          } else {
+            return Flash.add('danger', 'Something went wrong, please import the file again.');
+          }
+        }), function(error) {
+          return Flash.add('danger', 'Something went wrong, please import the file again.');
+        });
+      };
+    }
+  ]);
+
+  admin.controller('AdminDatasetsController', [
+    '$scope', 'DataManager', 'Flash', '$http', 'AdminMappingImportsFactory', function($scope, DataManager, Flash, $http, AdminMappingImportsFactory) {
+      $scope.datasets = DataManager.getDatasets();
+      $scope.pageSize = 24;
+      $scope.currentPage = 1;
+      $scope.mapping = {};
+      $scope.prepareImport = function(name, id) {
+        $scope.id = id;
+        $scope.modal = {};
+        $scope.modal.title = name;
+        $scope.modal.msgFileType = "T-V and DV";
+        return $scope.modal.fileTypes = [
+          {
+            value: 'topicv',
+            label: 'T-V Mapping'
+          }, {
+            value: 'dv',
+            label: 'DV Mapping'
+          }
+        ];
+      };
+      $scope["import"] = function(id) {
+        return AdminMappingImportsFactory["import"]($scope.mapping.files, $scope.mapping.type, 'POST', '/datasets/' + $scope.id + '/imports.json').then((function(response) {
+          if (response.status === 200) {
+            return Flash.add('success', 'File imported.');
+          } else {
+            return Flash.add('danger', 'Something went wrong, please import the file again.');
+          }
+        }), function(error) {
+          console.log(error);
+          return Flash.add('danger', 'Something went wrong, please import the file again.');
+        });
+      };
+      $scope.prepareDelete = function(id) {
+        return $scope.dataset = $scope.datasets.select_resource_by_id(id);
+      };
+      return $scope["delete"] = function() {
+        return $scope.dataset.$delete({}, function() {
+          DataManager.Data = {};
+          $scope.datasets = DataManager.Dataset.requery();
+          return Flash.add('success', 'Dataset deleted successfully');
+        }, function(response) {
+          console.error(response);
+          return Flash.add('danger', 'Failed to delete dataset - ' + response.message);
+        });
+      };
+    }
+  ]);
+
+  admin.controller('AdminImportController', [
+    '$scope', '$http', 'Flash', function($scope, $http, Flash) {
+      $scope.files = [];
+      $scope.options = {
+        question_grids: true
+      };
+      $scope.uploadInstrumentImport = function() {
+        var fd, j, key, len, possible_options;
+        $scope.publish_flash();
+        fd = new FormData();
+        angular.forEach($scope.files, function(item) {
+          return fd.append('files[]', item);
+        });
+        possible_options = ['question_grids', 'instrument_prefix', 'instrument_agency', 'instrument_study'];
+        for (j = 0, len = possible_options.length; j < len; j++) {
+          key = possible_options[j];
+          if ($scope.options[key] != null) {
+            fd.set(key, $scope.options[key]);
+          }
+        }
+        if ($scope.options) {
+          return $http({
+            method: 'POST',
+            url: '/admin/import/instruments',
+            data: fd,
+            transformRequest: angular.identity,
+            headers: {
+              'Content-Type': void 0
+            }
+          }).success(function() {
+            return Flash.add('success', 'Instrument imported.');
+          }).error(function(res) {
+            return Flash.add('danger', 'Instrument failed to import - ' + res.message);
+          });
+        }
+      };
+      return $scope.uploadDatasetImport = function() {
+        var fd;
+        $scope.publish_flash();
+        fd = new FormData();
+        angular.forEach($scope.files, function(item) {
+          return fd.append('files[]', item);
+        });
+        return $http({
+          method: 'POST',
+          url: '/admin/import/datasets',
+          data: fd,
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': void 0
+          }
+        }).success(function() {
+          return Flash.add('success', 'Dataset imported.');
+        }).error(function(res) {
+          return Flash.add('danger', 'Dataset failed to import - ' + res.message);
+        });
+      };
+    }
+  ]);
+
+  admin.controller('AdminExportController', [
+    '$scope', '$http', 'DataManager', function($scope, $http, DataManager) {
+      $scope.instruments = DataManager.Instruments.query({}, function(instruments) {
+        return angular.forEach(instruments, function(v, k) {
+          v.can_export = (Date.parse(v.export_time) < Date.parse(v.last_edited_time)) || v.export_time === null;
+          return v.has_export = v.export_url !== null;
+        });
+      });
+      $scope.pageSize = 24;
+      $scope.currentPage = 1;
+      console.log($scope);
+      return $scope["export"] = function(instrument) {
+        return $http.get('/instruments/' + instrument.id.toString() + '/export.json');
+      };
+    }
+  ]);
+
+  admin.factory('AdminMappingImportsFactory', [
+    '$http', '$q', function($http, $q) {
+      var MappingImports;
+      MappingImports = {};
+      MappingImports["import"] = function(files, filetype, method, url) {
+        var data, i, params;
+        i = 0;
+        params = {};
+        params.imports = [];
+        while (i < files.length) {
+          data = {
+            file: files[i].base64,
+            type: filetype[i]
+          };
+          params.imports.push(data);
+          i++;
+        }
+        return $http({
+          method: method,
+          url: url,
+          data: JSON.stringify(params)
+        }).then((function(res) {
+          console.log('imported');
+          console.log(res);
+          return res;
+        }), function(res) {
+          console.log(res);
+          return $q.reject(res);
+        });
+      };
+      return MappingImports;
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var users;
+
+  users = angular.module('archivist.users', ['archivist.flash']);
+
+  users.controller('UserController', [
+    '$scope', '$location', '$http', '$route', 'User', 'DataManager', function($scope, $location, $http, $route, User, DataManager) {
+      $scope.sign_in = function(cred) {
+        $scope.user.set('email', cred.email);
+        return $scope.user.sign_in(cred.password).then(function() {
+          return $location.path('/instruments');
+        }, function() {
+          $scope.publish_flash();
+          cred.password = "";
+          DataManager.clearCache();
+          $route.reload();
+          return console.log('User logged in.');
+        });
+      };
+      $scope.sign_up = function(details) {
+        $scope.user.set('email', details.email);
+        $scope.user.set('first_name', details.fname);
+        $scope.user.set('last_name', details.lname);
+        $scope.user.set('group_id', details.group);
+        return $scope.user.sign_up(details.password, details.confirm).then(function() {
+          $location.path('/instruments');
+          return true;
+        }, function() {
+          $scope.publish_flash();
+          details.password = "";
+          details.confirm = "";
+          DataManager.clearCache();
+          $route.reload();
+          return false;
+        });
+      };
+      $http.get('/user_groups/external.json').then(function(res) {
+        return $scope.sign_up_groups = res.data;
+      });
+      return console.log($scope);
+    }
+  ]);
+
+  users.factory('User', [
+    '$http', '$q', '$route', 'Flash', 'DataManager', function($http, $q, $route, Flash, DataManager) {
+      return (function() {
+        function _Class(email) {
+          this.email = email;
+          this.logged_in = false;
+        }
+
+        _Class.attributes = ['email', 'first_name', 'last_name', 'group', 'group_id', 'role'];
+
+        _Class.prototype.sign_in = function(password) {
+          var self;
+          self = this;
+          return $http.post('/users/sign_in.json', {
+            user: {
+              email: this.email,
+              password: password,
+              remember_me: 1
+            }
+          }).then(function(res) {
+            DataManager.clearCache();
+            $route.reload();
+            self.logged_in = true;
+            self.set('first_name', res.data.first_name);
+            self.set('last_name', res.data.last_name);
+            self.set('group', res.data.group);
+            self.set('role', res.data.role);
+            return true;
+          }, function(res) {
+            self.logged_in = false;
+            Flash.add('danger', res.data.error);
+            return $q.reject(res.data.error);
+          });
+        };
+
+        _Class.prototype.sign_out = function() {
+          var self;
+          self = this;
+          return $http["delete"]('/users/sign_out.json').then(function() {
+            DataManager.clearCache();
+            return $route.reload();
+          })["finally"](function() {
+            return self.logged_in = false;
+          });
+        };
+
+        _Class.prototype.sign_up = function(password, confirmation) {
+          var self;
+          self = this;
+          return $http.post('/users.json', {
+            user: this.get_all_data({
+              password: password,
+              password_confirmation: confirmation
+            })
+          }).then(function(res) {
+            DataManager.clearCache();
+            $route.reload();
+            self.logged_in = true;
+            return self.set('role', res.data.role);
+          }, function(res) {
+            self.logged_in = false;
+            return Flash.add('danger', res.errors);
+          });
+        };
+
+        _Class.prototype.is_admin = function() {
+          return this.get('role') === 'admin';
+        };
+
+        _Class.prototype.is_editor = function() {
+          return this.get('role') === 'admin' || this.get('role') === 'editor';
+        };
+
+        _Class.prototype.get = function(attribute) {
+          return this[attribute];
+        };
+
+        _Class.prototype.set = function(attribute, val) {
+          return this[attribute] = val;
+        };
+
+        _Class.prototype.get_all_data = function(extra) {
+          var attribute, i, key, len, output, ref;
+          if (extra == null) {
+            extra = {};
+          }
+          output = {};
+          ref = this.constructor.attributes;
+          for (i = 0, len = ref.length; i < len; i++) {
+            attribute = ref[i];
+            output[attribute] = this.get(attribute);
+          }
+          for (key in extra) {
+            output[key] = extra[key];
+          }
+          return output;
+        };
+
+        return _Class;
+
+      })();
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var datasets;
+
+  datasets = angular.module('archivist.datasets', ['templates', 'ngRoute', 'archivist.datasets.index', 'archivist.datasets.show', 'archivist.datasets.edit']);
+
+  datasets.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/datasets', {
+        templateUrl: 'partials/datasets/index.html',
+        controller: 'DatasetsIndexController'
+      }).when('/datasets/:id', {
+        templateUrl: 'partials/datasets/show.html',
+        controller: 'DatasetsShowController'
+      }).when('/datasets/:id/edit', {
+        templateUrl: 'partials/datasets/edit.html',
+        controller: 'DatasetsEditController'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var index;
+
+  index = angular.module('archivist.datasets.index', ['archivist.data_manager']);
+
+  index.controller('DatasetsIndexController', [
+    '$scope', '$http', 'DataManager', function($scope, $http, DataManager) {
+      $scope.datasets = DataManager.getDatasets();
+      $scope.pageSize = 24;
+      $scope.currentPage = 1;
+      $scope.filterStudy = function(study) {
+        return $scope.filteredStudy = study;
+      };
+      $http.get('/studies.json').success(function(data) {
+        return $scope.studies = data;
+      });
+      return console.log($scope);
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var show;
+
+  show = angular.module('archivist.datasets.show', ['ngVis', 'archivist.data_manager']);
+
+  show.controller('DatasetsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.id, {
+        variables: true,
+        questions: true
+      }, function() {
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      $scope.pageSize = 20;
+      $scope.clusterMenuOptions = [
+        [
+          'Remove Topic', function($itemScope) {
+            console.log('Removing topic');
+            return console.log($itemScope);
+          }
+        ]
+      ];
+      $scope.graphData = {};
+      $scope.graphOptions = {
+        interaction: {
+          dragNodes: false
+        },
+        layout: {
+          hierarchical: {
+            enabled: true,
+            direction: 'LR'
+          }
+        }
+      };
+      $scope.graphEvents = {
+        click: function(data) {
+          var id, type;
+          if (data.nodes.length === 1) {
+            if (data.nodes[0] < 20000000) {
+              type = 'CcQuestion';
+              id = data.nodes[0] - 10000000;
+            } else {
+              type = 'Variable';
+              id = data.nodes[0] - 20000000;
+            }
+            $scope.current_cluster_selection = $scope.graphData.nodes.get(data.nodes[0]);
+            return console.log($scope);
+          }
+        }
+      };
+      $scope.loadNetworkData = function(object) {
+        var edges, nodes;
+        $scope.current_cluster_selection = {
+          topic: {
+            name: ''
+          }
+        };
+        nodes = new VisDataSet();
+        edges = new VisDataSet();
+        $scope.cluster = DataManager.getCluster('Variable', object.id, true, function(response) {
+          var groupings, i, j, k, len, len1, len2, member, ref, ref1, ref2, source, strand, tooltip;
+          groupings = {};
+          ref = $scope.cluster.strands;
+          for (i = 0, len = ref.length; i < len; i++) {
+            strand = ref[i];
+            ref1 = strand.members;
+            for (j = 0, len1 = ref1.length; j < len1; j++) {
+              member = ref1[j];
+              member.id += member.type === 'Variable' ? 20000000 : 10000000;
+              member.group = 'strand:' + strand.id.toString();
+              member.borderWidth = member.topic != null ? 3 : 1;
+              member.color = {
+                border: strand.good ? 'black' : 'red'
+              };
+              tooltip = '<span';
+              if (!strand.good) {
+                tooltip += ' style="color: red;"';
+              }
+              tooltip += '>' + member.text;
+              if (member.topic != null) {
+                tooltip += '<br/>' + member.topic.name;
+              }
+              tooltip += '</span>';
+              member.title = tooltip;
+              nodes.add(member);
+              if (member.sources != null) {
+                ref2 = member.sources;
+                for (k = 0, len2 = ref2.length; k < len2; k++) {
+                  source = ref2[k];
+                  edges.add({
+                    from: member.id,
+                    to: source.id + (source.type === 'Variable' ? 20000000 : 10000000),
+                    dashes: !source.interstrand
+                  });
+                }
+              }
+            }
+          }
+          return console.log(nodes);
+        });
+        return $scope.graphData = {
+          nodes: nodes,
+          edges: edges
+        };
+      };
+      $scope.split_mapping = function(model, other, x, y) {
+        if (x == null) {
+          x = null;
+        }
+        if (y == null) {
+          y = null;
+        }
+        return model.$split_mapping({
+          other: {
+            "class": other["class"],
+            id: other.id
+          },
+          x: x,
+          y: y
+        });
+      };
+      $scope.detectKey = function(event, variable, x, y) {
+        var new_sources;
+        if (x == null) {
+          x = null;
+        }
+        if (y == null) {
+          y = null;
+        }
+        if (event.keyCode === 13) {
+          new_sources = event.target.value.split(',');
+          variable.$add_mapping({
+            sources: {
+              id: new_sources,
+              x: x,
+              y: y
+            }
+          });
+        }
+        return console.log(variable);
+      };
+      return console.log($scope);
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var edit;
+
+  edit = angular.module('archivist.datasets.edit', ['archivist.data_manager']);
+
+  edit.controller('DatasetsEditController', [
+    '$http', '$scope', '$routeParams', '$location', 'Flash', 'DataManager', function($http, $scope, $routeParams, $location, Flash, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.id, {}, function() {
+        $scope.page['title'] = $scope.dataset.name + ' | Edit';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: '/datasets/' + $scope.dataset.id,
+            active: false
+          }, {
+            label: 'Edit',
+            link: false,
+            active: true
+          }
+        ];
+      });
+      $http.get('/studies.json').success(function(data) {
+        return $scope.studies = data;
+      });
+      return $scope.updateDataset = function() {
+        return $scope.dataset.$save({}, function() {
+          Flash.add('success', 'Dataset updated successfully!');
+          $location.path('/datasets');
+          return DataManager.clearCache();
+        }, function() {
+          return Flash.add('error', 'Dataset could not be updated.');
+        });
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
+  var instruments;
+
+  instruments = angular.module('archivist.instruments', ['templates', 'ngRoute', 'ngResource', 'ui.bootstrap', 'archivist.flash', 'archivist.data_manager', 'naif.base64']);
+
+  instruments.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments', {
+        templateUrl: 'partials/instruments/index.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id', {
+        templateUrl: 'partials/instruments/show.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/edit', {
+        templateUrl: 'partials/instruments/edit.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/import', {
+        templateUrl: 'partials/instruments/import.html',
+        controller: 'InstrumentsController'
+      });
+    }
+  ]);
+
+  instruments.controller('InstrumentsController', [
+    '$scope', '$routeParams', '$location', '$q', '$http', '$timeout', 'Flash', 'DataManager', 'Base64Factory', function($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory) {
+      var loadStructure, loadStudies, progressUpdate;
+      $scope.page['title'] = 'Instruments';
+      if ($routeParams.id) {
+        loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() !== 'edit';
+        loadStudies = !loadStructure;
+        $scope.loading = {
+          state: "Downloading",
+          progress: 0,
+          type: "info"
+        };
+        progressUpdate = function(newValue) {
+          $scope.loading.progress = newValue;
+          if ($scope.loading.progress > 99) {
+            $scope.loading.state = "Processing";
+            return $scope.loading.type = "success";
+          }
+        };
+        $scope.instrument = DataManager.getInstrument($routeParams.id, {
+          constructs: loadStructure,
+          questions: loadStructure,
+          progress: progressUpdate
+        }, function() {
+          $scope.page['title'] = $scope.instrument.prefix + ' | Edit';
+          return $timeout(function() {
+            if (loadStructure) {
+              $scope.page['title'] = $scope.instrument.prefix + ' | View';
+              DataManager.resolveConstructs();
+              DataManager.resolveQuestions();
+              console.log($scope);
+            }
+            $scope.breadcrumbs = [
+              {
+                label: 'Instruments',
+                link: '/instruments',
+                active: false
+              }, {
+                label: $scope.instrument.prefix,
+                link: false,
+                active: false,
+                subs: [
+                  {
+                    label: loadStructure ? 'Edit' : 'View',
+                    link: '/instruments/' + $routeParams.id + (loadStructure ? '/edit' : '')
+                  }, {
+                    label: 'Build',
+                    link: '/instruments/' + $routeParams.id + '/build'
+                  }, {
+                    label: 'Map',
+                    link: '/instruments/' + $routeParams.id + '/map'
+                  }
+                ]
+              }, {
+                label: loadStructure ? 'View' : 'Edit',
+                link: false,
+                active: true
+              }
+            ];
+            return $scope.loading.state = "Done";
+          }, 100);
+        });
+      } else {
+        $scope.instruments = DataManager.getInstruments();
+        $scope.pageSize = 24;
+        $scope.currentPage = 1;
+        $scope.filterStudy = function(study) {
+          return $scope.filteredStudy = study;
+        };
+        $http.get('/studies.json').success(function(data) {
+          return $scope.studies = data;
+        });
+      }
+      return $scope.updateInstrument = function() {
+        return $scope.instrument.$save({}, function() {
+          Flash.add('success', 'Instrument updated successfully!');
+          $location.path('/instruments');
+          return DataManager.clearCache();
+        }, function() {
+          return console.log("error");
+        });
+      };
+    }
+  ]);
+
+  instruments.factory('Base64Factory', [
+    '$q', function($q) {
+      return {
+        getBase64: function(file) {
+          var deferred, readerMapping;
+          deferred = $q.defer();
+          readerMapping = new FileReader;
+          readerMapping.readAsDataURL(file);
+          readerMapping.onload = function() {
+            deferred.resolve(readerMapping.result);
+          };
+          readerMapping.onerror = function(error) {
+            deferred.reject(error);
+          };
+          return deferred.promise;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
   var build;
 
   build = angular.module('archivist.build', ['templates', 'ngRoute', 'archivist.flash', 'archivist.data_manager', 'archivist.realtime']);
@@ -147,6 +1058,9 @@
           }
           return results;
         })()).sort_by_property();
+        DataManager.Data.Codes.Categories.$promise.then(function() {
+          return $scope.categories = DataManager.Data.Codes.Categories;
+        });
         return $timeout(function() {
           var offset;
           offset = localStorage.getItem('sidebar_scroll');
@@ -206,7 +1120,7 @@
             return DataManager.groupResponseDomains();
           });
         }, function() {
-          return console.log("error");
+          return Flash.add('danger', 'Code list failed to update!');
         });
         return DataManager.Data.ResponseDomains[$routeParams.id] = null;
       };
@@ -1117,6 +2031,199 @@
         ];
         return console.log($scope);
       });
+    }
+  ]);
+
+}).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
+  var mapping;
+
+  mapping = angular.module('archivist.mapping', ['ngRoute', 'archivist.flash', 'archivist.data_manager']);
+
+  mapping.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments/:id/map', {
+        templateUrl: 'partials/instruments/map.html',
+        controller: 'MappingController'
+      });
+    }
+  ]);
+
+  mapping.controller('MappingController', [
+    '$scope', '$routeParams', 'DataManager', function($scope, $routeParams, DataManager) {
+      var pushVariable;
+      $scope.instrument = DataManager.getInstrument($routeParams.id, {
+        constructs: true,
+        questions: true,
+        variables: true
+      }, function() {
+        DataManager.resolveConstructs();
+        return DataManager.resolveQuestions();
+      });
+      $scope.tags = {};
+      $scope.variable = {};
+      $scope.addVariable = function(item, question_id) {
+        $scope.tags[question_id] = $scope.tags[question_id] || [];
+        return $scope.tags[question_id] = pushVariable($scope.tags[question_id], item, question_id);
+      };
+      $scope.deleteVariable = function(question_id, idx) {
+        return $scope.tags[question_id].splice(idx, 1);
+      };
+      $scope.detectKey = function(event, question, x, y) {
+        var variables;
+        if (x == null) {
+          x = null;
+        }
+        if (y == null) {
+          y = null;
+        }
+        if (event.keyCode === 13) {
+          variables = event.target.value.split(',');
+          question.$add_mapping({
+            variable_names: variables,
+            x: null,
+            y: null
+          }, function() {
+            return DataManager.resolveQuestions();
+          });
+        }
+        return console.log(question);
+      };
+      pushVariable = function(array, item, question_id) {
+        var index;
+        console.log(array);
+        index = array.map(function(x) {
+          return x.id;
+        }).indexOf(item.id);
+        if (index === -1) {
+          array.push(item);
+        }
+        $scope.variable.added[question_id] = null;
+        return array;
+      };
+      console.log('Controller scope');
+      console.log($scope);
+      return $scope.split_mapping = function(question, variable_id, x, y) {
+        if (x == null) {
+          x = null;
+        }
+        if (y == null) {
+          y = null;
+        }
+        return question.$split_mapping({
+          variable_id: variable_id,
+          x: x,
+          y: y
+        });
+      };
+    }
+  ]);
+
+  mapping.directive('aTopics', [
+    '$compile', 'bsLoadingOverlayService', 'DataManager', 'Flash', function($compile, bsLoadingOverlayService, DataManager, Flash) {
+      var nestedOptions;
+      nestedOptions = function(scope) {
+        console.log(scope);
+        return '<select class="form-control" data-ng-model="model.topic.id" data-ng-init="model.topic.id = model.topic.id || model.ancestral_topic.id" style="width: 100%; ' + 'max-width:600px;" convert-to-number data-ng-change="updateTopic()" data-ng-if="model.topic || !model.strand">' + '<option value=""><em>Clear</em></option>' + '<option ' + 'data-ng-repeat="topic in topics" ' + 'data-ng-selected="topic.id == model.topic.id" ' + 'data-a-topic-indent="{{topic.level}}" ' + 'class="a-topic-level-{{topic.level}}" ' + 'value="{{topic.id}}">{{topic.name}}</option>' + '</select>' + '<span class="a-topic" data-ng-if="!model.topic && model.strand">{{model.strand.topic.name}}</span>';
+      };
+      return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+          model: '=ngModel'
+        },
+        link: {
+          post: function($scope, iElement, iAttrs, ngModel) {
+            var init;
+            init = function() {
+              var el;
+              console.log('a topic init');
+              $scope.model.orig_topic = $scope.model.topic;
+              $scope.topics = DataManager.getTopics({
+                flattened: true
+              });
+              el = $compile(nestedOptions($scope))($scope);
+              return iElement.replaceWith(el);
+            };
+            $scope.updateTopic = function() {
+              bsLoadingOverlayService.start();
+              return DataManager.updateTopic($scope.model, $scope.model.topic.id).then(function() {
+                return $scope.model.orig_topic = $scope.model.topic;
+              }, function(reason) {
+                $scope.model.topic = $scope.model.orig_topic;
+                return Flash.add('danger', reason.data.message);
+              })["finally"](function() {
+                return bsLoadingOverlayService.stop();
+              });
+            };
+            return init();
+          }
+        }
+      };
+    }
+  ]);
+
+  mapping.directive('aTopicIndent', [
+    function() {
+      return {
+        restrict: 'A',
+        scope: {},
+        link: {
+          post: function($scope, iElement, iAttrs, con) {
+            return $scope.$watch('topic', function() {
+              return iElement.text("--".repeat(parseInt(iAttrs.aTopicIndent) - 1) + iElement.text());
+            });
+          }
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var topics;
+
+  topics = angular.module('archivist.topics', ['ngRoute', 'archivist.data_manager']);
+
+  topics.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/topics', {
+        templateUrl: 'partials/topics/index.html',
+        controller: 'TopicsIndexController'
+      });
+    }
+  ]);
+
+  topics.controller('TopicsIndexController', [
+    '$scope', '$routeParams', 'DataManager', 'Topics', function($scope, $routeParams, DataManager, Topics) {
+      $scope.data = DataManager.getTopics({
+        nested: true
+      });
+      $scope.treeOptions = {
+        dirSelectable: false
+      };
+      $scope.showSelected = function(node, selected) {
+        if (!selected) {
+          $scope.node = null;
+          return $scope.quesiton_stats = $scope.variable_stats = $scope.node = null;
+        } else {
+          $scope.node = node;
+          $scope.quesiton_stats = $scope.variable_stats = null;
+          console.log(node);
+          console.log(Topics);
+          $scope.question_stats = Topics.questionStatistics({
+            id: node.id
+          });
+          return $scope.variable_stats = Topics.variableStatistics({
+            id: node.id
+          });
+        }
+      };
+      return console.log($scope);
     }
   ]);
 

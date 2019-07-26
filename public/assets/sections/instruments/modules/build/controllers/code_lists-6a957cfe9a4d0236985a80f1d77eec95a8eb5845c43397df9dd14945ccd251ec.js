@@ -20,6 +20,9 @@
           }
           return results;
         })()).sort_by_property();
+        DataManager.Data.Codes.Categories.$promise.then(function() {
+          return $scope.categories = DataManager.Data.Codes.Categories;
+        });
         return $timeout(function() {
           var offset;
           offset = localStorage.getItem('sidebar_scroll');
@@ -79,7 +82,7 @@
             return DataManager.groupResponseDomains();
           });
         }, function() {
-          return console.log("error");
+          return Flash.add('danger', 'Code list failed to update!');
         });
         return DataManager.Data.ResponseDomains[$routeParams.id] = null;
       };
