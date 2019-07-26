@@ -5,15 +5,17 @@
             name="label"
             class="form-control"
             data-ng-model="current.label"
-            required	
+            required
     />
 </div>
 
-<div class="form-group">
+<div class="form-group" data-ng-class="{'has-success': detail.question_type.$valid, 'has-error': detail.question_type.$error.required}">
     <label>Type</label>
     <select
             class="form-control"
+            name="question_type"
             data-ng-model="current.question_type"
+            required
     >
         <option value="QuestionItem">Item</option>
         <option value="QuestionGrid">Grid</option>
@@ -42,6 +44,6 @@
 	    name="response_unit"
             data-ng-model="current.response_unit_id"
             data-ng-options="option.value as option.label for option in details.ru_options"
-            required	
+            required
     />
 </div>

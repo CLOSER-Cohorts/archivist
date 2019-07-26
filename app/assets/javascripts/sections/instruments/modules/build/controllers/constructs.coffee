@@ -234,7 +234,6 @@ angular.module('archivist.build').controller(
         })
         $location.search {construct_type: cc_type, construct_id: 'new'}
 
-        $scope.reset()
         $scope.editMode = true
 
       console.time 'load base'

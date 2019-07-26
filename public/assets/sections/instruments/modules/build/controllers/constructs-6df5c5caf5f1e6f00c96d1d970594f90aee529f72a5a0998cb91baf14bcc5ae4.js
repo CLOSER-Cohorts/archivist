@@ -290,7 +290,6 @@
           construct_type: cc_type,
           construct_id: 'new'
         });
-        $scope.reset();
         return $scope.editMode = true;
       };
       console.time('load base');
