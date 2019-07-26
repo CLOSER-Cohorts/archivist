@@ -5974,6 +5974,7 @@ RdsQs_374:
   response_domain_type: ResponseDomainCode
   question_id: 196
   question_type: QuestionGrid
+  code_id: 1
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &748 2016-11-08 12:22:42.896142000 Z
     zone: *2
