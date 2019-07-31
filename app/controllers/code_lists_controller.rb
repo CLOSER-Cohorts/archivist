@@ -6,20 +6,13 @@ class CodeListsController < BasicInstrumentController
   @model_class = CodeList
 
   # List of params that can be set and edited
-  @params_list = [:label, :min_responses, :max_responses, codes_attributes: [ :id, :value, category_attributes: [:id, :label] ]]
-
-  rescue_from ActiveRecord::RecordInvalid do |e|
-    render json: e.record.errors.full_messages, status: :unprocessable_entity
-  end
+  @params_list = [:label, :min_responses, :max_responses, codes_attributes: [ :id, :value, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
 
   # POST /instruments/1/code_lists.json
   def create
     @object = collection.new(safe_params)
 
     if @object.save
-      if params.has_key? :codes
-        @object.update_codes(params[:codes])
-      end
       if params.has_key?(:rd) && params[:rd]
         @object.response_domain = true
       else
@@ -27,7 +20,7 @@ class CodeListsController < BasicInstrumentController
       end
       render :show, status: :created
     else
-      render json: @object.errors, status: :unprocessable_entity
+      render json: { errors: @object.errors, error_sentence: @object.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end
   end
 
@@ -51,7 +44,7 @@ class CodeListsController < BasicInstrumentController
       end
     else
       respond_to do |format|
-        format.json { render json: @object.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @object.errors, error_sentence: @object.errors.full_messages.to_sentence }, status: :unprocessable_entity }
       end
     end
   end
@@ -63,13 +56,20 @@ class CodeListsController < BasicInstrumentController
     # tranform these into params that comply with the params expected
     # by nested attributes using accepts_nested_attributes for the codes
     # and their nested categories.
-    codes_params = params[:code_list].delete(:codes)
+    codes_params = params[:codes] ? params.delete(:codes) : params[:code_list].delete(:codes)
     if codes_params
       codes_params.map do | code |
-        code[:category_attributes] = {
-          id: code.delete(:category_id),
-          label: code.delete(:label)
-        }
+        next if code[:value].blank? && code[:label].blank?
+        existing_category = @instrument.categories.find_by_label(code[:label])
+        if existing_category
+          code[:category_id] = existing_category.try(:id)
+        else
+          code[:category_attributes] = {
+            id: existing_category.try(:id) || code.delete(:category_id),
+            instrument_id: @instrument.id,
+            label: code.delete(:label)
+          }
+        end
         code
       end
       params[:code_list][:codes_attributes] = codes_params
