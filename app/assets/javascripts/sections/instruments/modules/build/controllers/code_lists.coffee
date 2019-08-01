@@ -74,8 +74,8 @@ angular.module('archivist.build').controller(
 
           DataManager.Data.ResponseDomains.Codes.$promise.then ->
             DataManager.groupResponseDomains()
-        ,->
-          Flash.add('danger', 'Code list failed to update!')
+        ,(value, rh)->
+          Flash.add('danger', 'Code list failed to update! ' + value.data.error_sentence)
         )
 
         DataManager.Data.ResponseDomains[$routeParams.id] = null
@@ -133,7 +133,7 @@ angular.module('archivist.build').controller(
           console.log newVal, oldVal, scope
           if newVal != oldVal
             if newVal?
-              scope.current.codes.push {id: null, value: newVal, category: null, order: $scope.current.codes.length}
+              scope.current.codes.push {id: null, value: newVal, category: null}
               $scope.current.newValue = null
               #TODO: Remove DOM code from controllers
               $timeout(
