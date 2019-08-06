@@ -110520,8 +110520,8 @@ return /******/ (function(modules) { // webpackBootstrap
           return DataManager.Data.ResponseDomains.Codes.$promise.then(function() {
             return DataManager.groupResponseDomains();
           });
-        }, function() {
-          return Flash.add('danger', 'Code list failed to update!');
+        }, function(value, rh) {
+          return Flash.add('danger', 'Code list failed to update! ' + value.data.error_sentence);
         });
         return DataManager.Data.ResponseDomains[$routeParams.id] = null;
       };
@@ -110607,15 +110607,18 @@ return /******/ (function(modules) { // webpackBootstrap
         console.log($scope.sidebar_objs);
         $scope.load_sidebar();
         return $scope.$watch('current.newValue', function(newVal, oldVal, scope) {
+          var i;
           console.log(newVal, oldVal, scope);
           if (newVal !== oldVal) {
             if (newVal != null) {
               scope.current.codes.push({
                 id: null,
                 value: newVal,
-                category: null,
-                order: $scope.current.codes.length
+                category: null
               });
+              for (i in $scope.current.codes) {
+                $scope.current.codes[i].order = i;
+              }
               $scope.current.newValue = null;
               return $timeout(function() {
                 var strLength;
