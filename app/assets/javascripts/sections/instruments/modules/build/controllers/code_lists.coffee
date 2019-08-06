@@ -134,6 +134,8 @@ angular.module('archivist.build').controller(
           if newVal != oldVal
             if newVal?
               scope.current.codes.push {id: null, value: newVal, category: null}
+              for i of $scope.current.codes
+                $scope.current.codes[i].order = i
               $scope.current.newValue = null
               #TODO: Remove DOM code from controllers
               $timeout(

@@ -6,7 +6,7 @@ class CodeListsController < BasicInstrumentController
   @model_class = CodeList
 
   # List of params that can be set and edited
-  @params_list = [:label, :min_responses, :max_responses, codes_attributes: [ :id, :value, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
+  @params_list = [:label, :min_responses, :max_responses, codes_attributes: [ :id, :value, :order, :_destroy, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
 
   # POST /instruments/1/code_lists.json
   def create
@@ -65,12 +65,24 @@ class CodeListsController < BasicInstrumentController
           code[:category_id] = existing_category.try(:id)
         else
           code[:category_attributes] = {
-            id: existing_category.try(:id) || code.delete(:category_id),
+            id: code.delete(:category_id),
             instrument_id: @instrument.id,
             label: code.delete(:label)
           }
         end
         code
+      end
+
+      # We delete any codes which weren't part of the code_params
+      if @object && @object.codes
+        existing_codes_id = @object.codes.pluck(:id).map(&:to_i)
+        new_code_ids = codes_params.map{|code| code[:id].to_i}
+        (existing_codes_id - new_code_ids).each do | code_id |
+          codes_params << {
+            id: code_id,
+            _destroy: true
+          }
+        end
       end
       params[:code_list][:codes_attributes] = codes_params
     end
