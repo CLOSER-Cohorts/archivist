@@ -24,4 +24,20 @@ class ResponseDomainNumeric < ApplicationRecord
   def params
     '(' + (self.min.nil? ? '~' : '%g' % self.min) + ',' + (self.max.nil? ? '~' : '%g' % self.max) + ')'
   end
+
+  # Return min in the correct class if it's nil, integer or float
+  #
+  # @return [Nil, Integer, Float] Min value
+  def min
+    return super if super.nil?
+    (numeric_type == 'Integer') ? super.to_i : super.to_f
+  end
+
+  # Return max in the correct class if it's nil, integer or float
+  #
+  # @return [Nil, Integer, Float] Max value
+  def max
+    return super if super.nil?
+    (numeric_type == 'Integer') ? super.to_i : super.to_f
+  end
 end
