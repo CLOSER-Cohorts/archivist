@@ -32,6 +32,14 @@ class ResponseDomainNumericsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should update response_domain_numeric min with nil if left blank" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @response_domain_numeric, response_domain_numeric: {label: @response_domain_numeric.label, max: '', min: '', numeric_type: @response_domain_numeric.numeric_type} }
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_nil json['min']
+    assert_nil json['max']
+  end
+
   test "should destroy response_domain_numeric" do
     assert_difference('ResponseDomainNumeric.count', -1) do
       delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @response_domain_numeric }
