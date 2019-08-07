@@ -220,6 +220,8 @@ CcSequence_15:
     utc: &31 2016-11-08 12:25:49.047701000 Z
     zone: *2
     time: *31
+  position: 1
+  branch: 0
 CcSequence_16:
   id: 416
   instrument_id: 46
@@ -235,6 +237,7 @@ CcSequence_16:
   parent_id: 415
   parent_type: CcSequence
   position: 1
+  branch: 0
 CcSequence_17:
   id: 417
   instrument_id: 46
@@ -249,7 +252,8 @@ CcSequence_17:
   label: 'SECTION A: YOUR HOME ENVIRONMENT'
   parent_id: 416
   parent_type: CcSequence
-  position: 7
+  position: 1
+  branch: 1
 CcSequence_18:
   id: 418
   instrument_id: 46
@@ -264,7 +268,8 @@ CcSequence_18:
   label: 'SECTION B: CHEMICALS AND MEDICINES'
   parent_id: 416
   parent_type: CcSequence
-  position: 8
+  position: 2
+  branch: 1
 CcSequence_19:
   id: 419
   instrument_id: 46
@@ -279,7 +284,8 @@ CcSequence_19:
   label: 'SECTION C: THINGS YOU DO'
   parent_id: 416
   parent_type: CcSequence
-  position: 9
+  position: 3
+  branch: 1
 CcSequence_20:
   id: 420
   instrument_id: 46
@@ -294,7 +300,8 @@ CcSequence_20:
   label: 'SECTION D: YOUR HOUSEHOLD'
   parent_id: 416
   parent_type: CcSequence
-  position: 10
+  position: 4
+  branch: 1
 CcSequence_21:
   id: 421
   instrument_id: 46
@@ -309,7 +316,8 @@ CcSequence_21:
   label: 'SECTION E: YOUR PREVIOUS PREGNANCIES'
   parent_id: 416
   parent_type: CcSequence
-  position: 11
+  position: 5
+  branch: 1
 CcSequence_22:
   id: 422
   instrument_id: 46
@@ -324,7 +332,8 @@ CcSequence_22:
   label: 'SECTION F: ABOUT YOURSELF'
   parent_id: 416
   parent_type: CcSequence
-  position: 12
+  position: 6
+  branch: 1
 CcSequence_23:
   id: 423
   instrument_id: 46
@@ -339,7 +348,8 @@ CcSequence_23:
   label: 'SECTION G: YOUR LIFESTYLE'
   parent_id: 416
   parent_type: CcSequence
-  position: 13
+  position: 7
+  branch: 1
 CcSequence_24:
   id: 424
   instrument_id: 46
@@ -354,7 +364,8 @@ CcSequence_24:
   label: 'SECTION H: YOUR SOCIAL ENVIRONMENT'
   parent_id: 416
   parent_type: CcSequence
-  position: 14
+  position: 8
+  branch: 1
 CcSequence_25:
   id: 425
   instrument_id: 46
@@ -369,7 +380,8 @@ CcSequence_25:
   label: SECTION I
   parent_id: 416
   parent_type: CcSequence
-  position: 15
+  position: 9
+  branch: 1
 CcSequence_26:
   id: 608
   instrument_id: 58
