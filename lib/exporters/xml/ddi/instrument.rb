@@ -141,22 +141,22 @@ module Exporters::XML::DDI
 
     # Populates the CategoryScheme with all of the instrument's {Category Categories}
     def build_cs
-      build_scheme Exporters::XML::DDI::Category, @instrument.categories, @cs
+      build_scheme Exporters::XML::DDI::Category, categories, @cs
     end
 
     # Populates the CodeListScheme with all of the instrument's {CodeList CodeLists}
     def build_cls
-      build_scheme Exporters::XML::DDI::CodeList, @instrument.code_lists, @cls
+      build_scheme Exporters::XML::DDI::CodeList, code_lists, @cls
     end
 
     # Populates the first QuestionScheme with all of the instrument's {QuestionItem QuestionItems}
     def build_qis
-      build_scheme Exporters::XML::DDI::QuestionItem, @instrument.question_items, @qis
+      build_scheme Exporters::XML::DDI::QuestionItem, question_items, @qis
     end
 
     # Populates the second QuestionScheme with all of the instrument's {QuestionGrid QuestionGrids}
     def build_qgs
-      build_scheme Exporters::XML::DDI::QuestionGrid, @instrument.question_grids, @qgs
+      build_scheme Exporters::XML::DDI::QuestionGrid, question_grids, @qgs
     end
 
     # Populates the ControlConstructScheme with all of the instrument's constructs
@@ -168,9 +168,35 @@ module Exporters::XML::DDI
       exporters[::CcSequence]  = Exporters::XML::DDI::CcSequence.new @doc
       exporters[::CcLoop]      = Exporters::XML::DDI::CcLoop.new @doc
 
-      @instrument.ccs_in_ddi_order.each do |cc|
+      control_constructs.each do |cc|
         @ccs << exporters[cc.class].V3_2(cc)
       end
+    end
+
+    def control_constructs
+      @control_constructs ||= @instrument.ccs_in_ddi_order
+    end
+
+    def code_lists
+      @code_lists ||= ::CodeList.where(id:
+        (
+          ::CodeList.joins(response_domain_code: :rds_qs).where('rds_qs.question_id IN (?)', question_items.pluck(:id) + question_grids.pluck(:id)).pluck(:id) +
+          ::CodeList.joins(:qgrids_via_h).where('question_grids.id IN (?)', question_grids.pluck(:id)).pluck(:id) +
+          ::CodeList.joins(:qgrids_via_v).where('question_grids.id IN (?)', question_grids.pluck(:id)).pluck(:id)
+        ).uniq
+      )
+    end
+
+    def categories
+      @categories ||= ::Category.joins(codes: :code_list).where('code_lists.id IN (?)', code_lists.pluck(:id))
+    end
+
+    def question_items
+      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionItem'}.map(&:id))
+    end
+
+    def question_grids
+      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionGrid'}.map(&:id))
     end
 
     # Populates the InstrumentScheme with the {::Instrument} details

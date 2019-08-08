@@ -8,14 +8,27 @@ Coveralls.wear!
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'minitest/spec'
 require 'devise'
 ActiveRecord::Migration.maintain_test_schema!
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  def self.ordered_fixtures(suffix: [])
+    fixture_files = Dir.entries(Rails.root + 'test/fixtures').select{|file| file =~ /\.yml/}.map{|file| file.gsub('.yml','').to_sym}
+    if suffix
+      fixture_files = fixture_files - suffix
+      fixture_files = fixture_files + suffix
+    end
+    fixture_files
+  end
+  fixtures *ordered_fixtures(suffix: [:cc_questions])
 
   # Add more helper methods to be used by all tests here...
+  extend MiniTest::Spec::DSL
+
+  register_spec_type(self) do |desc|
+    desc < ActiveRecord::Base if desc.is_a?(Class)
+  end
 end
 
 class ActionController::TestCase
