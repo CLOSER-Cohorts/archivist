@@ -20,6 +20,9 @@ class Instrument < ApplicationRecord
   # This model is an update point for archivist-realtime
   include Realtime::RtUpdate
 
+  # Use FriendlyId to create slugs
+  extend FriendlyId
+
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'in'
 
@@ -95,6 +98,8 @@ class Instrument < ApplicationRecord
            -> { includes(:variables, :topic) },
            dependent: :destroy
 
+  has_many :maps, through: :cc_questions
+
   # An instrument can have many Instructions
   has_many :instructions, dependent: :destroy
 
@@ -136,20 +141,12 @@ class Instrument < ApplicationRecord
   # a top sequence
   after_create :add_top_sequence
 
-  # After creating a new instrument add the instrument Prefix to
-  # cache
-  after_create :register_prefix
-
-  # After updating an instrument, refresh the Prefix cache
-  after_update :reregister_prefix
-
   # While destroying an instrument, pause archivist-realtime updates
   around_destroy :pause_rt
 
-  # After destroying an instrument, remove its Prefix from cache
-  after_destroy :deregister_prefix
-
   validates :prefix, uniqueness: true
+
+  friendly_id :prefix, use: :slugged
 
   # Update cache with freshly generated last editted times for  all
   # instruments
@@ -382,21 +379,8 @@ class Instrument < ApplicationRecord
     self.cc_sequences.create(label: nil)
   end
 
-  # Removes prefix from Redis cache
-  def deregister_prefix
-    ::Prefix.destroy self.prefix
-  end
-
-  # Adds prefix to Redis cache as alias of id
-  def register_prefix
-    ::Prefix[self.prefix] = self.id
-  end
-
-  # Removed the old prefix and then add the new one to Redis cache
-  def reregister_prefix
-    if self.changes.has_key? :prefix
-      ::Prefix.destroy self.changes[:prefix].first
-      register_prefix
-    end
+  # Regenerates friendly id slug when prefix changes
+  def should_generate_new_friendly_id?
+    self.changes.has_key?(:prefix)
   end
 end

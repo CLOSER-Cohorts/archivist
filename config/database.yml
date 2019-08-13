@@ -21,8 +21,8 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 16
   template: template0
-  username: archivist
-  password: farandwide
+  # username: archivist
+  # password: farandwide
 
 development:
   <<: *default
