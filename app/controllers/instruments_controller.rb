@@ -6,7 +6,7 @@ class InstrumentsController < ImportableController
                   qvmapping: ImportJob::Mapping,
                   topicq: ImportJob::TopicQ
   })
-  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables latest_document document} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -55,7 +55,7 @@ class InstrumentsController < ImportableController
 
   def document
     begin
-      d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').find(params[:doc_id])
+      d = @object.documents.find(params[:doc_id])
       render body: d.file_contents, content_type: 'application/xml'
     rescue => e
       puts "#{e}"
@@ -64,7 +64,7 @@ class InstrumentsController < ImportableController
   end
 
   def latest_document
-    d = Document.where(item_id: Prefix[params[:id]], item_type: 'Instrument').order(created_at: :desc).limit(1).first
+    d = @object.documents.order(created_at: :desc).limit(1).first
     if d.nil?
       head :ok
     else
@@ -107,11 +107,10 @@ class InstrumentsController < ImportableController
     # 1
     begin
       imports.each do |import|
-        doc = Document.new file: Base64.decode64(import[:file])
+        doc = Document.new(file: Base64.decode64(import[:file]), item: @object)
         doc.save_or_get
 
         type = import[:type]&.downcase&.to_sym
-
         Resque.enqueue(@@map[type], doc.id, {object: params[:id]})
       end
       head :ok, format: :json
@@ -161,6 +160,6 @@ class InstrumentsController < ImportableController
 
   private
   def set_object
-    @object = collection.find(::Prefix[params[:id]])
+    @object = collection.friendly.find(params[:id])
   end
 end

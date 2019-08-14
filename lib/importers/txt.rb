@@ -8,11 +8,12 @@ module Importers::TXT
         @doc = Importers::TXT::TabDelimited.new document.file_contents
       end
 
-      if options.has_key? 'object'
-        if options['object'].is_a?(String) || options['object'].is_a?(Integer) || options['object'].is_a?(Symbol)
-          @object = yield options['object']
+      options.symbolize_keys!
+      if options.has_key? :object
+        if options[:object].is_a?(String) || options[:object].is_a?(Integer) || options[:object].is_a?(Symbol)
+          @object = yield options[:object]
         else
-          @object = options['object']
+          @object = options[:object]
         end
       end
     end

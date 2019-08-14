@@ -48,7 +48,7 @@ module Question::Model
             existing_rd.delete
           end
           if new_rd
-            self.rds_qs.create question: self, response_domain: new_rd, code_id: col[:value], instrument_id: Prefix[self.instrument_id]
+            self.rds_qs.create question: self, response_domain: new_rd, code_id: col[:value], instrument_id: self.instrument.try(:id)
           end
         end
       end
@@ -94,7 +94,7 @@ module Question::Model
       new_rds = o_rds.reject { |x| self.response_domains.include? x }
       new_rds.each do |new_rd|
         highest_rd_order += 1
-        RdsQs.create instrument_id: Prefix[self.instrument_id],
+        RdsQs.create instrument_id: self.instrument.try(:id),
                      response_domain: new_rd,
                      question: self,
                      rd_order: highest_rd_order
