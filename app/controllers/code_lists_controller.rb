@@ -6,7 +6,7 @@ class CodeListsController < BasicInstrumentController
   @model_class = CodeList
 
   # List of params that can be set and edited
-  @params_list = [:label, :min_responses, :max_responses, codes_attributes: [ :id, :value, :order, :_destroy, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
+  @params_list = [:label, codes_attributes: [ :id, :value, :order, :_destroy, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
 
   # POST /instruments/1/code_lists.json
   def create
@@ -15,6 +15,9 @@ class CodeListsController < BasicInstrumentController
     if @object.save
       if params.has_key?(:rd) && params[:rd]
         @object.response_domain = true
+        @object.response_domain.min_responses = params[:min_responses]
+        @object.response_domain.max_responses = params[:max_responses]
+        @object.response_domain.save!
       else
         @object.response_domain = false
       end
