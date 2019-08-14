@@ -188,15 +188,15 @@ module Exporters::XML::DDI
     end
 
     def categories
-      @categories ||= ::Category.joins(codes: :code_list).where('code_lists.id IN (?)', code_lists.pluck(:id))
+      @categories ||= ::Category.joins(codes: :code_list).where('code_lists.id IN (?)', code_lists.pluck(:id)).distinct
     end
 
     def question_items
-      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionItem'}.map(&:id))
+      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionItem'}.map(&:id)).distinct
     end
 
     def question_grids
-      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionGrid'}.map(&:id))
+      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionGrid'}.map(&:id)).distinct
     end
 
     # Populates the InstrumentScheme with the {::Instrument} details
