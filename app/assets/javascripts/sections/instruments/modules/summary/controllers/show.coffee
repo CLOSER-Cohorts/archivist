@@ -6,8 +6,7 @@ angular.module('archivist.summary').controller(
     '$filter',
     'DataManager',
     'Map',
-    'RealTimeListener',
-    ($scope, $routeParams, $filter, DataManager, Map, RealTimeListener)->
+    ($scope, $routeParams, $filter, DataManager, Map)->
 
       $scope.object_type = $routeParams.object_type.underscore_to_pascal_case()
 

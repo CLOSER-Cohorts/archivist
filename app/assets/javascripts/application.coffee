@@ -52,7 +52,6 @@ archivist = angular.module('archivist', [
   'archivist.summary',
   'archivist.topics',
   'archivist.admin',
-  'archivist.realtime',
   'archivist.users',
   'archivist.data_manager'
 ])
@@ -139,8 +138,8 @@ archivist.directive 'ngFileModel', [
     }
 ]
 
-archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlayService',
-  ($rootScope, Flash, RealTimeConnection, bsLoadingOverlayService)->
+archivist.run(['$rootScope', 'Flash', 'bsLoadingOverlayService',
+  ($rootScope, Flash, bsLoadingOverlayService)->
     bsLoadingOverlayService.setGlobalConfig {
       templateUrl: 'bsLoadingOverlaySpinJs',
       activeClass: 'loading'
@@ -236,8 +235,6 @@ archivist.run(['$rootScope', 'Flash', 'RealTimeConnection', 'bsLoadingOverlaySer
     $rootScope.publish_flash()
 
     $rootScope.page = {title: 'Home'}
-
-    $rootScope.realtimeStatus = false
 
     $rootScope.range = (i)->
       (num for num in [1..i])
