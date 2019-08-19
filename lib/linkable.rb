@@ -12,7 +12,6 @@ module Linkable
           strand.save(true)
           return
         end
-
         if self.get_topic.nil? || self.get_topic == topic
           # All good
           self.association(:topic).writer(topic)
@@ -56,11 +55,11 @@ module Linkable
       end
 
       def get_topic
-        if @topic.nil?
+        if topic.nil?
           strand = Strand.find_by_member self
           strand&.topic
         else
-          @topic
+          topic
         end
       end
 
