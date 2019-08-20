@@ -10,9 +10,7 @@ angular.module('archivist.build').controller(
     'Flash',
     'DataManager',
     'Map',
-    'RealTimeListener',
-    'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, Map, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, Map)->
 
       $scope.load_sidebar = ->
         $scope.sidebar_objs = $filter('excludeRDC')($scope.instrument.ResponseDomains).sort_by_property()
@@ -94,8 +92,6 @@ angular.module('archivist.build').controller(
 
               $scope.current = angular.copy rd
               $scope.editMode = false
-              if $scope.current?
-                RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
               break
         if $routeParams.response_domain_type == 'new'
           $scope.editMode = true
@@ -121,9 +117,7 @@ angular.module('archivist.build').controller(
           $location: $location,
           $timeout: $timeout,
           Flash: Flash,
-          DataManager: DataManager,
-          RealTimeListener: RealTimeListener,
-          RealTimeLocking: RealTimeLocking
+          DataManager: DataManager
         }
       )
   ]

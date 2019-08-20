@@ -16,9 +16,6 @@ class ControlConstruct < ApplicationRecord
   # Control constructs are comparable to allow sorting into positional order
   include Comparable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # This model is exportable as DDI
   include Exportable
 

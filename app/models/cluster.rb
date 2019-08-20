@@ -197,12 +197,6 @@ class Cluster < RedisRecord
     @suggested_topic = nil
   end
 
-  # Broadcasts a batch update using archivist-realtime for
-  # all Cluster members
-  def rt_update
-    Realtime::Publisher.instance.batch_update all_members
-  end
-
   # Saves a Cluster to Redis
   #
   # @param [Object] do_eval Whether to evaluate the Cluster before saving

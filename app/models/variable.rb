@@ -13,9 +13,6 @@ class Variable < ApplicationRecord
   # This model can be used in mapping
   include Mappable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # This model can be tracked using an Identifier
   include Identifiable
 
