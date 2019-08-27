@@ -78,7 +78,6 @@ data_manager.factory(
         DataManager.Data.InstrumentStats    = {}
         DataManager.Data.Users              = {}
         DataManager.Data.Groups             = {}
-        DataManager.Data.Clusters           = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
@@ -321,19 +320,6 @@ data_manager.factory(
         else
           cb?()
 
-      DataManager.getCluster = (type, id, force = false, cb)->
-        index = type + '/' + id
-        if (not DataManager.Data.Clusters[index]?) or force
-          DataManager.Data.Clusters[index] =
-            GetResource(
-              '/clusters/' + index + '.json',
-              true,
-              cb
-            )
-        else
-          cb?()
-        return DataManager.Data.Clusters[index]
-
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.broken_resolve()
@@ -371,7 +357,6 @@ data_manager.factory(
       DataManager.updateTopic = (model, topic_id)->
         console.log(model)
         delete model.topic
-        delete model.strand
         delete model.suggested_topic
         model.$update_topic({topic_id: if Number.isInteger(topic_id) then topic_id else null })
 

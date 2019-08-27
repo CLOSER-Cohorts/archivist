@@ -10,9 +10,11 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'minitest/spec'
 require 'devise'
+require 'factory_bot'
 ActiveRecord::Migration.maintain_test_schema!
 
 class ActiveSupport::TestCase
+  include FactoryBot::Syntax::Methods
   def self.ordered_fixtures(suffix: [])
     fixture_files = Dir.entries(Rails.root + 'test/fixtures').select{|file| file =~ /\.yml/}.map{|file| file.gsub('.yml','').to_sym}
     if suffix

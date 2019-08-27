@@ -91,6 +91,7 @@ group :development do
 end
 
 group :test do
+  gem "factory_bot_rails"
   gem 'minitest', '5.10.3', '!= 5.10.2'
   # Performance testing
   #gem 'rails-perftest'

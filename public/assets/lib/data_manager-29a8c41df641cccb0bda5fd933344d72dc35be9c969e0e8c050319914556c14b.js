@@ -24,7 +24,6 @@
         DataManager.Data.InstrumentStats = {};
         DataManager.Data.Users = {};
         DataManager.Data.Groups = {};
-        DataManager.Data.Clusters = {};
         DataManager.Instruments.clearCache();
         DataManager.Constructs.clearCache();
         DataManager.Codes.clearCache();
@@ -324,21 +323,6 @@
           return typeof cb === "function" ? cb() : void 0;
         }
       };
-      DataManager.getCluster = function(type, id, force, cb) {
-        var index;
-        if (force == null) {
-          force = false;
-        }
-        index = type + '/' + id;
-        if ((DataManager.Data.Clusters[index] == null) || force) {
-          DataManager.Data.Clusters[index] = GetResource('/clusters/' + index + '.json', true, cb);
-        } else {
-          if (typeof cb === "function") {
-            cb();
-          }
-        }
-        return DataManager.Data.Clusters[index];
-      };
       DataManager.resolveConstructs = function(options) {
         if (DataManager.ConstructResolver == null) {
           DataManager.ConstructResolver = new ResolutionService.ConstructResolver(DataManager.Data.Constructs);
@@ -394,7 +378,6 @@
       DataManager.updateTopic = function(model, topic_id) {
         console.log(model);
         delete model.topic;
-        delete model.strand;
         delete model.suggested_topic;
         return model.$update_topic({
           topic_id: Number.isInteger(topic_id) ? topic_id : null

@@ -43,14 +43,6 @@
         ];
       });
       $scope.pageSize = 20;
-      $scope.clusterMenuOptions = [
-        [
-          'Remove Topic', function($itemScope) {
-            console.log('Removing topic');
-            return console.log($itemScope);
-          }
-        ]
-      ];
       $scope.graphData = {};
       $scope.graphOptions = {
         interaction: {
@@ -74,65 +66,9 @@
               type = 'Variable';
               id = data.nodes[0] - 20000000;
             }
-            $scope.current_cluster_selection = $scope.graphData.nodes.get(data.nodes[0]);
             return console.log($scope);
           }
         }
-      };
-      $scope.loadNetworkData = function(object) {
-        var edges, nodes;
-        $scope.current_cluster_selection = {
-          topic: {
-            name: ''
-          }
-        };
-        nodes = new VisDataSet();
-        edges = new VisDataSet();
-        $scope.cluster = DataManager.getCluster('Variable', object.id, true, function(response) {
-          var groupings, i, j, k, len, len1, len2, member, ref, ref1, ref2, source, strand, tooltip;
-          groupings = {};
-          ref = $scope.cluster.strands;
-          for (i = 0, len = ref.length; i < len; i++) {
-            strand = ref[i];
-            ref1 = strand.members;
-            for (j = 0, len1 = ref1.length; j < len1; j++) {
-              member = ref1[j];
-              member.id += member.type === 'Variable' ? 20000000 : 10000000;
-              member.group = 'strand:' + strand.id.toString();
-              member.borderWidth = member.topic != null ? 3 : 1;
-              member.color = {
-                border: strand.good ? 'black' : 'red'
-              };
-              tooltip = '<span';
-              if (!strand.good) {
-                tooltip += ' style="color: red;"';
-              }
-              tooltip += '>' + member.text;
-              if (member.topic != null) {
-                tooltip += '<br/>' + member.topic.name;
-              }
-              tooltip += '</span>';
-              member.title = tooltip;
-              nodes.add(member);
-              if (member.sources != null) {
-                ref2 = member.sources;
-                for (k = 0, len2 = ref2.length; k < len2; k++) {
-                  source = ref2[k];
-                  edges.add({
-                    from: member.id,
-                    to: source.id + (source.type === 'Variable' ? 20000000 : 10000000),
-                    dashes: !source.interstrand
-                  });
-                }
-              }
-            }
-          }
-          return console.log(nodes);
-        });
-        return $scope.graphData = {
-          nodes: nodes,
-          edges: edges
-        };
       };
       $scope.split_mapping = function(model, other, x, y) {
         if (x == null) {

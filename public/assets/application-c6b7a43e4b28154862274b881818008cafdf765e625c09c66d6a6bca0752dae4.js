@@ -107669,7 +107669,6 @@ return /******/ (function(modules) { // webpackBootstrap
         DataManager.Data.InstrumentStats = {};
         DataManager.Data.Users = {};
         DataManager.Data.Groups = {};
-        DataManager.Data.Clusters = {};
         DataManager.Instruments.clearCache();
         DataManager.Constructs.clearCache();
         DataManager.Codes.clearCache();
@@ -107969,21 +107968,6 @@ return /******/ (function(modules) { // webpackBootstrap
           return typeof cb === "function" ? cb() : void 0;
         }
       };
-      DataManager.getCluster = function(type, id, force, cb) {
-        var index;
-        if (force == null) {
-          force = false;
-        }
-        index = type + '/' + id;
-        if ((DataManager.Data.Clusters[index] == null) || force) {
-          DataManager.Data.Clusters[index] = GetResource('/clusters/' + index + '.json', true, cb);
-        } else {
-          if (typeof cb === "function") {
-            cb();
-          }
-        }
-        return DataManager.Data.Clusters[index];
-      };
       DataManager.resolveConstructs = function(options) {
         if (DataManager.ConstructResolver == null) {
           DataManager.ConstructResolver = new ResolutionService.ConstructResolver(DataManager.Data.Constructs);
@@ -108039,7 +108023,6 @@ return /******/ (function(modules) { // webpackBootstrap
       DataManager.updateTopic = function(model, topic_id) {
         console.log(model);
         delete model.topic;
-        delete model.strand;
         delete model.suggested_topic;
         return model.$update_topic({
           topic_id: Number.isInteger(topic_id) ? topic_id : null
@@ -109834,14 +109817,6 @@ return /******/ (function(modules) { // webpackBootstrap
         ];
       });
       $scope.pageSize = 20;
-      $scope.clusterMenuOptions = [
-        [
-          'Remove Topic', function($itemScope) {
-            console.log('Removing topic');
-            return console.log($itemScope);
-          }
-        ]
-      ];
       $scope.graphData = {};
       $scope.graphOptions = {
         interaction: {
@@ -109865,65 +109840,9 @@ return /******/ (function(modules) { // webpackBootstrap
               type = 'Variable';
               id = data.nodes[0] - 20000000;
             }
-            $scope.current_cluster_selection = $scope.graphData.nodes.get(data.nodes[0]);
             return console.log($scope);
           }
         }
-      };
-      $scope.loadNetworkData = function(object) {
-        var edges, nodes;
-        $scope.current_cluster_selection = {
-          topic: {
-            name: ''
-          }
-        };
-        nodes = new VisDataSet();
-        edges = new VisDataSet();
-        $scope.cluster = DataManager.getCluster('Variable', object.id, true, function(response) {
-          var groupings, i, j, k, len, len1, len2, member, ref, ref1, ref2, source, strand, tooltip;
-          groupings = {};
-          ref = $scope.cluster.strands;
-          for (i = 0, len = ref.length; i < len; i++) {
-            strand = ref[i];
-            ref1 = strand.members;
-            for (j = 0, len1 = ref1.length; j < len1; j++) {
-              member = ref1[j];
-              member.id += member.type === 'Variable' ? 20000000 : 10000000;
-              member.group = 'strand:' + strand.id.toString();
-              member.borderWidth = member.topic != null ? 3 : 1;
-              member.color = {
-                border: strand.good ? 'black' : 'red'
-              };
-              tooltip = '<span';
-              if (!strand.good) {
-                tooltip += ' style="color: red;"';
-              }
-              tooltip += '>' + member.text;
-              if (member.topic != null) {
-                tooltip += '<br/>' + member.topic.name;
-              }
-              tooltip += '</span>';
-              member.title = tooltip;
-              nodes.add(member);
-              if (member.sources != null) {
-                ref2 = member.sources;
-                for (k = 0, len2 = ref2.length; k < len2; k++) {
-                  source = ref2[k];
-                  edges.add({
-                    from: member.id,
-                    to: source.id + (source.type === 'Variable' ? 20000000 : 10000000),
-                    dashes: !source.interstrand
-                  });
-                }
-              }
-            }
-          }
-          return console.log(nodes);
-        });
-        return $scope.graphData = {
-          nodes: nodes,
-          edges: edges
-        };
       };
       $scope.split_mapping = function(model, other, x, y) {
         if (x == null) {
@@ -111700,14 +111619,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/datasets/modals/conflict.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/datasets/modals/conflict.html", '<div class="modal" id="topic-conflict" tabindex="-1" role="dialog" aria-labelledby="topic-conflict-title">\n    <div class="modal-dialog modal-lg" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="copy-instrument-title">Topic Cluster</h4>\n            </div>\n            <div class="modal-body">\n                <vis-network\n                        data="graphData"\n                        options="graphOptions"\n                        events="graphEvents"\n                        style="height: calc(100vh - 300px); width: 100%; display: block;"\n                        context-menu="clusterMenuOptions"\n                ></vis-network>\n            </div>\n            <div class="modal-footer">\n                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\n            </div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/datasets/modals/conflict.html", '<div class="modal" id="topic-conflict" tabindex="-1" role="dialog" aria-labelledby="topic-conflict-title">\n    <div class="modal-dialog modal-lg" role="document">\n        <div class="modal-content">\n            <div class="modal-header">\n                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n                    <span aria-hidden="true">\n                        &times;\n                    </span>\n                </button>\n                <h4 class="modal-title" id="copy-instrument-title">Topic Cluster</h4>\n            </div>\n            <div class="modal-body">\n                <vis-network\n                        data="graphData"\n                        options="graphOptions"\n                        events="graphEvents"\n                        style="height: calc(100vh - 300px); width: 100%; display: block;"\n                ></vis-network>\n            </div>\n            <div class="modal-footer">\n                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\n            </div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/partials/datasets/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-double-striped">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="admin-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat-start="variable in\n		        filteredVariables = (dataset.Variables | filter:query) |\n		        limitTo:pageSize:(currentPage-1)*pageSize"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: variable.strand && !variable.strand.good}"\n        >\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="admin-min">\n                <a\n                        href="#"\n                        data-toggle="modal"\n                        data-target="#topic-conflict"\n                        data-ng-click="loadNetworkData(variable)"\n                >Cluster</a>\n            </td>\n        </tr>\n        <tr data-ng-repeat-end data-ng-class-odd="\'odd\'" data-ng-class="{danger: variable.strand && !variable.strand.good}">\n            <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">\n                <form class="form-inline row">\n                    <div class="form-group col-xs-3">\n                        <label class="control-label">Used by</label>\n                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">\n                            <p class="display-inline">{{used_by.name}}</p>\n                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-4">\n                        <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>\n                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">\n                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">\n                                <p class="display-inline">{{variable.var_type == \'Normal\' && source.label || source.name}}</p>\n                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>\n                            </div>\n                        </div>\n                        <div class="col-xs-12">\n                            <input\n                                    data-ng-if="variable.var_type == \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Questions"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                            <input\n                                    data-ng-if="variable.var_type != \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Variables"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-5">\n                        <label class="col-xs-2">Topic</label>\n                        <div class="col-xs-10">\n                            <a-topics\n                                    data-ng-model="variable"\n                                    class="editor-min"\n                                    data-ng-change="updateModel($viewValue)"\n                            ></a-topics>\n                        </div>\n                    </div>\n                </form>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <ul uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </ul>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/datasets/modals/conflict.html\'"></div>')
+  $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-double-striped">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="admin-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat-start="variable in\n		        filteredVariables = (dataset.Variables | filter:query) |\n		        limitTo:pageSize:(currentPage-1)*pageSize"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: variable.strand && !variable.strand.good}"\n        >\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="admin-min">\n            </td>\n        </tr>\n        <tr data-ng-repeat-end data-ng-class-odd="\'odd\'" data-ng-class="{danger: variable.strand && !variable.strand.good}">\n            <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">\n                <form class="form-inline row">\n                    <div class="form-group col-xs-3">\n                        <label class="control-label">Used by</label>\n                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">\n                            <p class="display-inline">{{used_by.name}}</p>\n                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-4">\n                        <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>\n                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">\n                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">\n                                <p class="display-inline">{{variable.var_type == \'Normal\' && source.label || source.name}}</p>\n                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>\n                            </div>\n                        </div>\n                        <div class="col-xs-12">\n                            <input\n                                    data-ng-if="variable.var_type == \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Questions"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                            <input\n                                    data-ng-if="variable.var_type != \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Variables"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-5">\n                        <label class="col-xs-2">Topic</label>\n                        <div class="col-xs-10">\n                            <a-topics\n                                    data-ng-model="variable"\n                                    class="editor-min"\n                                    data-ng-change="updateModel($viewValue)"\n                            ></a-topics>\n                        </div>\n                    </div>\n                </form>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <ul uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </ul>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/datasets/modals/conflict.html\'"></div>')
 }]);
 
 // Angular Rails Template

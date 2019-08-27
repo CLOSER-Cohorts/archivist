@@ -29,6 +29,7 @@ class Variable < ApplicationRecord
 
   # All {CcQuestion questions} associated through mapping
   has_many :questions, through: :maps, as: :source, source: :source, source_type: 'CcQuestion'
+  has_many :question_topics, -> { distinct }, through: :questions, as: :topic, source: :topic
 
   # All source {Variable Variables}
   has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable'
@@ -42,6 +43,26 @@ class Variable < ApplicationRecord
 
   # All {Group Groups} that this Variable is contained within
   has_many :group, through: :groupings
+
+  validates :dataset, presence: true
+  validate :topic_conflict
+
+  def to_s
+    name
+  end
+
+  def topic_conflict
+    return unless topic
+    cc_question_topics = questions.map(&:topic).uniq.compact
+    if cc_question_topics.present? && !cc_question_topics.include?(topic)
+      errors.add(:topic, I18n.t('activerecord.errors.models.variable.attributes.topic.conflict', topics: cc_question_topics.to_sentence, questions: questions.to_sentence))
+    end
+  end
+
+  def resolved_topic
+    return topic if topic
+    question_topics.first
+  end
 
   # Adds a new source item by label
   #
@@ -62,13 +83,6 @@ class Variable < ApplicationRecord
     end
   end
 
-  # Returns all the edges of a {Cluster} graph
-  #
-  # @return [Array] List of all mapped variables
-  def cluster_maps
-    self.der_variables.to_a + self.src_variables.to_a
-  end
-
   # Returns level of derivation
   #
   # @return [Integer] Derivation level
@@ -82,13 +96,6 @@ class Variable < ApplicationRecord
   # @return [Array] All source {CcQuestion questions} and variables
   def sources
     self.questions.to_a + self.src_variables.to_a
-  end
-
-  # Returns all the edges of a {Strand} graph
-  #
-  # @return [Array] List of all mapped {CcQuestion questions}
-  def strand_maps
-    self.questions.to_a
   end
 
   private # Private method

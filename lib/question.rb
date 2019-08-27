@@ -13,6 +13,8 @@ module Question::Model
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
     has_many :cc_questions, as: :question, dependent: :destroy, inverse_of: :question
 
+    validates :instrument, presence: true
+
     include Exportable
     # This model can be tracked using an Identifier
     include Identifiable

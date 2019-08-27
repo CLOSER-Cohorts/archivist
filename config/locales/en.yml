@@ -21,3 +21,16 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        variable:
+          attributes:
+            topic:
+              conflict: "conflict, already associated to topic %{topics} through question %{questions}"
+        cc_question:
+          attributes:
+            topic:
+              conflict: "conflict, already associated to topic %{topics} through variables %{variables}"
+            resolved_topic:
+              variables_conflict: "conflict, you cannot assign variable '%{new_variables}'' to this question because it has a topic of '%{new_topics}'' and your existing variables are using topic '%{existing_topic}'"

@@ -32,12 +32,6 @@
             <td>{{variable.label}}</td>
             <td>{{variable.var_type}}</td>
             <td class="admin-min">
-                <a
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#topic-conflict"
-                        data-ng-click="loadNetworkData(variable)"
-                >Cluster</a>
             </td>
         </tr>
         <tr data-ng-repeat-end data-ng-class-odd="'odd'" data-ng-class="{danger: variable.strand && !variable.strand.good}">
