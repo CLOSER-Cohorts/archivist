@@ -73,12 +73,11 @@ show.controller(
       $scope.detectKey = (event, variable, x = null, y = null)->
         if event.keyCode == 13
           new_sources = event.target.value.split ','
-          variable.$add_mapping {
-            sources:
-              id: new_sources
-              x: x
-              y: y
-          }
+          DataManager.addSources(variable, new_sources, x, y).then(->
+            $scope.model.orig_topic = $scope.model.topic
+          , (reason)->
+            variable.errors = reason.data.message
+          )
         console.log variable
 
       console.log $scope

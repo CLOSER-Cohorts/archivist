@@ -52,13 +52,11 @@ mapping.controller(
       $scope.detectKey = (event, question, x = null, y = null)->
         if event.keyCode == 13
           variables = event.target.value.split ','
-          question.$add_mapping {
-            variable_names: variables
-            x: null
-            y: null
-          }
-          , ->
-            DataManager.resolveQuestions()
+          DataManager.addVariables(question, variables).then(->
+            $scope.model.orig_topic = $scope.model.topic
+          , (reason)->
+            question.errors = reason.data.message
+          )
         console.log question
 
       # $scope.detectKey = (event,question_id)->
@@ -137,7 +135,7 @@ mapping.directive(
                 $scope.model.orig_topic = $scope.model.topic
               , (reason)->
                 $scope.model.topic = $scope.model.orig_topic
-                Flash.add('danger', reason.data.message)
+                $scope.model.errors = reason.data.message
               ).finally(->
                 bsLoadingOverlayService.stop()
               )

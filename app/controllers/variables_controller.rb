@@ -19,9 +19,15 @@ class VariablesController < BasicController
 
     params[:sources] = JSON.parse(params[:sources])
 
-    @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
-
-    render 'variables/show'
+    begin
+      ActiveRecord::Base.transaction do
+        @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
+        @object.reload
+      end
+      render 'variables/show'
+    rescue => e
+      render json: {message: e.message}, status: :conflict
+    end
   end
 
   def remove_source

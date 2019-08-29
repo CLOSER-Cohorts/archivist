@@ -360,6 +360,23 @@ data_manager.factory(
         delete model.suggested_topic
         model.$update_topic({topic_id: if Number.isInteger(topic_id) then topic_id else null })
 
+      DataManager.addSources = (model, new_sources, x, y)->
+        console.log(model)
+        model.$add_mapping {
+            sources:
+              id: new_sources
+              x: x
+              y: y
+          }
+
+      DataManager.addVariables = (model, variables)->
+        console.log(model)
+        model.$add_mapping {
+            variable_names: variables
+            x: null
+            y: null
+          }
+
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
         DataManager.Data.InstrumentStats[id].$promise = InstrumentStats(id)

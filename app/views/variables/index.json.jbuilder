@@ -7,4 +7,6 @@ json.array!(@collection) do |variable|
   end
   json.used_bys variable.der_variables, :id, :name, :label, :var_type
   json.topic variable.topic, :id, :code, :name, :parent_id unless variable.topic.nil?
+  json.errors variable.errors.full_messages.to_sentence unless variable.valid?
+  json.resolved_topic variable.resolved_topic
 end

@@ -25,8 +25,10 @@ module Linkable
         topic = Topic.find_by_id params[:topic_id]
 
         begin
-          @object.topic = topic
-          @object.save!
+          ActiveRecord::Base.transaction do
+            @object.topic = topic
+            @object.save!
+          end
 
           yield if block_given?
 
@@ -34,7 +36,7 @@ module Linkable
         rescue Exceptions::TopicConflictError
           render json: {message: 'Could not set topic as it would cause a conflict.'}, status: :conflict
         rescue => e
-          render json: e, status: :bad_request
+          render json: {message: e.message}, status: :conflict
         end
       end
 
