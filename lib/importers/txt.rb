@@ -16,6 +16,26 @@ module Importers::TXT
           @object = options[:object]
         end
       end
+      if options.has_key? :import_id
+        @import = Import.find_by_id(options[:import_id])
+      end
+    end
+
+    def set_import_to_running
+      return unless @import
+      @import.update_attributes(state: :running)
+      @log = ''
+      @errors = false
+    end
+
+    def set_import_to_finished
+      return unless @import
+      @import.update_attributes(state: (@errors) ? :failure : :success, log: @log)
+    end
+
+    def log(string)
+      return unless @import
+      @log << string
     end
 
     def cancel

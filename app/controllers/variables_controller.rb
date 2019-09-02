@@ -40,13 +40,13 @@ class VariablesController < BasicController
         x: params[:other][:x],
         y: params[:other][:y]
     ).delete_all
-
+    @object.reload
     render 'variables/show'
   end
 
   protected
   def collection
-    @dataset.variables
+    @dataset.variables.includes(:questions, :src_variables, :der_variables, :topic)
   end
 
   def set_dataset

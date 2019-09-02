@@ -89,9 +89,9 @@
                         </div>
                     </div>
                     <div class="form-group col-xs-5">
-                        <label class="col-xs-2">Topic</label>
-                        <span>Resolved Topic - {{ variable.resolved_topic.name }}</span>
-                        <div class="col-xs-10">
+                        <label class="col-xs-3">Topic</label>
+                        <span data-ng-if="variable.resolved_topic && variable.resolved_topic.id != variable.topic.id">Resolved Topic - {{ variable.resolved_topic.name }}</span>
+                        <div class="col-xs-12">
                             <a-topics
                                     data-ng-model="variable"
                                     class="editor-min"

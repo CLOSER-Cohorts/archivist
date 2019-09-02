@@ -43,7 +43,7 @@ class Document < ApplicationRecord
   def save_or_get
     begin
       self.save!
-    rescue ActiveRecord::RecordNotUnique
+    rescue ActiveRecord::RecordNotUnique, PG::UniqueViolation
       self.id = Document.find_by_md5_hash(self.md5_hash).id
     end
   end

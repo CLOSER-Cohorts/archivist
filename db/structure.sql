@@ -1367,6 +1367,42 @@ ALTER SEQUENCE public.identifiers_id_seq OWNED BY public.identifiers.id;
 
 
 --
+-- Name: imports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.imports (
+    id integer NOT NULL,
+    document_id integer,
+    import_type character varying,
+    dataset_id integer,
+    state character varying,
+    log text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: imports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.imports_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: imports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
+
+
+--
 -- Name: instructions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2131,6 +2167,13 @@ ALTER TABLE ONLY public.identifiers ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: imports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.imports_id_seq'::regclass);
+
+
+--
 -- Name: instructions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2449,6 +2492,14 @@ ALTER TABLE ONLY public.friendly_id_slugs
 
 ALTER TABLE ONLY public.identifiers
     ADD CONSTRAINT identifiers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: imports imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.imports
+    ADD CONSTRAINT imports_pkey PRIMARY KEY (id);
 
 
 --
@@ -2791,6 +2842,20 @@ CREATE UNIQUE INDEX index_identifiers_on_id_type_and_value ON public.identifiers
 --
 
 CREATE INDEX index_identifiers_on_item_type_and_item_id ON public.identifiers USING btree (item_type, item_id);
+
+
+--
+-- Name: index_imports_on_dataset_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_imports_on_dataset_id ON public.imports USING btree (dataset_id);
+
+
+--
+-- Name: index_imports_on_document_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_imports_on_document_id ON public.imports USING btree (document_id);
 
 
 --
@@ -3394,6 +3459,14 @@ ALTER TABLE ONLY public.control_constructs
 
 
 --
+-- Name: imports fk_rails_b78b46b8f1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.imports
+    ADD CONSTRAINT fk_rails_b78b46b8f1 FOREIGN KEY (dataset_id) REFERENCES public.datasets(id);
+
+
+--
 -- Name: maps fk_rails_ce690a0b27; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3455,6 +3528,14 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.codes
     ADD CONSTRAINT fk_rails_f8e439e0d7 FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- Name: imports fk_rails_fcc3f98dc1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.imports
+    ADD CONSTRAINT fk_rails_fcc3f98dc1 FOREIGN KEY (document_id) REFERENCES public.documents(id);
 
 
 --
@@ -3527,6 +3608,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181106140729'),
 ('20190812092806'),
 ('20190812092819'),
-('20190813092806');
+('20190813092806'),
+('20190829124508');
 
 

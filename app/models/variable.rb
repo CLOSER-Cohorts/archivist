@@ -32,7 +32,11 @@ class Variable < ApplicationRecord
   has_many :question_topics, -> { distinct }, through: :questions, as: :topic, source: :topic
 
   # All source {Variable Variables}
-  has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable'
+  has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable' do
+    def <<(new_item)
+      super( Array(new_item) - proxy_association.owner.src_variables )
+    end
+  end
 
   # All destination {Variable Variables}
   has_many :der_variables, :through => :reverse_maps, :source => :variable
@@ -44,9 +48,22 @@ class Variable < ApplicationRecord
   # All {Group Groups} that this Variable is contained within
   has_many :group, through: :groupings
 
+  # Require a dataset to be associated to a Variable
   validates :dataset, presence: true
+
+  # Ensure that a variable does not have a conflicting topic
   validate :topic_conflict
 
+  # Identify if variable is derived.
+  #
+  # @return [Boolean]
+  def derived?
+    self.var_type =~ /Derived/i
+  end
+
+  # Identify if variable is derived.
+  #
+  # @return [Boolean]
   def to_s
     name
   end
@@ -72,12 +89,18 @@ class Variable < ApplicationRecord
   def add_sources(source_labels, x = nil, y = nil)
     sources = self.var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
     [*sources].compact.each do |source|
-      self.maps.create! ({
+      map = self.maps.build ({
           variable: self,
           source: source,
           x: x,
           y: y
       })
+      map.resolved_topic_conflict
+      if map.errors.present?
+        self.errors.add(:topic, *map.errors[:topic])
+      else
+        map.save
+      end
     end
   end
 

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :variable do
     sequence(:name) { |n| "var#{n}" }
-    sequence(:label) { |n| "Label #{n}" }
+    sequence(:label) { |n| "Variable Label #{n}" }
     var_type { 'Normal' }
     dataset
 

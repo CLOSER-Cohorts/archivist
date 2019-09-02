@@ -138,7 +138,7 @@ class CcQuestionTest < ActiveSupport::TestCase
                 conflicting_variable = create(:variable, questions: [], topic: other_topic)
                 question = create(:cc_question, topic: nil, variables: [existing_variable])
                 assert question.valid?
-                question.variables << conflicting_variable
+                question.variables = [existing_variable, conflicting_variable]
                 refute question.valid?
                 assert_not_nil question.errors[:topic], 'no validation error for topic present'
                 assert_equal I18n.t('activerecord.errors.models.cc_question.attributes.resolved_topic.variables_conflict', new_variables: conflicting_variable, new_topics: other_topic, existing_topic: topic), question.errors[:topic].first
