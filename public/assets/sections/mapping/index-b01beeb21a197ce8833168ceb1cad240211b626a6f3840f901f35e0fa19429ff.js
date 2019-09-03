@@ -42,12 +42,10 @@
         }
         if (event.keyCode === 13) {
           variables = event.target.value.split(',');
-          question.$add_mapping({
-            variable_names: variables,
-            x: null,
-            y: null
-          }, function() {
-            return DataManager.resolveQuestions();
+          DataManager.addVariables(question, variables).then(function() {
+            return $scope.model.orig_topic = $scope.model.topic;
+          }, function(reason) {
+            return question.errors = reason.data.message;
           });
         }
         return console.log(question);
@@ -114,7 +112,7 @@
                 return $scope.model.orig_topic = $scope.model.topic;
               }, function(reason) {
                 $scope.model.topic = $scope.model.orig_topic;
-                return Flash.add('danger', reason.data.message);
+                return $scope.model.errors = reason.data.message;
               })["finally"](function() {
                 return bsLoadingOverlayService.stop();
               });
