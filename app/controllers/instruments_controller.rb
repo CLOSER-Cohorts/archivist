@@ -78,7 +78,7 @@ class InstrumentsController < ImportableController
   end
 
   def variables
-    @collection = @object.variables
+    @collection = @object.variables.includes(:topic, :questions, :question_topics)
     render 'variables/index'
   end
 

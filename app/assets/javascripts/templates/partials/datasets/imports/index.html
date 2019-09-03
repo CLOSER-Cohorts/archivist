@@ -1,0 +1,44 @@
+<div class="row instruments">
+    <div data-ng-include="'partials/admin/sidebar.html'" class="col-sm-3 col-md-2 sidebar"></div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">
+            Dataset Imports
+        </h1>
+
+        <breadcrumb></breadcrumb>
+        <notices></notices>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Dataset Imports</h3>
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>File</th>
+                    <th>Type</th>
+                    <th>State</th>
+                    <th>Created At</th>
+                    <th class="editor-min">Actions</th>
+                </tr>
+                <tr data-ng-repeat="import in imports">
+                    <td>
+                        <a data-ng-href="/datasets/{{import.dataset_id}}/imports/{{import.id}}">
+                            {{import.id}}
+                        </a>
+                    </td>
+                    <td>{{import.filename}}</td>
+                    <td>{{import.import_type}}</td>
+                    <td>{{import.state}}</td>
+                    <td>{{import.created_at}}</td>
+                    <td class="editor-min">
+                        <a data-ng-href="/datasets/{{import.dataset_id}}/imports/{{import.id}}">
+                            <span class="edit">View Log</span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ data_manager = angular.module(
     'archivist.data_manager.response_units',
     'archivist.data_manager.response_domains',
     'archivist.data_manager.datasets',
+    'archivist.data_manager.dataset_imports',
     'archivist.data_manager.variables',
     'archivist.data_manager.variables_instrument',
     'archivist.data_manager.resolution',
@@ -35,6 +36,7 @@ data_manager.factory(
     'Topics',
     'InstrumentStats',
     'Datasets',
+    'DatasetImports',
     'Variables',
     'VariablesInstrument',
     'Auth',
@@ -53,6 +55,7 @@ data_manager.factory(
       Topics,
       InstrumentStats,
       Datasets,
+      DatasetImports,
       Variables,
       VariablesInstrument,
       Auth
@@ -67,6 +70,7 @@ data_manager.factory(
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
       DataManager.Datasets          = Datasets
+      DataManager.DatasetImports    = DatasetImports
       DataManager.Variables         = Variables
       DataManager.VariablesInstrument = VariablesInstrument
       DataManager.Auth              = Auth
@@ -78,7 +82,6 @@ data_manager.factory(
         DataManager.Data.InstrumentStats    = {}
         DataManager.Data.Users              = {}
         DataManager.Data.Groups             = {}
-        DataManager.Data.Clusters           = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
@@ -98,6 +101,16 @@ data_manager.factory(
       DataManager.getDatasets = (params, success, error) ->
         DataManager.Data.Datasets = DataManager.Datasets.query params, success, error
         DataManager.Data.Datasets
+
+      DataManager.getDatasetImports = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DatasetImports = DataManager.DatasetImports.query params, success, error
+        DataManager.Data.DatasetImports
+
+      DataManager.getDatasetImportsx = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DatasetImport = DataManager.DatasetImports.get params
+        DataManager.Data.DatasetImport
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
         console.log 'getInstrument'
@@ -321,19 +334,6 @@ data_manager.factory(
         else
           cb?()
 
-      DataManager.getCluster = (type, id, force = false, cb)->
-        index = type + '/' + id
-        if (not DataManager.Data.Clusters[index]?) or force
-          DataManager.Data.Clusters[index] =
-            GetResource(
-              '/clusters/' + index + '.json',
-              true,
-              cb
-            )
-        else
-          cb?()
-        return DataManager.Data.Clusters[index]
-
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.broken_resolve()
@@ -371,9 +371,25 @@ data_manager.factory(
       DataManager.updateTopic = (model, topic_id)->
         console.log(model)
         delete model.topic
-        delete model.strand
         delete model.suggested_topic
         model.$update_topic({topic_id: if Number.isInteger(topic_id) then topic_id else null })
+
+      DataManager.addSources = (model, new_sources, x, y)->
+        console.log(model)
+        model.$add_mapping {
+            sources:
+              id: new_sources
+              x: x
+              y: y
+          }
+
+      DataManager.addVariables = (model, variables)->
+        console.log(model)
+        model.$add_mapping {
+            variable_names: variables
+            x: null
+            y: null
+          }
 
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}

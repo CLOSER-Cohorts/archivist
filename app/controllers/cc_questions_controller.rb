@@ -24,17 +24,24 @@ class CcQuestionsController < ConstructController
     variables = @object.instrument.variables.where(name: variable_names)
     variables.to_a.compact!
 
-    variables.each do |variable|
-      unless @object.variables.find_by_id(variable.id)
-        if params.has_key?(:x) && params.has_key?(:y)
-          @object.map.create(variable: variable, x: params[:x].to_i, y: params[:y].to_i)
-        else
-          @object.variables << variable
+    begin
+      ActiveRecord::Base.transaction do
+        variables.each do |variable|
+          unless @object.variables.find_by_id(variable.id)
+            if params.has_key?(:x) && params.has_key?(:y)
+              @object.map.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i)
+            else
+              @object.variables << variable
+            end
+          end
         end
+        @object.save
       end
-    end
-    respond_to do |format|
-      format.json { render 'show' }
+      respond_to do |format|
+        format.json { render 'show' }
+      end
+    rescue => e
+      render json: {message: e.message}, status: :conflict
     end
   end
 

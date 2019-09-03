@@ -72,9 +72,11 @@ class DatasetsController < ImportableController
         type = import[:type]&.downcase&.to_sym
 
         if type == :dv
-          Resque.enqueue ImportJob::DV, doc.id, {object: params[:id]}
+          import = Import.create(document_id: doc.id, import_type: 'ImportJob::DV', dataset_id: params[:id], state: :pending)
+          Resque.enqueue ImportJob::DV, doc.id, {object: params[:id], import_id: import.id}
         elsif type == :topicv
-          Resque.enqueue ImportJob::TopicV, doc.id, {object: params[:id]}
+          import = Import.create(document_id: doc.id, import_type: 'ImportJob::TopicV', dataset_id: params[:id], state: :pending)
+          Resque.enqueue ImportJob::TopicV, doc.id, {object: params[:id], import_id: import.id}
         end
 
       end

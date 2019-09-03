@@ -32,16 +32,15 @@
             <td>{{variable.label}}</td>
             <td>{{variable.var_type}}</td>
             <td class="admin-min">
-                <a
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#topic-conflict"
-                        data-ng-click="loadNetworkData(variable)"
-                >Cluster</a>
             </td>
         </tr>
-        <tr data-ng-repeat-end data-ng-class-odd="'odd'" data-ng-class="{danger: variable.strand && !variable.strand.good}">
+        <tr data-ng-repeat-end data-ng-class-odd="'odd'" data-ng-class="{danger: variable.errors}">
             <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">
+                <div data-ng-if="variable.errors">
+                    <div class="alert alert-danger" role="alert">
+                        {{variable.errors}}
+                    </div>
+                </div>
                 <form class="form-inline row">
                     <div class="form-group col-xs-3">
                         <label class="control-label">Used by</label>
@@ -90,8 +89,9 @@
                         </div>
                     </div>
                     <div class="form-group col-xs-5">
-                        <label class="col-xs-2">Topic</label>
-                        <div class="col-xs-10">
+                        <label class="col-xs-3">Topic</label>
+                        <span data-ng-if="variable.resolved_topic && variable.resolved_topic.id != variable.topic.id">Resolved Topic - {{ variable.resolved_topic.name }}</span>
+                        <div class="col-xs-12">
                             <a-topics
                                     data-ng-model="variable"
                                     class="editor-min"
