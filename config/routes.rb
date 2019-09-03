@@ -68,6 +68,7 @@ Rails.application.routes.draw do
       get 'questions', to: 'datasets#questions'
       get 'dv', to: 'datasets#dv'
     end
+    resources :imports, module: :datasets, only: [:index, :show]
   end
   get 'datasets/:dataset_id/tv', to: 'variables#tv', constraints: request_processor
 
@@ -127,8 +128,6 @@ Rails.application.routes.draw do
   get 'instruments/:id/export/:doc_id', to: 'instruments#document'
   get 'instruments/:id/export', to: 'instruments#latest_document'
   get 'datasets/:id/export', to: 'datasets#latest_document'
-
-  get 'clusters/:class/:id', to: 'clusters#show', constraints: -> (r) { (r.format == :json || r.format == :xml) }
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }

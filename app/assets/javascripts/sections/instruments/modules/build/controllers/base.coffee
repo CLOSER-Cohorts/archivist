@@ -7,9 +7,7 @@ angular.module('archivist.build').controller(
     '$timeout',
     'Flash',
     'DataManager',
-    'RealTimeListener',
-    'RealTimeLocking',
-    ($scope, $routeParams, $location, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($scope, $routeParams, $location, $timeout, Flash, DataManager)->
 
       $scope.page['title'] = $scope.title
       $scope.underscored = $scope.title.toLowerCase().replaceAll(' ','_')
@@ -73,7 +71,6 @@ angular.module('archivist.build').controller(
         $scope.startEditMode = () ->
           $scope.editMode = true
           console.log $scope.current
-          RealTimeLocking.lock({type: $scope.current.type, id: $scope.current.id})
           null
 
       if !$scope.change_panel?
@@ -81,8 +78,5 @@ angular.module('archivist.build').controller(
           localStorage.setItem 'sidebar_scroll', jQuery('.sidebar').scrollTop()
           $location.url $scope.edit_path obj
 
-      $scope.listener = RealTimeListener (event, message)->
-        if !$scope.editMode
-          $scope.reset()
   ]
 )

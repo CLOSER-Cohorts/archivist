@@ -5,8 +5,7 @@ build = angular.module('archivist.build', [
   'templates',
   'ngRoute',
   'archivist.flash',
-  'archivist.data_manager',
-  'archivist.realtime'
+  'archivist.data_manager'
 ])
 
 build.config(['$routeProvider', 'treeConfig'

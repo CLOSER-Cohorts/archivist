@@ -16,14 +16,12 @@ module Importers::XML::DDI
    end
 
     def import(options = {})
-      Realtime.do_silently do
-        @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
-        import_category_schemes
-        import_code_list_schemes
-        import_instruction_schemes
-        import_question_schemes
-        read_constructs
-      end
+      @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
+      import_category_schemes
+      import_code_list_schemes
+      import_instruction_schemes
+      import_question_schemes
+      read_constructs
       @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
       @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
       @instrument.label = options[:label] unless options[:label].to_s.empty?

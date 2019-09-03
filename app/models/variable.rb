@@ -13,9 +13,6 @@ class Variable < ApplicationRecord
   # This model can be used in mapping
   include Mappable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # This model can be tracked using an Identifier
   include Identifiable
 
@@ -32,9 +29,14 @@ class Variable < ApplicationRecord
 
   # All {CcQuestion questions} associated through mapping
   has_many :questions, through: :maps, as: :source, source: :source, source_type: 'CcQuestion'
+  has_many :question_topics, -> { distinct }, through: :questions, as: :topic, source: :topic
 
   # All source {Variable Variables}
-  has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable'
+  has_many :src_variables, through: :maps, as: :source, source: :source, source_type: 'Variable' do
+    def <<(new_item)
+      super( Array(new_item) - proxy_association.owner.src_variables )
+    end
+  end
 
   # All destination {Variable Variables}
   has_many :der_variables, :through => :reverse_maps, :source => :variable
@@ -46,6 +48,39 @@ class Variable < ApplicationRecord
   # All {Group Groups} that this Variable is contained within
   has_many :group, through: :groupings
 
+  # Require a dataset to be associated to a Variable
+  validates :dataset, presence: true
+
+  # Ensure that a variable does not have a conflicting topic
+  validate :topic_conflict
+
+  # Identify if variable is derived.
+  #
+  # @return [Boolean]
+  def derived?
+    self.var_type =~ /Derived/i
+  end
+
+  # Identify if variable is derived.
+  #
+  # @return [Boolean]
+  def to_s
+    name
+  end
+
+  def topic_conflict
+    return unless topic
+    cc_question_topics = questions.map(&:topic).uniq.compact
+    if cc_question_topics.present? && !cc_question_topics.include?(topic)
+      errors.add(:topic, I18n.t('activerecord.errors.models.variable.attributes.topic.conflict', topics: cc_question_topics.to_sentence, questions: questions.to_sentence))
+    end
+  end
+
+  def resolved_topic
+    return topic if topic
+    question_topics.first
+  end
+
   # Adds a new source item by label
   #
   # @param [String] source_labels The label of the new source item
@@ -54,22 +89,19 @@ class Variable < ApplicationRecord
   def add_sources(source_labels, x = nil, y = nil)
     sources = self.var_type == 'Normal' ? find_by_label_from_possible_questions(source_labels) : self.dataset.variables.find_by_name(source_labels)
     [*sources].compact.each do |source|
-      if self.maps.create ({
+      map = self.maps.build ({
           variable: self,
           source: source,
           x: x,
           y: y
       })
-        self.strand + source.strand
+      map.resolved_topic_conflict
+      if map.errors.present?
+        self.errors.add(:topic, *map.errors[:topic])
+      else
+        map.save
       end
     end
-  end
-
-  # Returns all the edges of a {Cluster} graph
-  #
-  # @return [Array] List of all mapped variables
-  def cluster_maps
-    self.der_variables.to_a + self.src_variables.to_a
   end
 
   # Returns level of derivation
@@ -85,13 +117,6 @@ class Variable < ApplicationRecord
   # @return [Array] All source {CcQuestion questions} and variables
   def sources
     self.questions.to_a + self.src_variables.to_a
-  end
-
-  # Returns all the edges of a {Strand} graph
-  #
-  # @return [Array] List of all mapped {CcQuestion questions}
-  def strand_maps
-    self.questions.to_a
   end
 
   private # Private method

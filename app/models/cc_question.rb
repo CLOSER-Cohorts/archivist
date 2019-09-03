@@ -37,9 +37,43 @@ class CcQuestion < ::ControlConstruct
 
   # All Variables associated through mapping
   has_many :variables, through: :maps, dependent: :destroy
+  has_many :variable_topics, -> { distinct }, through: :variables, as: :topic, source: :topic
 
   # All CcQuestions require a ResponseUnit
   validates :question, :response_unit, presence: true
+
+  # Validate to stop topic conflict between Variable(s) and CcQuestion
+  validate :topic_conflict
+  validate :resolved_topic_conflict
+
+  delegate :label, to: :question, allow_nil: true, prefix: true
+
+  def topic_conflict
+    return unless topic
+    associated_variable_topics = variables.map(&:topic).uniq.compact
+    if associated_variable_topics.present? && !associated_variable_topics.include?(topic)
+      errors.add(:topic, I18n.t('activerecord.errors.models.cc_question.attributes.topic.conflict', topics: variable_topics.to_sentence, variables: variables.to_sentence))
+    end
+  end
+
+  def resolved_topic_conflict
+    return if topic
+    variables_grouped_by_topic = variables.group_by(&:topic)
+    if variables_grouped_by_topic.keys.count > 1
+      new_topics = variables_grouped_by_topic.keys - [resolved_topic]
+      new_variables = variables_grouped_by_topic.values_at(*new_topics).flatten
+      errors.add(:topic, I18n.t('activerecord.errors.models.cc_question.attributes.resolved_topic.variables_conflict', new_variables: new_variables.to_sentence, new_topics: new_topics.to_sentence, existing_topic: resolved_topic))
+    end
+  end
+
+  def resolved_topic
+    return topic if topic
+    variable_topics.first
+  end
+
+  def to_s
+    question_label
+  end
 
   # In order to create a construct, it must be positioned within another construct.
   # This positional information is held on the corresponding ConstrolConstruct
@@ -94,15 +128,6 @@ class CcQuestion < ::ControlConstruct
     value
   end
 
-  # Returns all possible mappings that could join Strands into a Cluster
-  #
-  # TODO: Should be abstracted to a library (Mappable?)
-  #
-  # @return [Array] Empty array
-  def cluster_maps
-    []
-  end
-
   # Returns the mapping level where the root questions are level 1
   #
   # @return [Integer] 1
@@ -136,12 +161,5 @@ class CcQuestion < ::ControlConstruct
         question_type: self.question_type,
         response_unit_id: self.response_unit_id
     }
-  end
-
-  # Returns all possible mappings that could be used to create a Strand
-  #
-  # @return [Array] Array of mapped variables
-  def strand_maps
-    self.variables.to_a
   end
 end

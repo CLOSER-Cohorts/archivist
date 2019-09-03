@@ -17,9 +17,6 @@ class Instrument < ApplicationRecord
   # This model can be tracked using an Identifier
   include Identifiable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # Use FriendlyId to create slugs
   extend FriendlyId
 
@@ -322,13 +319,6 @@ class Instrument < ApplicationRecord
       $redis.hget 'last_edit:instrument', self.id
     rescue
       nil
-    end
-  end
-
-  # Accepts a block for which realtime updates should not be run
-  def pause_rt
-    Realtime.do_silently do
-      yield
     end
   end
 

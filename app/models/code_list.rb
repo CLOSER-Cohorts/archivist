@@ -14,9 +14,6 @@ class CodeList < ApplicationRecord
   # This model can be tracked using an Identifier
   include Identifiable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # Used to create CLOSER UserID and URNs
   URN_TYPE = 'cl'
 

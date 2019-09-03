@@ -1,5 +1,10 @@
 <script type="text/ng-template" id="child_render.html">
     <div class="tree-container row" data-ng-if="obj.type!='statement'">
+        <div data-ng-if="obj.errors">
+            <div class="alert alert-danger" role="alert">
+                {{obj.errors}}
+            </div>
+        </div>
         <span class="a-label col-md-2">
             {{obj.label}}
             <div class="col-md-6 tq-mapping" data-ng-if="obj.type=='sequence'" style="float: right;">

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  document: one
+  import_type: MyString
+  dataset: one
+  state: MyString
+  log: MyText
+
+two:
+  document: two
+  import_type: MyString
+  dataset: two
+  state: MyString
+  log: MyText
