@@ -96,12 +96,10 @@
         }
         if (event.keyCode === 13) {
           new_sources = event.target.value.split(',');
-          variable.$add_mapping({
-            sources: {
-              id: new_sources,
-              x: x,
-              y: y
-            }
+          DataManager.addSources(variable, new_sources, x, y).then(function() {
+            return $scope.model.orig_topic = $scope.model.topic;
+          }, function(reason) {
+            return variable.errors = reason.data.message;
           });
         }
         return console.log(variable);
@@ -148,6 +146,75 @@
           return Flash.add('error', 'Dataset could not be updated.');
         });
       };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var imports;
+
+  imports = angular.module('archivist.datasets.imports', ['ngVis', 'archivist.data_manager']);
+
+  imports.controller('DatasetsImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.id, {}, function() {
+        $scope.page['title'] = $scope.dataset.name + ' | Edit';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/admin/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: '/datasets/' + $scope.dataset.id,
+            active: false
+          }, {
+            label: 'Imports',
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope.imports = DataManager.getDatasetImports({
+        dataset_id: $routeParams.id
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var show;
+
+  show = angular.module('archivist.datasets.imports.show', ['ngVis', 'archivist.data_manager']);
+
+  show.controller('DatasetsImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.dataset_id, {}, function() {
+        $scope.page['title'] = $scope.dataset.name + ' | Edit';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/admin/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: '/datasets/' + $scope.dataset.id,
+            active: false
+          }, {
+            label: 'Imports',
+            link: '/datasets/' + $scope.dataset.id + '/imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope["import"] = DataManager.getDatasetImportsx({
+        dataset_id: $routeParams.dataset_id,
+        id: $routeParams.id
+      });
     }
   ]);
 

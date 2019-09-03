@@ -75,12 +75,10 @@
         }
         if (event.keyCode === 13) {
           new_sources = event.target.value.split(',');
-          variable.$add_mapping({
-            sources: {
-              id: new_sources,
-              x: x,
-              y: y
-            }
+          DataManager.addSources(variable, new_sources, x, y).then(function() {
+            return $scope.model.orig_topic = $scope.model.topic;
+          }, function(reason) {
+            return variable.errors = reason.data.message;
           });
         }
         return console.log(variable);

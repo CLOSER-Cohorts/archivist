@@ -1,10 +1,10 @@
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, Variables, VariablesInstrument, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -14,6 +14,7 @@
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
       DataManager.Datasets = Datasets;
+      DataManager.DatasetImports = DatasetImports;
       DataManager.Variables = Variables;
       DataManager.VariablesInstrument = VariablesInstrument;
       DataManager.Auth = Auth;
@@ -41,6 +42,16 @@
       DataManager.getDatasets = function(params, success, error) {
         DataManager.Data.Datasets = DataManager.Datasets.query(params, success, error);
         return DataManager.Data.Datasets;
+      };
+      DataManager.getDatasetImports = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DatasetImports = DataManager.DatasetImports.query(params, success, error);
+        return DataManager.Data.DatasetImports;
+      };
+      DataManager.getDatasetImportsx = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DatasetImport = DataManager.DatasetImports.get(params);
+        return DataManager.Data.DatasetImport;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -381,6 +392,24 @@
         delete model.suggested_topic;
         return model.$update_topic({
           topic_id: Number.isInteger(topic_id) ? topic_id : null
+        });
+      };
+      DataManager.addSources = function(model, new_sources, x, y) {
+        console.log(model);
+        return model.$add_mapping({
+          sources: {
+            id: new_sources,
+            x: x,
+            y: y
+          }
+        });
+      };
+      DataManager.addVariables = function(model, variables) {
+        console.log(model);
+        return model.$add_mapping({
+          variable_names: variables,
+          x: null,
+          y: null
         });
       };
       DataManager.getInstrumentStats = function(id, cb) {

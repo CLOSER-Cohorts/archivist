@@ -107646,10 +107646,10 @@ return /******/ (function(modules) { // webpackBootstrap
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, Variables, VariablesInstrument, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -107659,6 +107659,7 @@ return /******/ (function(modules) { // webpackBootstrap
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
       DataManager.Datasets = Datasets;
+      DataManager.DatasetImports = DatasetImports;
       DataManager.Variables = Variables;
       DataManager.VariablesInstrument = VariablesInstrument;
       DataManager.Auth = Auth;
@@ -107686,6 +107687,16 @@ return /******/ (function(modules) { // webpackBootstrap
       DataManager.getDatasets = function(params, success, error) {
         DataManager.Data.Datasets = DataManager.Datasets.query(params, success, error);
         return DataManager.Data.Datasets;
+      };
+      DataManager.getDatasetImports = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DatasetImports = DataManager.DatasetImports.query(params, success, error);
+        return DataManager.Data.DatasetImports;
+      };
+      DataManager.getDatasetImportsx = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DatasetImport = DataManager.DatasetImports.get(params);
+        return DataManager.Data.DatasetImport;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -108028,6 +108039,24 @@ return /******/ (function(modules) { // webpackBootstrap
           topic_id: Number.isInteger(topic_id) ? topic_id : null
         });
       };
+      DataManager.addSources = function(model, new_sources, x, y) {
+        console.log(model);
+        return model.$add_mapping({
+          sources: {
+            id: new_sources,
+            x: x,
+            y: y
+          }
+        });
+      };
+      DataManager.addVariables = function(model, variables) {
+        console.log(model);
+        return model.$add_mapping({
+          variable_names: variables,
+          x: null,
+          y: null
+        });
+      };
       DataManager.getInstrumentStats = function(id, cb) {
         DataManager.Data.InstrumentStats[id] = {
           $resolved: false
@@ -108296,6 +108325,28 @@ return /******/ (function(modules) { // webpackBootstrap
         update_topic: {
           method: 'POST',
           url: 'instruments/:instrument_id/cc_conditions/:id/set_topic.json'
+        }
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var dataset_imports;
+
+  dataset_imports = angular.module('archivist.data_manager.dataset_imports', ['ngResource']);
+
+  dataset_imports.factory('DatasetImports', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('datasets/:dataset_id/imports/:id.json', {
+        id: '@id',
+        dataset_id: '@dataset_id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
         }
       });
     }
@@ -109754,7 +109805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 (function() {
   var datasets;
 
-  datasets = angular.module('archivist.datasets', ['templates', 'ngRoute', 'archivist.datasets.index', 'archivist.datasets.show', 'archivist.datasets.edit']);
+  datasets = angular.module('archivist.datasets', ['templates', 'ngRoute', 'archivist.datasets.index', 'archivist.datasets.show', 'archivist.datasets.edit', 'archivist.datasets.imports', 'archivist.datasets.imports.show']);
 
   datasets.config([
     '$routeProvider', function($routeProvider) {
@@ -109767,6 +109818,12 @@ return /******/ (function(modules) { // webpackBootstrap
       }).when('/datasets/:id/edit', {
         templateUrl: 'partials/datasets/edit.html',
         controller: 'DatasetsEditController'
+      }).when('/datasets/:id/imports', {
+        templateUrl: 'partials/datasets/imports/index.html',
+        controller: 'DatasetsImportsController'
+      }).when('/datasets/:dataset_id/imports/:id', {
+        templateUrl: 'partials/datasets/imports/show.html',
+        controller: 'DatasetsImportsShowController'
       });
     }
   ]);
@@ -109870,12 +109927,10 @@ return /******/ (function(modules) { // webpackBootstrap
         }
         if (event.keyCode === 13) {
           new_sources = event.target.value.split(',');
-          variable.$add_mapping({
-            sources: {
-              id: new_sources,
-              x: x,
-              y: y
-            }
+          DataManager.addSources(variable, new_sources, x, y).then(function() {
+            return $scope.model.orig_topic = $scope.model.topic;
+          }, function(reason) {
+            return variable.errors = reason.data.message;
           });
         }
         return console.log(variable);
@@ -109922,6 +109977,75 @@ return /******/ (function(modules) { // webpackBootstrap
           return Flash.add('error', 'Dataset could not be updated.');
         });
       };
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var imports;
+
+  imports = angular.module('archivist.datasets.imports', ['ngVis', 'archivist.data_manager']);
+
+  imports.controller('DatasetsImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.id, {}, function() {
+        $scope.page['title'] = $scope.dataset.name + ' | Edit';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/admin/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: '/datasets/' + $scope.dataset.id,
+            active: false
+          }, {
+            label: 'Imports',
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope.imports = DataManager.getDatasetImports({
+        dataset_id: $routeParams.id
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var show;
+
+  show = angular.module('archivist.datasets.imports.show', ['ngVis', 'archivist.data_manager']);
+
+  show.controller('DatasetsImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.dataset = DataManager.getDataset($routeParams.dataset_id, {}, function() {
+        $scope.page['title'] = $scope.dataset.name + ' | Edit';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Datasets',
+            link: '/admin/datasets',
+            active: false
+          }, {
+            label: $scope.dataset.name,
+            link: '/datasets/' + $scope.dataset.id,
+            active: false
+          }, {
+            label: 'Imports',
+            link: '/datasets/' + $scope.dataset.id + '/imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope["import"] = DataManager.getDatasetImportsx({
+        dataset_id: $routeParams.dataset_id,
+        id: $routeParams.id
+      });
     }
   ]);
 
@@ -111200,12 +111324,10 @@ return /******/ (function(modules) { // webpackBootstrap
         }
         if (event.keyCode === 13) {
           variables = event.target.value.split(',');
-          question.$add_mapping({
-            variable_names: variables,
-            x: null,
-            y: null
-          }, function() {
-            return DataManager.resolveQuestions();
+          DataManager.addVariables(question, variables).then(function() {
+            return $scope.model.orig_topic = $scope.model.topic;
+          }, function(reason) {
+            return question.errors = reason.data.message;
           });
         }
         return console.log(question);
@@ -111272,7 +111394,7 @@ return /******/ (function(modules) { // webpackBootstrap
                 return $scope.model.orig_topic = $scope.model.topic;
               }, function(reason) {
                 $scope.model.topic = $scope.model.orig_topic;
-                return Flash.add('danger', reason.data.message);
+                return $scope.model.errors = reason.data.message;
               })["finally"](function() {
                 return bsLoadingOverlayService.stop();
               });
@@ -111360,7 +111482,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/datasets.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/datasets.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Datasets\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n\n            <div class="panel-body">\n                <div class="row">\n                    <div class="col-sm-4">\n                        <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                    </div>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Name</th>\n                    <th>Study</th>\n                    <th class="editor-min">Actions</th>\n                </tr>\n                <tr data-ng-repeat="dataset in\n        		filteredDatasets = (datasets | filter:query) |\n        		limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{dataset.id}}</td>\n                    <td>\n                        <a data-ng-href="/datasets/{{dataset.id}}">\n                            {{dataset.name}}\n                        </a>\n                    </td>\n                    <td>{{dataset.study}}</td>\n                    <td class="editor-min">\n                        <a data-ng-href="/datasets/{{dataset.id}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#import-mapping"\n                                data-ng-click="prepareImport(dataset.name,dataset.id)"\n                        >\n                            Import Mappings\n                        </button>\n                        |\n                        <a\n                                data-ng-href="/datasets/{{dataset.id}}/dv.txt"\n                                target="_self"\n                        >\n                            DV\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/datasets/{{dataset.id}}/tv.txt"\n                                target="_self"\n                        >\n                            Topics\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-dataset"\n                                data-ng-click="prepareDelete(dataset.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <ul uib-pagination\n                        total-items="filteredDatasets.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/dataset-delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/import-mapping.html\'"></div>')
+  $templateCache.put("partials/admin/datasets.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Datasets\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n\n            <div class="panel-body">\n                <div class="row">\n                    <div class="col-sm-4">\n                        <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                    </div>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Name</th>\n                    <th>Study</th>\n                    <th class="editor-min">Actions</th>\n                </tr>\n                <tr data-ng-repeat="dataset in\n        		filteredDatasets = (datasets | filter:query) |\n        		limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{dataset.id}}</td>\n                    <td>\n                        <a data-ng-href="/datasets/{{dataset.id}}">\n                            {{dataset.name}}\n                        </a>\n                    </td>\n                    <td>{{dataset.study}}</td>\n                    <td class="editor-min">\n                        <a data-ng-href="/datasets/{{dataset.id}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#import-mapping"\n                                data-ng-click="prepareImport(dataset.name,dataset.id)"\n                        >\n                            Import Mappings\n                        </button>\n                        |\n                        <a\n                                data-ng-href="/datasets/{{dataset.id}}/dv.txt"\n                                target="_self"\n                        >\n                            DV\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/datasets/{{dataset.id}}/tv.txt"\n                                target="_self"\n                        >\n                            Topics\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/datasets/{{dataset.id}}/imports"\n                                target="_self"\n                        >\n                            View Imports\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-dataset"\n                                data-ng-click="prepareDelete(dataset.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <ul uib-pagination\n                        total-items="filteredDatasets.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/dataset-delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/import-mapping.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -111609,6 +111731,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 }]);
 
 // Angular Rails Template
+// source: app/assets/javascripts/templates/partials/datasets/imports/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/datasets/imports/index.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Dataset Imports\n        </h1>\n\n        <breadcrumb></breadcrumb>\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">Dataset Imports</h3>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>File</th>\n                    <th>Type</th>\n                    <th>State</th>\n                    <th>Created At</th>\n                    <th class="editor-min">Actions</th>\n                </tr>\n                <tr data-ng-repeat="import in imports">\n                    <td>\n                        <a data-ng-href="/datasets/{{import.dataset_id}}/imports/{{import.id}}">\n                            {{import.id}}\n                        </a>\n                    </td>\n                    <td>{{import.filename}}</td>\n                    <td>{{import.import_type}}</td>\n                    <td>{{import.state}}</td>\n                    <td>{{import.created_at}}</td>\n                    <td class="editor-min">\n                        <a data-ng-href="/datasets/{{import.dataset_id}}/imports/{{import.id}}">\n                            <span class="edit">View Log</span>\n                        </a>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/datasets/imports/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/datasets/imports/show.html", '<breadcrumb></breadcrumb>\n<notices></notices>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-6">\n                <dl>\n                  <dt>Dataset</dt>\n                  <dd>{{dataset.name}}</dd>\n                  <dt>Filename</dt>\n                  <dd>{{import.filename}}</dd>\n                </dl>\n            </div>\n            <div class="col-sm-6">\n                <dl>\n                  <dt>State</dt>\n                  <dd>{{import.state}}</dd>\n                  <dt>Created At</dt>\n                  <dd>{{import.created_at}}</dd>\n                </dl>\n            </div>\n        </div>\n    </div>\n\n    <table class="table table-double-striped">\n        <tr>\n            <th>Input</th>\n            <th>Matches</th>\n            <th>Outcome</th>\n        </tr>\n        <tr data-ng-repeat="line in import.logs"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: line.error}"\n        >\n            <td>{{line.original_text}}</td>\n            <td>{{line.matches}} </td>\n            <td>{{line.outcome}}</td>\n        </tr>\n    </table>\n</div>')
+}]);
+
+// Angular Rails Template
 // source: app/assets/javascripts/templates/partials/datasets/index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
@@ -111626,7 +111762,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/datasets/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-double-striped">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="admin-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat-start="variable in\n		        filteredVariables = (dataset.Variables | filter:query) |\n		        limitTo:pageSize:(currentPage-1)*pageSize"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: variable.strand && !variable.strand.good}"\n        >\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="admin-min">\n            </td>\n        </tr>\n        <tr data-ng-repeat-end data-ng-class-odd="\'odd\'" data-ng-class="{danger: variable.strand && !variable.strand.good}">\n            <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">\n                <form class="form-inline row">\n                    <div class="form-group col-xs-3">\n                        <label class="control-label">Used by</label>\n                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">\n                            <p class="display-inline">{{used_by.name}}</p>\n                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-4">\n                        <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>\n                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">\n                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">\n                                <p class="display-inline">{{variable.var_type == \'Normal\' && source.label || source.name}}</p>\n                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>\n                            </div>\n                        </div>\n                        <div class="col-xs-12">\n                            <input\n                                    data-ng-if="variable.var_type == \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Questions"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                            <input\n                                    data-ng-if="variable.var_type != \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Variables"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-5">\n                        <label class="col-xs-2">Topic</label>\n                        <div class="col-xs-10">\n                            <a-topics\n                                    data-ng-model="variable"\n                                    class="editor-min"\n                                    data-ng-change="updateModel($viewValue)"\n                            ></a-topics>\n                        </div>\n                    </div>\n                </form>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <ul uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </ul>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/datasets/modals/conflict.html\'"></div>')
+  $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-double-striped">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="admin-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat-start="variable in\n		        filteredVariables = (dataset.Variables | filter:query) |\n		        limitTo:pageSize:(currentPage-1)*pageSize"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: variable.strand && !variable.strand.good}"\n        >\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="admin-min">\n            </td>\n        </tr>\n        <tr data-ng-repeat-end data-ng-class-odd="\'odd\'" data-ng-class="{danger: variable.errors}">\n            <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">\n                <div data-ng-if="variable.errors">\n                    <div class="alert alert-danger" role="alert">\n                        {{variable.errors}}\n                    </div>\n                </div>\n                <form class="form-inline row">\n                    <div class="form-group col-xs-3">\n                        <label class="control-label">Used by</label>\n                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">\n                            <p class="display-inline">{{used_by.name}}</p>\n                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-4">\n                        <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>\n                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">\n                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">\n                                <p class="display-inline">{{variable.var_type == \'Normal\' && source.label || source.name}}</p>\n                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>\n                            </div>\n                        </div>\n                        <div class="col-xs-12">\n                            <input\n                                    data-ng-if="variable.var_type == \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Questions"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                            <input\n                                    data-ng-if="variable.var_type != \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Variables"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-5">\n                        <label class="col-xs-3">Topic</label>\n                        <span data-ng-if="variable.resolved_topic && variable.resolved_topic.id != variable.topic.id">Resolved Topic - {{ variable.resolved_topic.name }}</span>\n                        <div class="col-xs-12">\n                            <a-topics\n                                    data-ng-model="variable"\n                                    class="editor-min"\n                                    data-ng-change="updateModel($viewValue)"\n                            ></a-topics>\n                        </div>\n                    </div>\n                </form>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <ul uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </ul>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/datasets/modals/conflict.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -111654,7 +111790,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/instruments/map.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/instruments/map.html", '<script type="text/ng-template" id="child_render.html">\n    <div class="tree-container row" data-ng-if="obj.type!=\'statement\'">\n        <span class="a-label col-md-2">\n            {{obj.label}}\n            <div class="col-md-6 tq-mapping" data-ng-if="obj.type==\'sequence\'" style="float: right;">\n                <a-topics ng-model="obj"></a-topics>\n            </div>\n        </span>\n        <span data-ng-if="obj.literal" class="a-literal col-md-8">\n            {{obj.literal}}\n        </span>\n        <span data-ng-if="obj.base" class="a-literal col-md-8">\n            {{obj.base.literal}}\n        </span>\n\n        <div class="col-md-6 qv-mapping" data-ng-if="obj.type==\'question\'">\n            <div ng-repeat="variable in obj.variables" class="btn btn-primary tag-variable">\n              <p class="display-inline">{{variable.name}}</p>\n              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(obj, variable.id)"></span>\n            </div>\n            <input\n                    type="text"\n                    data-ng-model="obj.new_variables"\n                    placeholder="Add a variable"\n                    data-uib-typeahead="variable as variable.name for variable in instrument.Variables | filter:{name:$viewValue}"\n                    class="form-control input-variable"\n                    typehead-editable="true"\n                    data-uib-tooltip="You can only add existent variables"\n                    data-tooltip-placement="top-right"\n                    data-ng-keyup="detectKey($event, obj)"\n            >\n        </div>\n        <div\n                class="col-md-6 tq-mapping input-variable"\n                data-ng-class="{\'col-md-offset-6\': obj.type == \'condition\'}"\n                data-ng-if="obj.type!=\'sequence\'">\n            <a-topics ng-model="obj"></a-topics>\n        </div>\n\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.fchildren | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</script>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>\n    </div>\n    <div id="tree" class="panel-body">\n        <span class="a-label">{{instrument.topsequence.label}}</span>\n        <div>\n            <div class="tree-item a-sequence" data-ng-repeat="obj in instrument.topsequence.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</div>')
+  $templateCache.put("partials/instruments/map.html", '<script type="text/ng-template" id="child_render.html">\n    <div class="tree-container row" data-ng-if="obj.type!=\'statement\'">\n        <div data-ng-if="obj.errors">\n            <div class="alert alert-danger" role="alert">\n                {{obj.errors}}\n            </div>\n        </div>\n        <span class="a-label col-md-2">\n            {{obj.label}}\n            <div class="col-md-6 tq-mapping" data-ng-if="obj.type==\'sequence\'" style="float: right;">\n                <a-topics ng-model="obj"></a-topics>\n            </div>\n        </span>\n        <span data-ng-if="obj.literal" class="a-literal col-md-8">\n            {{obj.literal}}\n        </span>\n        <span data-ng-if="obj.base" class="a-literal col-md-8">\n            {{obj.base.literal}}\n        </span>\n\n        <div class="col-md-6 qv-mapping" data-ng-if="obj.type==\'question\'">\n            <div ng-repeat="variable in obj.variables" class="btn btn-primary tag-variable">\n              <p class="display-inline">{{variable.name}}</p>\n              <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(obj, variable.id)"></span>\n            </div>\n            <input\n                    type="text"\n                    data-ng-model="obj.new_variables"\n                    placeholder="Add a variable"\n                    data-uib-typeahead="variable as variable.name for variable in instrument.Variables | filter:{name:$viewValue}"\n                    class="form-control input-variable"\n                    typehead-editable="true"\n                    data-uib-tooltip="You can only add existent variables"\n                    data-tooltip-placement="top-right"\n                    data-ng-keyup="detectKey($event, obj)"\n            >\n        </div>\n        <div\n                class="col-md-6 tq-mapping input-variable"\n                data-ng-class="{\'col-md-offset-6\': obj.type == \'condition\'}"\n                data-ng-if="obj.type!=\'sequence\'">\n            <a-topics ng-model="obj"></a-topics>\n        </div>\n\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n        <div class="col-md-offset-1 col-md-11">\n            <div class="tree-item a-{{obj.type}}" data-ng-repeat="obj in obj.fchildren | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</script>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{instrument.study}} - {{instrument.label}}</h3>\n    </div>\n    <div id="tree" class="panel-body">\n        <span class="a-label">{{instrument.topsequence.label}}</span>\n        <div>\n            <div class="tree-item a-sequence" data-ng-repeat="obj in instrument.topsequence.children | orderBy:\'position\'" data-ng-include="\'child_render.html\'"></div>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
