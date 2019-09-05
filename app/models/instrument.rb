@@ -363,6 +363,10 @@ class Instrument < ApplicationRecord
     Variable.where(dataset_id: self.datasets.map(&:id))
   end
 
+  def normalize_friendly_id(value)
+    value.to_s.parameterize(preserve_case: true)
+  end
+
   private
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
