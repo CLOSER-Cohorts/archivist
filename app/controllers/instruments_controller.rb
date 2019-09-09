@@ -111,7 +111,8 @@ class InstrumentsController < ImportableController
         doc.save_or_get
 
         type = import[:type]&.downcase&.to_sym
-        Resque.enqueue(@@map[type], doc.id, {object: params[:id]})
+        import = Import.create(document_id: doc.id, import_type: @@map[type], instrument_id: params[:id], state: :pending)
+        Resque.enqueue(@@map[type], doc.id, {object: params[:id], import_id: import.id})
       end
       head :ok, format: :json
     rescue  => e

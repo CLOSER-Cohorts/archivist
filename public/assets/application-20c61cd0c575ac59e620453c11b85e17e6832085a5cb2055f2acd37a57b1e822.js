@@ -107646,14 +107646,15 @@ return /******/ (function(modules) { // webpackBootstrap
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.instrument_imports', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'InstrumentImports', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, InstrumentImports, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
       DataManager.Instruments = Instruments;
+      DataManager.InstrumentImports = InstrumentImports;
       DataManager.Constructs = Constructs;
       DataManager.Codes = Codes;
       DataManager.ResponseUnits = ResponseUnits;
@@ -107697,6 +107698,16 @@ return /******/ (function(modules) { // webpackBootstrap
         console.log(DataManager);
         DataManager.Data.DatasetImport = DataManager.DatasetImports.get(params);
         return DataManager.Data.DatasetImport;
+      };
+      DataManager.getInstrumentImports = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.InstrumentImports = DataManager.InstrumentImports.query(params, success, error);
+        return DataManager.Data.InstrumentImports;
+      };
+      DataManager.getInstrumentImport = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.InstrumentImport = DataManager.InstrumentImports.get(params);
+        return DataManager.Data.InstrumentImport;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -108484,6 +108495,28 @@ return /******/ (function(modules) { // webpackBootstrap
     'WrappedResource', function(WrappedResource) {
       return new WrappedResource('datasets/:id.json', {
         id: '@id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var instrument_imports;
+
+  instrument_imports = angular.module('archivist.data_manager.instrument_imports', ['ngResource']);
+
+  instrument_imports.factory('InstrumentImports', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('instruments/:instrument_id/imports/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
       }, {
         save: {
           method: 'PUT'
@@ -110073,6 +110106,12 @@ return /******/ (function(modules) { // webpackBootstrap
       }).when('/instruments/:id/import', {
         templateUrl: 'partials/instruments/import.html',
         controller: 'InstrumentsController'
+      }).when('/instruments/:id/imports', {
+        templateUrl: 'partials/instruments/imports/index.html',
+        controller: 'InstrumentsImportsController'
+      }).when('/instruments/:instrument_id/imports/:id', {
+        templateUrl: 'partials/instruments/imports/show.html',
+        controller: 'InstrumentsImportsShowController'
       });
     }
   ]);
@@ -110159,6 +110198,63 @@ return /******/ (function(modules) { // webpackBootstrap
           return console.log("error");
         });
       };
+    }
+  ]);
+
+  instruments.controller('InstrumentsImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.instrument = DataManager.getInstrument($routeParams.id, {}, function() {
+        $scope.page['title'] = $scope.instrument.prefix + ' | Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/admin/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.slug,
+            active: false
+          }, {
+            label: 'Imports',
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope.imports = DataManager.getInstrumentImports({
+        instrument_id: $routeParams.id
+      });
+    }
+  ]);
+
+  instruments.controller('InstrumentsImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.instrument = DataManager.getInstrument($routeParams.instrument_id, {}, function() {
+        $scope.page['title'] = $scope.instrument.prefix + ' | Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/admin/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.slug,
+            active: false
+          }, {
+            label: 'Imports',
+            link: '/instruments/' + $scope.instrument.slug + '/imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope["import"] = DataManager.getInstrumentImport({
+        instrument_id: $routeParams.instrument_id,
+        id: $routeParams.id
+      });
     }
   ]);
 
@@ -111510,7 +111606,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/instruments.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/instruments.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instruments\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-body row">\n                <div class="col-md-4">\n                    <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                </div>\n                <div class="col-md-8">\n                    <button\n                            type="button"\n                            class="btn btn-primary"\n                            data-toggle="modal"\n                            data-target="#new-instrument"\n                            data-ng-click="prepareNew()"\n                            style="float: right;"\n                    >Add new</button>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Prefix</th>\n                    <th>Study</th>\n                    <th>Actions</th>\n                </tr>\n                <tr data-ng-repeat="\n                    instrument in filteredInstruments = (instruments |\n                    filter:query) |\n                    orderBy:\'id\' |\n                    limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{instrument.id}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.prefix}}">\n                            {{instrument.prefix}}\n                        </a>\n                    </td>\n                    <td>{{instrument.study}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.prefix}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#copy-instrument"\n                                data-ng-click="prepareCopy(instrument.id)"\n                        >\n                            Copy\n                        </button>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#import-mapping"\n                                data-ng-click="prepareImport(instrument.prefix,instrument.id)"\n                        >\n                            Import Mappings\n                        </button>\n			            |\n                        <a\n                                data-ng-href="/instruments/{{instrument.prefix}}/qv.txt"\n                                target="_self"\n                        >\n                            QV\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/instruments/{{instrument.prefix}}/tq.txt"\n                                target="_self"\n                        >\n                            Topics\n                        </a>\n                        |\n                        <button\n                            type="button"\n                            class="btn btn-link btn-sm"\n                            data-ng-click="clearCache(instrument.id)"\n                        >\n                            Clear Cache\n                        </button>\n			            |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-instrument"\n                                data-ng-click="prepareDelete(instrument.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <ul uib-pagination\n                        total-items="filteredInstruments.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/copy.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/new.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/import-mapping.html\'"></div>')
+  $templateCache.put("partials/admin/instruments.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instruments\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-body row">\n                <div class="col-md-4">\n                    <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n                </div>\n                <div class="col-md-8">\n                    <button\n                            type="button"\n                            class="btn btn-primary"\n                            data-toggle="modal"\n                            data-target="#new-instrument"\n                            data-ng-click="prepareNew()"\n                            style="float: right;"\n                    >Add new</button>\n                </div>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>Prefix</th>\n                    <th>Study</th>\n                    <th>Actions</th>\n                </tr>\n                <tr data-ng-repeat="\n                    instrument in filteredInstruments = (instruments |\n                    filter:query) |\n                    orderBy:\'id\' |\n                    limitTo:pageSize:(currentPage-1)*pageSize">\n                    <td>{{instrument.id}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.prefix}}">\n                            {{instrument.prefix}}\n                        </a>\n                    </td>\n                    <td>{{instrument.study}}</td>\n                    <td>\n                        <a data-ng-href="/instruments/{{instrument.prefix}}/edit">\n                            <span class="edit">Edit</span>\n                        </a>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#copy-instrument"\n                                data-ng-click="prepareCopy(instrument.id)"\n                        >\n                            Copy\n                        </button>\n                        |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#import-mapping"\n                                data-ng-click="prepareImport(instrument.prefix,instrument.id)"\n                        >\n                            Import Mappings\n                        </button>\n			            |\n                        <a\n                                data-ng-href="/instruments/{{instrument.prefix}}/qv.txt"\n                                target="_self"\n                        >\n                            QV\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/instruments/{{instrument.prefix}}/tq.txt"\n                                target="_self"\n                        >\n                            Topics\n                        </a>\n                        |\n                        <a\n                                data-ng-href="/instruments/{{instrument.prefix}}/imports"\n                                target="_self"\n                        >\n                            View Imports\n                        </a>\n                        |\n                        <button\n                            type="button"\n                            class="btn btn-link btn-sm"\n                            data-ng-click="clearCache(instrument.id)"\n                        >\n                            Clear Cache\n                        </button>\n			            |\n                        <button\n                                type="button"\n                                class="btn btn-link btn-sm"\n                                data-toggle="modal"\n                                data-target="#delete-instrument"\n                                data-ng-click="prepareDelete(instrument.id)"\n                        >\n                            Delete\n                        </button>\n                    </td>\n                </tr>\n            </table>\n            <div class="panel-footer">\n                <ul uib-pagination\n                        total-items="filteredInstruments.length"\n                        ng-model="currentPage"\n                        items-per-page="pageSize">\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/admin/modals/copy.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/delete.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/new.html\'"></div>\n<div data-ng-include="\'partials/admin/modals/import-mapping.html\'"></div>')
 }]);
 
 // Angular Rails Template
@@ -111741,7 +111837,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/datasets/imports/show.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/datasets/imports/show.html", '<breadcrumb></breadcrumb>\n<notices></notices>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-6">\n                <dl>\n                  <dt>Dataset</dt>\n                  <dd>{{dataset.name}}</dd>\n                  <dt>Filename</dt>\n                  <dd>{{import.filename}}</dd>\n                </dl>\n            </div>\n            <div class="col-sm-6">\n                <dl>\n                  <dt>State</dt>\n                  <dd>{{import.state}}</dd>\n                  <dt>Created At</dt>\n                  <dd>{{import.created_at}}</dd>\n                </dl>\n            </div>\n        </div>\n    </div>\n\n    <table class="table table-double-striped">\n        <tr>\n            <th>Input</th>\n            <th>Matches</th>\n            <th>Outcome</th>\n        </tr>\n        <tr data-ng-repeat="line in import.logs"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: line.error}"\n        >\n            <td>{{line.original_text}}</td>\n            <td>{{line.matches}} </td>\n            <td>{{line.outcome}}</td>\n        </tr>\n    </table>\n</div>')
+  $templateCache.put("partials/datasets/imports/show.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Dataset Imports\n        </h1>\n\n        <breadcrumb></breadcrumb>\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>\n            </div>\n            <div class="panel-body">\n                <div class="row">\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>Dataset</dt>\n                          <dd>{{dataset.name}}</dd>\n                          <dt>Filename</dt>\n                          <dd>{{import.filename}}</dd>\n                        </dl>\n                    </div>\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>State</dt>\n                          <dd>{{import.state}}</dd>\n                          <dt>Created At</dt>\n                          <dd>{{import.created_at}}</dd>\n                        </dl>\n                    </div>\n                </div>\n            </div>\n\n            <table class="table table-double-striped">\n                <tr>\n                    <th>Input</th>\n                    <th>Matches</th>\n                    <th>Outcome</th>\n                </tr>\n                <tr data-ng-repeat="line in import.logs"\n                    data-ng-class-odd="\'odd\'"\n                    data-ng-class="{danger: line.error}"\n                >\n                    <td>{{line.original_text}}</td>\n                    <td>{{line.matches}} </td>\n                    <td>{{line.outcome}}</td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -111777,6 +111873,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
   $templateCache.put("partials/instruments/import.html", '<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">Import - {{instrument.prefix}}</h3>\n    </div>\n    <div class="panel-body">\n      <!-- Angular Form -->\n      <!-- <form data-ng-submit="importInstrument()" novalidate>\n          <div class="form-group">\n              <label for="import-instrument">\n                  Upload TXT Mapping files\n              </label>\n              <input id="mapping" ng-file-model="mapping.file" type="file" />\n              <p class="help-block">Only TXT files are accepted.</p>\n          </div>\n          <button type="submit" class="btn btn-default">Import Files</button>\n      </form> -->\n      <!-- HTML Form -->\n      <form action="index.html" method="post">\n        <div class="form-group">\n            <label for="import-instrument">\n                Upload TXT Mapping files\n            </label>\n            <input id="mapping" name="imports[][file]" type="file" />\n            <p class="help-block">Only TXT files are accepted.</p>\n            <input id="mapping" name="imports[][type]" type="text" value="mapping" hidden="true" />\n        </div>\n        <div class="form-group">\n            <label for="import-instrument">\n                Upload TXT Variable files\n            </label>\n            <input id="mapping" name="imports[][file]" type="file" />\n            <p class="help-block">Only TXT files are accepted.</p>\n            <input id="mapping" name="imports[][type]" type="text" value="topicv" hidden="true" />\n        </div>\n        <div class="form-group">\n            <label for="import-instrument">\n                Upload TXT DV files\n            </label>\n            <input id="mapping" name="imports[][file]" type="file" />\n            <p class="help-block">Only TXT files are accepted.</p>\n            <input id="mapping" name="imports[][type]" type="text" value="dv" hidden="true" />\n        </div>\n        <div class="form-group">\n            <label for="import-instrument">\n                Upload TXT Mapper files\n            </label>\n            <input id="mapping" name="imports[][file]" type="file" />\n            <p class="help-block">Only TXT files are accepted.</p>\n            <input id="mapping" name="imports[][type]" type="text" value="topicq" hidden="true" />\n        </div>\n        <button type="submit" class="btn btn-default">Import Files</button>\n      </form>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/instruments/imports/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/instruments/imports/index.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instrument Imports\n        </h1>\n\n        <breadcrumb></breadcrumb>\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">Instrument Imports</h3>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>File</th>\n                    <th>Type</th>\n                    <th>State</th>\n                    <th>Created At</th>\n                    <th class="editor-min">Actions</th>\n                </tr>\n                <tr data-ng-repeat="import in imports">\n                    <td>\n                        <a data-ng-href="/instruments/{{import.instrument_id}}/imports/{{import.id}}">\n                            {{import.id}}\n                        </a>\n                    </td>\n                    <td>{{import.filename}}</td>\n                    <td>{{import.import_type}}</td>\n                    <td>{{import.state}}</td>\n                    <td>{{import.created_at}}</td>\n                    <td class="editor-min">\n                        <a data-ng-href="/instruments/{{import.instrument_id}}/imports/{{import.id}}">\n                            <span class="edit">View Log</span>\n                        </a>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/instruments/imports/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/instruments/imports/show.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            Instrument Imports\n        </h1>\n\n        <breadcrumb></breadcrumb>\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>\n            </div>\n            <div class="panel-body">\n                <div class="row">\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>Instrument</dt>\n                          <dd>{{instrument.prefix}}</dd>\n                          <dt>Filename</dt>\n                          <dd>{{import.filename}}</dd>\n                        </dl>\n                    </div>\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>State</dt>\n                          <dd>{{import.state}}</dd>\n                          <dt>Created At</dt>\n                          <dd>{{import.created_at}}</dd>\n                        </dl>\n                    </div>\n                </div>\n            </div>\n\n            <table class="table table-double-striped">\n                <tr>\n                    <th>Input</th>\n                    <th>Matches</th>\n                    <th>Outcome</th>\n                </tr>\n                <tr data-ng-repeat="line in import.logs"\n                    data-ng-class-odd="\'odd\'"\n                    data-ng-class="{danger: line.error}"\n                >\n                    <td>{{line.original_text}}</td>\n                    <td>{{line.matches}} </td>\n                    <td>{{line.outcome}}</td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template

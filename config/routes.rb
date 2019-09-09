@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     resources :response_domain_texts
     resources :code_lists
     resources :categories
+    resources :imports, module: :instruments, only: [:index, :show]
     member do
       post 'copy/:new_prefix', to: 'instruments#copy', as: :copy
       get 'clear_cache', to: 'instruments#clear_cache'
