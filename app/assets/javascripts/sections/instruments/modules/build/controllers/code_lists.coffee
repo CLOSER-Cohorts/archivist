@@ -118,7 +118,7 @@ angular.module('archivist.build').controller(
         being_moved = $scope.current.codes.splice original_index, 1
         $scope.current.codes.splice original_index + shift, 0, being_moved...
         for i of $scope.current.codes
-          $scope.current.codes[i].order = i
+          $scope.current.codes[i].order = parseInt(i)
 
       $scope.after_instrument_loaded = ->
         $scope.categories = DataManager.Data.Codes.Categories
@@ -131,7 +131,7 @@ angular.module('archivist.build').controller(
             if newVal?
               scope.current.codes.push {id: null, value: newVal, category: null}
               for i of $scope.current.codes
-                $scope.current.codes[i].order = i
+                $scope.current.codes[i].order = parseInt(i)
               $scope.current.newValue = null
               #TODO: Remove DOM code from controllers
               $timeout(
