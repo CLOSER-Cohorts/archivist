@@ -141,9 +141,6 @@ class Instrument < ApplicationRecord
   # a top sequence
   after_create :add_top_sequence
 
-  # While destroying an instrument, pause archivist-realtime updates
-  around_destroy :pause_rt
-
   validates :prefix, uniqueness: true
 
   friendly_id :prefix, use: :slugged
