@@ -134,6 +134,9 @@ class Instrument < ApplicationRecord
   # an instruments Q-V mapping file
   has_many :qv_mappings
 
+  # An Instrument can have many {Import Imports}
+  has_many :imports
+
   # After creating a new instrument a first sequence is created as
   # a top sequence
   after_create :add_top_sequence
@@ -361,6 +364,10 @@ class Instrument < ApplicationRecord
   # @return [ActiveRecord::Relation] All possible variables for mapping
   def variables
     Variable.where(dataset_id: self.datasets.map(&:id))
+  end
+
+  def normalize_friendly_id(value)
+    value.to_s.parameterize(preserve_case: true)
   end
 
   private

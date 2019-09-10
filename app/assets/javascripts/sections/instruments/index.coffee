@@ -30,6 +30,14 @@ instruments.config([ '$routeProvider',
         templateUrl: 'partials/instruments/import.html'
         controller: 'InstrumentsController'
       )
+      .when('/instruments/:id/imports',
+        templateUrl: 'partials/instruments/imports/index.html'
+        controller: 'InstrumentsImportsController'
+      )
+      .when('/instruments/:instrument_id/imports/:id',
+        templateUrl: 'partials/instruments/imports/show.html'
+        controller: 'InstrumentsImportsShowController'
+      )
 ])
 
 instruments.controller('InstrumentsController',
@@ -123,6 +131,92 @@ instruments.controller('InstrumentsController',
         )
 
 ])
+
+instruments.controller(
+  'InstrumentsImportsController',
+  [
+    '$scope',
+    '$routeParams',
+    'VisDataSet',
+    'DataManager'
+    (
+      $scope,
+      $routeParams,
+      VisDataSet,
+      DataManager
+    )->
+      $scope.instrument = DataManager.getInstrument(
+        $routeParams.id,
+        {},
+        ->
+          $scope.page['title'] = $scope.instrument.prefix + ' | Imports'
+          $scope.breadcrumbs = [
+            {
+              label: 'Instruments',
+              link: '/admin/instruments',
+              active: false
+            },
+            {
+              label: $scope.instrument.prefix,
+              link: '/instruments/' + $scope.instrument.slug,
+              active: false
+            },
+            {
+              label: 'Imports',
+              link: false,
+              active: true
+            }
+          ]
+      )
+      $scope.imports = DataManager.getInstrumentImports(instrument_id: $routeParams.id)
+  ]
+)
+
+instruments.controller(
+  'InstrumentsImportsShowController',
+  [
+    '$scope',
+    '$routeParams',
+    'VisDataSet',
+    'DataManager'
+    (
+      $scope,
+      $routeParams,
+      VisDataSet,
+      DataManager
+    )->
+      $scope.instrument = DataManager.getInstrument(
+        $routeParams.instrument_id,
+        {},
+        ->
+          $scope.page['title'] = $scope.instrument.prefix + ' | Imports'
+          $scope.breadcrumbs = [
+            {
+              label: 'Instruments',
+              link: '/admin/instruments',
+              active: false
+            },
+            {
+              label: $scope.instrument.prefix,
+              link: '/instruments/' + $scope.instrument.slug,
+              active: false
+            },
+            {
+              label: 'Imports',
+              link: '/instruments/' + $scope.instrument.slug + '/imports',
+              active: false
+            },
+            {
+              label: $routeParams.id,
+              link: false,
+              active: true
+            }
+          ]
+      )
+      $scope.import = DataManager.getInstrumentImport(instrument_id: $routeParams.instrument_id, id: $routeParams.id)
+  ]
+)
+
 
 instruments.factory('Base64Factory',
   [

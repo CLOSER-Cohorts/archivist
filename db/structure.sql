@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.14
--- Dumped by pg_dump version 9.6.14
+-- Dumped from database version 10.3
+-- Dumped by pg_dump version 10.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,7 +12,6 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
-SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -1274,6 +1273,7 @@ CREATE TABLE public.friendly_id_slugs (
 --
 
 CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1378,7 +1378,8 @@ CREATE TABLE public.imports (
     state character varying,
     log text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    instrument_id integer
 );
 
 
@@ -2859,6 +2860,13 @@ CREATE INDEX index_imports_on_document_id ON public.imports USING btree (documen
 
 
 --
+-- Name: index_imports_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_imports_on_instrument_id ON public.imports USING btree (instrument_id);
+
+
+--
 -- Name: index_instructions_on_instrument_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3609,6 +3617,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190812092806'),
 ('20190812092819'),
 ('20190813092806'),
-('20190829124508');
+('20190829124508'),
+('20190905215804');
 
 
