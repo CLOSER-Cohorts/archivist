@@ -6,21 +6,13 @@ class CodeListsController < BasicInstrumentController
   @model_class = CodeList
 
   # List of params that can be set and edited
-  @params_list = [:label, codes_attributes: [ :id, :value, :order, :_destroy, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
+  @params_list = [:label, response_domain_code_attributes: [:id, :min_responses, :max_responses, :instrument_id, :_destroy], codes_attributes: [ :id, :value, :order, :_destroy, :category_id, category_attributes: [:id, :instrument_id, :label] ]]
 
   # POST /instruments/1/code_lists.json
   def create
     @object = collection.new(safe_params)
 
     if @object.save
-      if params.has_key?(:rd) && params[:rd]
-        @object.response_domain = true
-        @object.response_domain.min_responses = params[:min_responses]
-        @object.response_domain.max_responses = params[:max_responses]
-        @object.response_domain.save!
-      else
-        @object.response_domain = false
-      end
       render :show, status: :created
     else
       render json: { errors: @object.errors, error_sentence: @object.errors.full_messages.to_sentence }, status: :unprocessable_entity
@@ -31,16 +23,6 @@ class CodeListsController < BasicInstrumentController
   def update
     parameters = safe_params
 
-    if params.has_key? :rd
-      if params[:rd]
-        @object.response_domain = true
-        @object.response_domain.min_responses = params[:min_responses]
-        @object.response_domain.max_responses = params[:max_responses]
-        @object.response_domain.save!
-      else
-        @object.response_domain = false
-      end
-    end
     if @object.update_attributes(parameters)
       respond_to do |format|
         format.json { render :show, status: :ok }
@@ -88,6 +70,13 @@ class CodeListsController < BasicInstrumentController
         end
       end
       params[:code_list][:codes_attributes] = codes_params
+    end
+
+    response_domain_code = @object.response_domain_code
+    if params.has_key?(:rd) && params[:rd]
+      params[:code_list][:response_domain_code_attributes] = { id: response_domain_code.id, min_responses: params[:min_responses], max_responses: params[:max_responses] }
+    else
+      params[:code_list][:response_domain_code_attributes] = { id: response_domain_code.id, _destroy: true }
     end
     super
   end
