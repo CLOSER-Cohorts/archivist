@@ -46,7 +46,8 @@ class CcQuestion < ::ControlConstruct
   validate :topic_conflict
   validate :resolved_topic_conflict
 
-  delegate :label, to: :question, allow_nil: true, prefix: true
+  delegate :label, to: :response_unit, allow_nil: true, prefix: true
+  delegate :label, to: :question, allow_nil: true, prefix: :base
 
   def topic_conflict
     return unless topic
@@ -72,7 +73,7 @@ class CcQuestion < ::ControlConstruct
   end
 
   def to_s
-    question_label
+    base_label
   end
 
   # In order to create a construct, it must be positioned within another construct.
@@ -91,57 +92,11 @@ class CcQuestion < ::ControlConstruct
     end
   end
 
-  # Returns the label of the base question
-  #
-  # Uses Redis caching for performance.
-  #
-  # @return [String] Base question label
-  def base_label
-    cached_value('base_label') { question.label }
-  end
-
-  # Provides a wrapper for properties to be cached using Redis
-  #
-  # TODO: Should this method be private?
-  # TODO: Can this method be abstracted and applied more uniformly
-  #
-  # @param [String] label Key for cached property
-  #
-  # @return [String] Property value
-  def cached_value(label)
-    key = 'qc_question:' + label
-    begin
-      value = $redis.hget key, self.id
-    rescue
-      Rails.logger.warn 'Cannot get ' + key + ' from Redis cache'
-    end
-    if value.nil?
-      value = yield
-      unless value.nil?
-        begin
-          $redis.hset key, self.id, value
-        rescue
-          Rails.logger.warn 'Cannot set ' + key + ' to Redis cache'
-        end
-      end
-    end
-    value
-  end
-
   # Returns the mapping level where the root questions are level 1
   #
   # @return [Integer] 1
   def level
     1
-  end
-
-  # Returns the label of the ResponseUnit
-  #
-  # Uses Redis caching for performance.
-  #
-  # @return [String] ResponseUnit label
-  def response_unit_label
-    cached_value('response_unit_label') { response_unit.label }
   end
 
   # Returns a Hash of the attributes and properties for broadcast over
