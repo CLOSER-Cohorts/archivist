@@ -170,7 +170,7 @@
           $scope.instrument.$delete({}, function() {
             DataManager.Data = {};
             $scope.instruments = DataManager.Instruments.requery();
-            return Flash.add('success', 'Instrument deleted successfully');
+            return Flash.add('success', 'Instrument has successfully been queued for deletion. This may take a few minutes.');
           }, function(response) {
             console.error(response);
             return Flash.add('danger', 'Failed to delete instrument - ' + response.message);

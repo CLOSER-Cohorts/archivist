@@ -271,7 +271,7 @@
         (ref = $scope.current.codes).splice.apply(ref, [original_index + shift, 0].concat(slice.call(being_moved)));
         results = [];
         for (i in $scope.current.codes) {
-          results.push($scope.current.codes[i].order = i);
+          results.push($scope.current.codes[i].order = parseInt(i));
         }
         return results;
       };
@@ -290,7 +290,7 @@
                 category: null
               });
               for (i in $scope.current.codes) {
-                $scope.current.codes[i].order = i;
+                $scope.current.codes[i].order = parseInt(i);
               }
               $scope.current.newValue = null;
               return $timeout(function() {
