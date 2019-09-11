@@ -55,4 +55,9 @@ class CcQuestionsController < ConstructController
       format.json { render json: true, status: :accepted }
     end
   end
+
+  private
+  def collection
+    @instrument.cc_questions.includes(:response_unit, :question, :topic)
+  end
 end
