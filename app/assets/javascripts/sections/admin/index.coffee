@@ -184,7 +184,7 @@ admin.controller('AdminInstrumentsController',
             ->
               DataManager.Data = {}
               $scope.instruments = DataManager.Instruments.requery()
-              Flash.add 'success', 'Instrument deleted successfully'
+              Flash.add 'success', 'Instrument has successfully been queued for deletion. This may take a few minutes.'
           ,
             (response)->
               console.error response

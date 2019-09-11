@@ -48,7 +48,7 @@ class CodeList < ApplicationRecord
 
   # Accept nested attributes for Codes so that we can manage associated
   # Codes from within a CodeList form.
-  accepts_nested_attributes_for :codes, allow_destroy: true
+  accepts_nested_attributes_for :codes, :response_domain_code, allow_destroy: true
 
   # Returns all the {QuestionGrid QuestionGrids} that this CodeList has been
   # used as an axis in
