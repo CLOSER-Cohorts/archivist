@@ -82,7 +82,7 @@ class CodeListsController < BasicInstrumentController
 
     response_domain_code = (@object) ? @object.response_domain_code : nil
     if params.has_key?(:rd) && params[:rd]
-      params[:code_list][:response_domain_code_attributes] = { id: response_domain_code.try(:id), min_responses: params[:min_responses], max_responses: params[:max_responses] }
+      params[:code_list][:response_domain_code_attributes] = { id: response_domain_code.try(:id), min_responses: params[:min_responses] || 1, max_responses: params[:max_responses] || 1 }
     else
       params[:code_list][:response_domain_code_attributes] = { id: response_domain_code.try(:id), _destroy: true }
     end
