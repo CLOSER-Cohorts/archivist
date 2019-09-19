@@ -22,14 +22,22 @@ class CodeListsController < BasicInstrumentController
   # PATCH/PUT /instruments/1/code_lists/1.json
   def update
     parameters = safe_params
-
     if @object.update_attributes(parameters)
+      # We need to reload otherwise the response_domain association will
+      # be returned in the JSON even after it has been removed.
+      @object.reload
       respond_to do |format|
         format.json { render :show, status: :ok }
       end
     else
       respond_to do |format|
-        format.json { render json: { errors: @object.errors, error_sentence: @object.errors.full_messages.to_sentence }, status: :unprocessable_entity }
+        errors = @object.errors.keys.map do |attribute|
+          attr_name = attribute.to_s.split('.').last.tr(".", "_").humanize
+          attr_name = @object.class.human_attribute_name(attribute, default: attr_name)
+          "#{attr_name} #{@object.errors[attribute].to_sentence}. "
+        end
+        Rails.logger.info "@object.errors - #{errors.inspect}"
+        format.json { render json: { errors: @object.errors, error_sentence: errors.join }, status: :unprocessable_entity }
       end
     end
   end

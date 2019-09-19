@@ -22,7 +22,7 @@ class ResponseDomainCode < ApplicationRecord
   delegate :label, to: :code_list
 
 
-  validates :min_responses, :max_responses, presence: true, numericality: { only_integer: true }
+  validates :min_responses, :max_responses, presence: true, numericality: { only_integer: true, allow_blank: true }
 
   # Returns basic information on the response domain's codes
   #
