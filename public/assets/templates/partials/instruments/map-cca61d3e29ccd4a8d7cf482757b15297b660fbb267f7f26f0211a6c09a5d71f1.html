@@ -39,6 +39,7 @@
                 class="col-md-6 tq-mapping input-variable"
                 data-ng-class="{'col-md-offset-6': obj.type == 'condition'}"
                 data-ng-if="obj.type!='sequence'">
+            <span data-ng-if="obj.resolved_topic && obj.resolved_topic.id != obj.topic.id">Resolved Topic - {{ obj.resolved_topic.name }}</span>
             <a-topics ng-model="obj"></a-topics>
         </div>
 
