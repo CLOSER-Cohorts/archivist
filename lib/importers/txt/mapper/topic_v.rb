@@ -10,7 +10,6 @@ class Importers::TXT::Mapper::TopicV < Importers::TXT::Mapper::Dataset
       else
         var = vars.find_by_name v
       end
-      t = '000' if t == '0'
       topic = Topic.find_by_code t
       log :matches, "matched to Variable (#{var}) AND Topic (#{topic})"
       if var.nil? || topic.nil?
