@@ -29,9 +29,9 @@ class CcQuestionsController < ConstructController
         variables.each do |variable|
           unless @object.variables.find_by_id(variable.id)
             if params.has_key?(:x) && params.has_key?(:y)
-              @object.map.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i)
+              @object.maps.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i, resolve_topic_conflict: true)
             else
-              @object.variables << variable
+              @object.maps.create!(variable: variable, resolve_topic_conflict: true)
             end
           end
         end
