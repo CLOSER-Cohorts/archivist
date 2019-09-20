@@ -13,8 +13,10 @@ class Map < ApplicationRecord
   # Every mapping has a destination {Variable}
   belongs_to :variable
 
+  attr_accessor :resolve_topic_conflict
+
   # # # Validate to stop topic conflict between Variable(s) and CcQuestion
-  # validate :resolved_topic_conflict
+  validate :resolved_topic_conflict, if: Proc.new { |a| a.resolve_topic_conflict }
 
   def resolved_topic_conflict
     return if variable.nil? || source.nil? || variable.derived? || source.resolved_topic.nil? || variable.resolved_topic.nil?
