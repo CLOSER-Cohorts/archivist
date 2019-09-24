@@ -64,6 +64,19 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show qv.txt" do
+    dataset = FactoryBot.create(:dataset)
+    variable = FactoryBot.create(:variable, dataset: dataset)
+    instrument = FactoryBot.create(:instrument)
+    cc_question = FactoryBot.create(:cc_question, instrument: instrument, label: 'qc_abc_123')
+    cc_question.maps.create(variable: variable)
+    get :mapping, format: :txt, params: { id: instrument.id }
+    map = QvMapping.where(question: cc_question.label).first
+    assert_response :success
+    parsed_response = response.body.split("\n").map{|line| line.split("\t")}
+    assert_equal parsed_response.first, [instrument.control_construct_scheme, map.question_with_cell, map.dataset_instance_name,  variable.name]
+  end
+
   # test "should destroy instrument" do
   #   puts Instrument.count
   #   assert_difference('Instrument.count', -1) do

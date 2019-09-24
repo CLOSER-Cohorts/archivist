@@ -17,6 +17,9 @@ class QvMapping < ReadOnlyRecord
   # Each QV mapping can only belong to one {Instrument}
   belongs_to :instrument
 
+  delegate :control_construct_scheme, to: :instrument, allow_nil: true
+  delegate :instance_name, to: :dataset, allow_nil: true, prefix: true
+
   # Return question reference with grid cell reference
   #
   # @return [String] Question reference
