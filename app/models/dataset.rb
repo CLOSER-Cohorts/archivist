@@ -82,4 +82,9 @@ class Dataset < ApplicationRecord
   def qv_count
     self.qv_mappings.size
   end
+
+  def instance_name
+    return unless filename
+    filename.match(/(\S*).ddi32.rp.xml/)[0]
+  end
 end

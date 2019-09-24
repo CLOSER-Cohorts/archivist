@@ -39,4 +39,15 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_response :success
   end
+
+  test "should show tv.txt" do
+    dataset = FactoryBot.create(:dataset)
+    variable = FactoryBot.create(:variable, dataset: dataset)
+    topic = FactoryBot.create(:topic)
+    variable.topic = topic
+    get :tv, format: :txt, params: { dataset_id: dataset.id }
+    assert_response :success
+    parsed_response = response.body.split("\n").map{|line| line.split("\t")}
+    assert_equal parsed_response.first, [dataset.instance_name, variable.name, variable.fully_resolved_topic_code]
+  end
 end
