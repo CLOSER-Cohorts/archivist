@@ -41,8 +41,23 @@ class CcQuestionsControllerTest < ActionController::TestCase
   end
 
   test "should update cc_question" do
-    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_question, cc_question: {question_id: @cc_question.question_id, question_type: @cc_question.question_type} }
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_question, cc_question: {question_id: @cc_question.question_id, question_type: @cc_question.question_type, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'sequence'
+          }} }
     assert_response :success
+
+    assert_equal @cc_question.reload.parent, @instrument.cc_sequences.first
+  end
+
+  test "should update cc_question when parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_question, cc_question: {question_id: @cc_question.question_id, question_type: @cc_question.question_type, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }} }
+    assert_response :success
+
+    assert_equal @cc_question.reload.parent, @instrument.cc_sequences.first
   end
 
   test "should destroy cc_question" do

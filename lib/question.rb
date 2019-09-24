@@ -13,7 +13,8 @@ module Question::Model
     has_many :response_domain_texts, through: :rds_qs, source: :response_domain, source_type: 'ResponseDomainText'
     has_many :cc_questions, as: :question, dependent: :destroy, inverse_of: :question
 
-    include Realtime::RtUpdate
+    validates :instrument, presence: true
+
     include Exportable
     # This model can be tracked using an Identifier
     include Identifiable
@@ -39,12 +40,16 @@ module Question::Model
       else
         cols.sort_by! { |x| x[:order] }
         cols.each do |col|
-          if col[:rd].nil?
-            rd = self.rds_qs.find_by_code_id col[:value]
-            rd.delete unless rd.nil?
-          else
-            rd = self.instrument.association(col[:rd][:type].tableize).reader.find col[:rd][:id]
-            self.rds_qs.create question: self, response_domain: rd, code_id: col[:value], instrument_id: Prefix[self.instrument_id]
+          existing_rd = self.rds_qs.where(code_id: col[:value]).first
+          # Get the ResponseDomain from the col hash. If the type and id aren't
+          # found in the db or if we're removing an assoication then this
+          # will rescue to nil.
+          new_rd = self.instrument.association(col[:rd][:type].tableize).reader.find(col[:rd][:id]) rescue nil
+          if existing_rd && new_rd != existing_rd
+            existing_rd.delete
+          end
+          if new_rd
+            self.rds_qs.create question: self, response_domain: new_rd, code_id: col[:value], instrument_id: self.instrument.try(:id)
           end
         end
       end
@@ -90,7 +95,7 @@ module Question::Model
       new_rds = o_rds.reject { |x| self.response_domains.include? x }
       new_rds.each do |new_rd|
         highest_rd_order += 1
-        RdsQs.create instrument_id: Prefix[self.instrument_id],
+        RdsQs.create instrument_id: self.instrument.try(:id),
                      response_domain: new_rd,
                      question: self,
                      rd_order: highest_rd_order

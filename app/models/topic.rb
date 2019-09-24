@@ -18,6 +18,10 @@ class Topic < ApplicationRecord
   # Make the level set and get-able
   attr_accessor :level
 
+  def to_s
+    name
+  end
+
   # Returns counts for the number of uses by each study on
   # {CcQuestion questions}
   #

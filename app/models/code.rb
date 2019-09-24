@@ -34,39 +34,18 @@ class Code < ApplicationRecord
   # Before creating a Code in the database ensure the instrument has been set
   before_create :set_instrument
 
+  # Accept nested attributes for category so that we can manage the
+  # Category from within a code form.
+  accepts_nested_attributes_for :category
+
   # All Codes require a CodeList and Category
   validates :category, :code_list, presence: true
 
   # Delegates label to Category, protecting against nil Category
-  #
-  # @return [String|Nil]
-  def label
-    self.category.nil? ? nil : self.category.label
-  end
-
-  # Allows the assigning of a new Category label in a protected way
-  #
-  # @param [String] val New Category label
-  def label=(val)
-    set_label(val, code_list.instrument)
-  end
+  delegate :label, to: :category, allow_nil: true
 
   # Sets instrument_id from the Code List that this Code belongs to
   def set_instrument
     self.instrument_id = self.code_list.instrument_id
-  end
-
-  # Sets a Category
-  #
-  # If the Category label already exists for this instrument then that Category
-  # is found and assigned, otherwise a new Category is created, saved and assigned.
-  #
-  # @param [String] val New Category label
-  # @param [Instrument] instrument Instrument to which Category belongs
-  def set_label(val, instrument)
-    self.category = Category.find_by label: val, instrument_id: instrument.id
-    if self.category.nil?
-      self.category = Category.create label: val, instrument: instrument
-    end
   end
 end

@@ -9,9 +9,7 @@ angular.module('archivist.build').controller(
     '$timeout'
     'Flash',
     'DataManager',
-    'RealTimeListener',
-    'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager, RealTimeListener, RealTimeLocking)->
+    ($controller, $scope, $routeParams, $location, $filter, $timeout, Flash, DataManager)->
 
       console.log 'called code_list controller'
 
@@ -20,6 +18,8 @@ angular.module('archivist.build').controller(
           cl.count = cl.used_by.length
           cl
         $scope.sidebar_objs = (get_count_from_used_by obj for obj in $scope.instrument.CodeLists).sort_by_property()
+        DataManager.Data.Codes.Categories.$promise.then ->
+          $scope.categories = DataManager.Data.Codes.Categories
         $timeout ->
           offset = localStorage.getItem 'sidebar_scroll'
           if offset != null
@@ -72,8 +72,8 @@ angular.module('archivist.build').controller(
 
           DataManager.Data.ResponseDomains.Codes.$promise.then ->
             DataManager.groupResponseDomains()
-        ,->
-          console.log("error")
+        ,(value, rh)->
+          Flash.add('danger', 'Code list failed to update! ' + value.data.error_sentence)
         )
 
         DataManager.Data.ResponseDomains[$routeParams.id] = null
@@ -90,8 +90,6 @@ angular.module('archivist.build').controller(
         if not isNaN($routeParams.code_list_id)
           $scope.current = angular.copy $scope.instrument.CodeLists.select_resource_by_id parseInt $routeParams.code_list_id
           $scope.editMode = false
-          if $scope.current?
-            RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
         if $routeParams.code_list_id == 'new'
           $scope.editMode = true
           $scope.current = new DataManager.Codes.CodeLists.resource({codes: []});
@@ -120,7 +118,7 @@ angular.module('archivist.build').controller(
         being_moved = $scope.current.codes.splice original_index, 1
         $scope.current.codes.splice original_index + shift, 0, being_moved...
         for i of $scope.current.codes
-          $scope.current.codes[i].order = i
+          $scope.current.codes[i].order = parseInt(i)
 
       $scope.after_instrument_loaded = ->
         $scope.categories = DataManager.Data.Codes.Categories
@@ -131,7 +129,9 @@ angular.module('archivist.build').controller(
           console.log newVal, oldVal, scope
           if newVal != oldVal
             if newVal?
-              scope.current.codes.push {id: null, value: newVal, category: null, order: $scope.current.codes.length}
+              scope.current.codes.push {id: null, value: newVal, category: null}
+              for i of $scope.current.codes
+                $scope.current.codes[i].order = parseInt(i)
               $scope.current.newValue = null
               #TODO: Remove DOM code from controllers
               $timeout(
@@ -150,9 +150,7 @@ angular.module('archivist.build').controller(
           $routeParams: $routeParams,
           $location: $location,
           Flash: Flash,
-          DataManager: DataManager,
-          RealTimeListener: RealTimeListener,
-          RealTimeLocking: RealTimeLocking
+          DataManager: DataManager
         }
       )
   ]

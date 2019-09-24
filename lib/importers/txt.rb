@@ -8,13 +8,44 @@ module Importers::TXT
         @doc = Importers::TXT::TabDelimited.new document.file_contents
       end
 
-      if options.has_key? 'object'
-        if options['object'].is_a?(String) || options['object'].is_a?(Integer) || options['object'].is_a?(Symbol)
-          @object = yield options['object']
+      options.symbolize_keys!
+      if options.has_key? :object
+        if options[:object].is_a?(String) || options[:object].is_a?(Integer) || options[:object].is_a?(Symbol)
+          @object = yield options[:object]
         else
-          @object = options['object']
+          @object = options[:object]
         end
       end
+      if options.has_key? :import_id
+        @import = Import.find_by_id(options[:import_id])
+      end
+    end
+
+    def set_import_to_running
+      return unless @import
+      @import.update_attributes(state: :running)
+      @logs = []
+      @log_entry = {}
+      @errors = false
+    end
+
+    def set_import_to_finished
+      return unless @import
+      @import.update_attributes(state: (@errors) ? :failure : :success, log: @logs.to_json)
+    end
+
+    def log(key, value)
+      return unless @import
+      if key == :outcome
+        @log_entry[:error] = (value =~ /Invalid/)
+      end
+      @log_entry[key] = value
+    end
+
+    def write_to_log
+      return unless @import
+      @logs << @log_entry
+      @log_entry = {}
     end
 
     def cancel

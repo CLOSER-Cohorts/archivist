@@ -7,8 +7,5 @@ else
 end
 json.used_bys @object.der_variables, :id, :name, :label, :var_type
 json.topic @object.topic, :id, :code, :name, :parent_id unless @object.topic.nil?
-json.strand do
-  json.topic @object.strand.topic, :id, :code, :name, :parent_id
-  json.good @object.strand.good
-end unless @object.strand.topic.nil?
-json.suggested_topic @object.get_suggested_topic, :id, :code, :name, :parent_id unless @object.get_suggested_topic.nil?
+json.resolved_topic @object.resolved_topic
+json.errors 'Validation failed: ' + @object.errors.full_messages.to_sentence if @object.errors.present?

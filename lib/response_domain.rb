@@ -5,7 +5,6 @@ module ResponseDomain
     has_many :question_items, through: :rds_qs, source: :question, source_type: 'QuestionItem'
     has_many :question_grids, through: :rds_qs, source: :question, source_type: 'QuestionGrid'
     belongs_to :instrument
-    include Realtime::RtUpdate
 
     def questions
       self.question_items.to_a + self.question_grids.to_a

@@ -7,9 +7,7 @@ angular.module('archivist.build').controller(
     '$location',
     '$timeout',
     'Flash',
-    'DataManager',
-    'RealTimeListener',
-    'RealTimeLocking',
+    'DataManager'
     (
       $controller,
       $scope,
@@ -17,9 +15,7 @@ angular.module('archivist.build').controller(
       $location,
       $timeout
       Flash,
-      DataManager,
-      RealTimeListener,
-      RealTimeLocking
+      DataManager
     ) ->
 
       $scope.load_sidebar = ->
@@ -121,8 +117,6 @@ angular.module('archivist.build').controller(
             $scope.current = angular.copy $scope.instrument.Questions.Grids.select_resource_by_id parseInt $routeParams.question_id
             $scope.title = 'Question Grid'
           $scope.editMode = false
-          if $scope.current?
-            RealTimeLocking.unlock({type: $scope.current.type, id: $scope.current.id})
 
 
 
@@ -161,9 +155,7 @@ angular.module('archivist.build').controller(
           $location: $location,
           $timeout: $timeout,
           Flash: Flash,
-          DataManager: DataManager,
-          RealTimeListener: RealTimeListener,
-          RealTimeLocking: RealTimeLocking
+          DataManager: DataManager
         }
       )
   ]

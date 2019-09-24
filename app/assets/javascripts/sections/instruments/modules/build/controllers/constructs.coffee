@@ -11,9 +11,7 @@ angular.module('archivist.build').controller(
     'bsLoadingOverlayService',
     'Flash',
     'DataManager',
-    'RealTimeListener',
-    'RealTimeLocking',
-    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, bsLoadingOverlayService, Flash, DataManager, RealTimeListener, RealTimeLocking )->
+    ($controller, $scope, $routeParams, $location, $filter, $http, $timeout, bsLoadingOverlayService, Flash, DataManager )->
       console.time 'end to end'
       $scope.title = 'Constructs'
       $scope.details_bar = true
@@ -234,7 +232,6 @@ angular.module('archivist.build').controller(
         })
         $location.search {construct_type: cc_type, construct_id: 'new'}
 
-        $scope.reset()
         $scope.editMode = true
 
       console.time 'load base'
@@ -245,9 +242,7 @@ angular.module('archivist.build').controller(
           $routeParams: $routeParams,
           $location: $location,
           Flash: Flash,
-          DataManager: DataManager,
-          RealTimeListener: RealTimeListener,
-          RealTimeLocking: RealTimeLocking
+          DataManager: DataManager
         }
       )
       console.timeEnd 'load base'

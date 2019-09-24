@@ -16,9 +16,6 @@ class ControlConstruct < ApplicationRecord
   # Control constructs are comparable to allow sorting into positional order
   include Comparable
 
-  # This model is an update point for archivist-realtime
-  include Realtime::RtUpdate
-
   # This model is exportable as DDI
   include Exportable
 
@@ -36,6 +33,40 @@ class ControlConstruct < ApplicationRecord
 
   # After destroying, clear the cache from Redis
   after_destroy :clear_cache
+
+  # Recursive search through the parent tree and finds and returns the nearest
+  # parent of the target_class
+  def find_nearest_parent(target_class)
+    columns = ['id', 'parent_id', 'construct_id', 'construct_type']
+    columns_joined = columns.join(',')
+    sql =
+      <<-SQL
+        WITH RECURSIVE control_constructs_tree (#{columns_joined}, level)
+        AS (
+          SELECT
+            #{columns_joined},
+            0
+          FROM control_constructs
+          WHERE construct_id = #{id}
+          AND construct_type = '#{self.class.name}'
+
+          UNION ALL
+          SELECT
+            #{columns.map { |col| 'cat.' + col }.join(',')},
+            ct.level + 1
+          FROM control_constructs cat, control_constructs_tree ct
+          WHERE cat.id = ct.parent_id
+        )
+        SELECT #{target_class.table_name}.*
+        FROM control_constructs_tree
+        INNER JOIN #{target_class.table_name} ON #{target_class.table_name}.id = control_constructs_tree.construct_id
+        WHERE level > 0
+        AND construct_type = '#{target_class.name}'
+        ORDER BY level, control_constructs_tree.id, construct_id, construct_type
+        LIMIT 1;
+      SQL
+    target_class.find_by_sql(sql.chomp).first
+  end
 
   # Clears the Redis cache of construct positional information
   def clear_cache
@@ -55,15 +86,14 @@ class ControlConstruct < ApplicationRecord
           # puts "Id: #{self.id}"
           # puts "Parent_id: #{self.parent_id}"
           # puts "Parent_type: #{self.parent_type}"
-          $redis.hdel 'construct_children:' + self.parent_type, self.parent_id
+          $redis.hdel "construct_children:#{self.parent_type}", self.parent_id
         end
       end
       $redis.hdel 'parents', self.id
       $redis.hdel 'is_top', self.id
-    rescue => err
-      Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
-      exit 1
-    end
+   rescue => err
+     Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
+   end
   end
 
   private # Private methods

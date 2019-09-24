@@ -21,6 +21,9 @@ class ResponseDomainCode < ApplicationRecord
   # RDCs do not have their own label, so it is delagated to the {CodeList} it belongs to
   delegate :label, to: :code_list
 
+
+  validates :min_responses, :max_responses, presence: true, numericality: { only_integer: true, allow_blank: true }
+
   # Returns basic information on the response domain's codes
   #
   # @return [Array] List of codes as hashes

@@ -20,6 +20,8 @@ gem 'devise', '>= 4.6.0'
 gem 'figaro', '1.1.1'
 # Used in DataTools
 gem 'fuzzy_match', '2.1.0'
+# FriendlyId is the "Swiss Army bulldozer" of slugging and permalink plugins for Active Record
+gem 'friendly_id', '~> 5.2.4'
 # TODO: Should this be managed through Bower
 # gem 'genericons-rails', '0.5.0'
 # Heroku-deflater compresses assets and application responses on Heroku, while not wasting CPU cycles
@@ -89,6 +91,7 @@ group :development do
 end
 
 group :test do
+  gem "factory_bot_rails"
   gem 'minitest', '5.10.3', '!= 5.10.2'
   # Performance testing
   #gem 'rails-perftest'

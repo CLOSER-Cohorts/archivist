@@ -3,18 +3,19 @@ data_manager = angular.module(
   [
     'archivist.data_manager.map',
     'archivist.data_manager.instruments',
+    'archivist.data_manager.instrument_imports',
     'archivist.data_manager.constructs',
     'archivist.data_manager.codes',
     'archivist.data_manager.response_units',
     'archivist.data_manager.response_domains',
     'archivist.data_manager.datasets',
+    'archivist.data_manager.dataset_imports',
     'archivist.data_manager.variables',
     'archivist.data_manager.variables_instrument',
     'archivist.data_manager.resolution',
     'archivist.data_manager.stats',
     'archivist.data_manager.topics',
     'archivist.data_manager.auth',
-    'archivist.realtime',
     'archivist.resource'
   ]
 )
@@ -26,17 +27,18 @@ data_manager.factory(
     '$q',
     'Map',
     'Instruments',
+    'InstrumentImports',
     'Constructs',
     'Codes',
     'ResponseUnits',
     'ResponseDomains',
     'ResolutionService',
-    'RealTimeListener',
     'GetResource',
     'ApplicationStats',
     'Topics',
     'InstrumentStats',
     'Datasets',
+    'DatasetImports',
     'Variables',
     'VariablesInstrument',
     'Auth',
@@ -45,17 +47,18 @@ data_manager.factory(
       $q,
       Map,
       Instruments,
+      InstrumentImports,
       Constructs,
       Codes,
       ResponseUnits,
       ResponseDomains,
       ResolutionService,
-      RealTimeListener,
       GetResource,
       ApplicationStats,
       Topics,
       InstrumentStats,
       Datasets,
+      DatasetImports,
       Variables,
       VariablesInstrument,
       Auth
@@ -65,11 +68,13 @@ data_manager.factory(
       DataManager.Data = {}
 
       DataManager.Instruments       = Instruments
+      DataManager.InstrumentImports = InstrumentImports
       DataManager.Constructs        = Constructs
       DataManager.Codes             = Codes
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
       DataManager.Datasets          = Datasets
+      DataManager.DatasetImports    = DatasetImports
       DataManager.Variables         = Variables
       DataManager.VariablesInstrument = VariablesInstrument
       DataManager.Auth              = Auth
@@ -81,7 +86,6 @@ data_manager.factory(
         DataManager.Data.InstrumentStats    = {}
         DataManager.Data.Users              = {}
         DataManager.Data.Groups             = {}
-        DataManager.Data.Clusters           = {}
 
         DataManager.Instruments.clearCache()
         DataManager.Constructs.clearCache()
@@ -101,6 +105,26 @@ data_manager.factory(
       DataManager.getDatasets = (params, success, error) ->
         DataManager.Data.Datasets = DataManager.Datasets.query params, success, error
         DataManager.Data.Datasets
+
+      DataManager.getDatasetImports = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DatasetImports = DataManager.DatasetImports.query params, success, error
+        DataManager.Data.DatasetImports
+
+      DataManager.getDatasetImportsx = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DatasetImport = DataManager.DatasetImports.get params
+        DataManager.Data.DatasetImport
+
+      DataManager.getInstrumentImports = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.InstrumentImports = DataManager.InstrumentImports.query params, success, error
+        DataManager.Data.InstrumentImports
+
+      DataManager.getInstrumentImport = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.InstrumentImport = DataManager.InstrumentImports.get params
+        DataManager.Data.InstrumentImport
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
         console.log 'getInstrument'
@@ -324,19 +348,6 @@ data_manager.factory(
         else
           cb?()
 
-      DataManager.getCluster = (type, id, force = false, cb)->
-        index = type + '/' + id
-        if (not DataManager.Data.Clusters[index]?) or force
-          DataManager.Data.Clusters[index] =
-            GetResource(
-              '/clusters/' + index + '.json',
-              true,
-              cb
-            )
-        else
-          cb?()
-        return DataManager.Data.Clusters[index]
-
       DataManager.resolveConstructs = (options)->
         DataManager.ConstructResolver ?= new ResolutionService.ConstructResolver DataManager.Data.Constructs
         DataManager.ConstructResolver.broken_resolve()
@@ -374,9 +385,25 @@ data_manager.factory(
       DataManager.updateTopic = (model, topic_id)->
         console.log(model)
         delete model.topic
-        delete model.strand
         delete model.suggested_topic
         model.$update_topic({topic_id: if Number.isInteger(topic_id) then topic_id else null })
+
+      DataManager.addSources = (model, new_sources, x, y)->
+        console.log(model)
+        model.$add_mapping {
+            sources:
+              id: new_sources
+              x: x
+              y: y
+          }
+
+      DataManager.addVariables = (model, variables)->
+        console.log(model)
+        model.$add_mapping {
+            variable_names: variables
+            x: null
+            y: null
+          }
 
       DataManager.getInstrumentStats = (id, cb)->
         DataManager.Data.InstrumentStats[id] = {$resolved: false}
@@ -423,52 +450,6 @@ data_manager.factory(
             DataManager.Data.Users
           )
           DataManager.GroupResolver.resolve()
-
-      DataManager.listener = RealTimeListener (event, message)->
-        console.log "Rt update"
-        if message.data?
-          reresolve_constructs = false
-          reresolve_questions = false
-          for row in message.data
-            try
-              obj = Map.find(DataManager.Data, row.type).select_resource_by_id row.id
-              if obj?
-                if obj['type'] == 'question'
-                  old_q_id = obj['question_id']
-                  old_q_type = obj['question_type']
-                for key, value of row
-                  if ['id','type'].indexOf(key) == -1
-                    if ['children','fchildren'].indexOf(key) != -1
-                      old_children = obj['children']
-                      old_fchildren = obj['fchildren']
-                    obj[key] = row[key]
-                    if ['children','fchildren'].indexOf(key) != -1 && (old_children != obj['children'] || old_fchildren != obj['fchildren'])
-                      reresolve_constructs = true
-                if obj['type'] == 'question' && (old_q_id != obj['question_id'] || old_q_type != obj['question_type'])
-                  obj.base = null
-                  reresolve_questions = true
-              else if row.type != "Instrument" && row.action? && row.action == "ADD"
-                if row.instrument_id? && row.instrument_id == DataManager.Data.Instrument.id
-                  arr = Map.find(DataManager.Data, row.type)
-                  resource = Map.find(DataManager, row.type).resource
-                  obj = new resource({})
-                  console.log obj
-                  for key, value of row
-                    obj[key] = row[key]
-                  if ['CcLoop','CcCondition','CcQuestion','CcStatement','CcSequence'].indexOf(obj.type) != -1
-                    obj.type = Map.translate(obj.type)
-                  console.log obj
-                  arr.push obj
-
-            if row.type == 'Instrument' and row.id == DataManager.Data.Instrument.id
-              for key, value of row
-                if ['id','type'].indexOf(key) == -1
-                  DataManager.Data.Instrument[key] = row[key]
-
-          if reresolve_questions
-            DataManager.resolveQuestions()
-          if reresolve_constructs
-            DataManager.resolveConstructs()
 
       DataManager
   ]

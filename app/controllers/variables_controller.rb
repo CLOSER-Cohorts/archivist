@@ -19,9 +19,15 @@ class VariablesController < BasicController
 
     params[:sources] = JSON.parse(params[:sources])
 
-    @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
-
-    render 'variables/show'
+    begin
+      ActiveRecord::Base.transaction do
+        @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
+        @object.reload
+      end
+      render 'variables/show'
+    rescue => e
+      render json: {message: e.message}, status: :conflict
+    end
   end
 
   def remove_source
@@ -34,13 +40,13 @@ class VariablesController < BasicController
         x: params[:other][:x],
         y: params[:other][:y]
     ).delete_all
-
+    @object.reload
     render 'variables/show'
   end
 
   protected
   def collection
-    @dataset.variables
+    @dataset.variables.includes(:questions, :src_variables, :der_variables, :topic)
   end
 
   def set_dataset
