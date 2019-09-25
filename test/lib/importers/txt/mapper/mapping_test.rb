@@ -17,7 +17,7 @@ class Importers::TXT::Mapper::MappingTest < ActiveSupport::TestCase
       cc_question.maps.create(variable: variable)
       map = QvMapping.where(question: cc_question.label).first
       new_txt = "#{instrument.control_construct_scheme}\t#{cc_question.label}\t#{dataset.instance_name}\t#{variable.name}\n"
-      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::TopicV')
+      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::Mapping')
       doc = Document.create(file: new_txt, item: instrument)
       Importers::TXT::Mapper::Mapping.new(doc.id, {:object=>instrument.id.to_s, :import_id => import.id}).import
       import = import.reload
@@ -44,7 +44,7 @@ class Importers::TXT::Mapper::MappingTest < ActiveSupport::TestCase
       cc_question.maps.create(variable: variable)
       map = QvMapping.where(question: cc_question.label).first
       new_txt = "#{other_instrument.control_construct_scheme}\t#{cc_question.label}\t#{dataset.instance_name}\t#{variable.name}}\n"
-      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::TopicV')
+      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::Mapping')
       doc = Document.create(file: new_txt, item: instrument)
       Importers::TXT::Mapper::Mapping.new(doc.id, {:object=>instrument.id.to_s, :import_id => import.id}).import
       import = import.reload
@@ -61,7 +61,7 @@ class Importers::TXT::Mapper::MappingTest < ActiveSupport::TestCase
       cc_question.maps.create(variable: variable)
       map = QvMapping.where(question: cc_question.label).first
       new_txt = "#{instrument.control_construct_scheme}\t#{cc_question.label}\t#{dataset.instance_name}\n#{instrument.control_construct_scheme}\t#{variable.name}}\n"
-      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::TopicV')
+      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::Mapping')
       doc = Document.create(file: new_txt, item: instrument)
       Importers::TXT::Mapper::Mapping.new(doc.id, {:object=>instrument.id.to_s, :import_id => import.id}).import
       import = import.reload
