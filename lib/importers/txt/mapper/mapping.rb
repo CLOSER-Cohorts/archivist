@@ -7,8 +7,21 @@ class Importers::TXT::Mapper::Mapping < Importers::TXT::Mapper::Instrument
   def import(options = {})
     Map.where(id: @object.maps.pluck(:id)).delete_all
     set_import_to_running
-    @doc.each do |q, v|
-      log :input, "#{q},#{v} "
+    @doc.each do |control_construct_scheme, q, dataset, v|
+      log :input, "#{control_construct_scheme},#{q},#{dataset},#{v}"
+
+      if control_construct_scheme.blank? || dataset.blank? || q.blank? || v.blank?
+        @errors = true
+        log :outcome, I18n.t('importers.txt.mapper.mapping.wrong_number_of_columns', actual_number_of_columns: {a: control_construct_scheme, b: q, c: v, d: dataset}.compact.count)
+        write_to_log
+        next
+      elsif control_construct_scheme != @object.control_construct_scheme
+        @errors = true
+        log :outcome, I18n.t('importers.txt.mapper.mapping.record_invalid_control_construct_scheme', control_construct_scheme_from_line: control_construct_scheme, control_construct_scheme_from_object: @object.control_construct_scheme)
+        write_to_log
+        next
+      end
+
       q_ident, q_coords = *q.split('$')
       qc = @object.cc_questions.find_by_label q_ident
 
@@ -19,6 +32,7 @@ class Importers::TXT::Mapper::Mapping < Importers::TXT::Mapper::Instrument
         end
         return nil
       end
+
       var = multidimensional_variable_finder.call(v)
       log :matches, "matched to QuestionContruct(#{qc}) AND Variable (#{var})"
       if qc.nil? || var.nil?

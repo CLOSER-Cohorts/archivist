@@ -38,4 +38,16 @@ class DatasetsControllerTest < ActionController::TestCase
 
     assert_response :success
   end
+
+  test "should show dv.txt" do
+    dataset = FactoryBot.create(:dataset)
+    source_variable = FactoryBot.create(:variable, dataset: dataset)
+    derived_variable = FactoryBot.create(:variable, dataset: dataset)
+    derived_variable.src_variables << source_variable
+    get :dv, format: :txt, params: { id: dataset.id }
+    map = DvMapping.last
+    assert_response :success
+    parsed_response = response.body.split("\n").map{|line| line.split("\t")}
+    assert_equal parsed_response.first, [map.dataset_instance_name, derived_variable.name, map.dataset_instance_name,  source_variable.name]
+  end
 end
