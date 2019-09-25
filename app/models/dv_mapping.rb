@@ -13,4 +13,5 @@ class DvMapping < ReadOnlyRecord
 
   # Each DV mapping can only belong to one {Dataset}
   belongs_to :dataset
+  delegate :instance_name, to: :dataset, allow_nil: true, prefix: true
 end
