@@ -367,6 +367,10 @@ class Instrument < ApplicationRecord
     value.to_s.parameterize(preserve_case: true)
   end
 
+  def control_construct_scheme
+    prefix + '_ccs01'
+  end
+
   private
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
