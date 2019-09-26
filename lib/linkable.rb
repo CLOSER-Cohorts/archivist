@@ -6,7 +6,9 @@ module Linkable
       has_one :topic, through: :link
 
       def get_ancestral_topic
-        if self.respond_to? :find_closest_ancestor_topic
+        if self.respond_to? :resolved_topic
+          self.resolved_topic
+        elsif self.respond_to? :find_closest_ancestor_topic
           self.find_closest_ancestor_topic
         else
           nil

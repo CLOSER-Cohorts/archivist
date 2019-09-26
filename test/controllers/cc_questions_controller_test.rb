@@ -78,4 +78,17 @@ class CcQuestionsControllerTest < ActionController::TestCase
     parsed_response = response.body.split("\n").map{|line| line.split("\t")}
     assert_equal parsed_response.first, [cc_question.control_construct_scheme, cc_question.label, cc_question.fully_resolved_topic_code]
   end
+
+  test "should show inherited topic in tq.txt if no topic is explicitly set for a cc_question" do
+    instrument = FactoryBot.create(:instrument)
+    cc_question = FactoryBot.create(:cc_question, instrument: instrument, label: 'qc_abc_123', topic: nil)
+    topic = FactoryBot.create(:topic)
+    variable = FactoryBot.create(:variable)
+    variable.topic = topic
+    cc_question.variables << variable
+    get :tq, format: :txt, params: { instrument_id: instrument.id }
+    assert_response :success
+    parsed_response = response.body.split("\n").map{|line| line.split("\t")}
+    assert_equal parsed_response.first, [cc_question.control_construct_scheme, cc_question.label, topic.code]
+  end
 end
