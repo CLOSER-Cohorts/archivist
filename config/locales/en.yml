@@ -44,7 +44,7 @@ en:
         topic_v:
           record_invalid_dataset: "Record Invalid as dataset name in file (%{dataset_from_line}) does not match the Dataset assigned to this import (%{dataset_from_object})."
           wrong_number_of_columns: "Record Invalid you must have 3 columns (Dataset identifier, Variable name and Topic code). You only provided %{actual_number_of_columns}"
-        topic_v:
+        topic_q:
           record_invalid_control_construct_scheme: "Record Invalid as Control Construct Scheme name in file (%{control_construct_scheme_from_line}) does not match the Control Construct Scheme assigned to this import (%{control_construct_scheme_from_object})."
           wrong_number_of_columns: "Record Invalid you must have 3 columns (Control Construct Scheme, Question Construct, Dataset identifier and Variable name). You only provided %{actual_number_of_columns}"
         mapping:
