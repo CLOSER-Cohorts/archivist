@@ -54,6 +54,8 @@ class Variable < ApplicationRecord
   # Ensure that a variable does not have a conflicting topic
   validate :topic_conflict
 
+  delegate :instance_name, to: :dataset, prefix: true, allow_nil: true
+
   # Identify if variable is derived.
   #
   # @return [Boolean]

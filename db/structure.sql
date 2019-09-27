@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.3
--- Dumped by pg_dump version 10.3
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1273,7 +1273,6 @@ CREATE TABLE public.friendly_id_slugs (
 --
 
 CREATE SEQUENCE public.friendly_id_slugs_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1388,7 +1387,6 @@ CREATE TABLE public.imports (
 --
 
 CREATE SEQUENCE public.imports_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE

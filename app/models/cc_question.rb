@@ -48,6 +48,7 @@ class CcQuestion < ::ControlConstruct
 
   delegate :label, to: :response_unit, allow_nil: true, prefix: true
   delegate :label, to: :question, allow_nil: true, prefix: :base
+  delegate :control_construct_scheme, to: :instrument, allow_nil: true
 
   def topic_conflict
     return unless topic

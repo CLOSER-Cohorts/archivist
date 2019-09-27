@@ -46,10 +46,10 @@ class VariablesController < BasicController
 
   protected
   def collection
-    @dataset.variables.includes(:questions, :src_variables, :der_variables, :topic)
+    @dataset.variables.includes(:src_variables, :der_variables, :topic, :questions, :question_topics)
   end
 
   def set_dataset
-    @dataset = policy_scope(Dataset).includes(variables: [:questions, :src_variables, :der_variables, :topic] ).find(params[:dataset_id])
+    @dataset = policy_scope(Dataset).includes(variables: [:src_variables, :der_variables, :topic, :questions, :question_topics]).find(params[:dataset_id])
   end
 end
