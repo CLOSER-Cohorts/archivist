@@ -89,4 +89,8 @@ class CodeListsController < BasicInstrumentController
     super
   end
 
+  def collection
+    @instrument.code_lists.includes(:codes, :qgrids_via_h, :qgrids_via_v, response_domain_code: [:question_items, :question_grids])
+  end
+
 end

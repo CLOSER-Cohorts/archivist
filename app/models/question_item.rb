@@ -15,11 +15,13 @@ class QuestionItem < ApplicationRecord
   # XML tag name
   TYPE = 'QuestionItem'
 
+  has_many :rds_qs, -> { order(rd_order: :desc) }, class_name: 'RdsQs', as: :question, dependent: :destroy
+
   # Returns all response domains in order
   #
   # @return [Array] All response domains
   def response_domains
-    self.rds_qs.order(:rd_order).includes(:response_domain).map &:response_domain
+    rds_qs.order(:rd_order).includes(:response_domain).map &:response_domain
   end
 
   # Exports as an XML fragment

@@ -11,4 +11,10 @@ class CcConditionsController < ConstructController
 
   # List of params that can be set and edited
   @params_list = [:id, :literal, :logic]
+
+  private
+
+  def collection
+    @instrument.cc_conditions
+  end
 end
