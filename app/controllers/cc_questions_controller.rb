@@ -58,6 +58,6 @@ class CcQuestionsController < ConstructController
 
   private
   def collection
-    @instrument.cc_questions.includes(:response_unit, :question, :topic)
+    @instrument.cc_questions.includes(:response_unit, :question, :topic, :variable_topics, link: :topic)
   end
 end

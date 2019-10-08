@@ -15,27 +15,16 @@ class ResponseDomainCode < ApplicationRecord
   # All ResponseDomainCodes must belong to a {CodeList}
   belongs_to :code_list
 
+  # ResponseDomainCodes can have many {Code}s through {CodeList}
+  has_many :codes, through: :code_list
+
   # Before creating a ResponseDomainCode in the database ensure the instrument has been set
   before_create :set_instrument
 
   # RDCs do not have their own label, so it is delagated to the {CodeList} it belongs to
   delegate :label, to: :code_list
 
-
   validates :min_responses, :max_responses, presence: true, numericality: { only_integer: true, allow_blank: true }
-
-  # Returns basic information on the response domain's codes
-  #
-  # @return [Array] List of codes as hashes
-  def codes
-    self.code_list.codes.includes(:code_list).map do |x|
-      {
-          label: x.category.label,
-          value: x.value,
-          order: x.order
-      }
-    end
-  end
 
   private  # private methods
   # Sets instrument_id from the {CodeList} that this ResponseDomainCode belongs to
