@@ -8,6 +8,7 @@ class Importers::XML::DDI::QuestionTest < ActiveSupport::TestCase
       instrument = FactoryBot.create(:instrument, study: 'uk.alspac')
       question_item = FactoryBot.create(:question_item, instrument: instrument)
       code_list = FactoryBot.create(:code_list, instrument: instrument)
+      code_list.add_urn(code_list.urn)
       text = %Q|
       <QuestionItem>
         <URN>#{question_item.urn}</URN>
@@ -16,6 +17,8 @@ class Importers::XML::DDI::QuestionTest < ActiveSupport::TestCase
           <AttributeValue>{"en-GB":"A1 a"}</AttributeValue>
         </UserAttributePair>
         <QuestionItemName>
+          <String xml:lang="en-GB">qi_A1_a</String>
+        </QuestionItemName>
         <QuestionText audienceLanguage="en-GB">
           <LiteralText>
             <Text>The school gives high priority to raising pupils' standards of achievement</Text>
@@ -32,6 +35,9 @@ class Importers::XML::DDI::QuestionTest < ActiveSupport::TestCase
       |
       node = Nokogiri(text).children
       Importers::XML::DDI::Question.new(instrument).question_item_node(node)
+      response_domain = code_list.reload.response_domain
+      assert_equal(response_domain.min_responses, 1)
+      assert_equal(response_domain.max_responses, 1)
     end
   end
 end

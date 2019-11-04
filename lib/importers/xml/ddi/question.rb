@@ -95,8 +95,8 @@ module Importers::XML::DDI
       )
       response_cardinality = node.at_xpath('./ResponseCardinality')
       if response_cardinality
-        min_responses = response_cardinality['minResponses']
-        max_responses = response_cardinality['maxResponses']
+        min_responses = response_cardinality['minimumResponses']
+        max_responses = response_cardinality['maximumResponses']
         cl.create_response_domain_code(min_responses: min_responses, max_responses: max_responses)
       end
       response_domain = cl.response_domain
