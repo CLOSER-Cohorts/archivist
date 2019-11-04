@@ -45,7 +45,7 @@ class ConstructController < BasicInstrumentController
   end
 
   def wrap_parent_param(p, obj_name)
-    parent_object = (p.has_key?(obj_name)) ? p[obj_name].delete(:parent) : p.delete(:parent)
+    parent_object = (p.has_key?(obj_name) && p[obj_name].has_key?(:parent)) ? p[obj_name].delete(:parent) : p.delete(:parent)
     if parent_object
       p[obj_name][:parent_id] = parent_object[:id]
       p[obj_name][:parent_type] = parent_object[:type]
