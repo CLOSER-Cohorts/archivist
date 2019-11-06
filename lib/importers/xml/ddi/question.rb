@@ -23,7 +23,7 @@ module Importers::XML::DDI
       )
       roster = node.at_xpath("./GridDimension[@rank='1']/Roster")
       unless roster.nil?
-        question.roster_label = roster.at_xpath('./Label/r:Content').content
+        question.roster_label = roster.at_xpath('./Label/Content').content
         question.roster_rows = roster.attribute('minimumRequired').value.nil? ? 0 : roster.attribute('minimumRequired').value.to_i
       end
 
