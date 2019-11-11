@@ -59,6 +59,16 @@ class CcStatementsControllerTest < ActionController::TestCase
     assert_equal @cc_statement.reload.parent, @instrument.cc_sequences.first
   end
 
+  test "should update cc_statement when parent is found outside of the cc_statement hash and parent type matches class name" do
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @cc_statement, cc_statement: {literal: @cc_statement.literal}, parent: {
+            id: @instrument.cc_sequences.first.id,
+            type: 'CcSequence'
+          }}
+    assert_response :success
+
+    assert_equal @cc_statement.reload.parent, @instrument.cc_sequences.first
+  end
+
   test "should destroy cc_statement" do
     assert_difference('CcStatement.count', -1) do
       delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @cc_statement.id }

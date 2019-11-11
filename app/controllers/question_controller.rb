@@ -38,4 +38,8 @@ class QuestionController < BasicInstrumentController
       render json: @object.errors, status: :unprocessable_entity
     end
   end
+
+  def collection
+    @instrument.send(self.class.model_class.name.tableize).includes(rds_qs: :response_domain)
+  end
 end
