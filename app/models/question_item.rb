@@ -15,7 +15,7 @@ class QuestionItem < ApplicationRecord
   # XML tag name
   TYPE = 'QuestionItem'
 
-  has_many :rds_qs, -> { order(rd_order: :desc) }, class_name: 'RdsQs', as: :question, dependent: :destroy
+  has_many :rds_qs, -> { order(rd_order: :asc) }, class_name: 'RdsQs', as: :question, dependent: :destroy
 
   # Returns all response domains in order
   #
