@@ -174,11 +174,12 @@ module Importers::XML::DDI
         Rails.logger.debug 'Question not recogonised: ' + node.name
         return
       end
+
       unless node.at_xpath('./InterviewerInstructionReference').nil?
-        question.instruction = ::Instruction.find_by_identifier(
-            'url',
+        question.instruction_id = ::Instruction.find_by_identifier(
+            'urn',
             extract_urn_identifier(node.at_xpath('./InterviewerInstructionReference'))
-        )
+        ).try(:id)
       end
       question.save!
       question.add_urn extract_urn_identifier node
