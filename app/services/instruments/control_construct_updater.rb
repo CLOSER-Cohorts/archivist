@@ -1,18 +1,42 @@
 module Instruments
   class ControlConstructUpdater
+    include ActiveRecord::Sanitization::ClassMethods
+
     def initialize(instrument, updates=[])
       @instrument = instrument
       @updates = updates
     end
 
     def call
-      ActiveRecord::Base.connection.execute(updater_sql)
+      bulk_update
       clear_cache
+    end
+
+    private
+
+    def bulk_update
+      values = sql_values
+      connection.execute(updater_sql(values)) unless values.blank?
+    end
+
+    def connection
+      ActiveRecord::Base.connection
     end
 
     def sql_values
       @updates.map do | u |
-        "(#{u[:id]}, '#{db_type(u[:type])}', #{u[:position]}, #{u[:branch]}, #{u[:parent][:id]}, '#{db_type(u[:parent][:type])}')"
+        next unless u.keys.sort == [:branch, :id, :parent, :position, :type]
+        sanitize_sql([
+            "(:construct_id, :construct_type, :position, :branch, :parent_id, :parent_type)",
+            {
+              construct_id: u[:id],
+              construct_type: db_type(u[:type]),
+              position: u[:position],
+              branch: u[:branch],
+              parent_id: u[:parent][:id],
+              parent_type: db_type(u[:parent][:type])
+            }
+          ])
       end.join(',')
     end
 
@@ -31,7 +55,7 @@ module Instruments
       end
     end
 
-    def updater_sql
+    def updater_sql(values)
       %|
         UPDATE control_constructs
         SET
@@ -41,7 +65,7 @@ module Instruments
           updated_at = NOW()
         FROM (
           VALUES
-            #{sql_values}
+            #{values}
         ) AS myvalues (construct_id, construct_type, position, branch, parent_id, parent_type)
         WHERE control_constructs.construct_id = myvalues.construct_id
         AND control_constructs.construct_type = myvalues.construct_type;
