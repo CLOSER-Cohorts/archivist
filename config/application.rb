@@ -29,7 +29,7 @@ module Archivist
 
     config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/services)
 
     config.enable_dependency_loading = true
     config.action_mailer.delivery_method = (ENV['MAILER'] || '').to_sym
