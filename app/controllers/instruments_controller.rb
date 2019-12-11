@@ -33,18 +33,7 @@ class InstrumentsController < ImportableController
 
   def reorder_ccs
     unless params[:updates].nil?
-      params[:updates].each do |u|
-        unless u[:type].nil? || u[:id].nil? || u[:parent].nil?
-          cc = @object.send('cc_'+u[:type].tableize).find(u[:id])
-          parent = @object.send('cc_'+u[:parent][:type].tableize).find(u[:parent][:id])
-          unless cc.nil? or parent.nil?
-            cc.position = u[:position]
-            cc.parent = parent
-            cc.branch = u[:branch]
-            cc.save!
-          end
-        end
-      end
+      Instruments::ControlConstructUpdater.new(@object, params[:updates]).call.inspect
     end
     head :ok, format: :json
   end
