@@ -48,8 +48,8 @@ class CcQuestionsController < ConstructController
   def remove_variable
     @object.maps.where(
         variable: Variable.find(params[:variable_id]),
-        x:        params[:x],
-        y:        params[:y]
+        x: [params[:x], params[:x].to_i],
+        y: [params[:y], params[:y].to_i],
     ).delete_all
     respond_to do |format|
       format.json { render json: true, status: :accepted }
