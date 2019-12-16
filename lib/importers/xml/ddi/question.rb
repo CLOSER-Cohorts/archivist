@@ -1,6 +1,7 @@
 module Importers::XML::DDI
   class Question < DdiImporterBase
     RESPONSE_DOMAIN_XPATH = './CodeDomain|./NumericDomain|./TextDomain|./DateTimeDomain'
+    STRUCTURED_RESPONSE_DOMAIN_XPATH = './StructuredMixedResponseDomain/ResponseDomainInMixed/CodeDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/NumericDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/TextDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/DateTimeDomain'
 
     def initialize(instrument)
       @instrument = instrument
@@ -73,7 +74,7 @@ module Importers::XML::DDI
       )
       @instrument.question_items << question
 
-      node.xpath(RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
+      node.xpath(RESPONSE_DOMAIN_XPATH + '|' + STRUCTURED_RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
         response_domain = read_response_domain(rd)
         next if response_domain.nil?
         ::RdsQs.create(
