@@ -20,6 +20,12 @@
       }).when('/admin/import', {
         templateUrl: 'partials/admin/import.html',
         controller: 'AdminImportController'
+      }).when('/admin/imports', {
+        templateUrl: 'partials/ddi_imports/index.html',
+        controller: 'DdiImportsController'
+      }).when('/admin/imports/:id', {
+        templateUrl: 'partials/ddi_imports/show.html',
+        controller: 'DdiImportsShowController'
       }).when('/admin/export', {
         templateUrl: 'partials/admin/export.html',
         controller: 'AdminExportController'
@@ -30,6 +36,33 @@
   admin.controller('AdminDashController', [
     '$scope', 'DataManager', function($scope, DataManager) {
       return $scope.counts = DataManager.getApplicationStats();
+    }
+  ]);
+
+  admin.controller('DdiImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      return $scope.imports = DataManager.getDdiImports();
+    }
+  ]);
+
+  admin.controller('DdiImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      return $scope["import"] = DataManager.getDdiImport({
+        id: $routeParams.id
+      }, {}, function() {
+        $scope.page['title'] = 'Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Imports',
+            link: '/ddi_imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
     }
   ]);
 
