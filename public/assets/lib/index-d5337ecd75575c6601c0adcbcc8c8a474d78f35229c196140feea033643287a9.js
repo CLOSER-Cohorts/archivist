@@ -1,10 +1,10 @@
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.instrument_imports', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.ddi_imports', 'archivist.data_manager.instruments', 'archivist.data_manager.instrument_imports', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'InstrumentImports', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, InstrumentImports, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'InstrumentImports', 'Constructs', 'Codes', 'DdiImports', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, InstrumentImports, Constructs, Codes, DdiImports, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -12,6 +12,7 @@
       DataManager.InstrumentImports = InstrumentImports;
       DataManager.Constructs = Constructs;
       DataManager.Codes = Codes;
+      DataManager.DdiImports = DdiImports;
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
       DataManager.Datasets = Datasets;
@@ -63,6 +64,16 @@
         console.log(DataManager);
         DataManager.Data.InstrumentImport = DataManager.InstrumentImports.get(params);
         return DataManager.Data.InstrumentImport;
+      };
+      DataManager.getDdiImports = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DdiImports = DataManager.DdiImports.query(params, success, error);
+        return DataManager.Data.DdiImports;
+      };
+      DataManager.getDdiImport = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DdiImport = DataManager.DdiImports.get(params);
+        return DataManager.Data.DdiImport;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -850,6 +861,28 @@
     'WrappedResource', function(WrappedResource) {
       return new WrappedResource('datasets/:id.json', {
         id: '@id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var ddi_imports;
+
+  ddi_imports = angular.module('archivist.data_manager.ddi_imports', ['ngResource']);
+
+  ddi_imports.factory('DdiImports', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('imports/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
       }, {
         save: {
           method: 'PUT'
