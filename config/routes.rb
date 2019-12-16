@@ -123,6 +123,7 @@ Rails.application.routes.draw do
       get 'variables', to: 'instruments#variables'
     end
   end
+  resources :imports, only: [:index, :show]
   get 'instruments/:id/mapping', to: redirect('/instruments/%{id}/qv')
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
