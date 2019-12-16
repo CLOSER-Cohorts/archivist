@@ -37,8 +37,8 @@ class VariablesController < BasicController
     @object.maps.where(
         source_type: params[:other][:class],
         source_id: params[:other][:id],
-        x: params[:other][:x],
-        y: params[:other][:y]
+        x: [params[:other][:x], params[:other][:x].to_i],
+        y: [params[:other][:y], params[:other][:y].to_i],
     ).delete_all
     @object.reload
     render 'variables/show'

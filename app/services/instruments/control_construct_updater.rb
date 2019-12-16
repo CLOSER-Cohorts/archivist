@@ -4,7 +4,7 @@ module Instruments
 
     def initialize(instrument, updates=[])
       @instrument = instrument
-      @updates = updates
+      @updates = updates.map{|u| u.to_hash.deep_symbolize_keys! }
     end
 
     def call

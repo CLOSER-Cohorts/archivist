@@ -28,6 +28,14 @@ admin.config(['$routeProvider',
       templateUrl: 'partials/admin/import.html'
       controller: 'AdminImportController'
     )
+    .when('/admin/imports',
+      templateUrl: 'partials/ddi_imports/index.html'
+      controller: 'DdiImportsController'
+    )
+    .when('/admin/imports/:id',
+      templateUrl: 'partials/ddi_imports/show.html'
+      controller: 'DdiImportsShowController'
+    )
     .when('/admin/export',
       templateUrl: 'partials/admin/export.html'
       controller: 'AdminExportController'
@@ -41,6 +49,59 @@ admin.controller('AdminDashController',
     ($scope, DataManager)->
       $scope.counts = DataManager.getApplicationStats()
   ])
+
+admin.controller(
+  'DdiImportsController',
+  [
+    '$scope',
+    '$routeParams',
+    'VisDataSet',
+    'DataManager'
+    (
+      $scope,
+      $routeParams,
+      VisDataSet,
+      DataManager
+    )->
+      $scope.imports = DataManager.getDdiImports()
+  ]
+)
+
+admin.controller(
+  'DdiImportsShowController',
+  [
+    '$scope',
+    '$routeParams',
+    'VisDataSet',
+    'DataManager'
+    (
+      $scope,
+      $routeParams,
+      VisDataSet,
+      DataManager
+    )->
+      $scope.import = DataManager.getDdiImport(
+        {
+          id: $routeParams.id
+        },
+        {},
+        ->
+          $scope.page['title'] = 'Imports'
+          $scope.breadcrumbs = [
+            {
+              label: 'Imports',
+              link: '/ddi_imports',
+              active: false
+            },
+            {
+              label: $routeParams.id,
+              link: false,
+              active: true
+            }
+          ]
+      )
+  ]
+)
 
 admin.controller('AdminUsersController',
   [

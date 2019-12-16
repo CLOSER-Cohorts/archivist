@@ -14,6 +14,8 @@ class ImportableController < BasicController
       files.each do |file|
         doc = Document.new file: file
         doc.save_or_get
+        import = Import.create(document_id: doc.id, import_type: self.class.model_importer_class, state: :pending)
+        options[:import_id] = import.id
         Resque.enqueue self.class.model_importer_class, doc.id, options
       end
       head :ok, format: :json

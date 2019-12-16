@@ -2,6 +2,7 @@ data_manager = angular.module(
   'archivist.data_manager',
   [
     'archivist.data_manager.map',
+    'archivist.data_manager.ddi_imports',
     'archivist.data_manager.instruments',
     'archivist.data_manager.instrument_imports',
     'archivist.data_manager.constructs',
@@ -30,6 +31,7 @@ data_manager.factory(
     'InstrumentImports',
     'Constructs',
     'Codes',
+    'DdiImports',
     'ResponseUnits',
     'ResponseDomains',
     'ResolutionService',
@@ -50,6 +52,7 @@ data_manager.factory(
       InstrumentImports,
       Constructs,
       Codes,
+      DdiImports,
       ResponseUnits,
       ResponseDomains,
       ResolutionService,
@@ -71,6 +74,7 @@ data_manager.factory(
       DataManager.InstrumentImports = InstrumentImports
       DataManager.Constructs        = Constructs
       DataManager.Codes             = Codes
+      DataManager.DdiImports        = DdiImports
       DataManager.ResponseUnits     = ResponseUnits
       DataManager.ResponseDomains   = ResponseDomains
       DataManager.Datasets          = Datasets
@@ -125,6 +129,16 @@ data_manager.factory(
         console.log(DataManager)
         DataManager.Data.InstrumentImport = DataManager.InstrumentImports.get params
         DataManager.Data.InstrumentImport
+
+      DataManager.getDdiImports = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DdiImports = DataManager.DdiImports.query params, success, error
+        DataManager.Data.DdiImports
+
+      DataManager.getDdiImport = (params, success, error) ->
+        console.log(DataManager)
+        DataManager.Data.DdiImport = DataManager.DdiImports.get params
+        DataManager.Data.DdiImport
 
       DataManager.getInstrument = (instrument_id, options = {}, success, error)->
         console.log 'getInstrument'
