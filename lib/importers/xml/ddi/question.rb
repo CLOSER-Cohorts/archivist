@@ -105,7 +105,7 @@ module Importers::XML::DDI
       response_domain = read_rdn_node node
       elsif node.name == 'TextDomain'
       response_domain = read_rdt_node node
-      elsif node.name == 'DatetimeDomain'
+      elsif node.name == 'DateTimeDomain'
       response_domain = read_rdd_node node
       else
       Rails.logger.warn 'ResponseDomain not supported'
