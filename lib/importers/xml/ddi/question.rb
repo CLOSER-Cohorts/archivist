@@ -1,6 +1,7 @@
 module Importers::XML::DDI
   class Question < DdiImporterBase
     RESPONSE_DOMAIN_XPATH = './CodeDomain|./NumericDomain|./TextDomain|./DateTimeDomain'
+    STRUCTURED_RESPONSE_DOMAIN_XPATH = './StructuredMixedResponseDomain/ResponseDomainInMixed/CodeDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/NumericDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/TextDomain|./StructuredMixedResponseDomain/ResponseDomainInMixed/DateTimeDomain'
 
     def initialize(instrument)
       @instrument = instrument
@@ -73,7 +74,7 @@ module Importers::XML::DDI
       )
       @instrument.question_items << question
 
-      node.xpath(RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
+      node.xpath(RESPONSE_DOMAIN_XPATH + '|' + STRUCTURED_RESPONSE_DOMAIN_XPATH).each_with_index do |rd, i|
         response_domain = read_response_domain(rd)
         next if response_domain.nil?
         ::RdsQs.create(
@@ -105,7 +106,7 @@ module Importers::XML::DDI
       response_domain = read_rdn_node node
       elsif node.name == 'TextDomain'
       response_domain = read_rdt_node node
-      elsif node.name == 'DatetimeDomain'
+      elsif node.name == 'DateTimeDomain'
       response_domain = read_rdd_node node
       else
       Rails.logger.warn 'ResponseDomain not supported'
@@ -174,11 +175,12 @@ module Importers::XML::DDI
         Rails.logger.debug 'Question not recogonised: ' + node.name
         return
       end
+
       unless node.at_xpath('./InterviewerInstructionReference').nil?
-        question.instruction = ::Instruction.find_by_identifier(
-            'url',
+        question.instruction_id = ::Instruction.find_by_identifier(
+            'urn',
             extract_urn_identifier(node.at_xpath('./InterviewerInstructionReference'))
-        )
+        ).try(:id)
       end
       question.save!
       question.add_urn extract_urn_identifier node

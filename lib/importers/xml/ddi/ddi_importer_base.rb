@@ -1,5 +1,6 @@
 module Importers::XML::DDI
   class DdiImporterBase
+    include ::Importers::Loggable
     private
     def compose_urn(agency_node, id_node, version_node)
       'urn:ddi:%{agency}:%{id}:%{version}' % {

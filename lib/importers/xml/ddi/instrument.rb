@@ -16,16 +16,31 @@ module Importers::XML::DDI
    end
 
     def import(options = {})
-      @instrument = Importers::XML::DDI::Instrument.build_instrument @doc
-      import_category_schemes
-      import_code_list_schemes
-      import_instruction_schemes
-      import_question_schemes
-      read_constructs
-      @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
-      @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
-      @instrument.label = options[:label] unless options[:label].to_s.empty?
-      @instrument.study = options[:study] unless options[:study].to_s.empty?
+      options.symbolize_keys!
+
+      if options.has_key? :import_id
+        @import = Import.find_by_id(options[:import_id])
+      end
+
+      set_import_to_running
+      begin
+        @instrument = Importers::XML::DDI::Instrument.build_instrument(@doc, {}, self)
+        import_category_schemes
+        import_code_list_schemes
+        import_instruction_schemes
+        import_question_schemes
+        read_constructs
+        @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
+        @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
+        @instrument.label = options[:label] unless options[:label].to_s.empty?
+        @instrument.study = options[:study] unless options[:study].to_s.empty?
+      rescue => e
+        @errors = true
+        log :outcome, "Invalid : #{e.message}"
+        write_to_log
+      ensure
+        set_import_to_finished
+      end
     end
 
     def import_category_schemes
@@ -228,7 +243,7 @@ module Importers::XML::DDI
 
     end
 
-    def self.build_instrument(doc, options= {})
+    def self.build_instrument(doc, options= {}, instrument_importer=nil)
       save = defined?(options[:save]) ? true : options[:save]
       duplicate = defined?(options[:duplicate]) ? :do_nothing : options[:duplicate]
 
@@ -243,7 +258,9 @@ module Importers::XML::DDI
       i.prefix = urn_pieces[3].split('-ddi-')[0]
       instruments = ::Instrument.where({prefix: i.prefix})
       if instruments.length > 0
-        Rails.logger.info 'Duplicate instrument(s) found while importing XML.'
+        instrument_importer.try(:log, :input, i.prefix)
+        instrument_importer.try(:log, :outcome, 'Invalid : Duplicate instrument(s) found while importing XML.')
+        instrument_importer.try(:write_to_log)
         if duplicate == :do_nothing
           raise Exceptions::ImportError, 'Aborting XML import. Consider passing a duplicate option to importer.'
         else

@@ -1,0 +1,51 @@
+<div class="row instruments">
+    <div data-ng-include="'partials/admin/sidebar.html'" class="col-sm-3 col-md-2 sidebar"></div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">
+            DDI Imports
+        </h1>
+
+        <notices></notices>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <dl>
+                          <dt>Filename</dt>
+                          <dd>{{import.filename}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl>
+                          <dt>State</dt>
+                          <dd>{{import.state}}</dd>
+                          <dt>Created At</dt>
+                          <dd>{{import.created_at}}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-double-striped">
+                <tr>
+                    <th>Input</th>
+                    <th>Matches</th>
+                    <th>Outcome</th>
+                </tr>
+                <tr data-ng-repeat="line in import.logs"
+                    data-ng-class-odd="'odd'"
+                    data-ng-class="{danger: line.error}"
+                >
+                    <td>{{line.original_text}}</td>
+                    <td>{{line.matches}} </td>
+                    <td>{{line.outcome}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

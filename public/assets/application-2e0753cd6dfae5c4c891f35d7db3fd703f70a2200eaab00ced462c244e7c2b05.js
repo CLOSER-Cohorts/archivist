@@ -107646,10 +107646,10 @@ return /******/ (function(modules) { // webpackBootstrap
 (function() {
   var data_manager;
 
-  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.instruments', 'archivist.data_manager.instrument_imports', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
+  data_manager = angular.module('archivist.data_manager', ['archivist.data_manager.map', 'archivist.data_manager.ddi_imports', 'archivist.data_manager.instruments', 'archivist.data_manager.instrument_imports', 'archivist.data_manager.constructs', 'archivist.data_manager.codes', 'archivist.data_manager.response_units', 'archivist.data_manager.response_domains', 'archivist.data_manager.datasets', 'archivist.data_manager.dataset_imports', 'archivist.data_manager.variables', 'archivist.data_manager.variables_instrument', 'archivist.data_manager.resolution', 'archivist.data_manager.stats', 'archivist.data_manager.topics', 'archivist.data_manager.auth', 'archivist.resource']);
 
   data_manager.factory('DataManager', [
-    '$http', '$q', 'Map', 'Instruments', 'InstrumentImports', 'Constructs', 'Codes', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, InstrumentImports, Constructs, Codes, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
+    '$http', '$q', 'Map', 'Instruments', 'InstrumentImports', 'Constructs', 'Codes', 'DdiImports', 'ResponseUnits', 'ResponseDomains', 'ResolutionService', 'GetResource', 'ApplicationStats', 'Topics', 'InstrumentStats', 'Datasets', 'DatasetImports', 'Variables', 'VariablesInstrument', 'Auth', function($http, $q, Map, Instruments, InstrumentImports, Constructs, Codes, DdiImports, ResponseUnits, ResponseDomains, ResolutionService, GetResource, ApplicationStats, Topics, InstrumentStats, Datasets, DatasetImports, Variables, VariablesInstrument, Auth) {
       var DataManager;
       DataManager = {};
       DataManager.Data = {};
@@ -107657,6 +107657,7 @@ return /******/ (function(modules) { // webpackBootstrap
       DataManager.InstrumentImports = InstrumentImports;
       DataManager.Constructs = Constructs;
       DataManager.Codes = Codes;
+      DataManager.DdiImports = DdiImports;
       DataManager.ResponseUnits = ResponseUnits;
       DataManager.ResponseDomains = ResponseDomains;
       DataManager.Datasets = Datasets;
@@ -107708,6 +107709,16 @@ return /******/ (function(modules) { // webpackBootstrap
         console.log(DataManager);
         DataManager.Data.InstrumentImport = DataManager.InstrumentImports.get(params);
         return DataManager.Data.InstrumentImport;
+      };
+      DataManager.getDdiImports = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DdiImports = DataManager.DdiImports.query(params, success, error);
+        return DataManager.Data.DdiImports;
+      };
+      DataManager.getDdiImport = function(params, success, error) {
+        console.log(DataManager);
+        DataManager.Data.DdiImport = DataManager.DdiImports.get(params);
+        return DataManager.Data.DdiImport;
       };
       DataManager.getInstrument = function(instrument_id, options, success, error) {
         var base, base1, base2, chunk_size, i, len, promise, promises;
@@ -108495,6 +108506,28 @@ return /******/ (function(modules) { // webpackBootstrap
     'WrappedResource', function(WrappedResource) {
       return new WrappedResource('datasets/:id.json', {
         id: '@id'
+      }, {
+        save: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST'
+        }
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  var ddi_imports;
+
+  ddi_imports = angular.module('archivist.data_manager.ddi_imports', ['ngResource']);
+
+  ddi_imports.factory('DdiImports', [
+    'WrappedResource', function(WrappedResource) {
+      return new WrappedResource('imports/:id.json', {
+        id: '@id',
+        instrument_id: '@instrument_id'
       }, {
         save: {
           method: 'PUT'
@@ -109318,6 +109351,12 @@ return /******/ (function(modules) { // webpackBootstrap
       }).when('/admin/import', {
         templateUrl: 'partials/admin/import.html',
         controller: 'AdminImportController'
+      }).when('/admin/imports', {
+        templateUrl: 'partials/ddi_imports/index.html',
+        controller: 'DdiImportsController'
+      }).when('/admin/imports/:id', {
+        templateUrl: 'partials/ddi_imports/show.html',
+        controller: 'DdiImportsShowController'
       }).when('/admin/export', {
         templateUrl: 'partials/admin/export.html',
         controller: 'AdminExportController'
@@ -109328,6 +109367,33 @@ return /******/ (function(modules) { // webpackBootstrap
   admin.controller('AdminDashController', [
     '$scope', 'DataManager', function($scope, DataManager) {
       return $scope.counts = DataManager.getApplicationStats();
+    }
+  ]);
+
+  admin.controller('DdiImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      return $scope.imports = DataManager.getDdiImports();
+    }
+  ]);
+
+  admin.controller('DdiImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      return $scope["import"] = DataManager.getDdiImport({
+        id: $routeParams.id
+      }, {}, function() {
+        $scope.page['title'] = 'Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Imports',
+            link: '/ddi_imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
     }
   ]);
 
@@ -111655,7 +111721,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/partials/admin/sidebar.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("partials/admin/sidebar.html", ' <ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin\')}">\n        <a href="/admin">\n            Overview <span class="sr-only">(current)</span>\n        </a>\n    </li>\n     <li data-ng-class="{active: isActive(\'/admin/instruments\')}">\n         <a href="/admin/instruments">\n             Instruments\n         </a>\n     </li>\n     <li data-ng-class="{active: isActive(\'/admin/datasets\')}">\n         <a href="/admin/datasets">\n             Datasets\n         </a>\n     </li>\n    <li data-ng-class="{active: isActive(\'/admin/users\')}">\n        <a href="/admin/users">\n            Users\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/reporting\')}">\n        <a href="/admin/reporting">\n            Reporting\n        </a>\n    </li>\n</ul>\n<ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin/import\')}">\n        <a href="/admin/import">\n            Import\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/export\')}">\n        <a href="/admin/export">\n            Export\n        </a>\n    </li>\n</ul>')
+  $templateCache.put("partials/admin/sidebar.html", ' <ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin\')}">\n        <a href="/admin">\n            Overview <span class="sr-only">(current)</span>\n        </a>\n    </li>\n     <li data-ng-class="{active: isActive(\'/admin/instruments\')}">\n         <a href="/admin/instruments">\n             Instruments\n         </a>\n     </li>\n     <li data-ng-class="{active: isActive(\'/admin/datasets\')}">\n         <a href="/admin/datasets">\n             Datasets\n         </a>\n     </li>\n    <li data-ng-class="{active: isActive(\'/admin/users\')}">\n        <a href="/admin/users">\n            Users\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/reporting\')}">\n        <a href="/admin/reporting">\n            Reporting\n        </a>\n    </li>\n</ul>\n<ul class="nav nav-sidebar">\n    <li data-ng-class="{active: isActive(\'/admin/import\')}">\n        <a href="/admin/import">\n            Import\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/imports\')}">\n        <a href="/admin/imports">\n            DDI Imports\n        </a>\n    </li>\n    <li data-ng-class="{active: isActive(\'/admin/export\')}">\n        <a href="/admin/export">\n            Export\n        </a>\n    </li>\n</ul>')
 }]);
 
 // Angular Rails Template
@@ -111859,6 +111925,20 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
   $templateCache.put("partials/datasets/show.html", '<notices></notices>\n\n<breadcrumb></breadcrumb>\n\n<div class="panel panel-default">\n    <div class="panel-heading">\n        <h3 class="panel-title">{{dataset.study}} - {{dataset.name}}</h3>\n    </div>\n    <div class="panel-body">\n        <div class="row">\n            <div class="col-sm-4">\n                <input type="text" class="form-control" placeholder="Search for..." data-ng-model="query">\n            </div>\n        </div>\n    </div>\n    <table class="table table-double-striped">\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Label</th>\n            <th>Type</th>\n            <th class="admin-min">Actions</th>\n        </tr>\n        <tr data-ng-repeat-start="variable in\n		        filteredVariables = (dataset.Variables | filter:query) |\n		        limitTo:pageSize:(currentPage-1)*pageSize"\n            data-ng-class-odd="\'odd\'"\n            data-ng-class="{danger: variable.strand && !variable.strand.good}"\n        >\n            <td>{{variable.id}}</td>\n            <td>{{variable.name}} </td>\n            <td>{{variable.label}}</td>\n            <td>{{variable.var_type}}</td>\n            <td class="admin-min">\n            </td>\n        </tr>\n        <tr data-ng-repeat-end data-ng-class-odd="\'odd\'" data-ng-class="{danger: variable.errors}">\n            <td style="border-top:0" data-ng-attr-colspan="{{ is_admin() && 5 || 4 }}">\n                <div data-ng-if="variable.errors">\n                    <div class="alert alert-danger" role="alert">\n                        {{variable.errors}}\n                    </div>\n                </div>\n                <form class="form-inline row">\n                    <div class="form-group col-xs-3">\n                        <label class="control-label">Used by</label>\n                        <div ng-repeat="used_by in variable.used_bys" class="btn btn-primary tag-variable">\n                            <p class="display-inline">{{used_by.name}}</p>\n                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click=""></span>\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-4">\n                        <label class="col-xs-3" for="variable-{{variable.id}}-sources">Sources</label>\n                        <div class="col-xs-9" style="background: rgba(0,0,0,0.05); font-size: 16px; margin-bottom: 5px;">\n                            <div ng-repeat="source in variable.sources" class="btn btn-primary tag-variable">\n                                <p class="display-inline">{{variable.var_type == \'Normal\' && source.label || source.name}}</p>\n                                <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(variable, source)"></span>\n                            </div>\n                        </div>\n                        <div class="col-xs-12">\n                            <input\n                                    data-ng-if="variable.var_type == \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Questions"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="question.label for question in dataset.questions | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                            <input\n                                    data-ng-if="variable.var_type != \'Normal\'"\n                                    type="text"\n                                    class="form-control editor-min"\n                                    id="variable-{{variable.id}}-sources"\n                                    placeholder="Variables"\n                                    data-ng-model="variable.new_sources"\n                                    data-uib-typeahead="variable.name for variable in dataset.Variables | filter:$viewValue | orderBy:\'label\'"\n                                    data-typeahead-show-hint="true"\n                                    data-typeahead-min-length="1"\n                                    autocomplete="off"\n                                    style="width: 100%"\n                                    data-ng-keyup="detectKey($event, variable)"\n                            >\n                        </div>\n                    </div>\n                    <div class="form-group col-xs-5">\n                        <label class="col-xs-3">Topic</label>\n                        <span data-ng-if="variable.resolved_topic && variable.resolved_topic.id != variable.topic.id">Resolved Topic - {{ variable.resolved_topic.name }}</span>\n                        <div class="col-xs-12">\n                            <a-topics\n                                    data-ng-model="variable"\n                                    class="editor-min"\n                                    data-ng-change="updateModel($viewValue)"\n                            ></a-topics>\n                        </div>\n                    </div>\n                </form>\n            </td>\n        </tr>\n    </table>\n    <div class="panel-footer">\n        <ul uib-pagination\n                total-items="filteredVariables.length"\n                ng-model="currentPage"\n                items-per-page="pageSize">\n        </ul>\n    </div>\n</div>\n\n<div data-ng-include="\'partials/datasets/modals/conflict.html\'"></div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/ddi_imports/index.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/ddi_imports/index.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            DDI Imports\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">Imports</h3>\n            </div>\n            <table class="table table-hover">\n                <tr>\n                    <th>ID</th>\n                    <th>File</th>\n                    <th>Type</th>\n                    <th>State</th>\n                    <th>Created At</th>\n                    <th class="editor-min">Actions</th>\n                </tr>\n                <tr data-ng-repeat="import in imports">\n                    <td>\n                        <a data-ng-href="/admin/imports/{{import.id}}">\n                            {{import.id}}\n                        </a>\n                    </td>\n                    <td>{{import.filename}}</td>\n                    <td>{{import.import_type}}</td>\n                    <td>{{import.state}}</td>\n                    <td>{{import.created_at}}</td>\n                    <td class="editor-min">\n                        <a data-ng-href="/admin/imports/{{import.id}}">\n                            <span class="edit">View Log</span>\n                        </a>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/partials/ddi_imports/show.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("partials/ddi_imports/show.html", '<div class="row instruments">\n    <div data-ng-include="\'partials/admin/sidebar.html\'" class="col-sm-3 col-md-2 sidebar"></div>\n\n    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\n        <h1 class="page-header">\n            DDI Imports\n        </h1>\n\n        <notices></notices>\n\n        <div class="panel panel-default">\n            <div class="panel-heading">\n                <h3 class="panel-title">{{import.import_type}} - {{import.id}}</h3>\n            </div>\n            <div class="panel-body">\n                <div class="row">\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>Filename</dt>\n                          <dd>{{import.filename}}</dd>\n                        </dl>\n                    </div>\n                    <div class="col-sm-6">\n                        <dl>\n                          <dt>State</dt>\n                          <dd>{{import.state}}</dd>\n                          <dt>Created At</dt>\n                          <dd>{{import.created_at}}</dd>\n                        </dl>\n                    </div>\n                </div>\n            </div>\n\n            <table class="table table-double-striped">\n                <tr>\n                    <th>Input</th>\n                    <th>Matches</th>\n                    <th>Outcome</th>\n                </tr>\n                <tr data-ng-repeat="line in import.logs"\n                    data-ng-class-odd="\'odd\'"\n                    data-ng-class="{danger: line.error}"\n                >\n                    <td>{{line.original_text}}</td>\n                    <td>{{line.matches}} </td>\n                    <td>{{line.outcome}}</td>\n                </tr>\n            </table>\n        </div>\n    </div>\n</div>')
 }]);
 
 // Angular Rails Template
