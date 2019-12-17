@@ -1,0 +1,8 @@
+<ddi:Fragment xmlns:r="ddi:reusable:3_2">
+  <Category isUniversallyUnique="true" versionDate="2016-08-31T11:22:22.6042781Z" isMissing="false" xmlns="ddi:logicalproduct:3_2">
+    <%= render 'exports/exploded_urn', object: category %>
+    <r:Label>
+      <r:Content xml:lang="en-GB"><%= category.label %></r:Content>
+    </r:Label>
+  </Category>
+</ddi:Fragment>

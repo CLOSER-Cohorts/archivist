@@ -1,0 +1,9 @@
+<Code isUniversallyUnique="true">
+  <%= render 'exports/exploded_urn', object: code %>
+  <% if code.category %>
+    <r:CategoryReference>
+      <%= render 'exports/exploded_urn', object: code.category %>
+    </r:CategoryReference>
+  <% end %>
+  <r:Value><%= code.value %></r:Value>
+</Code>
