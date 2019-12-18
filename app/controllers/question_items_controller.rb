@@ -17,6 +17,10 @@ class QuestionItemsController < QuestionController
     super
   end
 
+  def show
+    @question_item = collection.find(params[:id])
+  end
+
   def collection
     @instrument.question_items.includes(:rds_qs)
   end

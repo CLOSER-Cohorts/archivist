@@ -73,6 +73,12 @@ angular.module('archivist.build').controller(
           console.log $scope.current
           null
 
+      if !$scope.openFragmentXML?
+        $scope.openFragmentXML = () ->
+          console.log $scope.current
+          window.open("/instruments/" + $scope.current.instrument_id + "/question_items/" + $scope.current.id + ".xml")
+          null
+
       if !$scope.change_panel?
         $scope.change_panel = (obj) ->
           localStorage.setItem 'sidebar_scroll', jQuery('.sidebar').scrollTop()

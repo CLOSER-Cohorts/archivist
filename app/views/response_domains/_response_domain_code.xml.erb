@@ -1,0 +1,6 @@
+<CodeDomain blankIsMissingValue="false">
+  <r:CodeListReference>
+    <%= render 'exports/exploded_urn', object: response_domain.code_list %>
+  </r:CodeListReference>
+  <r:ResponseCardinality minimumResponses="<%= response_domain.min_responses || 1 %>" maximumResponses="<%= response_domain.max_responses || 1 %>"/>
+</CodeDomain>

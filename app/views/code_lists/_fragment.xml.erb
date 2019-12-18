@@ -1,0 +1,14 @@
+<ddi:Fragment>
+  <CodeList isUniversallyUnique="true" versionDate="<%= code_list.updated_at.iso8601 %>">
+    <%= render 'exports/exploded_urn', object: code_list %>
+    <r:Label><r:Content xml:lang="en-GB"><%= code_list.label %></r:Content></r:Label>
+    <% code_list.codes.each do | code | %>
+      <%= render 'codes/item', code: code %>
+    <% end %>
+    <r:ResponseCardinality minimumResponses="<%= response_domain.min_responses || 1 %>" maximumResponses="<%= response_domain.max_responses || 1 %>"/>
+  </CodeList>
+</ddi:Fragment>
+
+<% code_list.categories.each do | category | %>
+  <%= render "categories/fragment", category: category %>
+<% end %>
