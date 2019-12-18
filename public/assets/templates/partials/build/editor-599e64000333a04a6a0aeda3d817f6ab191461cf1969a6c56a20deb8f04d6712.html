@@ -18,6 +18,15 @@
         <div class="edit-cancel-save" data-ng-if="!hide_edit_buttons">
             <button
                     type="button"
+                    class="btn btn-default lockable"
+                    data-ng-show="!editMode && (current && current.type == 'QuestionItem')"
+                    data-toggle="modal"
+                    data-ng-click="openFragmentXML()"
+            >
+                View Fragment XML
+            </button>
+            <button
+                    type="button"
                     class="btn btn-danger lockable"
                     data-ng-show="!editMode"
                     data-toggle="modal"
