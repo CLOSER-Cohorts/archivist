@@ -1,6 +1,6 @@
-<ddi:Fragment>
-  <CodeList isUniversallyUnique="true" versionDate="<%= code_list.updated_at.iso8601 %>">
-    <%= render 'exports/exploded_urn', object: code_list %>
+<ddi:Fragment xmlns:r="ddi:reusable:3_2">
+  <CodeList isUniversallyUnique="true" versionDate="<%= code_list.updated_at.iso8601 %>" xmlns="ddi:logicalproduct:3_2">
+    <%= render 'exports/exploded_urn_only' %>
     <r:Label><r:Content xml:lang="en-GB"><%= code_list.label %></r:Content></r:Label>
     <% code_list.codes.each do | code | %>
       <%= render 'codes/item', code: code %>

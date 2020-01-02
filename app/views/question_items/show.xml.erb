@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ddi:FragmentInstance xmlns:r="ddi:reusable:3_2" xmlns:ddi="ddi:instance:3_2">
-  <ddi:Fragment>
-    <QuestionItem isUniversallyUnique="true" versionDate="<%= @question_item.updated_at.iso8601 %>">
-      <%= render 'exports/exploded_urn', object: @question_item %>
+<ddi:FragmentInstance xmlns:ddi="ddi:instance:3_2">
+  <ddi:Fragment xmlns:r="ddi:reusable:3_2">
+    <QuestionItem isUniversallyUnique="true" versionDate="<%= @question_item.updated_at.iso8601 %>" xmlns="ddi:datacollection:3_2">
+      <%= render 'exports/exploded_urn_only', object: @question_item %>
       <QuestionItemName>
         <r:String xml:lang="en-GB"><%= @question_item.label %></r:String>
       </QuestionItemName>
@@ -22,9 +22,15 @@
       <% else %>
         <%= render "response_domains/#{@question_item.response_domains.first.model_name.param_key}", response_domain: @question_item.response_domains.first %>
       <% end %>
+      <%#-- ADD IN InterviewerInstructionReference TypeofObject Instruction %>
+      <%#-- ADD IN ConceptReference TypeofObject Concept - from TOPIC %>
+
     </QuestionItem>
   </ddi:Fragment>
   <% @question_item.response_domain_codes.each do | rd | %>
     <%= render "code_lists/fragment", code_list: rd.code_list, response_domain: rd %>
   <% end %>
+  
+  <%#-- ADD IN INSTRUCTION FRAGMENT %>
+  <%#-- ADD IN CONCEPT FRAGMENT %>
 </ddi:FragmentInstance>

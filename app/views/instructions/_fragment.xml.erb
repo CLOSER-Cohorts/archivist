@@ -1,0 +1,12 @@
+<ddi:Fragment xmlns:r="ddi:reusable:3_2">
+  <Instruction isUniversallyUnique="true" versionDate="<%= instruction.updated_at.iso8601 %>" isMissing="false" xmlns="ddi:datacollection:3_2">
+    <%= render 'exports/exploded_urn_only' %>
+    <InstructionText audienceLanguage="en-GB">
+      <LiteralText>
+        <Text>
+          <%#= INSTRUCTION TEXT %>
+        </Text>
+      </LiteralText>
+    </InstructionText>  
+  </Instruction>
+</ddi:Fragment>
