@@ -1,6 +1,6 @@
 <ddi:Fragment xmlns:r="ddi:reusable:3_2">
   <Concept isUniversallyUnique="true" versionDate="<%= instruction.updated_at.iso8601 %>" isMissing="false" xmlns="ddi:conceptualcomponent:3_2">
-    <%= render 'exports/exploded_urn_only' %>
+    <%= render 'exports/exploded_urn', object: topic, reference: false %>
     <ConceptName>
       <r:String xml:lang="en-GB"><%# CONCEPT ID %></r:String>
     </ConceptName>
