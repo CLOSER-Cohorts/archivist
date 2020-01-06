@@ -1,5 +1,4 @@
 <NumericDomain blankIsMissingValue="false">
-  <r:Label><%= response_domain.label %></r:Label>
   <r:NumberRange>
     <r:Low isInclusive="false"><%= response_domain.min %></r:Low>
     <% if response_domain.max %>
@@ -7,4 +6,7 @@
     <% end %>
   </r:NumberRange>
   <r:NumericTypeCode><%= response_domain.numeric_type %></r:NumericTypeCode>
+  <r:Label>
+    <r:Content xml:lang="en-GB"><%= response_domain.label %></r:Content>
+  </r:Label>
 </NumericDomain>
