@@ -5,7 +5,6 @@
     <% code_list.codes.each do | code | %>
       <%= render 'codes/item', code: code %>
     <% end %>
-    <r:ResponseCardinality minimumResponses="<%= response_domain.min_responses || 1 %>" maximumResponses="<%= response_domain.max_responses || 1 %>"/>
   </CodeList>
 </ddi:Fragment>
 
