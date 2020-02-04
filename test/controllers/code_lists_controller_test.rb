@@ -60,6 +60,27 @@ class CodeListsControllerTest < ActionController::TestCase
     assert_equal json['max_responses'], 4
   end
 
+  test "should update category label if category is only used for this code" do
+    category = FactoryBot.create(:category, instrument_id: @instrument.id, label: 'Existing Label')
+    code = @code_list.codes.first
+    code.update_column(:category_id, category.id)
+    patch :update, format: :json, params: { instrument_id: @instrument.id, id: @code_list, code_list: {label: @code_list.label, codes: [{ id: code.id, category_id: category.id, value: "1", label: 'New Label', order: 1}] }}
+    assert_response :success
+    assert_equal category.reload.label, 'New Label'
+  end
+
+  test "should create new category label if category is used by other codes and the label has changed" do
+    category = FactoryBot.create(:category, instrument_id: @instrument.id, label: 'Existing Label')
+    @code_list.codes.each do | code |
+      code.update_column(:category_id, category.id)
+    end
+    assert_difference('Category.count') do
+      patch :update, format: :json, params: { instrument_id: @instrument.id, id: @code_list, code_list: {label: @code_list.label, codes: [{ id: @code_list.codes.first.id, category_id: category.id, value: "1", label: 'New Label', order: 1}] }}
+    end
+    assert_response :success
+    assert_equal category.reload.label, 'Existing Label'
+  end
+
   test "should persist order from the code parameters" do
     (code_a, code_b) = @code_list.codes
     patch :update, format: :json, params: { instrument_id: @instrument.id, id: @code_list, code_list: {label: @code_list.label, codes: [

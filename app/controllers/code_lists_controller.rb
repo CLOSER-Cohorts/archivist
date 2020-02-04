@@ -54,14 +54,19 @@ class CodeListsController < BasicInstrumentController
       codes_params.map do | code |
         next if code[:value].blank? && code[:label].blank?
         existing_category = @instrument.categories.find_by_label(code[:label])
+
         if existing_category
           code[:category_id] = existing_category.try(:id)
         else
-          code[:category_attributes] = {
-            id: code.delete(:category_id),
+          category_attributes = {
             instrument_id: @instrument.id,
             label: code.delete(:label)
           }
+          existing_category_from_id = @instrument.categories.find_by_id(code[:category_id])
+          if existing_category_from_id && (existing_category_from_id.codes.map(&:id) == [code[:id].to_i] || existing_category_from_id.codes.empty?)
+            category_attributes[:id] = code.delete(:category_id)
+          end
+          code[:category_attributes] = category_attributes
         end
         code
       end
