@@ -1122,6 +1122,13 @@
           return null;
         };
       }
+      if ($scope.openFragmentXML == null) {
+        $scope.openFragmentXML = function() {
+          console.log($scope.current);
+          window.open("/instruments/" + $scope.current.instrument_id + "/question_items/" + $scope.current.id + ".xml");
+          return null;
+        };
+      }
       if ($scope.change_panel == null) {
         return $scope.change_panel = function(obj) {
           localStorage.setItem('sidebar_scroll', jQuery('.sidebar').scrollTop());

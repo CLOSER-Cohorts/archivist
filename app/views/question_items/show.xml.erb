@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ddi:FragmentInstance xmlns:ddi="ddi:instance:3_2">
+  <ddi:Fragment xmlns:r="ddi:reusable:3_2">
+    <QuestionItem isUniversallyUnique="true" versionDate="<%= @question_item.updated_at.iso8601 %>" xmlns="ddi:datacollection:3_2">
+      <%= render 'exports/exploded_urn', object: @question_item, reference: false %>
+      <QuestionItemName>
+        <r:String xml:lang="en-GB"><%= @question_item.label %></r:String>
+      </QuestionItemName>
+      <QuestionText audienceLanguage="en-GB">
+        <LiteralText>
+          <Text><%= @question_item.literal %></Text>
+        </LiteralText>
+      </QuestionText>
+      <% if @question_item.response_domains.count > 1 %>
+        <StructuredMixedResponseDomain>
+          <% @question_item.response_domains.each do | rd | %>
+            <ResponseDomainInMixed>
+              <%= render "response_domains/#{rd.model_name.param_key}", response_domain: rd %>
+            </ResponseDomainInMixed>
+          <% end %>
+        </StructuredMixedResponseDomain>
+      <% else %>
+        <%= render "response_domains/#{@question_item.response_domains.first.model_name.param_key}", response_domain: @question_item.response_domains.first %>
+      <% end %>
+      <% if @question_item.instruction %>
+      <InterviewerInstructionReference>
+        <%= render 'exports/exploded_urn', object: @question_item.instruction, reference: true %>
+      </InterviewerInstructionReference>
+      <% end %>
+      <%#-- ADD IN ConceptReference TypeofObject Concept - from TOPIC %>
+
+    </QuestionItem>
+  </ddi:Fragment>
+  <% @question_item.response_domain_codes.each do | rd | %>
+    <%= render "code_lists/fragment", code_list: rd.code_list, response_domain: rd %>
+  <% end %>
+
+  <%= render "instructions/fragment", instruction: @question_item.instruction if @question_item.instruction %>
+  <%#-- ADD IN CONCEPT FRAGMENT %>
+</ddi:FragmentInstance>

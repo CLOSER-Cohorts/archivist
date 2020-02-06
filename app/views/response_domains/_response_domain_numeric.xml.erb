@@ -1,0 +1,12 @@
+<NumericDomain blankIsMissingValue="false">
+  <r:NumberRange>
+    <r:Low isInclusive="false"><%= response_domain.min %></r:Low>
+    <% if response_domain.max %>
+      <r:High isInclusive="false"><%= response_domain.max %></r:High>
+    <% end %>
+  </r:NumberRange>
+  <r:NumericTypeCode><%= response_domain.numeric_type %></r:NumericTypeCode>
+  <r:Label>
+    <r:Content xml:lang="en-GB"><%= response_domain.label %></r:Content>
+  </r:Label>
+</NumericDomain>

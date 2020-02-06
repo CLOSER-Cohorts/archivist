@@ -1,0 +1,7 @@
+<r:URN><%= object.urn %></r:URN>
+<r:Agency><%= object.exploded_urn.agency %></r:Agency>
+<r:ID><%= object.exploded_urn.id %></r:ID>
+<r:Version><%= object.exploded_urn.version %></r:Version>
+<% if reference %>
+  <r:TypeOfObject><%= object.exploded_urn.type_of_object %></r:TypeOfObject>
+<% end %>
