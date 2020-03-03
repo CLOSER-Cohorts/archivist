@@ -13,7 +13,7 @@ class ResponseDomainCode < ApplicationRecord
   include ResponseDomain
 
   # All ResponseDomainCodes must belong to a {CodeList}
-  belongs_to :code_list, dependent: :destroy
+  belongs_to :code_list
 
   # ResponseDomainCodes can have many {Code}s through {CodeList}
   has_many :codes, through: :code_list
