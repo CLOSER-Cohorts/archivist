@@ -36,15 +36,19 @@ class CodeList < ApplicationRecord
   # Every {QuestionGrid} where this CodeList was used as a horizontal axis
   #
   # Horizontal axis is considered to be rank 2 in DDI
-  has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id'
+  has_many :qgrids_via_h, class_name: 'QuestionGrid', foreign_key: 'horizontal_code_list_id', dependent: :destroy
 
   # Every {QuestionGrid} where this CodeList was used as a vertical axis
   #
   # Vertical axis is considered to be rank 1 in DDI
-  has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id'
+  has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id', dependent: :destroy
 
   # Each CodeList can optionally be represented as a {ResponseDomainCode}
   has_one :response_domain_code, dependent: :destroy
+
+  # Because of Foreign key constraints we need to ensure that all ResponseDomainCodes
+  # are removed even if they've been created in error.
+  has_many :response_domain_codes, dependent: :destroy
 
   # Accept nested attributes for Codes so that we can manage associated
   # Codes from within a CodeList form.
