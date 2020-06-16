@@ -147,7 +147,6 @@ angular.module('archivist.build').controller(
             value['instrument_id'] = $scope.instrument.id
             value['type'] = $routeParams.construct_type
             Flash.add('success', 'Construct updated successfully!')
-            console.info value
 
             if $routeParams.construct_id == 'new'
               parent = DataManager.Data.Instrument.Constructs[$scope.index.parent_type.capitalizeFirstLetter() + 's'].select_resource_by_id($scope.index.parent_id)
@@ -157,6 +156,18 @@ angular.module('archivist.build').controller(
                 parent.fchildren.push arr[index]
 
               $scope.change_panel arr[index]
+            else
+              if value.children != undefined
+                for child, index in value.children
+                  type = child.type.replace('Cc','')
+                  child_obj = DataManager.Data.Instrument.Constructs[type.capitalizeFirstLetter() + 's'].select_resource_by_id(child.id)
+                  value.children[index] = child_obj
+
+              if value.fchildren != undefined
+                for child, index in value.fchildren
+                  type = child.type.replace('Cc','')
+                  child_obj = DataManager.Data.Instrument.Constructs[type.capitalizeFirstLetter() + 's'].select_resource_by_id(child.id)
+                  value.fchildren[index] = child_obj
 
 
             $scope.change_panel {type: null, id: null}
