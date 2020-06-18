@@ -84,7 +84,8 @@ class Dataset < ApplicationRecord
   end
 
   def instance_name
-    return unless filename
-    filename.match(/(\S*).ddi32.rp.xml/)[1]
+    return '' unless filename
+    filename.match(/(\S*).ddi32/)
+    $1.to_s
   end
 end
