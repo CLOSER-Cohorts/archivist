@@ -63,30 +63,38 @@ module Exporters::XML::DDI
         end
 
         rd_wrapper = qg
-        if qgrid.response_domains.count > 1
+
+        response_domains_count = qgrid.response_domains.count
+
+        if qgrid.response_domains.count > 0
           rd_wrapper = Nokogiri::XML::Node.new 'd:StructuredMixedGridResponseDomain', @doc
           qg.add_child rd_wrapper
         end
 
-        qgrid.response_domains.each_with_index do |rd, i|
+        qgrid.grid_rds_qs.each do |rds_qs|
+          rd = rds_qs.response_domain
           case rd
             when ResponseDomainCode
               cd = Nokogiri::XML::Node.new 'd:CodeDomain', @doc
               cd.add_child create_reference_string 'r:CodeListReference', rd.code_list
+              cd.add_child '<r:ResponseCardinality minimumResponses="%{min}" maximumResponses="%{max}"></r:ResponseCardinality>' % {
+                  min: rd.min_responses,
+                  max: rd.max_responses
+              }
 
-              rd_wrapper.add_child wrap_grid_response_domain cd, qgrid.response_domains.count, i + 1
+              rd_wrapper.add_child wrap_grid_response_domain cd, response_domains_count, rds_qs.code_id
 
             when ResponseDomainText
               td = build_response_domain_text(rd)
-              rd_wrapper.add_child wrap_grid_response_domain td, qgrid.response_domains.count, i + 1
+              rd_wrapper.add_child wrap_grid_response_domain td, response_domains_count, rds_qs.code_id
 
             when ResponseDomainDatetime
               dd = build_response_domain_datetime(rd)
-              rd_wrapper.add_child wrap_grid_response_domain dd, qgrid.response_domains.count, i + 1
+              rd_wrapper.add_child wrap_grid_response_domain dd, response_domains_count, rds_qs.code_id
 
             when ResponseDomainNumeric
               nd = build_response_domain_numeric rd
-              rd_wrapper.add_child wrap_grid_response_domain nd, qgrid.response_domains.count, i + 1
+              rd_wrapper.add_child wrap_grid_response_domain nd, response_domains_count, rds_qs.code_id
           end
         end
 
@@ -110,7 +118,7 @@ module Exporters::XML::DDI
     # @param [Integer] col Column to attach the response domain to
     # @return [Nokogiri::XML::Node] Wrapped response domain node
     def wrap_grid_response_domain(node, rd_count, col)
-      if rd_count > 1
+      if rd_count > 0
         wrapper = Nokogiri::XML::Node.new 'd:GridResponseDomain', @doc
         wrapper.add_child node
         wrapper.add_child <<~XML.delete("\n")
