@@ -73,9 +73,20 @@ angular.module('archivist.build').controller(
           console.log $scope.current
           null
 
+      if !$scope.startFragmentFormMode?
+        $scope.startFragmentFormMode = () ->
+          $scope.fragmentFormMode = true
+          console.log $scope.current
+          null
+
+      if !$scope.endFragmentFormMode?
+        $scope.endFragmentFormMode = () ->
+          $scope.fragmentFormMode = false
+          $scope.current.fragment_xml = ''
+          null
+
       if !$scope.openFragmentXML?
         $scope.openFragmentXML = () ->
-          console.log $scope.current
           window.open("/instruments/" + $scope.current.instrument_id + "/question_items/" + $scope.current.id + ".xml")
           null
 

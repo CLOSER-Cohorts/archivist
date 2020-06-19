@@ -27,6 +27,24 @@
             </button>
             <button
                     type="button"
+                    class="btn btn-default lockable"
+                    data-ng-show="newMode && !fragmentFormMode && (current && current.type == 'QuestionItem')"
+                    data-toggle="modal"
+                    data-ng-click="startFragmentFormMode()"
+            >
+                Import Fragment XML
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-default lockable"
+                    data-ng-show="editMode && fragmentFormMode && (current && current.type == 'QuestionItem')"
+                    data-toggle="modal"
+                    data-ng-click="endFragmentFormMode()"
+            >
+                Switch to form view
+            </button>
+            <button
+                    type="button"
                     class="btn btn-danger lockable"
                     data-ng-show="!editMode"
                     data-toggle="modal"

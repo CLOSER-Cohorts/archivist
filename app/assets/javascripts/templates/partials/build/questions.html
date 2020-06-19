@@ -1,5 +1,25 @@
+<div data-ng-if="errors">
+    <div class="alert alert-danger" role="alert" data-ng-repeat="error in errors">
+        <p>{{ error }}</p>
+    </div>
+</div>
+
 <form novalidate>
-    <div class="form-group">
+    <div class="form-group" data-ng-if="fragmentFormMode">
+        <label for="a-question-label">
+            Fragment XML
+        </label>
+        <textarea
+                type="text"
+                class="form-control"
+                id="a-question-xml"
+                rows="50"
+                placeholder="Fragment XML"
+                data-ng-model="current.fragment_xml"
+                data-ng-disabled="!editMode"
+        />
+    </div>
+    <div class="form-group" data-ng-if="!fragmentFormMode">
         <label for="a-question-label">
             Label
         </label>
@@ -12,7 +32,7 @@
                 data-ng-disabled="!editMode"
         />
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-if="!fragmentFormMode">
         <label for="a-question-instruction">
             Instruction
         </label>
@@ -29,7 +49,7 @@
                 autocomplete="off"
         />
     </div>
-    <div class="form-group">
+    <div class="form-group" data-ng-if="!fragmentFormMode">
         <label for="a-question-literal">
             Literal
         </label>
@@ -42,7 +62,7 @@
                 data-ng-disabled="!editMode"
         />
     </div>
-    <div data-ng-if="current.type == 'QuestionGrid'">
+    <div data-ng-if="current.type == 'QuestionGrid'" data-ng-if="!fragmentFormMode">
         <div class="form-group">
             <label for="a-question-haxis">
                 Horizontal (X)
@@ -112,7 +132,7 @@
     </div>
 </form>
 
-<h3 class="sub-header">
+<h3 class="sub-header" data-ng-if="!fragmentFormMode">
     Response Domains
     <a
             href="#"
@@ -125,7 +145,7 @@
     </a>
 </h3>
 
-<table class="table table-striped table-condensed" data-ng-if="current.type == 'QuestionItem'">
+<table class="table table-striped table-condensed"  data-ng-if="!fragmentFormMode && current.type == 'QuestionItem'">
     <tr>
         <th>
             Type
@@ -160,7 +180,7 @@
     </tbody>
 </table>
 
-<table class="table table-striped table-condensed" data-ng-if="current.type == 'QuestionGrid'">
+<table class="table table-striped table-condensed" data-ng-if="!fragmentFormMode && current.type == 'QuestionGrid'">
     <tr>
         <th>
             Column

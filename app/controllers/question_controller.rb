@@ -7,8 +7,19 @@ class QuestionController < BasicInstrumentController
   end
 
   def create
-    update_question @object = collection.new(safe_params) do |obj|
-      obj.save
+    if params[:fragment_xml]
+      fragment_instance = Importers::XML::DDI::FragmentInstance.new(params[:fragment_xml], @instrument)
+      fragment_instance.process
+      if fragment_instance.valid?
+        @object = fragment_instance.questions.first
+        render :show, status: :ok and return
+      else
+        render json: fragment_instance.errors, status: :unprocessable_entity
+      end
+    else
+      update_question @object = collection.new(safe_params) do |obj|
+        obj.save
+      end
     end
   end
 
