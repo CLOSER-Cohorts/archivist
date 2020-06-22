@@ -25,6 +25,7 @@ class ResponseDomainCode < ApplicationRecord
   delegate :label, to: :code_list
 
   validates :min_responses, :max_responses, presence: true, numericality: { only_integer: true, allow_blank: true }
+  validates :code_list, presence: true
 
   private  # private methods
   # Sets instrument_id from the {CodeList} that this ResponseDomainCode belongs to
