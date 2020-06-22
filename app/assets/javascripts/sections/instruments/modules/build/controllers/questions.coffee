@@ -91,9 +91,11 @@ angular.module('archivist.build').controller(
             ,(value, rh)->
               value['instrument_id'] = $scope.instrument.id
               Flash.add('success', 'Question updated successfully!')
+              window.location.href = "/instruments/" + $scope.current.instrument_id + "/build/questions/" + $routeParams.question_type + "/" + value['id']
               $scope.reset()
               $scope.load_sidebar()
-            ,->
+            ,(value, rh)->
+              $scope.errors = value.data
               console.log("error")
             )
 
@@ -117,7 +119,8 @@ angular.module('archivist.build').controller(
             $scope.current = angular.copy $scope.instrument.Questions.Grids.select_resource_by_id parseInt $routeParams.question_id
             $scope.title = 'Question Grid'
           $scope.editMode = false
-
+          $scope.fragmentFormMode = false
+          $scope.errors = undefined
 
 
           if $routeParams.question_id == 'new'

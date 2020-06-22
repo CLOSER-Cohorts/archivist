@@ -55,19 +55,26 @@ class QuestionGrid < ApplicationRecord
   #
   # @return [Array] All response domains
   def response_domains
+    grid_rds_qs.map { |x| x.response_domain }
+  end
+
+  # Returns all grid rds_qs using horizontal_code_list_id
+  #
+  # @return [Array] All RdsQs
+  def grid_rds_qs
     sql = <<~SQL
       SELECT rds_qs.*
       FROM rds_qs
       INNER JOIN question_grids
-      ON question_grids.id = rds_qs.question_id
+        ON question_grids.id = rds_qs.question_id
         AND rds_qs.question_type = 'QuestionGrid'
       INNER JOIN codes
-      ON codes.code_list_id = question_grids.horizontal_code_list_id
+        ON codes.code_list_id = question_grids.horizontal_code_list_id
+        AND codes.value::int = rds_qs.code_id
       WHERE question_grids.id = ?
       ORDER BY codes.order
     SQL
-    rds_qs = RdsQs.find_by_sql ([sql, self.id])
-    rds_qs.map { |x| x.response_domain }
+    RdsQs.find_by_sql ([sql, self.id])
   end
 
   # Exports as an XML fragment

@@ -95,7 +95,7 @@ module Importers::XML::DDI
         extract_urn_identifier(node.at_xpath('./CodeListReference'))
       )
       response_cardinality = node.at_xpath('./ResponseCardinality')
-      if response_cardinality
+      if response_cardinality && cl.response_domain.nil?
         min_responses = response_cardinality['minimumResponses']
         max_responses = response_cardinality['maximumResponses']
         cl.create_response_domain_code(min_responses: min_responses, max_responses: max_responses)
