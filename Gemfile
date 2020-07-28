@@ -36,7 +36,7 @@ gem 'jbuilder', '2.7.0'
 gem 'jbuilder_cache_multi', '0.1.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '4.3.1'
-gem 'json', '2.1.0'
+gem 'json', '2.3.0'
 # Faster JavaScript/JSON converter
 gem 'oj', '3.3.9'
 # Use Postgres as the database for Active Record
