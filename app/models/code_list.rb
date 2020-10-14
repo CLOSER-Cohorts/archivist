@@ -44,7 +44,7 @@ class CodeList < ApplicationRecord
   has_many :qgrids_via_v, class_name: 'QuestionGrid', foreign_key: 'vertical_code_list_id', dependent: :destroy
 
   # Each CodeList can optionally be represented as a {ResponseDomainCode}
-  has_one :response_domain_code, dependent: :destroy
+  has_one :response_domain_code, dependent: :destroy, inverse_of: :code_list
 
   # Because of Foreign key constraints we need to ensure that all ResponseDomainCodes
   # are removed even if they've been created in error.
