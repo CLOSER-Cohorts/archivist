@@ -25,7 +25,7 @@
 !/log/.keep
 /tmp
 *.log
-
+*.dump
 *.swp
 .idea/
 *.xml
