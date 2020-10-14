@@ -49,7 +49,7 @@ gem 'puma', '3.12.6'
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
-gem 'rails', '5.0.7.2'
+gem 'rails', '5.2.4.4'
 # Use Redis for caching
 gem 'redis', '3.3.5'
 # Use SCSS for stylesheets
