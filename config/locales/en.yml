@@ -53,3 +53,5 @@ en:
         dv:
           record_invalid_dataset: "Record Invalid as dataset name in file (%{dataset_from_line}) does not match the Dataset assigned to this import (%{dataset_from_object})."
           wrong_number_of_columns: "Record Invalid you must have 4 columns (Dataset identifier, Variable name, Dataset identifier and Source variable name). You only provided %{actual_number_of_columns}"
+          no_variable_found: "Record Invalid : No variable found."
+          no_source_found: "Record Invalid : No source found."
