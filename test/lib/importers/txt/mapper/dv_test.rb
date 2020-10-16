@@ -49,4 +49,28 @@ class Importers::TXT::Mapper::DVTest < ActiveSupport::TestCase
       assert_equal(import.parsed_log[1][:outcome], I18n.t('importers.txt.mapper.dv.wrong_number_of_columns', actual_number_of_columns: 2))
     end
   end
+  describe "tab delimited text contains does not match a source" do
+    it "should mark the import has an error" do
+      source_variable = FactoryBot.create(:variable, dataset: @dataset)
+      new_txt = "#{@dataset.instance_name}\t#{@derived_variable}\t#{@dataset.instance_name}\tno_src_found\n"
+      import = FactoryBot.create(:import, dataset: @dataset, import_type: 'ImportJob::DV')
+      doc = Document.create(file: new_txt, item: @dataset)
+      Importers::TXT::Mapper::DV.new(doc.id, {:object=>@dataset.id.to_s, :import_id => import.id}).import
+      import = import.reload
+      assert_equal('failure', import.state)
+      assert_equal(import.parsed_log.first[:outcome], I18n.t('importers.txt.mapper.dv.no_source_found'))
+    end
+  end
+  describe "tab delimited text contains does not match a variable" do
+    it "should mark the import has an error" do
+      source_variable = FactoryBot.create(:variable, dataset: @dataset)
+      new_txt = "#{@dataset.instance_name}\tno_variable_found\t#{@dataset.instance_name}\t#{source_variable.name}\n"
+      import = FactoryBot.create(:import, dataset: @dataset, import_type: 'ImportJob::DV')
+      doc = Document.create(file: new_txt, item: @dataset)
+      Importers::TXT::Mapper::DV.new(doc.id, {:object=>@dataset.id.to_s, :import_id => import.id}).import
+      import = import.reload
+      assert_equal('failure', import.state)
+      assert_equal(import.parsed_log.first[:outcome], I18n.t('importers.txt.mapper.dv.no_variable_found'))
+    end
+  end
 end

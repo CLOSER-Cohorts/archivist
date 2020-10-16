@@ -16,7 +16,7 @@ class ResponseDomainCode < ApplicationRecord
   belongs_to :code_list
 
   # ResponseDomainCodes can have many {Code}s through {CodeList}
-  has_many :codes, through: :code_list
+  has_many :codes, through: :code_list, inverse_of: :response_domain_code
 
   # Before creating a ResponseDomainCode in the database ensure the instrument has been set
   before_create :set_instrument
