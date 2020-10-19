@@ -70,6 +70,7 @@
         ];
       });
       $scope.pageSize = 20;
+      $scope.currentPage = 1;
       $scope.graphData = {};
       $scope.graphOptions = {
         interaction: {
