@@ -110777,35 +110777,24 @@ return /******/ (function(modules) { // webpackBootstrap
         return scope.toggle();
       };
       $scope["delete"] = function() {
-        var arr, index;
+        var arr, index, obj;
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's'];
         index = arr.get_index_by_id(parseInt($routeParams.construct_id));
         if (index != null) {
-          return arr[index].$delete({}, function() {
-            var obj_to_remove, scan;
-            obj_to_remove = arr[index].$$hashKey;
-            arr.splice(index, 1);
-            scan = function(obj, key) {
-              var child, i, j, len, len1, ref, ref1;
-              if (obj.children !== void 0) {
-                ref = obj.children;
-                for (index = i = 0, len = ref.length; i < len; index = ++i) {
-                  child = ref[index];
-                  if (child.$$hashKey === key) {
-                    obj.children.splice(index, 1);
-                    return true;
-                  } else {
-                    if (scan(child, key)) {
-                      return true;
-                    }
-                  }
-                }
-                if (obj.fchildren !== void 0) {
-                  ref1 = obj.fchildren;
-                  for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
-                    child = ref1[index];
+          obj = arr[index];
+          if (obj.children === void 0 || confirm("Deleting this construct will also delete all of it's children. Are you sure you want to delete this construct?")) {
+            return arr[index].$delete({}, function() {
+              var obj_to_remove, scan;
+              obj_to_remove = arr[index].$$hashKey;
+              arr.splice(index, 1);
+              scan = function(obj, key) {
+                var child, i, j, len, len1, ref, ref1;
+                if (obj.children !== void 0) {
+                  ref = obj.children;
+                  for (index = i = 0, len = ref.length; i < len; index = ++i) {
+                    child = ref[index];
                     if (child.$$hashKey === key) {
-                      obj.fchildren.splice(index, 1);
+                      obj.children.splice(index, 1);
                       return true;
                     } else {
                       if (scan(child, key)) {
@@ -110813,18 +110802,32 @@ return /******/ (function(modules) { // webpackBootstrap
                       }
                     }
                   }
+                  if (obj.fchildren !== void 0) {
+                    ref1 = obj.fchildren;
+                    for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
+                      child = ref1[index];
+                      if (child.$$hashKey === key) {
+                        obj.fchildren.splice(index, 1);
+                        return true;
+                      } else {
+                        if (scan(child, key)) {
+                          return true;
+                        }
+                      }
+                    }
+                  }
                 }
-              }
-              return false;
-            };
-            scan($scope.instrument.topsequence, obj_to_remove);
-            return $timeout(function() {
-              return $scope.change_panel({
-                type: null,
-                id: null
-              });
-            }, 0);
-          });
+                return false;
+              };
+              scan($scope.instrument.topsequence, obj_to_remove);
+              return $timeout(function() {
+                return $scope.change_panel({
+                  type: null,
+                  id: null
+                });
+              }, 0);
+            });
+          }
         }
       };
       $scope.save_construct = function() {
