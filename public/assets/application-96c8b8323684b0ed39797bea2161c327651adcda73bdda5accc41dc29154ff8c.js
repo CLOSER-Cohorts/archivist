@@ -109973,6 +109973,7 @@ return /******/ (function(modules) { // webpackBootstrap
         ];
       });
       $scope.pageSize = 20;
+      $scope.currentPage = 1;
       $scope.graphData = {};
       $scope.graphOptions = {
         interaction: {
