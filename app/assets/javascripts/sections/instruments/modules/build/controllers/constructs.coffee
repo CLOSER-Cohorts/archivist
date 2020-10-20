@@ -87,34 +87,36 @@ angular.module('archivist.build').controller(
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's']
         index = arr.get_index_by_id parseInt($routeParams.construct_id)
         if index?
-          arr[index].$delete(
-            {},
-            ->
-              obj_to_remove = arr[index].$$hashKey
-              arr.splice index, 1
-              scan = (obj, key)->
-                if obj.children != undefined
-                  for child, index in obj.children
-                    if child.$$hashKey == key
-                      obj.children.splice index, 1
-                      return true
-                    else
-                      return true if scan(child, key)
-
-                  if obj.fchildren != undefined
-                    for child, index in obj.fchildren
+          obj = arr[index]
+          if obj.children == undefined || confirm "Deleting this construct will also delete all of it's children. Are you sure you want to delete this construct?"
+            arr[index].$delete(
+              {},
+              ->
+                obj_to_remove = arr[index].$$hashKey
+                arr.splice index, 1
+                scan = (obj, key)->
+                  if obj.children != undefined
+                    for child, index in obj.children
                       if child.$$hashKey == key
-                        obj.fchildren.splice index, 1
+                        obj.children.splice index, 1
                         return true
                       else
                         return true if scan(child, key)
-                return false
-              scan($scope.instrument.topsequence, obj_to_remove)
-              $timeout(
-                ->
-                  $scope.change_panel {type: null, id: null}
-              ,0
-              )
+
+                    if obj.fchildren != undefined
+                      for child, index in obj.fchildren
+                        if child.$$hashKey == key
+                          obj.fchildren.splice index, 1
+                          return true
+                        else
+                          return true if scan(child, key)
+                  return false
+                scan($scope.instrument.topsequence, obj_to_remove)
+                $timeout(
+                  ->
+                    $scope.change_panel {type: null, id: null}
+                ,0
+                )
           )
 
       $scope.save_construct =  ->
