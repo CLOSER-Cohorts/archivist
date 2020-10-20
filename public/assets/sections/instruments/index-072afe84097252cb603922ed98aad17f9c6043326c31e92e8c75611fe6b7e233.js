@@ -1,4 +1,196 @@
 (function() {
+  var instruments;
+
+  instruments = angular.module('archivist.instruments', ['templates', 'ngRoute', 'ngResource', 'ui.bootstrap', 'archivist.flash', 'archivist.data_manager', 'naif.base64']);
+
+  instruments.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments', {
+        templateUrl: 'partials/instruments/index.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id', {
+        templateUrl: 'partials/instruments/show.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/edit', {
+        templateUrl: 'partials/instruments/edit.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/import', {
+        templateUrl: 'partials/instruments/import.html',
+        controller: 'InstrumentsController'
+      }).when('/instruments/:id/imports', {
+        templateUrl: 'partials/instruments/imports/index.html',
+        controller: 'InstrumentsImportsController'
+      }).when('/instruments/:instrument_id/imports/:id', {
+        templateUrl: 'partials/instruments/imports/show.html',
+        controller: 'InstrumentsImportsShowController'
+      });
+    }
+  ]);
+
+  instruments.controller('InstrumentsController', [
+    '$scope', '$routeParams', '$location', '$q', '$http', '$timeout', 'Flash', 'DataManager', 'Base64Factory', function($scope, $routeParams, $location, $q, $http, $timeout, Flash, DataManager, Base64Factory) {
+      var loadStructure, loadStudies, progressUpdate;
+      $scope.page['title'] = 'Instruments';
+      if ($routeParams.id) {
+        loadStructure = $location.path().split("/")[$location.path().split("/").length - 1].toLowerCase() !== 'edit';
+        loadStudies = !loadStructure;
+        $scope.loading = {
+          state: "Downloading",
+          progress: 0,
+          type: "info"
+        };
+        progressUpdate = function(newValue) {
+          $scope.loading.progress = newValue;
+          if ($scope.loading.progress > 99) {
+            $scope.loading.state = "Processing";
+            return $scope.loading.type = "success";
+          }
+        };
+        $scope.instrument = DataManager.getInstrument($routeParams.id, {
+          constructs: loadStructure,
+          questions: loadStructure,
+          progress: progressUpdate
+        }, function() {
+          $scope.page['title'] = $scope.instrument.prefix + ' | Edit';
+          return $timeout(function() {
+            if (loadStructure) {
+              $scope.page['title'] = $scope.instrument.prefix + ' | View';
+              DataManager.resolveConstructs();
+              DataManager.resolveQuestions();
+              console.log($scope);
+            }
+            $scope.breadcrumbs = [
+              {
+                label: 'Instruments',
+                link: '/instruments',
+                active: false
+              }, {
+                label: $scope.instrument.prefix,
+                link: false,
+                active: false,
+                subs: [
+                  {
+                    label: loadStructure ? 'Edit' : 'View',
+                    link: '/instruments/' + $routeParams.id + (loadStructure ? '/edit' : '')
+                  }, {
+                    label: 'Build',
+                    link: '/instruments/' + $routeParams.id + '/build'
+                  }, {
+                    label: 'Map',
+                    link: '/instruments/' + $routeParams.id + '/map'
+                  }
+                ]
+              }, {
+                label: loadStructure ? 'View' : 'Edit',
+                link: false,
+                active: true
+              }
+            ];
+            return $scope.loading.state = "Done";
+          }, 100);
+        });
+      } else {
+        $scope.instruments = DataManager.getInstruments();
+        $scope.pageSize = 24;
+        $scope.currentPage = 1;
+        $scope.filterStudy = function(study) {
+          return $scope.filteredStudy = study;
+        };
+        $http.get('/studies.json').success(function(data) {
+          return $scope.studies = data;
+        });
+      }
+      return $scope.updateInstrument = function() {
+        return $scope.instrument.$save({}, function() {
+          Flash.add('success', 'Instrument updated successfully!');
+          $location.path('/instruments');
+          return DataManager.clearCache();
+        }, function() {
+          return console.log("error");
+        });
+      };
+    }
+  ]);
+
+  instruments.controller('InstrumentsImportsController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.instrument = DataManager.getInstrument($routeParams.id, {}, function() {
+        $scope.page['title'] = $scope.instrument.prefix + ' | Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/admin/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.slug,
+            active: false
+          }, {
+            label: 'Imports',
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope.imports = DataManager.getInstrumentImports({
+        instrument_id: $routeParams.id
+      });
+    }
+  ]);
+
+  instruments.controller('InstrumentsImportsShowController', [
+    '$scope', '$routeParams', 'VisDataSet', 'DataManager', function($scope, $routeParams, VisDataSet, DataManager) {
+      $scope.instrument = DataManager.getInstrument($routeParams.instrument_id, {}, function() {
+        $scope.page['title'] = $scope.instrument.prefix + ' | Imports';
+        return $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/admin/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.slug,
+            active: false
+          }, {
+            label: 'Imports',
+            link: '/instruments/' + $scope.instrument.slug + '/imports',
+            active: false
+          }, {
+            label: $routeParams.id,
+            link: false,
+            active: true
+          }
+        ];
+      });
+      return $scope["import"] = DataManager.getInstrumentImport({
+        instrument_id: $routeParams.instrument_id,
+        id: $routeParams.id
+      });
+    }
+  ]);
+
+  instruments.factory('Base64Factory', [
+    '$q', function($q) {
+      return {
+        getBase64: function(file) {
+          var deferred, readerMapping;
+          deferred = $q.defer();
+          readerMapping = new FileReader;
+          readerMapping.readAsDataURL(file);
+          readerMapping.onload = function() {
+            deferred.resolve(readerMapping.result);
+          };
+          readerMapping.onerror = function(error) {
+            deferred.reject(error);
+          };
+          return deferred.promise;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+(function() {
   var build;
 
   build = angular.module('archivist.build', ['templates', 'ngRoute', 'archivist.flash', 'archivist.data_manager']);
@@ -430,35 +622,24 @@
         return scope.toggle();
       };
       $scope["delete"] = function() {
-        var arr, index;
+        var arr, index, obj;
         arr = $scope.instrument.Constructs[$routeParams.construct_type.capitalizeFirstLetter() + 's'];
         index = arr.get_index_by_id(parseInt($routeParams.construct_id));
         if (index != null) {
-          return arr[index].$delete({}, function() {
-            var obj_to_remove, scan;
-            obj_to_remove = arr[index].$$hashKey;
-            arr.splice(index, 1);
-            scan = function(obj, key) {
-              var child, i, j, len, len1, ref, ref1;
-              if (obj.children !== void 0) {
-                ref = obj.children;
-                for (index = i = 0, len = ref.length; i < len; index = ++i) {
-                  child = ref[index];
-                  if (child.$$hashKey === key) {
-                    obj.children.splice(index, 1);
-                    return true;
-                  } else {
-                    if (scan(child, key)) {
-                      return true;
-                    }
-                  }
-                }
-                if (obj.fchildren !== void 0) {
-                  ref1 = obj.fchildren;
-                  for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
-                    child = ref1[index];
+          obj = arr[index];
+          if (obj.children === void 0 || confirm("Deleting this construct will also delete all of it's children. Are you sure you want to delete this construct?")) {
+            return arr[index].$delete({}, function() {
+              var obj_to_remove, scan;
+              obj_to_remove = arr[index].$$hashKey;
+              arr.splice(index, 1);
+              scan = function(obj, key) {
+                var child, i, j, len, len1, ref, ref1;
+                if (obj.children !== void 0) {
+                  ref = obj.children;
+                  for (index = i = 0, len = ref.length; i < len; index = ++i) {
+                    child = ref[index];
                     if (child.$$hashKey === key) {
-                      obj.fchildren.splice(index, 1);
+                      obj.children.splice(index, 1);
                       return true;
                     } else {
                       if (scan(child, key)) {
@@ -466,18 +647,32 @@
                       }
                     }
                   }
+                  if (obj.fchildren !== void 0) {
+                    ref1 = obj.fchildren;
+                    for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
+                      child = ref1[index];
+                      if (child.$$hashKey === key) {
+                        obj.fchildren.splice(index, 1);
+                        return true;
+                      } else {
+                        if (scan(child, key)) {
+                          return true;
+                        }
+                      }
+                    }
+                  }
                 }
-              }
-              return false;
-            };
-            scan($scope.instrument.topsequence, obj_to_remove);
-            return $timeout(function() {
-              return $scope.change_panel({
-                type: null,
-                id: null
-              });
-            }, 0);
-          });
+                return false;
+              };
+              scan($scope.instrument.topsequence, obj_to_remove);
+              return $timeout(function() {
+                return $scope.change_panel({
+                  type: null,
+                  id: null
+                });
+              }, 0);
+            });
+          }
         }
       };
       $scope.save_construct = function() {
@@ -1053,5 +1248,87 @@
       return item.replace('ResponseDomain', '');
     };
   });
+
+}).call(this);
+(function() {
+  var build;
+
+  build = angular.module('archivist.summary', ['templates', 'ngRoute']);
+
+  build.config([
+    '$routeProvider', function($routeProvider) {
+      return $routeProvider.when('/instruments/:id/summary', {
+        templateUrl: 'partials/summary/index.html',
+        controller: 'SummaryIndexController'
+      }).when('/instruments/:id/summary/:object_type', {
+        templateUrl: 'partials/summary/show.html',
+        controller: 'SummaryShowController'
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+  angular.module('archivist.summary').controller('SummaryShowController', [
+    '$scope', '$routeParams', '$filter', 'DataManager', 'Map', function($scope, $routeParams, $filter, DataManager, Map) {
+      var k, options, v;
+      $scope.object_type = $routeParams.object_type.underscore_to_pascal_case();
+      options = Object.lower_everything(Map.map[$scope.object_type]);
+      for (k in options) {
+        v = options[k];
+        options[k] = {};
+        options[k][v] = true;
+      }
+      options['topsequence'] = false;
+      return $scope.instrument = DataManager.getInstrument($routeParams.id, options, function() {
+        var accepted_columns, data, i, index, j, key, len, obj, row;
+        accepted_columns = ['id', 'label', 'literal', 'base_label', 'response_unit_label', 'logic'];
+        data = Map.find(DataManager.Data, $scope.object_type);
+        $scope.data = [];
+        for (index = j = 0, len = data.length; j < len; index = ++j) {
+          row = data[index];
+          obj = {};
+          for (i in row) {
+            if (accepted_columns.indexOf(i) !== -1) {
+              obj[i] = row[i];
+            }
+          }
+          $scope.data.push(obj);
+        }
+        $scope.cols = (function() {
+          var results;
+          results = [];
+          for (key in $scope.data[0]) {
+            results.push(key);
+          }
+          return results;
+        })();
+        $scope.breadcrumbs = [
+          {
+            label: 'Instruments',
+            link: '/instruments',
+            active: false
+          }, {
+            label: $scope.instrument.prefix,
+            link: '/instruments/' + $scope.instrument.prefix,
+            active: false
+          }, {
+            label: 'Summary',
+            link: false,
+            active: false
+          }, {
+            label: $scope.object_type,
+            link: false,
+            active: true
+          }
+        ];
+        return console.log($scope);
+      });
+    }
+  ]);
+
+}).call(this);
+(function() {
+
 
 }).call(this);
