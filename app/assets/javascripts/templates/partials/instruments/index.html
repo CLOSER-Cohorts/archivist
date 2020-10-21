@@ -87,18 +87,20 @@
             <td>{{instrument.qvs}}</td>
 			<td>{{instrument.study}}</td>
             <td class="editor-min">
-                <a data-ng-href="/instruments/{{instrument.prefix}}/edit">
-                    <span class="edit">Edit</span>
-                </a>
-                |
-                <a data-ng-href="/instruments/{{instrument.prefix}}/build">
-                    <span class="build">Build</span>
-                </a>
-                |
-                <a data-ng-href="/instruments/{{instrument.prefix}}/map">
-                    <span class="map">Map</span>
-                </a>
-                |
+                <span data-ng-if="!instrument.signed_off">
+                    <a data-ng-href="/instruments/{{instrument.prefix}}/edit">
+                        <span class="edit">Edit</span>
+                    </a>
+                    |
+                    <a data-ng-href="/instruments/{{instrument.prefix}}/build">
+                        <span class="build">Build</span>
+                    </a>
+                    |
+                    <a data-ng-href="/instruments/{{instrument.prefix}}/map">
+                        <span class="map">Map</span>
+                    </a>
+                    |
+                </span>
                 <a data-ng-href="/instruments/{{instrument.prefix}}">
                     <span class="view">View</span>
                 </a>

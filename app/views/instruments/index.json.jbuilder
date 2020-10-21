@@ -1,5 +1,5 @@
 json.array!(@collection) do |instrument|
-  json.extract! instrument, :id, :agency, :version, :prefix, :label, :study
+  json.extract! instrument, :id, :agency, :version, :prefix, :label, :study, :signed_off
   json.ccs instrument.cc_count
   json.qvs @qv_counts[instrument.id]
   json.export_url instrument.export_url

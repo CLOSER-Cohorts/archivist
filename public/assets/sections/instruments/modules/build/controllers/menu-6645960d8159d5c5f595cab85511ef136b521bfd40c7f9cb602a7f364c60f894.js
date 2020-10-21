@@ -8,6 +8,11 @@
       $scope.summary_url = function(arg) {
         return '/instruments/' + $routeParams.id + '/summary/' + arg;
       };
+      $scope.instrumentCore = DataManager.getInstrument($routeParams.id, {}, function() {
+        if ($scope.instrumentCore.signed_off) {
+          return window.location.href = '/instruments';
+        }
+      });
       return $scope.instrument = DataManager.getInstrumentStats($routeParams.id, function() {
         $scope.stats = $scope.instrument.stats;
         return $scope.breadcrumbs = [
