@@ -13,10 +13,10 @@ class ResponseDomainCode < ApplicationRecord
   include ResponseDomain
 
   # All ResponseDomainCodes must belong to a {CodeList}
-  belongs_to :code_list
+  belongs_to :code_list, inverse_of: :response_domain_code
 
   # ResponseDomainCodes can have many {Code}s through {CodeList}
-  has_many :codes, through: :code_list, inverse_of: :response_domain_code
+  has_many :codes, through: :code_list
 
   # Before creating a ResponseDomainCode in the database ensure the instrument has been set
   before_create :set_instrument
