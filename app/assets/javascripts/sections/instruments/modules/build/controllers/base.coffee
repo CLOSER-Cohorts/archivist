@@ -21,25 +21,28 @@ angular.module('archivist.build').controller(
         $routeParams.id,
         $scope.instrument_options,
         ()->
-          $scope.page['title'] = $scope.instrument.prefix + ' | ' + $scope.title
+          if $scope.instrument.signed_off
+            window.location.href = '/instruments'
+          else
+            $scope.page['title'] = $scope.instrument.prefix + ' | ' + $scope.title
 
-          $scope.reset()
+            $scope.reset()
 
-          $scope.breadcrumbs = [
-            {label: 'Instruments', link: '/instruments', active: false},
-            {label: $scope.instrument.prefix, link: '/instruments/' + $scope.instrument.id.toString(), active: false},
-            {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
-            {label: $scope.title, link: false, active: true}
-          ]
+            $scope.breadcrumbs = [
+              {label: 'Instruments', link: '/instruments', active: false},
+              {label: $scope.instrument.prefix, link: '/instruments/' + $scope.instrument.id.toString(), active: false},
+              {label: 'Build', link: '/instruments/' + $scope.instrument.id.toString() + '/build', active: false}
+              {label: $scope.title, link: false, active: true}
+            ]
 
-          $timeout(
-            ->
-              #TODO: Remove DOM code from controllers
-              jQuery('.first-field').first().focus()
-            ,0
-          )
-          $scope.after_instrument_loaded?()
-          console.log $scope
+            $timeout(
+              ->
+                #TODO: Remove DOM code from controllers
+                jQuery('.first-field').first().focus()
+              ,0
+            )
+            $scope.after_instrument_loaded?()
+            console.log $scope
       )
 
       if !$scope.cancel?

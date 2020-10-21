@@ -20,8 +20,12 @@
         questions: true,
         variables: true
       }, function() {
-        DataManager.resolveConstructs();
-        return DataManager.resolveQuestions();
+        if ($scope.instrument.signed_off) {
+          return window.location.href = '/instruments';
+        } else {
+          DataManager.resolveConstructs();
+          return DataManager.resolveQuestions();
+        }
       });
       $scope.tags = {};
       $scope.variable = {};
