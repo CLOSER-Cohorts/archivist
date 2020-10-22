@@ -11,7 +11,7 @@ class InstrumentsController < ImportableController
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
   @model_class = ::Instrument
-  @params_list = %i{agency version prefix label study files import_question_grids}
+  @params_list = %i{agency version prefix label study files import_question_grids signed_off}
   @model_importer_class = ImportJob::Instrument
 
   def index

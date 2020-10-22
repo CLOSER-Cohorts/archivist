@@ -13,6 +13,10 @@ angular.module('archivist.build').controller(
       $scope.summary_url = (arg)->
         '/instruments/' + $routeParams.id + '/summary/' + arg
 
+      $scope.instrumentCore = DataManager.getInstrument $routeParams.id, {}, ->
+        if $scope.instrumentCore.signed_off
+          window.location.href = '/instruments'
+
       $scope.instrument = DataManager.getInstrumentStats $routeParams.id, ->
         $scope.stats = $scope.instrument.stats
 

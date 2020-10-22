@@ -26,6 +26,7 @@ mapping.controller(
       $routeParams,
       DataManager
     )->
+
       $scope.instrument = DataManager.getInstrument(
         $routeParams.id,
         {
@@ -34,8 +35,11 @@ mapping.controller(
           variables: true
         },
         ->
-          DataManager.resolveConstructs()
-          DataManager.resolveQuestions()
+          if $scope.instrument.signed_off
+            window.location.href = '/instruments'
+          else
+            DataManager.resolveConstructs()
+            DataManager.resolveQuestions()
       )
 
       $scope.tags = {}

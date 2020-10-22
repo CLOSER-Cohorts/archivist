@@ -41,34 +41,38 @@
         $scope.before_instrument_loaded();
       }
       $scope.instrument = DataManager.getInstrument($routeParams.id, $scope.instrument_options, function() {
-        $scope.page['title'] = $scope.instrument.prefix + ' | ' + $scope.title;
-        $scope.reset();
-        $scope.breadcrumbs = [
-          {
-            label: 'Instruments',
-            link: '/instruments',
-            active: false
-          }, {
-            label: $scope.instrument.prefix,
-            link: '/instruments/' + $scope.instrument.id.toString(),
-            active: false
-          }, {
-            label: 'Build',
-            link: '/instruments/' + $scope.instrument.id.toString() + '/build',
-            active: false
-          }, {
-            label: $scope.title,
-            link: false,
-            active: true
+        if ($scope.instrument.signed_off) {
+          return window.location.href = '/instruments';
+        } else {
+          $scope.page['title'] = $scope.instrument.prefix + ' | ' + $scope.title;
+          $scope.reset();
+          $scope.breadcrumbs = [
+            {
+              label: 'Instruments',
+              link: '/instruments',
+              active: false
+            }, {
+              label: $scope.instrument.prefix,
+              link: '/instruments/' + $scope.instrument.id.toString(),
+              active: false
+            }, {
+              label: 'Build',
+              link: '/instruments/' + $scope.instrument.id.toString() + '/build',
+              active: false
+            }, {
+              label: $scope.title,
+              link: false,
+              active: true
+            }
+          ];
+          $timeout(function() {
+            return jQuery('.first-field').first().focus();
+          }, 0);
+          if (typeof $scope.after_instrument_loaded === "function") {
+            $scope.after_instrument_loaded();
           }
-        ];
-        $timeout(function() {
-          return jQuery('.first-field').first().focus();
-        }, 0);
-        if (typeof $scope.after_instrument_loaded === "function") {
-          $scope.after_instrument_loaded();
+          return console.log($scope);
         }
-        return console.log($scope);
       });
       if ($scope.cancel == null) {
         $scope.cancel = function() {
@@ -684,6 +688,11 @@
       $scope.summary_url = function(arg) {
         return '/instruments/' + $routeParams.id + '/summary/' + arg;
       };
+      $scope.instrumentCore = DataManager.getInstrument($routeParams.id, {}, function() {
+        if ($scope.instrumentCore.signed_off) {
+          return window.location.href = '/instruments';
+        }
+      });
       return $scope.instrument = DataManager.getInstrumentStats($routeParams.id, function() {
         $scope.stats = $scope.instrument.stats;
         return $scope.breadcrumbs = [
