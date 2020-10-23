@@ -56,7 +56,7 @@ mapping.controller(
       $scope.detectKey = (event, question, x = null, y = null)->
         if event.keyCode == 13
           variables = event.target.value.split ','
-          DataManager.addVariables(question, variables).then(->
+          DataManager.addVariables(question, variables, x, y).then(->
             $scope.model.orig_topic = $scope.model.topic
           , (reason)->
             question.errors = reason.data.message
@@ -82,6 +82,7 @@ mapping.controller(
       console.log $scope
 
       $scope.split_mapping = (question, variable_id, x = null, y = null)->
+        console.log(question)
         question.$split_mapping {
           variable_id: variable_id
           x: x

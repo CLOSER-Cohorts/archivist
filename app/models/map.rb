@@ -18,6 +18,8 @@ class Map < ApplicationRecord
   # # # Validate to stop topic conflict between Variable(s) and CcQuestion
   validate :resolved_topic_conflict, if: Proc.new { |a| a.resolve_topic_conflict }
 
+  delegate :name, :label, to: :variable, prefix: true
+
   def resolved_topic_conflict
     return if variable.nil? || source.nil? || variable.derived? || source.resolved_topic.nil? || variable.resolved_topic.nil?
     if source.resolved_topic != variable.resolved_topic

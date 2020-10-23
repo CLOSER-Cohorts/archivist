@@ -38,6 +38,11 @@ class QuestionGrid < ApplicationRecord
     vertical_code_list&.codes&.count.to_i + roster_rows.to_i
   end
 
+  def rows
+    code_count = vertical_code_list&.codes&.count.to_i
+    vertical_code_list.codes.to_a + roster_rows.to_i.times.map{|i| OpenStruct.new(value: code_count + i + 1)}
+  end
+
   # Returns the display corner label
   #
   # @return [String] Corner label

@@ -52,7 +52,7 @@ class CcQuestionsController < ConstructController
         y: [params[:y], params[:y].to_i],
     ).delete_all
     respond_to do |format|
-      format.json { render json: true, status: :accepted }
+      format.json { render 'show' }
     end
   end
 

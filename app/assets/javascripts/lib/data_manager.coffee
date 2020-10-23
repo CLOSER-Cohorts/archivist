@@ -411,12 +411,12 @@ data_manager.factory(
               y: y
           }
 
-      DataManager.addVariables = (model, variables)->
+      DataManager.addVariables = (model, variables, x = null, y = null)->
         console.log(model)
         model.$add_mapping {
             variable_names: variables
-            x: null
-            y: null
+            x: x
+            y: y
           }
 
       DataManager.getInstrumentStats = (id, cb)->

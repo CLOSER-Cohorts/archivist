@@ -21,6 +21,8 @@ json.array!(@collection) do |question_grid|
     json.label y.category.label
     json.order y.order
   end
+  json.max_x question_grid.max_x
+  json.max_y question_grid.max_y
   json.pretty_corner_label question_grid.pretty_corner_label
   rescue
     json.error true

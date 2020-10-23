@@ -18,8 +18,36 @@
             {{obj.base.literal}}
         </span>
 
-        <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question'">
-            <div ng-repeat="variable in obj.variables" class="btn btn-primary tag-variable">
+        <div class="col-md-6 qv-mapping" data-ng-if="obj.type=='question' || obj.type=='CcQuestion' ">
+            <table class="table table-striped table-condensed" data-ng-if="obj.question_type=='QuestionGrid'">
+                <tr>
+                    <th></th>
+                    <th ng-repeat="col in obj.cols">
+                        {{col.label}}
+                    </th>
+                </tr>
+                <tr ng-repeat="row in obj.rows">
+                    <td>{{row.label}}</td>
+                    <td ng-repeat="col in row.cols">
+                        <div ng-repeat="variable in col.variables" class="btn btn-primary tag-variable">
+                            <p class="display-inline">{{variable.variable_name}}</p>
+                            <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(obj, variable.variable_id, variable.x, variable.y)"></span>
+                        </div>
+                        <input
+                                type="text"
+                                data-ng-model="obj.new_variables.x.y"
+                                placeholder="Add a variable"
+                                data-uib-typeahead="variable as variable.name for variable in instrument.Variables | filter:{name:$viewValue}"
+                                class="form-control input-variable"
+                                typehead-editable="true"
+                                data-uib-tooltip="You can only add existent variables"
+                                data-tooltip-placement="top-right"
+                                data-ng-keyup="detectKey($event, obj, variable.x, variable.y)"
+                        >
+                    </td>
+                </tr>
+            </table>
+            <div ng-repeat="variable in obj.variables" class="btn btn-primary tag-variable" data-ng-if="obj.question_type=='QuestionItem'">
               <p class="display-inline">{{variable.name}}</p>
               <span class="glyphicon glyphicon-remove-circle delete-icon" aria-hidden="true" ng-click="split_mapping(obj, variable.id)"></span>
             </div>
