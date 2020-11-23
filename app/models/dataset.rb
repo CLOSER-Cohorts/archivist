@@ -13,11 +13,11 @@ class Dataset < ApplicationRecord
   # This model can be tracked using an Identifier
   include Identifiable
 
-  # A Dataset can have many {Instrument Instruments} through a many-to-many relationship
-  has_many :instruments, through: :instruments_datasets
-
   # The junction model for the many-to-many relationship with {Instrument Instruments}
   has_many :instruments_datasets, class_name: 'InstrumentsDatasets', dependent: :destroy
+
+  # A Dataset can have many {Instrument Instruments} through a many-to-many relationship
+  has_many :instruments, through: :instruments_datasets
 
   # List of all documents attached to this dataset
   has_many :documents, -> { order :created_at }, as: :item

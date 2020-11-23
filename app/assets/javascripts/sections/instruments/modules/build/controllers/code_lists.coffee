@@ -102,7 +102,7 @@ angular.module('archivist.build').controller(
         $scope.current.codes.sort (a,b)->
           a.order - b.order
         for i of $scope.current.codes
-          $scope.current.codes[i].order = i
+          $scope.current.codes[i].order = parseInt(i)
 
       $scope.moveUp = (code)->
         $scope.moveCode code, -1
