@@ -58,18 +58,16 @@
                             Copy
                         </button>
                         |
-                        <span data-ng-if="!instrument.signed_off">
-                            <button
-                                    type="button"
-                                    class="btn btn-link btn-sm"
-                                    data-toggle="modal"
-                                    data-target="#import-mapping"
-                                    data-ng-click="prepareImport(instrument.prefix,instrument.id)"
-                            >
-                                Import Mappings
-                            </button>
-    			            |
-                        </span>
+                        <button
+                                type="button"
+                                class="btn btn-link btn-sm"
+                                data-toggle="modal"
+                                data-target="#import-mapping"
+                                data-ng-click="prepareImport(instrument.prefix,instrument.id)"
+                        >
+                            Import Mappings
+                        </button>
+			            |
                         <a
                                 data-ng-href="/instruments/{{instrument.prefix}}/qv.txt"
                                 target="_self"

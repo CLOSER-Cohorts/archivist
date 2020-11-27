@@ -32,6 +32,7 @@ class InstrumentsController < ImportableController
   end
 
   def reorder_ccs
+    params.permit!
     unless params[:updates].nil?
       Instruments::ControlConstructUpdater.new(@object, params[:updates]).call.inspect
     end
