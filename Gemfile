@@ -49,6 +49,13 @@ gem 'puma', '4.3.8'
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
+
+gem 'rack-cache'
+
+gem 'redis-rack-cache', '2.0.2'
+
+gem 'rack-cors'
+
 gem 'rails', '5.2.4.4'
 # Use Redis for caching
 gem 'redis', '3.3.5'
@@ -60,6 +67,8 @@ gem 'sdoc', '1.0.0', group: :doc
 gem 'uglifier', '4.1.18'
 # PostgreSQLCursor for handling large Result Sets
 gem "postgresql_cursor", "~> 0.6.4"
+
+gem 'jwt'
 
 # Production gems
 group :production do
@@ -90,6 +99,7 @@ group :development do
   gem 'spring', '2.0.2'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 3.7'
+  gem 'foreman'
 end
 
 group :test do

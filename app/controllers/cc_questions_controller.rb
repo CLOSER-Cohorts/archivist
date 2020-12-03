@@ -37,6 +37,7 @@ class CcQuestionsController < ConstructController
         end
         @object.save
       end
+      @object.reload
       respond_to do |format|
         format.json { render 'show' }
       end
@@ -51,8 +52,9 @@ class CcQuestionsController < ConstructController
         x: [params[:x], params[:x].to_i],
         y: [params[:y], params[:y].to_i],
     ).delete_all
+    @object.reload
     respond_to do |format|
-      format.json { render json: true, status: :accepted }
+      format.json { render 'show' }
     end
   end
 

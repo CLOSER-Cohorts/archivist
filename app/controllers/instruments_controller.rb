@@ -15,6 +15,7 @@ class InstrumentsController < ImportableController
   @model_importer_class = ImportJob::Instrument
 
   def index
+    return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
     @qv_counts = QvMapping.group(:instrument_id).size
     super
   end

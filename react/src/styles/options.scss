@@ -1,0 +1,121 @@
+.options {
+  width: 100%;
+  margin-bottom: $size;
+
+  @include themed() {
+    box-shadow: 0 1px 0 0 t($color__border);
+
+    &.tabs {
+      box-shadow: none;
+    }
+
+  }
+
+  &.inset {
+    padding: 0 ($size * 5);
+    padding-top: $size * 3;
+    margin-bottom: 0;
+
+    .list {
+
+      button {
+        padding-bottom: $size * 3;
+
+        + button {
+          margin-left: $size * 3;
+        }
+
+      }
+
+    }
+
+  }
+
+  .list {
+    display: flex;
+
+    button {
+      padding: 0 0 ($size * 1.5) 0;
+      font-size: 16px;
+      font-family: 'basier_circlemedium';
+      font-weight: 300;
+      color: inherit;
+      border-radius: 0;
+
+      @include themed() {
+        color: t($color__text);
+      }
+
+      &:hover,
+      &.selected {
+        position: relative;
+
+        @include themed() {
+          color: t($color__primary);
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -1px;
+          height: 1px;
+
+          @include themed() {
+            background: t($color__primary);
+          }
+
+        }
+
+      }
+
+      &:hover {
+
+        &::after {
+
+          @include themed() {
+            background: rgba(t($color__primary), 0.2);
+          }
+
+        }
+
+      }
+
+      &[data-count] {
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: -($size);
+          width: 6px;
+          height: 6px;
+          border-radius: 100%;
+
+          @include themed() {
+            background: t($color__issue);
+          }
+
+        }
+
+      }
+
+      &[data-count='0'] {
+        
+        &::before {
+          display: none;
+        }
+
+      }
+
+      + button {
+        margin-left: $size * 2;
+      }
+
+    }
+
+  }
+
+}

@@ -1,0 +1,1426 @@
+@keyframes open-overlay {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.overlay {
+  font-size: 15px;
+
+  .btn {
+    border-radius: $size;
+    padding-left: $size * 3;
+    padding-right: $size * 3;
+  }
+
+  .focus {
+    opacity: 0;
+
+    &:not(:empty) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      z-index: 20;
+      opacity: 1;
+    }
+
+  }
+
+  &__bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    @include themed() {
+      background: t($color__modal__bg);
+      -webkit-backdrop-filter: saturate(20%);
+      backdrop-filter: saturate(00%);
+    }
+
+  }
+
+  .errors {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 14px;
+    position: fixed;
+    right: $size * 3;
+    top: $size * 3;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+
+    li {
+      padding: 0 ($size * 2);
+      height: $size * 5;
+      line-height: $size * 5;
+      color: #fff;
+      border-radius: ($size / 2);
+
+      @include themed() {
+        background: t($color__negative);
+        color: t($color__secondary);
+      }
+
+      + li {
+        margin-top: $size;
+      }
+
+    }
+
+  }
+
+  &__blocks {
+    z-index: 10;
+
+    &.counter__1 {
+
+      &.initialLoad {
+
+        .overlay__block {
+          animation: open-overlay 0.4s ease-in-out;
+        }
+
+      }
+
+    }
+
+    &.counter__2 {
+
+      .overlay__block:nth-child(1) {
+        pointer-events: none;
+        height: 64px;
+        transform: scale(0.9);
+        overflow: hidden;
+
+        @include themed() {
+          background: t($color__modal__hidden);
+        }
+
+        .empty {
+          display: none;
+        }
+
+        .header,
+        .content {
+          @include themed() {
+            background: inherit;
+          }
+        }
+
+      }
+
+      .overlay__block:nth-child(2) {
+        margin-top: 16px;
+      }
+
+    }
+
+    &.counter__3 {
+
+      .overlay__block:not(:last-child) {
+        pointer-events: none;
+        display: block;
+        height: 64px;
+        transform: scale(0.9);
+        overflow: hidden;
+
+        @include themed() {
+          background: t($color__modal__hidden);
+        }
+
+        .header {
+          opacity: 0;
+        }
+
+      }
+
+      .overlay__block:nth-child(1) {
+        transform: scale(0.8);
+      }
+
+      .overlay__block:nth-child(2) {
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+        margin-top: 16px;
+      }
+
+      .overlay__block:nth-child(3) {
+        margin-top: 32px;
+      }
+
+    }
+
+    &.counter__4 {
+
+      .overlay__block:not(:last-child) {
+        pointer-events: none;
+        display: block;
+        height: 64px;
+        transform: scale(0.9);
+        overflow: hidden;
+
+        @include themed() {
+          background: t($color__nav);
+        }
+
+        .header {
+          opacity: 0;
+        }
+
+      }
+
+      .overlay__block:nth-child(1) {
+        transform: scale(0.7);
+      }
+
+      .overlay__block:nth-child(2) {
+        transform: scale(0.8);
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+        margin-top: 16px;
+      }
+
+      .overlay__block:nth-child(3) {
+        box-shadow: 0 0 10px rgba(0,0,0,.1);
+        margin-top: 32px;
+      }
+
+      .overlay__block:nth-child(4) {
+        margin-top: 48px;
+      }
+
+    }
+
+  }
+
+  &__block {
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    right: 0;
+    width: 600px;
+    border-radius: ($size * 2);
+    max-width: 600px;
+    max-height: 500px;
+    // overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: center top;
+    transition: all 0.4s ease-in-out;
+
+    @include themed() {
+      background: t($color__modal);
+    }
+
+    &.delete,
+    &.new_client,
+    &.new_project {
+      max-height: 100%;
+
+      .content {
+
+        textarea {
+          padding: 0;
+          resize: none;
+        }
+
+        &::after {
+          display: none;
+        }
+
+      }
+
+    }
+
+    &.delete {
+
+      .content {
+        padding-top: 0;
+      }
+
+    }
+
+    &.holiday {
+
+      .header {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+
+        @include themed() {
+          box-shadow: none;
+        }
+
+        h2 {
+          opacity: 0;
+        }
+
+      }
+
+      .content {
+        text-align: center;
+        padding: ($size * 12) 0;
+        overflow: hidden;
+
+        svg {
+          display: block;
+          margin: auto;
+          animation: spin 30s linear infinite;
+          width: $size * 10;
+          height: $size * 10;
+        }
+
+        div {
+          margin: ($size * 4) 0;
+        }
+
+        .btn {
+          margin: auto;
+        }
+
+      }
+
+    }
+
+    &.empty {
+      overflow: hidden;
+
+      @include themed() {
+        background: t($color__modal__hidden);
+        color: t($color__primary);
+        box-shadow: 0 0 $size 0px t($color__modal__bg);
+      }
+
+      .empty {
+        padding: ($size * 8) 0;
+        text-align: center;
+
+        svg {
+          margin-bottom: $size * 2;
+        }
+
+        span {
+          display: block;
+        }
+
+        + .content,
+        + .header {
+          border-radius: ($size * 2) ($size * 2) 0 0;
+
+          button {
+            position: absolute;
+            top: $size * 3;
+            right: $size * 4;
+          }
+
+          @include themed() {
+            background: t($color__modal);
+            box-shadow: inset 0 -1px 0 t($color__modal__border);
+
+            + .content {
+              background: t($color__modal);
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    .header {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      padding: ($size * 3) ($size * 4);
+
+      @include themed() {
+        box-shadow: 0 1px 0 0 t($color__modal__border);
+      }
+
+      input,
+      h2 {
+        font-size: 16px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        line-height: 20px;
+        border-radius: 0;
+
+        @include themed() {
+          color: t($color__primary);
+        }
+
+      }
+
+      button {
+        margin: 0;
+        padding: 0;
+
+        @include themed() {
+
+          &:focus {
+            box-shadow: 0 0 0 4px rgba(t($color__accent), 0.1);
+          }
+
+        }
+
+        svg {
+          display: block;
+
+          @include themed() {
+            color: t($color__primary);
+          }
+
+        }
+
+      }
+
+    }
+
+    .content {
+      position: relative;
+      flex: 1;
+      overflow: auto;
+      padding-left: $size * 2;
+      padding-right: $size * 2;
+      padding-top: $size * 2;
+      outline: none;
+
+      @include themed() {
+        color: t($color__primary);
+      }
+
+      .picker {
+        position: relative;
+
+        .preview {
+          width: 35px;
+          height: 35px;
+          border-radius: $size / 2;
+  
+          + .popover {
+            position: absolute;
+            top: $size * 5;
+            right: 0;
+            z-index: 2;
+  
+            &__cover {
+              position: fixed;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+            }
+
+            .twitter-picker  {
+
+              > div:not(:last-child) {
+                display: none;
+              }
+
+            }
+  
+          }
+  
+        }
+
+      }
+
+      &::after {
+        content: "";
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: $size * 2;
+        display: block;
+        width: 100%;
+
+        @include themed() {
+          background: linear-gradient(0deg, rgba((t($color__modal)),1) 0%, rgba((t($color__modal)),0) 100%)
+        }
+
+      }
+
+      > * {
+        transition: all 0.1s ease-in-out;
+
+        input.simple {
+          border-radius: $size / 2;
+          padding: ($size * 1.5) ($size * 2);
+          width: 100%;
+
+          @include themed() {
+            border: 1px solid t($color__input);
+
+            &:focus {
+              border-color: t($color__accent);
+            }
+
+          }
+
+        }
+
+        &.tabs {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          margin: 0 (-($size * 2));
+          padding: 0 ($size * 4);
+          margin-bottom: $size * 3;
+
+          @include themed() {
+            box-shadow: 0 1px 0 0 t($color__modal__tabs);
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 4px;
+
+            @include themed() {
+              background: t($color__modal);
+            }
+
+          }
+
+          .title {
+            opacity: 0.5;
+            width: 100%;
+          }
+
+          .options {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin: 0;
+
+            button {
+              padding: ($size * 2) ($size * 2.5);
+              border-radius: $size $size 0 0;
+              font-size: inherit;
+              color: inherit;
+
+              @include themed() {
+                border: 1px solid t($color__modal__tabs);
+                border-bottom-width: 0;
+
+                &:focus {
+                  position: relative;
+                  box-shadow: 0 0 0 4px rgba(t($color__modal__tabs), 0.2);
+                }
+
+              }
+
+              &.selected {
+                position: relative;
+
+                &::after {
+                  content: "";
+                  position: absolute;
+                  left: 0;
+                  right: 0;
+                  bottom: -1px;
+                  height: 1px;
+
+                  @include themed() {
+                    background: t($color__modal);
+                  }
+
+                }
+
+              }
+
+              + button {
+                margin-left: $size;
+              }
+
+            }
+
+          }
+
+        }
+
+        &.note {
+          padding-top: 0;
+
+          @include themed() {
+            color: t($color__modal__tip__text);
+          }
+
+          input {
+            flex: 1;
+            margin-left: $size;
+            margin-right: $size * 2;
+            border-radius: $size / 2;
+            padding: $size 0;
+            height: $size * 5;
+            color: currentColor;
+          }
+
+          .btn {
+            margin: 0 0 0 auto;
+          }
+
+        }
+
+        &.item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          span {
+            opacity: 0.5;
+          }
+
+        }
+
+        &.padding {
+          padding: ($size * 1.5) ($size * 2);
+        }
+
+        &.rounded {
+          border-radius: $size;
+        }
+
+        &.item {
+
+          &:hover {
+            cursor: pointer;
+
+            @include themed() {
+              background: t($color__accent);
+              color: t($color__secondary);
+            }
+
+          }
+
+        }
+
+        &.divider {
+          height: 1px;
+          padding: 0;
+          margin: 16px;
+
+          @include themed() {
+            background: t($color__modal__border);
+          }
+
+          &:first-child {
+            display: none;
+          }
+
+        }
+
+        &.title {
+          font-size: 12px;
+          text-transform: uppercase;
+          pointer-events: none;
+
+          @include themed() {
+            color: t($color__text);
+          }
+
+        }
+
+        &.new {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          @include themed() {
+            color: t($color__accent);
+          }
+
+          svg {
+            margin-left: auto;
+          }
+
+          &:hover {
+
+            @include themed() {
+              color: t($color__accent);
+              background: t($color__nav);
+            }
+
+          }
+
+        }
+
+        &.flex {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 0;
+          padding-left: 0;
+          padding-right: 0;
+          margin-left: $size * 2;
+          margin-right: $size * 2;
+
+          @include themed() {
+
+            + .border {
+              box-shadow: inset 0 1px 0 t($color__modal__border);
+            }
+
+          }
+
+          textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            min-height: 100px;
+            font-size: inherit;
+            background: none;
+            color: inherit;
+          }
+
+          .double {
+            display: flex;
+            align-items: center;
+
+            div + div {
+              margin-left: $size;
+            }
+
+          }
+
+        }
+
+      }
+
+      hr {
+        display: block;
+        height: 1px;
+        margin: ($size * 4) 0;
+
+        @include themed() {
+          background: t($color__modal__border);
+        }
+
+      }
+
+      .option {
+
+        &.delete {
+
+          h3 {
+            @include themed() {
+              color: t($color__negative);
+            }
+          }
+
+          .field label input {
+            @include themed() {
+              border-color: t($color__modal__border);
+              background: transparent;
+            }
+          }
+
+        }
+
+        h3 {
+          display: flex;
+          align-items: center;
+          font-size: 15px;
+
+          svg {
+            margin-right: $size;
+          }
+
+        }
+
+        &:last-child {
+          margin-bottom: $size * 3;
+        }
+
+        .field {
+          font-size: 14px;
+        }
+
+        .btn {
+          margin: 0;
+        }
+
+        p {
+          margin-top: 0;
+          margin-bottom: $size * 2;
+
+          + p {
+            margin-top: $size * 2;
+          }
+
+        }
+
+      }
+
+    }
+
+    .actions {
+      position: relative;
+      display: flex;
+      padding: $size * 4;
+      flex-shrink: 0;
+
+      @include themed() {
+        color: t($color__accent);
+      }
+
+      input {
+        flex: 1;
+        margin-left: $size * 2;
+        margin-right: $size * 2;
+        border-radius: $size / 2;
+        padding: $size 0;
+        height: $size * 5;
+        color: currentColor;
+      }
+
+      .btn {
+        margin: 0 0 0 auto;
+      }
+
+      .totals {
+        display: flex;
+
+        @include themed() {
+          color: t($color__accent);
+        }
+
+        div {
+          display: flex;
+          align-items: center;
+          color: currentColor;
+          margin-right: $size * 2;
+
+          > svg {
+            margin-right: $size;
+            overflow: visible;
+
+            g,
+            circle,
+            path {
+              stroke: currentColor;
+            }
+
+          }
+
+          > .tooltip {
+            margin-left: $size;
+          }
+
+        }
+
+      }
+
+      .buttons {
+        margin-left: auto;
+        display: flex;
+
+        .btn + .btn {
+          margin-left: $size;
+        }
+
+      }
+
+    }
+
+    .tip {
+      line-height: 1;
+      font-size: 13px;
+      padding: ($size * 2) ($size * 4);
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+      text-align: center;
+
+      @include themed() {
+        background: t($color__modal__tip);
+        color: t($color__modal__tip__text);
+      }
+
+      em {
+        font-style: normal;
+        padding: ($size / 2) $size;
+        margin: 0 ($size / 2);
+        border-radius: $size / 2;
+
+        @include themed() {
+          background-color: t($color__secondary);
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+  border-radius: $size / 2;
+  padding: $size ($size * 1.5);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  @include themed() {
+    background: t($color__dropdown__toggle);
+    color: t($color__dropdown__toggle__text);
+
+    &:focus-within {
+      box-shadow: 0 0 0 1px t($color__dropdown__border);
+    }
+
+  }
+
+  &::before {
+    margin-right: $size;
+    opacity: 0.5;
+
+    @include themed() {
+      color: t($color__dropdown__toggle__text);
+    }
+
+  }
+
+  &.number {
+
+    div[contentEditable] {
+      text-align: center;
+      min-width: 2ch;
+    }
+
+  }
+
+  div[contentEditable] {
+    outline: none;
+    min-width: 1ch;
+    transition: none;
+
+    @include themed() {
+      color: t($color__dropdown__toggle__text);
+    }
+
+    &:empty {
+      position: relative;
+
+      &::after {
+        content: "0";
+        opacity: 0.5;
+
+        @include themed() {
+          color: t($color__dropdown__toggle__text);
+        }
+
+      }
+
+    }
+
+  }
+
+  &.text {
+    background: none;
+    flex-grow: 1;
+    padding-right: 0;
+
+    &:focus-within {
+      box-shadow: none;
+    }
+
+    input {
+      text-align: right;
+      width: 100%;
+
+      @include themed() {
+        color: t($color__dropdown__toggle__text);
+      }
+
+    }
+
+    div[contentEditable] {
+      text-align: right;
+      width: 100%;
+
+      &::after {
+        content: "";
+      }
+
+    }
+
+  }
+
+  .unit {
+    opacity: 0.5;
+  }
+
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  button {
+    display: flex;
+    align-items: center;
+    font-size: inherit;
+    border-radius: $size / 2;
+    padding: $size ($size * 1.5);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    @include themed() {
+      background: t($color__dropdown__toggle);
+      color: t($color__dropdown__toggle__text);
+
+      &:focus {
+        // background: t($color__modal);
+        box-shadow: inset 0 0 0 1px t($color__dropdown__border);
+      }
+
+    }
+
+    svg {
+      color: inherit;
+      margin-left: $size;
+      opacity: 0.5;
+    }
+
+  }
+
+  &__menu {
+    position: absolute;
+    border-radius: $size / 2;
+    padding: ($size * 1.5) 0;
+    width: $size * 18;
+    z-index: 10;
+
+    @include themed() {
+      background: t($color__dropdown);
+      color: t($color__dropdown__text);
+      box-shadow: 0 0 0 1px t($color__dropdown__border);
+    }
+
+    &.deadline {
+      width: $size * 24;
+    }
+
+    .list {
+      margin: (-$size) 0;
+
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: ($size) ($size * 2);
+
+        @include themed() {
+
+          &.item {
+
+            &:hover {
+              cursor: pointer;
+              background: rgba(t($color__dropdown__menu), 0.5);
+            }
+
+          }
+
+          &.selected {
+            background: t($color__dropdown__menu);
+          }
+
+        }
+
+        &.divider {
+          margin: 0 ($size * 2);
+          padding: 0;
+
+          @include themed() {
+            box-shadow: inset 0 -1px 0 t($color__modal__border);
+          }
+
+        }
+
+        input {
+          width: 100%;
+          text-align: left;
+        }
+
+        div {
+          white-space: nowrap;
+
+          @include themed() {
+            color: t($color__dropdown__text);
+          }
+
+        }
+
+      }
+
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 ($size * 2);
+      margin-top: -($size / 2);
+      margin-bottom: $size;
+      cursor: pointer;
+
+      &.disabled {
+        pointer-events: initial;
+      }
+
+      .checkbox {
+        display: block;
+        margin: 0;
+        position: relative;
+        width: ($size * 4);
+        height: $size * 2;
+        border-radius: $size;
+        transition: all 0.2s ease-in-out;
+        color: red;
+
+        @include themed() {
+          color: t($color__dropdown);
+          background: t($color__dropdown__menu__switch);
+
+          &.checked {
+            background: t($color__dropdown__menu__switch__on);
+
+            span {
+              transform: translateX(20px);
+              background: currentColor;
+            }
+
+          }
+
+        }
+
+        input {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          opacity: 0;
+        }
+
+        span {
+          display: block;
+          position: absolute;
+          top: 4px;
+          width: $size;
+          height: $size;
+          border-radius: $size / 2;
+          transform: translateX(4px);
+          transition: all 0.2s ease-in-out;
+
+          @include themed() {
+            background: currentColor;
+          }
+
+        }
+
+      }
+
+    }
+
+    .divider {
+      height: 1px;
+      padding: 0;
+      margin: ($size * 2) 0;
+
+      @include themed() {
+        background: t($color__modal__border);
+      }
+
+      + div {
+        margin-top: -6px;
+      }
+
+    }
+
+    .disabled {
+      pointer-events: none;
+      cursor: default;
+
+      @include themed() {
+        color: t($color__modal__tip__text);
+      }
+
+      input {
+        opacity: 0.5;
+      }
+
+    }
+
+    .time {
+      margin: $size ($size * 2);
+      margin-bottom: $size * 2;
+      padding: $size 0;
+      border-radius: $size / 2;
+
+      @include themed() {
+        background: t($color__modal__border);
+      }
+
+    }
+
+    .apply {
+      text-align: center;
+      font-size: 12px;
+      padding: $size 0;
+      margin: 0 ($size / 2);
+      margin-bottom: -($size);
+    
+      @include themed() {
+        border-top: 1px solid t($color__modal__border);
+        color: t($color__text);
+
+        &:hover {
+          cursor: pointer;
+          color: t($color__primary);
+        }
+
+      }
+    
+    }
+
+    input {
+      font-size: 22px;
+      text-align: center;
+      height: auto;
+      padding: 0;
+
+      @include themed() {
+        color: inherit;
+      }
+
+    }
+
+  }
+
+}
+
+.currency{
+
+  &-usd {
+    &::before {
+      content: "$";
+    }
+  }
+  &-gbp {
+    &::before {
+      content: "£";
+    }
+  }
+  &-eur {
+    &::before {
+      content: "€";
+    }
+  }
+  &-dkk {
+    &::before {
+      content: "kr.";
+    }
+  }
+  &-brl {
+    &::before {
+      content: "R$";
+    }
+  }
+
+}
+
+
+.DayPicker {
+  outline: none;
+
+  &-wrapper {
+    outline: none;
+  }
+
+  &-NavBar {
+    display: flex;
+    position: absolute;
+    right: $size * 2;
+    top: $size * 1.7;
+
+    span {
+      display: block;
+      width: $size * 1.5;
+      height: $size * 1.5;
+      outline: none;
+      cursor: pointer;
+      background-size: cover;
+
+      @include themed() {
+        background-color: t($color__accent);
+      }
+
+      &.DayPicker-NavButton--prev {
+        -webkit-mask-image: url('../images/arrow-left.svg');
+        mask-image: url('../images/arrow-left.svg');
+      }
+
+      &.DayPicker-NavButton--next {
+        -webkit-mask-image: url('../images/arrow-right.svg');
+        mask-image: url('../images/arrow-right.svg');
+      }
+
+      &.DayPicker-NavButton--interactionDisabled {
+        pointer-events: none;
+
+        @include themed() {
+          background-color: t($color__text);
+          opacity: 0.5;
+        }
+
+      }
+
+      + span {
+        margin-left: $size;
+      }
+
+    }
+
+  }
+
+  &-Footer {
+    padding: 0 $size;
+    margin-top: $size;
+    padding-top: $size * 1.5;
+    
+    @include themed() {
+      box-shadow: inset 0 1px 0 0 t($color__modal__border);
+    }
+
+    button {
+      display: block;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      cursor: pointer;
+      font-size: 12px;
+
+      @include themed() {
+        color: t($color__accent);
+      }
+
+    }
+
+  }
+
+  &-Caption {
+    font-size: 12px;
+    font-family: 'basier_circlesemibold';
+    padding: 0 ($size * 2);
+
+    @include themed() {
+      color: t($color__primary);
+    }
+
+  }
+
+  &-Weekdays {
+    margin-bottom: $size;
+
+    @include themed() {
+      box-shadow: 0 1px 0 0 t($color__modal__border);
+    }
+
+  }
+
+  &-WeekdaysRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: 12px;
+    text-align: center;
+    padding: $size ($size * 1.5);
+
+    div {
+
+      abbr {
+        text-decoration: none;
+
+        @include themed() {
+          color: t($color__text);
+        }
+
+      }
+
+    }
+
+  }
+
+  &-Body {
+    padding: 0 ($size * 1.5);
+  }
+
+  &-Week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: 12px;
+    text-align: center;
+
+    @include themed() {
+
+      .DayPicker-Day {
+        padding: ($size / 2);
+        outline: none;
+
+        &:not(.DayPicker-Day--outside):hover,
+        &--selected,
+        &--today {
+          background: t($color__accent);
+          color: t($color__secondary);
+          border-radius: 100%;
+          cursor: pointer;
+        }
+
+        &--today {
+          background: t($color__secondary);
+          box-shadow: inset 0 0 0 1px t($color__accent);
+          color: t($color__accent);
+        }
+
+        &--disabled,
+        &--outside {
+          pointer-events: none;
+          background: t($color__secondary);
+          color: t($color__text);
+        }
+
+        &.DayPicker-Day--outside {
+          opacity: 0.5;
+        }
+
+      }
+
+    }
+
+  }
+
+}

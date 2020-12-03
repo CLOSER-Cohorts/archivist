@@ -1,0 +1,446 @@
+import axios from "axios";
+import { forEach, omitBy, isEmpty } from "lodash";
+
+// const api_host = process.env.REACT_APP_API_HOST
+const api_host = 'http://localhost:3001'
+
+const api_headers = () => ({
+          'Authorization': 'Bearer ' + window.localStorage.getItem('jwt'),
+          'Content-Type': 'application/json'
+        })
+
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    if (401 === error.response.status) {
+      window.localStorage.removeItem('jwt');
+      window.location = '/login'
+    } else {
+        return Promise.reject(error);
+    }
+});
+
+// Auth
+export const authUser = (email, password) => {
+  const request = axios.post(api_host + '/users/sign_in.json', {
+      "user": {
+              "email": email,
+              "password": password
+      }
+    })
+  return (dispatch) => {
+      return request.then(res => {
+        dispatch(authUserSuccess(res.data));
+      })
+      .catch(err => {
+        dispatch(authUserFailure(err.message));
+      });
+  };
+};
+
+export const Instrument = {
+  all: () => {
+    const request = axios.get(api_host + '/instruments.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(instrumentsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  show: (id) => {
+    const request = axios.get(api_host + '/instruments/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(instrumentFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  stats: (id) => {
+    const request = axios.get(api_host + '/instruments/' + id + '/stats.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(instrumentStatsFetchSuccess(id, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+export const CodeLists = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/code_lists.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(codeListsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const codeListsFetchSuccess = (instrumentId, codeLists) => ({
+  type: 'LOAD_INSTRUMENT_CODE_LISTS',
+  payload: {
+    instrumentId: instrumentId,
+    codeLists: codeLists
+  }
+});
+
+export const CcSequences = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/cc_sequences.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccSequencesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const ccSequencesFetchSuccess = (instrumentId, sequences) => ({
+  type: 'LOAD_INSTRUMENT_SEQUENCES',
+  payload: {
+    instrumentId: instrumentId,
+    sequences: sequences
+  }
+});
+
+export const CcStatements = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/cc_statements.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccStatementsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const ccStatementsFetchSuccess = (instrumentId, statements) => ({
+  type: 'LOAD_INSTRUMENT_STATEMENTS',
+  payload: {
+    instrumentId: instrumentId,
+    statements: statements
+  }
+});
+
+export const CcConditions = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/cc_conditions.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccConditionsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const ccConditionsFetchSuccess = (instrumentId, conditions) => ({
+  type: 'LOAD_INSTRUMENT_CONDITIONS',
+  payload: {
+    instrumentId: instrumentId,
+    conditions: conditions
+  }
+});
+
+export const CcQuestions = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/cc_questions.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccQuestionsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  topic: {
+    set: (instrumentId, ccQuestionId, topicId) => {
+      const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/set_topic.json',
+      {
+        "topic_id": topicId
+      },
+      {
+          headers: api_headers()
+        })
+      return (dispatch) => {
+          dispatch(savingItem(ccQuestionId, 'CcQuestion'));
+          return request.then(res => {
+            dispatch(savedItem(ccQuestionId, 'CcQuestion'));
+            dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+          })
+          .catch(err => {
+            dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.message));
+          });
+      };
+    }
+  },
+  variables: {
+    add: (instrumentId, ccQuestionId, variableNames) => {
+      const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/add_variables.json',
+      {
+        "variable_names": variableNames
+      },
+      {
+          headers: api_headers()
+        })
+      return (dispatch) => {
+          dispatch(savingItem(ccQuestionId, 'CcQuestion'));
+          return request.then(res => {
+            dispatch(savedItem(ccQuestionId, 'CcQuestion'));
+            dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+          })
+          .catch(err => {
+            dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.message));
+          });
+      };
+    },
+    remove: (instrumentId, ccQuestionId, variableId) => {
+      const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/remove_variable.json',
+      {
+        "variable_id": variableId
+      },
+      {
+          headers: api_headers()
+        })
+      return (dispatch) => {
+          dispatch(savingItem(ccQuestionId, 'CcQuestion'));
+          return request.then(res => {
+            dispatch(savedItem(ccQuestionId, 'CcQuestion'));
+            dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+          })
+          .catch(err => {
+            dispatch(saveError(ccQuestionId, 'CcQuestion', err.message));
+          });
+      };
+    }
+  }
+}
+
+const savingItem = (id, type) => ({
+  type: 'SAVING',
+  payload: {
+    id: id,
+    type: type
+  }
+});
+
+const savedItem = (id, type) => ({
+  type: 'SAVED',
+  payload: {
+    id: id,
+    type: type
+  }
+});
+
+const ccQuestionsFetchSuccess = (instrumentId, questions) => ({
+  type: 'LOAD_INSTRUMENT_QUESTIONS',
+  payload: {
+    instrumentId: instrumentId,
+    questions: questions
+  }
+});
+
+const ccQuestionFetchSuccess = (instrumentId, question) => ({
+  type: 'LOAD_INSTRUMENT_QUESTION',
+  payload: {
+    instrumentId: instrumentId,
+    question: question
+  }
+});
+
+export const QuestionItems = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/question_items.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionItemsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const questionItemsFetchSuccess = (instrumentId, questions) => ({
+  type: 'LOAD_INSTRUMENT_QUESTION_ITEMS',
+  payload: {
+    instrumentId: instrumentId,
+    questions: questions
+  }
+});
+
+export const QuestionGrids = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/question_grids.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionGridsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const questionGridsFetchSuccess = (instrumentId, questions) => ({
+  type: 'LOAD_INSTRUMENT_QUESTION_GRIDS',
+  payload: {
+    instrumentId: instrumentId,
+    questions: questions
+  }
+});
+
+export const Variables = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/variables.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(variablesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  add: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/add_variables.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(variablesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const variablesFetchSuccess = (instrumentId, variables) => ({
+  type: 'LOAD_INSTRUMENT_VARIABLES',
+  payload: {
+    instrumentId: instrumentId,
+    variables: variables
+  }
+});
+
+export const Topics = {
+  all: () => {
+    const request = axios.get(api_host + '/topics/flattened_nest.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(topicsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const topicsFetchSuccess = (topics) => ({
+  type: 'LOAD_TOPICS',
+  payload: {
+    topics: topics
+  }
+});
+
+const instrumentsFetchSuccess = instruments => ({
+  type: 'LOAD_INSTRUMENTS',
+  payload: {
+    instruments: instruments
+  }
+});
+
+const instrumentFetchSuccess = instruments => ({
+  type: 'LOAD_INSTRUMENT',
+  payload: {
+    instrument: instruments
+  }
+});
+
+const instrumentStatsFetchSuccess = (instrumentId, stats) => ({
+  type: 'LOAD_INSTRUMENT_STATS',
+  payload: {
+    instrumentId: instrumentId,
+    stats: stats
+  }
+});
+
+const fetchFailure = error => ({
+  type: 'FETCH_FAILURE',
+  payload: {
+    error
+  }
+});
+
+const saveError = (id, type, error) => ({
+  type: 'ERROR',
+  payload: {
+    id: id,
+    type: type,
+    error: error
+  }
+});
+
+const authUserSuccess = auth => ({
+  type: 'LOGIN',
+  payload: {
+    ...auth
+  }
+});
+
+const authUserFailure = error => ({
+  type: 'LOGIN_FAILURE',
+  payload: {
+    error
+  }
+});

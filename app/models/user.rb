@@ -95,4 +95,8 @@ class User < ApplicationRecord
     return 'locked' if self.access_locked?
     'active'
   end
+
+  def after_database_authentication
+    update_column(:api_key, SecureRandom.hex(10))
+  end
 end

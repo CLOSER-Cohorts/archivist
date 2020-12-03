@@ -1,5 +1,5 @@
 require File.expand_path('../boot', __FILE__)
-
+require 'uri'
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -48,6 +48,17 @@ module Archivist
     config.active_job.queue_adapter = :resque
 
     config.action_mailer.default_url_options = {host: (ENV['HOSTNAME'] || 'localhost')}
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource(
+          '*',
+          headers: :any,
+          methods: [:get, :patch, :put, :delete, :post, :options]
+          )
+      end
+    end
 
     config.after_initialize do
       begin
