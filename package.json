@@ -10,7 +10,7 @@
   "scripts": {
     "build": "yarn --cwd react install && yarn --cwd react build",
     "deploy": "cp -a react/build/. public/",
-    "heroku-postbuild": "yarn build && yarn deploy"
+    "heroku-postbuild": "cd react && yarn build && yarn deploy"
   },
   "dependencies": {
     "query-strings": "0.0.1"
