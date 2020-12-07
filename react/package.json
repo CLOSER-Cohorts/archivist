@@ -64,8 +64,6 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.1",
-    "superagent": "^4.1.0",
-    "superagent-promise": "^1.1.0",
     "underscore": "^1.9.1",
     "viewprt": "^3.1.0"
   },
