@@ -1,35 +1,18 @@
 {
-  "version": "3.1.0",
   "private": true,
   "name": "archivist",
   "description": "Archivist is a cutting edge tool for documenting data collection in DDI ",
   "repository": "https://github.com/CLOSER-Cohorts/archivist.git",
   "license": "UKGLF-OGL",
-  "devDependencies": {
-    "http-server": "^0.6.1",
-    "karma": "^0.12.16",
-    "karma-chrome-launcher": "^0.1.4",
-    "karma-firefox-launcher": "^0.1.3",
-    "karma-jasmine": "~0.1.0",
-    "protractor": "^2.1.0",
-    "shelljs": "^0.2.6",
-    "tmp": "0.0.23"
+  "engines": {
+    "node": "12.16.2"
   },
   "scripts": {
-    "postinstall": "rails bower:install",
-    "pretest": "npm install",
-    "test": "node node_modules/karma/bin/karma start test/karma.conf.js",
-    "test-single-run": "node node_modules/karma/bin/karma start test/karma.conf.js  --single-run",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update",
-    "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor test/protractor-conf.js",
-    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + cat('bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+    "build": "cd react && npm install && npm run build && cd ..",
+    "deploy": "cp -a react/build/. public/",
+    "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
   },
   "dependencies": {
-    "@material-ui/data-grid": "^4.0.0-alpha.9",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "axios": "^0.21.0",
-    "redux-thunk": "^2.3.0"
+    "query-strings": "0.0.1"
   }
 }
