@@ -8,8 +8,9 @@
     "node": "12.16.2"
   },
   "scripts": {
-    "build": "cd react/ && yarn build && yarn deploy",
-    "deploy": "cp -a react/build/. public/"
+    "build": "yarn --cwd react install && yarn --cwd react build",
+    "deploy": "cp -a react/build/. public/",
+    "heroku-postbuild": "yarn build && yarn deploy"
   },
   "dependencies": {
     "query-strings": "0.0.1"
