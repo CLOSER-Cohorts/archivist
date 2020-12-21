@@ -7,19 +7,13 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -61,28 +55,27 @@ const ObjectFinder = (instrumentId, type, id) => {
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
-  const statuses = useSelector(state => state.statuses);
 
   var item = {children: []}
 
-  if(type == 'CcSequence'){
+  if(type === 'CcSequence'){
     item = get(cc_sequences, id.toString(), {})
   }
 
-  if(type == 'CcStatement'){
+  if(type === 'CcStatement'){
     item = get(cc_statements, id.toString(), {})
   }
 
-  if(type == 'CcCondition'){
+  if(type === 'CcCondition'){
     item = get(cc_conditions, id.toString(), {})
   }
 
-  if(type == 'CcQuestion'){
+  if(type === 'CcQuestion'){
     item = get(cc_questions, id.toString(), {})
 
-    if(item.question_type == 'QuestionItem'){
+    if(item.question_type === 'QuestionItem'){
       item.question = get(questionItems, item.question_id.toString(), {})
-    }else if(item.question_type == 'QuestionGrid'){
+    }else if(item.question_type === 'QuestionGrid'){
       item.question = get(questionGrids, item.question_id.toString(), {})
     }
   }
@@ -97,7 +90,6 @@ const QuestionItemListItem = (props) => {
   const classes = useStyles();
 
   const title = (isEmpty(item.question)) ? item.label : item.question.literal
-  const subtitle = item.label
 
   const topic = get(item, 'topic', {id: null})
 
@@ -173,7 +165,7 @@ const TopicList = (props) => {
               <Select native defaultValue={topicId} id="grouped-native-select" onChange={handleChange}>
                 <option aria-label="None" value="" />
                 {Object.values(topics).map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level == 1) ? topic.name : '--' + topic.name }</option>
+                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
                 ))}
               </Select>
             </FormControl>
@@ -205,13 +197,15 @@ const VariableList = (props) => {
       case 'select-option':
         difference = value.filter(x => !variables.includes(x));
         if(!isEmpty(difference)){
-          handleAddVariable(difference.map((variable) => { return variable.name }).join(','))
-        }
+          return handleAddVariable(difference.map((variable) => { return variable.name }).join(','))
+        };
+        break;
       case 'remove-option':
         difference = variables.filter(x => !value.includes(x));
         if(!isEmpty(difference)){
-          handleRemoveVariable(difference.map((variable) => { return variable.id }).join(','))
-        }
+          return handleRemoveVariable(difference.map((variable) => { return variable.id }).join(','))
+        };
+        break;
       default:
         return null;
     }
@@ -250,7 +244,7 @@ const VariableList = (props) => {
           onChange={handleChange}
           value={variables}
           getOptionSelected= {(option, value) => (
-            option.id == value.id
+            option.id === value.id
           )}
           filterSelectedOptions
           renderInput={(params) => (
@@ -268,8 +262,6 @@ const VariableList = (props) => {
 }
 
 const QuestionGridListItem = (props) => {
-  const {type, id, instrumentId} = props
-  const item = ObjectFinder(instrumentId, type, id)
 
   return (
     <div>This is a Question Grid</div>
@@ -277,7 +269,7 @@ const QuestionGridListItem = (props) => {
 }
 
 const ConditionItem = (props) => {
-  const { children = [], instrumentId } = props;
+  const { instrumentId } = props;
   var {title} = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -328,7 +320,7 @@ const ConditionItem = (props) => {
 }
 
 const SequenceItem = (props) => {
-  const { children = [], instrumentId } = props;
+  const { instrumentId } = props;
   var {title} = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -402,13 +394,14 @@ const InstrumentMap = (props) => {
     dispatch(QuestionGrids.all(instrumentId));
     dispatch(Variables.all(instrumentId));
     dispatch(Topics.all());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'}>
         <h1>{get(instrument, 'label')}</h1>
-        {Object.values(cc_sequences).filter(seq => seq.position == 1).map((sequence) => (
+        {Object.values(cc_sequences).filter(seq => seq.position === 1).map((sequence) => (
           <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.id} title={sequence.label} children={sequence.children}/>
         ))}
       </Dashboard>

@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { CodeLists } from '../actions'
+import { CodeLists, Categories } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { get, isEmpty, isNil } from "lodash";
+import { CodeListForm } from '../components/CodeListForm'
+import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
+import { useHistory } from 'react-router-dom';
+import { reverse as url } from 'named-urls'
+import routes from '../routes'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InstrumentBuildCodeLists = (props) => {
+  let history = useHistory();
 
   const dispatch = useDispatch()
   const classes = useStyles();
@@ -34,8 +37,12 @@ const InstrumentBuildCodeLists = (props) => {
 
   const instrumentId = get(props, "match.params.instrument_id", "")
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
+  const selectedCodeList = get(codeLists, codeListId, {used_by: []})
+
   useEffect(() => {
     dispatch(CodeLists.all(instrumentId));
+    dispatch(Categories.all(instrumentId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const CodeListItem = (props) => {
@@ -52,6 +59,8 @@ const InstrumentBuildCodeLists = (props) => {
   }
 
   const handleCodeListSelection = (id) => {
+    const path = url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: id })
+    history.push(path);
     setcodeListId(id)
   }
 
@@ -64,7 +73,6 @@ const InstrumentBuildCodeLists = (props) => {
               <h2>Code Lists</h2>
               <List dense={true}>
                 {Object.values(codeLists).map((codeList) => {
-                  console.log(codeList)
                   return <CodeListItem label={codeList.label} value={codeList.used_by.length} id={codeList.id} />
                 })}
               </List>
@@ -72,8 +80,9 @@ const InstrumentBuildCodeLists = (props) => {
           </Grid>
           <Grid item xs={8}>
             <Paper className={classes.control}>
-              <h2>Code List</h2>
-              {codeListId}
+              {!isNil(selectedCodeList) && (
+                <CodeListForm codeList={selectedCodeList} instrumentId={instrumentId} />
+              )}
             </Paper>
           </Grid>
         </Grid>

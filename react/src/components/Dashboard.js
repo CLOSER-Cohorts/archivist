@@ -10,7 +10,6 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -20,20 +19,16 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import StorageIcon from '@material-ui/icons/Storage';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import LabelIcon from '@material-ui/icons/Label';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
-
-import { Flash } from "../components/Flash";
 
 function Copyright() {
   return (
@@ -179,7 +174,6 @@ export const Dashboard = (props)  => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { forEach, omitBy, isEmpty } from "lodash";
 
 // const api_host = process.env.REACT_APP_API_HOST
 const api_host = 'http://localhost:3001'
@@ -80,6 +79,30 @@ export const Instrument = {
   }
 }
 
+export const Categories = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/categories.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(categoriesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const categoriesFetchSuccess = (instrumentId, categories) => ({
+  type: 'LOAD_INSTRUMENT_CATEGORIES',
+  payload: {
+    instrumentId: instrumentId,
+    categories: categories
+  }
+});
+
 export const CodeLists = {
   all: (instrumentId) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/code_lists.json',{
@@ -93,6 +116,32 @@ export const CodeLists = {
           dispatch(fetchFailure(err.message));
         });
     };
+  },
+  update: (instrumentId, codeListId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/code_lists/' + codeListId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(codeListFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(codeListId, 'CodeList', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/code_lists.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(codeListFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));
+        });
+    };
   }
 }
 
@@ -101,6 +150,14 @@ const codeListsFetchSuccess = (instrumentId, codeLists) => ({
   payload: {
     instrumentId: instrumentId,
     codeLists: codeLists
+  }
+});
+
+const codeListFetchSuccess = (instrumentId, codeList) => ({
+  type: 'LOAD_INSTRUMENT_CODE_LIST',
+  payload: {
+    instrumentId: instrumentId,
+    codeList: codeList
   }
 });
 

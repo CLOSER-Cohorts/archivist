@@ -12,7 +12,8 @@ export default {
             show: '',
             codeLists: include('code_lists/', {
               all: '',
-              show: ':codeListId'
+              show: ':codeListId',
+              new: 'new'
             })
         })
       })

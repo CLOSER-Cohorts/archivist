@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -32,16 +31,9 @@ const Instruments = () => {
     setPage(0);
   };
 
-  const columns: ColDef[] = [
-    { field: 'id', headerName: 'ID', width: 150 },
-    { field: 'prefix', headerName: 'Prefix', width: 150 },
-    { field: 'ccs', headerName: 'Control Constructs', width: 150 },
-    { field: 'qvs', headerName: 'Q-V Mappings', width: 150 },
-    { field: 'study', headerName: 'Study', width: 150 },
-  ];
-
   useEffect(() => {
      dispatch(Instrument.all());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (

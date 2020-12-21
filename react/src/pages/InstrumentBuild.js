@@ -2,13 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { get, isEmpty, isNil } from "lodash";
+import { get } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
@@ -48,6 +46,7 @@ const InstrumentBuild = (props) => {
 
   useEffect(() => {
     dispatch(Instrument.stats(instrumentId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const StatCount = (props) => {

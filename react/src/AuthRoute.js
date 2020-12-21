@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
 import { reverse as url } from 'named-urls'
-import { isEmpty } from 'lodash'
 
 import routes from './routes'
 
 const AuthRoute = props => {
 
-  const dispatch = useDispatch()
   const isAuthUser = useSelector(state => state.auth.isAuthUser);
 
   const { type } = props;

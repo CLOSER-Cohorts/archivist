@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
-import { format } from 'date-fns'
-import { remove, get, isEmpty, each } from 'lodash'
+import { get } from 'lodash'
 
 const serializeSearchesArrayToObject = (array) =>
   array.reduce((obj, item) => {
@@ -131,6 +130,20 @@ const codeLists = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_CODE_LISTS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.codeLists)}}
+    case 'LOAD_INSTRUMENT_CODE_LIST':
+      var codeLists = get(state, action.payload.instrumentId, {})
+      const revisedCodeLists = {...codeLists, ...{[action.payload.codeList.id]: action.payload.codeList}}
+      return {...state, ...{[action.payload.instrumentId]: revisedCodeLists}}
+    default:
+      return state
+  }
+}
+
+const categories = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_CATEGORIES':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.categories)}}
     default:
       return state
   }
@@ -149,8 +162,6 @@ const topics = (state = {}, action) => {
 const statuses = (state = {}, action) => {
 
   var key;
-
-  console.log(action)
 
   switch (action.type) {
     case 'SAVING':
@@ -177,6 +188,7 @@ const appReducer = combineReducers({
     cc_questions,
     questionItems,
     questionGrids,
+    categories,
     codeLists,
     variables,
     statuses,
