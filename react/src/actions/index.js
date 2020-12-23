@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const api_host = process.env.REACT_APP_API_HOST
-const api_host = 'http://localhost:3001'
+const api_host = process.env.REACT_APP_API_HOST
 
 const api_headers = () => ({
           'Authorization': 'Bearer ' + window.localStorage.getItem('jwt'),
