@@ -22,12 +22,6 @@ Rails.application.routes.draw do
     end
   end
 
-  authenticated :user do
-    root 'main#index', to: 'instruments#index',  as: :authenticated_root
-  end
-
-  root 'main#index'
-
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
   match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
 
@@ -133,5 +127,11 @@ Rails.application.routes.draw do
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }
-  match '*path', to: 'main#index', via: :all, constraints: {format: ''}
+  # match '*path', to: 'main#index', via: :all, constraints: {format: ''}
+
+  # authenticated :user do
+  #   root 'main#index', to: 'instruments#index',  as: :authenticated_root
+  # end
+
+  root 'fallback#index'
 end
