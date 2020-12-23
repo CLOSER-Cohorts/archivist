@@ -127,7 +127,10 @@ Rails.application.routes.draw do
 
   get 'studies', to: 'main#studies', constraints: -> (r) { (r.format == :json) }
   get 'stats', to: 'main#stats', constraints: -> (r) { (r.format == :json) }
-  # match '*path', to: 'main#index', via: :all, constraints: {format: ''}
+
+  get '*path', to: "fallback#index", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 
   # authenticated :user do
   #   root 'main#index', to: 'instruments#index',  as: :authenticated_root
