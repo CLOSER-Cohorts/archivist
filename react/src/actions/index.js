@@ -355,6 +355,32 @@ export const QuestionItems = {
           dispatch(fetchFailure(err.message));
         });
     };
+  },
+  update: (instrumentId, questionItemId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/question_items/' + questionItemId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionItemFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(questionItemId, 'QuestionItem', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/question_items.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionItemFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'QuestionItem', err.response.data.error_sentence));
+        });
+    };
   }
 }
 
@@ -363,6 +389,14 @@ const questionItemsFetchSuccess = (instrumentId, questions) => ({
   payload: {
     instrumentId: instrumentId,
     questions: questions
+  }
+});
+
+const questionItemFetchSuccess = (instrumentId, questionItem) => ({
+  type: 'LOAD_INSTRUMENT_QUESTION_ITEM',
+  payload: {
+    instrumentId: instrumentId,
+    questionItem: questionItem
   }
 });
 
@@ -379,6 +413,32 @@ export const QuestionGrids = {
           dispatch(fetchFailure(err.message));
         });
     };
+  },
+  update: (instrumentId, questionGridId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/question_grids/' + questionGridId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionGridFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(questionGridId, 'QuestionGrid', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/question_grids.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionGridFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'QuestionGrid', err.response.data.error_sentence));
+        });
+    };
   }
 }
 
@@ -387,6 +447,72 @@ const questionGridsFetchSuccess = (instrumentId, questions) => ({
   payload: {
     instrumentId: instrumentId,
     questions: questions
+  }
+});
+
+const questionGridFetchSuccess = (instrumentId, questionGrid) => ({
+  type: 'LOAD_INSTRUMENT_QUESTION_GRID',
+  payload: {
+    instrumentId: instrumentId,
+    questionGrid: questionGrid
+  }
+});
+
+export const ResponseDomainNumerics = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_domain_numerics.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainNumericsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, responseDomainNumericId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/response_domain_numerics/' + responseDomainNumericId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainNumericId, 'ResponseDomainNumeric', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_numerics.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'ResponseDomainNumeric', err.response.data.error_sentence));
+        });
+    };
+  }
+}
+
+const responseDomainNumericsFetchSuccess = (instrumentId, responseDomainNumerics) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERICS',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainNumerics: responseDomainNumerics
+  }
+});
+
+const responseDomainNumericFetchSuccess = (instrumentId, responseDomainNumeric) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERIC',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainNumeric: responseDomainNumeric
   }
 });
 

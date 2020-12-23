@@ -14,6 +14,20 @@ export default {
               all: '',
               show: ':codeListId',
               new: 'new'
+            }),
+            questionItems: include('question_items/', {
+              all: '',
+              show: ':questionItemId',
+              new: 'new'
+            }),
+            questionGrids: include('question_grids/', {
+              all: '',
+              show: ':questionGridId',
+              new: 'new'
+            }),
+            responseDomains: include('response_domains/', {
+              all: '',
+              new: 'new'
             })
         })
       })

@@ -100,6 +100,10 @@ const questionItems = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_QUESTION_ITEMS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.questions)}}
+    case 'LOAD_INSTRUMENT_QUESTION_ITEM':
+      var questionItems = get(state, action.payload.instrumentId, {})
+      const revisedQuestionItems = {...questionItems, ...{[action.payload.questionItem.id]: action.payload.questionItem}}
+      return {...state, ...{[action.payload.instrumentId]: revisedQuestionItems}}
     default:
       return state
   }
@@ -110,6 +114,10 @@ const questionGrids = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_QUESTION_GRIDS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.questions)}}
+    case 'LOAD_INSTRUMENT_QUESTION_GRID':
+      var questionGrids = get(state, action.payload.instrumentId, {})
+      const revisedQuestionGrids = {...questionGrids, ...{[action.payload.questionGrid.id]: action.payload.questionGrid}}
+      return {...state, ...{[action.payload.instrumentId]: revisedQuestionGrids}}
     default:
       return state
   }
@@ -134,6 +142,22 @@ const codeLists = (state = {}, action) => {
       var codeLists = get(state, action.payload.instrumentId, {})
       const revisedCodeLists = {...codeLists, ...{[action.payload.codeList.id]: action.payload.codeList}}
       return {...state, ...{[action.payload.instrumentId]: revisedCodeLists}}
+    default:
+      return state
+  }
+}
+
+const responseDomainNumerics = (state = {}, action) => {
+
+  console.log(action.type)
+  console.log(action)
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERICS':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseDomainNumerics)}}
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERIC':
+      var responseDomainNumerics = get(state, action.payload.instrumentId, {})
+      const revisedResponseDomains = {...responseDomainNumerics, ...{[action.payload.responseDomainNumeric.id]: action.payload.responseDomainNumeric}}
+      return {...state, ...{[action.payload.instrumentId]: revisedResponseDomains}}
     default:
       return state
   }
@@ -190,6 +214,7 @@ const appReducer = combineReducers({
     questionGrids,
     categories,
     codeLists,
+    responseDomainNumerics,
     variables,
     statuses,
     topics

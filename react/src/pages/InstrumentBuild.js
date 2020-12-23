@@ -77,7 +77,7 @@ const InstrumentBuild = (props) => {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.control}>
-              <h2>Response Domains</h2>
+              <h2><Link to={url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })}>ResponseDomains</Link></h2>
               <List dense={true}>
                   <StatCount label="Datetime Answers" value={response_domain_datetimes} />
                   <StatCount label="Numberic Answers" value={response_domain_numerics} />
@@ -87,7 +87,7 @@ const InstrumentBuild = (props) => {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.control}>
-              <h2>Questions</h2>
+              <h2><Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Questions</Link></h2>
               <List dense={true}>
                   <StatCount label="Question Items" value={question_items} />
                   <StatCount label="Question Grids" value={question_grids} />
