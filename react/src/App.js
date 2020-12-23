@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import routes from './routes'
 import AuthRoute from './AuthRoute'
@@ -20,7 +20,11 @@ const App = () => {
      <div>
         <Switch>
           <AuthRoute type="guest" exact path={routes.login} component={Login} />
-          <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
+          <Route
+            exact
+            path="/"
+            render={() => {return ( <Redirect to={routes.instruments.all} />)}}
+          />
           <AuthRoute type="private" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
           <AuthRoute type="private" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
           <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
@@ -35,6 +39,7 @@ const App = () => {
           <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.all} component={InstrumentBuildResponseDomains} />
           <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.show} component={InstrumentBuildResponseDomains} />
           <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
+          <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
           <AuthRoute type="guest" component={NoMatch} />
         </Switch>
       </div>

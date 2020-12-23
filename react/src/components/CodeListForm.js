@@ -16,6 +16,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { Link } from 'react-router-dom';
+import { reverse as url } from 'named-urls'
+import routes from '../routes'
 
 import {
   TextField,
@@ -204,6 +207,8 @@ export const CodeListForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
+              </Grid>
+              <Grid item style={{ marginTop: 16 }}>
                 <h3>Used By</h3>
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
@@ -218,7 +223,9 @@ export const CodeListForm = (props) => {
                               {codeList.used_by.map((question) => (
                                   <TableRow key={question.id}>
                                     <TableCell>
-                                      {question.id}
+                                      <Button variant="outlined">
+                                        <Link to={url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: question.id })}>{question.id}</Link>
+                                      </Button>
                                     </TableCell>
                                     <TableCell size="small">
                                       {question.type}
@@ -234,7 +241,6 @@ export const CodeListForm = (props) => {
                 </TableContainer>
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />

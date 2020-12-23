@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import Button from '@material-ui/core/Button';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 
@@ -59,8 +60,12 @@ const Instruments = () => {
                 <TableCell>{row.qvs}</TableCell>
                 <TableCell>{row.study}</TableCell>
                 <TableCell>
-                  <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
-                  <Link to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })}>Map</Link>
+                  <Button variant="outlined">
+                    <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
+                  </Button>
+                  <Button variant="outlined">
+                    <Link to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })}>Map</Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

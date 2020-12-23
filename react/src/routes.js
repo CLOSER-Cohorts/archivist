@@ -27,7 +27,8 @@ export default {
             }),
             responseDomains: include('response_domains/', {
               all: '',
-              new: 'new'
+              new: 'new',
+              show: ':responseDomainType/:responseDomainId',
             })
         })
       })
