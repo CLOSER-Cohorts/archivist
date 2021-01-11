@@ -149,14 +149,42 @@ const codeLists = (state = {}, action) => {
 
 const responseDomainNumerics = (state = {}, action) => {
 
-  console.log(action.type)
-  console.log(action)
   switch (action.type) {
     case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERICS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseDomainNumerics)}}
     case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_NUMERIC':
       var responseDomainNumerics = get(state, action.payload.instrumentId, {})
       const revisedResponseDomains = {...responseDomainNumerics, ...{[action.payload.responseDomainNumeric.id]: action.payload.responseDomainNumeric}}
+      return {...state, ...{[action.payload.instrumentId]: revisedResponseDomains}}
+    default:
+      return state
+  }
+}
+
+const responseDomainTexts = (state = {}, action) => {
+
+  console.log(action)
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_TEXTS':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseDomainTexts)}}
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_TEXT':
+      var responseDomainTexts = get(state, action.payload.instrumentId, {})
+      const revisedResponseDomains = {...responseDomainTexts, ...{[action.payload.responseDomainText.id]: action.payload.responseDomainText}}
+      return {...state, ...{[action.payload.instrumentId]: revisedResponseDomains}}
+    default:
+      return state
+  }
+}
+
+const responseDomainDatetimes = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_DATETIMES':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseDomainDatetimes)}}
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_DATETIME':
+      var responseDomainDatetimes = get(state, action.payload.instrumentId, {})
+      const revisedResponseDomains = {...responseDomainDatetimes, ...{[action.payload.responseDomainDatetime.id]: action.payload.responseDomainDatetime}}
       return {...state, ...{[action.payload.instrumentId]: revisedResponseDomains}}
     default:
       return state
@@ -202,7 +230,21 @@ const statuses = (state = {}, action) => {
   }
 }
 
+const common = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'REDIRECT':
+      return {...state, ...{redirect: action.payload.to}}
+    case 'REDIRECT_CLEAR':
+      return {...state, ...{redirect: undefined}}
+    default:
+      return state
+  }
+}
+
+
 const appReducer = combineReducers({
+    common,
     auth,
     instruments,
     instrumentStats,
@@ -215,6 +257,8 @@ const appReducer = combineReducers({
     categories,
     codeLists,
     responseDomainNumerics,
+    responseDomainTexts,
+    responseDomainDatetimes,
     variables,
     statuses,
     topics

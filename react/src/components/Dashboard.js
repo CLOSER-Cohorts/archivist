@@ -29,6 +29,7 @@ import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
+import BreadcrumbBar from './BreadcrumbBar'
 
 function Copyright() {
   return (
@@ -222,6 +223,7 @@ export const Dashboard = (props)  => {
         <Container maxWidth={false} className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
+              <BreadcrumbBar breadcrumbs={props.breadcrumbs} />
               <Paper className={classes.paper}>
                 {props.children}
               </Paper>

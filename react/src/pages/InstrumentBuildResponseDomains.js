@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { ResponseDomainNumerics } from '../actions'
+import { ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { ResponseDomainForm } from '../components/ResponseDomainForm'
+import { ResponseDomainNumericForm } from '../components/ResponseDomainNumericForm'
+import { ResponseDomainTextForm } from '../components/ResponseDomainTextForm'
+import { ResponseDomainDatetimeForm } from '../components/ResponseDomainDatetimeForm'
+import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
 import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -33,58 +36,87 @@ const InstrumentBuildResponseDomains = (props) => {
 
   const dispatch = useDispatch()
   const classes = useStyles();
-  const [responseDomainId, setresponseDomainId] = React.useState(get(props, "match.params.responseDomainId", null));
 
   const instrumentId = get(props, "match.params.instrument_id", "")
+  const responseDomainId = get(props, "match.params.responseDomainId", null)
+  const responseDomainType = get(props, "match.params.responseDomainType", null)
+
   const responseDomainNumerics = useSelector(state => get(state.responseDomainNumerics, instrumentId, {}));
-  console.log(responseDomainNumerics)
-  const responseDomains = Object.values(responseDomainNumerics)
-  console.log(responseDomains)
-  const selectedResponseDomain = get(responseDomains, responseDomainId, {used_by: []})
+  const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
+  const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
+
+  const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+
+  const selectedResponseDomain = responseDomains.find(responseDomain => responseDomain.id == responseDomainId && responseDomain.type == responseDomainType) || {};
 
   useEffect(() => {
     dispatch(ResponseDomainNumerics.all(instrumentId));
+    dispatch(ResponseDomainTexts.all(instrumentId));
+    dispatch(ResponseDomainDatetimes.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const ResponseDomainItem = (props) => {
-    const {label, value, id} = props
+    const {label, type, id} = props
     return (
       <ListItem>
         <ListItemText
-          primary={label} onClick={()=>{handleResponseDomainSelection(id)}}/>
+          primary={label} onClick={()=>{handleResponseDomainSelection(type,id)}}/>
         <ListItemSecondaryAction>
-          <Chip label={value} />
+          <Chip label={type} />
         </ListItemSecondaryAction>
       </ListItem>
     )
   }
 
-  const handleResponseDomainSelection = (id) => {
-    const path = url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainId: id })
+  const handleResponseDomainSelection = (type, id) => {
+    const path = url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: type, responseDomainId: id })
     history.push(path);
-    setresponseDomainId(id)
+  }
+
+  const responseDomainForm = () => {
+    switch(responseDomainType) {
+      case('ResponseDomainNumeric'):
+          return <ResponseDomainNumericForm responseDomain={selectedResponseDomain} instrumentId={instrumentId} />
+      case('ResponseDomainText'):
+          return <ResponseDomainTextForm responseDomain={selectedResponseDomain} instrumentId={instrumentId} />
+      case('ResponseDomainDatetime'):
+          return <ResponseDomainDatetimeForm responseDomain={selectedResponseDomain} instrumentId={instrumentId} />
+      default:
+        return ''
+    }
+  }
+
+  const createNew = (type) => {
+    const path = url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: type, responseDomainId: 'new' })
+    history.push(path);
+  }
+
+  const breadcrumbs = () => {
+    let crumbs = []
+    crumbs.push({ text: 'Instruments', link: url(routes.instruments.all)})
+    crumbs.push({ text: instrumentId})
+    return crumbs;
   }
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={instrumentId}>
+      <Dashboard title={instrumentId} breadcrumbs={breadcrumbs()}>
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Paper className={classes.control}>
               <h2>Response Domains</h2>
+              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['ResponseDomainText', 'ResponseDomainNumeric', 'ResponseDomainDatetime']} />
               <List dense={true}>
                 {Object.values(responseDomains).map((responseDomain) => {
-                  return <ResponseDomainItem label={responseDomain.label} value={responseDomain.type} id={responseDomain.id} />
+                  return <ResponseDomainItem label={responseDomain.label} type={responseDomain.type} id={responseDomain.id} />
                 })}
               </List>
             </Paper>
           </Grid>
           <Grid item xs={8}>
             <Paper className={classes.control}>
-              {!isNil(selectedResponseDomain) && (
-                <ResponseDomainForm responseDomain={selectedResponseDomain} instrumentId={instrumentId} />
-              )}
+              { responseDomainForm() }
             </Paper>
           </Grid>
         </Grid>

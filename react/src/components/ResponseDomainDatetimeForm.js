@@ -2,7 +2,7 @@ import React from 'react';
 import { get, isNil } from "lodash";
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { ResponseDomainNumerics } from '../actions'
+import { ResponseDomainDatetimes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
@@ -48,108 +48,61 @@ const formFields = [
     ),
   },
   {
-    size: 12,
-    field: (
-      <TextField
-        label="Instruction"
-        name="instruction"
-        margin="none"
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Literal"
-        name="literal"
-        margin="none"
-        required={true}
-      />
-    ),
-  },
-  {
     type: 'select',
     size: 12,
     field: (options) => (
       <Select
-        name="horizontal_code_list_id"
-        label="Horizontal Code List (X)"
+        name="subtype"
+        label="Type"
         formControlProps={{ margin: 'none' }}
       >
-        <MenuItem></MenuItem>
-        {Object.values(options).map((item, idx) => (
-          <MenuItem value={item.id}>{item.label}</MenuItem>
-        ))}
+        <MenuItem value="Date">Date</MenuItem>
+        <MenuItem value="Time">Time</MenuItem>
+        <MenuItem value="Duration">Duration</MenuItem>
       </Select>
     ),
   },
   {
-      type: 'select',
-      size: 12,
-      field: (options) => (
-        <Select
-          name="vertical_code_list_id"
-          label="Vertical Code List (Y)"
-          formControlProps={{ margin: 'none' }}
-        >
-          <MenuItem></MenuItem>
-          {Object.values(options).map((item, idx) => (
-            <MenuItem value={item.id}>{item.label}</MenuItem>
-          ))}
-        </Select>
-      )
-  },
-  {
-      type: 'select',
-      size: 12,
-      field: (options) => (
-        <Select
-          name="corner_label"
-          label="Corner Label"
-          formControlProps={{ margin: 'none' }}
-        >
-          <MenuItem></MenuItem>
-          <MenuItem value='H'>Horizontal</MenuItem>
-          <MenuItem value='V'>Vertical</MenuItem>
-        </Select>
-      )
-  },
-  {
     size: 12,
+    visible: (values) => {
+      return get(values, 'subtype', '') === 'Duration'
+    },
     field: (
       <TextField
-        label="Roster Label"
-        name="roster_label"
+        label="Format"
+        name="format"
         margin="none"
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Roster Row Number"
-        name="roster_rows"
-        margin="none"
+        required={true}
       />
     ),
   }
 ];
 
-export const ResponseDomainForm = (props) => {
-  const {responseDomain, instrumentId} = props;
+const FormField = (props) => {
+  const {item, values} = props
 
-  const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
+  if(item.visible !== undefined && !item.visible(values) ){
+    return ''
+  }
+
+  if(item.type && item.type === 'select'){
+    return item.field()
+  }else{
+    return item.field
+  }
+}
+
+export const ResponseDomainDatetimeForm = (props) => {
+  const {responseDomain, instrumentId} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const onSubmit = (values) => {
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainNumerics.create(instrumentId, values))
+      dispatch(ResponseDomainDatetimes.create(instrumentId, values))
     }else{
-      dispatch(ResponseDomainNumerics.update(instrumentId, responseDomain.id, values))
+      dispatch(ResponseDomainDatetimes.update(instrumentId, responseDomain.id, values))
     }
   }
 
@@ -179,10 +132,7 @@ export const ResponseDomainForm = (props) => {
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
-                    {item.type && item.type === 'select'
-                      ? item.field(codeLists)
-                      : item.field
-                    }
+                    <FormField item={item} values={values} />
                   </Grid>
                 ))}
                 <Grid item style={{ marginTop: 16 }}>

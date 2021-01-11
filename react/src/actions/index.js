@@ -1,4 +1,6 @@
 import axios from "axios";
+import { reverse as url } from 'named-urls'
+import routes from '../routes'
 
 const api_host = process.env.REACT_APP_API_HOST
 
@@ -491,6 +493,7 @@ export const ResponseDomainNumerics = {
     return (dispatch) => {
         return request.then(res => {
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainNumeric', err.response.data.error_sentence));
@@ -512,6 +515,124 @@ const responseDomainNumericFetchSuccess = (instrumentId, responseDomainNumeric) 
   payload: {
     instrumentId: instrumentId,
     responseDomainNumeric: responseDomainNumeric
+  }
+});
+
+export const ResponseDomainTexts = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_domain_texts.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainTextsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, responseDomainTextId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/response_domain_texts/' + responseDomainTextId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainTextId, 'ResponseDomainText', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_texts.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'ResponseDomainText', err.response.data.error_sentence));
+        });
+    };
+  }
+}
+
+const responseDomainTextsFetchSuccess = (instrumentId, responseDomainTexts) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_TEXTS',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainTexts: responseDomainTexts
+  }
+});
+
+const responseDomainTextFetchSuccess = (instrumentId, responseDomainText) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_TEXT',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainText: responseDomainText
+  }
+});
+
+export const ResponseDomainDatetimes = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_domain_datetimes.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainDatetimesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, responseDomainDatetimeId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/response_domain_datetimes/' + responseDomainDatetimeId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainDatetimeId, 'ResponseDomainDatetime', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_datetimes.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'ResponseDomainDatetime', err.response.data.error_sentence));
+        });
+    };
+  }
+}
+
+const responseDomainDatetimesFetchSuccess = (instrumentId, responseDomainDatetimes) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_DATETIMES',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainDatetimes: responseDomainDatetimes
+  }
+});
+
+const responseDomainDatetimeFetchSuccess = (instrumentId, responseDomainDatetime) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_DATETIME',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainDatetime: responseDomainDatetime
   }
 });
 
@@ -626,3 +747,10 @@ const authUserFailure = error => ({
     error
   }
 });
+
+const redirectTo = (url) => ({
+  type: 'REDIRECT',
+  payload: {
+    to: url
+  }
+})

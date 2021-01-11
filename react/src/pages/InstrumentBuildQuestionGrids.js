@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { QuestionGrids, CodeLists } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { QuestionGridForm } from '../components/QuestionGridForm'
+import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
 import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -70,6 +71,7 @@ const InstrumentBuildQuestionGrids = (props) => {
             <Paper className={classes.control}>
               <h2>Question Grids</h2>
               <Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link>
+              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} />
               <List dense={true}>
                 {Object.values(questionGrids).map((questionGrid) => {
                   return <QuestionGrid label={questionGrid.label} id={questionGrid.id} />

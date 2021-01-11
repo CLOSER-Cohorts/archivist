@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { QuestionItems } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { QuestionItemForm } from '../components/QuestionItemForm'
+import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
 import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -34,7 +35,7 @@ const InstrumentBuildQuestionItems = (props) => {
 
   const dispatch = useDispatch()
   const classes = useStyles();
-  const [questionItemId, setquestionItemId] = React.useState(get(props, "match.params.questionItemId", null));
+  const questionItemId = get(props, "match.params.questionItemId", null);
 
   const instrumentId = get(props, "match.params.instrument_id", "")
   const questionItems = useSelector(state => get(state.questionItems, instrumentId, {}));
@@ -58,7 +59,6 @@ const InstrumentBuildQuestionItems = (props) => {
   const handleQuestionSelection = (id) => {
     const path = url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: id })
     history.push(path);
-    setquestionItemId(id)
   }
 
   return (
@@ -68,6 +68,7 @@ const InstrumentBuildQuestionItems = (props) => {
           <Grid item xs={4}>
             <Paper className={classes.control}>
               <h2>Question Items</h2>
+              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} />
               <Link to={url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })}>Question Grids</Link>
               <List dense={true}>
                 {Object.values(questionItems).map((questionItem) => {

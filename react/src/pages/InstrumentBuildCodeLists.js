@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CodeLists, Categories } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { CodeListForm } from '../components/CodeListForm'
+import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
 import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -33,7 +34,7 @@ const InstrumentBuildCodeLists = (props) => {
 
   const dispatch = useDispatch()
   const classes = useStyles();
-  const [codeListId, setcodeListId] = React.useState(get(props, "match.params.codeListId", null));
+  const codeListId = get(props, "match.params.codeListId", null);
 
   const instrumentId = get(props, "match.params.instrument_id", "")
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
@@ -61,7 +62,6 @@ const InstrumentBuildCodeLists = (props) => {
   const handleCodeListSelection = (id) => {
     const path = url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: id })
     history.push(path);
-    setcodeListId(id)
   }
 
   return (
@@ -71,6 +71,7 @@ const InstrumentBuildCodeLists = (props) => {
           <Grid item xs={4}>
             <Paper className={classes.control}>
               <h2>Code Lists</h2>
+              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['CodeList']} />
               <List dense={true}>
                 {Object.values(codeLists).map((codeList) => {
                   return <CodeListItem label={codeList.label} value={codeList.used_by.length} id={codeList.id} />
