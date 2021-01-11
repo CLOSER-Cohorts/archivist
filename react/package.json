@@ -59,6 +59,7 @@
     "react-selectable": "^2.0.2",
     "react-selectable-fast": "^3.4.0",
     "react-simple-timefield": "^3.0.0",
+    "react-spinners": "^0.10.4",
     "react-sticky-el": "^1.0.20",
     "react-stripe-elements": "^5.1.0",
     "react-visibility-sensor": "^5.0.2",

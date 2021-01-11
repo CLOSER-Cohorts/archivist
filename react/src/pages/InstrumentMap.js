@@ -21,6 +21,9 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import BounceLoader from "react-spinners/BounceLoader";
+import SyncLoader from "react-spinners/SyncLoader";
+import { Box } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +95,7 @@ const QuestionItemListItem = (props) => {
   const title = (isEmpty(item.question)) ? item.label : item.question.literal
 
   const topic = get(item, 'topic', {id: null})
+  const topicId = get(topic, 'id', null)
 
   const status = ObjectStatus(item.id, 'CcQuestion')
 
@@ -113,17 +117,17 @@ const QuestionItemListItem = (props) => {
           <Grid item xs={3}>
             <Chip label={item.label} color="primary"></Chip>
             { !isEmpty(status) && !isNil(status.saving) && (
-              <Chip label="Saving" color="secondary"></Chip>
+              <Chip label="Saving" color="secondary">              <SyncLoader/></Chip>
             )}
             { !isEmpty(status) && !isNil(status.saved) && (
-              <Chip label="Saved" color="secondary" deleteIcon={<DoneIcon />}></Chip>
+              <Chip label="Saved" color="success" deleteIcon={<DoneIcon />}></Chip>
             )}
           </Grid>
           <Grid item xs={6}>
             <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} />
           </Grid>
           <Grid item xs={6}>
-            <TopicList topicId={topic.id} instrumentId={instrumentId} ccQuestionId={item.id} />
+            <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
           </Grid>
         </Grid>
       </Paper>
@@ -156,7 +160,19 @@ const TopicList = (props) => {
   if(isEmpty(topics)){
     return 'Fetching topics'
   }else if(isNil(topicId)){
-    return 'Fetching topics'
+    return (
+          <div>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
+              <Select native id="grouped-native-select" onChange={handleChange}>
+                <option aria-label="None" value="" />
+                {Object.values(topics).map((topic) => (
+                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+    )
   }else{
     return (
           <div>
@@ -401,9 +417,12 @@ const InstrumentMap = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'}>
         <h1>{get(instrument, 'label')}</h1>
-        {Object.values(cc_sequences).filter(seq => seq.position === 1).map((sequence) => (
+      {isEmpty(cc_sequences)
+        ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
+        : Object.values(cc_sequences).filter(seq => seq.position === 1).map((sequence) => (
           <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.id} title={sequence.label} children={sequence.children}/>
-        ))}
+        ))
+      }
       </Dashboard>
     </div>
   );
