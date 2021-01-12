@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { ResponseDomainTexts } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -128,9 +129,9 @@ export const ResponseDomainTextForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainTexts} />
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />

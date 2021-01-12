@@ -4,6 +4,7 @@ import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CodeLists } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -207,6 +208,7 @@ export const CodeListForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CodeLists} />
               </Grid>
               <Grid item style={{ marginTop: 16 }}>
                 <h3>Used By</h3>

@@ -4,6 +4,7 @@ import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { QuestionItems } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -134,6 +135,7 @@ export const QuestionItemForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionItems} />
               </Grid>
             </Paper>
           </form>

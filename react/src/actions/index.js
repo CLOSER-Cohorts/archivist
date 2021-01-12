@@ -138,9 +138,24 @@ export const CodeLists = {
     return (dispatch) => {
         return request.then(res => {
           dispatch(codeListFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, codeListId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/code_lists/' + codeListId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CodeList', codeListId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(codeListId, 'CodeList', err.response.data.error_sentence));
         });
     };
   }
@@ -377,9 +392,24 @@ export const QuestionItems = {
     return (dispatch) => {
         return request.then(res => {
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionItem', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, questionItemId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/question_items/' + questionItemId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'QuestionItem', questionItemId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(questionItemId, 'QuestionItem', err.response.data.error_sentence));
         });
     };
   }
@@ -435,9 +465,24 @@ export const QuestionGrids = {
     return (dispatch) => {
         return request.then(res => {
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionGrid', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, questionGridId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/question_grids/' + questionGridId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'QuestionGrid', questionGridId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(questionGridId, 'QuestionGrid', err.response.data.error_sentence));
         });
     };
   }
@@ -499,6 +544,20 @@ export const ResponseDomainNumerics = {
           dispatch(saveError('new', 'ResponseDomainNumeric', err.response.data.error_sentence));
         });
     };
+  },
+  delete: (instrumentId, responseDomainNumericId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/response_domain_numerics/' + responseDomainNumericId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainNumeric', responseDomainNumericId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainNumericId, 'ResponseDomainNumeric', err.response.data.error_sentence));
+        });
+    };
   }
 }
 
@@ -558,6 +617,20 @@ export const ResponseDomainTexts = {
           dispatch(saveError('new', 'ResponseDomainText', err.response.data.error_sentence));
         });
     };
+  },
+  delete: (instrumentId, responseDomainTextId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/response_domain_texts/' + responseDomainTextId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainText', responseDomainTextId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainTextId, 'ResponseDomainText', err.response.data.error_sentence));
+        });
+    };
   }
 }
 
@@ -615,6 +688,20 @@ export const ResponseDomainDatetimes = {
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainDatetime', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, responseDomainDatetimeId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/response_domain_datetimes/' + responseDomainDatetimeId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainDatetime', responseDomainDatetimeId));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
+        })
+        .catch(err => {
+          dispatch(saveError(responseDomainDatetimeId, 'ResponseDomainDatetime', err.response.data.error_sentence));
         });
     };
   }
@@ -715,6 +802,15 @@ const instrumentStatsFetchSuccess = (instrumentId, stats) => ({
   payload: {
     instrumentId: instrumentId,
     stats: stats
+  }
+});
+
+const objectDeleteSuccess = (instrumentId, objectType, id) => ({
+  type: 'DELETE_INSTRUMENT_OBJECT_TYPE',
+  payload: {
+    instrumentId: instrumentId,
+    id: id,
+    objectType: objectType
   }
 });
 

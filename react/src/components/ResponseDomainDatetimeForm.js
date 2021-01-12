@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { ResponseDomainDatetimes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -155,9 +156,9 @@ export const ResponseDomainDatetimeForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />
