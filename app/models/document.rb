@@ -18,7 +18,7 @@ class Document < ApplicationRecord
   # @param [Hash] params Parameters for creating a new Document
   # @return [Document]
   def initialize(params={})
-    file = params.delete :file
+    file = params.try(:delete, :file)
     super
     if file.is_a? ActionDispatch::Http::UploadedFile
       self.filename = sanitize_filename file.original_filename
