@@ -77,6 +77,19 @@ export const Instrument = {
           dispatch(fetchFailure(err.message));
         });
     };
+  },
+  reorderConstructs: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/reorder_ccs.json', { updates: values }, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          console.log('ok')
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
   }
 }
 
@@ -260,6 +273,45 @@ export const CcQuestions = {
         })
         .catch(err => {
           dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, ccQuestionId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CcQuestion', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, ccQuestionId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CcQuestion', ccQuestionId));
+        })
+        .catch(err => {
+          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.error_sentence));
         });
     };
   },

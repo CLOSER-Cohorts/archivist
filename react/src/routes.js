@@ -10,6 +10,9 @@ export default {
         }),
         build: include('build/', {
             show: '',
+            constructs: include('constructs/', {
+                show: ''
+            }),
             codeLists: include('code_lists/', {
               all: '',
               show: ':codeListId',

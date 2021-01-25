@@ -35,7 +35,8 @@ class InstrumentsController < ImportableController
   def reorder_ccs
     params.permit!
     unless params[:updates].nil?
-      Instruments::ControlConstructUpdater.new(@object, params[:updates]).call.inspect
+      par = reorder_params
+      Instruments::ControlConstructUpdater.new(@object, par[:updates]).call.inspect
     end
     head :ok, format: :json
   end
@@ -153,5 +154,9 @@ class InstrumentsController < ImportableController
   private
   def set_object
     @object = collection.friendly.find(params[:id])
+  end
+
+  def reorder_params
+    params.permit!
   end
 end

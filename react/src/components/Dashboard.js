@@ -128,12 +128,6 @@ const useStyles = makeStyles((theme) => ({
 export const mainListItems = (
   <div>
     <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
         <ListItemIcon>
           <Link to={url(routes.instruments.all)}>
             <QuestionAnswerIcon />
@@ -166,7 +160,7 @@ export const mainListItems = (
 
 export const Dashboard = (props)  => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
@@ -220,7 +214,7 @@ export const Dashboard = (props)  => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth={false} className={classes.container}>
+        <Container maxWidth={false} maxHeight={false} className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <BreadcrumbBar breadcrumbs={props.breadcrumbs} />

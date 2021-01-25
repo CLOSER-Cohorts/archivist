@@ -7,6 +7,7 @@ import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectB
 import { get, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -74,7 +75,9 @@ const InstrumentBuildCodeLists = (props) => {
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['CodeList']} />
               <List dense={true}>
                 {Object.values(codeLists).map((codeList) => {
-                  return <CodeListItem label={codeList.label} value={codeList.used_by.length} id={codeList.id} />
+                  return (
+                    <CodeListItem label={codeList.label} value={codeList.used_by.length} id={codeList.id} />
+                  )
                 })}
               </List>
             </Paper>
