@@ -203,7 +203,46 @@ export const CcSequences = {
           dispatch(fetchFailure(err.message));
         });
     };
-  }
+  },
+  update: (instrumentId, ccSequenceId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_sequences/' + ccSequenceId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_sequences.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CcSequence', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, ccSequenceId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_sequences/' + ccSequenceId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CcSequence', ccSequenceId));
+        })
+        .catch(err => {
+          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data.error_sentence));
+        });
+    };
+  },
 }
 
 const ccSequencesFetchSuccess = (instrumentId, sequences) => ({
@@ -211,6 +250,14 @@ const ccSequencesFetchSuccess = (instrumentId, sequences) => ({
   payload: {
     instrumentId: instrumentId,
     sequences: sequences
+  }
+});
+
+const ccSequenceFetchSuccess = (instrumentId, sequence) => ({
+  type: 'LOAD_INSTRUMENT_SEQUENCE',
+  payload: {
+    instrumentId: instrumentId,
+    sequence: sequence
   }
 });
 
@@ -227,7 +274,46 @@ export const CcStatements = {
           dispatch(fetchFailure(err.message));
         });
     };
-  }
+  },
+  update: (instrumentId, ccStatementId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_statements/' + ccStatementId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccStatementFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_statements.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccStatementFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CcStatement', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, ccStatementId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_statements/' + ccStatementId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CcStatement', ccStatementId));
+        })
+        .catch(err => {
+          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data.error_sentence));
+        });
+    };
+  },
 }
 
 const ccStatementsFetchSuccess = (instrumentId, statements) => ({
@@ -235,6 +321,14 @@ const ccStatementsFetchSuccess = (instrumentId, statements) => ({
   payload: {
     instrumentId: instrumentId,
     statements: statements
+  }
+});
+
+const ccStatementFetchSuccess = (instrumentId, statement) => ({
+  type: 'LOAD_INSTRUMENT_STATEMENT',
+  payload: {
+    instrumentId: instrumentId,
+    statement: statement
   }
 });
 
@@ -251,7 +345,46 @@ export const CcConditions = {
           dispatch(fetchFailure(err.message));
         });
     };
-  }
+  },
+  update: (instrumentId, ccConditionId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_conditions/' + ccConditionId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccConditionFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_conditions.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccConditionFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CcCondition', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, ccConditionId) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_conditions/' + ccConditionId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CcCondition', ccConditionId));
+        })
+        .catch(err => {
+          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data.error_sentence));
+        });
+    };
+  },
 }
 
 const ccConditionsFetchSuccess = (instrumentId, conditions) => ({
@@ -259,6 +392,14 @@ const ccConditionsFetchSuccess = (instrumentId, conditions) => ({
   payload: {
     instrumentId: instrumentId,
     conditions: conditions
+  }
+});
+
+const ccConditionFetchSuccess = (instrumentId, condition) => ({
+  type: 'LOAD_INSTRUMENT_CONDITION',
+  payload: {
+    instrumentId: instrumentId,
+    condition: condition
   }
 });
 

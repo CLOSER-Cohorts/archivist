@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,16 +7,19 @@ import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
+import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
   TextField,
+  Select
 } from 'mui-rff';
 import {
   Paper,
   Grid,
   Button,
   CssBaseline,
+  MenuItem
 } from '@material-ui/core';
 
 
@@ -45,11 +48,26 @@ const formFields = [
         required={true}
       />
     ),
+  },
+  {
+      type: 'select',
+      size: 12,
+      field: (options) => (
+        <Select
+          name="question_type"
+          label="Type"
+          formControlProps={{ margin: 'none' }}
+        >
+          <MenuItem></MenuItem>
+          <MenuItem value='QuestionItem'>Item</MenuItem>
+          <MenuItem value='QuestionGrid'>Grid</MenuItem>
+        </Select>
+      )
   }
 ];
 
 export const CcQuestionForm = (props) => {
-  const {ccQuestion, instrumentId} = props;
+  const {ccQuestion, instrumentId, onChange, path} = props;
 
   const questions = useSelector(state => state.cc_questions);
   const cc_questions = get(questions, instrumentId, {})
@@ -57,6 +75,12 @@ export const CcQuestionForm = (props) => {
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
+
+  const [questionOptions, setQuestionOptions] = useState((ccQuestion.question_type === 'QuestionGrid') ? questionGrids : questionItems);
+
+  const changeQuestionOptions = (question_type) => {
+    setQuestionOptions((question_type === 'QuestionGrid') ? questionGrids : questionItems)
+  }
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -67,6 +91,8 @@ export const CcQuestionForm = (props) => {
     }else{
       dispatch(CcQuestions.update(instrumentId, ccQuestion.id, values))
     }
+
+    onChange({node: values, path: path})
   }
 
   return (
@@ -95,9 +121,30 @@ export const CcQuestionForm = (props) => {
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
-                    {item.field}
+                    {item.type && item.type === 'select'
+                      ? item.field([])
+                      : item.field
+                    }
                   </Grid>
                 ))}
+                <OnChange name="question_type">
+                  {(value, previous) => {
+                    changeQuestionOptions(value)
+                    values.question_id = null
+                  }}
+                </OnChange>
+                <Grid item xs="12" key="Umm">
+                  <Select
+                    name="question_id"
+                    label="Question"
+                    formControlProps={{ margin: 'none' }}
+                  >
+                    <MenuItem></MenuItem>
+                    {Object.values(questionOptions).map((item, idx) => (
+                      <MenuItem value={item.id}>{item.label}</MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
                     type="button"

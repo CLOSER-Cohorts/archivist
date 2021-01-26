@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { CcConditionForm } from '../components/CcConditionForm'
 import { CcQuestionForm } from '../components/CcQuestionForm'
+import { CcStatementForm } from '../components/CcStatementForm'
+import { CcSequenceForm } from '../components/CcSequenceForm'
 import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -28,14 +31,18 @@ import { Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
+import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
 const TreeNode = (instrumentId, type, id) => {
   var item = ObjectFinder(instrumentId, type, id)
   var children = get(item, 'children',[])
 
-  return {...item, ...{ title: `${item.label} position ${item.position} id ${item.id}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+  return {...item, ...{ title: item.label, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+}
+
+const TreeNodeFormatter = (instrumentId, item) => {
+  return {...item, ...{ title: item.label, expanded: true, type: item.type } }
 }
 
 const Tree = (props) => {
@@ -43,6 +50,25 @@ const Tree = (props) => {
   const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id)]);
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
+
+  const updateNode = ({ node, path }) => {
+    setTreeData(
+      changeNodeAtPath({
+        treeData: treeData,
+        path,
+        getNodeKey,
+        newNode: TreeNodeFormatter(instrumentId, node)
+      })
+    )
+  }
+
+  const deleteNode = ({ path }) => {
+    setTreeData(removeNodeAtPath({
+                    treeData: treeData,
+                    path,
+                    getNodeKey,
+    }));
+  }
 
   const orderArray = (data) => {
     return getFlatDataFromTree({
@@ -72,9 +98,9 @@ const Tree = (props) => {
         treeData={treeData}
         onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
         generateNodeProps={({ node, path }) => ({
-          onClick: () => { onNodeSelect(node) },
+          onClick: () => { onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }) } }) },
           buttons: [
-            <button
+              <button
               onClick={() =>
                   setTreeData(addNodeUnderParent({
                     treeData: treeData,
@@ -88,19 +114,7 @@ const Tree = (props) => {
               }
             >
               <AddIcon />
-            </button>,
-            <button
-              onClick={() => {
-                  return setTreeData(removeNodeAtPath({
-                    treeData: treeData,
-                    path,
-                    getNodeKey,
-                  }));
-                }
-              }
-            >
-              <DeleteIcon />
-            </button>,
+            </button>
           ],
         })}
       />
@@ -179,12 +193,19 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 const ConstructForm = (props) => {
   const {object, instrumentId} = props;
+  const { node={}, path, callback=(node)=>{ console.log(node)} } = object;
 
-  switch (object.type) {
+  switch (node.type) {
     case 'question':
-      return <CcQuestionForm ccQuestion={object} instrumentId={instrumentId} />
+      return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} />
+    case 'statement':
+      return <CcStatementForm ccStatement={node} instrumentId={instrumentId} path={path} onChange={callback} />
+    case 'sequence':
+      return <CcSequenceForm ccSequence={node} instrumentId={instrumentId} path={path} onChange={callback} />
+    case 'condition':
+      return <CcConditionForm ccCondition={node} instrumentId={instrumentId} path={path} onChange={callback} />
     default:
-      return (<pre>{JSON.stringify(object, 0, 2)}</pre>)
+      return ''
   }
 
 }

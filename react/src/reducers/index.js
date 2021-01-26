@@ -53,9 +53,11 @@ const cc_sequences = (state = {}, action) => {
 
   switch (action.type) {
     case 'LOAD_INSTRUMENT_SEQUENCES':
-    console.log(action.payload)
-    console.log({...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.sequences)}})
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.sequences)}}
+    case 'LOAD_INSTRUMENT_SEQUENCE':
+      var instrumentSequences = state[action.payload.instrumentId]
+      instrumentSequences[action.payload.sequence.id] = action.payload.sequence
+      return {...state, ...{[action.payload.instrumentId]: instrumentSequences}}
     default:
       return state
   }
@@ -66,6 +68,10 @@ const cc_statements = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_STATEMENTS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.statements)}}
+    case 'LOAD_INSTRUMENT_STATEMENT':
+      var instrumentStatements = state[action.payload.instrumentId]
+      instrumentStatements[action.payload.statement.id] = action.payload.statement
+      return {...state, ...{[action.payload.instrumentId]: instrumentStatements}}
     default:
       return state
   }
@@ -76,6 +82,10 @@ const cc_conditions = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_CONDITIONS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.conditions)}}
+    case 'LOAD_INSTRUMENT_CONDITION':
+      var instrumentConditions = state[action.payload.instrumentId]
+      instrumentConditions[action.payload.condition.id] = action.payload.condition
+      return {...state, ...{[action.payload.instrumentId]: instrumentConditions}}
     default:
       return state
   }
