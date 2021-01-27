@@ -368,7 +368,7 @@ const SequenceItem = (props) => {
                     case 'CcSequence':
                       return (
                           <ListItem button className={classes.nested}>
-                            <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />;
+                            <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
                           </ListItem>)
                     case 'CcQuestion':
                       return (
@@ -413,15 +413,15 @@ const InstrumentMap = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)
+
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'}>
         <h1>{get(instrument, 'label')}</h1>
-      {isEmpty(cc_sequences)
+      {isNil(sequence)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
-        : Object.values(cc_sequences).filter(seq => seq.position === 1).map((sequence) => (
-          <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.id} title={sequence.label} children={sequence.children}/>
-        ))
+        : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
       }
       </Dashboard>
     </div>
