@@ -71,7 +71,7 @@ const InstrumentBuildQuestionGrids = (props) => {
             <Paper className={classes.control}>
               <h2>Question Grids</h2>
               <Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link>
-              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} />
+              <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} callback={setquestionGridId} />
               <List dense={true}>
                 {Object.values(questionGrids).map((questionGrid) => {
                   return <QuestionGrid label={questionGrid.label} id={questionGrid.id} />

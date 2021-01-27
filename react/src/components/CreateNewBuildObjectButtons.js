@@ -47,12 +47,13 @@ const ObjectTypeLookup = (objectType, instrumentId) => {
 }
 
 export const CreateNewBuildObjectButtons  = (props) => {
-  const { objectTypes=[], instrumentId} = props;
+  const { objectTypes=[], instrumentId, callback=()=>{}} = props;
 
   const history = useHistory();
 
   const createNew = (path) => {
     history.push(path);
+    callback('new')
   }
 
   const buttons = objectTypes.map( objectType => ObjectTypeLookup(objectType, instrumentId) )
