@@ -79,7 +79,7 @@ const formFields = [
         formControlProps={{ margin: 'none' }}
       >
         <MenuItem></MenuItem>
-        {Object.values(options).map((item, idx) => (
+        {options.map((item, idx) => (
           <MenuItem value={item.id}>{item.label}</MenuItem>
         ))}
       </Select>
@@ -95,7 +95,7 @@ const formFields = [
           formControlProps={{ margin: 'none' }}
         >
           <MenuItem></MenuItem>
-          {Object.values(options).map((item, idx) => (
+          {options.map((item, idx) => (
             <MenuItem value={item.id}>{item.label}</MenuItem>
           ))}
         </Select>
@@ -141,7 +141,10 @@ const formFields = [
 export const QuestionGridForm = (props) => {
   const {questionGrid, instrumentId} = props;
 
-  const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
+  var codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
+
+  // Only show response domains in the list of codeLists
+  codeLists = Object.values(codeLists).filter((cl) => { return cl.rd === true})
 
   const dispatch = useDispatch();
   const classes = useStyles();
