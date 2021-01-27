@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CcQuestions } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
@@ -86,6 +87,8 @@ export const CcQuestionForm = (props) => {
   const classes = useStyles();
 
   const onSubmit = (values) => {
+    values = ObjectCheckForInitialValues(ccQuestion, values)
+
     if(isNil(ccQuestion.id)){
       dispatch(CcQuestions.create(instrumentId, values))
     }else{

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { QuestionGrids } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -150,6 +151,8 @@ export const QuestionGridForm = (props) => {
   const classes = useStyles();
 
   const onSubmit = (values) => {
+    values = ObjectCheckForInitialValues(questionGrid, values)
+
     if(isNil(questionGrid.id)){
       dispatch(QuestionGrids.create(instrumentId, values))
     }else{
@@ -212,6 +215,7 @@ export const QuestionGridForm = (props) => {
                 <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
               </Grid>
             </Paper>
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CodeLists } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -88,6 +89,8 @@ export const CodeListForm = (props) => {
   const classes = useStyles();
 
   const onSubmit = (values) => {
+      values = ObjectCheckForInitialValues(codeList, values)
+
     if(isNil(codeList.id)){
       dispatch(CodeLists.create(instrumentId, values))
     }else{

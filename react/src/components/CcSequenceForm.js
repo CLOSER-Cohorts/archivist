@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CcSequences } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -57,6 +58,8 @@ export const CcSequenceForm = (props) => {
   const classes = useStyles();
 
   const onSubmit = (values) => {
+    values = ObjectCheckForInitialValues(ccSequence, values)
+
     if(isNil(ccSequence.id)){
       dispatch(CcSequences.create(instrumentId, values))
     }else{
