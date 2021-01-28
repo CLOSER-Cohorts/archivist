@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
 import Collapse from '@material-ui/core/Collapse';
 import DoneIcon from '@material-ui/icons/Done';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -134,6 +135,11 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(2),
   },
+  side: {
+    position: 'absolute',
+    width: '50%',
+    'margin-left': '46%'
+  },
   nested: {
     paddingLeft: theme.spacing(4),
   },
@@ -212,6 +218,8 @@ const ConstructForm = (props) => {
 
 const InstrumentConstructBuild = (props) => {
 
+  const classes = useStyles();
+
   const dispatch = useDispatch()
   const instrumentId = get(props, "match.params.instrument_id", "")
   const instrument = useSelector(state => get(state.instruments, instrumentId));
@@ -251,12 +259,14 @@ const InstrumentConstructBuild = (props) => {
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : (
           <Grid container spacing={3}>
-            <Grid item xs={6}>
+            <Grid item xs={(isEmpty(selectedNode)) ? 12 : 12 }>
               <Tree topSequence={sequence.children[0]} instrumentId={instrumentId} onNodeSelect={setSelectedNode} dispatch={dispatch} />
             </Grid>
-            <Grid item xs={6}>
-              <ConstructForm object={selectedNode} instrumentId={instrumentId} />
-            </Grid>
+            {!isEmpty(selectedNode) && (
+              <Grid item xs={4} className={classes.side}>
+                <ConstructForm object={selectedNode} instrumentId={instrumentId} />
+              </Grid>
+            )}
           </Grid>
         )
       }
