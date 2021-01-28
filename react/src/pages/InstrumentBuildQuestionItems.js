@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper
   },
+  side: {
+    position: 'absolute',
+    width: '50%',
+  },
   control: {
     width: '100%',
     padding: theme.spacing(2),
@@ -67,9 +71,8 @@ const InstrumentBuildQuestionItems = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Paper className={classes.control}>
-              <h2>Question Items</h2>
+              <h2>Question Items <Link to={url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })}>Question Grids</Link></h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} />
-              <Link to={url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })}>Question Grids</Link>
               <List dense={true}>
                 {Object.values(questionItems).map((questionItem) => {
                   return <QuestionItem label={questionItem.label} id={questionItem.id} />
@@ -78,7 +81,7 @@ const InstrumentBuildQuestionItems = (props) => {
             </Paper>
           </Grid>
           <Grid item xs={8}>
-            <Paper className={classes.control}>
+            <Paper className={classes.side}>
               {!isNil(selectedQuestion) && (
                 <QuestionItemForm questionItem={selectedQuestion} instrumentId={instrumentId} />
               )}

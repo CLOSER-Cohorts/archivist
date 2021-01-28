@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper
   },
+  side: {
+    position: 'absolute',
+    width: '50%',
+  },
   control: {
     width: '100%',
     padding: theme.spacing(2),
@@ -83,7 +87,7 @@ const InstrumentBuildCodeLists = (props) => {
             </Paper>
           </Grid>
           <Grid item xs={8}>
-            <Paper className={classes.control}>
+            <Paper className={classes.side}>
               {!isNil(selectedCodeList) && (
                 <CodeListForm codeList={selectedCodeList} instrumentId={instrumentId} />
               )}
