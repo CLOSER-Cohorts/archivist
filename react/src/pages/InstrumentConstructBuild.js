@@ -71,6 +71,18 @@ const Tree = (props) => {
     }));
   }
 
+  const canHaveChildren = (node) => {
+    return (node.type === 'sequence' || node.type === 'loop' || node.type === 'condition')
+  }
+
+  const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+    if (canHaveChildren(nextParent)) {
+      return true;
+    }
+
+    return false;
+  };
+
   const orderArray = (data) => {
     return getFlatDataFromTree({
       treeData: data,
@@ -93,14 +105,10 @@ const Tree = (props) => {
       dispatch(Instrument.reorderConstructs(instrumentId, orderArray(data)));
   }
 
-  return (
-    <div style={{ height: 10000 }}>
-      <SortableTree
-        treeData={treeData}
-        onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
-        generateNodeProps={({ node, path }) => ({
-          onClick: () => { onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }) } }) },
-          buttons: [
+  const generateButtons = (node, path) => {
+      var buttons = []
+      if(canHaveChildren(node)){
+        buttons.push(
               <button
               onClick={() =>
                   setTreeData(addNodeUnderParent({
@@ -116,7 +124,20 @@ const Tree = (props) => {
             >
               <AddIcon />
             </button>
-          ],
+        )
+      }
+      return buttons;
+  }
+
+  return (
+    <div style={{ height: 10000 }}>
+      <SortableTree
+        treeData={treeData}
+        onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
+        canDrop={canDrop}
+        generateNodeProps={({ node, path }) => ({
+          onClick: () => { onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }) } }) },
+          buttons: generateButtons(node, path),
         })}
       />
       ↓This flat data is generated from the modified tree data↓
