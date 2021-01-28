@@ -145,7 +145,7 @@ export const QuestionGridForm = (props) => {
   var codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
   // Only show response domains in the list of codeLists
-  codeLists = Object.values(codeLists).filter((cl) => { return cl.rd === true})
+  codeLists = Object.values(codeLists).filter((cl) => { return cl.rd === false})
 
   const dispatch = useDispatch();
   const classes = useStyles();

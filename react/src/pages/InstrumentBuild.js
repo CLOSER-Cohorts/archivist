@@ -97,7 +97,7 @@ const InstrumentBuild = (props) => {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.control}>
-              <h2>Constructs</h2>
+              <h2><Link to={url(routes.instruments.instrument.build.constructs.show, { instrument_id: instrumentId })}>Constructs</Link></h2>
               <List dense={true}>
                   <StatCount label="Conditions" value={cc_conditions} />
                   <StatCount label="Loops" value={cc_loops} />
