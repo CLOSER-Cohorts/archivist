@@ -8,13 +8,13 @@ import {
 } from '@material-ui/core';
 
 export const DeleteObjectButton = (props) => {
-  const {instrumentId, id, action} = props;
+  const {instrumentId, id, action, onDelete= () => { console.log('No delete callback provided') }} = props;
 
   const dispatch=useDispatch()
 
   const handleDelete = () => {
     if( !isNil(id) && window.confirm('Are you sure you want to delete this?')){
-      dispatch(action.delete(instrumentId, id))
+      dispatch(action.delete(instrumentId, id, onDelete))
     }
   }
 

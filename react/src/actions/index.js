@@ -217,26 +217,28 @@ export const CcSequences = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_sequences.json', values, {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
+          onSuccess({id:res.data.id})
         })
         .catch(err => {
           dispatch(saveError('new', 'CcSequence', err.response.data.error_sentence));
         });
     };
   },
-  delete: (instrumentId, ccSequenceId) => {
+  delete: (instrumentId, ccSequenceId, onDelete=()=>{}) => {
     const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_sequences/' + ccSequenceId + '.json', {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(objectDeleteSuccess(instrumentId,'CcSequence', ccSequenceId));
+          onDelete();
         })
         .catch(err => {
           dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data.error_sentence));
@@ -288,26 +290,28 @@ export const CcStatements = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_statements.json', values, {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(ccStatementFetchSuccess(instrumentId, res.data));
+          onSuccess({id:res.data.id})
         })
         .catch(err => {
           dispatch(saveError('new', 'CcStatement', err.response.data.error_sentence));
         });
     };
   },
-  delete: (instrumentId, ccStatementId) => {
+  delete: (instrumentId, ccStatementId, onDelete=()=>{}) => {
     const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_statements/' + ccStatementId + '.json', {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(objectDeleteSuccess(instrumentId,'CcStatement', ccStatementId));
+          onDelete()
         })
         .catch(err => {
           dispatch(saveError(ccStatementId, 'CcStatement', err.response.data.error_sentence));
@@ -329,6 +333,152 @@ const ccStatementFetchSuccess = (instrumentId, statement) => ({
   payload: {
     instrumentId: instrumentId,
     statement: statement
+  }
+});
+
+export const CcLoops = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/cc_loops.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccLoopsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, ccLoopId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_loops/' + ccLoopId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccLoopFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(ccLoopId, 'CcLoop', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values, onSuccess=(object)=>{}) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_loops.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(ccLoopFetchSuccess(instrumentId, res.data));
+          onSuccess({id:res.data.id})
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'CcLoop', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, ccLoopId, onDelete=()=>{}) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_loops/' + ccLoopId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'CcLoop', ccLoopId));
+          onDelete();
+        })
+        .catch(err => {
+          dispatch(saveError(ccLoopId, 'CcLoop', err.response.data.error_sentence));
+        });
+    };
+  },
+}
+
+const ccLoopsFetchSuccess = (instrumentId, loops) => ({
+  type: 'LOAD_INSTRUMENT_LOOPS',
+  payload: {
+    instrumentId: instrumentId,
+    loops: loops
+  }
+});
+
+const ccLoopFetchSuccess = (instrumentId, loop) => ({
+  type: 'LOAD_INSTRUMENT_LOOP',
+  payload: {
+    instrumentId: instrumentId,
+    loop: loop
+  }
+});
+
+export const ResponseUnits = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_units.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          console.log(res.data)
+          dispatch(responseUnitsFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (instrumentId, responseUnitId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/response_units/' + responseUnitId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseUnitFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(responseUnitId, 'ResponseUnit', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (instrumentId, values) => {
+    const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_units.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseUnitFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'ResponseUnit', err.response.data.error_sentence));
+        });
+    };
+  },
+  delete: (instrumentId, responseUnitId, onDelete=()=>{}) => {
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '/response_units/' + responseUnitId + '.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(objectDeleteSuccess(instrumentId,'ResponseUnit', responseUnitId));
+          onDelete();
+        })
+        .catch(err => {
+          dispatch(saveError(responseUnitId, 'ResponseUnit', err.response.data.error_sentence));
+        });
+    };
+  },
+}
+
+const responseUnitsFetchSuccess = (instrumentId, responseUnits) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_UNITS',
+  payload: {
+    instrumentId: instrumentId,
+    responseUnits: responseUnits
+  }
+});
+
+const responseUnitFetchSuccess = (instrumentId, responseUnit) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_UNITS',
+  payload: {
+    instrumentId: instrumentId,
+    responseUnit: responseUnit
   }
 });
 
@@ -359,26 +509,28 @@ export const CcConditions = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_conditions.json', values, {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(ccConditionFetchSuccess(instrumentId, res.data));
+          onSuccess({id:res.data.id})
         })
         .catch(err => {
           dispatch(saveError('new', 'CcCondition', err.response.data.error_sentence));
         });
     };
   },
-  delete: (instrumentId, ccConditionId) => {
+  delete: (instrumentId, ccConditionId, onDelete=()=>{}) => {
     const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_conditions/' + ccConditionId + '.json', {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(objectDeleteSuccess(instrumentId,'CcCondition', ccConditionId));
+          onDelete()
         })
         .catch(err => {
           dispatch(saveError(ccConditionId, 'CcCondition', err.response.data.error_sentence));
@@ -430,26 +582,28 @@ export const CcQuestions = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions.json', values, {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+          onSuccess({id:res.data.id})
         })
         .catch(err => {
           dispatch(saveError('new', 'CcQuestion', err.response.data.error_sentence));
         });
     };
   },
-  delete: (instrumentId, ccQuestionId) => {
+  delete: (instrumentId, ccQuestionId, onDelete=()=>{}) => {
     const request = axios.delete(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '.json', {
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
           dispatch(objectDeleteSuccess(instrumentId,'CcQuestion', ccQuestionId));
+          onDelete();
         })
         .catch(err => {
           dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.error_sentence));

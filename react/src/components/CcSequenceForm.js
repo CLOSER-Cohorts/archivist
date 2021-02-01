@@ -9,6 +9,7 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
+import { ObjectColour } from '../support/ObjectColour'
 
 import {
   TextField,
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  paper:{
+    boxShadow :`5px 5px 15px 5px  #${ObjectColour('sequence')}`
+  }
 });
 
 const validate = values => {
@@ -52,7 +56,7 @@ const formFields = [
 ];
 
 export const CcSequenceForm = (props) => {
-  const {ccSequence, instrumentId, onChange, path} = props;
+  const {ccSequence, instrumentId, onChange, path, onDelete} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -61,12 +65,13 @@ export const CcSequenceForm = (props) => {
     values = ObjectCheckForInitialValues(ccSequence, values)
 
     if(isNil(ccSequence.id)){
-      dispatch(CcSequences.create(instrumentId, values))
+      dispatch(CcSequences.create(instrumentId, values, (newObject) => {
+        onChange({node: { ...values, ...newObject  }, path: path})
+      }))
     }else{
       dispatch(CcSequences.update(instrumentId, ccSequence.id, values))
+      onChange({node: values, path: path})
     }
-
-    onChange({node: values, path: path})
   }
 
   return (
@@ -91,7 +96,7 @@ export const CcSequenceForm = (props) => {
         values
       }) => (
           <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
+            <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
@@ -121,7 +126,7 @@ export const CcSequenceForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcSequences} />
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcSequences} onDelete={()=> { onDelete({ path }) }} />
               </Grid>
             </Paper>
           </form>

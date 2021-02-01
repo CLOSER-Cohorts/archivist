@@ -204,6 +204,7 @@ export const Dashboard = (props)  => {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+          <img src="/logo.svg" alt="BigCo Inc. logo" style={{width: "51%"}}/>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>

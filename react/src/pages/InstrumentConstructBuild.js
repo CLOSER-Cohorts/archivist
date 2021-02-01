@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
+import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics, ResponseUnits } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { CcConditionForm } from '../components/CcConditionForm'
 import { CcQuestionForm } from '../components/CcQuestionForm'
 import { CcStatementForm } from '../components/CcStatementForm'
 import { CcSequenceForm } from '../components/CcSequenceForm'
+import { CcLoopForm } from '../components/CcLoopForm'
+import { ObjectColour } from '../support/ObjectColour'
 import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -32,6 +34,10 @@ import { Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import {
+  Button
+} from '@material-ui/core';
+
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
@@ -39,31 +45,33 @@ const TreeNode = (instrumentId, type, id) => {
   var item = ObjectFinder(instrumentId, type, id)
   var children = get(item, 'children',[])
 
-  return {...item, ...{ title: item.label, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
-  return {...item, ...{ title: item.label, expanded: true, type: item.type } }
+  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type } }
 }
 
 const Tree = (props) => {
   const { topSequence, instrumentId, dispatch, onNodeSelect } = props
   const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id)]);
+  const [selectedNode, setSelectedNode] = useState({});
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
 
   const updateNode = ({ node, path }) => {
-    setTreeData(
-      changeNodeAtPath({
+    var data = changeNodeAtPath({
         treeData: treeData,
         path,
         getNodeKey,
         newNode: TreeNodeFormatter(instrumentId, node)
       })
-    )
+      setTreeData(data)
+      reorderConstructs(data)
   }
 
   const deleteNode = ({ path }) => {
+    onNodeSelect({})
     setTreeData(removeNodeAtPath({
                     treeData: treeData,
                     path,
@@ -115,9 +123,11 @@ const Tree = (props) => {
                     treeData: treeData,
                     parentKey: path[path.length - 1],
                     expandParent: true,
+                    addAsFirstChild: true,
                     getNodeKey,
                     newNode: {
-                      title: `New`,
+                      title: `Click to select construct type`,
+                      children: []
                     }
                   }).treeData)
               }
@@ -134,15 +144,26 @@ const Tree = (props) => {
       <SortableTree
         treeData={treeData}
         onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
+        canNodeHaveChildren={node => canHaveChildren(node)}
         canDrop={canDrop}
-        generateNodeProps={({ node, path }) => ({
-          onClick: () => { onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }) } }) },
-          buttons: generateButtons(node, path),
-        })}
+        generateNodeProps={({ node, path }) => {
+          const boxShadow = (node === selectedNode ) ? `5px 5px 15px 5px  #${ObjectColour(node.type)}` : ''
+          return (
+            {
+              style: {
+                boxShadow: boxShadow,
+              },
+              onClick: () => {
+                onNodeSelect({ node: node, path: path,  callback: ({ node, path }) => { updateNode({ node, path }) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
+                setSelectedNode(node);
+              },
+              buttons: generateButtons(node, path),
+            }
+          )
+        }}
       />
       ↓This flat data is generated from the modified tree data↓
-      <ul>
-      </ul>
+      <pre>{JSON.stringify(orderArray(treeData), 0, 2)}</pre>
     </div>
   );
 }
@@ -156,6 +177,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(2),
   },
+  main: {
+    'min-height': '1200px'
+  },
   side: {
     position: 'absolute',
     width: '50%',
@@ -163,6 +187,29 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+  },
+  paper:{
+    boxShadow :`5px 5px 10px 5px  #${ObjectColour('default')}`
+  },
+  statement:{
+    boxShadow :`2px 2px 7px 2px  #${ObjectColour('statement')}`,
+    'margin-bottom': '10px'
+  },
+  sequence:{
+    boxShadow :`2px 2px 7px 2px  #${ObjectColour('sequence')}`,
+    'margin-bottom': '10px'
+  },
+  question:{
+    boxShadow :`2px 2px 7px 2px  #${ObjectColour('question')}`,
+    'margin-bottom': '10px'
+  },
+  loop:{
+    boxShadow :`2px 2px 7px 2px  #${ObjectColour('loop')}`,
+    'margin-bottom': '10px'
+  },
+  condition:{
+    boxShadow :`2px 2px 7px 2px  #${ObjectColour('condition')}`,
+    'margin-bottom': '10px'
   },
 }));
 
@@ -179,6 +226,8 @@ const ObjectFinder = (instrumentId, type, id) => {
   const cc_statements = get(statements, instrumentId, {})
   const conditions = useSelector(state => state.cc_conditions);
   const cc_conditions = get(conditions, instrumentId, {})
+  const loops = useSelector(state => state.cc_loops);
+  const cc_loops = get(loops, instrumentId, {})
   const questions = useSelector(state => state.cc_questions);
   const cc_questions = get(questions, instrumentId, {})
   const allQuestionItems = useSelector(state => state.questionItems);
@@ -187,6 +236,11 @@ const ObjectFinder = (instrumentId, type, id) => {
   const questionGrids = get(allQuestionGrids, instrumentId, {})
 
   var item = {children: []}
+
+  if(type === 'CcLoop'){
+    item = get(cc_loops, id.toString(), {})
+    item.type = 'loop'
+  }
 
   if(type === 'CcSequence'){
     item = get(cc_sequences, id.toString(), {})
@@ -219,21 +273,97 @@ const ObjectFinder = (instrumentId, type, id) => {
 }
 
 const ConstructForm = (props) => {
-  const {object, instrumentId} = props;
-  const { node={}, path, callback=(node)=>{ console.log(node)} } = object;
+  const {object, instrumentId, onNodeSelect} = props;
+  const { node={}, path, callback=(node)=>{ console.log('No onChange callback provided')}, deleteCallback=(node)=>{ console.log('No onDelete callback provided')} } = object;
 
   switch (node.type) {
     case 'question':
-      return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} />
+      return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
     case 'statement':
-      return <CcStatementForm ccStatement={node} instrumentId={instrumentId} path={path} onChange={callback} />
+      return <CcStatementForm ccStatement={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
     case 'sequence':
-      return <CcSequenceForm ccSequence={node} instrumentId={instrumentId} path={path} onChange={callback} />
+      return <CcSequenceForm ccSequence={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
     case 'condition':
-      return <CcConditionForm ccCondition={node} instrumentId={instrumentId} path={path} onChange={callback} />
+      return <CcConditionForm ccCondition={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+    case 'loop':
+      return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+    case undefined:
+      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object}/>
     default:
       return ''
   }
+
+}
+
+const NewConstructQuestion = (props) => {
+  const {object, onNodeSelect} = props;
+
+  const classes = useStyles();
+
+  return (
+            <Paper style={{ padding: 16 }} className={classes.paper}>
+              <h3>Select construct type</h3>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    className={classes.question}
+                    onClick={() => {
+                      var node = {...object.node, ...{ type: 'question' }}
+                      onNodeSelect({...object, ...{node: node }})
+                    }}
+                  >
+                    Question
+                  </Button>
+                  <br/>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    className={classes.condition}
+                    onClick={() => {
+                      var node = {...object.node, ...{ type: 'condition' }}
+                      onNodeSelect({...object, ...{node: node }})
+                    }}
+                  >
+                    Condition
+                  </Button>
+                  <br/>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    className={classes.loop}
+                    onClick={() => {
+                      var node = {...object.node, ...{ type: 'loop' }}
+                      onNodeSelect({...object, ...{node: node }})
+                    }}
+                  >
+                    Loop
+                  </Button>
+                  <br/>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    className={classes.sequence}
+                    onClick={() => {
+                      var node = {...object.node, ...{ type: 'sequence' }}
+                      onNodeSelect({...object, ...{node: node }})
+                    }}
+                  >
+                    Sequence
+                  </Button>
+                  <br/>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    className={classes.statement}
+                    onClick={() => {
+                      var node = {...object.node, ...{ type: 'statement' }}
+                      onNodeSelect({...object, ...{node: node }})
+                    }}
+                  >
+                    Statement
+                  </Button>
+          </Paper>
+  )
 
 }
 
@@ -256,6 +386,8 @@ const InstrumentConstructBuild = (props) => {
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
+  const loops = useSelector(state => state.cc_loops);
+  const cc_loops = get(loops, instrumentId, {})
 
   const [selectedNode, setSelectedNode] = useState({});
 
@@ -264,9 +396,11 @@ const InstrumentConstructBuild = (props) => {
     dispatch(CcSequences.all(instrumentId));
     dispatch(CcStatements.all(instrumentId));
     dispatch(CcConditions.all(instrumentId));
+    dispatch(CcLoops.all(instrumentId));
     dispatch(CcQuestions.all(instrumentId));
     dispatch(QuestionItems.all(instrumentId));
     dispatch(QuestionGrids.all(instrumentId));
+    dispatch(ResponseUnits.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
@@ -276,16 +410,16 @@ const InstrumentConstructBuild = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Build'}>
         <h1>{get(instrument, 'label')}</h1>
-      {isNil(sequence) || isEmpty(statements)  || isEmpty(conditions) || isEmpty(questionItems) || isEmpty(questionGrids)  || isEmpty(questions)
+      {isNil(sequence) || isEmpty(statements)  || isEmpty(conditions) || isEmpty(questionItems)  || isEmpty(questions)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : (
-          <Grid container spacing={3}>
+          <Grid container spacing={3} className={classes.main}>
             <Grid item xs={(isEmpty(selectedNode)) ? 12 : 12 }>
               <Tree topSequence={sequence.children[0]} instrumentId={instrumentId} onNodeSelect={setSelectedNode} dispatch={dispatch} />
             </Grid>
             {!isEmpty(selectedNode) && (
               <Grid item xs={4} className={classes.side}>
-                <ConstructForm object={selectedNode} instrumentId={instrumentId} />
+                <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
               </Grid>
             )}
           </Grid>

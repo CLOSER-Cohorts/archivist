@@ -91,6 +91,36 @@ const cc_conditions = (state = {}, action) => {
   }
 }
 
+
+const cc_loops = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_LOOPS':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.loops)}}
+    case 'LOAD_INSTRUMENT_LOOP':
+      var instrumentLoops = state[action.payload.instrumentId]
+      instrumentLoops[action.payload.loop.id] = action.payload.loop
+      return {...state, ...{[action.payload.instrumentId]: instrumentLoops}}
+    default:
+      return state
+  }
+}
+
+const response_units = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_RESPONSE_UNITS':
+    console.log(action.payload)
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseUnits)}}
+    case 'LOAD_INSTRUMENT_RESPONSE_UNIT':
+      var instrumentResponseUnits = state[action.payload.instrumentId]
+      instrumentResponseUnits[action.payload.responseUnit.id] = action.payload.responseUnit
+      return {...state, ...{[action.payload.instrumentId]: instrumentResponseUnits}}
+    default:
+      return state
+  }
+}
+
 const cc_questions = (state = {}, action) => {
 
   switch (action.type) {
@@ -307,7 +337,9 @@ const appReducer = combineReducers({
     cc_sequences,
     cc_statements,
     cc_conditions,
+    cc_loops,
     cc_questions,
+    response_units,
     questionItems,
     questionGrids,
     categories,

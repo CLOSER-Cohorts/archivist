@@ -10,6 +10,7 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
+import { ObjectColour } from '../support/ObjectColour'
 
 import {
   TextField,
@@ -28,6 +29,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  paper:{
+    boxShadow :`5px 5px 15px 5px  #${ObjectColour('question')}`
+  }
 });
 
 const validate = values => {
@@ -68,7 +72,7 @@ const formFields = [
 ];
 
 export const CcQuestionForm = (props) => {
-  const {ccQuestion, instrumentId, onChange, path} = props;
+  const {ccQuestion, instrumentId, onChange, path, onDelete} = props;
 
   const questions = useSelector(state => state.cc_questions);
   const cc_questions = get(questions, instrumentId, {})
@@ -76,6 +80,9 @@ export const CcQuestionForm = (props) => {
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
+
+  const allResponseUnits = useSelector(state => state.response_units);
+  const responseUnits = get(allResponseUnits, instrumentId, {})
 
   const [questionOptions, setQuestionOptions] = useState((ccQuestion.question_type === 'QuestionGrid') ? questionGrids : questionItems);
 
@@ -90,12 +97,13 @@ export const CcQuestionForm = (props) => {
     values = ObjectCheckForInitialValues(ccQuestion, values)
 
     if(isNil(ccQuestion.id)){
-      dispatch(CcQuestions.create(instrumentId, values))
+      dispatch(CcQuestions.create(instrumentId, values, (newObject) => {
+        onChange({node: { ...values, ...newObject  }, path: path})
+      }))
     }else{
       dispatch(CcQuestions.update(instrumentId, ccQuestion.id, values))
+      onChange({node: values, path: path})
     }
-
-    onChange({node: values, path: path})
   }
 
   return (
@@ -120,7 +128,7 @@ export const CcQuestionForm = (props) => {
         values
       }) => (
           <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
+            <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
@@ -148,6 +156,18 @@ export const CcQuestionForm = (props) => {
                     ))}
                   </Select>
                 </Grid>
+                <Grid item xs="12" key="Umm">
+                  <Select
+                    name="response_unit_id"
+                    label="Interviewee"
+                    formControlProps={{ margin: 'none' }}
+                  >
+                    <MenuItem></MenuItem>
+                    {Object.values(responseUnits).map((item, idx) => (
+                      <MenuItem value={item.id}>{item.label}</MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
                     type="button"
@@ -168,7 +188,7 @@ export const CcQuestionForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcQuestions} />
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcQuestions} onDelete={()=> { onDelete({ path }) }} />
               </Grid>
             </Paper>
           </form>

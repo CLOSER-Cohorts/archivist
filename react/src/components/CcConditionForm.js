@@ -9,6 +9,7 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
+import { ObjectColour } from '../support/ObjectColour'
 
 import {
   TextField,
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  paper:{
+    boxShadow :`5px 5px 15px 5px  #${ObjectColour('condition')}`
+  }
 });
 
 const validate = values => {
@@ -74,7 +78,7 @@ const formFields = [
 ];
 
 export const CcConditionForm = (props) => {
-  const {ccCondition, instrumentId, onChange, path} = props;
+  const {ccCondition, instrumentId, onChange, path, onDelete} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -83,11 +87,13 @@ export const CcConditionForm = (props) => {
     values = ObjectCheckForInitialValues(ccCondition, values)
 
     if(isNil(ccCondition.id)){
-      dispatch(CcConditions.create(instrumentId, values))
+      dispatch(CcConditions.create(instrumentId, values, (newObject) => {
+        onChange({node: { ...values, ...newObject  }, path: path})
+      }))
     }else{
       dispatch(CcConditions.update(instrumentId, ccCondition.id, values))
+      onChange({node: values, path: path})
     }
-    onChange({node: values, path: path})
   }
 
   return (
@@ -112,7 +118,7 @@ export const CcConditionForm = (props) => {
         values
       }) => (
           <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
+            <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
@@ -142,7 +148,7 @@ export const CcConditionForm = (props) => {
                     Submit
                   </Button>
                 </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcConditions} />
+                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CcConditions} onDelete={()=> { onDelete({ path }) }}/>
               </Grid>
             </Paper>
           </form>
