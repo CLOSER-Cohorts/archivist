@@ -3,7 +3,7 @@ import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CcConditions } from '../actions'
-import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
@@ -33,11 +33,22 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = values => {
+const validate = (values, status) => {
+
   const errors = {};
+
+  if(status.errors){
+    Object.keys(status.errors).map((key)=>{
+      if(isNil(values[key]) || values[key] == ''){
+        errors[key] = status.errors[key][0];
+      }
+    })
+  }else{
    if (!values.label) {
      errors.label = 'Required';
    }
+  }
+
   return errors;
 };
 
@@ -83,6 +94,8 @@ export const CcConditionForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const status = ObjectStatus(ccCondition.id || 'new', 'CcCondition')
+
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(ccCondition, values)
 
@@ -98,12 +111,12 @@ export const CcConditionForm = (props) => {
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
-      <ObjectStatusBar id={ccCondition.id || 'new'} type={'CcQuestion'} />
+      <ObjectStatusBar id={ccCondition.id || 'new'} type={'CcCondition'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
         initialValues={ccCondition}
-        validate={validate}
+        validate={(values) => validate(values, status)}
         mutators={{
           ...arrayMutators
         }}

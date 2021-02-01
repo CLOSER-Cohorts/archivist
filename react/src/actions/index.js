@@ -136,7 +136,9 @@ export const CodeLists = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(codeListId, 'CodeList'));
         return request.then(res => {
+          dispatch(savedItem(codeListId, 'CodeList'));
           dispatch(codeListFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -149,7 +151,9 @@ export const CodeLists = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CodeList'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CodeList'));
           dispatch(codeListFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
         })
@@ -168,6 +172,7 @@ export const CodeLists = {
           dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.all, { instrument_id: instrumentId })));
         })
         .catch(err => {
+          dispatch(savedItem(codeListId, 'CodeList'));
           dispatch(saveError(codeListId, 'CodeList', err.response.data.error_sentence));
         });
     };
@@ -209,11 +214,13 @@ export const CcSequences = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccSequenceId, 'CcSequence'));
         return request.then(res => {
+          dispatch(savedItem(ccSequenceId, 'CcSequence'));
           dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
-          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data.error_sentence));
+          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data));
         });
     };
   },
@@ -222,12 +229,14 @@ export const CcSequences = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CcSequence'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CcSequence'));
           dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
           onSuccess({id:res.data.id})
         })
         .catch(err => {
-          dispatch(saveError('new', 'CcSequence', err.response.data.error_sentence));
+          dispatch(saveError('new', 'CcSequence', err.response.data));
         });
     };
   },
@@ -236,12 +245,14 @@ export const CcSequences = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccSequenceId, 'CcSequence'));
         return request.then(res => {
+          dispatch(savedItem(ccSequenceId, 'CcSequence'));
           dispatch(objectDeleteSuccess(instrumentId,'CcSequence', ccSequenceId));
           onDelete();
         })
         .catch(err => {
-          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data.error_sentence));
+          dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data));
         });
     };
   },
@@ -282,11 +293,13 @@ export const CcStatements = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccStatementId, 'CcStatement'));
         return request.then(res => {
+          dispatch(savedItem(ccStatementId, 'CcStatement'));
           dispatch(ccStatementFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
-          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data.error_sentence));
+          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data));
         });
     };
   },
@@ -295,12 +308,14 @@ export const CcStatements = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CcStatement'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CcStatement'));
           dispatch(ccStatementFetchSuccess(instrumentId, res.data));
           onSuccess({id:res.data.id})
         })
         .catch(err => {
-          dispatch(saveError('new', 'CcStatement', err.response.data.error_sentence));
+          dispatch(saveError('new', 'CcStatement', err.response.data));
         });
     };
   },
@@ -309,12 +324,14 @@ export const CcStatements = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccStatementId, 'CcStatement'));
         return request.then(res => {
+          dispatch(savedItem(ccStatementId, 'CcStatement'));
           dispatch(objectDeleteSuccess(instrumentId,'CcStatement', ccStatementId));
           onDelete()
         })
         .catch(err => {
-          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data.error_sentence));
+          dispatch(saveError(ccStatementId, 'CcStatement', err.response.data));
         });
     };
   },
@@ -355,7 +372,9 @@ export const CcLoops = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccLoopId, 'CcLoop'));
         return request.then(res => {
+          dispatch(savedItem(ccLoopId, 'CcLoop'));
           dispatch(ccLoopFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -368,7 +387,9 @@ export const CcLoops = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CcLoop'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CcLoop'));
           dispatch(ccLoopFetchSuccess(instrumentId, res.data));
           onSuccess({id:res.data.id})
         })
@@ -382,7 +403,9 @@ export const CcLoops = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccLoopId, 'CcLoop'));
         return request.then(res => {
+          dispatch(savedItem(ccLoopId, 'CcLoop'));
           dispatch(objectDeleteSuccess(instrumentId,'CcLoop', ccLoopId));
           onDelete();
         })
@@ -416,7 +439,6 @@ export const ResponseUnits = {
       })
     return (dispatch) => {
         return request.then(res => {
-          console.log(res.data)
           dispatch(responseUnitsFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -501,11 +523,13 @@ export const CcConditions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccConditionId, 'CcCondition'));
         return request.then(res => {
+          dispatch(savedItem(ccConditionId, 'CcCondition'));
           dispatch(ccConditionFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
-          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data.error_sentence));
+          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data));
         });
     };
   },
@@ -514,12 +538,14 @@ export const CcConditions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CcCondition'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CcCondition'));
           dispatch(ccConditionFetchSuccess(instrumentId, res.data));
           onSuccess({id:res.data.id})
         })
         .catch(err => {
-          dispatch(saveError('new', 'CcCondition', err.response.data.error_sentence));
+          dispatch(saveError('new', 'CcCondition', err.response.data));
         });
     };
   },
@@ -528,12 +554,14 @@ export const CcConditions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccConditionId, 'CcCondition'));
         return request.then(res => {
+          dispatch(savedItem(ccConditionId, 'CcCondition'));
           dispatch(objectDeleteSuccess(instrumentId,'CcCondition', ccConditionId));
           onDelete()
         })
         .catch(err => {
-          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data.error_sentence));
+          dispatch(saveError(ccConditionId, 'CcCondition', err.response.data));
         });
     };
   },
@@ -574,11 +602,13 @@ export const CcQuestions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccQuestionId, 'CcQuestion'));
         return request.then(res => {
+          dispatch(savedItem(ccQuestionId, 'CcQuestion'));
           dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
-          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.error_sentence));
+          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data));
         });
     };
   },
@@ -587,12 +617,14 @@ export const CcQuestions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'CcQuestion'));
         return request.then(res => {
+          dispatch(savedItem('new', 'CcQuestion'));
           dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
           onSuccess({id:res.data.id})
         })
         .catch(err => {
-          dispatch(saveError('new', 'CcQuestion', err.response.data.error_sentence));
+          dispatch(saveError('new', 'CcQuestion', err.response.data));
         });
     };
   },
@@ -601,12 +633,14 @@ export const CcQuestions = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(ccQuestionId, 'CcQuestion'));
         return request.then(res => {
+          dispatch(savedItem(ccQuestionId, 'CcQuestion'));
           dispatch(objectDeleteSuccess(instrumentId,'CcQuestion', ccQuestionId));
           onDelete();
         })
         .catch(err => {
-          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data.error_sentence));
+          dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data));
         });
     };
   },
@@ -724,7 +758,9 @@ export const QuestionItems = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(questionItemId, 'QuestionItem'));
         return request.then(res => {
+          dispatch(savedItem(questionItemId, 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -737,7 +773,9 @@ export const QuestionItems = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'QuestionItem'));
         return request.then(res => {
+          dispatch(savedItem('new', 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: res.data.id })));
         })
@@ -751,7 +789,9 @@ export const QuestionItems = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(questionItemId, 'QuestionItem'));
         return request.then(res => {
+          dispatch(savedItem(questionItemId, 'QuestionItem'));
           dispatch(objectDeleteSuccess(instrumentId,'QuestionItem', questionItemId));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })));
         })
@@ -797,7 +837,9 @@ export const QuestionGrids = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(questionGridId, 'QuestionGrid'));
         return request.then(res => {
+          dispatch(savedItem(questionGridId, 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -810,7 +852,9 @@ export const QuestionGrids = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'QuestionGrid'));
         return request.then(res => {
+          dispatch(savedItem('new', 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: res.data.id })));
         })
@@ -824,7 +868,9 @@ export const QuestionGrids = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(questionGridId, 'QuestionGrid'));
         return request.then(res => {
+          dispatch(savedItem(questionGridId, 'QuestionGrid'));
           dispatch(objectDeleteSuccess(instrumentId,'QuestionGrid', questionGridId));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })));
         })
@@ -870,7 +916,9 @@ export const ResponseDomainNumerics = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainNumericId, 'ResponseDomainNumeric'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainNumericId, 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -883,7 +931,9 @@ export const ResponseDomainNumerics = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'ResponseDomainNumeric'));
         return request.then(res => {
+          dispatch(savedItem('new', 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
         })
@@ -897,7 +947,9 @@ export const ResponseDomainNumerics = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainNumericId, 'ResponseDomainNumeric'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainNumericId, 'ResponseDomainNumeric'));
           dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainNumeric', responseDomainNumericId));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
         })
@@ -943,7 +995,9 @@ export const ResponseDomainTexts = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainTextId, 'ResponseDomainText'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainTextId, 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -956,7 +1010,9 @@ export const ResponseDomainTexts = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'ResponseDomainText'));
         return request.then(res => {
+          dispatch(savedItem('new', 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
         })
@@ -970,7 +1026,9 @@ export const ResponseDomainTexts = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainTextId, 'ResponseDomainText'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainTextId, 'ResponseDomainText'));
           dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainText', responseDomainTextId));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
         })
@@ -1016,7 +1074,9 @@ export const ResponseDomainDatetimes = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainDatetimeId, 'ResponseDomainDatetime'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainDatetimeId, 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
@@ -1029,7 +1089,9 @@ export const ResponseDomainDatetimes = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem('new', 'ResponseDomainDatetime'));
         return request.then(res => {
+          dispatch(savedItem('new', 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
         })
@@ -1043,7 +1105,9 @@ export const ResponseDomainDatetimes = {
         headers: api_headers()
       })
     return (dispatch) => {
+        dispatch(savingItem(responseDomainDatetimeId, 'ResponseDomainDatetime'));
         return request.then(res => {
+          dispatch(savedItem(responseDomainDatetimeId, 'ResponseDomainDatetime'));
           dispatch(objectDeleteSuccess(instrumentId,'ResponseDomainDatetime', responseDomainDatetimeId));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })));
         })

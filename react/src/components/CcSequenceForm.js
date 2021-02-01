@@ -3,7 +3,7 @@ import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CcSequences } from '../actions'
-import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
@@ -33,11 +33,22 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = values => {
+const validate = (values, status) => {
+
   const errors = {};
+
+  if(status.errors){
+    Object.keys(status.errors).map((key)=>{
+      if(isNil(values[key]) || values[key] == ''){
+        errors[key] = status.errors[key][0];
+      }
+    })
+  }else{
    if (!values.label) {
      errors.label = 'Required';
    }
+  }
+
   return errors;
 };
 
@@ -61,6 +72,8 @@ export const CcSequenceForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const status = ObjectStatus(ccSequence.id || 'new', 'CcSequence')
+
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(ccSequence, values)
 
@@ -81,7 +94,7 @@ export const CcSequenceForm = (props) => {
       <Form
         onSubmit={onSubmit}
         initialValues={ccSequence}
-        validate={validate}
+        validate={(values) => validate(values, status)}
         mutators={{
           ...arrayMutators
         }}

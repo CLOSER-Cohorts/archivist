@@ -3,7 +3,7 @@ import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CcQuestions } from '../actions'
-import { ObjectStatusBar } from '../components/ObjectStatusBar'
+import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
@@ -34,11 +34,23 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = values => {
+const validate = (values, status) => {
+
   const errors = {};
+
+  if(status.errors){
+    Object.keys(status.errors).map((error_key)=>{
+      var key = (['response_unit', 'question'].includes(error_key)) ? `${error_key}_id` : error_key
+      if(isNil(values[key]) || values[key] == ''){
+        errors[key] = status.errors[error_key][0];
+      }
+    })
+  }else{
    if (!values.label) {
      errors.label = 'Required';
    }
+  }
+
   return errors;
 };
 
@@ -93,6 +105,8 @@ export const CcQuestionForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const status = ObjectStatus(ccQuestion.id || 'new', 'CcQuestion')
+
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(ccQuestion, values)
 
@@ -113,7 +127,7 @@ export const CcQuestionForm = (props) => {
       <Form
         onSubmit={onSubmit}
         initialValues={ccQuestion}
-        validate={validate}
+        validate={(values) => validate(values, status)}
         mutators={{
           ...arrayMutators
         }}
@@ -144,7 +158,7 @@ export const CcQuestionForm = (props) => {
                     values.question_id = null
                   }}
                 </OnChange>
-                <Grid item xs="12" key="Umm">
+                <Grid item xs="12" key="question">
                   <Select
                     name="question_id"
                     label="Question"
@@ -156,7 +170,7 @@ export const CcQuestionForm = (props) => {
                     ))}
                   </Select>
                 </Grid>
-                <Grid item xs="12" key="Umm">
+                <Grid item xs="12" key="response_unit_id">
                   <Select
                     name="response_unit_id"
                     label="Interviewee"

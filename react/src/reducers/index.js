@@ -110,7 +110,6 @@ const response_units = (state = {}, action) => {
 
   switch (action.type) {
     case 'LOAD_INSTRUMENT_RESPONSE_UNITS':
-    console.log(action.payload)
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseUnits)}}
     case 'LOAD_INSTRUMENT_RESPONSE_UNIT':
       var instrumentResponseUnits = state[action.payload.instrumentId]
@@ -310,7 +309,11 @@ const statuses = (state = {}, action) => {
       return {...state, ...{[key]: {saved: true}}}
     case 'ERROR':
       key = action.payload.type + ':' + action.payload.id
-      return {...state, ...{[key]: {error: true, errorMessage: action.payload.error}}}
+      if(typeof action.payload.error === 'object' && action.payload.error !== null){
+        return {...state, ...{[key]: {error: true, errors: action.payload.error, errorMessage: ''}}}
+      }else{
+        return {...state, ...{[key]: {error: true, errorMessage: action.payload.error}}}
+      }
     default:
       return state
   }
