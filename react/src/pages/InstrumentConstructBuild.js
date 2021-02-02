@@ -33,12 +33,15 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 import {
-  Button
+  Button,
+  ButtonGroup
 } from '@material-ui/core';
 
-import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath } from 'react-sortable-tree';
+import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
 const TreeNode = (instrumentId, type, id) => {
@@ -51,11 +54,11 @@ const TreeNode = (instrumentId, type, id) => {
       { title: `True`, expanded: true, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
       { title: `False`, expanded: true, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
     ]
-    return {...item, ...{ title: `${item.label} ${item.id}`, expanded: true, type: item.type, children: trueAndFalse } }
+    return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: trueAndFalse } }
   }else{
     var children = get(item, 'children',[])
 
-    return {...item, ...{ title: `${item.label} ${item.id}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+    return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
   }
 }
 
@@ -67,6 +70,7 @@ const Tree = (props) => {
   const { topSequence, instrumentId, dispatch, onNodeSelect } = props
   const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id)]);
   const [selectedNode, setSelectedNode] = useState({});
+//  const [expanded, setExpanded] = useState(true);
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
 
@@ -101,6 +105,13 @@ const Tree = (props) => {
 
     return false;
   };
+
+  const toggleExpand = (expanded) => {
+    setTreeData(toggleExpandedForAll({
+                    treeData: treeData,
+                    expanded: expanded
+    }));
+  }
 
   const orderArray = (data) => {
     return getFlatDataFromTree({
@@ -160,6 +171,10 @@ const Tree = (props) => {
 
   return (
     <div style={{ height: 10000 }}>
+      <ButtonGroup color="primary" aria-label="outlined primary button group">
+        <Button onClick={()=>{toggleExpand(true)}} startIcon={<ExpandMoreIcon />}>Expand All</Button>
+        <Button onClick={()=>{toggleExpand(false)}} startIcon={<ExpandLessIcon />}>Collapse All</Button>
+      </ButtonGroup>
       <SortableTree
         treeData={treeData}
         onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
@@ -297,8 +312,6 @@ const ObjectFinder = (instrumentId, type, id) => {
 const ConstructForm = (props) => {
   const {object, instrumentId, onNodeSelect} = props;
   const { node={}, path, callback=(node)=>{ console.log('No onChange callback provided')}, deleteCallback=(node)=>{ console.log('No onDelete callback provided')} } = object;
-
-  console.log(object)
 
   switch (node.type) {
     case 'question':
