@@ -50,13 +50,27 @@ const formFields = [
     ),
   },
   {
+      type: 'select',
+      size: 12,
+      field: (options) => (
+        <Select
+          name="subtype"
+          label="Type"
+          formControlProps={{ margin: 'none' }}
+        >
+          <MenuItem></MenuItem>
+          <MenuItem value='Integer'>Integer</MenuItem>
+          <MenuItem value='Float'>Float</MenuItem>
+        </Select>
+      )
+  },
+  {
     size: 12,
     field: (
       <TextField
         label="Min"
         name="min"
         margin="none"
-        required={true}
       />
     ),
   },
@@ -67,7 +81,6 @@ const formFields = [
         label="Max"
         name="max"
         margin="none"
-        required={true}
       />
     ),
   }
