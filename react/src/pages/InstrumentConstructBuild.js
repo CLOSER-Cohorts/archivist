@@ -220,7 +220,7 @@ const useStyles = makeStyles((theme) => ({
   side: {
     position: 'absolute',
     width: '50%',
-    'margin-left': '46%'
+    right: '5px'
   },
   nested: {
     paddingLeft: theme.spacing(4),
