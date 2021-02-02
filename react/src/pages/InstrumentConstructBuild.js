@@ -43,9 +43,20 @@ import 'react-sortable-tree/style.css'; // This only needs to be imported once i
 
 const TreeNode = (instrumentId, type, id) => {
   var item = ObjectFinder(instrumentId, type, id)
-  var children = get(item, 'children',[])
+  if(item.type === "condition"){
+    var children = get(item, 'children',[])
+    var fchildren = get(item, 'fchildren',[])
 
-  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+    var trueAndFalse = [
+      { title: `True`, expanded: true, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `False`, expanded: true, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
+    ]
+    return {...item, ...{ title: `${item.label} ${item.id}`, expanded: true, type: item.type, children: trueAndFalse } }
+  }else{
+    var children = get(item, 'children',[])
+
+    return {...item, ...{ title: `${item.label} ${item.id}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+  }
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
@@ -80,7 +91,7 @@ const Tree = (props) => {
   }
 
   const canHaveChildren = (node) => {
-    return (node.type === 'sequence' || node.type === 'loop' || node.type === 'condition')
+    return (node.type === 'sequence' || node.type === 'loop' || node.type === 'conditionTrue' || node.type === 'conditionFalse')
   }
 
   const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
@@ -97,20 +108,27 @@ const Tree = (props) => {
       getNodeKey: ({ node }) => { return { id: node.id, type: node.type, children: node.children.map(child => `type ${child.type} id ${child.id}` ) } }, // This ensures your "id" properties are exported in the path
       ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
     }).map(({ node, path }) => {
+      if(['conditionTrue', 'conditionFalse'].includes(node.type)){
+        return null
+      }
       let parent = path[path.length - 2]
+      let branch = (parent !== undefined && parent.type === 'conditionFalse') ? 1 : 0
+      if(parent !== undefined && ['conditionTrue', 'conditionFalse'].includes(parent.type)){
+        parent = path[path.length - 3]
+      }
       return {
         id: node.id,
         type: node.type,
         position: (parent !== undefined) ? parent.children.indexOf(`type ${node.type} id ${node.id}`) + 1 : node.position,
-        branch: path.length - 1,
+        branch: branch,
         // // The last entry in the path is this node's key
         // // The second to last entry (accessed here) is the parent node's key
-        parent: path.length > 1 ? { id: path[path.length - 2].id, type: path[path.length - 2].type } : {},
-    }});
+        parent: (parent !== undefined) ? { id: parent.id, type: parent.type } : {},
+    }}).filter(el => el != null);
   }
 
   const reorderConstructs = (data) => {
-      dispatch(Instrument.reorderConstructs(instrumentId, orderArray(data)));
+    dispatch(Instrument.reorderConstructs(instrumentId, orderArray(data)));
   }
 
   const generateButtons = (node, path) => {
@@ -118,19 +136,20 @@ const Tree = (props) => {
       if(canHaveChildren(node)){
         buttons.push(
               <button
-              onClick={() =>
+              onClick={(event) => {
                   setTreeData(addNodeUnderParent({
                     treeData: treeData,
                     parentKey: path[path.length - 1],
                     expandParent: true,
-                    addAsFirstChild: true,
                     getNodeKey,
                     newNode: {
                       title: `Click to select construct type`,
                       children: []
                     }
                   }).treeData)
-              }
+                  event.stopPropagation()
+                  setSelectedNode({node: { type: undefined }})
+              }}
             >
               <AddIcon />
             </button>
@@ -146,6 +165,9 @@ const Tree = (props) => {
         onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
         canNodeHaveChildren={node => canHaveChildren(node)}
         canDrop={canDrop}
+        canDrag={({node}) =>{
+          return !['conditionTrue', 'conditionFalse'].includes(node.type)
+        }}
         generateNodeProps={({ node, path }) => {
           const boxShadow = (node === selectedNode ) ? `5px 5px 15px 5px  #${ObjectColour(node.type)}` : ''
           return (
@@ -275,6 +297,8 @@ const ObjectFinder = (instrumentId, type, id) => {
 const ConstructForm = (props) => {
   const {object, instrumentId, onNodeSelect} = props;
   const { node={}, path, callback=(node)=>{ console.log('No onChange callback provided')}, deleteCallback=(node)=>{ console.log('No onDelete callback provided')} } = object;
+
+  console.log(object)
 
   switch (node.type) {
     case 'question':
