@@ -47,6 +47,12 @@ const validate = (values, status) => {
    if (!values.label) {
      errors.label = 'Required';
    }
+   if (!values.start_val) {
+     errors.start_val = 'Required';
+   }
+   if (!values.loop_var) {
+     errors.loop_var = 'Required';
+   }
   }
 
   return errors;
@@ -103,7 +109,6 @@ const formFields = [
         label="Loop While"
         name="loop_while"
         margin="none"
-        required={true}
       />
     ),
   }
