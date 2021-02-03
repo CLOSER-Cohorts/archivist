@@ -72,13 +72,33 @@ const formFields = [
   },
   {
     size: 12,
+    visible: (values) => {
+      return get(values, 'rd', false)
+    },
     field: <TextField name="min_responses" multiline label="Min Responses" margin="none" />,
   },
   {
     size: 12,
+    visible: (values) => {
+      return get(values, 'rd', false)
+    },
     field: <TextField name="max_responses" multiline label="Max Responses" margin="none" />,
   }
 ];
+
+const FormField = (props) => {
+  const {item, values} = props
+
+  if(item.visible !== undefined && !item.visible(values) ){
+    return ''
+  }
+
+  if(item.type && item.type === 'select'){
+    return item.field()
+  }else{
+    return item.field
+  }
+}
 
 export const CodeListForm = (props) => {
   const {codeList, instrumentId} = props;
@@ -124,7 +144,7 @@ export const CodeListForm = (props) => {
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
-                    {item.field}
+                    <FormField item={item} values={values} />
                   </Grid>
                 ))}
                 <h3>Codes</h3>

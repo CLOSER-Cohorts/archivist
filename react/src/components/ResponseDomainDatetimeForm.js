@@ -34,6 +34,9 @@ const validate = values => {
    if (!values.label) {
      errors.label = 'Required';
    }
+   if (!values.subtype) {
+     errors.subtype = 'Required';
+   }
   return errors;
 };
 
@@ -57,6 +60,7 @@ const formFields = [
         name="subtype"
         label="Type"
         formControlProps={{ margin: 'none' }}
+        required={true}
       >
         <MenuItem value="Date">Date</MenuItem>
         <MenuItem value="Time">Time</MenuItem>
@@ -74,7 +78,6 @@ const formFields = [
         label="Format"
         name="format"
         margin="none"
-        required={true}
       />
     ),
   }
