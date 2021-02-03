@@ -23,11 +23,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import BounceLoader from "react-spinners/BounceLoader";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Box } from '@material-ui/core'
@@ -36,10 +33,19 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
+import SearchBar from "material-ui-search-bar";
+
 import {
   Button,
-  ButtonGroup
+  ButtonGroup,
+  TextField,
+  Divider
 } from '@material-ui/core';
+
+import {
+  Alert,
+  AlertTitle
+} from '@material-ui/lab';
 
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
@@ -71,6 +77,30 @@ const Tree = (props) => {
   const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id)]);
   const [selectedNode, setSelectedNode] = useState({});
 //  const [expanded, setExpanded] = useState(true);
+  const classes = useStyles();
+
+  const [searchString, setSearchString] = useState();
+  const [searchFocusIndex, setSearchFocusIndex] = useState();
+  const [searchFoundCount, setSearchFoundCount] = useState();
+
+  // Case insensitive search of `node.title`
+  const customSearchMethod = ({ node, searchQuery }) =>
+    searchQuery &&
+    node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+
+  const selectPrevMatch = () =>
+      setSearchFocusIndex(
+        searchFocusIndex !== null
+          ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
+          : searchFoundCount - 1
+      );
+
+  const selectNextMatch = () =>
+    setSearchFocusIndex(
+        searchFocusIndex !== null
+          ? (searchFocusIndex + 1) % searchFoundCount
+          : 0,
+    );
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
 
@@ -171,10 +201,47 @@ const Tree = (props) => {
 
   return (
     <div style={{ height: 10000 }}>
+
+    <SearchBar
+      placeholder="Search (press return to perform search)"
+      onRequestSearch={(newValue) =>
+              setSearchString(newValue)
+            }
+      onCancelSearch={() => {
+              setSearchString()
+              setSearchFocusIndex(0)
+            }}
+    />
+
+    {searchFoundCount === 0 && !isNil(searchString) && (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        No results found.
+      </Alert>
+    )}
+
+    {searchFoundCount > 0 && !isNil(searchString) && (
+      <>
+        <span>
+          &nbsp;
+          {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+          &nbsp;of&nbsp;
+          {searchFoundCount || 0} matches
+        </span>
+        <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <Button onClick={selectPrevMatch}>&lt; Prev</Button>
+          <Button onClick={selectNextMatch}>&gt; Next</Button>
+        </ButtonGroup>
+      </>
+    )}
+
+      <Divider className={classes.divider}/>
+
       <ButtonGroup color="primary" aria-label="outlined primary button group">
         <Button onClick={()=>{toggleExpand(true)}} startIcon={<ExpandMoreIcon />}>Expand All</Button>
         <Button onClick={()=>{toggleExpand(false)}} startIcon={<ExpandLessIcon />}>Collapse All</Button>
       </ButtonGroup>
+
       <SortableTree
         treeData={treeData}
         onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
@@ -182,6 +249,29 @@ const Tree = (props) => {
         canDrop={canDrop}
         canDrag={({node}) =>{
           return !['conditionTrue', 'conditionFalse'].includes(node.type)
+        }}
+        //
+        // Custom comparison for matching during search.
+        // This is optional, and defaults to a case sensitive search of
+        // the title and subtitle values.
+        // see `defaultSearchMethod` in https://github.com/frontend-collective/react-sortable-tree/blob/master/src/utils/default-handlers.js
+        searchMethod={customSearchMethod}
+        //
+        // The query string used in the search. This is required for searching.
+        searchQuery={searchString}
+        //
+        // When matches are found, this property lets you highlight a specific
+        // match and scroll to it. This is optional.
+        searchFocusOffset={searchFocusIndex}
+        //
+        // This callback returns the matches from the search,
+        // including their `node`s, `treeIndex`es, and `path`s
+        // Here I just use it to note how many matches were found.
+        // This is optional, but without it, the only thing searches
+        // do natively is outline the matching nodes.
+        searchFinishCallback={(matches) => {
+          setSearchFoundCount(matches.length)
+          setSearchFocusIndex(matches.length > 0 ? searchFocusIndex % matches.length : 0)
         }}
         generateNodeProps={({ node, path }) => {
           const boxShadow = (node === selectedNode ) ? `5px 5px 15px 5px  #${ObjectColour(node.type)}` : ''
@@ -248,6 +338,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow :`2px 2px 7px 2px  #${ObjectColour('condition')}`,
     'margin-bottom': '10px'
   },
+  divider:{
+    margin: '25px'
+  }
 }));
 
 const ObjectStatus = (id, type) => {
