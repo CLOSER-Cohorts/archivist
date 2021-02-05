@@ -64,7 +64,7 @@ const InstrumentBuild = (props) => {
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={instrumentId}>
+      <Dashboard title={instrumentId} instrumentId={instrumentId}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <Paper className={classes.control}>

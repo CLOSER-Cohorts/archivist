@@ -96,16 +96,9 @@ const InstrumentBuildResponseDomains = (props) => {
     history.push(path);
   }
 
-  const breadcrumbs = () => {
-    let crumbs = []
-    crumbs.push({ text: 'Instruments', link: url(routes.instruments.all)})
-    crumbs.push({ text: instrumentId})
-    return crumbs;
-  }
-
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={instrumentId} breadcrumbs={breadcrumbs()}>
+      <Dashboard title={instrumentId} instrumentId={instrumentId}>
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Paper className={classes.control}>

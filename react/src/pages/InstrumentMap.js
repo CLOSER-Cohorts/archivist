@@ -417,7 +417,7 @@ const InstrumentMap = (props) => {
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Maps'}>
+      <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
       {isNil(sequence)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>

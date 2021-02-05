@@ -519,7 +519,7 @@ const InstrumentConstructBuild = (props) => {
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Build'}>
+      <Dashboard title={'Build'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
       {isNil(sequence) || isEmpty(statements)  || isEmpty(conditions) || isEmpty(questionItems)  || isEmpty(questions)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>

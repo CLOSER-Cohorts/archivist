@@ -162,7 +162,7 @@ export const Dashboard = (props)  => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const dispatch = useDispatch();
-
+  const { instrumentId } = props;
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -218,7 +218,7 @@ export const Dashboard = (props)  => {
         <Container maxWidth={false} maxHeight={false} className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <BreadcrumbBar breadcrumbs={props.breadcrumbs} />
+              <BreadcrumbBar instrumentId={instrumentId} />
               <Paper className={classes.paper}>
                 {props.children}
               </Paper>
