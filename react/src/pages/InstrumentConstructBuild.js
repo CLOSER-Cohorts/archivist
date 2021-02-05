@@ -272,8 +272,6 @@ const Tree = (props) => {
           )
         }}
       />
-      ↓This flat data is generated from the modified tree data↓
-      <pre>{JSON.stringify(orderArray(treeData), 0, 2)}</pre>
     </div>
   );
 }

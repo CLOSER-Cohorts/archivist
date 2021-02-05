@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { QuestionGrids } from '../actions'
+import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
+import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -19,8 +20,18 @@ import {
   Grid,
   Button,
   CssBaseline,
-  MenuItem
+  MenuItem,
+  Table,
+  TableContainer,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell
 } from '@material-ui/core';
+import {
+  Autocomplete
+} from '@material-ui/lab';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const useStyles = makeStyles({
@@ -160,6 +171,19 @@ export const QuestionGridForm = (props) => {
     }
   }
 
+  const responseDomainNumerics = useSelector(state => get(state.responseDomainNumerics, instrumentId, {}));
+  const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
+  const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
+
+  const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+
+  useEffect(() => {
+    dispatch(ResponseDomainNumerics.all(instrumentId));
+    dispatch(ResponseDomainTexts.all(instrumentId));
+    dispatch(ResponseDomainDatetimes.all(instrumentId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
       <ObjectStatusBar id={questionGrid.id || 'new'} type={'QuestionGrid'} />
@@ -192,6 +216,79 @@ export const QuestionGridForm = (props) => {
                     }
                   </Grid>
                 ))}
+                <OnChange name="horizontal_code_list_id">
+                  {(value, previous) => {
+                    const codeList = codeLists.find(el => el.id === value)
+                    if(codeList){
+                      values.cols = codeList.codes.map((code) => {
+                        return {
+                          label: code.label,
+                          value: code.value,
+                          order: code.order
+                        }
+                      })
+                    }
+                  }}
+                </OnChange>
+                <h3>Response Domains</h3>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Column</TableCell>
+                          <TableCell>Type and Label</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <FieldArray name="cols">
+                          {({ fields }) =>
+                            fields.map((name, index) => (
+                              <TableRow key={name}>
+                                <TableCell>{fields.value[index].label}</TableCell>
+                                <TableCell>
+                                 <Autocomplete
+                                  freesolo="true"
+                                  options={Object.values(responseDomains)}
+                                  getOptionLabel={(option) => (option.type === '') ? `` :`${option.label} - ${option.type}`}
+                                  onChange={(event, value, reason)=>{
+                                    var rd;
+                                    if(isNil(value)){
+                                      rd = {...fields.value[index].rd, ...{type: '', id: null, label: ''} }
+                                    }else{
+                                      rd = {...fields.value[index].rd, ...{type: value.type, id: value.id, label: value.label} }
+                                    }
+                                    fields.update(index, {...fields.value[index], ...{rd: rd} })
+                                  } }
+                                  value={(fields.value[index].rd) ? {type: fields.value[index].rd.type, id: fields.value[index].rd.id, label:fields.value[index].rd.label} : {type: '', id: null, label: ''}}
+                                  getOptionSelected= {(option, value) => (
+                                    option.type === value.type && option.id === value.id
+                                  )}
+                                  renderInput={(params) => (
+                                    <TextField name={`${name}.type - ${name}.label`}
+                                      {...params}
+                                      variant="outlined"
+                                      label="Label"
+                                      placeholder="label"
+                                    />
+                                  )}
+                                />
+                                </TableCell>
+                                <TableCell>
+                                  <span
+                                    onClick={() => fields.update(index, {...fields.value[index], ...{rd: {type: '', id: null, label: ''} } }) }
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    <DeleteIcon />
+                                  </span>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          }
+                        </FieldArray>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
                     type="button"
@@ -215,7 +312,6 @@ export const QuestionGridForm = (props) => {
                 <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />

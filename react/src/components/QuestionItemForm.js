@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { QuestionItems } from '../actions'
+import { QuestionItems, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
@@ -18,7 +18,19 @@ import {
   Grid,
   Button,
   CssBaseline,
+  Table,
+  TableContainer,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell
 } from '@material-ui/core';
+import {
+  Autocomplete
+} from '@material-ui/lab';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 
 
 const useStyles = makeStyles({
@@ -54,7 +66,6 @@ const formFields = [
         label="Instruction"
         name="instruction"
         margin="none"
-        required={true}
       />
     ),
   },
@@ -79,6 +90,12 @@ export const QuestionItemForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const responseDomainNumerics = useSelector(state => get(state.responseDomainNumerics, instrumentId, {}));
+  const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
+  const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
+
+  const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(questionItem, values)
 
@@ -88,6 +105,13 @@ export const QuestionItemForm = (props) => {
       dispatch(QuestionItems.update(instrumentId, questionItem.id, values))
     }
   }
+
+  useEffect(() => {
+    dispatch(ResponseDomainNumerics.all(instrumentId));
+    dispatch(ResponseDomainTexts.all(instrumentId));
+    dispatch(ResponseDomainDatetimes.all(instrumentId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
@@ -118,6 +142,62 @@ export const QuestionItemForm = (props) => {
                     {item.field}
                   </Grid>
                 ))}
+                <h3>Response Domains</h3>
+                <AddCircleOutlineIcon onClick={() => push('rds', {})}/>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Type and Label</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <FieldArray name="rds">
+                          {({ fields }) =>
+                            fields.map((name, index) => (
+                              <TableRow key={name}>
+                                <TableCell>
+                                 <Autocomplete
+                                  freesolo="true"
+                                  options={Object.values(responseDomains)}
+                                  getOptionLabel={(option) => `${option.type} - ${option.label}`}
+                                  onChange={(event, value, reason)=>{
+                                    if(isNil(value)){
+                                      fields.update(index, {...fields.value[index], ...{type: null, id: null, label: null} })
+                                    }else{
+                                      fields.update(index, {...fields.value[index], ...{type: value.type, id: value.id, label: value.label} })
+                                    }
+                                  } }
+                                  value={{type: fields.value[index].type, id: fields.value[index].id, label:fields.value[index].label}}
+                                  getOptionSelected= {(option, value) => (
+                                    option.type === value.type && option.id === value.id
+                                  )}
+                                  renderInput={(params) => (
+                                    <TextField name={`${name}.type - ${name}.label`}
+                                      {...params}
+                                      variant="outlined"
+                                      label="Label"
+                                      placeholder="label"
+                                    />
+                                  )}
+                                />
+                                </TableCell>
+                                <TableCell>
+                                  <span
+                                    onClick={() => fields.remove(index)}
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    <DeleteIcon />
+                                  </span>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          }
+                        </FieldArray>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
                     type="button"
