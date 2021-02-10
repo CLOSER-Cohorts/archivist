@@ -521,7 +521,7 @@ const InstrumentConstructBuild = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Build'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
-      {isNil(sequence) || isEmpty(statements)  || isEmpty(conditions) || isEmpty(questionItems)  || isEmpty(questions)
+      {isNil(sequence) || isNil(statements)  || isNil(conditions) || isNil(questionItems)  || isNil(questions)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : (
           <Grid container spacing={3} className={classes.main}>
