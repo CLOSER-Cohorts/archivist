@@ -258,6 +258,7 @@ const Tree = (props) => {
         }}
         generateNodeProps={({ node, path }) => {
           const boxShadow = (node === selectedNode ) ? `5px 5px 15px 5px  #${ObjectColour(node.type)}` : ''
+
           return (
             {
               style: {
@@ -268,6 +269,7 @@ const Tree = (props) => {
                 setSelectedNode(node);
               },
               buttons: generateButtons(node, path),
+              className: `${node.type}:${node.id}`
             }
           )
         }}
@@ -486,42 +488,35 @@ const InstrumentConstructBuild = (props) => {
   const instrumentId = get(props, "match.params.instrument_id", "")
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
-  const cc_sequences = get(sequences, instrumentId, {})
-  const statements = useSelector(state => state.cc_statements);
-  const cc_statements = get(statements, instrumentId, {})
-  const conditions = useSelector(state => state.cc_conditions);
-  const cc_conditions = get(conditions, instrumentId, {})
-  const questions = useSelector(state => state.cc_questions);
-  const cc_questions = get(questions, instrumentId, {})
-  const allQuestionItems = useSelector(state => state.questionItems);
-  const questionItems = get(allQuestionItems, instrumentId, {})
-  const allQuestionGrids = useSelector(state => state.questionGrids);
-  const questionGrids = get(allQuestionGrids, instrumentId, {})
-  const loops = useSelector(state => state.cc_loops);
-  const cc_loops = get(loops, instrumentId, {})
+  const cc_sequences = get(sequences, instrumentId, null)
 
   const [selectedNode, setSelectedNode] = useState({});
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(Instrument.show(instrumentId));
-    dispatch(CcSequences.all(instrumentId));
-    dispatch(CcStatements.all(instrumentId));
-    dispatch(CcConditions.all(instrumentId));
-    dispatch(CcLoops.all(instrumentId));
-    dispatch(CcQuestions.all(instrumentId));
-    dispatch(QuestionItems.all(instrumentId));
-    dispatch(QuestionGrids.all(instrumentId));
-    dispatch(ResponseUnits.all(instrumentId));
+    Promise.all([
+      dispatch(Instrument.show(instrumentId)),
+      dispatch(CcSequences.all(instrumentId)),
+      dispatch(CcStatements.all(instrumentId)),
+      dispatch(CcConditions.all(instrumentId)),
+      dispatch(CcLoops.all(instrumentId)),
+      dispatch(CcQuestions.all(instrumentId)),
+      dispatch(QuestionItems.all(instrumentId)),
+      dispatch(QuestionGrids.all(instrumentId)),
+      dispatch(ResponseUnits.all(instrumentId))
+    ]).then(() => {
+      setDataLoaded(true)
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)
+  const sequence = (isEmpty(cc_sequences) || isNil(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)
 
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Build'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
-      {isNil(sequence) || isNil(statements)  || isNil(conditions) || isNil(questionItems)  || isNil(questions)
+      {!dataLoaded
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : (
           <Grid container spacing={3} className={classes.main}>
