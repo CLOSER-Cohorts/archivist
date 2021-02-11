@@ -5,6 +5,7 @@ export default {
    instruments: include('/instruments', {
       all: '',
       instrument: include(':instrument_id/', {
+        show: '',
          map: include('map/', {
             show: ''
         }),

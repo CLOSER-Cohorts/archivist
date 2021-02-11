@@ -51,7 +51,7 @@ const BreadcrumbBar = (props) => {
       crumbs.push(
         {
           text: instrumentId,
-          link: url(routes.instruments.instrument.map.show, { instrument_id: instrumentId })
+          link: url(routes.instruments.instrument.show, { instrument_id: instrumentId })
         }
       )
       const params = paramsFromPath();

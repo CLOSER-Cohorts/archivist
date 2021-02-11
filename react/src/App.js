@@ -5,6 +5,7 @@ import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
 import Instruments from './pages/Instruments';
+import InstrumentView from './pages/InstrumentView';
 import InstrumentMap from './pages/InstrumentMap';
 import InstrumentBuild from './pages/InstrumentBuild';
 import InstrumentConstructBuild from './pages/InstrumentConstructBuild';
@@ -56,6 +57,7 @@ const App = () => {
             />
             <AuthRoute type="private" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.show} component={InstrumentView} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.show} component={InstrumentBuildCodeLists} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.new} component={InstrumentBuildCodeLists} />

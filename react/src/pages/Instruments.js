@@ -61,6 +61,9 @@ const Instruments = () => {
                 <TableCell>{row.study}</TableCell>
                 <TableCell>
                   <Button variant="outlined">
+                    <Link to={url(routes.instruments.instrument.show, { instrument_id: row.prefix })}>View</Link>
+                  </Button>
+                  <Button variant="outlined">
                     <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
                   </Button>
                   <Button variant="outlined">
