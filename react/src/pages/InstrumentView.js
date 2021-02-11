@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { InstrumentHeading } from '../components/InstrumentHeading'
 import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -283,8 +284,8 @@ const InstrumentView = (props) => {
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Maps'} instrumentId={instrumentId}>
-        <h1>{get(instrument, 'label')}</h1>
+      <Dashboard title={'View'} instrumentId={instrumentId}>
+      <InstrumentHeading instrument={instrument} mode={'view'} />
       {isNil(sequence)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>

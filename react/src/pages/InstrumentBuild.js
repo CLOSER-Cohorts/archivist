@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { InstrumentHeading } from '../components/InstrumentHeading'
 import { get } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -33,6 +34,7 @@ const InstrumentBuild = (props) => {
   const classes = useStyles();
 
   const instrumentId = get(props, "match.params.instrument_id", "")
+  const instrument = useSelector(state => get(state.instruments, instrumentId));
   const stats = useSelector(state => get(state.instrumentStats, instrumentId, {}));
 
   const instrumentStats = get(stats, 'stats', {})
@@ -45,6 +47,7 @@ const InstrumentBuild = (props) => {
   } = instrumentStats
 
   useEffect(() => {
+    dispatch(Instrument.show(instrumentId));
     dispatch(Instrument.stats(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
@@ -65,6 +68,7 @@ const InstrumentBuild = (props) => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={instrumentId} instrumentId={instrumentId}>
+        <InstrumentHeading instrument={instrument} mode={'build'}/>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <Paper className={classes.control}>

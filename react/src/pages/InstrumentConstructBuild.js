@@ -7,6 +7,7 @@ import { CcQuestionForm } from '../components/CcQuestionForm'
 import { CcStatementForm } from '../components/CcStatementForm'
 import { CcSequenceForm } from '../components/CcSequenceForm'
 import { CcLoopForm } from '../components/CcLoopForm'
+import { Loader } from '../components/Loader'
 import { ObjectColour } from '../support/ObjectColour'
 import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
@@ -25,7 +26,6 @@ import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import BounceLoader from "react-spinners/BounceLoader";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
@@ -50,21 +50,21 @@ import {
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
-const TreeNode = (instrumentId, type, id) => {
+const TreeNode = (instrumentId, type, id, expanded=false) => {
   var item = ObjectFinder(instrumentId, type, id)
   if(item.type === "condition"){
     var children = get(item, 'children',[])
     var fchildren = get(item, 'fchildren',[])
 
     var trueAndFalse = [
-      { title: `True`, expanded: true, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
-      { title: `False`, expanded: true, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `True`, expanded: expanded, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `False`, expanded: expanded, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
     ]
-    return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: trueAndFalse } }
+    return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: trueAndFalse } }
   }else{
     var children = get(item, 'children',[])
 
-    return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+    return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
   }
 }
 
@@ -74,7 +74,7 @@ const TreeNodeFormatter = (instrumentId, item) => {
 
 const Tree = (props) => {
   const { topSequence, instrumentId, dispatch, onNodeSelect } = props
-  const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id)]);
+  const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id, true)]);
   const [selectedNode, setSelectedNode] = useState({});
 //  const [expanded, setExpanded] = useState(true);
   const classes = useStyles();
@@ -257,7 +257,7 @@ const Tree = (props) => {
           setSearchFocusIndex(matches.length > 0 ? searchFocusIndex % matches.length : 0)
         }}
         generateNodeProps={({ node, path }) => {
-          const boxShadow = (node === selectedNode ) ? `5px 5px 15px 5px  #${ObjectColour(node.type)}` : ''
+          const boxShadow = (node === selectedNode || node.type == 'sequence' ) ? `0px 0px 15px 3px  #${ObjectColour(node.type)}` : ''
 
           return (
             {
@@ -517,7 +517,7 @@ const InstrumentConstructBuild = (props) => {
       <Dashboard title={'Build'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
       {!dataLoaded
-        ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
+        ? <Loader />
         : (
           <Grid container spacing={3} className={classes.main}>
             <Grid item xs={(isEmpty(selectedNode)) ? 12 : 12 }>

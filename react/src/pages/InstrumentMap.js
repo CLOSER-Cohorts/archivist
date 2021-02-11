@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { get, isEmpty, isNil } from "lodash";
+import { InstrumentHeading } from '../components/InstrumentHeading'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
@@ -418,7 +419,7 @@ const InstrumentMap = (props) => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
-        <h1>{get(instrument, 'label')}</h1>
+        <InstrumentHeading instrument={instrument} mode={'map'} />
       {isNil(sequence)
         ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
