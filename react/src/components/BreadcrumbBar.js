@@ -38,13 +38,31 @@ const BreadcrumbBar = (props) => {
 
   const location = useLocation();
 
-  const paramsFromPath = () => {
-    const capturingRegex = `/instruments\\/${instrumentId}\\/(?<type>build|map)\/?(?<subtype>question_grids|question_items|response_domains|code_lists|constructs)?\/?`;
-    const found = location.pathname.match(new RegExp(capturingRegex));
-    return get(found, 'groups',{})
+  const buildBreadcrumbs = () => {
+    var found = location.pathname.match(new RegExp(`^\\/(?<topLevel>instruments|datasets)`));
+    var topLevel = get(get(found, 'groups',{}),'topLevel','instruments')
+    switch (topLevel) {
+      case 'datasets':
+        return buildDatasetBreadcrumbs()
+        break
+      default:
+        return buildInstrumentBreadcrumbs()
+        break
+    }
   }
 
-  const buildBreadcrumbs = () => {
+  const buildDatasetBreadcrumbs = () => {
+    var crumbs = [{text: 'Datasets', link: url(routes.datasets.all)}]
+    return crumbs
+  }
+
+  const buildInstrumentBreadcrumbs = () => {
+    const paramsFromPath = () => {
+      const capturingRegex = `/instruments\\/${instrumentId}\\/(?<type>build|map)\/?(?<subtype>question_grids|question_items|response_domains|code_lists|constructs)?\/?`;
+      const found = location.pathname.match(new RegExp(capturingRegex));
+      return get(found, 'groups',{})
+    }
+
     var crumbs = [{text: 'Instruments', link: url(routes.instruments.all)}]
 
     if(instrumentId){

@@ -38,6 +38,35 @@ export const authUser = (email, password) => {
   };
 };
 
+export const Dataset = {
+  all: () => {
+    const request = axios.get(api_host + '/datasets.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(datasetsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  show: (id) => {
+    const request = axios.get(api_host + '/datasets/' + id + '.json?questions=true',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(datasetFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
 export const Instrument = {
   all: () => {
     const request = axios.get(api_host + '/instruments.json',{
@@ -1171,6 +1200,85 @@ const variablesFetchSuccess = (instrumentId, variables) => ({
   }
 });
 
+export const DatasetVariable = {
+  all: (datasetId) => {
+    const request = axios.get(api_host + '/datasets/' + datasetId + '/variables.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(datasetVariablesFetchSuccess(datasetId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  add_source: (datasetId, datasetVariableId, sources) => {
+    const request = axios.post(api_host + '/datasets/' + datasetId + '/variables/' + datasetVariableId + '/add_sources.json',
+    {
+      sources: {
+        "id": sources,
+        "x": null,
+        "y": null
+      }
+    },
+    {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem(datasetVariableId, 'DatasetVariable'));
+        return request.then(res => {
+          dispatch(savedItem(datasetVariableId, 'DatasetVariable'));
+          dispatch(datasetVariableFetchSuccess(datasetId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(datasetVariableId, 'DatasetVariable', err.response.data.message));
+        });
+    };
+  },
+  remove_source: (datasetId, datasetVariableId, source) => {
+    const request = axios.post(api_host + '/datasets/' + datasetId + '/variables/' + datasetVariableId + '/remove_source.json',
+    {
+      other: {
+        id: source.id,
+        class: source.class,
+        x: source.x,
+        y: source.y
+      }
+    },
+    {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem(datasetVariableId, 'DatasetVariable'));
+        return request.then(res => {
+          dispatch(savedItem(datasetVariableId, 'DatasetVariable'));
+          dispatch(datasetVariableFetchSuccess(datasetId, res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(datasetVariableId, 'DatasetVariable', err.message));
+        });
+    };
+  }
+}
+
+const datasetVariablesFetchSuccess = (datasetId, variables) => ({
+  type: 'LOAD_DATASET_VARIABLES',
+  payload: {
+    datasetId: datasetId,
+    variables: variables
+  }
+});
+
+const datasetVariableFetchSuccess = (datasetId, variable) => ({
+  type: 'LOAD_DATASET_VARIABLE',
+  payload: {
+    datasetId: datasetId,
+    variable: variable
+  }
+});
+
 export const Topics = {
   all: () => {
     const request = axios.get(api_host + '/topics/flattened_nest.json',{
@@ -1191,6 +1299,20 @@ const topicsFetchSuccess = (topics) => ({
   type: 'LOAD_TOPICS',
   payload: {
     topics: topics
+  }
+});
+
+const datasetsFetchSuccess = datasets => ({
+  type: 'LOAD_DATASETS',
+  payload: {
+    datasets: datasets
+  }
+});
+
+const datasetFetchSuccess = datasets => ({
+  type: 'LOAD_DATASET',
+  payload: {
+    dataset: datasets
   }
 });
 

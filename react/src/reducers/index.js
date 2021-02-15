@@ -16,6 +16,7 @@ const serializeArrayToObject = (array) =>
 const auth = (state = { isAuthUser: !!window.localStorage.getItem("jwt") }, action) => {
 
   switch (action.type) {
+
     case 'LOGIN':
       window.localStorage.setItem('jwt', action.payload.jwt);
       return { isAuthUser: true }
@@ -34,6 +35,17 @@ const instruments = (state = [], action) => {
       return serializeSearchesArrayToObject(action.payload.instruments)
     case 'LOAD_INSTRUMENT':
       return {...state, ...{[action.payload.instrument.prefix]: action.payload.instrument}}
+    default:
+      return state
+  }
+}
+
+const datasets = (state = [], action) => {
+  switch (action.type) {
+    case 'LOAD_DATASETS':
+      return serializeArrayToObject(action.payload.datasets)
+    case 'LOAD_DATASET':
+      return {...state, ...{[action.payload.dataset.id]: action.payload.dataset}}
     default:
       return state
   }
@@ -188,6 +200,20 @@ const variables = (state = {}, action) => {
   }
 }
 
+const datasetVariables = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_DATASET_VARIABLES':
+      return {...state, ...{[action.payload.datasetId]: serializeArrayToObject(action.payload.variables)}}
+    case 'LOAD_DATASET_VARIABLE':
+      var variables = get(state, action.payload.datasetId, {})
+      const revisedVariables = {...variables, ...{[action.payload.variable.id]: action.payload.variable}}
+      return {...state, ...{[action.payload.datasetId]: revisedVariables}}
+    default:
+      return state
+  }
+}
+
 const codeLists = (state = {}, action) => {
 
   switch (action.type) {
@@ -335,6 +361,7 @@ const common = (state = {}, action) => {
 const appReducer = combineReducers({
     common,
     auth,
+    datasets,
     instruments,
     instrumentStats,
     cc_sequences,
@@ -350,6 +377,7 @@ const appReducer = combineReducers({
     responseDomainNumerics,
     responseDomainTexts,
     responseDomainDatetimes,
+    datasetVariables,
     variables,
     statuses,
     topics

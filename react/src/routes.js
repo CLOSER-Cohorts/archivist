@@ -1,8 +1,11 @@
 import { include } from 'named-urls'
 
 export default {
-   login : '/login',
-   instruments: include('/instruments', {
+    login : '/login',
+    datasets: include('/datasets', {
+      all: ''
+    }),
+    instruments: include('/instruments', {
       all: '',
       instrument: include(':instrument_id/', {
         show: '',

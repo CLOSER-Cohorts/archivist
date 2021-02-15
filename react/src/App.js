@@ -5,6 +5,8 @@ import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
 import Instruments from './pages/Instruments';
+import Datasets from './pages/Datasets';
+import DatasetView from './pages/DatasetView';
 import InstrumentView from './pages/InstrumentView';
 import InstrumentMap from './pages/InstrumentMap';
 import InstrumentBuild from './pages/InstrumentBuild';
@@ -72,6 +74,8 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
+            <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
+            <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
             <AuthRoute type="guest" component={NoMatch} />
           </Switch>
         </div>

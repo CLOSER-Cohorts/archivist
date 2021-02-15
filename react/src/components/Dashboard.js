@@ -140,7 +140,9 @@ export const mainListItems = (
       <ListItemIcon>
         <StorageIcon />
       </ListItemIcon>
-      <ListItemText primary="Datasets" />
+      <Link to={url(routes.datasets.all)}>
+        <ListItemText primary="Datasets" />
+      </Link>
     </ListItem>
     <ListItem button>
       <ListItemIcon>
