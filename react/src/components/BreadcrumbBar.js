@@ -91,7 +91,7 @@ const BreadcrumbBar = (props) => {
                 }
               )
             if(params.subtype){
-              console.log(params)
+
               if(params.subtype === 'question_items'){
                   crumbs.push(
                       {

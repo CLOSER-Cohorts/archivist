@@ -22,6 +22,14 @@ export const ObjectStatusBar = (props) => {
         </Alert>
       </div>
     )
+  }else if(status && status.saved){
+    return (
+      <div>
+        <Alert severity="success">
+          <AlertTitle>{ (id === 'new') ? 'Created' : 'Saved' }</AlertTitle>
+        </Alert>
+      </div>
+    )
   }else{
     return ''
   }

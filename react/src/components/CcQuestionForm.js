@@ -7,7 +7,6 @@ import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
 import { ObjectColour } from '../support/ObjectColour'
@@ -42,7 +41,7 @@ const validate = (values, status) => {
     Object.keys(status.errors).map((error_key)=>{
       var key = (['response_unit', 'question'].includes(error_key)) ? `${error_key}_id` : error_key
       if(isNil(values[key]) || values[key] == ''){
-        errors[key] = status.errors[error_key][0];
+        return errors[key] = status.errors[error_key][0];
       }
     })
   }else{

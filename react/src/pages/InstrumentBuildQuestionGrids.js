@@ -9,9 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Chip from '@material-ui/core/Chip';
 import { useHistory } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
@@ -52,7 +50,7 @@ const InstrumentBuildQuestionGrids = (props) => {
   },[]);
 
   const QuestionGrid = (props) => {
-    const {label, value, id} = props
+    const {label, id} = props
     return (
       <ListItem>
         <ListItemText

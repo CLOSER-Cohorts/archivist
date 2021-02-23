@@ -4,6 +4,9 @@ import { Switch, BrowserRouter as Router, Redirect, Route } from 'react-router-d
 import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
+import AdminImport from './pages/AdminImport';
+import AdminImports from './pages/AdminImports';
+import AdminInstruments from './pages/AdminInstruments';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
 import DatasetView from './pages/DatasetView';
@@ -76,6 +79,9 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
             <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
+            <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
+            <AuthRoute type="private" exact path={routes.admin.imports} component={AdminImports} />
+            <AuthRoute type="private" exact path={routes.admin.instruments} component={AdminInstruments} />
             <AuthRoute type="guest" component={NoMatch} />
           </Switch>
         </div>

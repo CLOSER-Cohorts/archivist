@@ -67,7 +67,60 @@ export const Dataset = {
   }
 }
 
+export const AdminInstrument = {
+  create: (values) => {
+    let formData = new FormData();
+
+    formData.append("files[]", values.files[0]);
+    const request = axios.post(api_host + '/admin/import/instruments/', formData, {
+        headers: {...api_headers(), ...{'Content-Type': 'multipart/form-data'}}
+      })
+    return (dispatch) => {
+        dispatch(savingItem('new', 'AdminInstrument'));
+        return request.then(res => {
+          dispatch(savedItem('new', 'AdminInstrument'));
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
+}
+
+export const AdminDataset = {
+  create: (values) => {
+    let formData = new FormData();
+
+    formData.append("files[]", values.files[0]);
+    const request = axios.post(api_host + '/admin/import/datasets/', formData, {
+        headers: {...api_headers(), ...{'Content-Type': 'multipart/form-data'}}
+      })
+    return (dispatch) => {
+        dispatch(savingItem('new', 'AdminDataset'));
+        return request.then(res => {
+          dispatch(savedItem('new', 'AdminDataset'));
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
+}
+
 export const Instrument = {
+  import: (values) => {
+    const request = axios.post(api_host + '/admin/import/instruments/', { updates: values }, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          console.log('ok')
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
   all: () => {
     const request = axios.get(api_host + '/instruments.json',{
         headers: api_headers()

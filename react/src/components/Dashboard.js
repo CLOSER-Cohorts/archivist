@@ -30,6 +30,7 @@ import routes from '../routes'
 import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
 import BreadcrumbBar from './BreadcrumbBar'
+import { ObjectColour } from '../support/ObjectColour'
 
 function Copyright() {
   return (
@@ -146,15 +147,11 @@ export const mainListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <LabelIcon />
+        <SupervisedUserCircleIcon style={{ color: '37b34a' }}/>
       </ListItemIcon>
-      <ListItemText primary="Topics" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SupervisedUserCircleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Admin" />
+      <Link to={url(routes.admin.import)}>
+        <ListItemText primary="Admin" />
+      </Link>
     </ListItem>
   </div>
 );

@@ -5,6 +5,11 @@ export default {
     datasets: include('/datasets', {
       all: ''
     }),
+    admin: include('/admin', {
+      import: 'import',
+      imports: 'imports',
+      instruments: 'instruments',
+    }),
     instruments: include('/instruments', {
       all: '',
       instrument: include(':instrument_id/', {

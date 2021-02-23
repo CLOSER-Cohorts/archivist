@@ -1,6 +1,5 @@
 import React from 'react';
 import { get } from "lodash";
-import { ObjectColour } from '../support/ObjectColour'
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'

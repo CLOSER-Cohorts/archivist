@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics, ResponseUnits } from '../actions'
+import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { CcConditionForm } from '../components/CcConditionForm'
 import { CcQuestionForm } from '../components/CcQuestionForm'
@@ -14,22 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Badge from '@material-ui/core/Badge';
-import Collapse from '@material-ui/core/Collapse';
-import DoneIcon from '@material-ui/icons/Done';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Chip from '@material-ui/core/Chip';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import SyncLoader from "react-spinners/SyncLoader";
-import { Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
@@ -38,7 +23,6 @@ import SearchBar from "material-ui-search-bar";
 import {
   Button,
   ButtonGroup,
-  TextField,
   Divider
 } from '@material-ui/core';
 
@@ -52,8 +36,10 @@ import 'react-sortable-tree/style.css'; // This only needs to be imported once i
 
 const TreeNode = (instrumentId, type, id, expanded=false) => {
   var item = ObjectFinder(instrumentId, type, id)
+  var children;
+
   if(item.type === "condition"){
-    var children = get(item, 'children',[])
+    children = get(item, 'children',[])
     var fchildren = get(item, 'fchildren',[])
 
     var trueAndFalse = [
@@ -62,7 +48,7 @@ const TreeNode = (instrumentId, type, id, expanded=false) => {
     ]
     return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: trueAndFalse } }
   }else{
-    var children = get(item, 'children',[])
+    children = get(item, 'children',[])
 
     return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
   }
