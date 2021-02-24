@@ -39,11 +39,14 @@ const BreadcrumbBar = (props) => {
   const location = useLocation();
 
   const buildBreadcrumbs = () => {
-    var found = location.pathname.match(new RegExp(`^\\/(?<topLevel>instruments|datasets)`));
+    var found = location.pathname.match(new RegExp(`^\\/(?<topLevel>instruments|datasets|admin)`));
     var topLevel = get(get(found, 'groups',{}),'topLevel','instruments')
     switch (topLevel) {
       case 'datasets':
         return buildDatasetBreadcrumbs()
+        break
+      case 'admin':
+        return buildAdminBreadcrumbs()
         break
       default:
         return buildInstrumentBreadcrumbs()
@@ -53,6 +56,11 @@ const BreadcrumbBar = (props) => {
 
   const buildDatasetBreadcrumbs = () => {
     var crumbs = [{text: 'Datasets', link: url(routes.datasets.all)}]
+    return crumbs
+  }
+
+  const buildAdminBreadcrumbs = () => {
+    var crumbs = [{text: 'Admin', link: url(routes.admin.instruments)}]
     return crumbs
   }
 

@@ -40,6 +40,18 @@ const instruments = (state = [], action) => {
   }
 }
 
+const imports = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_IMPORTS':
+      return serializeSearchesArrayToObject(action.payload.imports)
+    case 'LOAD_IMPORT':
+      return {...state, ...{[action.payload.import.prefix]: action.payload.import}}
+    default:
+      return state
+  }
+}
+
 const datasets = (state = [], action) => {
   switch (action.type) {
     case 'LOAD_DATASETS':
@@ -363,6 +375,7 @@ const appReducer = combineReducers({
     auth,
     datasets,
     instruments,
+    imports,
     instrumentStats,
     cc_sequences,
     cc_statements,

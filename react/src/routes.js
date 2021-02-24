@@ -9,6 +9,7 @@ export default {
       import: 'import',
       imports: 'imports',
       instruments: 'instruments',
+      datasets: 'datasets',
     }),
     instruments: include('/instruments', {
       all: '',

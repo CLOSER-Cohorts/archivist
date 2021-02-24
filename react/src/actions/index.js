@@ -107,6 +107,22 @@ export const AdminDataset = {
   },
 }
 
+export const AdminImport = {
+  all: () => {
+    const request = axios.get(api_host + '/imports.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(importsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+}
+
 export const Instrument = {
   import: (values) => {
     const request = axios.post(api_host + '/admin/import/instruments/', { updates: values }, {
@@ -1366,6 +1382,13 @@ const datasetFetchSuccess = datasets => ({
   type: 'LOAD_DATASET',
   payload: {
     dataset: datasets
+  }
+});
+
+const importsFetchSuccess = imports => ({
+  type: 'LOAD_ADMIN_IMPORTS',
+  payload: {
+    imports: imports
   }
 });
 

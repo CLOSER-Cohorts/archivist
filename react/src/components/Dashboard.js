@@ -31,6 +31,9 @@ import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
 import BreadcrumbBar from './BreadcrumbBar'
 import { ObjectColour } from '../support/ObjectColour'
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 function Copyright() {
   return (
@@ -50,6 +53,9 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -125,7 +131,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const mainListItems = (
+const MainListItems = () => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  return (
   <div>
     <ListItem button>
         <ListItemIcon>
@@ -145,16 +159,40 @@ export const mainListItems = (
         <ListItemText primary="Datasets" />
       </Link>
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SupervisedUserCircleIcon style={{ color: '37b34a' }}/>
-      </ListItemIcon>
-      <Link to={url(routes.admin.import)}>
+     <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <SupervisedUserCircleIcon style={{ color: '37b34a' }}/>
+        </ListItemIcon>
         <ListItemText primary="Admin" />
-      </Link>
-    </ListItem>
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <Link to={url(routes.admin.instruments)}>
+              <ListItemText primary="Instruments" />
+            </Link>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Link to={url(routes.admin.datasets)}>
+              <ListItemText primary="Datasets" />
+            </Link>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Link to={url(routes.admin.import)}>
+              <ListItemText primary="Import" />
+            </Link>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Link to={url(routes.admin.imports)}>
+              <ListItemText primary="DDI Imports" />
+            </Link>
+          </ListItem>
+        </List>
+      </Collapse>
   </div>
-);
+  )
+}
 
 export const Dashboard = (props)  => {
   const classes = useStyles();
@@ -208,7 +246,7 @@ export const Dashboard = (props)  => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <MainListItems />
         <Divider />
       </Drawer>
       <main className={classes.content}>

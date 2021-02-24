@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import AdminImport from './pages/AdminImport';
 import AdminImports from './pages/AdminImports';
 import AdminInstruments from './pages/AdminInstruments';
+import AdminDatasets from './pages/AdminDatasets';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
 import DatasetView from './pages/DatasetView';
@@ -30,6 +31,9 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#652d90',
+    },
+    admin: {
+      main: '#37b34a',
     },
     error: {
       main: '#eb008b',
@@ -78,7 +82,7 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
-            <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
+            <AuthRoute type="private" exact path={routes.admin.datasets} component={AdminDatasets} />
             <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
             <AuthRoute type="private" exact path={routes.admin.imports} component={AdminImports} />
             <AuthRoute type="private" exact path={routes.admin.instruments} component={AdminInstruments} />

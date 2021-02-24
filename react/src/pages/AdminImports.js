@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument } from '../actions'
+import { AdminImport } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,11 +17,11 @@ import routes from '../routes'
 const AdminImports = () => {
 
   const dispatch = useDispatch()
-  const instruments = useSelector(state => state.instruments);
+  const imports = useSelector(state => state.imports);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(instruments);
+  const rows: RowsProp = Object.values(imports);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -33,6 +33,7 @@ const AdminImports = () => {
   };
 
   useEffect(() => {
+    dispatch(AdminImport.all());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 

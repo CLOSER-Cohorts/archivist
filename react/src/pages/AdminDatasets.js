@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument } from '../actions'
+import { Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Table from '@material-ui/core/Table';
@@ -15,14 +15,14 @@ import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 
-const AdminInstruments = () => {
+const AdminDatasets = () => {
 
   const dispatch = useDispatch()
-  const instruments = useSelector(state => state.instruments);
+  const datasets = useSelector(state => state.datasets);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(instruments);
+  const rows: RowsProp = Object.values(datasets);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -34,18 +34,18 @@ const AdminInstruments = () => {
   };
 
   useEffect(() => {
-     dispatch(Instrument.all());
+     dispatch(Dataset.all());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Admin Instruments'}>
+      <Dashboard title={'Admin Datasets'}>
         <Table size="small">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Prefix</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell>Study</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -54,35 +54,29 @@ const AdminInstruments = () => {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.prefix}</TableCell>
+                <TableCell>{row.name}</TableCell>
                 <TableCell>{row.study}</TableCell>
                 <TableCell>
-                  <ButtonGroup variant="outlined">
-                    <Button>
-                      Edit
-                    </Button>
-                    <Button>
-                      Copy
-                    </Button>
-                    <Button>
-                      Import Mappings
-                    </Button>
-                    <Button>
-                      QV
-                    </Button>
-                    <Button>
-                      Topics
-                    </Button>
-                    <Button>
-                      View Imports
-                    </Button>
-                    <Button>
-                      Clear Cache
-                    </Button>
-                    <Button>
-                      Delete
-                    </Button>
-                  </ButtonGroup>
+                <ButtonGroup variant="outlined">
+                  <Button>
+                    Edit
+                  </Button>
+                  <Button>
+                    Import Mappings
+                  </Button>
+                  <Button>
+                    DV
+                  </Button>
+                  <Button>
+                    Topics
+                  </Button>
+                  <Button>
+                    View Imports
+                  </Button>
+                  <Button>
+                    Delete
+                  </Button>
+                 </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}
@@ -110,4 +104,4 @@ const AdminInstruments = () => {
   );
 }
 
-export default AdminInstruments;
+export default AdminDatasets;
