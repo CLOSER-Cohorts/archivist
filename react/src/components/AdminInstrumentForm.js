@@ -6,6 +6,7 @@ import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { FileField } from '../components/FileField'
 import { makeStyles } from '@material-ui/core/styles';
 import { ObjectColour } from '../support/ObjectColour'
+import { isEmpty } from 'lodash'
 
 import {
   Paper,
@@ -27,6 +28,10 @@ const useStyles = makeStyles({
 const validate = (values, status) => {
 
   const errors = {};
+
+  if (!values.files || isEmpty(values.files)) {
+    errors.files = 'Required';
+  }
 
   return errors;
 };
