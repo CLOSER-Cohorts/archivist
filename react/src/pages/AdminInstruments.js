@@ -65,7 +65,9 @@ const AdminInstruments = () => {
                       Copy
                     </Button>
                     <Button>
-                      Import Mappings
+                      <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
+                        Import Mappings
+                      </Link>
                     </Button>
                     <Button>
                       QV
@@ -74,7 +76,9 @@ const AdminInstruments = () => {
                       Topics
                     </Button>
                     <Button>
-                      View Imports
+                      <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
+                        View Imports
+                      </Link>
                     </Button>
                     <Button>
                       Clear Cache

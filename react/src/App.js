@@ -6,6 +6,8 @@ import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
 import AdminImport from './pages/AdminImport';
 import AdminImports from './pages/AdminImports';
+import AdminInstrumentImportMappings from './pages/AdminInstrumentImportMappings';
+import AdminDatasetImportMappings from './pages/AdminDatasetImportMappings';
 import AdminInstruments from './pages/AdminInstruments';
 import AdminDatasets from './pages/AdminDatasets';
 import Instruments from './pages/Instruments';
@@ -52,6 +54,7 @@ const theme = createMuiTheme({
 
 const App = () => {
 
+  console.log(routes)
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
@@ -82,10 +85,12 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
-            <AuthRoute type="private" exact path={routes.admin.datasets} component={AdminDatasets} />
+            <AuthRoute type="private" exact path={routes.admin.datasets.all} component={AdminDatasets} />
             <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
             <AuthRoute type="private" exact path={routes.admin.imports} component={AdminImports} />
-            <AuthRoute type="private" exact path={routes.admin.instruments} component={AdminInstruments} />
+            <AuthRoute type="private" exact path={routes.admin.instruments.all} component={AdminInstruments} />
+            <AuthRoute type="private" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
+            <AuthRoute type="private" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />
             <AuthRoute type="guest" component={NoMatch} />
           </Switch>
         </div>

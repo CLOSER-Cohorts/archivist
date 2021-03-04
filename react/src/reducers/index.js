@@ -226,6 +226,34 @@ const datasetVariables = (state = {}, action) => {
   }
 }
 
+const datasetImportMappings = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_DATASET_IMPORT_MAPPINGS':
+      return {...state, ...{[action.payload.id]: serializeArrayToObject(action.payload.importMappings)}}
+    case 'LOAD_DATASET_IMPORT_MAPPING':
+      var importMappings = get(state, action.payload.id, {})
+      const revisedImportMappings = {...importMappings, ...{[action.payload.importMapping.id]: action.payload.importMapping}}
+      return {...state, ...{[action.payload.datasetId]: revisedImportMappings}}
+    default:
+      return state
+  }
+}
+
+const instrumentImportMappings = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_IMPORT_MAPPINGS':
+      return {...state, ...{[action.payload.id]: serializeArrayToObject(action.payload.importMappings)}}
+    case 'LOAD_INSTRUMENT_IMPORT_MAPPING':
+      var importMappings = get(state, action.payload.id, {})
+      const revisedImportMappings = {...importMappings, ...{[action.payload.importMapping.id]: action.payload.importMapping}}
+      return {...state, ...{[action.payload.datasetId]: revisedImportMappings}}
+    default:
+      return state
+  }
+}
+
 const codeLists = (state = {}, action) => {
 
   switch (action.type) {
@@ -393,7 +421,9 @@ const appReducer = combineReducers({
     datasetVariables,
     variables,
     statuses,
-    topics
+    topics,
+    datasetImportMappings,
+    instrumentImportMappings,
 })
 
 export default appReducer;

@@ -169,12 +169,12 @@ const MainListItems = () => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.instruments)}>
+            <Link to={url(routes.admin.instruments.all)}>
               <ListItemText primary="Instruments" />
             </Link>
           </ListItem>
           <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.datasets)}>
+            <Link to={url(routes.admin.datasets.all)}>
               <ListItemText primary="Datasets" />
             </Link>
           </ListItem>

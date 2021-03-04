@@ -5,11 +5,17 @@ export default {
     datasets: include('/datasets', {
       all: ''
     }),
-    admin: include('/admin', {
+    admin: include('/admin/', {
       import: 'import',
       imports: 'imports',
-      instruments: 'instruments',
-      datasets: 'datasets',
+      instruments: include('instruments/', {
+        all: '',
+        importMappings: ':instrumentId/imports'
+      }),
+      datasets: include('datasets/', {
+        all: '',
+        importMappings: ':datasetId/imports'
+      }),
     }),
     instruments: include('/instruments', {
       all: '',

@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { Dataset } from '../actions'
-import { Dashboard } from '../components/Dashboard'
+import React from 'react';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,14 +12,12 @@ import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 
-const AdminDatasets = () => {
+export const AdminImportMappingsTable = ({values}) => {
 
-  const dispatch = useDispatch()
-  const datasets = useSelector(state => state.datasets);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(datasets);
+  const rows: RowsProp = values;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -33,20 +28,15 @@ const AdminDatasets = () => {
     setPage(0);
   };
 
-  useEffect(() => {
-     dispatch(Dataset.all());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
   return (
-    <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Admin Datasets'}>
         <Table size="small">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Study</TableCell>
+              <TableCell>File</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>State</TableCell>
+              <TableCell>Created At</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -54,33 +44,16 @@ const AdminDatasets = () => {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.study}</TableCell>
+                <TableCell>{row.file}</TableCell>
+                <TableCell>{row.type}</TableCell>
+                <TableCell>{row.state}</TableCell>
+                <TableCell>{row.created_at}</TableCell>
                 <TableCell>
-                <ButtonGroup variant="outlined">
-                  <Button>
-                    Edit
-                  </Button>
-                  <Button>
-                    <Link to={url(routes.admin.datasets.importMappings, { datasetId: row.id })}>
-                      Import Mappings
-                    </Link>
-                  </Button>
-                  <Button>
-                    DV
-                  </Button>
-                  <Button>
-                    Topics
-                  </Button>
-                  <Button>
-                    <Link to={url(routes.admin.datasets.importMappings, { datasetId: row.id })}>
-                      View Imports
-                    </Link>
-                  </Button>
-                  <Button>
-                    Delete
-                  </Button>
-                 </ButtonGroup>
+                  <ButtonGroup variant="outlined">
+                    <Button>
+                      View Log
+                    </Button>
+                  </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}
@@ -103,9 +76,5 @@ const AdminDatasets = () => {
             </TableRow>
           </TableFooter>
         </Table>
-      </Dashboard>
-    </div>
   );
 }
-
-export default AdminDatasets;

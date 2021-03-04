@@ -107,6 +107,39 @@ export const AdminDataset = {
   },
 }
 
+export const AdminImportMapping = {
+  create: (type, id, values) => {
+    let formData = new FormData();
+
+    formData.append("files[]", values.files[0]);
+    const request = axios.post(api_host + '/' + type + '/' + id + '/imports.json', formData, {
+        headers: {...api_headers(), ...{'Content-Type': 'multipart/form-data'}}
+      })
+    return (dispatch) => {
+        dispatch(savingItem('new', 'AdminImportMappings'));
+        return request.then(res => {
+          dispatch(savedItem('new', 'AdminImportMappings'));
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
+  all: (type, id) => {
+    const request = axios.get(api_host + '/' + type + '/' + id + '/imports.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(importsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+}
+
 export const AdminImport = {
   all: () => {
     const request = axios.get(api_host + '/imports.json',{
