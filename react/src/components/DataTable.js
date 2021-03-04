@@ -10,11 +10,16 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import SearchBar from "material-ui-search-bar";
 import { Loader } from '../components/Loader'
+import { get, isEmpty } from 'lodash'
 
 export const DataTable = (props) => {
 
-  const { actions=()=>{}, fetch=[], stateKey='instruments', searchKey='prefix', headers=[], rowRenderer=()=>{} } = props;
-  const values = useSelector(state => state[stateKey]);
+  const { actions=()=>{}, fetch=[], stateKey='instruments', searchKey='prefix', headers=[], rowRenderer=()=>{}, parentStateKey } = props;
+  let values = useSelector(state => state[stateKey]);
+  if(parentStateKey){
+    values = get(values, parentStateKey, {})
+  }
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [search, setSearch] = useState("");
@@ -24,7 +29,7 @@ export const DataTable = (props) => {
   useEffect(() => {
     setFilteredValues(
       Object.values(values).filter((value) =>
-        value[searchKey].toLowerCase().includes(search.toLowerCase())
+        value[searchKey] && value[searchKey].toLowerCase().includes(search.toLowerCase())
       )
     );
   }, [search, values]);
@@ -72,7 +77,9 @@ export const DataTable = (props) => {
                   {headers.map((header)=>(
                     <TableCell>{header}</TableCell>
                   ))}
-                  <TableCell>Actions</TableCell>
+                  { !isEmpty(actions({})) && (
+                    <TableCell>Actions</TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>

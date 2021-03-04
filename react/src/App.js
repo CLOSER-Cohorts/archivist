@@ -17,6 +17,11 @@ import DatasetView from './pages/DatasetView';
 import InstrumentView from './pages/InstrumentView';
 import InstrumentMap from './pages/InstrumentMap';
 import InstrumentBuild from './pages/InstrumentBuild';
+import InstrumentCcConditions from './pages/InstrumentCcConditions';
+import InstrumentCcLoops from './pages/InstrumentCcLoops';
+import InstrumentCcQuestions from './pages/InstrumentCcQuestions';
+import InstrumentCcSequences from './pages/InstrumentCcSequences';
+import InstrumentCcStatements from './pages/InstrumentCcStatements';
 import InstrumentConstructBuild from './pages/InstrumentConstructBuild';
 import InstrumentBuildCodeLists from './pages/InstrumentBuildCodeLists';
 import InstrumentBuildQuestionItems from './pages/InstrumentBuildQuestionItems';
@@ -84,6 +89,11 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.show} component={InstrumentBuildResponseDomains} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccConditions} component={InstrumentCcConditions} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccLoops} component={InstrumentCcLoops} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccQuestions} component={InstrumentCcQuestions} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccSequences} component={InstrumentCcSequences} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccStatements} component={InstrumentCcStatements} />
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
             <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />

@@ -103,11 +103,21 @@ const InstrumentBuild = (props) => {
             <Paper className={classes.control}>
               <h2><Link to={url(routes.instruments.instrument.build.constructs.show, { instrument_id: instrumentId })}>Constructs</Link></h2>
               <List dense={true}>
-                  <StatCount label="Conditions" value={cc_conditions} />
-                  <StatCount label="Loops" value={cc_loops} />
-                  <StatCount label="Questions" value={cc_questions} />
-                  <StatCount label="Sequences" value={cc_sequences} />
-                  <StatCount label="Statements" value={cc_statements} />
+                  <Link to={url(routes.instruments.instrument.build.ccConditions, { instrument_id: instrumentId })}>
+                    <StatCount label="Conditions" value={cc_conditions} />
+                  </Link>
+                  <Link to={url(routes.instruments.instrument.build.ccLoops, { instrument_id: instrumentId })}>
+                    <StatCount label="Loops" value={cc_loops} />
+                  </Link>
+                  <Link to={url(routes.instruments.instrument.build.ccQuestions, { instrument_id: instrumentId })}>
+                    <StatCount label="Questions" value={cc_questions} />
+                  </Link>
+                  <Link to={url(routes.instruments.instrument.build.ccSequences, { instrument_id: instrumentId })}>
+                    <StatCount label="Sequences" value={cc_sequences} />
+                  </Link>
+                  <Link to={url(routes.instruments.instrument.build.ccStatements, { instrument_id: instrumentId })}>
+                    <StatCount label="Statements" value={cc_statements} />
+                  </Link>
               </List>
             </Paper>
           </Grid>

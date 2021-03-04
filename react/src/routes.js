@@ -29,6 +29,11 @@ export default {
         }),
         build: include('build/', {
             show: '',
+            ccConditions: 'ccConditions',
+            ccLoops: 'ccLoops',
+            ccQuestions: 'ccQuestions',
+            ccSequences: 'ccSequences',
+            ccStatements: 'ccStatements',
             constructs: include('constructs/', {
                 show: ''
             }),
