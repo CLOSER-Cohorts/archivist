@@ -7,7 +7,10 @@ export default {
     }),
     admin: include('/admin/', {
       import: 'import',
-      imports: 'imports',
+      imports: include('imports/', {
+        all: '',
+        show: ':importId'
+      }),
       instruments: include('instruments/', {
         all: '',
         importMappings: ':instrumentId/imports'

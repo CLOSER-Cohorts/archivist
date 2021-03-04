@@ -184,7 +184,7 @@ const MainListItems = () => {
             </Link>
           </ListItem>
           <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.imports)}>
+            <Link to={url(routes.admin.imports.all)}>
               <ListItemText primary="DDI Imports" />
             </Link>
           </ListItem>

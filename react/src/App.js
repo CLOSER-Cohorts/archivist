@@ -5,6 +5,7 @@ import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
 import AdminImport from './pages/AdminImport';
+import AdminImportView from './pages/AdminImportView';
 import AdminImports from './pages/AdminImports';
 import AdminInstrumentImportMappings from './pages/AdminInstrumentImportMappings';
 import AdminDatasetImportMappings from './pages/AdminDatasetImportMappings';
@@ -88,7 +89,8 @@ const App = () => {
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
             <AuthRoute type="private" exact path={routes.admin.datasets.all} component={AdminDatasets} />
             <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
-            <AuthRoute type="private" exact path={routes.admin.imports} component={AdminImports} />
+            <AuthRoute type="private" exact path={routes.admin.imports.all} component={AdminImports} />
+            <AuthRoute type="private" exact path={routes.admin.imports.show} component={AdminImportView} />
             <AuthRoute type="private" exact path={routes.admin.instruments.all} component={AdminInstruments} />
             <AuthRoute type="private" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
             <AuthRoute type="private" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />

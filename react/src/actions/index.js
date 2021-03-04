@@ -154,6 +154,19 @@ export const AdminImport = {
         });
     };
   },
+  show: (id) => {
+    const request = axios.get(api_host + '/imports/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(importFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
 }
 
 export const Instrument = {
@@ -1422,6 +1435,13 @@ const importsFetchSuccess = imports => ({
   type: 'LOAD_ADMIN_IMPORTS',
   payload: {
     imports: imports
+  }
+});
+
+const importFetchSuccess = importObj => ({
+  type: 'LOAD_ADMIN_IMPORT',
+  payload: {
+    import: importObj
   }
 });
 

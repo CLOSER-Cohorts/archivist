@@ -21,7 +21,7 @@ const AdminImports = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(imports);
+  const rows: RowsProp = Object.values(imports).sort().reverse();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,13 +55,15 @@ const AdminImports = () => {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.file}</TableCell>
-                <TableCell>{row.type}</TableCell>
+                <TableCell>{row.filename}</TableCell>
+                <TableCell>{row.import_type}</TableCell>
                 <TableCell>{row.state}</TableCell>
                 <TableCell>{row.created_at}</TableCell>
                 <TableCell>
                   <Button variant="outlined">
-                    View
+                      <Link to={url(routes.admin.imports.show, { importId: row.id })}>
+                        View Log
+                      </Link>
                   </Button>
                 </TableCell>
               </TableRow>

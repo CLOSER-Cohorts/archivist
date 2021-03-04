@@ -43,10 +43,10 @@ const instruments = (state = [], action) => {
 const imports = (state = [], action) => {
 
   switch (action.type) {
-    case 'LOAD_IMPORTS':
-      return serializeSearchesArrayToObject(action.payload.imports)
-    case 'LOAD_IMPORT':
-      return {...state, ...{[action.payload.import.prefix]: action.payload.import}}
+    case 'LOAD_ADMIN_IMPORTS':
+      return serializeArrayToObject(action.payload.imports)
+    case 'LOAD_ADMIN_IMPORT':
+      return {...state, ...{[action.payload.import.id]: action.payload.import}}
     default:
       return state
   }
