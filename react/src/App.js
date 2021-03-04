@@ -84,6 +84,7 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
+            <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
             <AuthRoute type="private" exact path={routes.admin.datasets.all} component={AdminDatasets} />
             <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
