@@ -14,7 +14,14 @@ const AdminDatasetImportMappings = (props) => {
   const datasetId = get(props, "match.params.datasetId", "")
 
   const onSubmit = (values) => {
-      dispatch(AdminImportMapping.create('datasets', datasetId, values))
+      dispatch(AdminImportMapping.create('datasets', datasetId, {
+          imports: Array.from(values.files).map((file) => {
+            console.log(file)
+            console.log({ file: file, type: values.types[file.name]})
+            return { file: file, type: values.types[file.name]}
+          })
+        }
+      ))
   }
   const values = Object.values(useSelector(state => state.datasetImportMappings));
 

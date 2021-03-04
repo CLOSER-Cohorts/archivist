@@ -12,7 +12,13 @@ import {
   Grid,
   Button,
   CssBaseline,
+  MenuItem
 } from '@material-ui/core';
+
+import {
+  TextField,
+  Select
+} from 'mui-rff';
 
 
 const useStyles = makeStyles({
@@ -25,9 +31,13 @@ const useStyles = makeStyles({
 });
 
 const validate = (values, status) => {
-
   const errors = {};
 
+  // if(values.files.length != Object.values(values.types).length){
+  //   errors.files = 'You need to select the type of file you are importing.'
+  // }
+
+  // console.log(errors)
   return errors;
 };
 
@@ -47,6 +57,8 @@ export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
 
   const status = ObjectStatus('new', 'AdminImportMapping')
 
+// values.files.length == 0 || values.files.length !== Object.values(values.types).length
+
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
       <h2>Import Mappings</h2>
@@ -54,7 +66,7 @@ export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
-        initialValues={{files: []}}
+        initialValues={{files: [], types: {}}}
         validate={(values) => validate(values, status)}
         render={({
         handleSubmit,
@@ -77,13 +89,26 @@ export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
                     }
                   </Grid>
                 ))}
+                {Array.from(values.files).map((file) => {
+                  return (
+                    <div>
+                      {file.name}
+                      <select onChange={(e) => { values.types[file.name] = e.target.value; }} required>
+                          <option></option>
+                          <option value="topicv" class="ng-binding">T-V Mapping</option>
+                          <option value="dv" class="ng-binding">DV Mapping</option>
+                      </select>
+                    </div>
+                  )
+                })}
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <Grid item style={{ marginTop: 16 }}>
                   {hint}
                   <Button
                     variant="contained"
                     color="primary"
                     type="submit"
-                    disabled={submitting}
+                    disabled={false}
                   >
                     Import {type}
                   </Button>

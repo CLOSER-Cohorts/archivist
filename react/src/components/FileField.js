@@ -7,6 +7,7 @@ export const FileField = ({ name, ...props }) => (
       <input
         {...input}
         type="file"
+        multiple
         onChange={({ target }) => onChange(target.files)} // instead of the default target.value
         {...props}
       />

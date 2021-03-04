@@ -1,114 +1,69 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { DataTable } from '../components/DataTable'
 
 const AdminInstruments = () => {
 
   const dispatch = useDispatch()
-  const instruments = useSelector(state => state.instruments);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(instruments);
+  const actions = (row) => {
+    return (
+      <>
+        <ButtonGroup variant="outlined">
+          <Button>
+            Edit
+          </Button>
+          <Button>
+            Copy
+          </Button>
+          <Button>
+            <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
+              Import Mappings
+            </Link>
+          </Button>
+          <Button>
+            QV
+          </Button>
+          <Button>
+            Topics
+          </Button>
+          <Button>
+            <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
+              View Imports
+            </Link>
+          </Button>
+          <Button>
+            Clear Cache
+          </Button>
+          <Button>
+            Delete
+          </Button>
+        </ButtonGroup>
+      </>
+    )
+  }
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  useEffect(() => {
-     dispatch(Instrument.all());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
+  const headers = ["ID", "Prefix", "Study"]
+  const rowRenderer = (row) => {
+    return [row.id, row.prefix, row.study]
+  }
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Admin Instruments'}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Prefix</TableCell>
-              <TableCell>Study</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
-                <TableCell>{row.prefix}</TableCell>
-                <TableCell>{row.study}</TableCell>
-                <TableCell>
-                  <ButtonGroup variant="outlined">
-                    <Button>
-                      Edit
-                    </Button>
-                    <Button>
-                      Copy
-                    </Button>
-                    <Button>
-                      <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
-                        Import Mappings
-                      </Link>
-                    </Button>
-                    <Button>
-                      QV
-                    </Button>
-                    <Button>
-                      Topics
-                    </Button>
-                    <Button>
-                      <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
-                        View Imports
-                      </Link>
-                    </Button>
-                    <Button>
-                      Clear Cache
-                    </Button>
-                    <Button>
-                      Delete
-                    </Button>
-                  </ButtonGroup>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-         <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[20, 50, 100, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
+        <DataTable actions={actions}
+          fetch={[dispatch(Instrument.all())]}
+          stateKey={'instruments'}
+          searchKey={'prefix'}
+          headers={headers}
+          rowRenderer={rowRenderer}
+          />
       </Dashboard>
     </div>
   );

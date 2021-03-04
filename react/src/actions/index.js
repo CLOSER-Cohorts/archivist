@@ -111,7 +111,9 @@ export const AdminImportMapping = {
   create: (type, id, values) => {
     let formData = new FormData();
 
-    formData.append("files[]", values.files[0]);
+    values.imports.map((imp) => {
+      formData.append('imports[0][file]', imp.file)
+    })
     const request = axios.post(api_host + '/' + type + '/' + id + '/imports.json', formData, {
         headers: {...api_headers(), ...{'Content-Type': 'multipart/form-data'}}
       })
