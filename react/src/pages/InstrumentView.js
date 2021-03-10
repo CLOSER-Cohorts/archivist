@@ -4,26 +4,16 @@ import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, Quest
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import { get, isEmpty, isNil } from "lodash";
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import DoneIcon from '@material-ui/icons/Done';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import BounceLoader from "react-spinners/BounceLoader";
-import SyncLoader from "react-spinners/SyncLoader";
 import { Box } from '@material-ui/core'
 import { ObjectColour } from '../support/ObjectColour'
 
@@ -40,12 +30,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
 }));
-
-const ObjectStatus = (id, type) => {
-  const statuses = useSelector(state => state.statuses);
-  const key = type + ':' + id
-  return get(statuses, key, {})
-}
 
 const ObjectFinder = (instrumentId, type, id) => {
   const sequences = useSelector(state => state.cc_sequences);
@@ -96,7 +80,7 @@ const ConstructLabel = ({item, type}) => {
 const QuestionItemListItem = (props) => {
   const {type, id, instrumentId} = props
   const item = ObjectFinder(instrumentId, type, id)
-  const classes = useStyles();
+
   if(isNil(item.question)){
     return ''
   }
@@ -145,7 +129,6 @@ const QuestionGridListItem = (props) => {
 const StatementListItem = (props) => {
   const {type, id, instrumentId} = props
   const item = ObjectFinder(instrumentId, type, id)
-  const classes = useStyles();
 
   return (
     <div><ConstructLabel item={item} type={type} /> {item.literal}</div>
@@ -153,8 +136,7 @@ const StatementListItem = (props) => {
 }
 
 const ConditionItem = (props) => {
-  const {type, id, instrumentId} = props
-  var {title} = props;
+  const {type, id, instrumentId, title} = props
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -162,9 +144,7 @@ const ConditionItem = (props) => {
     setOpen(!open);
   };
 
-  var item = ObjectFinder(instrumentId, props.type, props.id)
-
-  title = get(item, 'literal', props.title)
+  var item = ObjectFinder(instrumentId, type, id)
 
   return (
     <List
@@ -174,14 +154,14 @@ const ConditionItem = (props) => {
     >
       <ListItem button onClick={handleClick}>
         <ConstructLabel item={item} type={type} />
-        <ListItemText primary={title} secondary={item.logic} />
+        <ListItemText primary={get(item, 'literal', title)} secondary={item.logic} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {!isEmpty(item.children) && (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {item.children.map((child) => (
-              <ListItem button className={classes.nested}>
+              <StyledListItem button className={classes.nested}>
                 {(function() {
                   switch (child.type) {
                     case 'CcSequence':
@@ -194,7 +174,7 @@ const ConditionItem = (props) => {
                       return null;
                   }
                 })()}
-              </ListItem>
+              </StyledListItem>
             ))}
           </List>
         </Collapse>
@@ -227,7 +207,7 @@ const SequenceItem = (props) => {
         <ConstructLabel item={item} type={type} />
         <ListItemText primary={title} />
           {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+      </ListItem >
       {!isEmpty(item.children) && (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -236,24 +216,24 @@ const SequenceItem = (props) => {
                   switch (child.type) {
                     case 'CcSequence':
                       return (
-                          <ListItem button className={classes.nested}>
+                          <StyledListItem button className={classes.nested}>
                             <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
-                          </ListItem>)
+                          </StyledListItem>)
                     case 'CcQuestion':
                       return (
-                          <ListItem button className={classes.nested}>
+                          <StyledListItem button className={classes.nested}>
                             <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                          </ListItem>)
+                          </StyledListItem>)
                     case 'CcStatement':
                       return (
-                          <ListItem button className={classes.nested}>
+                          <StyledListItem button className={classes.nested}>
                             <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                          </ListItem>)
+                          </StyledListItem>)
                     case 'CcCondition':
                       return (
-                          <ListItem button className={classes.nested}>
+                          <StyledListItem button className={classes.nested}>
                             <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child,'children',[])} />
-                          </ListItem>)
+                          </StyledListItem>)
                     default:
                       return null;
                   }
@@ -317,5 +297,15 @@ const StyledChip = withStyles({
     textTransform: '',
   },
 })(Chip);
+
+const StyledListItem = withStyles({
+  root: {
+    boxShadow : '0px 0px 1px 0px grey',
+    'margin-bottom': '10px'
+  },
+  label: {
+    textTransform: '',
+  },
+})(ListItem);
 
 export default InstrumentView;

@@ -85,8 +85,6 @@ const formFields = [
 export const QuestionItemForm = (props) => {
   const {questionItem, instrumentId} = props;
 
-  const categories = useSelector(state => get(state.categories, instrumentId, {}));
-
   const dispatch = useDispatch();
   const classes = useStyles();
 

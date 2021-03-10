@@ -1,33 +1,22 @@
 import React from 'react';
 import { get, isNil } from "lodash";
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { ResponseDomainTexts } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
-import { makeStyles } from '@material-ui/core/styles';
 
 import {
-  TextField,
-  Select
+  TextField
 } from 'mui-rff';
 import {
   Paper,
   Grid,
   Button,
-  CssBaseline,
-  MenuItem
+  CssBaseline
 } from '@material-ui/core';
-
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
 const validate = values => {
   const errors = {};
@@ -68,7 +57,6 @@ export const ResponseDomainTextForm = (props) => {
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(responseDomain, values)

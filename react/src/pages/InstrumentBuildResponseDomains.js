@@ -6,7 +6,7 @@ import { ResponseDomainNumericForm } from '../components/ResponseDomainNumericFo
 import { ResponseDomainTextForm } from '../components/ResponseDomainTextForm'
 import { ResponseDomainDatetimeForm } from '../components/ResponseDomainDatetimeForm'
 import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
-import { get, isNil } from "lodash";
+import { get } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
@@ -51,7 +51,7 @@ const InstrumentBuildResponseDomains = (props) => {
 
   const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
 
-  const selectedResponseDomain = responseDomains.find(responseDomain => responseDomain.id == responseDomainId && responseDomain.type == responseDomainType) || {};
+  const selectedResponseDomain = responseDomains.find(responseDomain => responseDomain.id === responseDomainId && responseDomain.type === responseDomainType) || {};
 
   useEffect(() => {
     dispatch(ResponseDomainNumerics.all(instrumentId));
@@ -89,11 +89,6 @@ const InstrumentBuildResponseDomains = (props) => {
       default:
         return ''
     }
-  }
-
-  const createNew = (type) => {
-    const path = url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: type, responseDomainId: 'new' })
-    history.push(path);
   }
 
   return (
