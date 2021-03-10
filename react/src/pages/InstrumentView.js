@@ -7,7 +7,7 @@ import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,6 +25,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import BounceLoader from "react-spinners/BounceLoader";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Box } from '@material-ui/core'
+import { ObjectColour } from '../support/ObjectColour'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,13 +89,20 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 }
 
+const ConstructLabel = ({item, type}) => {
+  return (<StyledChip label={item.label} style={{ backgroundColor: `#${ObjectColour(type)}` }} />)
+}
+
 const QuestionItemListItem = (props) => {
   const {type, id, instrumentId} = props
   const item = ObjectFinder(instrumentId, type, id)
   const classes = useStyles();
-  console.log(item)
+  if(isNil(item.question)){
+    return ''
+  }
   return (
     <div>
+      <ConstructLabel item={item} type={type} />
       {item.question.literal}
       {(item.question.rds) && (
         <ResponseDomains rds={item.question.rds} />
@@ -106,18 +114,16 @@ const QuestionItemListItem = (props) => {
 const ResponseDomains = ({ rds }) => {
 
   return rds.map((rd) => {
-    console.log(rd)
     switch (rd.type) {
       case 'ResponseDomainCode':
         return(<ul><ResponseDomainCodes codes={rd.codes} /></ul>)
       case 'ResponseDomainText':
-        return(<ul><li>{rd.label}</li></ul>)
+        return(<ul><li>{rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
       case 'ResponseDomainNumeric':
         return(<ul><li>{rd.label} {rd.params} {rd.subtype}</li></ul>)
       case 'ResponseDomainDatetime':
         return(<ul><li>{rd.label} {rd.params} {rd.subtype}</li></ul>)
       default:
-        console.log(rd)
         return '';
     }
   })
@@ -125,7 +131,7 @@ const ResponseDomains = ({ rds }) => {
 
 const ResponseDomainCodes = ({ codes }) => {
   return codes.map((code) => {
-      return(<li>{code.label}</li>)
+      return(<li>{code.value} - {code.label}</li>)
     })
 }
 
@@ -142,12 +148,12 @@ const StatementListItem = (props) => {
   const classes = useStyles();
 
   return (
-    <div>{item.literal}</div>
+    <div><ConstructLabel item={item} type={type} /> {item.literal}</div>
   )
 }
 
 const ConditionItem = (props) => {
-  const { instrumentId } = props;
+  const {type, id, instrumentId} = props
   var {title} = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -167,7 +173,8 @@ const ConditionItem = (props) => {
       className={classes.root}
     >
       <ListItem button onClick={handleClick}>
-        <ListItemText primary={title} />
+        <ConstructLabel item={item} type={type} />
+        <ListItemText primary={title} secondary={item.logic} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {!isEmpty(item.children) && (
@@ -184,7 +191,6 @@ const ConditionItem = (props) => {
                     case 'CcCondition':
                       return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     default:
-                      console.log(child)
                       return null;
                   }
                 })()}
@@ -198,7 +204,7 @@ const ConditionItem = (props) => {
 }
 
 const SequenceItem = (props) => {
-  const { instrumentId } = props;
+  const {type, id, instrumentId} = props
   var {title} = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -218,6 +224,7 @@ const SequenceItem = (props) => {
       className={classes.root}
     >
       <ListItem button onClick={handleClick}>
+        <ConstructLabel item={item} type={type} />
         <ListItemText primary={title} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
@@ -294,5 +301,21 @@ const InstrumentView = (props) => {
     </div>
   );
 }
+
+const StyledChip = withStyles({
+  root: {
+    background: 'linear-gradient(45deg, #00adee 30%, #00adee 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 30,
+    'margin-right': 5,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px #00adee',
+  },
+  label: {
+    textTransform: '',
+  },
+})(Chip);
 
 export default InstrumentView;

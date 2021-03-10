@@ -19,6 +19,8 @@ json.array!(@collection) do |question_item|
       json.label rd.label
       if rd.class == ResponseDomainCode
         json.codes rd.codes, :label, :value, :order
+      elsif rd.class == ResponseDomainText
+        json.maxlen rd.maxlen
       else
         json.subtype rd.subtype
         json.params rd.params
