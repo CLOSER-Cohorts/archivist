@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { QuestionItems, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
+import { QuestionItems, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes, ResponseDomainCodes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
@@ -88,11 +88,12 @@ export const QuestionItemForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const responseDomainCodes = useSelector(state => get(state.responseDomainCodes, instrumentId, {}));
   const responseDomainNumerics = useSelector(state => get(state.responseDomainNumerics, instrumentId, {}));
   const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
   const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
 
-  const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
 
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(questionItem, values)
@@ -105,6 +106,7 @@ export const QuestionItemForm = (props) => {
   }
 
   useEffect(() => {
+    dispatch(ResponseDomainCodes.all(instrumentId));
     dispatch(ResponseDomainNumerics.all(instrumentId));
     dispatch(ResponseDomainTexts.all(instrumentId));
     dispatch(ResponseDomainDatetimes.all(instrumentId));

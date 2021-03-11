@@ -1122,6 +1122,30 @@ const responseDomainNumericFetchSuccess = (instrumentId, responseDomainNumeric) 
   }
 });
 
+export const ResponseDomainCodes = {
+  all: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_domain_codes.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(responseDomainCodesFetchSuccess(instrumentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+const responseDomainCodesFetchSuccess = (instrumentId, responseDomainCodes) => ({
+  type: 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_CODES',
+  payload: {
+    instrumentId: instrumentId,
+    responseDomainCodes: responseDomainCodes
+  }
+});
+
 export const ResponseDomainTexts = {
   all: (instrumentId) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/response_domain_texts.json',{

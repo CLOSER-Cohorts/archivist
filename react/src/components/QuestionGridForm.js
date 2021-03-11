@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
+import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes, ResponseDomainCodes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
@@ -171,19 +171,22 @@ export const QuestionGridForm = (props) => {
     }
   }
 
+  const responseDomainCodes = useSelector(state => get(state.responseDomainCodes, instrumentId, {}));
   const responseDomainNumerics = useSelector(state => get(state.responseDomainNumerics, instrumentId, {}));
   const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
   const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
 
-  const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
 
   useEffect(() => {
+    dispatch(ResponseDomainCodes.all(instrumentId));
     dispatch(ResponseDomainNumerics.all(instrumentId));
     dispatch(ResponseDomainTexts.all(instrumentId));
     dispatch(ResponseDomainDatetimes.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  console.log(questionGrid)
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
       <ObjectStatusBar id={questionGrid.id || 'new'} type={'QuestionGrid'} />
@@ -248,7 +251,7 @@ export const QuestionGridForm = (props) => {
                                 <TableCell>{fields.value[index].label}</TableCell>
                                 <TableCell>
                                  <Autocomplete
-                                  freesolo="true"
+                                  autoComplete
                                   options={Object.values(responseDomains)}
                                   getOptionLabel={(option) => (option.type === '') ? `` :`${option.label} - ${option.type}`}
                                   onChange={(event, value, reason)=>{
@@ -261,9 +264,11 @@ export const QuestionGridForm = (props) => {
                                     fields.update(index, {...fields.value[index], ...{rd: rd} })
                                   } }
                                   value={(fields.value[index].rd) ? {type: fields.value[index].rd.type, id: fields.value[index].rd.id, label:fields.value[index].rd.label} : {type: '', id: null, label: ''}}
-                                  getOptionSelected= {(option, value) => (
-                                    option.type === value.type && option.id === value.id
-                                  )}
+                                  getOptionSelected= {(option, value) => {
+                                    console.log(fields)
+                                    return (
+                                    (option.type === value.type && option.id === value.id)
+                                  )}}
                                   renderInput={(params) => (
                                     <TextField name={`${name}.type - ${name}.label`}
                                       {...params}

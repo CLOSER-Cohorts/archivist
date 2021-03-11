@@ -298,6 +298,16 @@ const responseDomainNumerics = (state = {}, action) => {
   }
 }
 
+const responseDomainCodes = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_RESPONSE_DOMAIN_CODES':
+      return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.responseDomainCodes)}}
+    default:
+      return state
+  }
+}
+
 const responseDomainTexts = (state = {}, action) => {
 
   switch (action.type) {
@@ -418,6 +428,7 @@ const appReducer = combineReducers({
     responseDomainNumerics,
     responseDomainTexts,
     responseDomainDatetimes,
+    responseDomainCodes,
     datasetVariables,
     variables,
     statuses,
