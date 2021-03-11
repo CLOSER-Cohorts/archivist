@@ -6,6 +6,6 @@ import { ObjectColour } from '../support/ObjectColour'
 
 export const Loader = () => {
   return (
-    <Box style={{ height: 200, 'margin-top': 50 }} m="auto"><BounceLoader color={`#${ObjectColour(shuffle(['sequence', 'condition', 'question', 'statement','loop'])[0])}`}/></Box>
+    <Box style={{ height: 200, 'marginTop': 50 }} m="auto"><BounceLoader color={`#${ObjectColour(shuffle(['sequence', 'condition', 'question', 'statement','loop'])[0])}`}/></Box>
   )
 }

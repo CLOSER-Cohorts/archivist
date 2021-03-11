@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
@@ -22,9 +22,8 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import BounceLoader from "react-spinners/BounceLoader";
+import { Loader } from '../components/Loader'
 import SyncLoader from "react-spinners/SyncLoader";
-import { Box } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,17 +97,28 @@ const QuestionItemListItem = (props) => {
   const topic = get(item, 'topic', {id: null})
   const topicId = get(topic, 'id', null)
 
+  const resolvedTopic = get(item, 'resolved_topic', {id: null})
+  const resolvedTopicId = get(resolvedTopic, 'id', null)
+
   const status = ObjectStatus(item.id, 'CcQuestion')
+
+  var errorMessage = null;
+
+  if(status.error){
+    errorMessage = status.errorMessage
+  }else if(item.errors){
+    errorMessage = item.errors
+  }
 
   return (
       <ListItem>
       <Paper className={classes.control}>
       <Grid container spacing={3}>
-          { !isEmpty(status) && !isNil(status.error) && (
+          { !isEmpty(errorMessage) && (
             <div className={classes.root}>
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
-                {status.errorMessage}
+                {errorMessage}
               </Alert>
             </div>
           )}
@@ -129,6 +139,9 @@ const QuestionItemListItem = (props) => {
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
+            { isNil(topicId) && !isNil(resolvedTopicId) && (
+              <em>Resolved topic from variables - { get(resolvedTopic,'name')}</em>
+            )}
           </Grid>
         </Grid>
       </Paper>
@@ -351,45 +364,47 @@ const SequenceItem = (props) => {
   title = get(item, 'label', props.title)
 
   return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      className={classes.root}
-    >
-      <ListItem button onClick={handleClick}>
-        <ListItemText primary={title} />
-          {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      {!isEmpty(item.children) && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {item.children.map((child) => (
-                (function() {
-                  switch (child.type) {
-                    case 'CcSequence':
-                      return (
-                          <ListItem button className={classes.nested}>
-                            <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
-                          </ListItem>)
-                    case 'CcQuestion':
-                      return (
-                          <ListItem button className={classes.nested}>
-                            <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                          </ListItem>)
-                    case 'CcCondition':
-                      return (
-                          <ListItem button className={classes.nested}>
-                            <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                          </ListItem>)
-                    default:
-                      return null;
-                  }
-                })()
-            ))}
-          </List>
-        </Collapse>
-      )}
-    </List>
+    <Paper className={classes.control}>
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        className={classes.root}
+      >
+        <ListItem button onClick={handleClick}>
+          <ListItemText primary={title} />
+            {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        {!isEmpty(item.children) && (
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {item.children.map((child) => (
+                  (function() {
+                    switch (child.type) {
+                      case 'CcSequence':
+                        return (
+                            <ListItem button className={classes.nested}>
+                              <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
+                            </ListItem>)
+                      case 'CcQuestion':
+                        return (
+                            <ListItem button className={classes.nested}>
+                              <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                            </ListItem>)
+                      case 'CcCondition':
+                        return (
+                            <ListItem button className={classes.nested}>
+                              <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                            </ListItem>)
+                      default:
+                        return null;
+                    }
+                  })()
+              ))}
+            </List>
+          </Collapse>
+        )}
+      </List>
+    </Paper>
   );
 }
 
@@ -401,27 +416,34 @@ const InstrumentMap = (props) => {
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, {})
 
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   useEffect(() => {
-    dispatch(Instrument.show(instrumentId));
-    dispatch(CcSequences.all(instrumentId));
-    dispatch(CcStatements.all(instrumentId));
-    dispatch(CcConditions.all(instrumentId));
-    dispatch(CcQuestions.all(instrumentId));
-    dispatch(QuestionItems.all(instrumentId));
-    dispatch(QuestionGrids.all(instrumentId));
-    dispatch(Variables.all(instrumentId));
-    dispatch(Topics.all());
+    Promise.all([
+      dispatch(Instrument.show(instrumentId)),
+      dispatch(CcSequences.all(instrumentId)),
+      dispatch(CcStatements.all(instrumentId)),
+      dispatch(CcConditions.all(instrumentId)),
+      dispatch(CcQuestions.all(instrumentId)),
+      dispatch(QuestionItems.all(instrumentId)),
+      dispatch(QuestionGrids.all(instrumentId)),
+      dispatch(Variables.all(instrumentId)),
+      dispatch(Topics.all())
+    ]).then(() => {
+      setDataLoaded(true)
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)
+  const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top === true)
 
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'map'} />
-      {isNil(sequence)
-        ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
+        {!dataLoaded
+        ? <Loader />
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
       }
       </Dashboard>
