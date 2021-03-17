@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
+import { Loader } from '../components/Loader'
 import { get, isEmpty, isNil } from "lodash";
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -14,13 +15,17 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import BounceLoader from "react-spinners/BounceLoader";
-import { Box } from '@material-ui/core'
+import { Box, Grid, Typography } from '@material-ui/core'
 import { ObjectColour } from '../support/ObjectColour'
+import { HumanizeObjectType } from '../support/HumanizeObjectType'
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import TodayIcon from '@material-ui/icons/Today';
+import Filter1Icon from '@material-ui/icons/Filter1';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
+    width: '100%'
   },
   control: {
     width: '100%',
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
-  },
+  }
 }));
 
 const ObjectFinder = (instrumentId, type, id) => {
@@ -73,8 +78,23 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 }
 
+const constructLabelClasses = makeStyles((theme) => ({
+  CcCondition: {
+    background: `#${ObjectColour('condition')}`,
+  },
+  CcStatement: {
+    background: `#${ObjectColour('statement')}`,
+    color: 'white'
+  },
+  CcQuestion: {
+    background: `#${ObjectColour('question')}`,
+  }
+}));
+
 const ConstructLabel = ({item, type}) => {
-  return (<StyledChip label={item.label} style={{ backgroundColor: `#${ObjectColour(type)}` }} />)
+  const classes = constructLabelClasses();
+
+  return (<Chip label={`${HumanizeObjectType(type)} : ${item.label}`} className={classes[type]}/>)
 }
 
 const QuestionItemListItem = (props) => {
@@ -85,28 +105,39 @@ const QuestionItemListItem = (props) => {
     return ''
   }
   return (
-    <div>
-      <ConstructLabel item={item} type={type} />
-      {item.question.literal}
-      {(item.question.rds) && (
-        <ResponseDomains rds={item.question.rds} />
-      )}
-    </div>
+    <Grid container spacing={3}>
+      <Grid item xs={3}>
+        <ConstructLabel item={item} type={type} />
+      </Grid>
+
+      <Grid item xs={9}>
+        {item.question.literal}
+        {(item.question.rds) && (
+          <ResponseDomains rds={item.question.rds} />
+        )}
+      </Grid>
+    </Grid>
   )
 }
 
-const ResponseDomains = ({ rds }) => {
+const responseDomainClasses = makeStyles((theme) => ({
+  root: {
+    listStyleType:'none'
+  }
+}));
 
+const ResponseDomains = ({ rds }) => {
+  const classes = responseDomainClasses();
   return rds.map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':
-        return(<ul><ResponseDomainCodes codes={rd.codes} /></ul>)
+        return(<ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul>)
       case 'ResponseDomainText':
-        return(<ul><li>{rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
+        return(<ul className={classes.root}><li><TextFieldsIcon /> {rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
       case 'ResponseDomainNumeric':
-        return(<ul><li>{rd.label} {rd.params} {rd.subtype}</li></ul>)
+        return(<ul className={classes.root}><li><Filter1Icon /> {rd.label} {rd.params} {rd.subtype}</li></ul>)
       case 'ResponseDomainDatetime':
-        return(<ul><li>{rd.label} {rd.params} {rd.subtype}</li></ul>)
+        return(<ul className={classes.root}><li><TodayIcon /> {rd.label} {rd.params} {rd.subtype}</li></ul>)
       default:
         return '';
     }
@@ -115,7 +146,7 @@ const ResponseDomains = ({ rds }) => {
 
 const ResponseDomainCodes = ({ codes }) => {
   return codes.map((code) => {
-      return(<li>{code.value} - {code.label}</li>)
+      return(<li><CheckCircleOutlineIcon /> <em>Value : {code.value} </em> = {code.label}</li>)
     })
 }
 
@@ -131,7 +162,15 @@ const StatementListItem = (props) => {
   const item = ObjectFinder(instrumentId, type, id)
 
   return (
-    <div><ConstructLabel item={item} type={type} /> {item.literal}</div>
+    <Grid container spacing={3}>
+      <Grid item xs={3}>
+        <ConstructLabel item={item} type={type} />
+      </Grid>
+
+      <Grid item xs={9}>
+        {item.literal}
+      </Grid>
+    </Grid>
   )
 }
 
@@ -153,9 +192,16 @@ const ConditionItem = (props) => {
       className={classes.root}
     >
       <ListItem button onClick={handleClick}>
-        <ConstructLabel item={item} type={type} />
-        <ListItemText primary={get(item, 'literal', title)} secondary={item.logic} />
-          {open ? <ExpandLess /> : <ExpandMore />}
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <ConstructLabel item={item} type={type} />
+          </Grid>
+
+          <Grid item xs={9}>
+            <ListItemText primary={get(item, 'literal', title)} secondary={item.logic} />
+          </Grid>
+        </Grid>
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {!isEmpty(item.children) && (
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -201,11 +247,10 @@ const SequenceItem = (props) => {
     <List
       component="nav"
       aria-labelledby="nested-list-subheader"
-      className={classes.root}
+      className={classes.sequence}
     >
-      <ListItem button onClick={handleClick}>
-        <ConstructLabel item={item} type={type} />
-        <ListItemText primary={title} />
+      <ListItem button onClick={handleClick} className={classes.sequence}>
+          <Typography variant="h5" component="h5">{title}</Typography>
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem >
       {!isEmpty(item.children) && (
@@ -253,17 +298,22 @@ const InstrumentView = (props) => {
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, {})
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(Instrument.show(instrumentId));
-    dispatch(CcSequences.all(instrumentId));
-    dispatch(CcStatements.all(instrumentId));
-    dispatch(CcConditions.all(instrumentId));
-    dispatch(CcQuestions.all(instrumentId));
-    dispatch(QuestionItems.all(instrumentId));
-    dispatch(QuestionGrids.all(instrumentId));
-    dispatch(Variables.all(instrumentId));
-    dispatch(Topics.all());
+    Promise.all([
+      dispatch(Instrument.show(instrumentId)),
+      dispatch(CcSequences.all(instrumentId)),
+      dispatch(CcStatements.all(instrumentId)),
+      dispatch(CcConditions.all(instrumentId)),
+      dispatch(CcQuestions.all(instrumentId)),
+      dispatch(QuestionItems.all(instrumentId)),
+      dispatch(QuestionGrids.all(instrumentId)),
+      dispatch(Variables.all(instrumentId)),
+      dispatch(Topics.all())
+    ]).then(() => {
+      setDataLoaded(true)
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
@@ -273,8 +323,8 @@ const InstrumentView = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'View'} instrumentId={instrumentId}>
       <InstrumentHeading instrument={instrument} mode={'view'} />
-      {isNil(sequence)
-        ? <Box m="auto"><BounceLoader color={'#009de6'}/></Box>
+        {!dataLoaded
+        ? <Loader />
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
       }
       </Dashboard>
@@ -300,7 +350,9 @@ const StyledChip = withStyles({
 
 const StyledListItem = withStyles({
   root: {
-    boxShadow : '0px 0px 1px 0px grey',
+    borderRadius: 5,
+    border: '2px solid #00adee',
+    backgroundColor: 'rgba(0,173,238, 0.1)',
     'margin-bottom': '10px'
   },
   label: {

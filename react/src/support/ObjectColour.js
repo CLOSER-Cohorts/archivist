@@ -1,14 +1,19 @@
 export const ObjectColour = (type) => {
    switch (type){
       case 'statement':
+      case 'CcSequence':
          return '652d90' // Purple;
       case 'loop':
+      case 'CcLoop':
          return '37b34a' // Green;
       case 'question':
+      case 'CcQuestion':
          return '00adee' // Pale Blue;
       case 'sequence':
+      case 'CcSequence':
          return 'faaf40' // Orange;
       case 'condition':
+      case 'CcCondition':
          return 'f1003a' // Red;
       default:
          return 'd3d3d3' // Light Grey

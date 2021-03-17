@@ -60,7 +60,6 @@ const theme = createMuiTheme({
 
 const App = () => {
 
-  console.log(routes)
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
