@@ -3,8 +3,19 @@ class CcQuestionsController < ConstructController
 
   only_set_object { %i{variables set_topic add_variables remove_variable} }
 
+  prepend_before_action :create_response_unit, only: [:create, :update]
+
   @model_class = CcQuestion
   @params_list = [:id, :question_id, :question_type, :response_unit_id, :topic]
+
+  # If we want to create a new Response Unit then we send the new label
+  # as params[:cc_question][:response_unit_id]
+  def create_response_unit
+    return unless params[:response_unit_id]
+    return if params[:response_unit_id].is_a? Integer
+    set_instrument
+    params[:cc_question][:response_unit_id] = @instrument.response_units.find_or_create_by(label: params[:response_unit_id]).try(:id)
+  end
 
   def variables
     @collection ||= @object.variables

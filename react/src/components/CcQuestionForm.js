@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { get, isNil } from "lodash";
+import { get, isNil, difference } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CcQuestions } from '../actions'
@@ -119,6 +119,12 @@ export const CcQuestionForm = (props) => {
     }
   }
 
+  const intervieweeOptions = () => {
+    const allOptions = ['Cohort/sample member','Main parent of cohort/sample member','Partner of main parent/Father','Child of cohort/panel member','Proxy','Interviewer','Other']
+    const rdOptions = Object.values(responseUnits).map(item => {return item.label})
+    return difference(allOptions, rdOptions);
+  }
+
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
       <ObjectStatusBar id={ccQuestion.id || 'new'} type={'CcQuestion'} />
@@ -178,6 +184,9 @@ export const CcQuestionForm = (props) => {
                     <MenuItem></MenuItem>
                     {Object.values(responseUnits).map((item, idx) => (
                       <MenuItem value={item.id}>{item.label}</MenuItem>
+                    ))}
+                    {intervieweeOptions().map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
                     ))}
                   </Select>
                 </Grid>
