@@ -81,6 +81,7 @@ const ObjectFinder = (instrumentId, type, id) => {
 const constructLabelClasses = makeStyles((theme) => ({
   CcCondition: {
     background: `#${ObjectColour('condition')}`,
+    color: 'white'
   },
   CcStatement: {
     background: `#${ObjectColour('statement')}`,
@@ -88,6 +89,7 @@ const constructLabelClasses = makeStyles((theme) => ({
   },
   CcQuestion: {
     background: `#${ObjectColour('question')}`,
+    color: 'white'
   }
 }));
 
@@ -191,7 +193,7 @@ const ConditionItem = (props) => {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
     >
-      <ListItem button onClick={handleClick}>
+      <ListItem>
         <Grid container spacing={3}>
           <Grid item xs={3}>
             <ConstructLabel item={item} type={type} />
@@ -201,13 +203,13 @@ const ConditionItem = (props) => {
             <ListItemText primary={get(item, 'literal', title)} secondary={item.logic} />
           </Grid>
         </Grid>
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
       </ListItem>
       {!isEmpty(item.children) && (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {item.children.map((child) => (
-              <StyledListItem button className={classes.nested}>
+              <StyledListItem className={classes.nested}>
                 {(function() {
                   switch (child.type) {
                     case 'CcSequence':
@@ -245,13 +247,11 @@ const SequenceItem = (props) => {
 
   return (
     <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
       className={classes.sequence}
     >
-      <ListItem button onClick={handleClick} className={classes.sequence}>
+      <ListItem className={classes.sequence}>
           <Typography variant="h5" component="h5">{title}</Typography>
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open ? <ExpandLess onClick={handleClick}  /> : <ExpandMore onClick={handleClick}  />}
       </ListItem >
       {!isEmpty(item.children) && (
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -261,22 +261,22 @@ const SequenceItem = (props) => {
                   switch (child.type) {
                     case 'CcSequence':
                       return (
-                          <StyledListItem button className={classes.nested}>
+                          <StyledListItem className={classes.nested}>
                             <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
                           </StyledListItem>)
                     case 'CcQuestion':
                       return (
-                          <StyledListItem button className={classes.nested}>
+                          <StyledListItem className={classes.nested}>
                             <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                           </StyledListItem>)
                     case 'CcStatement':
                       return (
-                          <StyledListItem button className={classes.nested}>
+                          <StyledListItem className={classes.nested}>
                             <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                           </StyledListItem>)
                     case 'CcCondition':
                       return (
-                          <StyledListItem button className={classes.nested}>
+                          <StyledListItem className={classes.nested}>
                             <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child,'children',[])} />
                           </StyledListItem>)
                     default:

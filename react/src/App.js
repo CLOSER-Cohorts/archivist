@@ -33,6 +33,13 @@ import RedirectFromState from './components/RedirectFromState';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
+  props: {
+    // Name of the component ⚛️
+    MuiButtonBase: {
+      // The properties to apply
+      disableRipple: true, // No more ripple, on the whole application 💣!
+    },
+  },
   palette: {
     primary: {
       main: '#009de6',
