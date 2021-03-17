@@ -58,6 +58,8 @@ gem 'sass-rails', '5.0.7'
 gem 'sdoc', '1.0.0', group: :doc
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '4.1.18'
+# PostgreSQLCursor for handling large Result Sets
+gem "postgresql_cursor", "~> 0.6.4"
 
 # Production gems
 group :production do
