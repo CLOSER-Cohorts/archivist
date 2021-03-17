@@ -35,7 +35,7 @@ module Exporters::XML::DDI
       }
       urn.add_next_sibling l
       inner_prev = l
-      codelist.codes.find_each do |code|
+      codelist.codes.each_instance do |code|
         co = Nokogiri::XML::Node.new 'l:Code', @doc
         inner_prev.add_next_sibling co
         c_urn = create_urn_node code

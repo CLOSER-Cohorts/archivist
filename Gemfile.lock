@@ -155,6 +155,8 @@ GEM
     oj (3.3.9)
     orm_adapter (0.5.0)
     pg (0.21.0)
+    postgresql_cursor (0.6.4)
+      activerecord (>= 3.1.0)
     postmark (1.10.0)
       json
       rake
@@ -328,6 +330,7 @@ DEPENDENCIES
   newrelic_rpm (~> 5.4, >= 5.4.0.347)
   oj (= 3.3.9)
   pg (= 0.21.0)
+  postgresql_cursor (~> 0.6.4)
   postmark-rails (= 0.15.0)
   pry-rails (~> 0.3.6)
   puma (= 3.12.6)
