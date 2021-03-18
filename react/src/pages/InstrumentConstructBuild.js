@@ -162,22 +162,29 @@ const Tree = (props) => {
       ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
     }).map(({ node, path }) => {
       if(['conditionTrue', 'conditionFalse'].includes(node.type)){
+        if(node.id === 172015 || node.id === 36397 || node.id === 36396){
+          console.log('nope')
+        }
         return null
       }
       let parent = path[path.length - 2]
       let branch = (parent !== undefined && parent.type === 'conditionFalse') ? 1 : 0
+      let position = (parent !== undefined) ? parent.children.indexOf(`type ${node.type} id ${node.id}`) + 1 : node.position
       if(parent !== undefined && ['conditionTrue', 'conditionFalse'].includes(parent.type)){
         parent = path[path.length - 3]
       }
-      return {
+      const data = {
         id: node.id,
         type: node.type,
-        position: (parent !== undefined) ? parent.children.indexOf(`type ${node.type} id ${node.id}`) + 1 : node.position,
+        position: position,
         branch: branch,
         // // The last entry in the path is this node's key
         // // The second to last entry (accessed here) is the parent node's key
         parent: (parent !== undefined) ? { id: parent.id, type: parent.type } : {},
-    }}).filter(el => el != null);
+      }
+
+      return data
+    }).filter(el => el != null);
   }
 
   const reorderConstructs = (data) => {
