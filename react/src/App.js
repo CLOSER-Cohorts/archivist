@@ -15,6 +15,8 @@ import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
 import DatasetView from './pages/DatasetView';
 import InstrumentView from './pages/InstrumentView';
+import InstrumentNew from './pages/InstrumentNew';
+import InstrumentEdit from './pages/InstrumentEdit';
 import InstrumentMap from './pages/InstrumentMap';
 import InstrumentBuild from './pages/InstrumentBuild';
 import InstrumentCcConditions from './pages/InstrumentCcConditions';
@@ -81,6 +83,8 @@ const App = () => {
             />
             <AuthRoute type="private" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
+            <AuthRoute type="private" exact path={routes.instruments.new} component={InstrumentNew} />
+            <AuthRoute type="private" exact path={routes.instruments.instrument.edit} component={InstrumentEdit} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.show} component={InstrumentView} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
             <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.show} component={InstrumentBuildCodeLists} />

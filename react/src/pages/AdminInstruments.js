@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { DataTable } from '../components/DataTable'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const AdminInstruments = () => {
 
@@ -18,7 +19,7 @@ const AdminInstruments = () => {
       <>
         <ButtonGroup variant="outlined">
           <Button>
-            Edit
+            <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
           </Button>
           <Button>
             Copy
@@ -57,6 +58,9 @@ const AdminInstruments = () => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Admin Instruments'}>
+        <Button variant="contained" color="primary">
+          <Link to={url(routes.instruments.new)}><AddCircleOutlineIcon /> Add new Instrument</Link>
+        </Button>
         <DataTable actions={actions}
           fetch={[dispatch(Instrument.all())]}
           stateKey={'instruments'}

@@ -22,8 +22,10 @@ export default {
     }),
     instruments: include('/instruments', {
       all: '',
+      new: 'new',
       instrument: include(':instrument_id/', {
         show: '',
+        edit: 'edit',
          map: include('map/', {
             show: ''
         }),

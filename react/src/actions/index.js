@@ -180,6 +180,37 @@ export const AdminImport = {
 }
 
 export const Instrument = {
+  update: (instrumentId, values) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem(instrumentId, 'Instrument'));
+        return request.then(res => {
+          dispatch(savedItem(instrumentId, 'Instrument'));
+          dispatch(instrumentFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (values) => {
+    const request = axios.post(api_host + '/instruments.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem('new', 'Instrument'));
+        return request.then(res => {
+          dispatch(savedItem('new', 'Instrument'));
+          dispatch(instrumentFetchSuccess(res.data));
+          dispatch(redirectTo(url(routes.instruments.instrument.show, { instrument_id: res.data.prefix })));
+        })
+        .catch(err => {
+          dispatch(saveError('new', 'Instrument', err.response.data.error_sentence));
+        });
+    };
+  },
   import: (values) => {
     const request = axios.post(api_host + '/admin/import/instruments/', { updates: values }, {
         headers: api_headers()
