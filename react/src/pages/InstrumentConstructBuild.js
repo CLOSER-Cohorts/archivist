@@ -115,7 +115,7 @@ const Tree = (props) => {
   }
 
   const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
-    if (canHaveChildren(nextParent)) {
+    if (!isNil(nextParent) && canHaveChildren(nextParent)) {
       return true;
     }
 
