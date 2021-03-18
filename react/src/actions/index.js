@@ -38,6 +38,14 @@ export const authUser = (email, password) => {
   };
 };
 
+export const InstrumentTree = {
+  create: (instrumentId, flatTree) => {
+    return (dispatch) => {
+        dispatch({type: 'LOAD_INSTRUMENT_TREE', payload: { instrumentId: instrumentId, flatTree: flatTree }});
+    };
+  }
+}
+
 export const Dataset = {
   all: () => {
     const request = axios.get(api_host + '/datasets.json',{

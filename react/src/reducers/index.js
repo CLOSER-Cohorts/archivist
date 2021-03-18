@@ -28,6 +28,16 @@ const auth = (state = { isAuthUser: !!window.localStorage.getItem("jwt") }, acti
   }
 }
 
+const instrumentTrees = (state = {}, action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_TREE':
+      return {...state, ...{[action.payload.instrumentId]: action.payload.flatTree}}
+    default:
+      return state
+  }
+}
+
 const instruments = (state = [], action) => {
 
   switch (action.type) {
@@ -413,6 +423,7 @@ const appReducer = combineReducers({
     auth,
     datasets,
     instruments,
+    instrumentTrees,
     imports,
     instrumentStats,
     cc_sequences,

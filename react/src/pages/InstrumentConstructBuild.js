@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits } from '../actions'
+import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits, InstrumentTree } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { MoveConstructSelect } from '../components/MoveConstructSelect'
 import { CcConditionForm } from '../components/CcConditionForm'
 import { CcQuestionForm } from '../components/CcQuestionForm'
 import { CcStatementForm } from '../components/CcStatementForm'
@@ -17,6 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import OpenWithIcon from '@material-ui/icons/OpenWith';
 
 import SearchBar from "material-ui-search-bar";
 
@@ -62,6 +64,7 @@ const Tree = (props) => {
   const { topSequence, instrumentId, dispatch, onNodeSelect } = props
   const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id, true)]);
   const [selectedNode, setSelectedNode] = useState({});
+
 //  const [expanded, setExpanded] = useState(true);
   const classes = useStyles();
 
@@ -128,6 +131,29 @@ const Tree = (props) => {
                     expanded: expanded
     }));
   }
+
+  const moveableNodesArray = (data) => {
+    return getFlatDataFromTree({
+      treeData: data,
+      getNodeKey: ({ node }) => { return { id: node.id, type: node.type } }, // This ensures your "id" properties are exported in the path
+      ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
+    }).map(({ node, path }) => {
+      if(!canHaveChildren(node)){
+        return null
+      }
+      if(['conditionTrue', 'conditionFalse'].includes(node.type)){
+        return null
+      }
+      return {
+        id: node.id,
+        type: node.type,
+        title: node.title,
+        path: path
+      }
+    }).filter(el => el != null);
+  }
+
+  dispatch(InstrumentTree.create(instrumentId, moveableNodesArray(treeData)));
 
   const orderArray = (data) => {
     return getFlatDataFromTree({
@@ -369,6 +395,12 @@ const ObjectFinder = (instrumentId, type, id) => {
 
   return item
 
+}
+
+// This a WIP section to allows a node to moved to another parent
+// useful when you want to move a construct outside of the virtualised portal.
+const MoveConstructForm = ({instrumentId}) => {
+  return <MoveConstructSelect instrumentId={instrumentId} onMove={(event, value)=>{ console.log(value)}}/>
 }
 
 const ConstructForm = (props) => {
