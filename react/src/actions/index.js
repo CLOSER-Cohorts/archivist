@@ -116,19 +116,15 @@ export const AdminDataset = {
 }
 
 export const AdminImportMapping = {
-  create: (type, id, values) => {
-    let formData = new FormData();
-
-    values.imports.map((imp) => {
-      formData.append('imports[0][file]', imp.file)
-    })
-    const request = axios.post(api_host + '/' + type + '/' + id + '/imports.json', formData, {
-        headers: {...api_headers(), ...{'Content-Type': 'multipart/form-data'}}
+  create: (type, id, imports) => {
+    const request = axios.post(api_host + '/' + type + '/' + id + '/imports.json', { imports: imports}, {
+        headers: {...api_headers(), ...{'Content-Type': 'application/json'}}
       })
     return (dispatch) => {
-        dispatch(savingItem('new', 'AdminImportMappings'));
+        dispatch(savingItem('new', 'AdminImportMapping'));
         return request.then(res => {
-          dispatch(savedItem('new', 'AdminImportMappings'));
+          dispatch(savedItem('new', 'AdminImportMapping'));
+          dispatch(AdminImportMapping.all('instruments',id))
         })
         .catch(err => {
           console.log('error')
@@ -141,13 +137,26 @@ export const AdminImportMapping = {
       })
     return (dispatch) => {
         return request.then(res => {
-          dispatch(importsFetchSuccess(res.data));
+          dispatch(importMappingsFetchSuccess(id, type, res.data));
         })
         .catch(err => {
           dispatch(fetchFailure(err.message));
         });
     };
   },
+  show: (type, parentId, id) => {
+    const request = axios.get(api_host + '/' + type + '/' + parentId + '/imports/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(importMappingFetchSuccess(type, parentId, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
 }
 
 export const AdminImport = {
@@ -1495,6 +1504,28 @@ const datasetFetchSuccess = datasets => ({
     dataset: datasets
   }
 });
+
+const importMappingsFetchSuccess = (id, type, imports) => {
+  const reducerType = (type === 'instruments' ) ? 'LOAD_INSTRUMENT_IMPORT_MAPPINGS' : 'LOAD_DATASET_IMPORT_MAPPINGS'
+  return {
+    type: reducerType,
+    payload: {
+      id: id,
+      importMappings: imports
+    }
+  }
+};
+
+const importMappingFetchSuccess = (type, parentId, importMapping) => {
+  const reducerType = (type === 'instruments' ) ? 'LOAD_INSTRUMENT_IMPORT_MAPPING' : 'LOAD_DATASET_IMPORT_MAPPING'
+  return {
+    type: reducerType,
+    payload: {
+      parentId: parentId,
+      importMapping: importMapping
+    }
+  }
+};
 
 const importsFetchSuccess = imports => ({
   type: 'LOAD_ADMIN_IMPORTS',

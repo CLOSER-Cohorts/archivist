@@ -242,9 +242,9 @@ const datasetImportMappings = (state = {}, action) => {
     case 'LOAD_DATASET_IMPORT_MAPPINGS':
       return {...state, ...{[action.payload.id]: serializeArrayToObject(action.payload.importMappings)}}
     case 'LOAD_DATASET_IMPORT_MAPPING':
-      var importMappings = get(state, action.payload.id, {})
+      var importMappings = get(state, action.payload.parentId, {})
       const revisedImportMappings = {...importMappings, ...{[action.payload.importMapping.id]: action.payload.importMapping}}
-      return {...state, ...{[action.payload.datasetId]: revisedImportMappings}}
+      return {...state, ...{[action.payload.parentId]: revisedImportMappings}}
     default:
       return state
   }
@@ -256,9 +256,9 @@ const instrumentImportMappings = (state = {}, action) => {
     case 'LOAD_INSTRUMENT_IMPORT_MAPPINGS':
       return {...state, ...{[action.payload.id]: serializeArrayToObject(action.payload.importMappings)}}
     case 'LOAD_INSTRUMENT_IMPORT_MAPPING':
-      var importMappings = get(state, action.payload.id, {})
+      var importMappings = get(state, action.payload.parentId, {})
       const revisedImportMappings = {...importMappings, ...{[action.payload.importMapping.id]: action.payload.importMapping}}
-      return {...state, ...{[action.payload.datasetId]: revisedImportMappings}}
+      return {...state, ...{[action.payload.parentId]: revisedImportMappings}}
     default:
       return state
   }
@@ -387,6 +387,9 @@ const statuses = (state = {}, action) => {
   var key;
 
   switch (action.type) {
+    case 'CLEAR':
+      key = action.payload.type + ':' + action.payload.id
+      return {...state, ...{[key]: {}}}
     case 'SAVING':
       key = action.payload.type + ':' + action.payload.id
       return {...state, ...{[key]: {saving: true}}}

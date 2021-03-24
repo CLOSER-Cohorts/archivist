@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = (values, status) => {
+const validate = (values, status, dispatch) => {
   const errors = {};
 
   // if(values.files.length != Object.values(values.types).length){
@@ -50,7 +50,7 @@ const formFields = [
   }
 ];
 
-export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
+export const AdminImportMappingsForm = ({type, typeOptions=[], hint, onSubmit=()=>{}}) => {
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -61,13 +61,13 @@ export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
-      <h2>Import Mappings</h2>
+      <h2>Import {type} Mappings</h2>
       <ObjectStatusBar type={'AdminImportMapping'} id={'new'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
-        initialValues={{files: [], types: {}}}
-        validate={(values) => validate(values, status)}
+        initialValues={{files: [], types: []}}
+        validate={(values) => { validate(values, status, dispatch) }}
         render={({
         handleSubmit,
         form: {
@@ -89,28 +89,28 @@ export const AdminImportMappingsForm = ({type, hint, onSubmit=()=>{}}) => {
                     }
                   </Grid>
                 ))}
-                {Array.from(values.files).map((file) => {
+                {Array.from(values.files).map((file, index) => {
+                  values.types[index] = typeOptions[0].value;
                   return (
                     <div>
                       {file.name}
-                      <select onChange={(e) => { values.types[file.name] = e.target.value; }} required>
-                          <option></option>
-                          <option value="topicv" class="ng-binding">T-V Mapping</option>
-                          <option value="dv" class="ng-binding">DV Mapping</option>
+                      <select onChange={(e) => { values.types[index] = e.target.value; }} required>
+                          { typeOptions.map((obj) => (
+                            <option value={obj.value} class="ng-binding">{obj.label}</option>
+                          ))}
                       </select>
                     </div>
                   )
                 })}
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <Grid item style={{ marginTop: 16 }}>
                   {hint}
                   <Button
                     variant="contained"
                     color="primary"
                     type="submit"
-                    disabled={false}
+                    disabled={values.files.length < 1 }
                   >
-                    Import {type}
+                    Import Mappings for {type}
                   </Button>
                 </Grid>
               </Grid>

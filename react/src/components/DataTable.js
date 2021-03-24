@@ -28,9 +28,9 @@ export const DataTable = (props) => {
 
   useEffect(() => {
     setFilteredValues(
-      Object.values(values).filter((value) =>
-        value[searchKey] && value[searchKey].toLowerCase().includes(search.toLowerCase())
-      )
+      Object.values(values).filter((value) => {
+        return value[searchKey] && value[searchKey].toLowerCase().includes(search.toLowerCase())
+      }).sort((el)=> el.id).reverse()
     );
   }, [search, values]);
 
@@ -59,7 +59,7 @@ export const DataTable = (props) => {
         : (
           <>
             <SearchBar
-              placeholder="Search (press return to perform search)"
+              placeholder={`Search by ${searchKey} (press return to perform search)`}
               onChange={(newValue) =>
                       setSearch(newValue)
                     }

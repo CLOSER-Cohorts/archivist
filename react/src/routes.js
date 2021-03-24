@@ -13,11 +13,13 @@ export default {
       }),
       instruments: include('instruments/', {
         all: '',
-        importMappings: ':instrumentId/imports'
+        importMappings: ':instrumentId/imports',
+        importMapping: ':instrumentId/imports/:id'
       }),
       datasets: include('datasets/', {
         all: '',
-        importMappings: ':datasetId/imports'
+        importMappings: ':datasetId/imports',
+        importMapping: ':datasetId/imports/:id'
       }),
     }),
     instruments: include('/instruments', {
