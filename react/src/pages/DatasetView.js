@@ -235,12 +235,14 @@ const DatasetView = (props) => {
                 return (
                 <>
                 { !isEmpty(errorMessage) && (
-                  <div style={{ width: '400%' }}>
-                    <Alert severity="error">
-                      <AlertTitle>Error</AlertTitle>
-                      {errorMessage}
-                    </Alert>
-                  </div>
+                  <TableRow>
+                    <TableCell colSpan={7} style={{ border: '0'}}>
+                      <Alert severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        {errorMessage}
+                      </Alert>
+                    </TableCell>
+                  </TableRow>
                 )}
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
