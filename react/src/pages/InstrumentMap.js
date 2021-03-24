@@ -100,6 +100,9 @@ const QuestionItemListItem = (props) => {
   const resolvedTopic = get(item, 'resolved_topic', {id: null})
   const resolvedTopicId = get(resolvedTopic, 'id', null)
 
+  const variableTopic = get(item, 'variable_topic', {id: null})
+  const variableTopicId = get(variableTopic, 'id', null)
+
   const status = ObjectStatus(item.id, 'CcQuestion')
 
   var errorMessage = null;
@@ -139,8 +142,8 @@ const QuestionItemListItem = (props) => {
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
-            { isNil(topicId) && !isNil(resolvedTopicId) && (
-              <em>Resolved topic from variables - { get(resolvedTopic,'name')}</em>
+            { (!isNil(variableTopic)) && (
+              <em>Resolved topic from variables - { get(variableTopic,'name') }</em>
             )}
           </Grid>
         </Grid>

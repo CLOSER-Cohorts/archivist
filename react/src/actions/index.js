@@ -1403,6 +1403,27 @@ export const DatasetVariable = {
         });
     };
   },
+  topic: {
+    set: (datasetId, variableId, topicId) => {
+      const request = axios.post(api_host + '/datasets/' + datasetId + '/variables/' + variableId + '/set_topic.json',
+      {
+        "topic_id": topicId
+      },
+      {
+          headers: api_headers()
+        })
+      return (dispatch) => {
+          dispatch(savingItem(variableId, 'DatasetVariable'));
+          return request.then(res => {
+            dispatch(savedItem(variableId, 'DatasetVariable'));
+            dispatch(datasetVariablesFetchSuccess(datasetId, res.data));
+          })
+          .catch(err => {
+            dispatch(saveError(variableId, 'DatasetVariable', err.response.data.message));
+          });
+      };
+    }
+  },
   add_source: (datasetId, datasetVariableId, sources) => {
     const request = axios.post(api_host + '/datasets/' + datasetId + '/variables/' + datasetVariableId + '/add_sources.json',
     {

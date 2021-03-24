@@ -13,4 +13,5 @@ json.array!(@collection) do |variable|
   end
   json.errors variable.errors.full_messages.to_sentence unless variable.valid?
   json.resolved_topic variable.resolved_topic
+  json.sources_topic variable.question_topics.first
 end
