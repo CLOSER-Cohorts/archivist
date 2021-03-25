@@ -22,6 +22,11 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import TodayIcon from '@material-ui/icons/Today';
 import Filter1Icon from '@material-ui/icons/Filter1';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,16 +105,15 @@ const ConstructLabel = ({item, type}) => {
 }
 
 const QuestionItemListItem = (props) => {
-  const {type, id, instrumentId} = props
-  const item = ObjectFinder(instrumentId, type, id)
+  const {item} = props;
 
-  if(isNil(item.question)){
+  if(isNil(item) || isNil(item.question)){
     return ''
   }
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
-        <ConstructLabel item={item} type={type} />
+        <ConstructLabel item={item} type={'CcQuestion'} />
       </Grid>
 
       <Grid item xs={9}>
@@ -120,6 +124,67 @@ const QuestionItemListItem = (props) => {
       </Grid>
     </Grid>
   )
+}
+
+const QuestionGridListItem = (props) => {
+  const {item} = props;
+
+  if(isNil(item) || isNil(item.question)){
+    return ''
+  }
+
+  const rds = (
+    <>
+    {item.question.cols.map((header)=>(
+      <TableCell><ResponseDomains rds={[header.rd]} /></TableCell>
+    ))}
+    </>
+  )
+
+  return (
+    <Grid container spacing={3}>
+      <Grid item xs={3}>
+        <ConstructLabel item={item} type={'CcQuestion'} />
+      </Grid>
+
+      <Grid item xs={9}>
+        {item.question.literal}
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell><strong>{item.question.pretty_corner_label}</strong></TableCell>
+              {item.question.cols.map((header)=>(
+                <TableCell><strong>{header.label}</strong></TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {item.question.rows.map((row)=>(
+              <TableRow key={row.label}>
+                <TableCell><strong>{row.label}</strong></TableCell>
+                {rds}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Grid>
+    </Grid>
+  )
+}
+
+const QuestionListItem = (props) => {
+  const {type, id, instrumentId} = props
+  const item = ObjectFinder(instrumentId, type, id)
+
+  if(isNil(item.question)){
+    return ''
+  }
+
+  if(item.question_type === 'QuestionGrid'){
+    return <QuestionGridListItem item={item} />
+  }else{
+    return <QuestionItemListItem item={item} />
+  }
 }
 
 const responseDomainClasses = makeStyles((theme) => ({
@@ -150,13 +215,6 @@ const ResponseDomainCodes = ({ codes }) => {
   return codes.map((code) => {
       return(<li><CheckCircleOutlineIcon /> <em>Value : {code.value} </em> = {code.label}</li>)
     })
-}
-
-const QuestionGridListItem = (props) => {
-
-  return (
-    <div>This is a Question Grid</div>
-  )
 }
 
 const StatementListItem = (props) => {
@@ -215,7 +273,7 @@ const ConditionItem = (props) => {
                     case 'CcSequence':
                       return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />;
                     case 'CcQuestion':
-                      return <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     case 'CcCondition':
                       return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     default:
@@ -267,7 +325,7 @@ const SequenceItem = (props) => {
                     case 'CcQuestion':
                       return (
                           <StyledListItem className={classes.nested}>
-                            <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                            <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                           </StyledListItem>)
                     case 'CcStatement':
                       return (

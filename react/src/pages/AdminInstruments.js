@@ -22,18 +22,9 @@ const AdminInstruments = () => {
             <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
           </Button>
           <Button>
-            Copy
-          </Button>
-          <Button>
             <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
               Import Mappings
             </Link>
-          </Button>
-          <Button>
-            QV
-          </Button>
-          <Button>
-            Topics
           </Button>
           <Button>
             <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>
