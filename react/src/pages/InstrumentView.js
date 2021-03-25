@@ -234,6 +234,57 @@ const StatementListItem = (props) => {
   )
 }
 
+const ConditionChildren = (props) => {
+  const {children, instrumentId, title} = props
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <List
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      className={classes.root}
+    >
+      <ListItem>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <ListItemText primary={title} />
+          </Grid>
+        </Grid>
+        {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
+      </ListItem>
+      {!isEmpty(children) && (
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {children.map((child) => (
+              <StyledListItem className={classes.nested}>
+                {(function() {
+                  switch (child.type) {
+                    case 'CcSequence':
+                      return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />;
+                    case 'CcQuestion':
+                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcCondition':
+                      return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcStatement':
+                      return <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    default:
+                      return null;
+                  }
+                })()}
+              </StyledListItem>
+            ))}
+          </List>
+        </Collapse>
+      )}
+    </List>
+  );
+}
+
 const ConditionItem = (props) => {
   const {type, id, instrumentId, title} = props
   const classes = useStyles();
@@ -263,28 +314,8 @@ const ConditionItem = (props) => {
         </Grid>
         {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
       </ListItem>
-      {!isEmpty(item.children) && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {item.children.map((child) => (
-              <StyledListItem className={classes.nested}>
-                {(function() {
-                  switch (child.type) {
-                    case 'CcSequence':
-                      return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />;
-                    case 'CcQuestion':
-                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                    case 'CcCondition':
-                      return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
-                    default:
-                      return null;
-                  }
-                })()}
-              </StyledListItem>
-            ))}
-          </List>
-        </Collapse>
-      )}
+      <ConditionChildren instrumentId={instrumentId} title={'True'} children={item.children} />
+      <ConditionChildren instrumentId={instrumentId} title={'False'} children={item.fchildren} />
     </List>
   );
 }
