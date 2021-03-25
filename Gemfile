@@ -40,7 +40,7 @@ gem 'json', '2.3.0'
 # Faster JavaScript/JSON converter
 gem 'oj', '3.3.9'
 # Use Postgres as the database for Active Record
-gem 'pg', '0.21.0'
+gem 'pg', '1.2.3'
 # Heroku email service
 gem 'postmark-rails', '0.15.0'
 # Use Puma as the web server
