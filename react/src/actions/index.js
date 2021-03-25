@@ -233,6 +233,19 @@ export const Instrument = {
         });
     };
   },
+  export: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/export.json', {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          console.log('ok')
+        })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
   all: () => {
     const request = axios.get(api_host + '/instruments.json',{
         headers: api_headers()

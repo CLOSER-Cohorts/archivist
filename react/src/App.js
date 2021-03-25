@@ -12,6 +12,7 @@ import AdminInstrumentImportMappingView from './pages/AdminInstrumentImportMappi
 import AdminDatasetImportMappings from './pages/AdminDatasetImportMappings';
 import AdminDatasetImportMappingView from './pages/AdminDatasetImportMappingView';
 import AdminInstruments from './pages/AdminInstruments';
+import AdminInstrumentExports from './pages/AdminInstrumentExports';
 import AdminDatasets from './pages/AdminDatasets';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
@@ -114,6 +115,7 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.admin.imports.all} component={AdminImports} />
             <AuthRoute type="private" exact path={routes.admin.imports.show} component={AdminImportView} />
             <AuthRoute type="private" exact path={routes.admin.instruments.all} component={AdminInstruments} />
+            <AuthRoute type="private" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
             <AuthRoute type="private" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
             <AuthRoute type="private" exact path={routes.admin.instruments.importMapping} component={AdminInstrumentImportMappingView} />
             <AuthRoute type="private" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />

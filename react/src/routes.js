@@ -13,6 +13,7 @@ export default {
       }),
       instruments: include('instruments/', {
         all: '',
+        exports: 'exports',
         importMappings: ':instrumentId/imports',
         importMapping: ':instrumentId/imports/:id'
       }),

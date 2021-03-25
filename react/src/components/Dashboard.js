@@ -188,6 +188,11 @@ const MainListItems = () => {
               <ListItemText primary="DDI Imports" />
             </Link>
           </ListItem>
+          <ListItem button className={classes.nested}>
+            <Link to={url(routes.admin.instruments.exports)}>
+              <ListItemText primary="Instrument Exports" />
+            </Link>
+          </ListItem>
         </List>
       </Collapse>
   </div>
