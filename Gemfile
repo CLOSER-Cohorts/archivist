@@ -61,6 +61,8 @@ gem 'uglifier', '4.1.18'
 # PostgreSQLCursor for handling large Result Sets
 gem "postgresql_cursor", "~> 0.6.4"
 
+gem 'mimemagic', '~> 0.4.1'
+
 # Production gems
 group :production do
   # Heroku logging
