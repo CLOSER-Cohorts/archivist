@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
+import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import { Loader } from '../components/Loader'
@@ -53,7 +53,9 @@ const ObjectFinder = (instrumentId, type, id) => {
   const allQuestionItems = useSelector(state => state.questionItems);
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
-  const questionGrids = get(allQuestionGrids, instrumentId, {})
+  const questionGrids = get(allQuestionGrids, instrumentId, {});
+  const loops = useSelector(state => state.cc_loops);
+  const cc_loops = get(loops, instrumentId, {})
 
   var item = {children: []}
 
@@ -67,6 +69,10 @@ const ObjectFinder = (instrumentId, type, id) => {
 
   if(type === 'CcCondition'){
     item = get(cc_conditions, id.toString(), {})
+  }
+
+  if(type === 'CcLoop'){
+    item = get(cc_loops, id.toString(), {})
   }
 
   if(type === 'CcQuestion'){
@@ -320,6 +326,83 @@ const ConditionItem = (props) => {
   );
 }
 
+const LoopItem = (props) => {
+  const {type, id, instrumentId, title} = props
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  var item = ObjectFinder(instrumentId, type, id)
+
+  return (
+    <List
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      className={classes.root}
+    >
+      <ListItem>
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <ConstructLabel item={item} type={type} />
+          </Grid>
+
+          <Grid item xs={9}>
+            <ul className={classes.root}>
+              <li>Variable - {item.loop_var}</li>
+              <li>Start - {item.start_val}</li>
+              <li>End - {item.end_val}</li>
+              <li>Loop - {item.loop_while}</li>
+            </ul>
+          </Grid>
+        </Grid>
+        {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
+      </ListItem>
+      {!isEmpty(item.children) && (
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {item.children.map((child) => (
+                (function() {
+                  switch (child.type) {
+                    case 'CcSequence':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />
+                          </StyledListItem>)
+                    case 'CcQuestion':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                          </StyledListItem>)
+                    case 'CcStatement':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                          </StyledListItem>)
+                    case 'CcCondition':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child,'children',[])} />
+                          </StyledListItem>)
+                    case 'CcLoop':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                          </StyledListItem>)
+                    default:
+                      return null;
+                  }
+                })()
+            ))}
+          </List>
+        </Collapse>
+      )}
+    </List>
+  );
+}
+
 const SequenceItem = (props) => {
   const {type, id, instrumentId} = props
   var {title} = props;
@@ -368,6 +451,11 @@ const SequenceItem = (props) => {
                           <StyledListItem className={classes.nested}>
                             <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child,'children',[])} />
                           </StyledListItem>)
+                    case 'CcLoop':
+                      return (
+                          <StyledListItem className={classes.nested}>
+                            <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child,'children',[])} />
+                          </StyledListItem>)
                     default:
                       return null;
                   }
@@ -395,6 +483,7 @@ const InstrumentView = (props) => {
       dispatch(CcSequences.all(instrumentId)),
       dispatch(CcStatements.all(instrumentId)),
       dispatch(CcConditions.all(instrumentId)),
+      dispatch(CcLoops.all(instrumentId)),
       dispatch(CcQuestions.all(instrumentId)),
       dispatch(QuestionItems.all(instrumentId)),
       dispatch(QuestionGrids.all(instrumentId)),
