@@ -51,7 +51,7 @@ const InstrumentBuildResponseDomains = (props) => {
 
   const responseDomains = [...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
 
-  const selectedResponseDomain = responseDomains.find(responseDomain => responseDomain.id === responseDomainId && responseDomain.type === responseDomainType) || {};
+  const selectedResponseDomain = responseDomains.find(responseDomain => responseDomain.id == responseDomainId && responseDomain.type === responseDomainType) || {};
 
   useEffect(() => {
     dispatch(ResponseDomainNumerics.all(instrumentId));
