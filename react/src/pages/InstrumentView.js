@@ -116,6 +116,7 @@ const QuestionItemListItem = (props) => {
   if(isNil(item) || isNil(item.question)){
     return ''
   }
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -127,6 +128,7 @@ const QuestionItemListItem = (props) => {
         {(item.question.rds) && (
           <ResponseDomains rds={item.question.rds} />
         )}
+        <VariableItems variables={item.variables} />
       </Grid>
     </Grid>
   )
@@ -173,6 +175,7 @@ const QuestionGridListItem = (props) => {
             ))}
           </TableBody>
         </Table>
+        <VariableItems variables={item.variables} />
       </Grid>
     </Grid>
   )
@@ -199,9 +202,29 @@ const responseDomainClasses = makeStyles((theme) => ({
   }
 }));
 
+const VariableItems = ({ variables }) => {
+  if(isEmpty(variables)){
+    return ''
+  }else{
+    return (
+        <>
+          <h3>Variables</h3>
+          <ul>
+            { variables.map((variable) => {
+              return (
+                <li>{variable.name}</li>
+              )
+              })
+            }
+          </ul>
+        </>
+    )
+  }
+}
+
 const ResponseDomains = ({ rds }) => {
   const classes = responseDomainClasses();
-  return rds.map((rd) => {
+  return rds.filter((rd)  => { return !isNil(rd) }).map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':
         return(<ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul>)
