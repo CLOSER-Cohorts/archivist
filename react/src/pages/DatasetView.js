@@ -115,6 +115,7 @@ const DatasetView = (props) => {
 
   const SourcesList = (props) => {
     const { sources, datasetId, variable } = props
+    console.log(variable)
     let { sourceOptions } = props
     sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id'))
     const variableId = variable.id
@@ -180,7 +181,7 @@ const DatasetView = (props) => {
             multiple
             id="tags-outlined"
             options={Object.values(sourceOptions)}
-            getOptionLabel={(option) => option.label}
+            getOptionLabel={(option) => option.label || option.name }
             onChange={handleChange}
             value={sources}
             getOptionSelected= {(option, value) => (
