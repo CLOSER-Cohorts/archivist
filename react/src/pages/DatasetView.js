@@ -22,6 +22,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import SearchBar from "material-ui-search-bar";
 
 const TopicList = (props) => {
   const {topicId, datasetId, variableId} = props
@@ -88,8 +89,18 @@ const DatasetView = (props) => {
   const variables = useSelector(state => get(state.datasetVariables, datasetId,{}));
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [search, setSearch] = useState("");
+  const [filteredValues, setFilteredValues] = useState([]);
 
-  const rows: RowsProp = Object.values(variables);
+  useEffect(() => {
+    setFilteredValues(
+      Object.values(variables).filter((value) => {
+        return value['name'] && value['name'].toLowerCase().includes(search.toLowerCase())
+      }).sort((el)=> el.id).reverse()
+    );
+  }, [search, variables]);
+
+  const rows: RowsProp = filteredValues;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,7 +126,7 @@ const DatasetView = (props) => {
 
   const SourcesList = (props) => {
     const { sources, datasetId, variable } = props
-    console.log(variable)
+
     let { sourceOptions } = props
     sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id'))
     const variableId = variable.id
@@ -208,79 +219,93 @@ const DatasetView = (props) => {
       {!dataLoaded
         ? <Loader />
         : (
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Label</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Used by</TableCell>
-                <TableCell>Sources</TableCell>
-                <TableCell>Topic</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const key =  'DatasetVariable:' + row.id
-                const status = get(statuses, key, {})
+          <>
+            <SearchBar
+              placeholder={`Search by name (press return to perform search)`}
+              onChange={(newValue) =>
+                      setSearch(newValue)
+                    }
+              onRequestSearch={(newValue) =>
+                      setSearch(newValue)
+                    }
+              onCancelSearch={() => {
+                      setSearch('')
+                    }}
+            />
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Label</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Used by</TableCell>
+                  <TableCell>Sources</TableCell>
+                  <TableCell>Topic</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  const key =  'DatasetVariable:' + row.id
+                  const status = get(statuses, key, {})
 
-                var errorMessage = null;
+                  var errorMessage = null;
 
-                if(status.error){
-                  errorMessage = status.errorMessage
-                }else if(row.errors){
-                  errorMessage = row.errors
-                }
+                  if(status.error){
+                    errorMessage = status.errorMessage
+                  }else if(row.errors){
+                    errorMessage = row.errors
+                  }
 
-                return (
-                <>
-                { !isEmpty(errorMessage) && (
-                  <TableRow>
-                    <TableCell colSpan={7} style={{ border: '0'}}>
-                      <Alert severity="error">
-                        <AlertTitle>Error</AlertTitle>
-                        {errorMessage}
-                      </Alert>
+                  return (
+                  <>
+                  { !isEmpty(errorMessage) && (
+                    <TableRow>
+                      <TableCell colSpan={7} style={{ border: '0'}}>
+                        <Alert severity="error">
+                          <AlertTitle>Error</AlertTitle>
+                          {errorMessage}
+                        </Alert>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  <TableRow key={row.id}>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.label}</TableCell>
+                    <TableCell>{row.var_type}</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell><SourcesList sources={row.sources} sourceOptions={get(dataset,'questions',[])} datasetId={datasetId} variable={row} /></TableCell>
+                    <TableCell>
+                      <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
+                      {!isNil(row.sources_topic) && (
+                        <em>Resolved topic from sources - { get(row.sources_topic,'name') }</em>
+                      )}
                     </TableCell>
                   </TableRow>
-                )}
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.label}</TableCell>
-                  <TableCell>{row.var_type}</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell><SourcesList sources={row.sources} sourceOptions={get(dataset,'questions',[])} datasetId={datasetId} variable={row} /></TableCell>
-                  <TableCell>
-                    <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
-                    {!isNil(row.sources_topic) && (
-                      <em>Resolved topic from sources - { get(row.sources_topic,'name') }</em>
-                    )}
-                  </TableCell>
+                  </>
+                  )
+                })}
+              </TableBody>
+             <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[20, 50, 100, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                      native: true,
+                    }}
+                  />
                 </TableRow>
-                </>
-                )
-              })}
-            </TableBody>
-           <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[20, 50, 100, { label: 'All', value: -1 }]}
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onChangePage={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                  SelectProps={{
-                    inputProps: { 'aria-label': 'rows per page' },
-                    native: true,
-                  }}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
+              </TableFooter>
+            </Table>
+          </>
         )}
       </Dashboard>
     </div>
