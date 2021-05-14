@@ -373,12 +373,7 @@ const LoopItem = (props) => {
           </Grid>
 
           <Grid item xs={9}>
-            <ul className={classes.root}>
-              <li>Variable - {item.loop_var}</li>
-              <li>Start - {item.start_val}</li>
-              <li>End - {item.end_val}</li>
-              <li>Loop - {item.loop_while}</li>
-            </ul>
+            <Typography variant="h6" component="h6">{item.label} {item.loop_var} from {item.start_val} while { item.loop_var} &#60;= {item.end_val} {item.loop_while}</Typography>
           </Grid>
         </Grid>
         {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
