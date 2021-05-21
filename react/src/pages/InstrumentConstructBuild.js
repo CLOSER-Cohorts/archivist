@@ -45,8 +45,8 @@ const TreeNode = (instrumentId, type, id, expanded=false) => {
     var fchildren = get(item, 'fchildren',[])
 
     var trueAndFalse = [
-      { title: `True`, expanded: expanded, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
-      { title: `False`, expanded: expanded, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `${item.label} True`, expanded: expanded, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `${item.label} Else`, expanded: expanded, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
     ]
     return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: trueAndFalse } }
   }else{
@@ -255,10 +255,17 @@ const Tree = (props) => {
 
       <Divider className={classes.divider}/>
 
-      <ButtonGroup color="primary" aria-label="outlined primary button group">
-        <Button onClick={()=>{toggleExpand(true)}} startIcon={<ExpandMoreIcon />}>Expand All</Button>
-        <Button onClick={()=>{toggleExpand(false)}} startIcon={<ExpandLessIcon />}>Collapse All</Button>
-      </ButtonGroup>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <MoveConstructSelect treeData={treeData} onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } } />
+        </Grid>
+        <Grid item xs={6}>
+          <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <Button onClick={()=>{toggleExpand(true)}} startIcon={<ExpandMoreIcon />}>Expand All</Button>
+            <Button onClick={()=>{toggleExpand(false)}} startIcon={<ExpandLessIcon />}>Collapse All</Button>
+          </ButtonGroup>
+        </Grid>
+      </Grid>
 
       <SortableTree
         treeData={treeData}
