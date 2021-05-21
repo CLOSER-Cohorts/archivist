@@ -254,7 +254,6 @@ const Tree = (props) => {
     )}
 
       <Divider className={classes.divider}/>
-
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <MoveConstructSelect treeData={treeData} onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } } />
