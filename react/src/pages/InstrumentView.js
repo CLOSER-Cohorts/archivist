@@ -17,7 +17,6 @@ import Chip from '@material-ui/core/Chip';
 import BounceLoader from "react-spinners/BounceLoader";
 import { Box, Grid, Typography } from '@material-ui/core'
 import { ObjectColour } from '../support/ObjectColour'
-import { HumanizeObjectType } from '../support/HumanizeObjectType'
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import TodayIcon from '@material-ui/icons/Today';
@@ -107,7 +106,7 @@ const constructLabelClasses = makeStyles((theme) => ({
 const ConstructLabel = ({item, type}) => {
   const classes = constructLabelClasses();
 
-  return (<Chip label={`${HumanizeObjectType(type)} : ${item.label}`} className={classes[type]}/>)
+  return (<Chip label={`${item.label}`} className={classes[type]}/>)
 }
 
 const QuestionItemListItem = (props) => {
@@ -119,11 +118,11 @@ const QuestionItemListItem = (props) => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={3}>
+      <Grid item xs={3} sm={6}>
         <ConstructLabel item={item} type={'CcQuestion'} />
       </Grid>
 
-      <Grid item xs={9}>
+      <Grid item xs={9} sm={6}>
         {item.question.literal}
         {(item.question.rds) && (
           <ResponseDomains rds={item.question.rds} />
@@ -218,7 +217,8 @@ const ResponseDomains = ({ rds }) => {
   return rds.filter((rd)  => { return !isNil(rd) }).map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':
-        return(<ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul>)
+        console.log(rd)
+        return(<><ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul><span>Min Responses : <strong>{ rd.min_responses }</strong> Max Responses : <strong>{ rd.max_responses }</strong></span></>)
       case 'ResponseDomainText':
         return(<ul className={classes.root}><li><TextFieldsIcon /> {rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
       case 'ResponseDomainNumeric':
@@ -233,7 +233,7 @@ const ResponseDomains = ({ rds }) => {
 
 const ResponseDomainCodes = ({ codes }) => {
   return codes.map((code) => {
-      return(<li><CheckCircleOutlineIcon /> <em>Value : {code.value} </em> = {code.label}</li>)
+      return(<li><CheckCircleOutlineIcon /> <em>{code.value} </em> = {code.label}</li>)
     })
 }
 
@@ -335,7 +335,7 @@ const ConditionItem = (props) => {
         {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
       </ListItem>
       <ConditionChildren instrumentId={instrumentId} title={'True'} children={item.children} />
-      <ConditionChildren instrumentId={instrumentId} title={'False'} children={item.fchildren} />
+      <ConditionChildren instrumentId={instrumentId} title={'Else'} children={item.fchildren} />
     </List>
   );
 }
