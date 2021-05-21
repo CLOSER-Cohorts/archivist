@@ -141,14 +141,6 @@ const QuestionGridListItem = (props) => {
     return ''
   }
 
-  const rds = (
-    <>
-    {item.question.cols.map((header)=>(
-      <TableCell><ResponseDomains rds={[header.rd]} /></TableCell>
-    ))}
-    </>
-  )
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -162,7 +154,7 @@ const QuestionGridListItem = (props) => {
             <TableRow>
               <TableCell><strong>{item.question.pretty_corner_label}</strong></TableCell>
               {item.question.cols.map((header)=>(
-                <TableCell><strong>{header.label}</strong></TableCell>
+                <TableCell><strong>{header.label}</strong><ResponseDomains rds={[header.rd]} /></TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -170,7 +162,6 @@ const QuestionGridListItem = (props) => {
             {item.question.rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
-                {rds}
               </TableRow>
             ))}
           </TableBody>
