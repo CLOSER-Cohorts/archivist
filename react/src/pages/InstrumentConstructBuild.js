@@ -19,6 +19,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import SearchBar from "material-ui-search-bar";
 
@@ -557,6 +558,7 @@ const InstrumentConstructBuild = (props) => {
             {!isEmpty(selectedNode) && (
               <Grid item xs={4} className={classes.side}>
                 <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
+                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '0px' }} onClick={()=>{ setSelectedNode(null) }}>Close</HighlightOffIcon>
               </Grid>
             )}
           </Grid>
