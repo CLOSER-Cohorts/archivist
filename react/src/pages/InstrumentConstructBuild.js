@@ -291,7 +291,7 @@ const Tree = (props) => {
                 boxShadow: boxShadow,
               },
               onClick: () => {
-                onNodeSelect({ node: node, path: path,  callback: ({ node, path }) => { updateNode({ node, path }) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
+                onNodeSelect({ node: node, path: path,  callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
                 setSelectedNode(node);
               },
               buttons: generateButtons(node, path),
@@ -409,12 +409,6 @@ const ObjectFinder = (instrumentId, type, id) => {
 
   return item
 
-}
-
-// This a WIP section to allows a node to moved to another parent
-// useful when you want to move a construct outside of the virtualised portal.
-const MoveConstructForm = ({instrumentId}) => {
-  return <MoveConstructSelect instrumentId={instrumentId} onMove={(event, value)=>{ console.log(value)}}/>
 }
 
 const ConstructForm = (props) => {
