@@ -58,7 +58,11 @@ const TreeNode = (instrumentId, type, id, expanded=false) => {
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
-  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type } }
+  const children = (item.type === "condition") ? [
+      { title: `${item.label} True`, expanded: false, type: 'conditionTrue', children: [] },
+      { title: `${item.label} Else`, expanded: false, type: 'conditionFalse', children: [] },
+    ] : []
+  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children } }
 }
 
 const Tree = (props) => {
@@ -427,7 +431,7 @@ const ConstructForm = (props) => {
     case 'loop':
       return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
     case undefined:
-      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object}  path={path} onDelete={deleteCallback}/>
+      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback}/>
     default:
       return ''
   }
@@ -435,7 +439,7 @@ const ConstructForm = (props) => {
 }
 
 const NewConstructQuestion = (props) => {
-  const {object, onNodeSelect, onDelete, path} = props;
+  const {object, onNodeSelect, onDelete, path, onChange} = props;
 
   const classes = useStyles();
 
@@ -460,7 +464,7 @@ const NewConstructQuestion = (props) => {
                     className={classes.condition}
                     onClick={() => {
                       var node = {...object.node, ...{ type: 'condition' }}
-                      onNodeSelect({...object, ...{node: node }})
+                      onNodeSelect({...object, ...{node: node, callback: onChange }})
                     }}
                   >
                     Condition
