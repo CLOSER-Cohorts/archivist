@@ -121,16 +121,6 @@ export const CcSequenceForm = (props) => {
                 ))}
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
                     variant="contained"
                     color="primary"
                     type="submit"

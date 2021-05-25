@@ -20,7 +20,10 @@ const useStyles = makeStyles({
 export const MoveConstructSelect = ({treeData, onChange=()=>{}}) => {
   const classes = useStyles();
 
-  const getNodeKey= ({ node }) => node.id
+  const getNodeKey= ({ node }) => {
+    // For conditions the id will be nil so we use the title
+    return (isNil(node.id)) ? node.title : node.id
+  }
 
   const flatTree = getFlatDataFromTree({
       treeData: treeData,
