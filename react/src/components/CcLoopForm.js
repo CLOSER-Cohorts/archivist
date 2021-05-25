@@ -115,7 +115,7 @@ const formFields = [
 ];
 
 export const CcLoopForm = (props) => {
-  const {ccLoop, instrumentId, onChange, path, onDelete} = props;
+  const {ccLoop, instrumentId, onChange, path, onDelete, onCreate} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -128,6 +128,7 @@ export const CcLoopForm = (props) => {
     if(isNil(ccLoop.id)){
       dispatch(CcLoops.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
+        onCreate()
       }))
     }else{
       dispatch(CcLoops.update(instrumentId, ccLoop.id, values))

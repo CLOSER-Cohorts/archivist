@@ -83,7 +83,7 @@ const formFields = [
 ];
 
 export const CcQuestionForm = (props) => {
-  const {ccQuestion, instrumentId, onChange, path, onDelete} = props;
+  const {ccQuestion, instrumentId, onChange, path, onDelete, onCreate} = props;
 
   const questions = useSelector(state => state.cc_questions);
   const cc_questions = get(questions, instrumentId, {})
@@ -112,6 +112,7 @@ export const CcQuestionForm = (props) => {
     if(isNil(ccQuestion.id)){
       dispatch(CcQuestions.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
+        onCreate()
       }))
     }else{
       dispatch(CcQuestions.update(instrumentId, ccQuestion.id, values))

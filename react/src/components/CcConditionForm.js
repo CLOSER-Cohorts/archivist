@@ -89,7 +89,7 @@ const formFields = [
 ];
 
 export const CcConditionForm = (props) => {
-  const {ccCondition, instrumentId, onChange, path, onDelete} = props;
+  const {ccCondition, instrumentId, onChange, path, onDelete, onCreate} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -102,6 +102,7 @@ export const CcConditionForm = (props) => {
     if(isNil(ccCondition.id)){
       dispatch(CcConditions.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
+        onCreate()
       }))
     }else{
       dispatch(CcConditions.update(instrumentId, ccCondition.id, values))

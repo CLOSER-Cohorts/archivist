@@ -67,7 +67,7 @@ const formFields = [
 ];
 
 export const CcSequenceForm = (props) => {
-  const {ccSequence, instrumentId, onChange, path, onDelete} = props;
+  const {ccSequence, instrumentId, onChange, path, onDelete, onCreate} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -80,6 +80,7 @@ export const CcSequenceForm = (props) => {
     if(isNil(ccSequence.id)){
       dispatch(CcSequences.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
+        onCreate()
       }))
     }else{
       dispatch(CcSequences.update(instrumentId, ccSequence.id, values))

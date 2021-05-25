@@ -418,20 +418,20 @@ const ObjectFinder = (instrumentId, type, id) => {
 const ConstructForm = (props) => {
   const {object, instrumentId, onNodeSelect} = props;
   const { node={}, path, callback=(node)=>{ console.log('No onChange callback provided')}, deleteCallback=(node)=>{ console.log('No onDelete callback provided')} } = object;
-
+  const onCreate = () => { onNodeSelect(null)}
   switch (node.type) {
     case 'question':
-      return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+      return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case 'statement':
-      return <CcStatementForm ccStatement={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+      return <CcStatementForm ccStatement={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case 'sequence':
-      return <CcSequenceForm ccSequence={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+      return <CcSequenceForm ccSequence={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case 'condition':
-      return <CcConditionForm ccCondition={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+      return <CcConditionForm ccCondition={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case 'loop':
-      return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
+      return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case undefined:
-      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback}/>
+      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback} onCreate={onCreate}/>
     default:
       return ''
   }

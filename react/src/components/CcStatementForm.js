@@ -76,7 +76,7 @@ const formFields = [
 ];
 
 export const CcStatementForm = (props) => {
-  const {ccStatement, instrumentId, onChange, path, onDelete} = props;
+  const {ccStatement, instrumentId, onChange, path, onDelete, onCreate} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -89,6 +89,7 @@ export const CcStatementForm = (props) => {
     if(isNil(ccStatement.id)){
       dispatch(CcStatements.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
+        onCreate()
       }))
     }else{
       dispatch(CcStatements.update(instrumentId, ccStatement.id, values))
