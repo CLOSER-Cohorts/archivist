@@ -427,7 +427,7 @@ const ConstructForm = (props) => {
     case 'loop':
       return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} />
     case undefined:
-      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object}/>
+      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object}  path={path} onDelete={deleteCallback}/>
     default:
       return ''
   }
@@ -435,7 +435,7 @@ const ConstructForm = (props) => {
 }
 
 const NewConstructQuestion = (props) => {
-  const {object, onNodeSelect} = props;
+  const {object, onNodeSelect, onDelete, path} = props;
 
   const classes = useStyles();
 
@@ -501,6 +501,16 @@ const NewConstructQuestion = (props) => {
                   >
                     Statement
                   </Button>
+                  <br/>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    onClick={() => {
+                      onDelete({ path })
+                    }}
+                  >
+                    Delete
+                  </Button>
           </Paper>
   )
 
@@ -552,7 +562,7 @@ const InstrumentConstructBuild = (props) => {
             {!isEmpty(selectedNode) && (
               <Grid item xs={4} className={classes.side}>
                 <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
-                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '0px' }} onClick={()=>{ setSelectedNode(null) }}>Close</HighlightOffIcon>
+                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '20px' }} onClick={()=>{ setSelectedNode(null) }}>Close</HighlightOffIcon>
               </Grid>
             )}
           </Grid>
