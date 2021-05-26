@@ -10,6 +10,7 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
+import { HumanizeObjectType } from '../support/HumanizeObjectType';
 
 import {
   TextField,
@@ -38,6 +39,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  small: {
+    width: 100
+  }
 });
 
 const validate = values => {
@@ -237,9 +241,9 @@ export const QuestionGridForm = (props) => {
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Column</TableCell>
+                          <TableCell className={classes.small} >Column</TableCell>
                           <TableCell>Type and Label</TableCell>
-                          <TableCell>Actions</TableCell>
+                          <TableCell className={classes.small} >Actions</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -247,12 +251,12 @@ export const QuestionGridForm = (props) => {
                           {({ fields }) =>
                             fields.map((name, index) => (
                               <TableRow key={name}>
-                                <TableCell>{fields.value[index].label}</TableCell>
+                                <TableCell className={classes.small} >{fields.value[index].label}</TableCell>
                                 <TableCell>
                                  <Autocomplete
                                   autoComplete
                                   options={Object.values(responseDomains)}
-                                  getOptionLabel={(option) => (option.type === '') ? `` :`${option.label} - ${option.type}`}
+                                  getOptionLabel={(option) => (option.type === '') ? `` :`${HumanizeObjectType(option.type)} - ${option.label}`}
                                   onChange={(event, value, reason)=>{
                                     var rd;
                                     if(isNil(value)){
@@ -278,7 +282,7 @@ export const QuestionGridForm = (props) => {
                                   )}
                                 />
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className={classes.small} >
                                   <span
                                     onClick={() => fields.update(index, {...fields.value[index], ...{rd: {type: '', id: null, label: ''} } }) }
                                     style={{ cursor: 'pointer' }}

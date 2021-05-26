@@ -21,6 +21,8 @@ export const HumanizeObjectType = (type) => {
          return 'Text'
       case 'ResponseDomainDatetime':
          return 'Datetime'
+      case 'ResponseDomainCode':
+         return 'Code'
       default:
          return ''
    }
