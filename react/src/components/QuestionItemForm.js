@@ -9,6 +9,7 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
+import { HumanizeObjectType } from '../support/HumanizeObjectType';
 
 import {
   TextField,
@@ -37,6 +38,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  small: {
+    width: 100
+  }
 });
 
 const validate = values => {
@@ -149,7 +153,7 @@ export const QuestionItemForm = (props) => {
                       <TableHead>
                         <TableRow>
                           <TableCell>Type and Label</TableCell>
-                          <TableCell>Actions</TableCell>
+                          <TableCell className={classes.small} >Actions</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -161,7 +165,7 @@ export const QuestionItemForm = (props) => {
                                  <Autocomplete
                                   freesolo="true"
                                   options={Object.values(responseDomains)}
-                                  getOptionLabel={(option) => `${option.type} - ${option.label}`}
+                                  getOptionLabel={(option) => `${HumanizeObjectType(option.type)} - ${option.label}`}
                                   onChange={(event, value, reason)=>{
                                     if(isNil(value)){
                                       fields.update(index, {...fields.value[index], ...{type: null, id: null, label: null} })
@@ -183,7 +187,7 @@ export const QuestionItemForm = (props) => {
                                   )}
                                 />
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className={classes.small} >
                                   <span
                                     onClick={() => fields.remove(index)}
                                     style={{ cursor: 'pointer' }}

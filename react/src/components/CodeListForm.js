@@ -38,6 +38,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  small: {
+    width: 100
+  }
 });
 
 const validate = values => {
@@ -153,10 +156,10 @@ export const CodeListForm = (props) => {
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell size="small">Value</TableCell>
+                        <TableCell className={classes.small} >ID</TableCell>
+                        <TableCell className={classes.small} size="small">Value</TableCell>
                         <TableCell>Label</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell className={classes.small}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -164,10 +167,10 @@ export const CodeListForm = (props) => {
                               {({ fields }) =>
                                 fields.map((name, index) => (
                                   <TableRow key={name}>
-                                    <TableCell>
+                                    <TableCell className={classes.small} >
                                       {fields.value[index].id}
                                     </TableCell>
-                                    <TableCell size="small">
+                                    <TableCell className={classes.small} size="small">
                                       <TextField name={`${name}.value`} multiline label="Value" margin="none" />
                                     </TableCell>
                                     <TableCell>
@@ -196,7 +199,7 @@ export const CodeListForm = (props) => {
                                       )}
                                     />
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.small}>
                                       <span
                                         onClick={() => fields.remove(index)}
                                         style={{ cursor: 'pointer' }}
