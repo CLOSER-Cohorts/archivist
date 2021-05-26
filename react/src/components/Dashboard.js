@@ -131,11 +131,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainListItems = () => {
+const MainListItems = ({onExpand}) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
+    onExpand()
     setOpen(!open);
   };
 
@@ -153,9 +154,11 @@ const MainListItems = () => {
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <StorageIcon />
+        <Link to={url(routes.datasets.all)}>
+          <StorageIcon />
+        </Link>
       </ListItemIcon>
-      <Link to={url(routes.datasets.all)}>
+      <Link to={url(routes.datasets.all)} title={'Datasets'}>
         <ListItemText primary="Datasets" />
       </Link>
     </ListItem>
@@ -201,7 +204,7 @@ const MainListItems = () => {
 
 export const Dashboard = (props)  => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const { instrumentId } = props;
   const handleDrawerOpen = () => {
@@ -251,7 +254,7 @@ export const Dashboard = (props)  => {
           </IconButton>
         </div>
         <Divider />
-        <MainListItems />
+        <MainListItems onExpand={handleDrawerOpen} />
         <Divider />
       </Drawer>
       <main className={classes.content}>

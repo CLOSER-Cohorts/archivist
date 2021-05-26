@@ -114,7 +114,7 @@ export const ResponseDomainDatetimeForm = (props) => {
   }
 
   return (
-    <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
+    <div style={{ padding: 0 }}>
       <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
       <CssBaseline />
       <Form

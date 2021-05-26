@@ -24,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper
   },
-  side: {
-    position: 'absolute',
-    width: '50%',
-  },
   control: {
     width: '100%',
     padding: theme.spacing(2),
@@ -69,7 +65,7 @@ const InstrumentBuildQuestionItems = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={instrumentId} instrumentId={instrumentId}>
         <Grid container spacing={3}>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <Paper className={classes.control}>
               <h2>Question Items <Link to={url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })}>Question Grids</Link></h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} />
@@ -80,12 +76,10 @@ const InstrumentBuildQuestionItems = (props) => {
               </List>
             </Paper>
           </Grid>
-          <Grid item xs={8}>
-            <Paper className={classes.side}>
-              {!isNil(selectedQuestion) && (
-                <QuestionItemForm questionItem={selectedQuestion} instrumentId={instrumentId} />
-              )}
-            </Paper>
+          <Grid item xs={9}>
+            {!isNil(selectedQuestion) && (
+              <QuestionItemForm questionItem={selectedQuestion} instrumentId={instrumentId} />
+            )}
           </Grid>
         </Grid>
       </Dashboard>

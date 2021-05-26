@@ -114,7 +114,7 @@ export const QuestionItemForm = (props) => {
   },[]);
 
   return (
-    <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
+    <div style={{ padding: 0 }}>
       <ObjectStatusBar id={questionItem.id || 'new'} type={'QuestionItem'} />
       <CssBaseline />
       <Form

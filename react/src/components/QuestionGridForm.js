@@ -186,9 +186,8 @@ export const QuestionGridForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  console.log(questionGrid)
   return (
-    <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
+    <div style={{ padding: 0 }}>
       <ObjectStatusBar id={questionGrid.id || 'new'} type={'QuestionGrid'} />
       <CssBaseline />
       <Form

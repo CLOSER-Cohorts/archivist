@@ -15,6 +15,12 @@ export const HumanizeObjectType = (type) => {
       case 'condition':
       case 'CcCondition':
          return 'Condition'
+      case 'ResponseDomainNumeric':
+         return 'Numeric'
+      case 'ResponseDomainText':
+         return 'Text'
+      case 'ResponseDomainDatetime':
+         return 'Datetime'
       default:
          return ''
    }

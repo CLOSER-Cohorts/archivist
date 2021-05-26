@@ -199,6 +199,11 @@ const Tree = (props) => {
   const generateButtons = (node, path) => {
       var buttons = []
       if(canHaveChildren(node)){
+        const newNode = {
+                      title: `Click to select construct typex`,
+                      children: [],
+                      type: undefined
+                    }
         buttons.push(
               <button
               onClick={(event) => {
@@ -207,13 +212,13 @@ const Tree = (props) => {
                     parentKey: path[path.length - 1],
                     expandParent: true,
                     getNodeKey,
-                    newNode: {
-                      title: `Click to select construct type`,
-                      children: []
-                    }
+                    newNode: newNode
                   }).treeData)
                   event.stopPropagation()
-                  setSelectedNode({node: { type: undefined }})
+                  console.log(newNode)
+                  console.log(path)
+                  setSelectedNode({ node: newNode, path: path,  callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
+//                  setSelectedNode({node: { type: undefined }})
               }}
             >
               <AddIcon />
@@ -431,6 +436,7 @@ const ConstructForm = (props) => {
     case 'loop':
       return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case undefined:
+      console.log(object)
       return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback} onCreate={onCreate}/>
     default:
       return ''
@@ -442,7 +448,7 @@ const NewConstructQuestion = (props) => {
   const {object, onNodeSelect, onDelete, path, onChange} = props;
 
   const classes = useStyles();
-
+  console.log(object)
   return (
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <h3>Select construct type</h3>

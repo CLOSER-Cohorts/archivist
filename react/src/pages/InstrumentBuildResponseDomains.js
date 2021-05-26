@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 import { useHistory } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { HumanizeObjectType } from '../support/HumanizeObjectType'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper
-  },
-  side: {
-    position: 'absolute',
-    width: '50%',
   },
   control: {
     width: '100%',
@@ -67,7 +64,7 @@ const InstrumentBuildResponseDomains = (props) => {
         <ListItemText
           primary={label} onClick={()=>{handleResponseDomainSelection(type,id)}}/>
         <ListItemSecondaryAction>
-          <Chip label={type} />
+          <Chip label={HumanizeObjectType(type)} />
         </ListItemSecondaryAction>
       </ListItem>
     )
@@ -95,7 +92,7 @@ const InstrumentBuildResponseDomains = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={instrumentId} instrumentId={instrumentId}>
         <Grid container spacing={3}>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <Paper className={classes.control}>
               <h2>Response Domains</h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['ResponseDomainText', 'ResponseDomainNumeric', 'ResponseDomainDatetime']} />
@@ -106,10 +103,8 @@ const InstrumentBuildResponseDomains = (props) => {
               </List>
             </Paper>
           </Grid>
-          <Grid item xs={8}>
-            <Paper className={classes.side}>
-              { responseDomainForm() }
-            </Paper>
+          <Grid item xs={9}>
+            { responseDomainForm() }
           </Grid>
         </Grid>
       </Dashboard>
