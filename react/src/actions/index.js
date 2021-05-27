@@ -362,7 +362,7 @@ export const CodeLists = {
         return request.then(res => {
           dispatch(savedItem('new', 'CodeList'));
           dispatch(codeListFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));
@@ -984,7 +984,7 @@ export const QuestionItems = {
         return request.then(res => {
           dispatch(savedItem('new', 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionItem', err.response.data.error_sentence));
@@ -1063,7 +1063,7 @@ export const QuestionGrids = {
         return request.then(res => {
           dispatch(savedItem('new', 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionGrid', err.response.data.error_sentence));
@@ -1142,7 +1142,7 @@ export const ResponseDomainNumerics = {
         return request.then(res => {
           dispatch(savedItem('new', 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainNumeric', err.response.data.error_sentence));
@@ -1245,7 +1245,7 @@ export const ResponseDomainTexts = {
         return request.then(res => {
           dispatch(savedItem('new', 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainText', err.response.data.error_sentence));
@@ -1324,7 +1324,7 @@ export const ResponseDomainDatetimes = {
         return request.then(res => {
           dispatch(savedItem('new', 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainDatetime', err.response.data.error_sentence));
