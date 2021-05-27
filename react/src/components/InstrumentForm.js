@@ -57,6 +57,7 @@ const formFields = [
         name="prefix"
         margin="none"
         required={false}
+        multiline
       />
     ),
   },
@@ -68,6 +69,7 @@ const formFields = [
         name="study"
         margin="none"
         required={false}
+        multiline
       />
     ),
   },
@@ -79,6 +81,7 @@ const formFields = [
         name="label"
         margin="none"
         required={false}
+        multiline
       />
     ),
   },
@@ -90,6 +93,7 @@ const formFields = [
         name="agency"
         margin="none"
         required={false}
+        multiline
       />
     ),
   },
@@ -101,6 +105,7 @@ const formFields = [
         name="version"
         margin="none"
         required={false}
+        multiline
       />
     ),
   },

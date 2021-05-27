@@ -61,6 +61,7 @@ const formFields = [
         name="label"
         margin="none"
         required={true}
+        multiline
       />
     ),
   },
@@ -71,6 +72,7 @@ const formFields = [
         label="Instruction"
         name="instruction"
         margin="none"
+        multiline
       />
     ),
   },
@@ -82,6 +84,7 @@ const formFields = [
         name="literal"
         margin="none"
         required={true}
+        multiline
       />
     ),
   },
@@ -139,6 +142,7 @@ const formFields = [
         label="Roster Label"
         name="roster_label"
         margin="none"
+        multiline
       />
     ),
   },
@@ -149,6 +153,7 @@ const formFields = [
         label="Roster Row Number"
         name="roster_rows"
         margin="none"
+        multiline
       />
     ),
   }

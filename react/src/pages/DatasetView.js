@@ -180,6 +180,7 @@ const DatasetView = (props) => {
                 variant="outlined"
                 label="Sources"
                 placeholder="Add source"
+                multiline
               />
             )}
           />
