@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   control: {
     width: '100%',
     padding: theme.spacing(2),
+  },
+  truncate: {
+    width: 70,
+    'white-space': 'nowrap',
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis'
   }
 }));
 
@@ -48,10 +54,12 @@ const InstrumentBuildQuestionItems = (props) => {
 
   const QuestionItem = (props) => {
     const {label, value, id} = props
+    const classes = useStyles()
+
     return (
       <ListItem>
         <ListItemText
-          primary={label} onClick={()=>{handleQuestionSelection(id)}}/>
+          className={classes.truncate} primary={label} onClick={()=>{handleQuestionSelection(id)}}/>
       </ListItem>
     )
   }
