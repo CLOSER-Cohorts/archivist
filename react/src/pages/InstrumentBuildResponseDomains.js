@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
   control: {
     width: '100%',
     padding: theme.spacing(2),
+  },
+  truncate: {
+    width: 70,
+    'white-space': 'nowrap',
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis'
   }
 }));
 
@@ -59,10 +65,12 @@ const InstrumentBuildResponseDomains = (props) => {
 
   const ResponseDomainItem = (props) => {
     const {label, type, id} = props
+    const classes = useStyles();
+
     return (
       <ListItem>
         <ListItemText
-          primary={label} onClick={()=>{handleResponseDomainSelection(type,id)}}/>
+          className={classes.truncate} primary={label} onClick={()=>{handleResponseDomainSelection(type,id)}}/>
         <ListItemSecondaryAction>
           <Chip label={HumanizeObjectType(type)} />
         </ListItemSecondaryAction>

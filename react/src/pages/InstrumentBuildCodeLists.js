@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   control: {
     width: '100%',
     padding: theme.spacing(2),
+  },
+  truncate: {
+    width: 70,
+    'white-space': 'nowrap',
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis'
   }
 }));
 
@@ -49,10 +55,12 @@ const InstrumentBuildCodeLists = (props) => {
 
   const CodeListItem = (props) => {
     const {label, value, id} = props
+    const classes = useStyles();
+
     return (
       <ListItem>
         <ListItemText
-          primary={label} onClick={()=>{handleCodeListSelection(id)}}/>
+          className={classes.truncate} primary={label} onClick={()=>{handleCodeListSelection(id)}}/>
         <ListItemSecondaryAction>
           <Chip label={value} />
         </ListItemSecondaryAction>
