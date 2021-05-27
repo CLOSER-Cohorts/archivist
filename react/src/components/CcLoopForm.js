@@ -67,6 +67,7 @@ const formFields = [
         name="label"
         margin="none"
         required={true}
+        multiline
       />
     ),
   },
@@ -78,6 +79,7 @@ const formFields = [
         name="loop_var"
         margin="none"
         required={true}
+        multiline
       />
     ),
   },
@@ -89,6 +91,7 @@ const formFields = [
         name="start_val"
         margin="none"
         required={true}
+        multiline
       />
     ),
   },
@@ -99,6 +102,7 @@ const formFields = [
         label="End Value"
         name="end_val"
         margin="none"
+        multiline
       />
     ),
   },
@@ -109,6 +113,7 @@ const formFields = [
         label="Loop While"
         name="loop_while"
         margin="none"
+        multiline
       />
     ),
   }
