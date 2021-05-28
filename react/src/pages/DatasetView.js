@@ -95,7 +95,14 @@ const DatasetView = (props) => {
   useEffect(() => {
     setFilteredValues(
       Object.values(variables).filter((value) => {
-        return value['name'] && value['name'].toLowerCase().includes(search.toLowerCase())
+        const nameMatch = value['name'] && value['name'].toLowerCase().includes(search.toLowerCase())
+        const labelMatch = value['label'] && value['label'].toLowerCase().includes(search.toLowerCase())
+        const topic = get(value,'topic', {name: ''})
+        const topicMatch = topic['name'] && topic['name'].toLowerCase().includes(search.toLowerCase())
+        const sources = get(value,'sources', [])
+        const sourcesStr = sources.map((s)=>{ return s['label'] }).join(' ')
+        const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
+        return nameMatch || labelMatch || topicMatch || sourcesMatch
       }).sort((el)=> el.id).reverse()
     );
   }, [search, variables]);
@@ -222,10 +229,7 @@ const DatasetView = (props) => {
         : (
           <>
             <SearchBar
-              placeholder={`Search by name (press return to perform search)`}
-              onChange={(newValue) =>
-                      setSearch(newValue)
-                    }
+              placeholder={`Search by name, label, source or topic (press return to perform search)`}
               onRequestSearch={(newValue) =>
                       setSearch(newValue)
                     }
