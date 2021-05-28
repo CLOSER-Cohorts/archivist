@@ -46,10 +46,23 @@ const InstrumentBuildQuestionGrids = (props) => {
   const selectedQuestion = get(questionGrids, questionGridId, {used_by: []})
 
   useEffect(() => {
-    dispatch(QuestionGrids.all(instrumentId));
+    dispatch(QuestionGrids.all(instrumentId, () => {
+      if(!isNil(questionGridId)){
+        // We have to retrieve the selected QuestionGrid because
+        // of an unexplained issue where the selected QuestionGrid
+        // was turning a blank rd when going through QuestionGrid.all
+        // this does not happen when running QuestionGrid.show
+        dispatch(QuestionGrids.show(instrumentId, questionGridId));
+      }
+    }));
     dispatch(CodeLists.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
+  useEffect(() => {
+    dispatch(QuestionGrids.show(instrumentId, questionGridId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[questionGridId]);
 
   const QuestionGrid = (props) => {
     const {label, id} = props

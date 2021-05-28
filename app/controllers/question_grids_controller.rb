@@ -17,4 +17,7 @@ class QuestionGridsController < QuestionController
       :roster_label,
       :corner_label
   ]
+
+  def show
+  end
 end
