@@ -1026,13 +1026,28 @@ const questionItemFetchSuccess = (instrumentId, questionItem) => ({
 });
 
 export const QuestionGrids = {
-  all: (instrumentId) => {
+  all: (instrumentId, onLoad=()=>{}) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/question_grids.json',{
         headers: api_headers()
       })
     return (dispatch) => {
         return request.then(res => {
+          dispatch(questionGridsFetchSuccess(instrumentId, []));
           dispatch(questionGridsFetchSuccess(instrumentId, res.data));
+          onLoad()
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  show: (instrumentId, id) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/question_grids/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(questionGridFetchSuccess(instrumentId, res.data));
         })
         .catch(err => {
           dispatch(fetchFailure(err.message));
