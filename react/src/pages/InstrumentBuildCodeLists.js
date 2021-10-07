@@ -45,7 +45,7 @@ const InstrumentBuildCodeLists = (props) => {
 
   const instrumentId = get(props, "match.params.instrument_id", "")
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
-  const selectedCodeList = get(codeLists, codeListId, {used_by: []})
+  const selectedCodeList = get(codeLists, codeListId, {used_by: [], min_responses: 1, max_responses: 1})
 
   useEffect(() => {
     dispatch(CodeLists.all(instrumentId));
