@@ -108,6 +108,17 @@ export const AdminInstrument = {
           dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
         });
     };
+  },
+  clearCache: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/clear_cache.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {})
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
   }
 }
 

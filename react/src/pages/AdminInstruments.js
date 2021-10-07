@@ -19,6 +19,10 @@ const AdminInstruments = () => {
     dispatch(AdminInstrument.delete(instrumentId));
   }
 
+  const clearCache = (instrumentId) => {
+    dispatch(AdminInstrument.clearCache(instrumentId));
+  }
+
   const actions = (row) => {
     return (
       <>
@@ -36,7 +40,7 @@ const AdminInstruments = () => {
               View Imports
             </Link>
           </Button>
-          <Button>
+          <Button onClick={()=>{ clearCache(row.id) }}>
             Clear Cache
           </Button>
           <ConfirmationModal textToConfirm={row.prefix} key={'prefix'} objectType={'instrument'} onConfirm={() => { deleteInstrument(row.prefix) }}/>
