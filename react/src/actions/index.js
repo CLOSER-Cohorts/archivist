@@ -93,6 +93,22 @@ export const AdminInstrument = {
         });
     };
   },
+  delete: (instrumentId) => {
+    console.log("deleting")
+    const request = axios.delete(api_host + '/instruments/' + instrumentId + '.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(instrumentId, 'Instrument'));
+      return request.then(res => {
+        dispatch(instrumentDeleteSuccess(instrumentId));
+        dispatch(redirectTo(url(routes.admin.instruments.all)));
+      })
+        .catch(err => {
+          dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
+        });
+    };
+  }
 }
 
 export const AdminDataset = {
@@ -1618,6 +1634,13 @@ const objectDeleteSuccess = (instrumentId, objectType, id) => ({
     instrumentId: instrumentId,
     id: id,
     objectType: objectType
+  }
+});
+
+const instrumentDeleteSuccess = (instrumentId) => ({
+  type: 'DELETE_INSTRUMENT',
+  payload: {
+    instrumentId: instrumentId
   }
 });
 

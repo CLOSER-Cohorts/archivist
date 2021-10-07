@@ -45,6 +45,9 @@ const instruments = (state = [], action) => {
       return serializeSearchesArrayToObject(action.payload.instruments)
     case 'LOAD_INSTRUMENT':
       return {...state, ...{[action.payload.instrument.prefix]: action.payload.instrument}}
+    case 'DELETE_INSTRUMENT':
+      const { [`${action.payload.instrumentId}`]: instrumentId, ...newState } = state;
+      return newState
     default:
       return state
   }

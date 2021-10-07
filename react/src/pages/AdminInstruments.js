@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument } from '../actions'
+import { Instrument, AdminInstrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
@@ -8,11 +8,16 @@ import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { DataTable } from '../components/DataTable'
+import { ConfirmationModal } from '../components/ConfirmationModal'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const AdminInstruments = () => {
 
   const dispatch = useDispatch()
+
+  const deleteInstrument = (instrumentId) => {
+    dispatch(AdminInstrument.delete(instrumentId));
+  }
 
   const actions = (row) => {
     return (
@@ -34,9 +39,7 @@ const AdminInstruments = () => {
           <Button>
             Clear Cache
           </Button>
-          <Button>
-            Delete
-          </Button>
+          <ConfirmationModal textToConfirm={row.prefix} key={'prefix'} objectType={'instrument'} onConfirm={() => { deleteInstrument(row.prefix) }}/>
         </ButtonGroup>
       </>
     )
