@@ -17,6 +17,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
@@ -118,6 +120,10 @@ export const CodeListForm = (props) => {
     if(isNil(codeList.id)){
       dispatch(CodeLists.create(instrumentId, values))
     }else{
+      values.codes.map((code, i) => {
+        code.order = i + 1
+        return code
+      })
       dispatch(CodeLists.update(instrumentId, codeList.id, values))
     }
   }
@@ -158,6 +164,7 @@ export const CodeListForm = (props) => {
                     <TableHead>
                       <TableRow>
                         <TableCell className={classes.small} >ID</TableCell>
+                        <TableCell className={classes.small} >Order</TableCell>
                         <TableCell className={classes.small} size="small">Value</TableCell>
                         <TableCell>Label</TableCell>
                         <TableCell className={classes.small}>Actions</TableCell>
@@ -170,6 +177,26 @@ export const CodeListForm = (props) => {
                                   <TableRow key={name}>
                                     <TableCell className={classes.small} >
                                       {fields.value[index].id}
+                                    </TableCell>
+                                    <TableCell className={classes.small} >
+                                      {index !== 0 && (
+                                        <span
+                                          onClick={() => {
+                                            fields.move(index, index - 1)
+                                          }}
+                                          style={{ cursor: 'pointer' }}
+                                        >
+                                          <ArrowUpwardIcon />
+                                        </span>
+                                      )}
+                                      {index !== fields.length - 1 && (
+                                        <span
+                                          onClick={() => { fields.move(index, index + 1) }}
+                                          style={{ cursor: 'pointer' }}
+                                        >
+                                          <ArrowDownwardIcon />
+                                        </span>
+                                      )}
                                     </TableCell>
                                     <TableCell className={classes.small} size="small">
                                       <TextField name={`${name}.value`} multiline label="Value" margin="none" />
