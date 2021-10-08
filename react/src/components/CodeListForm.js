@@ -186,10 +186,10 @@ export const CodeListForm = (props) => {
                                           fields.update(index, {...fields.value[index], ...{category_id: value.id, label: value.label} })
                                         }
                                       } }
-                                      value={{id: fields.value[index].category_id, label:fields.value[index].label}}
-                                      getOptionSelected= {(option, value) => (
-                                        option.id === value.id
-                                      )}
+                                      inputValue={ fields.value[index].label || "" }
+                                      getOptionSelected={(option, value) => {
+                                        return option.id === value.id
+                                      }}
                                       renderInput={(params) => (
                                         <TextField name={`${name}.label`}
                                           {...params}
