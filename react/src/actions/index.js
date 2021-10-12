@@ -72,6 +72,21 @@ export const Dataset = {
           dispatch(fetchFailure(err.message));
         });
     };
+  },
+  update: (datasetId, values) => {
+    const request = axios.put(api_host + '/datasets/' + datasetId + '.json', values, {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(datasetId, 'Dataset'));
+      return request.then(res => {
+        dispatch(savedItem(datasetId, 'Dataset'));
+        dispatch(datasetFetchSuccess(res.data));
+      })
+        .catch(err => {
+          dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
+        });
+    };
   }
 }
 

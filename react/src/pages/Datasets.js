@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
@@ -15,9 +16,14 @@ const Datasets = () => {
   const actions = (row) => {
     return (
       <>
-        <Button variant="outlined">
-          <Link to={url('/datasets/:dataset_id', { dataset_id: row.id })}>View</Link>
-        </Button>
+        <ButtonGroup variant="outlined">
+          <Button>
+            <Link to={url(routes.datasets.dataset.edit, { dataset_id: row.id })}>Edit</Link>
+          </Button>
+          <Button>
+            <Link to={url('/datasets/:dataset_id', { dataset_id: row.id })}>View</Link>
+          </Button>
+        </ButtonGroup>
       </>
     )
   }

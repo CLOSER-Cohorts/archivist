@@ -3,7 +3,10 @@ import { include } from 'named-urls'
 export default {
     login : '/login',
     datasets: include('/datasets', {
-      all: ''
+      all: '',
+      dataset: include(':dataset_id/', {
+        edit: 'edit'
+      })
     }),
     admin: include('/admin/', {
       import: 'import',
@@ -29,7 +32,7 @@ export default {
       instrument: include(':instrument_id/', {
         show: '',
         edit: 'edit',
-         map: include('map/', {
+        map: include('map/', {
             show: ''
         }),
         build: include('build/', {

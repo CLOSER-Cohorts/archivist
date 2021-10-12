@@ -2,7 +2,7 @@ import React from 'react';
 import { isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch } from 'react-redux'
-import { Instrument } from '../actions'
+import { Dataset } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,8 +40,8 @@ const validate = (values, status) => {
       }
     })
   }else{
-   if (!values.label) {
-     errors.label = 'Required';
+   if (!values.name) {
+     errors.name = 'Required';
    }
   }
 
@@ -49,18 +49,6 @@ const validate = (values, status) => {
 };
 
 const formFields = [
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Prefix"
-        name="prefix"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
   {
     size: 12,
     field: (
@@ -77,8 +65,8 @@ const formFields = [
     size: 12,
     field: (
       <TextField
-        label="Instrument Title"
-        name="label"
+        label="Dataset Title"
+        name="name"
         margin="none"
         required={false}
         multiline
@@ -89,52 +77,38 @@ const formFields = [
     size: 12,
     field: (
       <TextField
-        label="Agency"
-        name="agency"
+        label="DOI"
+        name="doi"
         margin="none"
         required={false}
         multiline
       />
     ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Version"
-        name="version"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
+  }
 ];
 
-export const InstrumentForm = (props) => {
-  const {instrument, onChange, path, onDelete} = props;
+export const DatasetForm = (props) => {
+  const {dataset, onChange, path, onDelete} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const status = ObjectStatus(instrument.id || 'new', 'Instrument')
+  const status = ObjectStatus(dataset.id || 'new', 'Dataset')
 
   const onSubmit = (values) => {
-    values = ObjectCheckForInitialValues(instrument, values)
-    if(isNil(instrument.id)){
-      dispatch(Instrument.create(values))
-    }else{
-      dispatch(Instrument.update(instrument.id, values))
+    values = ObjectCheckForInitialValues(dataset, values)
+    if(!isNil(dataset.id)){
+      dispatch(Dataset.update(dataset.id, values))
     }
   }
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
-      <ObjectStatusBar id={instrument.id || 'new'} type={'Instrument'} />
+      <ObjectStatusBar id={dataset.id || 'new'} type={'Dataset'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
-        initialValues={instrument}
+        initialValues={dataset}
         validate={(values) => validate(values, status)}
         render={({
         handleSubmit,

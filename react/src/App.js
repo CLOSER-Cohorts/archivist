@@ -17,6 +17,7 @@ import AdminDatasets from './pages/AdminDatasets';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
 import DatasetView from './pages/DatasetView';
+import DatasetEdit from './pages/DatasetEdit';
 import InstrumentView from './pages/InstrumentView';
 import InstrumentNew from './pages/InstrumentNew';
 import InstrumentEdit from './pages/InstrumentEdit';
@@ -110,6 +111,7 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
             <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
+            <AuthRoute type="private" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
             <AuthRoute type="private" exact path={routes.admin.datasets.all} component={AdminDatasets} />
             <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
             <AuthRoute type="private" exact path={routes.admin.imports.all} component={AdminImports} />
