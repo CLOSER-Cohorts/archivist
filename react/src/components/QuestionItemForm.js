@@ -104,7 +104,6 @@ export const QuestionItemForm = (props) => {
 
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(questionItem, values)
-
     if(isNil(questionItem.id)){
       dispatch(QuestionItems.create(instrumentId, values))
     }else{
@@ -165,30 +164,30 @@ export const QuestionItemForm = (props) => {
                             fields.map((name, index) => (
                               <TableRow key={name}>
                                 <TableCell>
-                                 <Autocomplete
-                                  freesolo="true"
-                                  options={Object.values(responseDomains)}
-                                  getOptionLabel={(option) => `${HumanizeObjectType(option.type)} - ${option.label}`}
-                                  onChange={(event, value, reason)=>{
-                                    if(isNil(value)){
-                                      fields.update(index, {...fields.value[index], ...{type: null, id: null, label: null} })
-                                    }else{
-                                      fields.update(index, {...fields.value[index], ...{type: value.type, id: value.id, label: value.label} })
-                                    }
-                                  } }
-                                  value={{type: fields.value[index].type, id: fields.value[index].id, label:fields.value[index].label}}
-                                  getOptionSelected= {(option, value) => (
-                                    option.type === value.type && option.id === value.id
-                                  )}
-                                  renderInput={(params) => (
-                                    <TextField name={`${name}.type - ${name}.label`}
-                                      {...params}
-                                      variant="outlined"
-                                      label="Label"
-                                      placeholder="label"
-                                    />
-                                  )}
-                                />
+                                  <Autocomplete
+                                    freesolo="true"
+                                    options={Object.values(responseDomains)}
+                                    getOptionLabel={(option) => option.label}
+                                    onChange={(event, value, reason) => {
+                                      if (isNil(value)) {
+                                        fields.update(index, { ...fields.value[index], ...{ type: null, id: null, label: null } })
+                                      } else {
+                                        fields.update(index, { ...fields.value[index], ...{ type: value.type, id: value.id, label: value.label } })
+                                      }
+                                    }}
+                                    inputValue={fields.value[index].label || ""}
+                                    getOptionSelected={(option, value) => {
+                                      return option.id === value.id
+                                    }}
+                                    renderInput={(params) => (
+                                      <TextField name={`${name}.label`}
+                                        {...params}
+                                        variant="outlined"
+                                        label="Label"
+                                        placeholder="label"
+                                      />
+                                    )}
+                                  />
                                 </TableCell>
                                 <TableCell className={classes.small} >
                                   <span
