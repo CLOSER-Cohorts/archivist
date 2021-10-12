@@ -36,7 +36,7 @@ export const ConfirmationModal = (props) => {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [keyConfirmed, setKeyConfirmed] = React.useState(false);
+  const [keyConfirmed, setKeyConfirmed] = React.useState(textToConfirm === "");
 
   const handleOpen = () => {
     setOpen(true);
@@ -61,18 +61,24 @@ export const ConfirmationModal = (props) => {
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Delete {objectType}</h2>
       <p id="simple-modal-description">
-        Please write the {key} of the {objectType} you would like to delete for confirmation.
+        {textToConfirm === "" ? (
+          <>Are you sure you would like to delete ?</>
+        ) : (
+            <>Please write the {key} of the {objectType} you would like to delete for confirmation.</>
+        )}
       </p>
-      <p>
-        <TextField
-          error={!keyConfirmed}
-          onChange={checkTextToConfirm}
-          id="outlined-error-helper-text"
-          label={`Confirm ${key}`}
-          defaultValue=""
-          variant="outlined"
-        />
-      </p>
+      {(textToConfirm !== "") && (
+        <p>
+          <TextField
+            error={!keyConfirmed}
+            onChange={checkTextToConfirm}
+            id="outlined-error-helper-text"
+            label={`Confirm ${key}`}
+            defaultValue=""
+            variant="outlined"
+          />
+        </p>
+      )}
       <p>
         <Button
           type="button"

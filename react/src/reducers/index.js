@@ -71,6 +71,9 @@ const datasets = (state = [], action) => {
       return serializeArrayToObject(action.payload.datasets)
     case 'LOAD_DATASET':
       return {...state, ...{[action.payload.dataset.id]: action.payload.dataset}}
+    case 'DELETE_INSTRUMENT':
+      const { [`${action.payload.datasetId}`]: datasetId, ...newState } = state;
+      return newState
     default:
       return state
   }

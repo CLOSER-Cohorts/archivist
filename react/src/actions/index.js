@@ -109,7 +109,6 @@ export const AdminInstrument = {
     };
   },
   delete: (instrumentId) => {
-    console.log("deleting")
     const request = axios.delete(api_host + '/instruments/' + instrumentId + '.json', {
       headers: api_headers()
     })
@@ -152,6 +151,21 @@ export const AdminDataset = {
         })
         .catch(err => {
           console.log('error')
+        });
+    };
+  },
+  delete: (datasetId) => {
+    const request = axios.delete(api_host + '/datasets/' + datasetId + '.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(datasetId, 'Dataset'));
+      return request.then(res => {
+        dispatch(datasetDeleteSuccess(datasetId));
+        dispatch(redirectTo(url(routes.admin.datasets.all)));
+      })
+        .catch(err => {
+          dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
         });
     };
   },
@@ -1667,6 +1681,13 @@ const instrumentDeleteSuccess = (instrumentId) => ({
   type: 'DELETE_INSTRUMENT',
   payload: {
     instrumentId: instrumentId
+  }
+});
+
+const datasetDeleteSuccess = (datasetId) => ({
+  type: 'DELETE_DATASET',
+  payload: {
+    datasetId: datasetId
   }
 });
 
