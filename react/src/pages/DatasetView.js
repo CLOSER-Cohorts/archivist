@@ -135,7 +135,11 @@ const DatasetView = (props) => {
     const { sources, datasetId, variable } = props
 
     let { sourceOptions } = props
-    sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id'))
+
+    if(get(variable.topic, 'id') !== 0){
+      sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id'))
+    }
+
     const variableId = variable.id
     const dispatch = useDispatch()
 
