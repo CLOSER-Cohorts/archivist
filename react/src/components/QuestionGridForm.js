@@ -261,7 +261,7 @@ export const QuestionGridForm = (props) => {
                                  <Autocomplete
                                   autoComplete
                                   options={Object.values(responseDomains)}
-                                  getOptionLabel={(option) => (option.type === '') ? `` :`${HumanizeObjectType(option.type)} - ${option.label}`}
+                                  getOptionLabel={(option) => option.label}
                                   onChange={(event, value, reason)=>{
                                     var rd;
                                     if(isNil(value)){
@@ -273,7 +273,6 @@ export const QuestionGridForm = (props) => {
                                   } }
                                   value={(fields.value[index].rd) ? {type: fields.value[index].rd.type, id: fields.value[index].rd.id, label:fields.value[index].rd.label} : {type: '', id: null, label: ''}}
                                   getOptionSelected= {(option, value) => {
-                                    console.log(fields)
                                     return (
                                     (option.type === value.type && option.id === value.id)
                                   )}}
