@@ -137,7 +137,7 @@ const DatasetView = (props) => {
     let { sourceOptions } = props
 
     if(get(variable.topic, 'id') !== 0){
-      sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id'))
+      sourceOptions = sourceOptions.filter(opt => get(opt.topic, 'id') == get(variable.topic, 'id') || get(opt.resolved_topic, 'id') == get(variable.topic, 'id') || (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null))
     }
 
     const variableId = variable.id

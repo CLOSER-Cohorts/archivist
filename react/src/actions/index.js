@@ -1500,7 +1500,7 @@ export const DatasetVariable = {
           dispatch(savingItem(variableId, 'DatasetVariable'));
           return request.then(res => {
             dispatch(savedItem(variableId, 'DatasetVariable'));
-            dispatch(datasetVariablesFetchSuccess(datasetId, res.data));
+            dispatch(datasetVariableFetchSuccess(datasetId, res.data));
           })
           .catch(err => {
             dispatch(saveError(variableId, 'DatasetVariable', err.response.data.message));
