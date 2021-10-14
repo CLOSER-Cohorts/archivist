@@ -58,11 +58,12 @@ export const ResponseDomainTextForm = (props) => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
       dispatch(ResponseDomainTexts.create(instrumentId, values))
+      setTimeout(form.reset)
     }else{
       dispatch(ResponseDomainTexts.update(instrumentId, responseDomain.id, values))
     }
