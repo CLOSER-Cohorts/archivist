@@ -44,7 +44,7 @@ const Instruments = () => {
         <DataTable actions={actions}
           fetch={[dispatch(Instrument.all())]}
           stateKey={'instruments'}
-          searchKey={'prefix'}
+          searchKeys={['id','prefix', 'label']}
           headers={headers}
           rowRenderer={rowRenderer}
           />

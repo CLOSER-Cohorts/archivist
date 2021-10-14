@@ -15,6 +15,8 @@ import { get, isEmpty } from 'lodash'
 export const DataTable = (props) => {
 
   const { actions=()=>{}, fetch=[], stateKey='instruments', searchKey='prefix', headers=[], rowRenderer=()=>{}, parentStateKey } = props;
+  let { searchKeys = [searchKey] } = props;
+
   let values = useSelector(state => state[stateKey]);
   if(parentStateKey){
     values = get(values, parentStateKey, {})
@@ -29,7 +31,9 @@ export const DataTable = (props) => {
   useEffect(() => {
     setFilteredValues(
       Object.values(values).filter((value) => {
-        return value[searchKey] && value[searchKey].toLowerCase().includes(search.toLowerCase())
+        return searchKeys.some((sk) => {
+          return value[sk] && value[sk].toString().toLowerCase().includes(search.toLowerCase())
+        })
       }).sort((el)=> el.id).reverse()
     );
   }, [search, values]);
