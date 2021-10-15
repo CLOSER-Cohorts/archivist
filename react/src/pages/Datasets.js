@@ -40,6 +40,7 @@ const Datasets = () => {
           stateKey={'datasets'}
           searchKeys={['id', 'filename', 'label']}
           headers={headers}
+          filters={[{ key: 'study', label: 'Study', options: [] }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

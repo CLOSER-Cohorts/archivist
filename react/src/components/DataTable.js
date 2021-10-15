@@ -10,14 +10,26 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import SearchBar from "material-ui-search-bar";
 import { Loader } from '../components/Loader'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isInteger } from 'lodash'
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Grid from '@material-ui/core/Grid';
 
 export const DataTable = (props) => {
 
-  const { actions=()=>{}, fetch=[], stateKey='instruments', searchKey='prefix', headers=[], rowRenderer=()=>{}, parentStateKey } = props;
-  let { searchKeys = [searchKey] } = props;
+  const { actions=()=>{}, fetch=[], stateKey='instruments', searchKey='prefix', headers=[], rowRenderer=()=>{}, parentStateKey, sortKeys=[] } = props;
+  let { searchKeys = [searchKey], filters = [] } = props;
 
   let values = useSelector(state => state[stateKey]);
+
+  filters = filters.map((filter)=>{
+    filter.options = [...new Set(Object.values(values).map((o) => o[filter.key]))]
+    filter.options = filter.options.sort().map((option) => {
+      return {value: option, label: option}
+    })
+    return filter
+  })
+
   if(parentStateKey){
     values = get(values, parentStateKey, {})
   }
@@ -27,16 +39,6 @@ export const DataTable = (props) => {
   const [search, setSearch] = useState("");
   const [filteredValues, setFilteredValues] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
-
-  useEffect(() => {
-    setFilteredValues(
-      Object.values(values).filter((value) => {
-        return searchKeys.some((sk) => {
-          return value[sk] && value[sk].toString().toLowerCase().includes(search.toLowerCase())
-        })
-      }).sort((el)=> el.id).reverse()
-    );
-  }, [search, values]);
 
   const rows: RowsProp = filteredValues;
 
@@ -56,24 +58,118 @@ export const DataTable = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  const [activeFilters, setActiveFilters] = useState({});
+  const [sortKey, setSortKey] = useState('id');
+
+  const handleFilter = (event) => {
+    const name = event.target.name;
+    setActiveFilters({
+      ...activeFilters,
+      [name]: event.target.value,
+    });
+  };
+
+  const handleSort = (event) => {
+    const name = event.target.name;
+    setSortKey(event.target.value);
+  };
+
+  useEffect(() => {
+    var results = Object.values(values)
+
+    Object.keys(activeFilters).map((filterKey) => {
+      if (activeFilters[filterKey] === ''){
+        return results
+      }
+      results = results.filter((value) => {
+        return value[filterKey] && value[filterKey].toString().toLowerCase().includes(activeFilters[filterKey].toLowerCase())
+      })
+    })
+    results = results.filter((value) => {
+      return searchKeys.some((sk) => {
+        return value[sk] && value[sk].toString().toLowerCase().includes(search.toLowerCase())
+      })
+    })
+
+    if(sortKey == 'id'){
+      results = results.sort((a) => a.id).reverse()
+    }else{
+      results = results.sort((a, b) => {
+        var optA = a[sortKey]
+        var optB = b[sortKey]
+
+        optA = (isEmpty(optA)) ? '' : optA.toString()
+        optB = (isEmpty(optB)) ? '' : optB.toString()
+        return optA.localeCompare(optB)
+      })
+    }
+
+    setFilteredValues(results);
+  }, [search, values, activeFilters, sortKey]);
+
   return (
     <>
         {!dataLoaded
         ? <Loader />
         : (
           <>
-            <SearchBar
-              placeholder={`Search by ${searchKey} (press return to perform search)`}
-              onChange={(newValue) =>
-                      setSearch(newValue)
-                    }
-              onRequestSearch={(newValue) =>
-                      setSearch(newValue)
-                    }
-              onCancelSearch={() => {
-                      setSearch('')
-                    }}
-            />
+            <Grid container spacing={3}>
+              <Grid item xs={(isEmpty(filters) ? 12 : 9)}>
+                <SearchBar
+                  placeholder={`Search by ${searchKey} (press return to perform search)`}
+                  onChange={(newValue) =>
+                          setSearch(newValue)
+                        }
+                  onRequestSearch={(newValue) =>
+                          setSearch(newValue)
+                        }
+                  onCancelSearch={() => {
+                          setSearch('')
+                        }}
+                />
+                </Grid>
+                <Grid item xs={2}>
+                  { filters.map((filter)=> (
+                    <>
+                      <InputLabel htmlFor="filled-age-native-simple">{filter.label}</InputLabel>
+                      <Select
+                        native
+                        value={activeFilters[filter.key]}
+                        onChange={handleFilter}
+                        inputProps={{
+                          name: filter.key,
+                          id: 'filled-age-native-simple',
+                        }}
+                      >
+                        <option aria-label="None" value="" />
+                        { filter.options.map((option) => (
+                          <option value={option.value}>{option.label}</option>
+                        ))}
+                      </Select>
+                    </>
+                  ))}
+                </Grid>
+                <Grid item xs={1}>
+                  {!isEmpty(sortKeys) && (
+                    <>
+                      <InputLabel htmlFor="filled-age-native-simple">Sort By</InputLabel>
+                      <Select
+                        native
+                        onChange={handleSort}
+                        inputProps={{
+                          name: 'sort',
+                          id: 'filled-age-native-simple',
+                        }}
+                      >
+                        {sortKeys.map((option) => (
+                          <option value={option.key}>{option.label}</option>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                </Grid>
+              </Grid>
+
             <Divider style={{ margin: 16 }} variant="middle" />
             <Table size="small">
               <TableHead>
