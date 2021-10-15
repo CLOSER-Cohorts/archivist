@@ -38,7 +38,7 @@ const Datasets = () => {
         <DataTable actions={actions}
           fetch={[dispatch(Dataset.all())]}
           stateKey={'datasets'}
-          searchKeys={['id', 'filename', 'label']}
+          searchKeys={['id', 'filename', 'name']}
           headers={headers}
           filters={[{ key: 'study', label: 'Study', options: [] }]}
           rowRenderer={rowRenderer}
