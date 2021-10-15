@@ -47,7 +47,7 @@ const Instruments = () => {
           searchKeys={['id','prefix', 'label']}
           headers={headers}
           filters={[{ key: 'study', label: 'Study', options: [] }]}
-          sortKeys={[{ key: 'id', label: 'ID' }, { key: 'prefix', label: 'Prefix' }, { key: 'study', label: 'Study' }]}
+          sortKeys={[{ key: 'id', label: 'ID' }, { key: 'prefix', label: 'Prefix' }, { key: 'study', label: 'Study' }, { key: 'ccs', label: 'Control Constructs' }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

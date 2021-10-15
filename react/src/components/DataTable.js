@@ -91,8 +91,9 @@ export const DataTable = (props) => {
       })
     })
 
-    if(sortKey == 'id'){
-      results = results.sort((a) => a.id).reverse()
+    if(sortKey === 'ccs' || sortKey === 'id'){
+      var new_results = results.sort((a, b) => parseFloat(a[sortKey]) - parseFloat(b[sortKey]))
+      results = new_results.reverse()
     }else{
       results = results.sort((a, b) => {
         var optA = a[sortKey]
@@ -128,7 +129,7 @@ export const DataTable = (props) => {
                         }}
                 />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={1}>
                   { filters.map((filter)=> (
                     <>
                       <InputLabel htmlFor="filled-age-native-simple">{filter.label}</InputLabel>
@@ -149,7 +150,7 @@ export const DataTable = (props) => {
                     </>
                   ))}
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                   {!isEmpty(sortKeys) && (
                     <>
                       <InputLabel htmlFor="filled-age-native-simple">Sort By</InputLabel>
