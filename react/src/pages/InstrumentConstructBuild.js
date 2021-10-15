@@ -231,38 +231,6 @@ const Tree = (props) => {
   return (
     <div style={{ height: 10000 }}>
 
-    <SearchBar
-      placeholder="Search (press return to perform search)"
-      onRequestSearch={(newValue) =>
-              setSearchString(newValue)
-            }
-      onCancelSearch={() => {
-              setSearchString()
-            }}
-    />
-
-    {searchFoundCount === 0 && !isNil(searchString) && (
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        No results found.
-      </Alert>
-    )}
-
-    {searchFoundCount > 0 && !isNil(searchString) && (
-      <>
-        <span>
-          &nbsp;
-          {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-          &nbsp;of&nbsp;
-          {searchFoundCount || 0} matches
-        </span>
-        <ButtonGroup color="primary" aria-label="outlined primary button group">
-          <Button onClick={selectPrevMatch}>&lt; Prev</Button>
-          <Button onClick={selectNextMatch}>&gt; Next</Button>
-        </ButtonGroup>
-      </>
-    )}
-
       <Divider className={classes.divider}/>
       <Grid container spacing={3}>
         <Grid item xs={6}>
