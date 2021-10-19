@@ -9,5 +9,6 @@ json.array!(@collection) do |cc_question|
   json.base_label cc_question.base_label
   json.response_unit_label cc_question.response_unit_label
   json.resolved_topic cc_question.resolved_topic
+  json.variable_topic cc_question.variable_topics.first
   json.errors cc_question.errors.full_messages.to_sentence unless cc_question.valid?
 end

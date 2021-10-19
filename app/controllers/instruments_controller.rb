@@ -15,6 +15,7 @@ class InstrumentsController < ImportableController
   @model_importer_class = ImportJob::Instrument
 
   def index
+    return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
     @qv_counts = QvMapping.group(:instrument_id).size
     super
   end
@@ -34,7 +35,8 @@ class InstrumentsController < ImportableController
   def reorder_ccs
     params.permit!
     unless params[:updates].nil?
-      Instruments::ControlConstructUpdater.new(@object, params[:updates]).call.inspect
+      par = reorder_params
+      Instruments::ControlConstructUpdater.new(@object, par[:updates]).call.inspect
     end
     head :ok, format: :json
   end
@@ -151,6 +153,10 @@ class InstrumentsController < ImportableController
 
   private
   def set_object
-    @object = collection.friendly.find(params[:id])
+    @object = Instrument.friendly.find(params[:id])
+  end
+
+  def reorder_params
+    params.permit!
   end
 end

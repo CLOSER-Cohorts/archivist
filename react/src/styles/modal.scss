@@ -1,0 +1,284 @@
+.c-modal-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  transform: translateZ(0);
+
+  @include themed() {
+    background: t($color__modal__bg);
+  }
+
+  &.takeover {
+    // background: t($color__primary);
+    // max-width: 516px;
+
+    .c-modal {
+      display: flex;
+      padding: $size * 2;
+      max-width: 900px;
+
+      @include themed() {
+        background: t($color__root);
+        color: rgba(255,255,255,.95);
+      }
+
+      > div {
+        // width: 50%;
+
+        &.c-modal__body {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: $size * 3;
+          margin-right: $size * 6;
+        }
+
+        h1 {
+          font-size:18px;
+          margin-top: 0;
+        }
+
+        p {
+          opacity: 0.6;
+        }
+
+        .btn {
+          margin: auto 0 0 0;
+
+          @include themed() {
+            background: rgba(#fff, 0.2);
+            color: #fff;
+
+            &:hover {
+              background: #fff;
+              color: t($color__root);
+            }
+
+          }
+
+        }
+
+        img {
+          display: block;
+          border-radius: $size * 1;
+          min-height: 392px;
+          min-width: 492px;
+
+          &.hidden {
+            display: none;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.c-modal {
+  will-change: transform;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // padding: $size * 3;
+  border-radius: $size * 2;
+  //@include scroll();
+
+  @include themed() {
+    background: t($color__secondary);
+    color: t($color__primary);
+    box-shadow: 0 20px 20px 0 t($color__modal__shadow);
+  }
+
+  @media screen and (min-width: 500px) {
+    left: 50%;
+    top: 50%;
+    right: $size * 12;
+    height: auto;
+    transform: translate(-50%, -50%);
+    max-width: 700px;
+    max-height: calc(100% - 1em);
+  }
+
+  form {
+
+    hr {
+      display: block;
+      margin-left: ($size * 4);
+      margin-right: ($size * 4);
+    }
+
+    > h3,
+    > .multiple,
+    > .field:not(.field__buttons),
+    > .field__group {
+      padding: 0 ($size * 4);
+    }
+
+    > .field:not(.field__buttons):first-child {
+      margin-top: 0;
+    }
+
+    .field__buttons {
+      border-radius: 0 0 ($size * 2) ($size * 2);
+    }
+
+  }
+
+}
+
+.c-modal__close {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  padding: 0;
+  line-height: 0;
+  border: 0;
+  box-shadow: 0;
+  cursor: pointer;
+
+  span {
+    display: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+
+    g {
+
+      line {
+
+        @include themed() {
+          stroke: t($color__primary);
+          fill: t($color__primary);
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.c-modal__body {
+
+  .holiday {
+    text-align: center;
+    padding: ($size * 4) 0;
+
+    h2 {
+      display: none;
+    }
+
+    h3 {
+      font-family: 'basier_circleregular';
+      margin: ($size * 4) 0;
+    }
+
+    svg {
+      width: 100px;
+      height: 100px;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-animation: spin 30s infinite linear;
+      animation: spin 30s infinite linear;
+    }
+
+    .field {
+      margin: 0;
+    }
+
+  }
+
+}
+
+.u-lock-scroll {
+  // position: fixed !important;
+  // overflow: hidden !important;
+  // width: 100% !important;
+  // height: 100% !important;
+}
+
+.c-btn {
+  width: $size * 6;
+  height: $size * 5;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  @include themed() {
+    // background-image: url('../images/modal__' + t($color__icon) + '.svg');
+  }
+
+}
+
+.hex_colour {
+  position: relative;
+  flex: 0 0 auto;
+  cursor: pointer;
+
+  .preview {
+    width: $size * 5;
+    height: $size * 5;
+    border-radius: $size / 2;
+    background: #efefef;
+  }
+
+  .popover {
+    position: absolute;
+    top: $size * 7;
+    right: 0;
+    z-index: 2;
+
+    &__cover {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      + div {
+
+        > div:not(:last-child) {
+          display: none;
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.c-modal {
+
+  h2 {
+    margin: 0;
+    padding: ($size * 3) ($size * 4);
+
+    // @include themed() {
+    //   border-bottom: 1px solid t($color__border);
+    // }
+
+    small {
+      display: block;
+      font-family: 'basier_circleregular';
+      margin-top: $size / 2;
+    }
+
+  }
+
+}

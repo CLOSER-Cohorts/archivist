@@ -17,14 +17,19 @@ class VariablesController < BasicController
   def add_sources
     head :bad_request if params[:sources].nil?
 
-    params[:sources] = JSON.parse(params[:sources])
+    params[:sources] = JSON.parse(params[:sources]) if params[:sources].is_a?(String)
 
     begin
       ActiveRecord::Base.transaction do
         @object.add_sources(params[:sources][:id], params[:sources][:x], params[:sources][:y])
-        @object.reload
+
+        if @object.errors.blank?
+          @object.reload
+          render 'variables/show'
+        else
+          render json: {message: @object.errors.full_messages}, status: :conflict
+        end
       end
-      render 'variables/show'
     rescue => e
       render json: {message: e.message}, status: :conflict
     end
@@ -33,7 +38,10 @@ class VariablesController < BasicController
   def remove_source
     head :bad_request if params[:other].nil?
 
-    params[:other] = JSON.parse(params[:other])
+    params[:other] = JSON.parse(params[:other]) if params[:others].is_a?(String)
+
+
+
     @object.maps.where(
         source_type: params[:other][:class],
         source_id: params[:other][:id],

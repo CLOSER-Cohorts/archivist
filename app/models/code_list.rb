@@ -20,6 +20,8 @@ class CodeList < ApplicationRecord
   # XML tag name
   TYPE = 'CodeList'
 
+  validates :label, uniqueness: {scope: :instrument_id}
+
   # Before creating a new model in the database, check whether this would be a duplicate
   before_create :no_duplicates
 
