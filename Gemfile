@@ -74,7 +74,6 @@ gem 'jwt'
 group :production do
   # Heroku logging
   gem 'rails_12factor', '0.0.3'
-  gem 'redis-rack-cache', '2.0.2'
   # Use Skylight for realtime response analytics
   gem 'skylight', '1.5.0'
 end
