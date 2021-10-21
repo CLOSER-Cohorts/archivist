@@ -35,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
     'white-space': 'nowrap',
     overflow: 'hidden',
     'text-overflow': 'ellipsis'
+  },
+  list: {
+    height: 1500,
+    overflow: 'hidden',
+    'overflow': 'scroll',
   }
 }));
 
@@ -104,7 +109,7 @@ const InstrumentBuildResponseDomains = (props) => {
             <Paper className={classes.control}>
               <h2>Response Domains</h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['ResponseDomainText', 'ResponseDomainNumeric', 'ResponseDomainDatetime']} />
-              <List dense={true}>
+              <List dense={true} className={classes.list}>
                 {Object.values(responseDomains).map((responseDomain) => {
                   return <ResponseDomainItem label={responseDomain.label} type={responseDomain.type} id={responseDomain.id} />
                 })}

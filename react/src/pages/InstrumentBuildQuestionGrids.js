@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
     'white-space': 'nowrap',
     overflow: 'hidden',
     'text-overflow': 'ellipsis'
+  },
+  list: {
+    height: 1500,
+    overflow: 'hidden',
+    'overflow': 'scroll',
   }
 }));
 
@@ -90,7 +95,7 @@ const InstrumentBuildQuestionGrids = (props) => {
             <Paper className={classes.control}>
               <h2>Question Grids <Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link></h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['QuestionItem', 'QuestionGrid']} callback={setquestionGridId} />
-              <List dense={true}>
+              <List dense={true} className={classes.list}>
                 {Object.values(questionGrids).map((questionGrid) => {
                   return <QuestionGrid label={questionGrid.label} id={questionGrid.id} />
                 })}

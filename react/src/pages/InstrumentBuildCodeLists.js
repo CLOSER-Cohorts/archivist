@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     'white-space': 'nowrap',
     overflow: 'hidden',
     'text-overflow': 'ellipsis'
+  },
+  list: {
+    height: 1500,
+    overflow: 'hidden',
+    'overflow': 'scroll',
   }
 }));
 
@@ -81,7 +86,7 @@ const InstrumentBuildCodeLists = (props) => {
             <Paper className={classes.control}>
               <h2>Code Lists</h2>
               <CreateNewBuildObjectButtons instrumentId={instrumentId} objectTypes={['CodeList']} />
-              <List dense={true}>
+              <List dense={true} className={classes.list}>
                 {Object.values(codeLists).map((codeList) => {
                   return (
                     <CodeListItem label={codeList.label} value={codeList.used_by.length} id={codeList.id} />

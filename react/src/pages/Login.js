@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { authUser } from '../actions'
 import { useDispatch } from 'react-redux'
+import logo from '../logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -56,10 +57,11 @@ export default function Login() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <img src={logo} alt="Logo"/>
+        <Typography component="h1" variant="h2">
+          Archivist
+        </Typography>
+        <Typography component="h2" variant="h5">
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
