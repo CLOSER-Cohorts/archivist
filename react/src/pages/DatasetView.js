@@ -23,6 +23,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SearchBar from "material-ui-search-bar";
+import { ObjectStatus } from '../components/ObjectStatusBar'
 
 const TopicList = (props) => {
   const {topicId, datasetId, variableId} = props
@@ -130,6 +131,39 @@ const DatasetView = (props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
+  const VariableTableRow = (props) => {
+    const { row } = props;
+
+    const status = ObjectStatus(row.id, 'DatasetVariable')
+
+    var errorMessage = null;
+
+    if (status.error) {
+      errorMessage = status.errorMessage
+    } else if (row.errors) {
+      errorMessage = row.errors
+    }
+
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.id}</TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.label}</TableCell>
+        <TableCell>{row.var_type}</TableCell>
+        <TableCell></TableCell>
+        <TableCell>
+          <SourcesList sources={row.sources} sourceOptions={get(dataset, 'questions', [])} datasetId={datasetId} variable={row} />
+        </TableCell>
+        <TableCell>
+          <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
+          {!isNil(row.sources_topic) && (
+            <em>Resolved topic from sources - {get(row.sources_topic, 'name')}</em>
+          )}
+        </TableCell>
+      </TableRow>
+    )
+  }
 
   const SourcesList = (props) => {
     const { sources, datasetId, variable } = props
@@ -284,20 +318,7 @@ const DatasetView = (props) => {
                       </TableCell>
                     </TableRow>
                   )}
-                  <TableRow key={row.id}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.label}</TableCell>
-                    <TableCell>{row.var_type}</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell><SourcesList sources={row.sources} sourceOptions={get(dataset,'questions',[])} datasetId={datasetId} variable={row} /></TableCell>
-                    <TableCell>
-                      <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
-                      {!isNil(row.sources_topic) && (
-                        <em>Resolved topic from sources - { get(row.sources_topic,'name') }</em>
-                      )}
-                    </TableCell>
-                  </TableRow>
+                  <VariableTableRow row={row} />
                   </>
                   )
                 })}

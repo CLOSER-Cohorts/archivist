@@ -405,7 +405,11 @@ const statuses = (state = {}, action) => {
     case 'ERROR':
       key = action.payload.type + ':' + action.payload.id
       if(typeof action.payload.error === 'object' && action.payload.error !== null){
-        return {...state, ...{[key]: {error: true, errors: action.payload.error, errorMessage: ''}}}
+        if(Array.isArray(action.payload.error)){
+          return { ...state, ...{ [key]: { error: true, errors: action.payload.error, errorMessage: action.payload.error[0] } } }
+        }else{
+          return { ...state, ...{ [key]: { error: true, errors: action.payload.error, errorMessage: '' } } }
+        }
       }else{
         return {...state, ...{[key]: {error: true, errorMessage: action.payload.error}}}
       }
