@@ -58,7 +58,7 @@ gem 'rack-cors'
 
 gem 'rails', '5.2.4.4'
 # Use Redis for caching
-gem 'redis', '3.3.5'
+gem 'redis', '4.5.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
