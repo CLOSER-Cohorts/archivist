@@ -4,11 +4,20 @@ import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import Button from '@material-ui/core/Button';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  heading: {
+    paddingRight: theme.spacing(3),
+  }
+}));
 
 export const InstrumentHeading = ({instrument, mode='view'}) => {
+  const classes = useStyles();
+
   return (
     <h1>
-    {get(instrument, 'label')}
+      <span className={classes.heading}>{get(instrument, 'label')}</span>
       { instrument && (
         <>
         { mode !== 'view' && (
