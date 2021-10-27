@@ -217,7 +217,6 @@ const ResponseDomains = ({ rds }) => {
   return rds.filter((rd)  => { return !isNil(rd) }).map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':
-        console.log(rd)
         return(<><ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul><span>Min Responses : <strong>{ rd.min_responses }</strong> Max Responses : <strong>{ rd.max_responses }</strong></span></>)
       case 'ResponseDomainText':
         return(<ul className={classes.root}><li><TextFieldsIcon /> {rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
@@ -292,6 +291,8 @@ const ConditionChildren = (props) => {
                       return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     case 'CcStatement':
                       return <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcLoop':
+                      return <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     default:
                       return null;
                   }
