@@ -125,17 +125,15 @@ const QuestionItemListItem = (props) => {
               </Alert>
             </div>
           )}
-          <Grid item xs={9}>
-            <ListItemText primary={title} />
-          </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12}>
             <Chip label={item.label} color="primary"></Chip>
-            { !isEmpty(status) && !isNil(status.saving) && (
-              <Chip label="Saving" color="secondary">              <SyncLoader/></Chip>
+            {!isEmpty(status) && !isNil(status.saving) && (
+              <Chip label="Saving" color="secondary">              <SyncLoader /></Chip>
             )}
-            { !isEmpty(status) && !isNil(status.saved) && (
+            {!isEmpty(status) && !isNil(status.saved) && (
               <Chip label="Saved" color="success" deleteIcon={<DoneIcon />}></Chip>
             )}
+            <ListItemText primary={title} />
           </Grid>
           <Grid item xs={6}>
             <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} />
