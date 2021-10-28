@@ -200,7 +200,7 @@ const Tree = (props) => {
       var buttons = []
       if(canHaveChildren(node)){
         const newNode = {
-                      title: `Click to select construct typex`,
+                      title: `Click to select construct type`,
                       children: [],
                       type: undefined
                     }
@@ -218,7 +218,6 @@ const Tree = (props) => {
                   console.log(newNode)
                   console.log(path)
                   setSelectedNode({ node: newNode, path: path,  callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
-//                  setSelectedNode({node: { type: undefined }})
               }}
             >
               <AddIcon />

@@ -9,7 +9,10 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
-import { ObjectColour } from '../support/ObjectColour'
+import { ObjectColour } from '../support/ObjectColour';
+import {
+  Autocomplete
+} from '@material-ui/lab';
 
 import {
   TextField,
@@ -166,16 +169,26 @@ export const CcQuestionForm = (props) => {
                   }}
                 </OnChange>
                 <Grid item xs="12" key="question">
-                  <Select
-                    name="question_id"
-                    label="Question"
-                    formControlProps={{ margin: 'none' }}
-                  >
-                    <MenuItem></MenuItem>
-                    {Object.values(questionOptions).map((item, idx) => (
-                      <MenuItem value={item.id}>{item.label}</MenuItem>
-                    ))}
-                  </Select>
+                  <Autocomplete
+                    freesolo="true"
+                    options={Object.values(questionOptions)}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(event, value, reason) => {
+                      values.question_id = value.id
+                    }}
+                    value={Object.values(questionOptions).find((q)=>{return q.id === values.question_id})}
+                    getOptionSelected={(option, value) => {
+                      return option.id == value
+                    }}
+                    renderInput={(params) => (
+                      <TextField name={`question_id`}
+                        {...params}
+                        variant="outlined"
+                        label="Question"
+                        placeholder="Question"
+                      />
+                    )}
+                  />
                 </Grid>
                 <Grid item xs="12" key="response_unit_id">
                   <Select
