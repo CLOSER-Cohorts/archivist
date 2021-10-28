@@ -1,10 +1,11 @@
 import React from 'react';
-import { get } from "lodash";
+import { get, isEmpty } from "lodash";
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import Button from '@material-ui/core/Button';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -14,10 +15,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const InstrumentHeading = ({instrument, mode='view'}) => {
   const classes = useStyles();
+  const study = get(instrument, 'study')
 
   return (
-    <h1>
-      <span className={classes.heading}>{get(instrument, 'label')}</span>
+    <Typography variant="h5">
+      <span className={classes.heading}>{(isEmpty(study)) ? "" : `${study} - `}{get(instrument, 'label')}</span>
       { instrument && (
         <>
         { mode !== 'view' && (
@@ -37,6 +39,6 @@ export const InstrumentHeading = ({instrument, mode='view'}) => {
         )}
         </>
       )}
-    </h1>
+    </Typography>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Dataset, DatasetVariable, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { DatasetHeading } from '../components/DatasetHeading'
 import { Loader } from '../components/Loader'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
@@ -268,10 +270,12 @@ const DatasetView = (props) => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Datasets'}>
+        <DatasetHeading dataset={dataset} mode={'view'} />
       {!dataLoaded
         ? <Loader />
         : (
           <>
+            <span style={{ margin: 16 }}/>
             <SearchBar
               placeholder={`Search by name, label, source or topic (press return to perform search)`}
               onRequestSearch={(newValue) =>
@@ -281,6 +285,7 @@ const DatasetView = (props) => {
                       setSearch('')
                     }}
             />
+            <Divider style={{ margin: 16 }} variant="middle" />
             <Table size="small">
               <TableHead>
                 <TableRow>
