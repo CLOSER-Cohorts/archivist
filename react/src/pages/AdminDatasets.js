@@ -55,8 +55,9 @@ const AdminDatasets = () => {
         <DataTable actions={actions}
           fetch={[dispatch(Dataset.all())]}
           stateKey={'datasets'}
-          searchKey={'name'}
+          searchKeys={['id', 'filename', 'name']}
           headers={headers}
+          filters={[{ key: 'study', label: 'Study', options: [] }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

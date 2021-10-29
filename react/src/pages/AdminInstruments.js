@@ -62,8 +62,10 @@ const AdminInstruments = () => {
         <DataTable actions={actions}
           fetch={[dispatch(Instrument.all())]}
           stateKey={'instruments'}
-          searchKey={'prefix'}
+          searchKeys={['id', 'prefix', 'label']}
           headers={headers}
+          filters={[{ key: 'study', label: 'Study', options: [] }]}
+          sortKeys={[{ key: 'id', label: 'ID' }, { key: 'prefix', label: 'Prefix' }, { key: 'study', label: 'Study' }, { key: 'ccs', label: 'Control Constructs' }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>
