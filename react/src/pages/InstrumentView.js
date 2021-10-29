@@ -123,10 +123,10 @@ const QuestionItemListItem = (props) => {
       </Grid>
 
       <Grid item xs={9} sm={6}>
-        { !isEmpty(item.question.instruction) && (
-          <p>{item.question.instruction}</p>
-        )}
         {item.question.literal}
+        {!isEmpty(item.question.instruction) && (
+          <p><i>{item.question.instruction}</i></p>
+        )}
         {(item.question.rds) && (
           <ResponseDomains rds={item.question.rds} />
         )}
