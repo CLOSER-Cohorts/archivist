@@ -33,26 +33,18 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = (values, status) => {
+const validate = (values) => {
 
   const errors = {};
 
-  if(status.errors){
-    Object.keys(status.errors).map((key)=>{
-      if(isNil(values[key]) || values[key] == ''){
-        errors[key] = status.errors[key][0];
-      }
-    })
-  }else{
-   if (!values.label) {
-     errors.label = 'Required';
-   }
-   if (!values.start_val) {
-     errors.start_val = 'Required';
-   }
-   if (!values.loop_var) {
-     errors.loop_var = 'Required';
-   }
+  if (!values.label) {
+    errors.label = 'Required';
+  }
+  if (!values.start_val) {
+    errors.start_val = 'Required';
+  }
+  if (!values.loop_var) {
+    errors.loop_var = 'Required';
   }
 
   return errors;
@@ -148,7 +140,7 @@ export const CcLoopForm = (props) => {
       <Form
         onSubmit={onSubmit}
         initialValues={ccLoop}
-        validate={(values) => validate(values, status)}
+        validate={(values) => validate(values)}
         mutators={{
           ...arrayMutators
         }}

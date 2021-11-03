@@ -36,21 +36,12 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = (values, status) => {
+const validate = (values) => {
 
   const errors = {};
 
-  if(status.errors){
-    Object.keys(status.errors).map((error_key)=>{
-      var key = (['response_unit', 'question'].includes(error_key)) ? `${error_key}_id` : error_key
-      if(isNil(values[key]) || values[key] == ''){
-        return errors[key] = status.errors[error_key][0];
-      }
-    })
-  }else{
-   if (!values.label) {
-     errors.label = 'Required';
-   }
+  if (!values.label) {
+    errors.label = 'Required';
   }
 
   return errors;
@@ -112,7 +103,6 @@ export const CcQuestionForm = (props) => {
 
   const onSubmit = (values) => {
     values = ObjectCheckForInitialValues(ccQuestion, values)
-
     if(isNil(ccQuestion.id)){
       dispatch(CcQuestions.create(instrumentId, values, (newObject) => {
         onChange({node: { ...values, ...newObject  }, path: path})
@@ -137,7 +127,7 @@ export const CcQuestionForm = (props) => {
       <Form
         onSubmit={onSubmit}
         initialValues={ccQuestion}
-        validate={(values) => validate(values, status)}
+        validate={(values) => validate(values)}
         mutators={{
           ...arrayMutators
         }}

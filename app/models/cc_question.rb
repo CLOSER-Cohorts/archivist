@@ -40,6 +40,7 @@ class CcQuestion < ::ControlConstruct
   has_many :variable_topics, -> { distinct }, through: :variables, as: :topic, source: :topic
 
   # All CcQuestions require a ResponseUnit
+  validates :label, uniqueness: { scope: :instrument_id }
   validates :question, :response_unit, presence: true
 
   # Validate to stop topic conflict between Variable(s) and CcQuestion

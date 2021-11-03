@@ -30,21 +30,11 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = (values, status) => {
-
+const validate = (values) => {
   const errors = {};
 
-  if(status.errors){
-    Object.keys(status.errors).map((key)=>{
-      if(isNil(values[key]) || values[key] === ''){
-        errors[key] = status.errors[key][0];
-        return
-      }
-    })
-  }else{
-   if (!values.label) {
-     errors.label = 'Required';
-   }
+  if (!values.label) {
+    errors.label = 'Required';
   }
 
   return errors;
@@ -106,7 +96,7 @@ export const CcStatementForm = (props) => {
       <Form
         onSubmit={onSubmit}
         initialValues={ccStatement}
-        validate={(values) => validate(values, status)}
+        validate={(values) => validate(values)}
         mutators={{
           ...arrayMutators
         }}
