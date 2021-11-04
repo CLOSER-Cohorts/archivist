@@ -226,9 +226,10 @@ const Tree = (props) => {
       }
       return buttons;
   }
+  const treeHeight = getFlatDataFromTree({treeData: treeData, getNodeKey: ({ node }) => { return { id: node.id, type: node.type } }, ignoreCollapsed: true }).length * 75
 
   return (
-    <div style={{ height: 10000 }}>
+    <div style={{ height: treeHeight }}>
 
       <Divider className={classes.divider}/>
       <Grid container spacing={3}>
