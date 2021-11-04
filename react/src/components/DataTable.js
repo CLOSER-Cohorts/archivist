@@ -198,7 +198,7 @@ export const DataTable = (props) => {
              <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[20, 50, 100, { label: 'All', value: -1 }]}
+                    rowsPerPageOptions={[20, 50, 100, { label: 'All', value: rows.length }]}
                     colSpan={3}
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
