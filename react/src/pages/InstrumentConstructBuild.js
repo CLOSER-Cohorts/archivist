@@ -10,6 +10,7 @@ import { CcSequenceForm } from '../components/CcSequenceForm'
 import { CcLoopForm } from '../components/CcLoopForm'
 import { Loader } from '../components/Loader'
 import { ObjectColour } from '../support/ObjectColour'
+import { ConstructTypeFromObjectType } from '../support/ConstructTypeFromObjectType'
 import { get, isEmpty, isNil } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -524,6 +525,11 @@ const InstrumentConstructBuild = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  const handleCloseForm = () => {
+    dispatch({ type: 'CLEAR', payload: { id: selectedNode.node.id, type: ConstructTypeFromObjectType(selectedNode.node.type)}})
+    setSelectedNode(null)
+  }
+
   const sequence = (isEmpty(cc_sequences) || isNil(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)
 
   return (
@@ -540,7 +546,7 @@ const InstrumentConstructBuild = (props) => {
             {!isEmpty(selectedNode) && (
               <Grid item xs={4} className={classes.side}>
                 <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
-                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '20px' }} onClick={()=>{ setSelectedNode(null) }}>Close</HighlightOffIcon>
+                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '20px' }} onClick={handleCloseForm}>Close</HighlightOffIcon>
               </Grid>
             )}
           </Grid>

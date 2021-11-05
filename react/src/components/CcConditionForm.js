@@ -100,8 +100,9 @@ export const CcConditionForm = (props) => {
         onCreate()
       }))
     }else{
-      dispatch(CcConditions.update(instrumentId, ccCondition.id, values))
-      onChange({node: values, path: path})
+      dispatch(CcConditions.update(instrumentId, ccCondition.id, values, (newObject) => {
+        onChange({ node: values, path: path })
+      }))
     }
   }
 

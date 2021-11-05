@@ -472,7 +472,7 @@ export const CcSequences = {
         });
     };
   },
-  update: (instrumentId, ccSequenceId, values) => {
+  update: (instrumentId, ccSequenceId, values, onSuccess = (object) => { }) => {
     const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_sequences/' + ccSequenceId + '.json', values, {
         headers: api_headers()
       })
@@ -481,6 +481,7 @@ export const CcSequences = {
         return request.then(res => {
           dispatch(savedItem(ccSequenceId, 'CcSequence'));
           dispatch(ccSequenceFetchSuccess(instrumentId, res.data));
+          onSuccess(res.data)
         })
         .catch(err => {
           dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data));
@@ -551,7 +552,7 @@ export const CcStatements = {
         });
     };
   },
-  update: (instrumentId, ccStatementId, values) => {
+  update: (instrumentId, ccStatementId, values, onSuccess = (object) => { }) => {
     const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_statements/' + ccStatementId + '.json', values, {
         headers: api_headers()
       })
@@ -560,6 +561,7 @@ export const CcStatements = {
         return request.then(res => {
           dispatch(savedItem(ccStatementId, 'CcStatement'));
           dispatch(ccStatementFetchSuccess(instrumentId, res.data));
+          onSuccess(res.data)
         })
         .catch(err => {
           dispatch(saveError(ccStatementId, 'CcStatement', err.response.data));
@@ -630,7 +632,7 @@ export const CcLoops = {
         });
     };
   },
-  update: (instrumentId, ccLoopId, values) => {
+  update: (instrumentId, ccLoopId, values, onSuccess = (object) => { }) => {
     const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_loops/' + ccLoopId + '.json', values, {
         headers: api_headers()
       })
@@ -639,6 +641,7 @@ export const CcLoops = {
         return request.then(res => {
           dispatch(savedItem(ccLoopId, 'CcLoop'));
           dispatch(ccLoopFetchSuccess(instrumentId, res.data));
+          onSuccess(res.data)
         })
         .catch(err => {
           dispatch(saveError(ccLoopId, 'CcLoop', err.response.data.error_sentence));
@@ -781,7 +784,7 @@ export const CcConditions = {
         });
     };
   },
-  update: (instrumentId, ccConditionId, values) => {
+  update: (instrumentId, ccConditionId, values, onSuccess = (object) => { }) => {
     const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_conditions/' + ccConditionId + '.json', values, {
         headers: api_headers()
       })
@@ -790,6 +793,7 @@ export const CcConditions = {
         return request.then(res => {
           dispatch(savedItem(ccConditionId, 'CcCondition'));
           dispatch(ccConditionFetchSuccess(instrumentId, res.data));
+          onSuccess(res.data)
         })
         .catch(err => {
           dispatch(saveError(ccConditionId, 'CcCondition', err.response.data));
@@ -860,7 +864,7 @@ export const CcQuestions = {
         });
     };
   },
-  update: (instrumentId, ccQuestionId, values) => {
+  update: (instrumentId, ccQuestionId, values, onSuccess = (object) => { }) => {
     const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '.json', values, {
         headers: api_headers()
       })
@@ -869,6 +873,7 @@ export const CcQuestions = {
         return request.then(res => {
           dispatch(savedItem(ccQuestionId, 'CcQuestion'));
           dispatch(ccQuestionFetchSuccess(instrumentId, res.data));
+          onSuccess(res.data);
         })
         .catch(err => {
           dispatch(saveError(ccQuestionId, 'CcQuestion', err.response.data));

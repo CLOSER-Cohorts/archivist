@@ -76,8 +76,9 @@ export const CcSequenceForm = (props) => {
         onCreate()
       }))
     }else{
-      dispatch(CcSequences.update(instrumentId, ccSequence.id, values))
-      onChange({node: values, path: path})
+      dispatch(CcSequences.update(instrumentId, ccSequence.id, values, (newObject) => {
+        onChange({ node: values, path: path })
+      }))
     }
   }
 

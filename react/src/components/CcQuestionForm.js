@@ -109,8 +109,9 @@ export const CcQuestionForm = (props) => {
         onCreate()
       }))
     }else{
-      dispatch(CcQuestions.update(instrumentId, ccQuestion.id, values))
-      onChange({node: values, path: path})
+      dispatch(CcQuestions.update(instrumentId, ccQuestion.id, values, (newObject) => {
+        onChange({ node: values, path: path })
+      }))
     }
   }
 

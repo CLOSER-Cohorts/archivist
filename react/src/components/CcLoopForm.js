@@ -128,8 +128,9 @@ export const CcLoopForm = (props) => {
         onCreate()
       }))
     }else{
-      dispatch(CcLoops.update(instrumentId, ccLoop.id, values))
-      onChange({node: values, path: path})
+      dispatch(CcLoops.update(instrumentId, ccLoop.id, values, (newObject) => {
+        onChange({ node: values, path: path })
+      }))
     }
   }
 
