@@ -48,68 +48,71 @@ const validate = (values, status) => {
   return errors;
 };
 
-const formFields = [
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Prefix"
-        name="prefix"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Study"
-        name="study"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Instrument Title"
-        name="label"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Agency"
-        name="agency"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        label="Version"
-        name="version"
-        margin="none"
-        required={false}
-        multiline
-      />
-    ),
-  },
-];
+const formFields = (item) => {
+  return [
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Prefix"
+          name="prefix"
+          margin="none"
+          disabled={!isNil(item.id)}
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Study"
+          name="study"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Instrument Title"
+          name="label"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Agency"
+          name="agency"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Version"
+          name="version"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+  ]
+}
 
 export const InstrumentForm = (props) => {
   const {instrument, onChange, path, onDelete} = props;
@@ -149,7 +152,7 @@ export const InstrumentForm = (props) => {
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
-                {formFields.map((item, idx) => (
+                {formFields(instrument).map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
                     {item.type && item.type === 'select'
                       ? item.field([])
