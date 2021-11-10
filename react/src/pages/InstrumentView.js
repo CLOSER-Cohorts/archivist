@@ -115,7 +115,7 @@ const QuestionItemListItem = (props) => {
   if(isNil(item) || isNil(item.question)){
     return ''
   }
-
+  console.log(item)
   return (
     <Grid container spacing={3}>
       <Grid item xs={3} sm={6}>
@@ -126,6 +126,9 @@ const QuestionItemListItem = (props) => {
         {item.question.literal}
         {!isEmpty(item.question.instruction) && (
           <p><i>{item.question.instruction}</i></p>
+        )}
+        {!isEmpty(item.interviewee) && (
+          <p>Interviewee : <b>{item.interviewee}</b></p>
         )}
         {(item.question.rds) && (
           <ResponseDomains rds={item.question.rds} />
