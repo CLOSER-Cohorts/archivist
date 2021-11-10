@@ -5,4 +5,8 @@ json.array!(@collection) do |instrument|
   json.export_url instrument.export_url
   json.export_time instrument.export_time
   json.last_edited_time instrument.last_edited_time
+  json.datasets instrument.datasets do |dataset|
+    json.id dataset.id
+    json.name dataset.name
+  end
 end
