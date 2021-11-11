@@ -28,7 +28,7 @@ const AdminInstruments = () => {
       <>
         <ButtonGroup variant="outlined">
           <Button>
-            <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
+            <Link to={url(routes.admin.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
           </Button>
           <Button>
             <Link to={url(routes.admin.instruments.importMappings, { instrumentId: row.id })}>

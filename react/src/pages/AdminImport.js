@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Dashboard } from '../components/Dashboard'
-import { AdminInstrumentForm } from '../components/AdminInstrumentForm'
+import { AdminImportInstrumentForm } from '../components/AdminImportInstrumentForm'
 import { AdminDatasetForm } from '../components/AdminDatasetForm'
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ const AdminImport = () => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Import'}>
-        <AdminInstrumentForm />
+        <AdminImportInstrumentForm />
         <AdminDatasetForm />
       </Dashboard>
     </div>

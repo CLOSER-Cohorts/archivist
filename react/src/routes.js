@@ -18,7 +18,10 @@ export default {
         all: '',
         exports: 'exports',
         importMappings: ':instrumentId/imports',
-        importMapping: ':instrumentId/imports/:id'
+        importMapping: ':instrumentId/imports/:id',
+        instrument: include(':instrument_id/', {
+          edit: 'edit',
+        }),
       }),
       datasets: include('datasets/', {
         all: '',

@@ -1,18 +1,21 @@
 import React from 'react';
-import { Form, Field } from 'react-final-form';
+import { isNil } from "lodash";
+import { Form } from 'react-final-form';
 import { useDispatch } from 'react-redux'
-import { AdminInstrument } from '../actions'
+import { Instrument } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
-import { FileField } from '../components/FileField'
+import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import { makeStyles } from '@material-ui/core/styles';
 import { ObjectColour } from '../support/ObjectColour'
-import { isEmpty } from 'lodash'
 
+import {
+  TextField
+} from 'mui-rff';
 import {
   Paper,
   Grid,
   Button,
-  CssBaseline,
+  CssBaseline
 } from '@material-ui/core';
 
 
@@ -29,43 +32,111 @@ const validate = (values, status) => {
 
   const errors = {};
 
-  if (!values.files || isEmpty(values.files)) {
-    errors.files = 'Required';
+  if(status.errors){
+    Object.keys(status.errors).map((key)=>{
+      if(isNil(values[key]) || values[key] === ''){
+        errors[key] = status.errors[key][0];
+        return
+      }
+    })
+  }else{
+   if (!values.label) {
+     errors.label = 'Required';
+   }
   }
 
   return errors;
 };
 
-const formFields = [
-  {
-    size: 12,
-    field: (
-      <FileField name="files" />
-    ),
-  }
-];
+const formFields = (item) => {
+  return [
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Prefix"
+          name="prefix"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Study"
+          name="study"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Instrument Title"
+          name="label"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Agency"
+          name="agency"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        <TextField
+          label="Version"
+          name="version"
+          margin="none"
+          required={false}
+          multiline
+        />
+      ),
+    },
+  ]
+}
 
 export const AdminInstrumentForm = (props) => {
-  const {} = props;
+  const {instrument, onChange, path, onDelete} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const status = ObjectStatus(instrument.id || 'new', 'Instrument')
 
   const onSubmit = (values) => {
-      dispatch(AdminInstrument.create(values))
+    values = ObjectCheckForInitialValues(instrument, values)
+    if(isNil(instrument.id)){
+      dispatch(Instrument.create(values))
+    }else{
+      dispatch(Instrument.update(instrument.id, values))
+    }
   }
-
-  const status = ObjectStatus('new', 'AdminInstrument')
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>
-      <h2>Upload DDI Instrument Files</h2>
-      <ObjectStatusBar type={'AdminInstrument'} id={'new'} />
+      <ObjectStatusBar id={instrument.id || 'new'} type={'Instrument'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
-        initialValues={{files: []}}
+        initialValues={instrument}
         validate={(values) => validate(values, status)}
         render={({
         handleSubmit,
@@ -80,7 +151,7 @@ export const AdminInstrumentForm = (props) => {
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
-                {formFields.map((item, idx) => (
+                {formFields(instrument).map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
                     {item.type && item.type === 'select'
                       ? item.field([])
@@ -89,14 +160,23 @@ export const AdminInstrumentForm = (props) => {
                   </Grid>
                 ))}
                 <Grid item style={{ marginTop: 16 }}>
-                  Only DDI-L 3.2 Instrument files are accepted.
+                  <Button
+                    type="button"
+                    variant="contained"
+                    onClick={form.reset}
+                    disabled={submitting || pristine}
+                  >
+                    Reset
+                  </Button>
+                </Grid>
+                <Grid item style={{ marginTop: 16 }}>
                   <Button
                     variant="contained"
                     color="primary"
                     type="submit"
                     disabled={submitting}
                   >
-                    Import Instrument
+                    Submit
                   </Button>
                 </Grid>
               </Grid>
