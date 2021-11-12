@@ -8,5 +8,6 @@ json.array!(@collection) do |instrument|
   json.datasets instrument.datasets do |dataset|
     json.id dataset.id
     json.name dataset.name
+    json.instance_name dataset.instance_name
   end
 end

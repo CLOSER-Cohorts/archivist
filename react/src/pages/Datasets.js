@@ -30,7 +30,7 @@ const Datasets = () => {
 
   const headers = ["ID", "Name", "Variables", "Q-V Mappings", "DV Mappings", "Study", "Instruments"]
   const rowRenderer = (row) => {
-    return [row.id, row.name, row.variables, row.qvs, row.dvs, row.study, row.instruments.map((instrument) => { return <Link to={url(routes.instruments.instrument.show, { instrument_id: instrument.prefix })}>{instrument.label}</Link> })]
+    return [row.id, row.name, row.variables, row.qvs, row.dvs, row.study, row.instruments.map((instrument) => { return <Link to={url(routes.instruments.instrument.show, { instrument_id: instrument.prefix })}>{instrument.prefix}</Link> })]
   }
   return (
     <div style={{ height: 500, width: '100%' }}>
