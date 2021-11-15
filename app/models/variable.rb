@@ -80,7 +80,11 @@ class Variable < ApplicationRecord
 
   def resolved_topic
     return topic if topic
-    question_topics.first
+    sources_topic
+  end
+
+  def sources_topic
+    question_topics.first || questions.first.try(:resolved_topic)
   end
 
   # Adds a new source item by label

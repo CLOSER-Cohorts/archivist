@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+  margin-top: $size * 2;
+  background-attachment: red;
+
+  th,
+  td {
+    padding: ($size * 2) $size;
+    text-align: left;
+    border-bottom: 1px solid #efefef;
+  }
+
+}

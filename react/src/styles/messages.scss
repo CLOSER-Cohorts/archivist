@@ -1,0 +1,45 @@
+.message {
+  display: flex;
+  align-items: center;
+  padding: ($size * 2) ($size * 4);
+  border-radius: $size;
+  font-family: 'basier_circlemedium';
+  margin-bottom: $size * 4;
+
+  @include themed() {
+    color: t($color__secondary);
+    background: t($color__positive);
+  }
+
+  svg {
+    margin-right: $size * 2;
+  }
+
+  &__error {
+
+    @include themed() {
+      background: t($color__negative);
+
+      path {
+        stroke: #fff;
+      }
+
+    }
+
+  }
+
+  &__issue {
+
+    @include themed() {
+      background: t($color__issue);
+      color: t($color__root);
+
+      path {
+        stroke: t($color__root);
+      }
+
+    }
+
+  }
+
+}

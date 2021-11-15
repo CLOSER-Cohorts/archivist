@@ -2,7 +2,8 @@ class ConstructController < BasicInstrumentController
   def create
     begin
       @object = collection.create(safe_params)
-      if @object
+
+      if @object.valid?
         render :show, status: :created
       else
         render json: @object.errors, status: :unprocessable_entity

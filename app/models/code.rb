@@ -39,7 +39,7 @@ class Code < ApplicationRecord
   accepts_nested_attributes_for :category
 
   # All Codes require a CodeList and Category
-  validates :category, :code_list, presence: true
+  validates :category, :code_list, :value, presence: true
 
   # Delegates label to Category, protecting against nil Category
   delegate :label, to: :category, allow_nil: true

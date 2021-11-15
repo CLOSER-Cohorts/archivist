@@ -20,6 +20,7 @@ class CcStatement < ::ControlConstruct
 
   # All CcStatements require a literal
   validates :literal, presence: true
+  validates :label, uniqueness: { scope: :instrument_id }
 
   # In order to create a construct, it must be positioned within another construct.
   # This positional information is held on the corresponding ConstrolConstruct

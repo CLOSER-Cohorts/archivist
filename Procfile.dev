@@ -1,0 +1,3 @@
+in_out_worker: QUEUE=in_and_out bundle exec rails environment resque:work
+web: cd react && PORT=3000 yarn start
+api: bundle exec puma -p 3001 -C config/puma.rb

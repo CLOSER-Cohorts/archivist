@@ -734,7 +734,7 @@ $$;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
@@ -3190,105 +3190,105 @@ CREATE RULE groupings_insert AS
 -- Name: cc_conditions delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_condition();
+CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.delete_cc_condition();
 
 
 --
 -- Name: cc_loops delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_loop();
+CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.delete_cc_loop();
 
 
 --
 -- Name: cc_questions delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_question();
+CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.delete_cc_question();
 
 
 --
 -- Name: cc_sequences delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_sequence();
+CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.delete_cc_sequence();
 
 
 --
 -- Name: cc_statements delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.delete_cc_statement();
+CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.delete_cc_statement();
 
 
 --
 -- Name: cc_conditions insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_condition();
+CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.insert_cc_condition();
 
 
 --
 -- Name: cc_loops insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_loop();
+CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.insert_cc_loop();
 
 
 --
 -- Name: cc_questions insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_question();
+CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.insert_cc_question();
 
 
 --
 -- Name: cc_sequences insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_sequence();
+CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.insert_cc_sequence();
 
 
 --
 -- Name: cc_statements insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.insert_cc_statement();
+CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.insert_cc_statement();
 
 
 --
 -- Name: cc_conditions update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON public.cc_conditions FOR EACH ROW EXECUTE PROCEDURE public.update_cc_condition();
+CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.update_cc_condition();
 
 
 --
 -- Name: cc_loops update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON public.cc_loops FOR EACH ROW EXECUTE PROCEDURE public.update_cc_loop();
+CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.update_cc_loop();
 
 
 --
 -- Name: cc_questions update_cc_question; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON public.cc_questions FOR EACH ROW EXECUTE PROCEDURE public.update_cc_question();
+CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.update_cc_question();
 
 
 --
 -- Name: cc_sequences update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE PROCEDURE public.update_cc_sequence();
+CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.update_cc_sequence();
 
 
 --
 -- Name: cc_statements update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON public.cc_statements FOR EACH ROW EXECUTE PROCEDURE public.update_cc_statement();
+CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.update_cc_statement();
 
 
 --

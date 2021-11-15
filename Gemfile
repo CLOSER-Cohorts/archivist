@@ -40,18 +40,25 @@ gem 'json', '2.3.0'
 # Faster JavaScript/JSON converter
 gem 'oj', '3.3.9'
 # Use Postgres as the database for Active Record
-gem 'pg', '0.21.0'
+gem 'pg', '1.2.3'
 # Heroku email service
 gem 'postmark-rails', '0.15.0'
 # Use Puma as the web server
-gem 'puma', '3.12.6'
+gem 'puma', '4.3.8'
 # Use Pundit for authorization
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
 gem 'rack-timeout', '0.4.2'
+
+gem 'rack-cache'
+
+gem 'redis-rack-cache', '2.0.2'
+
+gem 'rack-cors'
+
 gem 'rails', '5.2.4.4'
 # Use Redis for caching
-gem 'redis', '3.3.5'
+gem 'redis', '4.5.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -61,11 +68,12 @@ gem 'uglifier', '4.1.18'
 # PostgreSQLCursor for handling large Result Sets
 gem "postgresql_cursor", "~> 0.6.4"
 
+gem 'jwt'
+
 # Production gems
 group :production do
   # Heroku logging
   gem 'rails_12factor', '0.0.3'
-  gem 'redis-rack-cache', '2.0.2'
   # Use Skylight for realtime response analytics
   gem 'skylight', '1.5.0'
 end
@@ -90,6 +98,7 @@ group :development do
   gem 'spring', '2.0.2'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 3.7'
+  gem 'foreman'
 end
 
 group :test do

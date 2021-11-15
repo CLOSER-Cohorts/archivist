@@ -14,6 +14,7 @@ module Question::Model
     has_many :cc_questions, as: :question, dependent: :destroy, inverse_of: :question
 
     validates :instrument, presence: true
+    validates :label, uniqueness: {scope: [:instrument_id, :question_type]}
 
     include Exportable
     # This model can be tracked using an Identifier

@@ -1,0 +1,699 @@
+.component__route {
+  // display: block;
+
+  @media (min-width: 1200px) {
+    > header,
+    > section {
+      // padding-left: $size * 8;
+      // padding-right: $size * 8;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &.errors {
+      color: red;
+    }
+
+  }
+
+  input.field {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    margin-left: $size * 4;
+    transition: margin 0.1s ease-in-out;
+    border-radius: 0;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+  }
+
+  &__client {
+    justify-content: flex-start;
+    height: auto;
+  }
+
+  &__dashboard,
+  &__settings,
+  &__login,
+  &__register,
+  &__billing {
+
+    > header,
+    > section {
+      max-width: (780) + px;
+      margin: 0 auto;
+    }
+
+    > section {
+      margin-bottom: $size * 4;
+    }
+
+  }
+
+  &__dashboard {
+    display: block;
+
+    > header,
+    > section {
+      max-width: (960) + px;
+      overflow: visible;
+    }
+
+    .data {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: $size * 4;
+      padding: ($size * 4) ($size * 8);
+
+      @include themed() {
+        background: t($color__secondary);
+        border-radius: $size;
+        box-shadow: 0 0 0 1px t($color__border);
+      }
+
+      h3 {
+        font-family: 'basier_circleregular';
+        font-weight: 300;
+        margin: 0 0 $size 0;
+      }
+
+      h2 {
+        font-family: 'basier_circleregular';
+        font-size: 24px;
+        font-weight: 300;
+        margin: 0;
+      }
+
+      p {
+        margin: ($size * 2) 0 0 0;
+        line-height: 1.6;
+
+        @include themed() {
+          color: t($color__text);
+        }
+
+      }
+
+      .progress {
+        margin: 0;
+
+        + .progress {
+          margin-top: $size * 4;
+        }
+
+      }
+
+      &__empty {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding: ($size * 8) 0;
+
+        .text {
+          margin-top: $size * 4;
+        }
+
+      }
+
+      &__left {
+        width: 50%;
+      }
+
+      &__right {
+        width: 35%;
+
+        ul {
+          margin-top: $size * 2;
+          //font-family: 'basier_circlemedium';
+
+          li {
+            display: flex;
+            align-items: center;
+
+            + li {
+              margin-top: $size;
+            }
+
+            .tooltip {
+              margin-left: -2px;
+              margin-right: $size;
+            }
+
+          }
+
+          &.positive {
+
+            @include themed() {
+              color: t($color__positive);
+            }
+
+          }
+
+          &.issue {
+
+            @include themed() {
+              color: t($color__issue);
+            }
+
+          }
+
+          &.error {
+
+            @include themed() {
+              color: t($color__negative);
+            }
+
+          }
+
+        }
+
+      }
+
+      &__full {
+        position: relative;
+        width: 100%;
+        padding-top: $size * 4;
+        margin-top: $size * 4;
+
+        @include themed() {
+          border-top: 1px solid t($color__grey);
+        }
+
+        .empty {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2;
+        }
+
+        header {
+          padding: 0;
+          align-items: flex-start;
+
+          a {
+
+            @include themed() {
+              color: t($color__text);
+            }
+
+          }
+
+          .status:empty {
+            display: none;
+          }
+
+          .status:not(:empty) {
+            display: block;
+
+            + div {
+              display: none;
+            }
+
+          }
+
+          .legend {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+            flex-basis: 50%;
+
+            div {
+              display: flex;
+              align-items: center;
+              margin-left: $size * 2;
+
+              .dot {
+                width: $size * 1.5;
+                height: $size * 1.5;
+                border-radius: 100%;
+                margin-right: $size;
+              }
+
+            }
+
+          }
+
+        }
+
+        .chart {
+
+          &__revenue {
+            width: 100%;
+            height: 200px;
+            margin-top: $size * 4;
+          }
+
+          &__productivity {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 -($size / 2);
+
+            .tooltip {
+              flex: 1;
+              margin: 0 ($size / 2);
+
+              &-trigger {
+                width: 100%;
+
+                div {
+                  background: #ccc;
+                  font-size: 0;
+                  flex: 1;
+                  width: auto;
+                  height: $size * 4;
+
+                  @include themed() {
+
+                    &.above {
+                      background: t($color__positive);
+                    }
+
+                    &.below {
+                      background: t($color__negative);
+                    }
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+        .recharts-layer {
+
+          line,
+          path {
+            stroke-linecap: round;
+          }
+
+          line {
+            stroke-dasharray: 8;
+          }
+
+        }
+
+      }
+
+      .pending {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding-top: $size * 3;
+        margin-top: $size * 3;
+
+        @include themed() {
+          border-top: 1px solid t($color__grey);
+        }
+
+        svg {
+          margin-left: -2px;
+          margin-right: $size;
+        }
+
+      }
+
+    }
+
+  }
+
+  &__settings {
+    display: block;
+
+    section {
+      overflow: visible;
+    }
+
+    .field {
+
+      .checkout {
+        margin-top: $size * 4;
+
+        .field__buttons {
+          justify-content: space-between;
+          margin: ($size * 2) 0 0 0;
+          padding: 0;
+
+          @include themed() {
+            background: none;
+          }
+
+        }
+
+        ul {
+          list-style-position: inside;
+          list-style-type: disc;
+          margin-top: $size * 2;
+
+          li {
+            margin: ($size / 2) 0;
+          }
+
+        }
+
+      }
+
+    }
+
+    .field__buttons {
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+
+      @include themed() {
+        background: none;
+      }
+
+    }
+
+  }
+
+  &__login,
+  &__register,
+  &__billing {
+    display: flex;
+    align-items: center;
+
+    @include themed() {
+      //background: t($color__grey);
+      background: #edf0f4;
+    }
+
+    img {
+      margin: ($size * 4) 0;
+      min-width: 64px;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-animation: pulse 2s infinite ease-in-out;
+      animation: pulse 2s infinite ease-in-out;
+
+      @media (min-width: 1024px) {
+        margin-top: 0;
+      }
+
+    }
+
+    h1 {
+      margin: 0 0 ($size * 4) 0;
+    }
+
+    form,
+    .group {
+      position: relative;
+      padding: $size * 4;
+      width: 100%;
+
+      @include themed() {
+        background: t($color__secondary);
+        border-radius: $size;
+        // box-shadow: 0 0 0 1px t($color__border);
+      }
+
+      @media (min-width: 1024px) {
+        padding: $size * 8;
+        max-width: 600px;
+        min-width: 600px;
+        width: auto;
+      }
+
+      > .field {
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &__buttons {
+          // position: relative;
+          // z-index: 2;
+
+          @include themed() {
+            background: t($color__secondary);
+            border-top: 1px solid t($color__border);
+          }
+
+          @media (min-width: 1024px) {
+            margin: -($size * 8);
+            margin-top: $size * 8;
+            padding-left: $size * 8;
+            padding-right: $size * 8;
+            border-radius: 0 0 ($size) ($size);
+          }
+
+          a {
+            cursor: pointer;
+          }
+
+        }
+
+      }
+
+      + span {
+
+        @include themed() {
+          color: t($color__text);
+        }
+
+        a {
+
+          @include themed() {
+            color: t($color__text);
+            box-shadow: 0 1px 0 0 t($color__text);
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  &__login,
+  &__register,
+  &__billing {
+    justify-content: center;
+  }
+
+  &__login,
+  &__register {
+
+    form {
+      margin: ($size * 4) 0;
+    }
+
+  }
+
+  &__register {
+
+    @media (min-width: 1024px) {
+      padding: ($size * 4) 0;
+    }
+
+    form + span {
+      max-width: 500px;
+      min-width: 500px;
+      text-align: center;
+
+      + span {
+        margin-top: ($size * 2);
+      }
+
+    }
+
+  }
+
+  &__billing {
+
+    .group {
+
+      @include themed() {
+        box-shadow: none;
+      }
+
+      ul {
+        list-style: square;
+        padding-left: $size * 2;
+        margin-bottom: $size * 2;
+        line-height: 1.6;
+
+        li {
+          padding: 0 0 0 0;
+        }
+
+      }
+
+      form {
+        padding: 0;
+        min-width: auto;
+        box-shadow: none;
+
+        @include themed() {
+          background: none;
+        }
+
+      }
+
+      .checkout {
+
+        ul {
+          margin: ($size * 3) 0 0 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  &__billing {
+
+    .group {
+
+      @include themed() {
+        box-shadow: none;
+      }
+
+      ul {
+        list-style: square;
+        padding-left: $size * 2;
+        margin-bottom: $size * 2;
+        line-height: 1.6;
+
+        li {
+          padding: 0 0 0 0;
+        }
+
+      }
+
+      form {
+        padding: 0;
+        min-width: auto;
+        box-shadow: none;
+
+        @include themed() {
+          background: none;
+        }
+
+      }
+
+      .checkout {
+
+        ul {
+          margin: ($size * 3) 0 0 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  &__month {
+
+    @media (min-width: 1024px) {
+      max-width: 420px;
+    }
+
+    @include themed() {
+      background: t($color__grey);
+    }
+
+    > canvas {
+      z-index: 100!important;
+    }
+
+    section {
+      display: flex;
+    }
+
+  }
+
+  &__sidebar {
+
+    @include themed() {
+      background: t($color__grey);
+    }
+
+    @media (min-width: 1024px) {
+      max-width: 420px;
+    }
+
+    section {
+      display: flex;
+    }
+
+  }
+
+}
+
+.component__list {
+  flex: auto;
+  @include scroll();
+}
+
+.empty__list {
+  margin: auto;
+  text-align: center;
+  font-size: 14px;
+
+  // @media (min-width: 1024px) {
+  //   transform: translateY(-($size * 6));
+  // }
+
+  > div {
+    margin: 0 auto!important;
+    overflow: visible!important;
+
+    @include themed() {
+
+      svg {
+        overflow: visible;
+
+        path {
+          stroke: t($color__accent);
+          fill: t($color__accent);
+        }
+
+      }
+
+    }
+
+  }
+
+  svg {
+    display: block;
+    margin: auto;
+    width: $size * 12;
+    height: $size * 12;
+  }
+
+  p {
+    max-width: 300px;
+    margin: ($size * 4) auto;
+  }
+
+}

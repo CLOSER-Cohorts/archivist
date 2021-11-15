@@ -1,0 +1,304 @@
+$size: 8px;
+
+// basics
+
+$color__root: 'color__root';
+$color__root--light: #15202B;
+$color__root--dark: #15202B;
+
+$color__primary: 'color__primary';
+$color__primary--light: #15202B;
+$color__primary--dark: rgba(255,255,255,.95);
+
+$color__secondary: 'color__secondary';
+$color__secondary--light: #fff;
+$color__secondary--dark: #15202B;
+
+$color__text: 'color__text';
+$color__text--light: rgba(#15202B, .6);
+$color__text--dark: lighten(#414a53, 20%);
+
+$color__grey: 'color__grey';
+$color__grey--light: #f1f5f8;
+$color__grey--dark: #0E171F;
+
+$color__accent: 'color__accent';
+$color__accent--light: #1381FF;
+$color__accent--dark: #1381FF;
+
+$color__input: 'color__input';
+$color__input--light: #d9d9d9;
+$color__input--dark: #2c3740;
+
+$color__nav: 'color__nav';
+$color__nav--light: #f1f5f8;
+$color__nav--dark: #0E171F;
+
+$color__border: 'color__border';
+$color__border--light: darken(#f1f5f8, 5%);
+$color__border--dark: #2C3640;
+
+$color__icon: 'color__icon';
+$color__icon--light: 'dark';
+$color__icon--dark: 'light';
+
+$color__button: 'color__button';
+$color__button--light: #fff;
+$color__button--dark: #202020;
+
+// schedule
+
+$color__blackout: 'color__blackout';
+$color__blackout--light: #15202B;
+$color__blackout--dark: #fff;
+
+$color__blackout__text: 'color__blackout__text';
+$color__blackout__text--light: #fff;
+$color__blackout__text--dark: #0E171F;
+
+$color__schedule: 'color__schedule';
+$color__schedule--light: darken(#f1f5f8, 5%);
+$color__schedule--dark: #2C3640;
+
+$color__schedule__text: 'color__schedule__text';
+$color__schedule__text--light: #fff;
+$color__schedule__text--dark: #0E171F;
+
+$color__schedule__booked: 'color__schedule__booked';
+$color__schedule__booked--light: #f1f5f8;
+$color__schedule__booked--dark: #2c3640;
+
+$color__schedule__booked__text: 'color__schedule__booked__text';
+$color__schedule__booked__text--light: #15202B;
+$color__schedule__booked__text--dark: #fff;
+
+// modals
+
+$color__modal: 'color__modal';
+$color__modal--light: #fff;
+$color__modal--dark: #2c3640;
+
+$color__modal__hidden: 'color__modal__hidden';
+$color__modal__hidden--light: #f1f5f8;
+$color__modal__hidden--dark: darken(#2C3640, 5%);
+
+$color__modal__bg: 'color__modal__bg';
+$color__modal__bg--light: rgba(#C4C4C8, 0.9);
+$color__modal__bg--dark: rgba(#0E171F, 0.9);
+
+$color__modal__border: 'color__modal__border';
+$color__modal__border--light: #f1f5f8;
+$color__modal__border--dark: rgba(#fff, 0.05);
+
+$color__modal__shadow: 'color__modal__shadow';
+$color__modal__shadow--light: rgba(#010101, 0.1);
+$color__modal__shadow--dark: rgba(#010101, 0.1);
+
+$color__modal__tabs: 'color__modal__tabs';
+$color__modal__tabs--light: darken(#f1f5f8, 5%);
+$color__modal__tabs--dark: lighten(#2C3640, 10%);
+
+$color__modal__tip: 'color__modal__tip';
+$color__modal__tip--light: #f1f5f8;
+$color__modal__tip--dark: lighten(#2C3640, 5%);
+
+$color__modal__tip__text: 'color__modal__tip__text';
+$color__modal__tip__text--light: rgba(#15202B, 0.5);
+$color__modal__tip__text--dark: rgba(#fff, 0.4);
+
+// dropdowns
+
+$color__dropdown: 'color__dropdown';
+$color__dropdown--light: #fff;
+$color__dropdown--dark: #414a53;
+
+$color__dropdown__border: 'color__dropdown__border';
+$color__dropdown__border--light: rgba(#1381FF, 0.4);
+$color__dropdown__border--dark: #0E171F;
+
+$color__dropdown__text: 'color__dropdown__text';
+$color__dropdown__text--light: #1381FF;
+$color__dropdown__text--dark: #fff;
+
+$color__dropdown__toggle: 'color__dropdown__toggle';
+$color__dropdown__toggle--light: rgba(#1381FF, 0.1);
+$color__dropdown__toggle--dark: #414a53;
+
+$color__dropdown__toggle__text: 'color__dropdown__toggle__text';
+$color__dropdown__toggle__text--light: #1381FF;
+$color__dropdown__toggle__text--dark: #fff;
+
+$color__dropdown__menu: 'color__dropdown__menu';
+$color__dropdown__menu--light: #e9f2ff;
+$color__dropdown__menu--dark: lighten(#414a53, 10%);
+
+$color__dropdown__menu__switch: 'color__dropdown__menu__switch';
+$color__dropdown__menu__switch--light: rgba(#15202B, 0.25);
+$color__dropdown__menu__switch--dark: rgba(#fff, 0.1);
+
+$color__dropdown__menu__switch__on: 'color__dropdown__menu__switch__on';
+$color__dropdown__menu__switch__on--light: #1381FF;
+$color__dropdown__menu__switch__on--dark: #1381FF;
+
+// summary
+
+$color__summary: 'color__summary';
+$color__summary--light: #fff;
+$color__summary--dark: #414a53;
+
+$color__summary__footer: 'color__summary__footer';
+$color__summary__footer--light: #F1F5F8;
+$color__summary__footer--dark: #2C3640;
+
+$color__summary__divider: 'color__summary__divider';
+$color__summary__divider--light: #F1F5F8;
+$color__summary__divider--dark: rgba(255,255,255,0.05);
+
+// charts
+
+$color__bar: 'color__bar';
+$color__bar--light: #1381FF;
+$color__bar--dark: #1381FF;
+
+$color__bar__empty: 'color__bar__empty';
+$color__bar__empty--light: darken(#f1f5f8, 10%);
+$color__bar__empty--dark: #2c3640;
+
+$color__positive: 'color__positive';
+$color__positive--light: #12c457;
+$color__positive--dark: #12c457;
+
+$color__issue: 'color__issue';
+$color__issue--light: #F6AD55;
+$color__issue--dark: #F6AD55;
+
+$color__negative: 'color__negative';
+$color__negative--light: #c31840;
+$color__negative--dark: #c31840;
+
+$themes: (
+  default: (
+    // basics
+    color__root: $color__root--light,
+    color__primary: $color__primary--light,
+    color__secondary: $color__secondary--light,
+    color__text: $color__text--light,
+    color__grey: $color__grey--light,
+    color__accent: $color__accent--light,
+    color__input: $color__input--light,
+    color__nav: $color__nav--light,
+    color__border: $color__border--light,
+    color__icon: $color__icon--light,
+    color__button: $color__button--light,
+    // schedule
+    color__blackout: $color__blackout--light,
+    color__blackout__text: $color__blackout__text--light,
+    color__schedule: $color__schedule--light,
+    color__schedule__booked: $color__schedule__booked--light,
+    color__schedule__text: $color__schedule__text--light,
+    color__schedule__booked__text: $color__schedule__booked__text--light,
+    // modals
+    color__modal: $color__modal--light,
+    color__modal__hidden: $color__modal__hidden--light,
+    color__modal__bg: $color__modal__bg--light,
+    color__modal__border: $color__modal__border--light,
+    color__modal__shadow: $color__modal__shadow--light,
+    color__modal__tabs: $color__modal__tabs--light,
+    color__modal__tip: $color__modal__tip--light,
+    color__modal__tip__text: $color__modal__tip__text--light,
+    // dropdowns
+    color__dropdown: $color__dropdown--light,
+    color__dropdown__border: $color__dropdown__border--light,
+    color__dropdown__text: $color__dropdown__text--light,
+    color__dropdown__toggle: $color__dropdown__toggle--light,
+    color__dropdown__toggle__text: $color__dropdown__toggle__text--light,
+    color__dropdown__menu: $color__dropdown__menu--light,
+    color__dropdown__menu__switch: $color__dropdown__menu__switch--light,
+    color__dropdown__menu__switch__on: $color__dropdown__menu__switch__on--light,
+    // summary
+    color__summary: $color__summary--light,
+    color__summary__footer: $color__summary__footer--light,
+    color__summary__divider: $color__summary__divider--light,
+    // charts
+    color__bar: $color__bar--light,
+    color__bar__empty: $color__bar__empty--light,
+    color__positive: $color__positive--light,
+    color__issue: $color__issue--light,
+    color__negative: $color__negative--light
+  ),
+  dark: (
+    // basics
+    color__root: $color__root--dark,
+    color__primary: $color__primary--dark,
+    color__secondary: $color__secondary--dark,
+    color__text: $color__text--dark,
+    color__grey: $color__grey--dark,
+    color__accent: $color__accent--dark,
+    color__input: $color__input--dark,
+    color__nav: $color__nav--dark,
+    color__border: $color__border--dark,
+    // schedule
+    color__blackout: $color__blackout--dark,
+    color__blackout__text: $color__blackout__text--dark,
+    color__icon: $color__icon--dark,
+    color__button: $color__button--dark,
+    color__schedule: $color__schedule--dark,
+    color__schedule__text: $color__schedule__text--dark,
+    color__schedule__booked: $color__schedule__booked--dark,
+    color__schedule__booked__text: $color__schedule__booked__text--dark,
+    // modals
+    color__modal: $color__modal--dark,
+    color__modal__hidden: $color__modal__hidden--dark,
+    color__modal__bg: $color__modal__bg--dark,
+    color__modal__border: $color__modal__border--dark,
+    color__modal__shadow: $color__modal__shadow--dark,
+    color__modal__tabs: $color__modal__tabs--dark,
+    color__modal__tip: $color__modal__tip--dark,
+    color__modal__tip__text: $color__modal__tip__text--dark,
+    // dropdowns
+    color__dropdown: $color__dropdown--dark,
+    color__dropdown__border: $color__dropdown__border--dark,
+    color__dropdown__text: $color__dropdown__text--dark,
+    color__dropdown__toggle: $color__dropdown__toggle--dark,
+    color__dropdown__toggle__text: $color__dropdown__toggle__text--dark,
+    color__dropdown__menu: $color__dropdown__menu--dark,
+    color__dropdown__menu__switch: $color__dropdown__menu__switch--dark,
+    color__dropdown__menu__switch__on: $color__dropdown__menu__switch__on--dark,
+    // summary
+    color__summary: $color__summary--dark,
+    color__summary__footer: $color__summary__footer--dark,
+    color__summary__divider: $color__summary__divider--dark,
+    // charts
+    color__bar: $color__bar--dark,
+    color__bar__empty: $color__bar__empty--dark,
+    color__positive: $color__positive--dark,
+    color__issue: $color__issue--dark,
+    color__negative: $color__negative--dark
+  ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin scroll() {
+  overflow-y: auto;
+  overflow: -moz-scrollbars-none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}

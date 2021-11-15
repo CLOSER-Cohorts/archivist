@@ -32,7 +32,7 @@ class BasicController < ApplicationController
     if @object.save!
       render :show, status: :created
     else
-      render json: @object.errors, status: :unprocessable_entity
+      render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 
@@ -41,7 +41,7 @@ class BasicController < ApplicationController
     if @object.update(safe_params)
       render :show, status: :ok
     else
-      render json: @object.errors, status: :unprocessable_entity
+      render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 

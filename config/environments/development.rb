@@ -44,6 +44,8 @@ Rails.application.configure do
   # enable resque as active job adapter
   config.active_job.queue_adapter = :resque
 
+  config.public_file_server.enabled = true
+
   config.action_dispatch.rack_cache = {
       metastore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/metastore',
       entitystore: (ENV["REDIS_URL"] || 'redis://127.0.0.1:6379') + '/1/entitystore'
