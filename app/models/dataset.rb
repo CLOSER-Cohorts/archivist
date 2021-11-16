@@ -32,7 +32,7 @@ class Dataset < ApplicationRecord
   has_many :variables, dependent: :destroy
 
   # A Dataset can have many {Import Imports}
-  has_many :imports
+  has_many :imports, dependent: :destroy
 
   # Make var_count both get-able and set-able
   attr_accessor :var_count
