@@ -185,7 +185,7 @@ export const QuestionGridForm = (props) => {
   const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
   const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
 
-  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)].sort((a, b) => a.label.localeCompare(b.label))
 
   useEffect(() => {
     dispatch(ResponseDomainCodes.all(instrumentId));
