@@ -25,7 +25,7 @@ const AdminInstrumentEdit = (props) => {
     ]).then(() => {
       setDataLoaded(true)
     });
-  })
+  }, []);
 
   return (
     <div style={{ height: 500, width: '100%' }}>

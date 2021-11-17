@@ -27,7 +27,7 @@ export const InstrumentHeading = ({instrument, mode='view'}) => {
             <Link to={url(routes.instruments.instrument.show, { instrument_id: instrument.slug })}>View</Link>
           </Button>
         )}
-        { mode !== 'build' && (
+        { !instrument.signed_off && mode !== 'build' && (
           <Button variant="outlined">
             <Link to={url(routes.instruments.instrument.build.show, { instrument_id: instrument.slug })}>Build</Link>
           </Button>

@@ -115,7 +115,7 @@ const QuestionItemListItem = (props) => {
   if(isNil(item) || isNil(item.question)){
     return ''
   }
-  console.log(item)
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3} sm={6}>
