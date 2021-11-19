@@ -16,6 +16,8 @@ class User < ApplicationRecord
   # Enum holding the possible roles for any User
   enum role: [:reader, :editor, :admin]
 
+  delegate :label, to: :group, prefix: true
+
   # Used to create the first {User} when the app is first
   # initialized
   #

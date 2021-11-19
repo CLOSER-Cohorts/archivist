@@ -19,6 +19,10 @@ Rails.application.routes.draw do
         post 'lock', to: 'admin#lock'
         delete 'delete', to: 'admin#destroy'
       end
+
+      collection do
+        get 'whoami', to: 'admin#whoami'
+      end
     end
   end
 

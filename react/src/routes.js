@@ -2,6 +2,7 @@ import { include } from 'named-urls'
 
 export default {
     login : '/login',
+    signup: '/signup',
     datasets: include('/datasets', {
       all: '',
       dataset: include(':dataset_id/', {
@@ -13,6 +14,12 @@ export default {
       imports: include('imports/', {
         all: '',
         show: ':importId'
+      }),
+      users: include('users/', {
+        all: '',
+        user: include(':user_id/', {
+          edit: 'edit',
+        }),
       }),
       instruments: include('instruments/', {
         all: '',

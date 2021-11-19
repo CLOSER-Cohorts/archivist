@@ -4,6 +4,11 @@ class Users::AdminController < ApplicationController
     @collection = User.all
   end
 
+  def whoami
+    @object = current_user
+    render :show
+  end
+
   def show
     @object = User.find safe_params
   end

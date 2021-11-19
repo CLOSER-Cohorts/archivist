@@ -1,6 +1,6 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -10,6 +10,8 @@ import Container from '@material-ui/core/Container';
 import { authUser } from '../actions'
 import { useDispatch } from 'react-redux'
 import logo from '../logo.svg';
+import routes from '../routes';
+import { reverse as url } from 'named-urls'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -100,6 +102,7 @@ export default function Login() {
           </Button>
         </form>
       </div>
+      or <Link to={url(routes.signup)}>signup</Link> here
     </Container>
   );
 }

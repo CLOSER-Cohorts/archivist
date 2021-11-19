@@ -38,6 +38,20 @@ export const authUser = (email, password) => {
   };
 };
 
+export const WhoAmI = (email, password) => {
+  const request = axios.get(api_host + '/users/admin/whoami.json', {
+    headers: api_headers()
+  })
+  return (dispatch) => {
+    return request.then(res => {
+      dispatch(whoAmISuccess(res.data));
+    })
+      .catch(err => {
+        dispatch(fetchFailure(err.message));
+      });
+  };
+};
+
 export const InstrumentTree = {
   create: (instrumentId, flatTree) => {
     return (dispatch) => {
@@ -237,6 +251,82 @@ export const AdminImport = {
         return request.then(res => {
           dispatch(importFetchSuccess(res.data));
         })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+}
+
+export const UserGroup = {
+  all: () => {
+    const request = axios.get(api_host + '/user_groups/external.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        console.log(res.data)
+        dispatch(userGroupsFetchSuccess(res.data));
+      })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
+}
+
+export const User = {
+  update: (userId, values) => {
+    const request = axios.put(api_host + '/users/' + userId + '.json', values, {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(userId, 'User'));
+      return request.then(res => {
+        dispatch(savedItem(userId, 'User'));
+        dispatch(instrumentFetchSuccess(res.data));
+      })
+        .catch(err => {
+          dispatch(saveError(userId, 'User', err.response.data.error_sentence));
+        });
+    };
+  },
+  create: (values) => {
+    const request = axios.post(api_host + '/users.json', { user: values }, {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem('new', 'User'));
+      return request.then(res => {
+        dispatch(redirectTo(url(routes.login)));
+      })
+        .catch(err => {
+          dispatch(saveError('new', 'User', err.response.data.error_sentence));
+        });
+    };
+  },
+  all: () => {
+    const request = axios.get(api_host + '/users/admin.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        console.log(res.data)
+        dispatch(usersFetchSuccess(res.data));
+      })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  show: (id) => {
+    const request = axios.get(api_host + '/users/admin/' + id + '.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        dispatch(userFetchSuccess(res.data));
+      })
         .catch(err => {
           dispatch(fetchFailure(err.message));
         });
@@ -1665,6 +1755,27 @@ const instrumentFetchSuccess = instruments => ({
   }
 });
 
+const usersFetchSuccess = users => ({
+  type: 'LOAD_USERS',
+  payload: {
+    users: users
+  }
+});
+
+const userFetchSuccess = user => ({
+  type: 'LOAD_USER',
+  payload: {
+    user: user
+  }
+});
+
+const userGroupsFetchSuccess = user_groups => ({
+  type: 'LOAD_USER_GROUPS',
+  payload: {
+    user_groups: user_groups
+  }
+});
+
 const instrumentStatsFetchSuccess = (instrumentId, stats) => ({
   type: 'LOAD_INSTRUMENT_STATS',
   payload: {
@@ -1716,6 +1827,13 @@ const authUserSuccess = auth => ({
   type: 'LOGIN',
   payload: {
     ...auth
+  }
+});
+
+const whoAmISuccess = user => ({
+  type: 'WHOAMI',
+  payload: {
+    user: user
   }
 });
 

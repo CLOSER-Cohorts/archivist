@@ -11,7 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super do |user|
-      g = Group.find params[:registration][:user][:group_id]
+      g = UserGroup.find params[:registration][:user][:group_id]
       g.users << user
       user.confirm
       user.admin!
@@ -45,7 +45,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :group_id, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :first_name, :last_name, :group_id, :role])
   end
 
   # The path used after sign up.
