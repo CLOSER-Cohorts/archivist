@@ -298,7 +298,7 @@ export const User = {
     return (dispatch) => {
       dispatch(savingItem('new', 'User'));
       return request.then(res => {
-        dispatch(redirectTo(url(routes.login)));
+        dispatch(authUserSuccess(res.data));
       })
         .catch(err => {
           dispatch(saveError('new', 'User', err.response.data.error_sentence));

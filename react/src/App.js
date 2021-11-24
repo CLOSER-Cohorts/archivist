@@ -83,8 +83,8 @@ const App = () => {
        <div>
           <RedirectFromState />
           <Switch>
-            <AuthRoute type="guest" exact path={routes.login} component={Login} />
             <AuthRoute type="guest" exact path={routes.signup} component={Signup} />
+            <AuthRoute type="guest" exact path={routes.login} component={Login} />
             <Route
               exact
               path="/"

@@ -18,6 +18,8 @@ class User < ApplicationRecord
 
   delegate :label, to: :group, prefix: true
 
+  validates :email, uniqueness: true
+
   # Used to create the first {User} when the app is first
   # initialized
   #

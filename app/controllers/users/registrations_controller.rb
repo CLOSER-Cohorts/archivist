@@ -11,10 +11,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super do |user|
+      unless user.valid?
+        render(json: { errors: user.errors, error_sentence: user.errors.full_messages.to_sentence }, status: :unprocessable_entity) and return
+      end
       g = UserGroup.find params[:registration][:user][:group_id]
       g.users << user
       user.confirm
       user.admin!
+      render(json: user.as_json.merge(jwt: encode_token({id: user.id, api_key: user.api_key})), status: 201) and return
     end
   end
 
@@ -57,4 +61,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  private
+
+  def encode_token(payload)
+    JWT.encode(payload, 's3cr3t')
+  end
 end

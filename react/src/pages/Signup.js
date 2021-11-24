@@ -5,6 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../logo.svg';
 import { UserForm } from '../components/UserForm'
+import { Link } from 'react-router-dom';
+import routes from '../routes';
+import { reverse as url } from 'named-urls'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +46,7 @@ export default function Signup() {
         </Typography>
         <UserForm user={{}} />
       </div>
+      or <Link to={url(routes.login)}>Login</Link> here
     </Container>
   );
 }
