@@ -11,10 +11,10 @@
 
 ## Configuration
 * Ruby: 2.5.X
-* Rails: 5.0.X
-* AngularJS: 1.5.11
-* Postgres: 9.6.X
-* Redis: 3.3.X
+* Rails: 5.2.X
+* Postgres: 13.5
+* React JS 16.7.0
+* Redis: 6.2.3
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
@@ -25,7 +25,7 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 
 For detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist) page.
 
-Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [AngularJS](https://code.angularjs.org/1.5.11/docs/api), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
+Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [React](https://reactjs.org/), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
 
 ## Testing
 To run the test suite just call `rails test`. Currently 197 tests and 256 assertions.
