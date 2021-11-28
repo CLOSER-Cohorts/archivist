@@ -24,7 +24,7 @@
     "MAX_THREADS": {
       "description": "The number of threads to run.",
       "value": "5"
-    },
+    }
   },
   "addons": [
     {
