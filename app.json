@@ -11,14 +11,36 @@
   "scripts": {
     "postdeploy": "rails db:migrate"
   },
-  "env": {},
+  "env": {
+    "RAILS_ENV": "production",
+    "RACK_ENV": "production",
+    "REACT_APP_API_HOST": {
+      "description": "The URL to access the Rails API backend."
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "1"
+    },
+    "MAX_THREADS": {
+      "description": "The number of threads to run.",
+      "value": "5"
+    },
+  },
   "addons": [
     {
       "plan": "heroku-postgresql",
       "options": {
-        "version": "9.6"
+        "version": "13.5"
       }
     },
     "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    }
   ]
 }
