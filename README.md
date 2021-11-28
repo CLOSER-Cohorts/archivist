@@ -20,9 +20,11 @@ Currently Archivist has only been designed to be deployed to [Heroku][heroku], b
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CLOSER-Cohorts/archivist/tree/master)
 
-### Installation
+Clicking on the 'Deploy to Heroku' button will create a new Heroku instance of Archivist within your own Heroku account.
 
-For detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist) page.
+### Standalone Installation
+
+If you want to launch Archivist on your local machine or on a server other than Heroku then we have detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist-(Standalone)) page.
 
 Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [React](https://reactjs.org/), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
 
