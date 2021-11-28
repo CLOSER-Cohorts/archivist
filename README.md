@@ -1,4 +1,4 @@
-## README
+## Archivist
 
 [![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=develop)](https://travis-ci.org/CLOSER-Cohorts/archivist)
 [![Inline docs](https://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](https://inch-ci.org/github/CLOSER-Cohorts/archivist)
