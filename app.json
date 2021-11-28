@@ -12,35 +12,22 @@
     "postdeploy": "rails db:migrate"
   },
   "env": {
-    "RAILS_ENV": "production",
+    "LANG": "en_GB.UTF-8",
+    "MAX_THREADS": "5",
     "RACK_ENV": "production",
-    "REACT_APP_API_HOST": {
-      "description": "The URL to access the Rails API backend."
-    },
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "1"
-    },
-    "MAX_THREADS": {
-      "description": "The number of threads to run.",
-      "value": "5"
-    }
+    "RAILS_ENV": "production",
+    "RAILS_SERVE_STATIC_FILES": "enabled",
+    "SECRET_KEY_BASE": "REDACTED",
+    "WEB_CONCURRENCY": "1"
   },
   "addons": [
-    {
-      "plan": "heroku-postgresql",
-      "options": {
-        "version": "13.5"
-      }
-    },
-    "heroku-redis"
-  ],
-  "buildpacks": [
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
-    },
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-ruby"
-    }
+    "logentries:le_tryit",
+    "sendgrid:starter",
+    "heroku-redis:premium-1",
+    "heroku-postgresql:standard-0",
+    "process-scheduler:pet-project",
+    "librato:development",
+    "scheduler:standard",
+    "ipinvestigator:free"
   ]
 }
