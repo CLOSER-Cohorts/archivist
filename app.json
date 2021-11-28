@@ -13,12 +13,20 @@
   },
   "env": {
     "LANG": "en_GB.UTF-8",
-    "MAX_THREADS": "5",
     "RACK_ENV": "production",
     "RAILS_ENV": "production",
     "RAILS_SERVE_STATIC_FILES": "enabled",
-    "SECRET_KEY_BASE": "REDACTED",
-    "WEB_CONCURRENCY": "1"
+    "REACT_APP_API_HOST": {
+      "description": "The URL to access the Rails API backend, this is the URL of the main heroku instance."
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "1"
+    },
+    "MAX_THREADS": {
+      "description": "The number of threads to run.",
+      "value": "5"
+    }
   },
   "addons": [
     "logentries:le_tryit",
