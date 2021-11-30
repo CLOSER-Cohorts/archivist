@@ -17,7 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       g = UserGroup.find params[:registration][:user][:group_id]
       g.users << user
       user.confirm
-      user.admin!
+      user.editor!
       render(json: user.as_json.merge(jwt: encode_token({id: user.id, api_key: user.api_key})), status: 201) and return
     end
   end

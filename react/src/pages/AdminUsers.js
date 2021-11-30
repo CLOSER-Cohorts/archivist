@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
+import { useDispatch } from 'react-redux'
 import { User } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -9,20 +9,24 @@ import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { DataTable } from '../components/DataTable'
 import { ConfirmationModal } from '../components/ConfirmationModal'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const AdminUsers = () => {
 
   const dispatch = useDispatch()
 
+  const deleteUser = (instrumentId) => {
+    dispatch(User.delete(instrumentId));
+  }
+
   const actions = (row) => {
     return (
       <>
-        {/* <ButtonGroup variant="outlined">
+        <ButtonGroup variant="outlined">
           <Button>
             <Link to={url(routes.admin.users.user.edit, { user_id: row.id })}>Edit</Link>
           </Button>
-        </ButtonGroup> */}
+          <ConfirmationModal textToConfirm={row.prefix} key={'email'} objectType={'user'} onConfirm={() => { deleteUser(row.id) }} />
+        </ButtonGroup>
       </>
     )
   }

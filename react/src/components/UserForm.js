@@ -166,6 +166,7 @@ export const UserForm = (props) => {
   const onSubmit = (values) => {
 
     values = ObjectCheckForInitialValues(user, values)
+
     if(isNil(user.id)){
       dispatch(User.create(values))
     }else{

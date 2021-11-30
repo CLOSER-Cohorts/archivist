@@ -1,7 +1,7 @@
 import React from 'react';
 import { isNil } from "lodash";
 import { Form } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Instrument } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
@@ -19,9 +19,6 @@ import {
   FormControlLabel,
   Switch,
 } from '@material-ui/core';
-
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
 
 const useStyles = makeStyles({
   table: {
@@ -134,7 +131,7 @@ const formFields = (item, signedOff, setSignedOff) => {
 }
 
 export const AdminInstrumentForm = (props) => {
-  const {instrument, onChange, path, onDelete} = props;
+  const {instrument} = props;
 
   const [signedOff, setSignedOff] = React.useState(instrument.signed_off);
 

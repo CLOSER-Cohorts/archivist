@@ -7,7 +7,6 @@ import { User } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import { makeStyles } from '@material-ui/core/styles';
-import { ObjectColour } from '../support/ObjectColour'
 import { Loader } from '../components/Loader'
 
 import {
@@ -25,11 +24,7 @@ import {
   Grid,
   Button,
   CssBaseline,
-  FormControlLabel,
-  Switch,
 } from '@material-ui/core';
-
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles({
@@ -40,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-const validate = (values, status) => {
+const validate = (values) => {
 
   const errors = {};
 
@@ -99,42 +94,18 @@ const formFields = (item) => {
       ),
     },
     {
-      size: 12,
-      field: (
-        <TextField
-          label="Password"
-          name="password"
-          type="password"
-          margin="none"
-          required={true}
-        />
-      ),
-    },
-    {
-      size: 12,
-      field: (
-        <TextField
-          label="Password Confirmation"
-          name="password_confirmation"
-          type="password"
-          margin="none"
-          required={true}
-        />
-      ),
-    },
-    {
       type: 'select',
       size: 12,
       field: (options) => (
         <Select
-          name="group_id"
-          label="Group"
+          name="role"
+          label="Role"
           required={true}
           formControlProps={{ margin: 'none' }}
         >
-          {options.map((item, idx) => (
-            <MenuItem value={item.id}>{item.label}</MenuItem>
-          ))}
+          <MenuItem value={'reader'}>{'Reader'}</MenuItem>
+          <MenuItem value={'editor'}>{'Editor'}</MenuItem>
+          <MenuItem value={'admin'}>{'Admin'}</MenuItem>
         </Select>
       ),
     },
@@ -142,7 +113,7 @@ const formFields = (item) => {
 }
 
 export const AdminUserForm = (props) => {
-  const {user, onChange, path, onDelete} = props;
+  const {user} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -213,7 +184,7 @@ export const AdminUserForm = (props) => {
                         type="submit"
                         disabled={submitting}
                       >
-                        Sign Up
+                        Save
                       </Button>
                     </Grid>
                   </Grid>

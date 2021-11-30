@@ -277,7 +277,7 @@ export const UserGroup = {
 
 export const User = {
   update: (userId, values) => {
-    const request = axios.put(api_host + '/users/' + userId + '.json', values, {
+    const request = axios.put(api_host + '/users/admin/' + userId + '.json', values, {
       headers: api_headers()
     })
     return (dispatch) => {
@@ -329,6 +329,21 @@ export const User = {
       })
         .catch(err => {
           dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  delete: (userId) => {
+    const request = axios.delete(api_host + '/users/admin/' + userId + '.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(userId, 'User'));
+      return request.then(res => {
+        dispatch(userDeleteSuccess(userId));
+        dispatch(redirectTo(url(routes.admin.users.all)));
+      })
+        .catch(err => {
+          dispatch(saveError(userId, 'User', err.response.data.error_sentence));
         });
     };
   },
@@ -1797,6 +1812,13 @@ const instrumentDeleteSuccess = (instrumentId) => ({
   type: 'DELETE_INSTRUMENT',
   payload: {
     instrumentId: instrumentId
+  }
+});
+
+const userDeleteSuccess = (userId) => ({
+  type: 'DELETE_USER',
+  payload: {
+    id: userId
   }
 });
 
