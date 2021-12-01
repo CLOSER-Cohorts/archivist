@@ -26,7 +26,6 @@ class MyCustomAuth < DerailedBenchmarks::AuthHelper
           password_confirmation: password,
           group_id: @group.id
       )
-      @user.confirm
       @user.admin!
       @user
     end
