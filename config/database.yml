@@ -85,5 +85,5 @@ test:
 production:
   <<: *default
   database: archivist_production
-  username: archivist
+  username:
   password: <%= ENV['ARCHIVIST_DATABASE_PASSWORD'] %>
