@@ -306,6 +306,8 @@ GEM
       sync
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
+    uglifier (4.1.18)
+      execjs (>= 0.3.0, < 3)
     uniform_notifier (1.14.1)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -373,6 +375,7 @@ DEPENDENCIES
   sql_tracker (~> 1.2, >= 1.2.1)
   sys-proctable
   tzinfo-data
+  uglifier
   web-console (~> 3.7)
 
 RUBY VERSION
