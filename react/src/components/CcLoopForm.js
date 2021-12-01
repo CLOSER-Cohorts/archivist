@@ -1,27 +1,22 @@
 import React from 'react';
-import { get, isNil } from "lodash";
+import { isNil } from "lodash";
 import { Form } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { CcLoops } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
 import { ObjectColour } from '../support/ObjectColour'
 
 import {
-  TextField,
-  Select
-} from 'mui-rff';
+  TextField} from 'mui-rff';
 import {
   Paper,
   Grid,
   Button,
-  CssBaseline,
-  MenuItem
-} from '@material-ui/core';
+  CssBaseline} from '@material-ui/core';
 
 
 const useStyles = makeStyles({

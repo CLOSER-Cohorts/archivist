@@ -7,7 +7,6 @@ import { User } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import { makeStyles } from '@material-ui/core/styles';
-import { ObjectColour } from '../support/ObjectColour'
 import { Loader } from '../components/Loader'
 
 import {
@@ -25,11 +24,8 @@ import {
   Grid,
   Button,
   CssBaseline,
-  FormControlLabel,
-  Switch,
 } from '@material-ui/core';
 
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles({

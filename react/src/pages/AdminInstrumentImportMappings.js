@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, {  } from 'react';
+import { useDispatch } from 'react-redux'
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportMappingsForm } from '../components/AdminImportMappingsForm'
 import { DataTable } from '../components/DataTable'
-import { Loader } from '../components/Loader'
 import { AdminImportMapping } from '../actions'
 import { get } from 'lodash';
 import Divider from '@material-ui/core/Divider';

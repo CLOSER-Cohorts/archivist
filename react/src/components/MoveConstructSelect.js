@@ -1,11 +1,10 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
-import { get, isNil } from "lodash";
-import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, isDescendant } from 'react-sortable-tree';
+import { isNil } from "lodash";
+import { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, isDescendant } from 'react-sortable-tree';
 
 const useStyles = makeStyles({
   option: {

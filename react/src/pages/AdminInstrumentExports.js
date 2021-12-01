@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import { reverse as url } from 'named-urls'
-import routes from '../routes'
 import { DataTable } from '../components/DataTable'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { isNil } from 'lodash'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';

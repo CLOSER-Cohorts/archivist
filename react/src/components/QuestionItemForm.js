@@ -9,7 +9,6 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
-import { HumanizeObjectType } from '../support/HumanizeObjectType';
 
 import {
   TextField,

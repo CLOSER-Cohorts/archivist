@@ -14,8 +14,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
-import BounceLoader from "react-spinners/BounceLoader";
-import { Box, Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { ObjectColour } from '../support/ObjectColour'
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';

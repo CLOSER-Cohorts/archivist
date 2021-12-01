@@ -42,10 +42,6 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    angular-rails-templates (1.0.2)
-      railties (>= 4.2, < 6)
-      sprockets (>= 3.0, < 5)
-      tilt
     arel (9.0.0)
     ast (2.4.2)
     aws-eventstream (1.1.1)
@@ -61,7 +57,6 @@ GEM
     bcrypt (3.1.16)
     benchmark-ips (2.8.4)
     bindex (0.8.1)
-    bower-rails (0.11.0)
     builder (3.2.4)
     bullet (5.9.0)
       activesupport (>= 3.0.0)
@@ -311,8 +306,6 @@ GEM
       sync
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
-    uglifier (4.1.18)
-      execjs (>= 0.3.0, < 3)
     uniform_notifier (1.14.1)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -331,9 +324,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  angular-rails-templates (= 1.0.2)
   aws-sdk (= 2.10.101)
-  bower-rails (= 0.11.0)
   bullet (~> 5.7, >= 5.7.6)
   byebug (= 9.1.0)
   coffee-rails (= 4.2.2)
@@ -373,7 +364,7 @@ DEPENDENCIES
   redis-rack-cache (= 2.0.2)
   resque (= 1.27.4)
   resque_unit
-  sass-rails (= 5.0.7)
+  sass-rails
   scout_apm (~> 2.4, >= 2.4.19)
   sdoc (= 1.0.0)
   simplecov
@@ -382,7 +373,6 @@ DEPENDENCIES
   sql_tracker (~> 1.2, >= 1.2.1)
   sys-proctable
   tzinfo-data
-  uglifier (= 4.1.18)
   web-console (~> 3.7)
 
 RUBY VERSION

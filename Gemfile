@@ -4,7 +4,7 @@ ruby '2.5.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'sass-rails'
 # Allows the attaching of AWS buckets
 gem 'aws-sdk', '2.10.101'
 # Use CoffeeScript for .coffee assets and views

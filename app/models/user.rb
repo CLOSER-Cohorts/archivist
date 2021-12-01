@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable
+         :lockable
 
   # Enum holding the possible roles for any User
   enum role: [:reader, :editor, :admin]

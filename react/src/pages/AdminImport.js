@@ -3,10 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportInstrumentForm } from '../components/AdminImportInstrumentForm'
 import { AdminDatasetForm } from '../components/AdminDatasetForm'
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-import { reverse as url } from 'named-urls'
-import routes from '../routes'
 
 const AdminImport = () => {
 

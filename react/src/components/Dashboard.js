@@ -22,10 +22,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import StorageIcon from '@material-ui/icons/Storage';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import LabelIcon from '@material-ui/icons/Label';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
@@ -33,7 +31,6 @@ import routes from '../routes'
 import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
 import BreadcrumbBar from './BreadcrumbBar'
-import { ObjectColour } from '../support/ObjectColour'
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';

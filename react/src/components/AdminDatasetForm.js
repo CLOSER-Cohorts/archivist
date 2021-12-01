@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { useDispatch } from 'react-redux'
 import { AdminDataset } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
