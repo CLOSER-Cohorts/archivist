@@ -259,7 +259,7 @@ GEM
       vegas (~> 0.1.2)
     resque_unit (0.4.8)
       json (>= 1.4.6)
-    rexml (3.2.4)
+    rexml (3.2.5)
     ruby-graphviz (1.2.5)
       rexml
     ruby-statistics (2.1.3)
