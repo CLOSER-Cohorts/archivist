@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { useDispatch } from 'react-redux'
-import { AdminDataset } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { FileField } from '../components/FileField'
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,14 +10,8 @@ import {
   Paper,
   Grid,
   Button,
-  CssBaseline,
-  MenuItem
-} from '@material-ui/core';
+  CssBaseline} from '@material-ui/core';
 
-import {
-  TextField,
-  Select
-} from 'mui-rff';
 
 
 const useStyles = makeStyles({

@@ -15,9 +15,10 @@ import {
   Paper,
   Grid,
   Button,
-  CssBaseline
+  CssBaseline,
+  FormControlLabel,
+  Switch,
 } from '@material-ui/core';
-
 
 const useStyles = makeStyles({
   table: {
@@ -48,7 +49,7 @@ const validate = (values, status) => {
   return errors;
 };
 
-const formFields = (item) => {
+const formFields = (item, signedOff, setSignedOff) => {
   return [
     {
       size: 12,
@@ -110,11 +111,29 @@ const formFields = (item) => {
         />
       ),
     },
+    {
+      size: 12,
+      field: (
+        <FormControlLabel
+          control={
+            <Switch
+              name="signed_off"
+              checked={signedOff}
+              onChange={(e)=>{setSignedOff(e.target.checked)}}
+              color="primary"
+            />
+          }
+          label="Signed Off"
+        />
+      ),
+    },
   ]
 }
 
 export const AdminInstrumentForm = (props) => {
-  const {instrument, onChange, path, onDelete} = props;
+  const {instrument} = props;
+
+  const [signedOff, setSignedOff] = React.useState(instrument.signed_off);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -122,6 +141,8 @@ export const AdminInstrumentForm = (props) => {
   const status = ObjectStatus(instrument.id || 'new', 'Instrument')
 
   const onSubmit = (values) => {
+    values.signed_off = signedOff
+
     values = ObjectCheckForInitialValues(instrument, values)
     if(isNil(instrument.id)){
       dispatch(Instrument.create(values))
@@ -151,7 +172,7 @@ export const AdminInstrumentForm = (props) => {
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
-                {formFields(instrument).map((item, idx) => (
+                {formFields(instrument, signedOff, setSignedOff).map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
                     {item.type && item.type === 'select'
                       ? item.field([])

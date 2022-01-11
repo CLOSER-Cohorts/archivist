@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, {  } from 'react';
+import { useDispatch } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Button from '@material-ui/core/Button';
@@ -17,15 +17,19 @@ const Instruments = () => {
     return (
       <>
         <ButtonGroup variant="outlined">
-          <Button>
-            <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
-          </Button>
+          { !row.signed_off && (
+            <Button>
+              <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
+            </Button>
+          )}
           <Button>
             <Link to={url(routes.instruments.instrument.show, { instrument_id: row.prefix })}>View</Link>
           </Button>
-          <Button>
-            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
-          </Button>
+          {!row.signed_off && (
+            <Button>
+              <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
+            </Button>
+          )}
           <Button>
             <Link to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })}>Map</Link>
           </Button>

@@ -11,10 +11,14 @@ class User < ApplicationRecord
   # :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable
+         :lockable
 
   # Enum holding the possible roles for any User
   enum role: [:reader, :editor, :admin]
+
+  delegate :label, to: :group, prefix: true
+
+  validates :email, uniqueness: true
 
   # Used to create the first {User} when the app is first
   # initialized

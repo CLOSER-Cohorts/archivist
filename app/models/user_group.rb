@@ -7,7 +7,7 @@
 # * study
 class UserGroup < ApplicationRecord
   # Each UserGroup can have multiple {User Users}
-  has_many :users
+  has_many :users, inverse_of: :group, foreign_key: :group_id
 
   # Study can hold either a String or an Array, but is still stored in a single
   # database column

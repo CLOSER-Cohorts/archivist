@@ -19,10 +19,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import OpenWithIcon from '@material-ui/icons/OpenWith';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-import SearchBar from "material-ui-search-bar";
 
 import {
   Button,
@@ -30,10 +28,6 @@ import {
   Divider
 } from '@material-ui/core';
 
-import {
-  Alert,
-  AlertTitle
-} from '@material-ui/lab';
 
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
+import { get } from 'lodash'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import { WhoAmI } from '../actions'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -19,10 +22,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import StorageIcon from '@material-ui/icons/Storage';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import LabelIcon from '@material-ui/icons/Label';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
@@ -30,7 +31,6 @@ import routes from '../routes'
 import Helmet from "react-helmet";
 import { useDispatch } from 'react-redux'
 import BreadcrumbBar from './BreadcrumbBar'
-import { ObjectColour } from '../support/ObjectColour'
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainListItems = ({onExpand}) => {
+const MainListItems = ({onExpand, user}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -162,42 +162,51 @@ const MainListItems = ({onExpand}) => {
         <ListItemText primary="Datasets" />
       </Link>
     </ListItem>
-     <ListItem button onClick={handleClick}>
-        <ListItemIcon>
-          <SupervisedUserCircleIcon style={{ color: '37b34a' }}/>
-        </ListItemIcon>
-        <ListItemText primary="Admin" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.instruments.all)}>
-              <ListItemText primary="Instruments" />
-            </Link>
+    { user && user.role === 'admin' && (
+      <>
+          <ListItem button onClick={handleClick}>
+            <ListItemIcon>
+              <SupervisedUserCircleIcon style={{ color: '37b34a' }} />
+            </ListItemIcon>
+            <ListItemText primary="Admin" />
+            {open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.datasets.all)}>
-              <ListItemText primary="Datasets" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.import)}>
-              <ListItemText primary="Import" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.imports.all)}>
-              <ListItemText primary="DDI Imports" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={url(routes.admin.instruments.exports)}>
-              <ListItemText primary="Instrument Exports" />
-            </Link>
-          </ListItem>
-        </List>
-      </Collapse>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.instruments.all)}>
+                  <ListItemText primary="Instruments" />
+                </Link>
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.datasets.all)}>
+                  <ListItemText primary="Datasets" />
+                </Link>
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.users.all)}>
+                  <ListItemText primary="Users" />
+                </Link>
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.import)}>
+                  <ListItemText primary="Import" />
+                </Link>
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.imports.all)}>
+                  <ListItemText primary="DDI Imports" />
+                </Link>
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.instruments.exports)}>
+                  <ListItemText primary="Instrument Exports" />
+                </Link>
+              </ListItem>
+            </List>
+          </Collapse>
+      </>
+    )}
   </div>
   )
 }
@@ -213,6 +222,13 @@ export const Dashboard = (props)  => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const user = useSelector(state => get(state.auth, 'user'));
+
+  useEffect(() => {
+    dispatch(WhoAmI())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -254,7 +270,7 @@ export const Dashboard = (props)  => {
           </IconButton>
         </div>
         <Divider />
-        <MainListItems onExpand={handleDrawerOpen} />
+        <MainListItems onExpand={handleDrawerOpen} user={user} />
         <Divider />
       </Drawer>
       <main className={classes.content}>

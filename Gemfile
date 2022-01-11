@@ -4,12 +4,10 @@ ruby '2.5.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
-gem 'angular-rails-templates', '1.0.2'
+gem 'sass-rails'
+gem 'uglifier'
 # Allows the attaching of AWS buckets
 gem 'aws-sdk', '2.10.101'
-# Use Bower to manage JavaScript assets
-gem 'bower-rails', '0.11.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '4.2.2'
 # Shows which parts of code are not covered by test suites
@@ -59,12 +57,8 @@ gem 'rack-cors'
 gem 'rails', '5.2.4.4'
 # Use Redis for caching
 gem 'redis', '4.5.1'
-# Use SCSS for stylesheets
-gem 'sass-rails', '5.0.7'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '1.0.0', group: :doc
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '4.1.18'
 # PostgreSQLCursor for handling large Result Sets
 gem "postgresql_cursor", "~> 0.6.4"
 

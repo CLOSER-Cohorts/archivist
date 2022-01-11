@@ -1,7 +1,6 @@
-## README
+## Archivist
 
 [![Build Status](https://travis-ci.org/CLOSER-Cohorts/archivist.svg?branch=develop)](https://travis-ci.org/CLOSER-Cohorts/archivist)
-[![Inline docs](https://inch-ci.org/github/CLOSER-Cohorts/archivist.svg?branch=develop)](https://inch-ci.org/github/CLOSER-Cohorts/archivist)
 [![Coverage Status](https://coveralls.io/repos/github/CLOSER-Cohorts/archivist/badge.svg?branch=develop)](https://coveralls.io/github/CLOSER-Cohorts/archivist?branch=master)
 [![Code Climate](https://codeclimate.com/github/CLOSER-Cohorts/archivist/badges/gpa.svg)](https://codeclimate.com/github/CLOSER-Cohorts/archivist)
 <!-- [![Issue Stats](https://issuestats.com/github/CLOSER-Cohorts/archivist/badge/issue)](https://issuestats.com/github/CLOSER-Cohorts/archivist) -->
@@ -11,21 +10,23 @@
 
 ## Configuration
 * Ruby: 2.5.X
-* Rails: 5.0.X
-* AngularJS: 1.5.11
-* Postgres: 9.6.X
-* Redis: 3.3.X
+* Rails: 5.2.X
+* Postgres: 13.5
+* React JS 16.7.0
+* Redis: 6.2.3
 
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CLOSER-Cohorts/archivist/tree/master)
 
-### Installation
+Clicking on the 'Deploy to Heroku' button will create a new Heroku instance of Archivist within your own Heroku account.
 
-For detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist) page.
+### Standalone Installation
 
-Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [AngularJS](https://code.angularjs.org/1.5.11/docs/api), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
+If you want to launch Archivist on your local machine or on a server other than Heroku then we have detailed installation guidance please see Archivist's [Wiki](https://github.com/CLOSER-Cohorts/archivist/wiki/Installing-Archivist-(Standalone)) page.
+
+Please keep in mind that some of Archivist's requirements installations - [Ruby](https://www.ruby-lang.org/en/), [Rails](https://rubyonrails.org/), [React](https://reactjs.org/), for example - will vary depending on your operating system. Archivist's installation guidance does not cover the installation of those requirements. Yet.
 
 ## Testing
 To run the test suite just call `rails test`. Currently 197 tests and 256 assertions.

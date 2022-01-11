@@ -117,7 +117,7 @@ export const DataTable = (props) => {
             <Grid container spacing={3}>
               <Grid item xs={(isEmpty(filters) ? 12 : 9)}>
                 <SearchBar
-                  placeholder={`Search by ${searchKey} (press return to perform search)`}
+                  placeholder={`Search by ${get(searchKeys, 0, searchKey)} (press return to perform search)`}
                   onChange={(newValue) =>
                           setSearch(newValue)
                         }

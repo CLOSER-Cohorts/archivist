@@ -19,7 +19,9 @@ const auth = (state = { isAuthUser: !!window.localStorage.getItem("jwt") }, acti
 
     case 'LOGIN':
       window.localStorage.setItem('jwt', action.payload.jwt);
-      return { isAuthUser: true }
+      return { isAuthUser: true, user: action.payload }
+    case 'WHOAMI':
+      return { ...state, ...{user: action.payload.user } }
     case 'LOGOUT':
       window.localStorage.removeItem('jwt');
       return { isAuthUser: false }
@@ -73,6 +75,20 @@ const datasets = (state = [], action) => {
       return {...state, ...{[action.payload.dataset.id]: action.payload.dataset}}
     case 'DELETE_INSTRUMENT':
       const { [`${action.payload.datasetId}`]: datasetId, ...newState } = state;
+      return newState
+    default:
+      return state
+  }
+}
+
+const users = (state = [], action) => {
+  switch (action.type) {
+    case 'LOAD_USERS':
+      return serializeArrayToObject(action.payload.users)
+    case 'LOAD_USER':
+      return { ...state, ...{ [action.payload.user.id]: action.payload.user } }
+    case 'DELETE_USER':
+      const { [`${action.payload.userId}`]: userId, ...newState } = state;
       return newState
     default:
       return state
@@ -378,6 +394,16 @@ const categories = (state = {}, action) => {
   }
 }
 
+const userGroups = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_USER_GROUPS':
+      return action.payload.user_groups
+    default:
+      return state
+  }
+}
+
 const topics = (state = {}, action) => {
 
   switch (action.type) {
@@ -457,6 +483,8 @@ const appReducer = combineReducers({
     variables,
     statuses,
     topics,
+    userGroups,
+    users,
     datasetImportMappings,
     instrumentImportMappings,
 })

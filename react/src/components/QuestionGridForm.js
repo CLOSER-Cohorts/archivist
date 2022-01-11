@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes, ResponseDomainCodes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
@@ -10,7 +10,6 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
-import { HumanizeObjectType } from '../support/HumanizeObjectType';
 
 import {
   TextField,
@@ -185,7 +184,7 @@ export const QuestionGridForm = (props) => {
   const responseDomainTexts = useSelector(state => get(state.responseDomainTexts, instrumentId, {}));
   const responseDomainDatetimes = useSelector(state => get(state.responseDomainDatetimes, instrumentId, {}));
 
-  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
+  const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)].sort((a, b) => a.label.localeCompare(b.label))
 
   useEffect(() => {
     dispatch(ResponseDomainCodes.all(instrumentId));

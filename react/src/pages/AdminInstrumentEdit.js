@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-import { reverse as url } from 'named-urls'
-import routes from '../routes'
 import { AdminInstrumentForm } from '../components/AdminInstrumentForm'
 import { get } from 'lodash'
 import { Loader } from '../components/Loader'
@@ -25,7 +21,7 @@ const AdminInstrumentEdit = (props) => {
     ]).then(() => {
       setDataLoaded(true)
     });
-  })
+  }, []);
 
   return (
     <div style={{ height: 500, width: '100%' }}>

@@ -1,41 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Dataset } from '../actions'
+import { User } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { DatasetForm } from '../components/DatasetForm'
+import { AdminUserForm } from '../components/AdminUserForm'
 import { get } from 'lodash'
 import { Loader } from '../components/Loader'
 
-const DatasetEdit = (props) => {
+const AdminUserEdit = (props) => {
 
   const dispatch = useDispatch()
 
-  const datasetId = get(props, "match.params.dataset_id", "")
-  console.log(useSelector(state => state.datasets))
-  const dataset = useSelector(state => get(state.datasets, datasetId));
+  const userId = get(props, "match.params.user_id", "")
+  const user = useSelector(state => get(state.users, userId));
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     Promise.all([
-      dispatch(Dataset.show(datasetId))
+      dispatch(User.show(userId)),
     ]).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'Edit Dataset'}>
+      <Dashboard title={'Admin Edit User'}>
         {!dataLoaded
           ? <Loader />
-          : (
-            <DatasetForm dataset={dataset} />
-          )}
+          : <AdminUserForm user={user} />
+        }
       </Dashboard>
     </div>
   );
 }
 
-export default DatasetEdit;
+export default AdminUserEdit;

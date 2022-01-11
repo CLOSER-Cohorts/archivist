@@ -4,6 +4,7 @@ import { Switch, BrowserRouter as Router, Redirect, Route } from 'react-router-d
 import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AdminImport from './pages/AdminImport';
 import AdminImportView from './pages/AdminImportView';
 import AdminImports from './pages/AdminImports';
@@ -11,6 +12,8 @@ import AdminInstrumentImportMappings from './pages/AdminInstrumentImportMappings
 import AdminInstrumentImportMappingView from './pages/AdminInstrumentImportMappingView';
 import AdminDatasetImportMappings from './pages/AdminDatasetImportMappings';
 import AdminDatasetImportMappingView from './pages/AdminDatasetImportMappingView';
+import AdminUsers from './pages/AdminUsers';
+import AdminUserEdit from './pages/AdminUserEdit';
 import AdminInstruments from './pages/AdminInstruments';
 import AdminInstrumentExports from './pages/AdminInstrumentExports';
 import AdminInstrumentEdit from './pages/AdminInstrumentEdit';
@@ -80,6 +83,7 @@ const App = () => {
        <div>
           <RedirectFromState />
           <Switch>
+            <AuthRoute type="guest" exact path={routes.signup} component={Signup} />
             <AuthRoute type="guest" exact path={routes.login} component={Login} />
             <Route
               exact
@@ -118,6 +122,8 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.admin.imports.all} component={AdminImports} />
             <AuthRoute type="private" exact path={routes.admin.imports.show} component={AdminImportView} />
             <AuthRoute type="private" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
+            <AuthRoute type="private" exact path={routes.admin.users.all} component={AdminUsers} />
+            <AuthRoute type="private" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
             <AuthRoute type="private" exact path={routes.admin.instruments.all} component={AdminInstruments} />
             <AuthRoute type="private" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
             <AuthRoute type="private" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
