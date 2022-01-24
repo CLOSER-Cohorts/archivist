@@ -1,8 +1,8 @@
 ---
-:concurrency: 5
+:concurrency: 1
 staging:
-  :concurrency: 10
+  :concurrency: 1
 production:
-  :concurrency: 10
+  :concurrency: 1
 :queues:
   - in_and_out
