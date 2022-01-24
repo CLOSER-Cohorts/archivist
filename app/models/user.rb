@@ -97,7 +97,6 @@ class User < ApplicationRecord
   #
   # @return [String] Pretty status label
   def status
-    return 'unconfirmed' unless self.confirmed?
     return 'locked' if self.access_locked?
     'active'
   end
