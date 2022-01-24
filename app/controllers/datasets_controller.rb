@@ -50,7 +50,7 @@ class DatasetsController < ImportableController
   # Destroy action queues a job to destroy a dataset
   def delete
     begin
-      Resque.enqueue DeleteJob::Dataset, @object.id
+      DeleteJob::Dataset.perform_async(@object.id)
       head :ok, format: :json
     rescue => e
       logger.fatal 'Failed to destroy dataset'
@@ -75,10 +75,10 @@ class DatasetsController < ImportableController
 
         if type == :dv
           import = Import.create(document_id: doc.id, import_type: 'ImportJob::DV', dataset_id: params[:id], state: :pending)
-          Resque.enqueue ImportJob::DV, doc.id, {object: params[:id], import_id: import.id}
+          ImportJob::DV.perform_sync(doc.id, {object: params[:id], import_id: import.id})
         elsif type == :topicv
           import = Import.create(document_id: doc.id, import_type: 'ImportJob::TopicV', dataset_id: params[:id], state: :pending)
-          Resque.enqueue ImportJob::TopicV, doc.id, {object: params[:id], import_id: import.id}
+          ImportJob::TopicV.perform_async(doc.id, {object: params[:id], import_id: import.id})
         end
 
       end

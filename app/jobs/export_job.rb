@@ -3,9 +3,11 @@
 module ExportJob; end
 
 class ExportJob::Instrument
-  @queue = :in_and_out
+  include Sidekiq::Worker
 
-  def self.perform(id)
+  sidekiq_options queue: 'in_and_out'
+
+  def perform(id)
     begin
       exp = Exporters::XML::DDI::Instrument.new
       exp.add_root_attributes
@@ -37,9 +39,11 @@ class ExportJob::Instrument
 end
 
 class ExportJob::Dataset
-  @queue = :in_and_out
+  include Sidekiq::Worker
 
-  def self.perform(id)
+  sidekiq_options queue: 'in_and_out'
+
+  def perform(id)
     begin
       exp = Exporters::XML::DDI::Dataset.new
 

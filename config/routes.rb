@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   post 'setup', to: 'main#setup'
 
+  mount Sidekiq::Web => "/sidekiq_pp"
+
   as :user do
     patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
   end

@@ -27,8 +27,6 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'heroku-deflater', '~> 0.6.3', :group => :production
 # Create background workers
 gem 'resque', '1.27.4'
-# Automatically scales dynos
-gem 'hirefire-resource', '0.4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '2.7.0'
 gem 'jbuilder_cache_multi', '0.1.0'
@@ -65,6 +63,8 @@ gem "postgresql_cursor", "~> 0.6.4"
 gem 'jwt'
 
 gem 'scout_apm'
+
+gem 'sidekiq'
 
 # Production gems
 group :production do
