@@ -1,7 +1,14 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   post 'setup', to: 'main#setup'
 
-  mount Sidekiq::Web => "/sidekiq_pp"
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV["SIDEKIQ_USERNAME"])) &
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV["SIDEKIQ_PASSWORD"]))
+  end
+
+  mount Sidekiq::Web => "/sidekiq_archivist"
 
   as :user do
     patch '/users/confirmation' => 'users/confirmations#update', :via => :patch, :as => :update_user_confirmation
