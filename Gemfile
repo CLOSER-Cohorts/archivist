@@ -64,6 +64,8 @@ gem "postgresql_cursor", "~> 0.6.4"
 
 gem 'jwt'
 
+gem 'scout_apm'
+
 # Production gems
 group :production do
   # Heroku logging
@@ -79,7 +81,6 @@ group :development, :test do
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
   gem 'newrelic_rpm', '~> 5.4', '>= 5.4.0.347'
   gem 'pry-rails', '~> 0.3.6'
-  gem 'scout_apm', '~> 2.4', '>= 2.4.19'
   gem 'sql_tracker', '~> 1.2', '>= 1.2.1'
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
