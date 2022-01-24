@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A controller for the model {QuestionItem}
 class QuestionItemsController < QuestionController
   # Initialise finding object for item based actions

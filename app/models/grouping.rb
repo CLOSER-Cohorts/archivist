@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Forms a connection between a groupable item and a group
 #
 # This is a junction model to form a many-to-many between items

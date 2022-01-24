@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A controller for the model {CcCondition}
 class CcConditionsController < ConstructController
   # Allow topic linking

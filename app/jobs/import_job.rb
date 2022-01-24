@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ImportJob
   class Basic
     @queue = :in_and_out

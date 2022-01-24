@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |cc_loop|
   json.extract! cc_loop, :id, :loop_var, :start_val, :end_val, :loop_while, :position, :branch
   json.label cc_loop.label

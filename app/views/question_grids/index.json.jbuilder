@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |question_grid|
   json.extract! question_grid, :id, :label, :literal, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label
   json.type question_grid.class.name

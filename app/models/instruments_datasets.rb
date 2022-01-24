@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This serves as a junction model to allow many-to-many
 # relations between {Instrument Instruments} and {Dataset Datasets}
 #

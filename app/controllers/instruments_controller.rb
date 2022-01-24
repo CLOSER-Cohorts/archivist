@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InstrumentsController < ImportableController
   include Importers::Controller
   include Exporters

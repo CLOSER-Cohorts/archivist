@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A vanilla CRUD controller for the {ResponseDomainText} model
 class ResponseDomainTextsController < BasicInstrumentController
   # Initialise finding object for item based actions

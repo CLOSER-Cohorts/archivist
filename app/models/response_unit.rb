@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ResponseUnit is based on the ResponseUnit model from DDI3.X
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/ResponseUnit.html

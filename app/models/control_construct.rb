@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ControlConstruct model is used to hold the positional information
 # for all five of the construct models. Every construct must have one
 # ControlConstruct and vice-versa.

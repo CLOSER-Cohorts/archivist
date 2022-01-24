@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |variable|
   json.extract! variable, :id, :name, :label, :var_type, :dataset_id
   if variable.var_type == 'Normal'

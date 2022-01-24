@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The QuestionItem model directly relates to the DDI3.X QuestionItem model
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/QuestionItem.html

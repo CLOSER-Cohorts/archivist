@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CodeListsController < BasicInstrumentController
   # Initialise finding object for item based actions
   only_set_object

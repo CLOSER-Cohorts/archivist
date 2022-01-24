@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ExportJob; end
 
 class ExportJob::Instrument

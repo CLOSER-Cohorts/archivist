@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A junction model to join {Topic Topics} to a linkable items
 class Link < ApplicationRecord
   # The linkable item

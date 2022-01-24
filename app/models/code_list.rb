@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The CodeList is based on the CodeList model from DDI3.X
 #
 # A CodeList has a label and typically pulls together multiple {Code Codes} to

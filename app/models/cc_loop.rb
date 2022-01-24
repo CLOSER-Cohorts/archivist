@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The CcLoop model directly relates to the DDI3.X LoopConstruct model
 #
 # Loops are one of the five control constructs used in the questionnaire profile

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |dataset|
   json.extract! dataset, :id, :name, :study, :filename
   json.dvs @dv_counts[dataset.id]

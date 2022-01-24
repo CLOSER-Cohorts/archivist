@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # UserGroup represents a set of {User Users} that are interested in particular
 # studies
 #

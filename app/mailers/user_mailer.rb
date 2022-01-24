@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserMailer < ApplicationMailer
   default from: (ENV["FROM_ADDRESS"] || '')
 

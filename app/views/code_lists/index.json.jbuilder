@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |code_list|
   json.extract! code_list, :id, :label
   json.type code_list.class.name

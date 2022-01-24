@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract! @object, :id, :label, :group_type
 if @object.study.is_a? Array
   json.study @object.study do |study|

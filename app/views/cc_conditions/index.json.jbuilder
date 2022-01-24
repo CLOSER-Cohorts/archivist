@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |cc_condition|
   json.extract! cc_condition, :id, :literal, :logic, :position, :branch
   json.label cc_condition.label

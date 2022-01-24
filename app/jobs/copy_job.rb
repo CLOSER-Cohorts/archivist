@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CopyJob
   @queue = :in_and_out
 

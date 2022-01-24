@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Topic represents a single entry from a controlled vocabulary of
 # terms that can be applied to {CcQuestion questions} and
 # {Variable variables}.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A junction model to create mappings
 #
 # Performs either Q-V mapping for DV mapping by joining

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The Dataset is based on the DataSet model from DDI3.X and is one of the
 # champion models that pulls together Archivist.
 #

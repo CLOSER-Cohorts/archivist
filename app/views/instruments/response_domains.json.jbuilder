@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array! @object.response_domains do |rd|
   json.id rd.id
   json.type rd.class.name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ResponseDomainCode is based on the CodeDomain model from DDI3.X and serves as creates a
 # response domain for a {CodeList}
 #

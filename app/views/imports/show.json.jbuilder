@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! 'item', import: @import
 json.logs(@import.parsed_log) do | log_entry |
   json.original_text log_entry[:input]

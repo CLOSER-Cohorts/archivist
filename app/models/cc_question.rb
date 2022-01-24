@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The CcQuestion model directly relates to the DDI3.X QuestionConstruct model
 #
 # Questions are one of the five control constructs used in the questionnaire profile

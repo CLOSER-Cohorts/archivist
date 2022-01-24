@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A generic model to represent an DDI 3.X support item group
 # e.g. VariableGroup
 #

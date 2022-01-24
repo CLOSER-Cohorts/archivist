@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DatasetsController < ImportableController
   include Importers::Controller
 

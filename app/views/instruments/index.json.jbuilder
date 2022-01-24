@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array!(@collection) do |instrument|
   json.extract! instrument, :id, :agency, :version, :prefix, :label, :study, :signed_off
   json.ccs instrument.cc_count

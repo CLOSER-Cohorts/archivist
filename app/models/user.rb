@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The User class representers a user account, controlling
 # authentication and authorization
 class User < ApplicationRecord

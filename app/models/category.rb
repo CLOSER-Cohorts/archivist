@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The Category model directly relates to the DDI3.X Category model
 #
 # Typically multiple categories are used to create {CodeList CodeLists}.

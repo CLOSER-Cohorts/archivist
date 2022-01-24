@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ParentalConstruct model is an abstract class that provides
 # the relationships for models that can have children to be able
 # to access them.

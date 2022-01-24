@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportableController < BasicController
   class << self
     attr_accessor :model_importer_class

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A controller for the model {CcLoop}
 class CcLoopsController < ConstructController
   # Allow topic linking

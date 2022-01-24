@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A controller for the model {CcStatement}
 class CcStatementsController < ConstructController
   # Initialise finding object for item based actions

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VariablesController < BasicController
   include Linkable::Controller
 
