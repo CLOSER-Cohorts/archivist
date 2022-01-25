@@ -6,7 +6,7 @@ module ImportJob
 
     sidekiq_options queue: 'in_and_out'
 
-    def self.run(importer, options = {})
+    def run(importer, options = {})
       begin
         trap 'TERM' do
 
