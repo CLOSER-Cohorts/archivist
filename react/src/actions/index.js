@@ -194,7 +194,7 @@ export const AdminImportMapping = {
         dispatch(savingItem('new', 'AdminImportMapping'));
         return request.then(res => {
           dispatch(savedItem('new', 'AdminImportMapping'));
-          dispatch(AdminImportMapping.all('instruments',id))
+          dispatch(AdminImportMapping.all(type,id))
         })
         .catch(err => {
           console.log('error')

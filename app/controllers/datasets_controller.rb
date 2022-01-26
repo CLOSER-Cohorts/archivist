@@ -75,12 +75,11 @@ class DatasetsController < ImportableController
 
         if type == :dv
           import = Import.create(document_id: doc.id, import_type: 'ImportJob::DV', dataset_id: params[:id], state: :pending)
-          ImportJob::DV.perform_sync(doc.id, {object: params[:id], import_id: import.id})
+          ImportJob::DV.perform_async(doc.id, {object: params[:id], import_id: import.id})
         elsif type == :topicv
           import = Import.create(document_id: doc.id, import_type: 'ImportJob::TopicV', dataset_id: params[:id], state: :pending)
           ImportJob::TopicV.perform_async(doc.id, {object: params[:id], import_id: import.id})
         end
-
       end
       head :ok, format: :json
     rescue  => e
