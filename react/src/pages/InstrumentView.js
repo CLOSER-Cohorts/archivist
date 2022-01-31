@@ -357,6 +357,16 @@ const LoopItem = (props) => {
 
   var item = ObjectFinder(instrumentId, type, id)
 
+  var loop_description = `${item.loop_var} from ${item.start_val} while`
+
+  if (item.loop_while) {
+    loop_description += ` ${item.loop_while}`
+  }
+
+  if(item.end_val){
+    loop_description += ` ${(item.loop_while) ? 'and ' : ''}${item.loop_var} <= ${item.end_val}`
+  }
+
   return (
     <List
       component="nav"
@@ -370,7 +380,7 @@ const LoopItem = (props) => {
           </Grid>
 
           <Grid item xs={9}>
-            <Typography variant="h6" component="h6">{item.loop_var} from {item.start_val} while { item.loop_var} &#60;= {item.end_val} {item.loop_while}</Typography>
+            <Typography variant="h6" component="h6">{loop_description}</Typography>
           </Grid>
         </Grid>
         {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
