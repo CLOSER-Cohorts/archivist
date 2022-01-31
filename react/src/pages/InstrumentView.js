@@ -335,7 +335,7 @@ const ConditionItem = (props) => {
           </Grid>
 
           <Grid item xs={9}>
-            <ListItemText primary={get(item, 'literal', title)} secondary={item.logic} />
+            <ListItemText primary={get(item, 'literal', title)} secondary={(item.logic && item.logic.match(/^ *$/) == null) ? item.logic : '[]'} />
           </Grid>
         </Grid>
         {open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>}
