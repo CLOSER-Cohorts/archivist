@@ -408,7 +408,8 @@ const topics = (state = {}, action) => {
 
   switch (action.type) {
     case 'LOAD_TOPICS':
-      return {...state, ...serializeArrayToObject(action.payload.topics)}
+      var new_state = { ...state, ...serializeArrayToObject(action.payload.topics) }
+      return {...new_state, ...{ flattened: action.payload.topics}}
     default:
       return state
   }
