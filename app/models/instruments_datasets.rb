@@ -7,7 +7,7 @@
 # represent a logical link.
 class InstrumentsDatasets < ApplicationRecord
   # Joining {Instrument}
-  belongs_to :instrument
+  belongs_to :instrument, touch: true
   # Joining {Dataset}
   belongs_to :dataset
 end

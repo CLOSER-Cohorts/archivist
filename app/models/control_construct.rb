@@ -25,7 +25,7 @@ class ControlConstruct < ApplicationRecord
   before_create :pre_create_position_prep
 
   # All categories must belong to an {Instrument}
-  belongs_to :instrument
+  belongs_to :instrument, touch: true
 
   # Each control construct must have one parent, except the top-sequence which has no parent
   belongs_to :parent, polymorphic: true

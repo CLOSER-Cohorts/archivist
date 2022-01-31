@@ -7,21 +7,23 @@ class Instruments::Serializer
   end
 
   def call
-    connection = ActiveRecord::Base.connection
-    sql = %|
-            SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
-            FROM instruments
-            LEFT JOIN control_constructs ON control_constructs.instrument_id = instruments.id
-            LEFT JOIN qv_mappings ON qv_mappings.instrument_id = instruments.id
-            GROUP BY instruments.id
-            ORDER BY instruments.id DESC
-          |
+    instruments = Rails.cache.fetch('instruments.json', version: Instrument.maximum(:updated_at).to_i) do
+      connection = ActiveRecord::Base.connection
+      sql = %|
+              SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
+              FROM instruments
+              LEFT JOIN control_constructs ON control_constructs.instrument_id = instruments.id
+              LEFT JOIN qv_mappings ON qv_mappings.instrument_id = instruments.id
+              GROUP BY instruments.id
+              ORDER BY instruments.id DESC
+            |
 
-    instruments = connection.select_all(sql).to_a
+      instruments = connection.select_all(sql).to_a
 
-    instruments = instruments.map do |i|
-      i[:datasets] = datasets.fetch(i["id"], [])
-      i
+      instruments = instruments.map do |i|
+        i[:datasets] = datasets.fetch(i["id"], [])
+        i
+      end
     end
 
     return instruments
