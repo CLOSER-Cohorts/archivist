@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasicInstrumentController < BasicController
   prepend_before_action :set_instrument
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A representation of the database view for DV Mapping
 #
 # This cannot be used for creating, updating or deleting, but provides

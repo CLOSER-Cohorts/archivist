@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.0'
+ruby '2.7.5'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -27,8 +27,6 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'heroku-deflater', '~> 0.6.3', :group => :production
 # Create background workers
 gem 'resque', '1.27.4'
-# Automatically scales dynos
-gem 'hirefire-resource', '0.4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '2.7.0'
 gem 'jbuilder_cache_multi', '0.1.0'
@@ -64,6 +62,10 @@ gem "postgresql_cursor", "~> 0.6.4"
 
 gem 'jwt'
 
+gem 'scout_apm'
+
+gem 'sidekiq'
+
 # Production gems
 group :production do
   # Heroku logging
@@ -79,7 +81,6 @@ group :development, :test do
   gem 'derailed_benchmarks', '~> 1.3', '>= 1.3.2'
   gem 'newrelic_rpm', '~> 5.4', '>= 5.4.0.347'
   gem 'pry-rails', '~> 0.3.6'
-  gem 'scout_apm', '~> 2.4', '>= 2.4.19'
   gem 'sql_tracker', '~> 1.2', '>= 1.2.1'
   gem 'sys-proctable', platforms: [:mingw, :mswin, :x64_mingw]
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

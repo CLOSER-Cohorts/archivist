@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Datasets::ImportsController < ApplicationController
   def index
     dataset = Dataset.find(params[:dataset_id])

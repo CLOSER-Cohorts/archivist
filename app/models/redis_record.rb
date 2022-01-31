@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # An abstract class for all Redis-backed models to
 # derive from
 class RedisRecord

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A junction model to join response domains and questions
 #
 # Allows many-to-many connections between an instruments

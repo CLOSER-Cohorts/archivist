@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The QuestionGrid model directly relates to the DDI3.X QuestionGrid model
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/QuestionGrid.html

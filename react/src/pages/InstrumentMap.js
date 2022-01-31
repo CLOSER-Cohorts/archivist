@@ -172,7 +172,7 @@ const TopicList = (props) => {
     dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, event.target.value));
   }
 
-  if(isEmpty(topics)){
+  if (isEmpty(topics) || isEmpty(topics.flattened)){
     return 'Fetching topics'
   }else if(isNil(topicId)){
     return (
@@ -181,7 +181,7 @@ const TopicList = (props) => {
               <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
               <Select native id="grouped-native-select" onChange={handleChange}>
                 <option aria-label="None" value="" />
-                {Object.values(topics).map((topic) => (
+                {topics.flattened.map((topic) => (
                   <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
                 ))}
               </Select>
@@ -195,7 +195,7 @@ const TopicList = (props) => {
               <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
               <Select native defaultValue={topicId} id="grouped-native-select" onChange={handleChange}>
                 <option aria-label="None" value="" />
-                {Object.values(topics).map((topic) => (
+                {topics.flattened.map((topic) => (
                   <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
                 ))}
               </Select>

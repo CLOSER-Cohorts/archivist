@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A controller for the model {ResponseDomainNumeric}
 class ResponseDomainNumericsController < BasicInstrumentController
   # The response domain has a subtype

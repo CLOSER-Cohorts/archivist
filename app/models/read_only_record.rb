@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # An abstract class to represent a read only connection to the database
 #
 # Typically this abstract model should be used with a read only database view.

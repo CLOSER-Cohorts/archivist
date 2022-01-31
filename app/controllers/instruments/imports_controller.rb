@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Instruments::ImportsController < ApplicationController
   def index
     instrument = Instrument.friendly.find(params[:instrument_id])

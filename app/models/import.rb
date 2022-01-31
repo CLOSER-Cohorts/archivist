@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Import < ApplicationRecord
   belongs_to :document
   belongs_to :dataset

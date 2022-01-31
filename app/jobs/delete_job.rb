@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 module DeleteJob; end
 
 class DeleteJob::Instrument
-  @queue = :in_and_out
+  include Sidekiq::Worker
 
-  def self.perform (instrument_id)
+  sidekiq_options queue: 'in_and_out'
+
+  def perform (instrument_id)
     begin
       instrument = Instrument.find instrument_id
       instrument.destroy
@@ -14,9 +18,11 @@ class DeleteJob::Instrument
 end
 
 class DeleteJob::Dataset
-  @queue = :in_and_out
+  include Sidekiq::Worker
 
-  def self.perform (dataset_id)
+  sidekiq_options queue: 'in_and_out'
+
+  def perform (dataset_id)
     begin
       dataset = Dataset.find dataset_id
       dataset.destroy

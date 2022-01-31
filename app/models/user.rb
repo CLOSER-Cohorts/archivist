@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The User class representers a user account, controlling
 # authentication and authorization
 class User < ApplicationRecord
@@ -95,7 +97,6 @@ class User < ApplicationRecord
   #
   # @return [String] Pretty status label
   def status
-    return 'unconfirmed' unless self.confirmed?
     return 'locked' if self.access_locked?
     'active'
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ControlConstruct model is used to hold the positional information
 # for all five of the construct models. Every construct must have one
 # ControlConstruct and vice-versa.
@@ -23,7 +25,7 @@ class ControlConstruct < ApplicationRecord
   before_create :pre_create_position_prep
 
   # All categories must belong to an {Instrument}
-  belongs_to :instrument
+  belongs_to :instrument, touch: true
 
   # Each control construct must have one parent, except the top-sequence which has no parent
   belongs_to :parent, polymorphic: true

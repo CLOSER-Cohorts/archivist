@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A vanilla CRUD controller for the {ResponseUnit} model
 class ResponseUnitsController < BasicInstrumentController
   # Initialise finding object for item based actions

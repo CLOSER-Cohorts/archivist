@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ApplicationRecord should not be used direct, but rather serves as the base model for
 # all other Archivist models.
 #

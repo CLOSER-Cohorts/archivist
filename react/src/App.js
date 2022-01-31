@@ -117,19 +117,19 @@ const App = () => {
             <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
             <AuthRoute type="private" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
-            <AuthRoute type="private" exact path={routes.admin.datasets.all} component={AdminDatasets} />
-            <AuthRoute type="private" exact path={routes.admin.import} component={AdminImport} />
-            <AuthRoute type="private" exact path={routes.admin.imports.all} component={AdminImports} />
-            <AuthRoute type="private" exact path={routes.admin.imports.show} component={AdminImportView} />
-            <AuthRoute type="private" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
-            <AuthRoute type="private" exact path={routes.admin.users.all} component={AdminUsers} />
-            <AuthRoute type="private" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
-            <AuthRoute type="private" exact path={routes.admin.instruments.all} component={AdminInstruments} />
-            <AuthRoute type="private" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
-            <AuthRoute type="private" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
-            <AuthRoute type="private" exact path={routes.admin.instruments.importMapping} component={AdminInstrumentImportMappingView} />
-            <AuthRoute type="private" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />
-            <AuthRoute type="private" exact path={routes.admin.datasets.importMapping} component={AdminDatasetImportMappingView} />
+            <AuthRoute type="admin" exact path={routes.admin.datasets.all} component={AdminDatasets} />
+            <AuthRoute type="admin" exact path={routes.admin.import} component={AdminImport} />
+            <AuthRoute type="admin" exact path={routes.admin.imports.all} component={AdminImports} />
+            <AuthRoute type="admin" exact path={routes.admin.imports.show} component={AdminImportView} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
+            <AuthRoute type="admin" exact path={routes.admin.users.all} component={AdminUsers} />
+            <AuthRoute type="admin" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.all} component={AdminInstruments} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.importMapping} component={AdminInstrumentImportMappingView} />
+            <AuthRoute type="admin" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />
+            <AuthRoute type="admin" exact path={routes.admin.datasets.importMapping} component={AdminDatasetImportMappingView} />
             <AuthRoute type="guest" component={NoMatch} />
           </Switch>
         </div>

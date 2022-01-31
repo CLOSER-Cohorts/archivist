@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # An abstract controller to handle the basic CRUD
 # operations
 class BasicController < ApplicationController

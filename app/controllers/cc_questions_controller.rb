@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CcQuestionsController < ConstructController
   include Linkable::Controller
 

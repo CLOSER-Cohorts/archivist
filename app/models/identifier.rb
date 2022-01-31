@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Any exportable item can have an unlimited number of Identifiers
 #
 # Identifiers are to ensure persistent identifiers can be created during

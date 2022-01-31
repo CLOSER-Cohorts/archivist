@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The ResponseDomainDatetime is based on the DateTimeDomain model from DDI3.X
 #
 # Please visit http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/schemas/datacollection_xsd/elements/DateTimeDomain.html

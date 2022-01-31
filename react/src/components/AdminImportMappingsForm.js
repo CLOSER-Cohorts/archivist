@@ -83,7 +83,6 @@ export const AdminImportMappingsForm = ({type, typeOptions=[], hint, onSubmit=()
                   </Grid>
                 ))}
                 {Array.from(values.files).map((file, index) => {
-                  values.types[index] = typeOptions[0].value;
                   return (
                     <div>
                       {file.name}

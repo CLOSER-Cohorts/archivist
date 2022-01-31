@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InstrumentsController < ImportableController
   include Importers::Controller
   include Exporters
@@ -16,8 +18,9 @@ class InstrumentsController < ImportableController
 
   def index
     return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
-    @qv_counts = QvMapping.group(:instrument_id).size
-    super
+    instruments = Instruments::Serializer.new.call()
+
+    render json: instruments and return
   end
 
   def show
@@ -65,7 +68,7 @@ class InstrumentsController < ImportableController
   end
 
   def export
-    Resque.enqueue ExportJob::Instrument, @object.id
+    ExportJob::Instrument.perform_async(@object.id)
     head :ok, format: :json
   end
 
@@ -77,7 +80,7 @@ class InstrumentsController < ImportableController
   # Destroy action queues a job to destroy an instrument
   def destroy
     begin
-      Resque.enqueue DeleteJob::Instrument, @object.id
+      DeleteJob::Instrument.perform_async(@object.id)
       head :ok, format: :json
     rescue => e
       logger.fatal 'Failed to destroy instrument'
@@ -104,7 +107,7 @@ class InstrumentsController < ImportableController
 
         type = import[:type]&.downcase&.to_sym
         import = Import.create(document_id: doc.id, import_type: @@map[type], instrument_id: params[:id], state: :pending)
-        Resque.enqueue(@@map[type], doc.id, {object: params[:id], import_id: import.id})
+        @@map[type].perform_async(doc.id, {object: params[:id], import_id: import.id})
       end
       head :ok, format: :json
     rescue  => e
@@ -126,7 +129,7 @@ class InstrumentsController < ImportableController
     new_prefix = params['new_prefix']
 
     begin
-      Resque.enqueue CopyJob, @object.id, new_prefix, new_details
+      CopyJob.perform_async(@object.id, new_prefix, new_details)
       head :ok, format: :json
     rescue => e
       render json: {message: e}, status: :internal_server_error

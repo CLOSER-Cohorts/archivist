@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The Code is based on the Code model from DDI3.X and serves as the join between
 # Categories and CodeLists
 #

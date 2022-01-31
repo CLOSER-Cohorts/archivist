@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The CcStatement model directly relates to the DDI3.X Statement model
 #
 # Statements are one of the five control constructs used in the questionnaire profile

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract! @object, :id, :name, :label, :var_type, :dataset_id
 json.type 'Variable'
 if @object.var_type == 'Normal'

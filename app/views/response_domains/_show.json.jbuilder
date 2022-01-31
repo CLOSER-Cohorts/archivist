@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 unless rd.nil?
   json.id rd.id
   json.type rd.class.name

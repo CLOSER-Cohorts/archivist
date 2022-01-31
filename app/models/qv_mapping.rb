@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A representation of the database view for Q-V Mapping
 #
 # This cannot be used for creating, updating or deleting, but provides
@@ -15,7 +17,7 @@ class QvMapping < ReadOnlyRecord
   belongs_to :dataset
 
   # Each QV mapping can only belong to one {Instrument}
-  belongs_to :instrument
+  belongs_to :instrument, touch: true
 
   delegate :control_construct_scheme, to: :instrument, allow_nil: true
   delegate :instance_name, to: :dataset, allow_nil: true, prefix: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This serves as a junction model to allow many-to-many
 # relations between {Instrument Instruments} and {Dataset Datasets}
 #
@@ -5,7 +7,7 @@
 # represent a logical link.
 class InstrumentsDatasets < ApplicationRecord
   # Joining {Instrument}
-  belongs_to :instrument
+  belongs_to :instrument, touch: true
   # Joining {Dataset}
   belongs_to :dataset
 end

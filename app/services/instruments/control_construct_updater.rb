@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Instruments
   class ControlConstructUpdater
     include ActiveRecord::Sanitization::ClassMethods

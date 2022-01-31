@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The Instruction is based on the InterviewerInstruction model from DDI3.X
 #
 # A Instruction has a label and represents instructive text the is delivered

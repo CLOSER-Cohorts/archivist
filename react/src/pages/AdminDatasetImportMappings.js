@@ -28,7 +28,7 @@ const AdminDatasetImportMappings = (props) => {
       [...values.files].map((imp, index) => { return FileToBase64(imp)})
       ).then((base64_files) => {
         base64_files.map((file, index) => {
-          imports.push({ file: file.split(',')[1], type: values.types[index]})
+          imports.push({ file: file.split(',')[1], type: values.types[index] || 'topicv'})
         })
         dispatch(AdminImportMapping.create('datasets', datasetId, imports))
       });

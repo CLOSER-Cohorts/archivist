@@ -44,8 +44,8 @@ module Archivist
         enable_starttls_auto:   ENV['STMP_TLSAUTO']
     }
 
-    # enable resque as active job adapter
-    config.active_job.queue_adapter = :resque
+    # enable sidekiq as active job adapter
+    config.active_job.queue_adapter = :sidekiq
 
     config.action_mailer.default_url_options = {host: (ENV['HOSTNAME'] || 'localhost')}
 

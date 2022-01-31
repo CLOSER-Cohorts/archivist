@@ -41,8 +41,8 @@ Rails.application.configure do
 
   config.public_file_server.enabled = false
 
-  # enable resque as active job adapter
-  config.active_job.queue_adapter = :resque
+  # enable sidekiq as active job adapter
+  config.active_job.queue_adapter = :sidekiq
 
   config.public_file_server.enabled = true
 

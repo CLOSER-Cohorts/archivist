@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract! @object, :id, :loop_var, :start_val, :end_val, :loop_while, :position, :branch
 json.label @object.label
 json.children @object.construct_children

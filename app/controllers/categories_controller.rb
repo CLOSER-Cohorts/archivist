@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A vanilla CRUD controller for the {Category} model
 class CategoriesController < BasicInstrumentController
   # Initialise finding object for item based actions

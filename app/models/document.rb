@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Stores documents into the database
 #
 # Instead of a shared file store between web server nodes, Archivist
