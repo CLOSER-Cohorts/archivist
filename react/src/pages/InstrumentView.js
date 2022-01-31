@@ -359,12 +359,12 @@ const LoopItem = (props) => {
 
   var loop_description = `${item.loop_var} from ${item.start_val} while`
 
-  if (item.loop_while) {
-    loop_description += ` ${item.loop_while}`
+  if(item.end_val){
+    loop_description += ` ${item.loop_var} <= ${item.end_val}`
   }
 
-  if(item.end_val){
-    loop_description += ` ${(item.loop_while) ? 'and ' : ''}${item.loop_var} <= ${item.end_val}`
+  if (item.loop_while) {
+    loop_description += ` ${(item.end_val) ? 'and ' : ''}${item.loop_while}`
   }
 
   return (
