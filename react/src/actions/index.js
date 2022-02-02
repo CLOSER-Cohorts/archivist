@@ -1039,10 +1039,12 @@ export const CcQuestions = {
     }
   },
   variables: {
-    add: (instrumentId, ccQuestionId, variableNames) => {
+    add: (instrumentId, ccQuestionId, variableNames, x, y) => {
       const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/add_variables.json',
       {
-        "variable_names": variableNames
+        "variable_names": variableNames,
+        "x": x,
+        "y": y
       },
       {
           headers: api_headers()
@@ -1058,10 +1060,12 @@ export const CcQuestions = {
           });
       };
     },
-    remove: (instrumentId, ccQuestionId, variableId) => {
+    remove: (instrumentId, ccQuestionId, variableId, x, y) => {
       const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/remove_variable.json',
       {
-        "variable_id": variableId
+        "variable_id": variableId,
+        "x": x,
+        "y": y
       },
       {
           headers: api_headers()
