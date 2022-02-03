@@ -40,11 +40,21 @@ class CcQuestionsController < ConstructController
     begin
       ActiveRecord::Base.transaction do
         variables.each do |variable|
-          unless @object.variables.find_by_id(variable.id)
-            if params.has_key?(:x) && params.has_key?(:y)
-              @object.maps.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i, resolve_topic_conflict: true)
-            else
-              @object.maps.create!(variable: variable, resolve_topic_conflict: true)
+          if @object.question_type == 'QuestionGrid'
+            unless @object.maps.find_by(variable_id: variable.id, x: params[:x].to_i, y: params[:y].to_i)
+              if params.has_key?(:x) && params.has_key?(:y)
+                @object.maps.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i, resolve_topic_conflict: true)
+              else
+                @object.maps.create!(variable: variable, resolve_topic_conflict: true)
+              end
+            end
+          else
+            unless @object.variables.find_by_id(variable.id)
+              if params.has_key?(:x) && params.has_key?(:y)
+                @object.maps.create!(variable: variable, x: params[:x].to_i, y: params[:y].to_i, resolve_topic_conflict: true)
+              else
+                @object.maps.create!(variable: variable, resolve_topic_conflict: true)
+              end
             end
           end
         end

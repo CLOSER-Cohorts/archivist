@@ -224,7 +224,7 @@ const QuestionGridListItem = (props) => {
                     <TableCell><strong>{row.label}</strong></TableCell>
                     {item.question.cols.map((header, x) => (
                       <TableCell>
-                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y && variable.x == x })} instrumentId={instrumentId} ccQuestionId={item.id} x={x} y={y} />
+                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} />
                       </TableCell>
                     ))}
                   </TableRow>
