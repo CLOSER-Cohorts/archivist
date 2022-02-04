@@ -19,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SearchBar from "material-ui-search-bar";
 import { ObjectStatus } from '../components/ObjectStatusBar'
@@ -143,15 +144,21 @@ const DatasetView = (props) => {
       errorMessage = row.errors
     }
 
+    var sourceOptions = (row.var_type == 'Derived') ? variables : get(dataset, 'questions', [])
+
     return (
       <TableRow key={row.id}>
         <TableCell>{row.id}</TableCell>
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.label}</TableCell>
-        <TableCell>{row.var_type}</TableCell>
+        <TableCell><VariableTypes sources={[]} variable={row} datasetId={datasetId}/></TableCell>
         <TableCell></TableCell>
         <TableCell>
-          <SourcesList sources={row.sources} sourceOptions={get(dataset, 'questions', [])} datasetId={datasetId} variable={row} />
+          {(row.var_type == 'Derived') ? (
+            <VariableSourcesList sources={row.sources} sourceOptions={sourceOptions} datasetId={datasetId} variable={row} />
+          ) : (
+            <SourcesList sources={row.sources} sourceOptions={sourceOptions} datasetId={datasetId} variable={row} />
+          )}
         </TableCell>
         <TableCell>
           <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
@@ -161,6 +168,125 @@ const DatasetView = (props) => {
         </TableCell>
       </TableRow>
     )
+  }
+
+  const VariableTypes = (props) => {
+    const { sources, datasetId, variable } = props
+    var newVariable = variable
+    const handleChange = (event, value, reason) => {
+      newVariable.var_type = value.props.value
+      dispatch(DatasetVariable.update(datasetId, variable.id, newVariable));
+    }
+
+    return (
+        <Select
+          value={variable.var_type}
+          onChange={handleChange}>
+        >
+          <MenuItem value={'Derived'}>{'Derived'}</MenuItem>
+          <MenuItem value={'Normal'}>{'Normal'}</MenuItem>
+        </Select>
+    )
+  }
+
+  const VariableSourcesList = (props) => {
+    const { sources, datasetId, variable } = props
+
+    let { sourceOptions } = props
+
+    if (get(variable.topic, 'id') !== 0 && (!isEmpty(variable.topic) || !isEmpty(variable.sources_topic))) {
+      sourceOptions = sourceOptions.filter(opt => {
+        return (
+          get(opt.topic, 'id') == get(variable.topic, 'id') ||
+          get(opt.resolved_topic, 'id') == get(variable.topic, 'id') ||
+          (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null)
+        )
+      })
+    }
+
+    const variableId = variable.id
+    const dispatch = useDispatch()
+
+    const handleAddSource = (newSources) => {
+      dispatch(DatasetVariable.add_source(datasetId, variableId, newSources));
+    }
+
+    const handleRemoveSource = (oldSources) => {
+      oldSources.map((source) => {
+        dispatch(DatasetVariable.remove_source(datasetId, variableId, source));
+      })
+    }
+
+    var difference = []
+
+    const handleChange = (event, value, reason) => {
+      switch (reason) {
+        case 'select-option':
+          difference = value.filter(x => !sources.includes(x));
+          if (!isEmpty(difference)) {
+            return handleAddSource(difference.map((source) => { return source.name }))
+          };
+          break;
+        case 'remove-option':
+          difference = sources.filter(x => !value.includes(x));
+          if (!isEmpty(difference)) {
+            return handleRemoveSource(difference)
+          };
+          break;
+        default:
+          return null;
+      }
+    }
+
+    if (isEmpty(sources)) {
+      return (
+        <div>
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={Object.values(sourceOptions)}
+            getOptionLabel={(option) => option.name}
+            onChange={handleChange}
+            value={[]}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Variable Sources"
+                placeholder="Add source"
+                multiline
+              />
+            )}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={Object.values(sourceOptions)}
+            getOptionLabel={(option) => option.name}
+            onChange={handleChange}
+            value={sources}
+            getOptionSelected={(option, value) => (
+              option.id === value.id
+            )}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Sources"
+                placeholder="Add source"
+              />
+            )}
+          />
+        </div>
+      )
+    }
   }
 
   const SourcesList = (props) => {

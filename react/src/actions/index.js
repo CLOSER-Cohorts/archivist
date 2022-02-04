@@ -1601,6 +1601,21 @@ export const DatasetVariable = {
         });
     };
   },
+  update: (datasetId, id, values) => {
+    const request = axios.put(api_host + '/datasets/' + datasetId + '/variables/' + id + '.json', values, {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(datasetId, 'DatasetVariable'));
+      return request.then(res => {
+        dispatch(savedItem(datasetId, 'DatasetVariable'));
+        dispatch(datasetVariableFetchSuccess(datasetId, res.data));
+      })
+        .catch(err => {
+          dispatch(saveError(datasetId, 'DatasetVariable', err.response.data.error_sentence));
+        });
+    };
+  },
   topic: {
     set: (datasetId, variableId, topicId) => {
       const request = axios.post(api_host + '/datasets/' + datasetId + '/variables/' + variableId + '/set_topic.json',
