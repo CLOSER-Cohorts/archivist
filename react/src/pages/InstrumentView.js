@@ -367,6 +367,10 @@ const LoopItem = (props) => {
     loop_description += ` ${(item.end_val) ? 'and ' : ''}${item.loop_while}`
   }
 
+  if (isNil(item.end_val) && isNil(item.loop_while)) {
+    loop_description += ` []`
+  }
+
   return (
     <List
       component="nav"
