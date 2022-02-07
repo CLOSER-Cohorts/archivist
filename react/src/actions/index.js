@@ -1039,10 +1039,12 @@ export const CcQuestions = {
     }
   },
   variables: {
-    add: (instrumentId, ccQuestionId, variableNames) => {
+    add: (instrumentId, ccQuestionId, variableNames, x, y) => {
       const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/add_variables.json',
       {
-        "variable_names": variableNames
+        "variable_names": variableNames,
+        "x": x,
+        "y": y
       },
       {
           headers: api_headers()
@@ -1058,10 +1060,12 @@ export const CcQuestions = {
           });
       };
     },
-    remove: (instrumentId, ccQuestionId, variableId) => {
+    remove: (instrumentId, ccQuestionId, variableId, x, y) => {
       const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions/' + ccQuestionId + '/remove_variable.json',
       {
-        "variable_id": variableId
+        "variable_id": variableId,
+        "x": x,
+        "y": y
       },
       {
           headers: api_headers()
@@ -1594,6 +1598,21 @@ export const DatasetVariable = {
         })
         .catch(err => {
           dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  update: (datasetId, id, values) => {
+    const request = axios.put(api_host + '/datasets/' + datasetId + '/variables/' + id + '.json', values, {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      dispatch(savingItem(datasetId, 'DatasetVariable'));
+      return request.then(res => {
+        dispatch(savedItem(datasetId, 'DatasetVariable'));
+        dispatch(datasetVariableFetchSuccess(datasetId, res.data));
+      })
+        .catch(err => {
+          dispatch(saveError(datasetId, 'DatasetVariable', err.response.data.error_sentence));
         });
     };
   },

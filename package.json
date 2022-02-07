@@ -15,7 +15,7 @@
     "protractor": "^2.1.0",
     "http-server": "^0.6.1",
     "tmp": "0.0.23",
-    "shelljs": "^0.2.6"
+    "shelljs": "^0.8.5"
   },
   "scripts": {
     "build": "yarn --cwd react install && yarn --cwd react build",

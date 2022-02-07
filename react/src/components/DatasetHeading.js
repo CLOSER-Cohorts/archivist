@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const DatasetHeading = ({dataset, mode='view'}) => {
-  console.log(dataset)
   const classes = useStyles();
   const study = get(dataset, 'study')
 

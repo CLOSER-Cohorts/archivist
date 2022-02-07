@@ -24,6 +24,11 @@ import Select from '@material-ui/core/Select';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Loader } from '../components/Loader'
 import SyncLoader from "react-spinners/SyncLoader";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,9 +92,23 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 }
 
-const QuestionItemListItem = (props) => {
-  const {type, id, instrumentId} = props
+const QuestionListItem = (props) => {
+  const { type, id, instrumentId } = props
   const item = ObjectFinder(instrumentId, type, id)
+
+  if (isNil(item.question)) {
+    return ''
+  }
+
+  if (item.question_type === 'QuestionGrid') {
+    return <QuestionGridListItem item={item} instrumentId={instrumentId} />
+  } else {
+    return <QuestionItemListItem item={item} instrumentId={instrumentId} />
+  }
+}
+
+const QuestionItemListItem = (props) => {
+  const {item, instrumentId} = props
   const classes = useStyles();
 
   const title = (isEmpty(item.question)) ? item.label : item.question.literal
@@ -97,11 +116,7 @@ const QuestionItemListItem = (props) => {
   const topic = get(item, 'topic', {id: null})
   const topicId = get(topic, 'id', null)
 
-  const resolvedTopic = get(item, 'resolved_topic', {id: null})
-  const resolvedTopicId = get(resolvedTopic, 'id', null)
-
   const variableTopic = get(item, 'variable_topic', {id: null})
-  const variableTopicId = get(variableTopic, 'id', null)
 
   const status = ObjectStatus(item.id, 'CcQuestion')
 
@@ -147,6 +162,85 @@ const QuestionItemListItem = (props) => {
         </Grid>
       </Paper>
       </ListItem>
+  )
+}
+
+const QuestionGridListItem = (props) => {
+  const { item, instrumentId } = props
+  const classes = useStyles();
+
+  const title = (isEmpty(item.question)) ? item.label : item.question.literal
+
+  const topic = get(item, 'topic', { id: null })
+  const topicId = get(topic, 'id', null)
+
+  const variableTopic = get(item, 'variable_topic', { id: null })
+
+  const status = ObjectStatus(item.id, 'CcQuestion')
+
+  var errorMessage = null;
+
+  if (status.error) {
+    errorMessage = status.errorMessage
+  } else if (item.errors) {
+    errorMessage = item.errors
+  }
+
+  return (
+    <ListItem>
+      <Paper className={classes.control}>
+        <Grid container spacing={3}>
+          {!isEmpty(errorMessage) && (
+            <div className={classes.root}>
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {errorMessage}
+              </Alert>
+            </div>
+          )}
+          <Grid item xs={12}>
+            <Chip label={item.label} color="primary"></Chip>
+            {!isEmpty(status) && !isNil(status.saving) && (
+              <Chip label="Saving" color="secondary">              <SyncLoader /></Chip>
+            )}
+            {!isEmpty(status) && !isNil(status.saved) && (
+              <Chip label="Saved" color="success" deleteIcon={<DoneIcon />}></Chip>
+            )}
+            <ListItemText primary={title} />
+          </Grid>
+          <Grid item xs={12}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell><strong>{item.question.pretty_corner_label}</strong></TableCell>
+                  {item.question.cols.map((header) => (
+                    <TableCell><strong>{header.label}</strong></TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {item.question.rows.map((row, y) => (
+                  <TableRow key={row.label}>
+                    <TableCell><strong>{row.label}</strong></TableCell>
+                    {item.question.cols.map((header, x) => (
+                      <TableCell>
+                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid item xs={6}>
+            <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
+            {(!isNil(variableTopic)) && (
+              <em>Resolved topic from variables - {get(variableTopic, 'name')}</em>
+            )}
+          </Grid>
+        </Grid>
+      </Paper>
+    </ListItem>
   )
 }
 
@@ -206,7 +300,7 @@ const TopicList = (props) => {
 }
 
 const VariableList = (props) => {
-  const {variables, instrumentId, ccQuestionId} = props
+  const {variables, instrumentId, ccQuestionId, x, y} = props
 
   const dispatch = useDispatch()
 
@@ -214,11 +308,11 @@ const VariableList = (props) => {
   const variableOptions = get(allVariables, instrumentId, {})
 
   const handleAddVariable = (newVariables) => {
-    dispatch(CcQuestions.variables.add(instrumentId, ccQuestionId, newVariables));
+    dispatch(CcQuestions.variables.add(instrumentId, ccQuestionId, newVariables, x, y));
   }
 
   const handleRemoveVariable = (oldVariables) => {
-    dispatch(CcQuestions.variables.remove(instrumentId, ccQuestionId, oldVariables));
+    dispatch(CcQuestions.variables.remove(instrumentId, ccQuestionId, oldVariables, x, y));
   }
 
   var difference = []
@@ -292,13 +386,6 @@ const VariableList = (props) => {
   }
 }
 
-const QuestionGridListItem = (props) => {
-
-  return (
-    <div>This is a Question Grid</div>
-  )
-}
-
 const ConditionItem = (props) => {
   const { instrumentId } = props;
   var {title} = props;
@@ -333,11 +420,10 @@ const ConditionItem = (props) => {
                     case 'CcSequence':
                       return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child,'children',[])} />;
                     case 'CcQuestion':
-                      return <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     case 'CcCondition':
                       return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     default:
-                      console.log(child)
                       return null;
                   }
                 })()}
@@ -389,7 +475,7 @@ const SequenceItem = (props) => {
                       case 'CcQuestion':
                         return (
                             <ListItem button className={classes.nested}>
-                              <QuestionItemListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                              <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                             </ListItem>)
                       case 'CcCondition':
                         return (
