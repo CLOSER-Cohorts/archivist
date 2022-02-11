@@ -33,7 +33,7 @@
     "material-ui-search-bar": "^1.0.0",
     "mui-rff": "^2.5.6",
     "named-urls": "^2.0.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.5.10",
     "query-string": "^6.9.0",
     "react": "^16.7.0",
