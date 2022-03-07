@@ -86,7 +86,11 @@ class Variable < ApplicationRecord
   end
 
   def sources_topic
-    question_topics.first || questions.first.try(:resolved_topic)
+    if derived?
+      src_variables.map(&:resolved_topic).compact.first
+    else
+      question_topics.first || questions.first.try(:resolved_topic)
+    end
   end
 
   # Adds a new source item by label

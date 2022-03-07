@@ -195,7 +195,7 @@ const DatasetView = (props) => {
     let { sourceOptions } = props
 
     if (get(variable.topic, 'id') !== 0 && (!isEmpty(variable.topic) || !isEmpty(variable.sources_topic))) {
-      sourceOptions = sourceOptions.filter(opt => {
+      sourceOptions = Object.values(sourceOptions).filter(opt => {
         return (
           get(opt.topic, 'id') == get(variable.topic, 'id') ||
           get(opt.resolved_topic, 'id') == get(variable.topic, 'id') ||
