@@ -1,0 +1,18 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: Poynter
+    given-names: Will
+    family-names: DeBarros
+    given-names: Charles
+    family-names: Reed
+    given-names: Simon
+cff-version: "1.1.0"
+date-released: 2022-03-25
+license: MIT
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/CLOSER-Cohorts/archivist"
+title: "Questionnaire editor and data annotation in DDI-Lifecycle"
+version: "11.0"
+...
