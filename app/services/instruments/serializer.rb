@@ -22,6 +22,8 @@ class Instruments::Serializer
 
       instruments = instruments.map do |i|
         i[:datasets] = datasets.fetch(i["id"], [])
+        i[:export_time] = $redis.hget('export:instrument:' + i["id"].to_s, 'time') rescue nil
+        i[:export_url] = $redis.hget('export:instrument:' + i["id"].to_s, 'url') rescue nil
         i
       end
     end
