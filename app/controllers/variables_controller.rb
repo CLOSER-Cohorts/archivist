@@ -42,19 +42,30 @@ class VariablesController < BasicController
 
     params[:other] = JSON.parse(params[:other]) if params[:others].is_a?(String)
 
+    if source && source.try(:question_type) == 'QuestionGrid'
+      @object.maps.where(
+          source_type: params[:other][:class],
+          source_id: params[:other][:id]
+      ).delete_all
+    else
+      @object.maps.where(
+          source_type: params[:other][:class],
+          source_id: params[:other][:id],
+          x: [params[:other][:x], params[:other][:x].to_i],
+          y: [params[:other][:y], params[:other][:y].to_i],
+      ).delete_all
+    end
 
-
-    @object.maps.where(
-        source_type: params[:other][:class],
-        source_id: params[:other][:id],
-        x: [params[:other][:x], params[:other][:x].to_i],
-        y: [params[:other][:y], params[:other][:y].to_i],
-    ).delete_all
     @object.reload
     render 'variables/show'
   end
 
   protected
+
+  def source
+    @source ||= params[:other][:class].constantize.send(:find, params[:other][:id]) rescue nil
+  end
+
   def collection
     @dataset.variables.includes(:src_variables, :der_variables, :topic, :questions, :question_topics)
   end
