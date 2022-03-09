@@ -76,6 +76,8 @@ const TopicList = (props) => {
       </div>
     )
   }
+}
+
 const DatasetView = (props) => {
 
   const dispatch = useDispatch()
