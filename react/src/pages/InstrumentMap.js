@@ -151,7 +151,7 @@ const QuestionItemListItem = (props) => {
             <ListItemText primary={title} />
           </Grid>
           <Grid item xs={6}>
-            <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} />
+            <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} topicId={topicId || get(variableTopic, 'id', null)} />
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
@@ -224,13 +224,16 @@ const QuestionGridListItem = (props) => {
                     <TableCell><strong>{row.label}</strong></TableCell>
                     {item.question.cols.map((header, x) => (
                       <TableCell>
-                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} />
+                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} topicId={topicId || get(variableTopic, 'id', null)} />
                       </TableCell>
                     ))}
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+          </Grid>
+          <Grid item xs={6}>
+            <VariableList variables={item.variables.filter((variable) => { return variable.y == 0 && variable.x == 0 })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
@@ -300,12 +303,21 @@ const TopicList = (props) => {
 }
 
 const VariableList = (props) => {
-  const {variables, instrumentId, ccQuestionId, x, y} = props
+  const {variables, instrumentId, ccQuestionId, x, y, topicId, label='Variables'} = props
 
   const dispatch = useDispatch()
 
   const allVariables = useSelector(state => state.variables);
-  const variableOptions = get(allVariables, instrumentId, {})
+  var variableOptions = Object.values(get(allVariables, instrumentId, {}))
+  if(!isEmpty(topicId)) {
+    variableOptions = variableOptions.filter(opt => {
+      return (
+        get(opt.topic, 'id') == topicId ||
+        get(opt.resolved_topic, 'id') == topicId ||
+        (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null)
+      )
+    })
+  }
 
   const handleAddVariable = (newVariables) => {
     dispatch(CcQuestions.variables.add(instrumentId, ccQuestionId, newVariables, x, y));
@@ -342,7 +354,7 @@ const VariableList = (props) => {
          <Autocomplete
           multiple
           id="tags-outlined"
-          options={Object.values(variableOptions)}
+          options={variableOptions}
           getOptionLabel={(option) => option.name}
           onChange={handleChange}
           value={[]}
@@ -351,7 +363,7 @@ const VariableList = (props) => {
             <TextField
               {...params}
               variant="outlined"
-              label="Variables"
+              label={label}
               placeholder="Add variable"
             />
           )}
@@ -376,7 +388,7 @@ const VariableList = (props) => {
             <TextField
               {...params}
               variant="outlined"
-              label="Variables"
+              label={label}
               placeholder="Add variable"
             />
           )}
