@@ -266,7 +266,7 @@ const TopicList = (props) => {
   }));
 
   const handleChange = (event, value, reason) => {
-    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, event.target.value));
+    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, value.id));
   }
 
   if (isEmpty(topics) || isEmpty(topics.flattened)){
@@ -274,29 +274,28 @@ const TopicList = (props) => {
   }else if(isNil(topicId)){
     return (
           <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {topics.flattened.map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              onChange={handleChange}
+              options={Object.values(topics.flattened)}
+              renderInput={params => (
+                <TextField {...params} label="Topic" variant="outlined" />
+              )}
+              getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+            />
           </div>
     )
   }else{
     return (
           <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native defaultValue={topicId} id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {topics.flattened.map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              onChange={handleChange}
+              options={Object.values(topics.flattened)}
+              renderInput={params => (
+                <TextField {...params} label="Topic" variant="outlined" />
+              )}
+              value={Object.values(topics.flattened).find(topic => { return topic.id == topicId })}
+              getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+            />
           </div>
     )
   }
@@ -471,7 +470,7 @@ const SequenceItem = (props) => {
       >
         <ListItem button onClick={handleClick}>
           <ListItemText primary={title} />
-            {open ? <ExpandLess /> : <ExpandMore />}
+          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         {!isEmpty(item.children) && (
           <Collapse in={open} timeout="auto" unmountOnExit>

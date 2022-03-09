@@ -43,42 +43,39 @@ const TopicList = (props) => {
   }));
 
   const handleChange = (event, value, reason) => {
-    dispatch(DatasetVariable.topic.set(datasetId, variableId, event.target.value));
+    dispatch(DatasetVariable.topic.set(datasetId, variableId, value.id));
   }
 
-  if(isEmpty(topics)){
+  if (isEmpty(topics) || isEmpty(topics.flattened)) {
     return 'Fetching topics'
-  }else if(isNil(topicId)){
+  } else if (isNil(topicId)) {
     return (
-          <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {Object.values(topics).map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
+      <div>
+        <Autocomplete
+          onChange={handleChange}
+          options={Object.values(topics.flattened)}
+          renderInput={params => (
+            <TextField {...params} label="Topic" variant="outlined" />
+          )}
+          getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+        />
+      </div>
     )
-  }else{
+  } else {
     return (
-          <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native defaultValue={topicId} id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {Object.values(topics).map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
+      <div>
+        <Autocomplete
+          onChange={handleChange}
+          options={Object.values(topics.flattened)}
+          renderInput={params => (
+            <TextField {...params} label="Topic" variant="outlined" />
+          )}
+          value={Object.values(topics.flattened).find(topic => { return topic.id == topicId })}
+          getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+        />
+      </div>
     )
   }
-}
-
 const DatasetView = (props) => {
 
   const dispatch = useDispatch()
