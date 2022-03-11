@@ -92,6 +92,30 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 }
 
+const SequenceTopicsFinder = (props) => {
+  const dispatch = useDispatch()
+  const { instrumentId, sequence } = props
+  const questions = useSelector(state => state.cc_questions);
+  const cc_questions = get(questions, instrumentId, {})
+
+  var child_questions = sequence.children.filter((child) => { return child.type == 'CcQuestion' }).map((child) => { return get(cc_questions, child.id) })
+  const topicIds = child_questions.map((question) => { return get(question, 'topic') }).filter((t) => { return t != null }).map((t) => { return t.id })
+
+  const handleChange = (event, value, reason) => {
+    child_questions.map((cc_question)=>{
+      dispatch(CcQuestions.topic.set(instrumentId, cc_question.id, value.id));
+    })
+  }
+
+  if (new Set(topicIds).size > 1 || child_questions.length < 1){
+    return ''
+  }else{
+    return (
+      <TopicList topicId={get(topicIds, 0)} instrumentId={instrumentId} handleChange={handleChange} />
+    )
+  }
+}
+
 const QuestionListItem = (props) => {
   const { type, id, instrumentId } = props
   const item = ObjectFinder(instrumentId, type, id)
@@ -248,9 +272,11 @@ const QuestionGridListItem = (props) => {
 }
 
 const TopicList = (props) => {
-  const {topicId, instrumentId, ccQuestionId} = props
-
   const dispatch = useDispatch()
+  const {topicId, instrumentId, ccQuestionId=undefined} = props
+  const { handleChange=(event, value, reason) => {
+    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, value.id));
+  }} = props
 
   const topics = useSelector(state => state.topics);
 
@@ -264,10 +290,6 @@ const TopicList = (props) => {
       color: theme.palette.text.secondary,
     },
   }));
-
-  const handleChange = (event, value, reason) => {
-    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, value.id));
-  }
 
   if (isEmpty(topics) || isEmpty(topics.flattened)){
     return 'Fetching topics'
@@ -468,9 +490,16 @@ const SequenceItem = (props) => {
         aria-labelledby="nested-list-subheader"
         className={classes.root}
       >
-        <ListItem button onClick={handleClick}>
-          <ListItemText primary={title} />
-          {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItem button >
+          <Grid item xs={6}>
+            <ListItemText primary={title} />
+          </Grid>
+          <Grid item xs={5}>
+            <SequenceTopicsFinder instrumentId={instrumentId} sequence={item} />
+          </Grid>
+          <Grid item xs={1}>
+            {open ? <ExpandLess onClick={handleClick} /> : <ExpandMore onClick={handleClick} />}
+          </Grid>
         </ListItem>
         {!isEmpty(item.children) && (
           <Collapse in={open} timeout="auto" unmountOnExit>
