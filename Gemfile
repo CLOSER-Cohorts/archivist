@@ -40,7 +40,7 @@ gem 'pg', '1.2.3'
 # Heroku email service
 gem 'postmark-rails', '0.15.0'
 # Use Puma as the web server
-gem 'puma', '4.3.8'
+gem 'puma', '4.3.11'
 # Use Pundit for authorization
 gem 'pundit', '1.1.0'
 # Limits processing time in rack layer for added loading protection
