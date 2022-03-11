@@ -30,6 +30,7 @@ const TopicList = (props) => {
   const dispatch = useDispatch()
 
   const topics = useSelector(state => state.topics);
+  const topicOptions = [{ id: null, name: '', level: 1 }].concat(Object.values(get(topics, 'flattened', {})));
 
   const classes = makeStyles((theme) => ({
     root: {
@@ -43,7 +44,7 @@ const TopicList = (props) => {
   }));
 
   const handleChange = (event, value, reason) => {
-    dispatch(DatasetVariable.topic.set(datasetId, variableId, value.id));
+    dispatch(DatasetVariable.topic.set(datasetId, variableId, (reason === 'clear') ? null : value.id));
   }
 
   if (isEmpty(topics) || isEmpty(topics.flattened)) {
@@ -53,7 +54,7 @@ const TopicList = (props) => {
       <div>
         <Autocomplete
           onChange={handleChange}
-          options={Object.values(topics.flattened)}
+          options={topicOptions}
           renderInput={params => (
             <TextField {...params} label="Topic" variant="outlined" />
           )}
@@ -66,7 +67,7 @@ const TopicList = (props) => {
       <div>
         <Autocomplete
           onChange={handleChange}
-          options={Object.values(topics.flattened)}
+          options={topicOptions}
           renderInput={params => (
             <TextField {...params} label="Topic" variant="outlined" />
           )}

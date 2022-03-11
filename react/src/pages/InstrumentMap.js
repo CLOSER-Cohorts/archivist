@@ -103,7 +103,7 @@ const SequenceTopicsFinder = (props) => {
 
   const handleChange = (event, value, reason) => {
     child_questions.map((cc_question)=>{
-      dispatch(CcQuestions.topic.set(instrumentId, cc_question.id, value.id));
+      dispatch(CcQuestions.topic.set(instrumentId, cc_question.id, (reason === 'clear') ? null : value.id));
     })
   }
 
@@ -275,11 +275,11 @@ const TopicList = (props) => {
   const dispatch = useDispatch()
   const {topicId, instrumentId, ccQuestionId=undefined} = props
   const { handleChange=(event, value, reason) => {
-    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, value.id));
+    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, (reason === 'clear') ? null : value.id));
   }} = props
 
   const topics = useSelector(state => state.topics);
-
+  const topicOptions = [{id: null, name: '', level: 1}].concat(Object.values(get(topics,'flattened', {})));
   const classes = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -298,7 +298,7 @@ const TopicList = (props) => {
           <div>
             <Autocomplete
               onChange={handleChange}
-              options={Object.values(topics.flattened)}
+              options={topicOptions}
               renderInput={params => (
                 <TextField {...params} label="Topic" variant="outlined" />
               )}
@@ -311,7 +311,7 @@ const TopicList = (props) => {
           <div>
             <Autocomplete
               onChange={handleChange}
-              options={Object.values(topics.flattened)}
+              options={topicOptions}
               renderInput={params => (
                 <TextField {...params} label="Topic" variant="outlined" />
               )}
