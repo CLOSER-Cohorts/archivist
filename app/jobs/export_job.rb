@@ -11,7 +11,7 @@ class ExportJob::Instrument
     begin
       exp = Exporters::XML::DDI::Instrument.new
       exp.add_root_attributes
-      i = Instrument.find(id)
+      i = ::Instrument.find(id)
       exp.export_instrument i
 
       exp.build_rp
@@ -50,7 +50,7 @@ class ExportJob::Dataset
       dataset = Dataset.find(id)
       exp.run dataset
 
-      d = Document.new
+      d = ::Document.new
       d.filename = dataset.filename
       d.content_type = 'text/xml'
       d.file_contents = exp.doc.to_xml(&:no_empty_tags)
