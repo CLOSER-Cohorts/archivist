@@ -19,13 +19,13 @@ class Instruments::Serializer
             |
 
       instruments = connection.select_all(sql).to_a
+    end
 
-      instruments = instruments.map do |i|
-        i[:datasets] = datasets.fetch(i["id"], [])
-        i[:export_time] = $redis.hget('export:instrument:' + i["id"].to_s, 'time') rescue nil
-        i[:export_url] = $redis.hget('export:instrument:' + i["id"].to_s, 'url') rescue nil
-        i
-      end
+    instruments = instruments.map do |i|
+      i[:datasets] = datasets.fetch(i["id"], [])
+      i[:export_time] = $redis.hget('export:instrument:' + i["id"].to_s, 'time') rescue nil
+      i[:export_url] = $redis.hget('export:instrument:' + i["id"].to_s, 'url') rescue nil
+      i
     end
 
     return instruments
