@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument } from '../actions'
+import { Instrument, Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { AdminInstrumentForm } from '../components/AdminInstrumentForm'
 import { get } from 'lodash'
@@ -12,12 +12,14 @@ const AdminInstrumentEdit = (props) => {
 
   const instrumentId = get(props, "match.params.instrument_id", "")
   const instrument = useSelector(state => get(state.instruments, instrumentId));
+  const datasets = useSelector(state => get(state, 'datasets'));
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     Promise.all([
       dispatch(Instrument.show(instrumentId)),
+      dispatch(Dataset.all())
     ]).then(() => {
       setDataLoaded(true)
     });
@@ -28,7 +30,7 @@ const AdminInstrumentEdit = (props) => {
       <Dashboard title={'Admin Edit Instrument'}>
         {!dataLoaded
           ? <Loader />
-          : <AdminInstrumentForm instrument={instrument} />
+          : <AdminInstrumentForm instrument={instrument} datasets={datasets} />
         }
       </Dashboard>
     </div>

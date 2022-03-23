@@ -17,6 +17,7 @@ import AdminUserEdit from './pages/AdminUserEdit';
 import AdminInstruments from './pages/AdminInstruments';
 import AdminInstrumentExports from './pages/AdminInstrumentExports';
 import AdminInstrumentEdit from './pages/AdminInstrumentEdit';
+import AdminInstrumentDatasetLink from './pages/AdminInstrumentDatasetLink';
 import AdminDatasets from './pages/AdminDatasets';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
@@ -126,6 +127,7 @@ const App = () => {
             <AuthRoute type="admin" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.all} component={AdminInstruments} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.datasets} component={AdminInstrumentDatasetLink} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.importMapping} component={AdminInstrumentImportMappingView} />
             <AuthRoute type="admin" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />

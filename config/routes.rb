@@ -37,6 +37,8 @@ Rails.application.routes.draw do
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
   match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
+  match 'admin/instruments/:instrument_id/datasets', to: 'instruments_datasets#create', via: [:post], constraints: {format: ''}
+  match 'admin/instruments/:instrument_id/datasets/:dataset_id', to: 'instruments_datasets#destroy', via: [:delete], constraints: {format: ''}
 
   # adding a route.
   match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
