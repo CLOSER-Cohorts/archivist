@@ -25,7 +25,9 @@ class InstrumentsController < ImportableController
 
   def show
     respond_to do |f|
-      f.json {render json: @object}
+      f.json {
+        render json: Instruments::Serializer.new(@object).call()
+      }
       f.xml do
         exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes

@@ -28,6 +28,7 @@ export default {
         importMapping: ':instrumentId/imports/:id',
         instrument: include(':instrument_id/', {
           edit: 'edit',
+          datasets: 'datasets',
         }),
       }),
       datasets: include('datasets/', {
