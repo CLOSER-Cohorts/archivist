@@ -100,7 +100,7 @@ const DatasetView = (props) => {
         const topic = get(value,'topic', {name: ''})
         const topicMatch = topic && topic['name'] && topic['name'].toLowerCase().includes(search.toLowerCase())
         const sources = get(value,'sources', [])
-        const sourcesStr = sources.map((s)=>{ return s['name'] }).join(' ')
+        const sourcesStr = sources.map((s)=>{ return s['name'] || s['label'] }).join(' ')
         const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
         return nameMatch || labelMatch || topicMatch || sourcesMatch
       }).sort((el)=> el.id).reverse()
