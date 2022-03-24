@@ -25,6 +25,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -207,7 +208,9 @@ const VariableItems = ({ variables }) => {
           <ul>
             { variables.map((variable) => {
               return (
-                <li>{variable.name}</li>
+                <li>
+                  <Tooltip arrow title={variable.label}><span>{variable.name}</span></Tooltip>
+                </li>
               )
               })
             }
