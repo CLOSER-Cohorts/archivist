@@ -243,7 +243,7 @@ const QuestionGridListItem = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item.question.rows.map((row, y) => (
+                {item.question.rows && item.question.rows.map((row, y) => (
                   <TableRow key={row.label}>
                     <TableCell><strong>{row.label}</strong></TableCell>
                     {item.question.cols.map((header, x) => (

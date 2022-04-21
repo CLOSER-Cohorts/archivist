@@ -16,25 +16,26 @@ const useStyles = makeStyles((theme) => ({
 export const InstrumentHeading = ({instrument, mode='view'}) => {
   const classes = useStyles();
   const study = get(instrument, 'study')
-
+  const slug = get(instrument, 'slug', get(instrument, 'prefix'))
   return (
     <Typography variant="h5">
       <span className={classes.heading}>{(isEmpty(study)) ? "" : `${study} - `}{get(instrument, 'label')}</span>
+
       { instrument && (
         <>
         { mode !== 'view' && (
           <Button variant="outlined">
-            <Link to={url(routes.instruments.instrument.show, { instrument_id: instrument.slug })}>View</Link>
+            <Link to={url(routes.instruments.instrument.show, { instrument_id: slug })}>View</Link>
           </Button>
         )}
         { !instrument.signed_off && mode !== 'build' && (
           <Button variant="outlined">
-            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: instrument.slug })}>Build</Link>
+            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: slug })}>Build</Link>
           </Button>
         )}
         { mode !== 'map' && (
           <Button variant="outlined">
-            <Link to={url(routes.instruments.instrument.map.show, { instrument_id: instrument.slug })}>Map</Link>
+            <Link to={url(routes.instruments.instrument.map.show, { instrument_id: slug })}>Map</Link>
           </Button>
         )}
         </>

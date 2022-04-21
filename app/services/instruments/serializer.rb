@@ -18,7 +18,7 @@ class Instruments::Serializer
     i = Rails.cache.fetch("instruments/#{instrument.id}.json", version: instrument.updated_at.to_i) do
       connection = ActiveRecord::Base.connection
       sql = %|
-        SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.study, (SELECT COUNT(*) from control_constructs WHERE control_constructs.instrument_id= #{instrument.id}) as ccs, (SELECT COUNT(*) from qv_mappings WHERE qv_mappings.instrument_id= #{instrument.id}) as qvs
+        SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, (SELECT COUNT(*) from control_constructs WHERE control_constructs.instrument_id= #{instrument.id}) as ccs, (SELECT COUNT(*) from qv_mappings WHERE qv_mappings.instrument_id= #{instrument.id}) as qvs
         FROM instruments
         WHERE instruments.id = #{instrument.id};
             |
@@ -37,7 +37,7 @@ class Instruments::Serializer
     instruments = Rails.cache.fetch('instruments.json', version: Instrument.maximum(:updated_at).to_i) do
       connection = ActiveRecord::Base.connection
       sql = %|
-              SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
+              SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
               FROM instruments
               LEFT JOIN control_constructs ON control_constructs.instrument_id = instruments.id
               LEFT JOIN qv_mappings ON qv_mappings.instrument_id = instruments.id
