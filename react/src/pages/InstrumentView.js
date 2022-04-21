@@ -154,6 +154,9 @@ const QuestionGridListItem = (props) => {
 
       <Grid item xs={9}>
         {item.question.literal}
+        {!isEmpty(item.question.instruction) && (
+          <p><i>{item.question.instruction}</i></p>
+        )}
         <Table size="small">
           <TableHead>
             <TableRow>
