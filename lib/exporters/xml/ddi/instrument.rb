@@ -192,11 +192,11 @@ module Exporters::XML::DDI
     end
 
     def question_items
-      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionItem'}.map(&:id)).distinct
+      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class.name == 'CcQuestion' && cc.question_type == 'QuestionItem'}.map(&:id)).distinct
     end
 
     def question_grids
-      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class == CcQuestion && cc.question_type == 'QuestionGrid'}.map(&:id)).distinct
+      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class.name == 'CcQuestion' && cc.question_type == 'QuestionGrid'}.map(&:id)).distinct
     end
 
     # Populates the InstrumentScheme with the {::Instrument} details
