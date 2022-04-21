@@ -164,7 +164,7 @@ const QuestionGridListItem = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {item.question.rows.map((row)=>(
+            {item.quesiton && item.question.rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
               </TableRow>
