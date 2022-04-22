@@ -25,6 +25,7 @@ class ExportJob::Instrument
 
       d = Document.new
       d.filename = i.prefix + '.xml'
+      d.document_type = 'instrument_export'
       d.content_type = 'text/xml'
       d.file_contents = exp.doc.to_xml(&:no_empty_tags)
       d.md5_hash = Digest::MD5.hexdigest d.file_contents
@@ -52,6 +53,7 @@ class ExportJob::Dataset
 
       d = ::Document.new
       d.filename = dataset.filename
+      d.document_type = 'dataset_export'
       d.content_type = 'text/xml'
       d.file_contents = exp.doc.to_xml(&:no_empty_tags)
       d.md5_hash = Digest::MD5.hexdigest d.file_contents
