@@ -4,7 +4,7 @@ import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestio
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import { Loader } from '../components/Loader'
-import { get, isEmpty, isNil } from "lodash";
+import { get, isEmpty, isNil, times } from "lodash";
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -167,9 +167,14 @@ const QuestionGridListItem = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {item.quesiton && item.question.rows.map((row)=>(
+            {item.question && item.question.rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
+              </TableRow>
+            ))}
+            {item.question && item.question.roster_rows && times(item.question.roster_rows,String).map((row) => (
+              <TableRow>
+                <TableCell><strong></strong></TableCell>
               </TableRow>
             ))}
           </TableBody>
