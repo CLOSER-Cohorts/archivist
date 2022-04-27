@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { get, isEmpty, isNil } from "lodash";
+import { get, isEmpty, isNil, uniq } from "lodash";
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -99,7 +99,9 @@ const SequenceTopicsFinder = (props) => {
   const cc_questions = get(questions, instrumentId, {})
 
   var child_questions = sequence.children.filter((child) => { return child.type == 'CcQuestion' }).map((child) => { return get(cc_questions, child.id) })
-  const topicIds = child_questions.map((question) => { return get(question, 'topic') }).filter((t) => { return t != null }).map((t) => { return t.id })
+  var topicIds = uniq(child_questions.map((question) => { return get(question, 'topic') }).filter((t) => { return t != null }).map((t) => { return t.id }))
+  const resolvedTopicIds = uniq(child_questions.map((question) => { return get(question, 'resolved_topic') }).filter((t) => { return t != null }).map((t) => { return t.id }))
+  topicIds = [topicIds, resolvedTopicIds].flat()
 
   const handleChange = (event, value, reason) => {
     child_questions.map((cc_question)=>{
