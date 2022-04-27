@@ -125,6 +125,7 @@ Rails.application.routes.draw do
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
+      get 'export_complete', to: 'instruments#export_complete'
       get 'mapper', to: 'instruments#mapper'
       get 'qv', to: 'instruments#mapping'
 

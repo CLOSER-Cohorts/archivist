@@ -181,11 +181,13 @@ class Instrument < ApplicationRecord
 
   def add_export_document(doc)
     self.documents << doc
-    begin
-      $redis.hset 'export:instrument:' + self.id.to_s, 'time', doc.created_at
-      $redis.hset 'export:instrument:' + self.id.to_s, 'url', "/instruments/#{self.id}/export/#{doc.id}"
-    rescue
-      nil
+    if doc.document_type != 'instrument_export_complete'
+      begin
+        $redis.hset 'export:instrument:' + self.id.to_s, 'time', doc.created_at
+        $redis.hset 'export:instrument:' + self.id.to_s, 'url', "/instruments/#{self.id}/export/#{doc.id}"
+      rescue
+        nil
+      end
     end
   end
 

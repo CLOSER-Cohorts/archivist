@@ -439,6 +439,19 @@ export const Instrument = {
         });
     };
   },
+  export_complete: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/export_complete.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        console.log('ok')
+      })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
   all: () => {
     const request = axios.get(api_host + '/instruments.json',{
         headers: api_headers()

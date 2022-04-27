@@ -52,6 +52,11 @@ class Instruments::Serializer
       i[:datasets] = datasets.fetch(i["id"], [])
       i[:export_time] = $redis.hget('export:instrument:' + i["id"].to_s, 'time') rescue nil
       i[:export_url] = $redis.hget('export:instrument:' + i["id"].to_s, 'url') rescue nil
+      doc = Document.where(document_type: 'instrument_export_complete', item_id: i["id"]).last rescue nil
+      if doc
+        i[:export_complete_time] = doc.created_at
+        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}"
+      end
       i
     end
 
