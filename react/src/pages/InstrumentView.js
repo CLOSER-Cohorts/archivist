@@ -174,9 +174,9 @@ const QuestionGridListItem = (props) => {
                 <TableCell><strong>{row.label}</strong></TableCell>
               </TableRow>
             ))}
-            {item.question && rows.map((row) => (
+            {item.question && rows.map((row, i) => (
               <TableRow>
-                <TableCell><strong></strong></TableCell>
+                <TableCell><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
               </TableRow>
             ))}
           </TableBody>
