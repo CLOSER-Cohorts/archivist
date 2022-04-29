@@ -17,6 +17,7 @@ json.array!(@collection) do |question_item|
               @response_domain_texts.find{|rdc| rdc.id == rds_qs.response_domain_id}
            end
       json.id rd.id
+      json.rd_order rds_qs.rd_order
       json.type rd.class.name
       json.label rd.label
       if rd.class == ResponseDomainCode
