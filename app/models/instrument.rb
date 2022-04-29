@@ -181,14 +181,6 @@ class Instrument < ApplicationRecord
 
   def add_export_document(doc)
     self.documents << doc
-    if doc.document_type != 'instrument_export_complete'
-      begin
-        $redis.hset 'export:instrument:' + self.id.to_s, 'time', doc.created_at
-        $redis.hset 'export:instrument:' + self.id.to_s, 'url', "/instruments/#{self.id}/export/#{doc.id}"
-      rescue
-        nil
-      end
-    end
   end
 
   def ccs
@@ -298,7 +290,7 @@ class Instrument < ApplicationRecord
   # @return [String] Last export time
   def export_time
     begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'time'
+      latest_export.try(:created_at)
     rescue
       nil
     end
@@ -309,7 +301,18 @@ class Instrument < ApplicationRecord
   # @return [String] Last export URL
   def export_url
     begin
-      $redis.hget 'export:instrument:' + self.id.to_s, 'url'
+      "/instruments/#{self.id}/export/#{latest_export.try(:id)}"
+    rescue
+      nil
+    end
+  end
+
+  # The latest instrument_export document created
+  #
+  # @return [Document] Last export document
+  def latest_export
+    begin
+      documents.where(document_type: 'instrument_export').last
     rescue
       nil
     end
