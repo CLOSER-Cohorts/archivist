@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { get, isEmpty, isNil } from "lodash";
+import { get, isEmpty, isNil, uniq } from "lodash";
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -92,6 +92,32 @@ const ObjectFinder = (instrumentId, type, id) => {
 
 }
 
+const SequenceTopicsFinder = (props) => {
+  const dispatch = useDispatch()
+  const { instrumentId, sequence } = props
+  const questions = useSelector(state => state.cc_questions);
+  const cc_questions = get(questions, instrumentId, {})
+
+  var child_questions = sequence.children.filter((child) => { return child.type == 'CcQuestion' }).map((child) => { return get(cc_questions, child.id) })
+  var topicIds = uniq(child_questions.map((question) => { return get(question, 'topic') }).filter((t) => { return t != null }).map((t) => { return t.id }))
+  const resolvedTopicIds = uniq(child_questions.map((question) => { return get(question, 'resolved_topic') }).filter((t) => { return t != null }).map((t) => { return t.id }))
+  topicIds = [topicIds, resolvedTopicIds].flat()
+
+  const handleChange = (event, value, reason) => {
+    child_questions.map((cc_question)=>{
+      dispatch(CcQuestions.topic.set(instrumentId, cc_question.id, (reason === 'clear') ? null : value.id));
+    })
+  }
+
+  if (new Set(topicIds).size > 1 || child_questions.length < 1){
+    return ''
+  }else{
+    return (
+      <TopicList topicId={get(topicIds, 0)} instrumentId={instrumentId} handleChange={handleChange} />
+    )
+  }
+}
+
 const QuestionListItem = (props) => {
   const { type, id, instrumentId } = props
   const item = ObjectFinder(instrumentId, type, id)
@@ -151,7 +177,7 @@ const QuestionItemListItem = (props) => {
             <ListItemText primary={title} />
           </Grid>
           <Grid item xs={6}>
-            <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} />
+            <VariableList variables={item.variables} instrumentId={instrumentId} ccQuestionId={item.id} topicId={topicId || get(variableTopic, 'id', null)} />
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
@@ -219,18 +245,21 @@ const QuestionGridListItem = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item.question.rows.map((row, y) => (
+                {item.question.rows && item.question.rows.map((row, y) => (
                   <TableRow key={row.label}>
                     <TableCell><strong>{row.label}</strong></TableCell>
                     {item.question.cols.map((header, x) => (
                       <TableCell>
-                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} />
+                        <VariableList variables={item.variables.filter((variable) => { return variable.y == y + 1 && variable.x == x + 1 })} instrumentId={instrumentId} ccQuestionId={item.id} x={x + 1} y={y + 1} topicId={topicId || get(variableTopic, 'id', null)} />
                       </TableCell>
                     ))}
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+          </Grid>
+          <Grid item xs={6}>
+            <VariableList variables={item.variables.filter((variable) => { return variable.y == 0 && variable.x == 0 })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
@@ -245,12 +274,14 @@ const QuestionGridListItem = (props) => {
 }
 
 const TopicList = (props) => {
-  const {topicId, instrumentId, ccQuestionId} = props
-
   const dispatch = useDispatch()
+  const {topicId, instrumentId, ccQuestionId=undefined} = props
+  const { handleChange=(event, value, reason) => {
+    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, (reason === 'clear') ? null : value.id));
+  }} = props
 
   const topics = useSelector(state => state.topics);
-
+  const topicOptions = [{id: null, name: '', level: 1}].concat(Object.values(get(topics,'flattened', {})));
   const classes = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -262,50 +293,54 @@ const TopicList = (props) => {
     },
   }));
 
-  const handleChange = (event, value, reason) => {
-    dispatch(CcQuestions.topic.set(instrumentId, ccQuestionId, event.target.value));
-  }
-
   if (isEmpty(topics) || isEmpty(topics.flattened)){
     return 'Fetching topics'
   }else if(isNil(topicId)){
     return (
           <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {topics.flattened.map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              onChange={handleChange}
+              options={topicOptions}
+              renderInput={params => (
+                <TextField {...params} label="Topic" variant="outlined" />
+              )}
+              getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+            />
           </div>
     )
   }else{
     return (
           <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="grouped-native-select">Topic</InputLabel>
-              <Select native defaultValue={topicId} id="grouped-native-select" onChange={handleChange}>
-                <option aria-label="None" value="" />
-                {topics.flattened.map((topic) => (
-                  <option key={topic.id} value={topic.id}>{(topic.level === 1) ? topic.name : '--' + topic.name }</option>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              onChange={handleChange}
+              options={topicOptions}
+              renderInput={params => (
+                <TextField {...params} label="Topic" variant="outlined" />
+              )}
+              value={Object.values(topics.flattened).find(topic => { return topic.id == topicId })}
+              getOptionLabel={option => (option.level === 1) ? option.name : '--' + option.name}
+            />
           </div>
     )
   }
 }
 
 const VariableList = (props) => {
-  const {variables, instrumentId, ccQuestionId, x, y} = props
+  const {variables, instrumentId, ccQuestionId, x, y, topicId, label='Variables'} = props
 
   const dispatch = useDispatch()
 
   const allVariables = useSelector(state => state.variables);
-  const variableOptions = get(allVariables, instrumentId, {})
+  var variableOptions = Object.values(get(allVariables, instrumentId, {}))
+  if(!isEmpty(topicId)) {
+    variableOptions = variableOptions.filter(opt => {
+      return (
+        get(opt.topic, 'id') == topicId ||
+        get(opt.resolved_topic, 'id') == topicId ||
+        (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null)
+      )
+    })
+  }
 
   const handleAddVariable = (newVariables) => {
     dispatch(CcQuestions.variables.add(instrumentId, ccQuestionId, newVariables, x, y));
@@ -342,7 +377,7 @@ const VariableList = (props) => {
          <Autocomplete
           multiple
           id="tags-outlined"
-          options={Object.values(variableOptions)}
+          options={variableOptions}
           getOptionLabel={(option) => option.name}
           onChange={handleChange}
           value={[]}
@@ -351,7 +386,7 @@ const VariableList = (props) => {
             <TextField
               {...params}
               variant="outlined"
-              label="Variables"
+              label={label}
               placeholder="Add variable"
             />
           )}
@@ -376,7 +411,7 @@ const VariableList = (props) => {
             <TextField
               {...params}
               variant="outlined"
-              label="Variables"
+              label={label}
               placeholder="Add variable"
             />
           )}
@@ -457,9 +492,16 @@ const SequenceItem = (props) => {
         aria-labelledby="nested-list-subheader"
         className={classes.root}
       >
-        <ListItem button onClick={handleClick}>
-          <ListItemText primary={title} />
-            {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItem button >
+          <Grid item xs={6}>
+            <ListItemText primary={title} />
+          </Grid>
+          <Grid item xs={5}>
+            <SequenceTopicsFinder instrumentId={instrumentId} sequence={item} />
+          </Grid>
+          <Grid item xs={1}>
+            {open ? <ExpandLess onClick={handleClick} /> : <ExpandMore onClick={handleClick} />}
+          </Grid>
         </ListItem>
         {!isEmpty(item.children) && (
           <Collapse in={open} timeout="auto" unmountOnExit>

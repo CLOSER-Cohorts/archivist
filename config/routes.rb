@@ -37,6 +37,8 @@ Rails.application.routes.draw do
 
   match 'admin/import/instruments', to: 'instruments#import', via: [:post, :put], constraints: {format: ''}
   match 'admin/import/datasets', to: 'datasets#import', via: [:post, :put], constraints: {format: ''}
+  match 'admin/instruments/:instrument_id/datasets', to: 'instruments_datasets#create', via: [:post], constraints: {format: ''}
+  match 'admin/instruments/:instrument_id/datasets/:dataset_id', to: 'instruments_datasets#destroy', via: [:delete], constraints: {format: ''}
 
   # adding a route.
   match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
@@ -123,6 +125,7 @@ Rails.application.routes.draw do
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
       get 'export', to: 'instruments#export'
+      get 'export_complete', to: 'instruments#export_complete'
       get 'mapper', to: 'instruments#mapper'
       get 'qv', to: 'instruments#mapping'
 

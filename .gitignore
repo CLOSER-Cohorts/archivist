@@ -38,6 +38,7 @@ node_modules/
 /config/initializers/bullet.rb
 /config/initializers/rack_profiler.rb
 
+.env
 .env.*
 !*.example
 

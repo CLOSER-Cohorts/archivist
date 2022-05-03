@@ -7,6 +7,7 @@ import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import { makeStyles } from '@material-ui/core/styles';
 import { ObjectColour } from '../support/ObjectColour'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
   TextField
@@ -131,7 +132,7 @@ const formFields = (item, signedOff, setSignedOff) => {
 }
 
 export const AdminInstrumentForm = (props) => {
-  const {instrument} = props;
+  const {instrument, datasets} = props;
 
   const [signedOff, setSignedOff] = React.useState(instrument.signed_off);
 
@@ -169,6 +170,7 @@ export const AdminInstrumentForm = (props) => {
         submitting,
         values
       }) => (
+        <div>
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
@@ -203,6 +205,7 @@ export const AdminInstrumentForm = (props) => {
               </Grid>
             </Paper>
           </form>
+        </div>
         )}
       />
     </div>

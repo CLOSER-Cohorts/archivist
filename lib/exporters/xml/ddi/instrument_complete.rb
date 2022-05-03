@@ -25,7 +25,7 @@ module Exporters::XML::DDI
   #   xml_string = exp.doc.to_xml &:no_empty_tags
   #
   # @see ::Instruction
-  class Instrument < DdiExporterBase
+  class InstrumentComplete < DdiExporterBase
     # Creates the XML document for exporting to as
     # a DDIInstance
     def initialize
@@ -178,25 +178,19 @@ module Exporters::XML::DDI
     end
 
     def code_lists
-      @code_lists ||= ::CodeList.where(id:
-        (
-          ::CodeList.joins(response_domain_code: :rds_qs).where('rds_qs.question_id IN (?)', question_items.pluck(:id) + question_grids.pluck(:id)).pluck(:id) +
-          ::CodeList.joins(:qgrids_via_h).where('question_grids.id IN (?)', question_grids.pluck(:id)).pluck(:id) +
-          ::CodeList.joins(:qgrids_via_v).where('question_grids.id IN (?)', question_grids.pluck(:id)).pluck(:id)
-        ).uniq
-      )
+      @code_lists ||= @instrument.code_lists
     end
 
     def categories
-      @categories ||= ::Category.joins(codes: :code_list).where('code_lists.id IN (?)', code_lists.pluck(:id)).distinct
+      @categories ||=  @instrument.categories
     end
 
     def question_items
-      @question_items ||= ::QuestionItem.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class.name == 'CcQuestion' && cc.question_type == 'QuestionItem'}.map(&:id)).distinct
+      @question_items ||= @instrument.question_items
     end
 
     def question_grids
-      @question_grids ||= ::QuestionGrid.joins(:cc_questions).where('cc_questions.id IN (?)', control_constructs.select{|cc| cc.class.name == 'CcQuestion' && cc.question_type == 'QuestionGrid'}.map(&:id)).distinct
+      @question_grids ||= @instrument.question_grids
     end
 
     # Populates the InstrumentScheme with the {::Instrument} details

@@ -1,16 +1,44 @@
 class Instruments::Serializer
 
-  attr_accessor :datasets
+  attr_accessor :datasets, :instrument
 
-  def initialize
+  def initialize(instrument=nil)
+    self.instrument = instrument
     self.datasets = get_datasets
   end
 
   def call
+    return all unless instrument
+    single
+  end
+
+  private
+
+  def single
+    i = Rails.cache.fetch("instruments/#{instrument.id}.json", version: instrument.updated_at.to_i) do
+      connection = ActiveRecord::Base.connection
+      sql = %|
+        SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, (SELECT COUNT(*) from control_constructs WHERE control_constructs.instrument_id= #{instrument.id}) as ccs, (SELECT COUNT(*) from qv_mappings WHERE qv_mappings.instrument_id= #{instrument.id}) as qvs
+        FROM instruments
+        WHERE instruments.id = #{instrument.id};
+            |
+
+      i = connection.select_all(sql).to_a.first
+    end
+
+    i[:datasets] = datasets.fetch(i["id"], [])
+    doc = Document.where(document_type: 'instrument_export', item_id: i["id"]).last rescue nil
+    i[:export_time] = doc.created_at.strftime('%b %e %Y %I:%M %p') rescue nil
+    i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}" rescue nil
+
+    return i
+  end
+
+  def all
     instruments = Rails.cache.fetch('instruments.json', version: Instrument.maximum(:updated_at).to_i) do
       connection = ActiveRecord::Base.connection
       sql = %|
-              SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
+              SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
               FROM instruments
               LEFT JOIN control_constructs ON control_constructs.instrument_id = instruments.id
               LEFT JOIN qv_mappings ON qv_mappings.instrument_id = instruments.id
@@ -19,17 +47,23 @@ class Instruments::Serializer
             |
 
       instruments = connection.select_all(sql).to_a
+    end
 
-      instruments = instruments.map do |i|
-        i[:datasets] = datasets.fetch(i["id"], [])
-        i
+    instruments = instruments.map do |i|
+      i[:datasets] = datasets.fetch(i["id"], [])
+      doc = Document.where(document_type: 'instrument_export', item_id: i["id"]).last rescue nil
+      i[:export_time] = doc.created_at.strftime('%b %e %Y %I:%M %p') rescue nil
+      i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}" rescue nil
+      doc = Document.where(document_type: 'instrument_export_complete', item_id: i["id"]).last rescue nil
+      if doc
+        i[:export_complete_time] = doc.created_at.strftime('%b %e %Y %I:%M %p')
+        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}"
       end
+      i
     end
 
     return instruments
   end
-
-  private
 
   def get_datasets
     InstrumentsDatasets.eager_load(:dataset).all.group_by(&:instrument_id).inject({}) { |h, (instrument_id, ids)| h[instrument_id] = ids.map{|id| { id: id.dataset_id, name: id.dataset.name, instance_name: id.dataset.instance_name } }; h }

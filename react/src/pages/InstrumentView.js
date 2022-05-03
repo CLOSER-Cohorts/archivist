@@ -4,7 +4,7 @@ import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestio
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import { Loader } from '../components/Loader'
-import { get, isEmpty, isNil } from "lodash";
+import { get, isEmpty, isNil, times } from "lodash";
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -25,6 +25,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -145,6 +146,8 @@ const QuestionGridListItem = (props) => {
     return ''
   }
 
+  const rows = times(item.question.roster_rows, String)
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -153,6 +156,9 @@ const QuestionGridListItem = (props) => {
 
       <Grid item xs={9}>
         {item.question.literal}
+        {!isEmpty(item.question.instruction) && (
+          <p><i>{item.question.instruction}</i></p>
+        )}
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -163,9 +169,14 @@ const QuestionGridListItem = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {item.question.rows.map((row)=>(
+            {item.question && item.question.rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
+              </TableRow>
+            ))}
+            {item.question && rows.map((row, i) => (
+              <TableRow>
+                <TableCell><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -207,7 +218,9 @@ const VariableItems = ({ variables }) => {
           <ul>
             { variables.map((variable) => {
               return (
-                <li>{variable.name}</li>
+                <li>
+                  <Tooltip arrow title={variable.label}><span>{variable.name}</span></Tooltip>
+                </li>
               )
               })
             }
@@ -364,7 +377,7 @@ const LoopItem = (props) => {
   }
 
   if (item.loop_while) {
-    loop_description += ` ${(item.end_val) ? 'and ' : ''}${item.loop_while}`
+    loop_description += ` ${(item.end_val) ? '&& ' : ''}${item.loop_while}`
   }
 
   if (isNil(item.end_val) && isNil(item.loop_while)) {

@@ -10,20 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -34,7 +20,7 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
 -- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
 --
 
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
 
 
 --
@@ -1180,7 +1166,8 @@ CREATE TABLE public.documents (
     item_type character varying,
     item_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    document_type character varying
 );
 
 
@@ -1570,6 +1557,137 @@ CREATE SEQUENCE public.maps_id_seq
 --
 
 ALTER SEQUENCE public.maps_id_seq OWNED BY public.maps.id;
+
+
+--
+-- Name: new_codelist; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_codelist (
+    r_id integer,
+    min_responses integer,
+    max_responses integer,
+    "Label" character varying,
+    "Code_order" integer,
+    "Code_value" character varying,
+    "Category" character varying
+);
+
+
+--
+-- Name: new_condition; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_condition (
+    "Label" character varying,
+    "Literal" character varying,
+    "Logic" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_loop; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_loop (
+    "Label" character varying,
+    "Loop_While" character varying,
+    "Start_value" character varying,
+    "End_Value" character varying,
+    "Variable" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_question_grid; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_question_grid (
+    "Label" character varying,
+    "Literal" character varying,
+    "Instructions" character varying,
+    "Horizontal_Codelist_Name" character varying,
+    "Vertical_Codelist_Name" character varying,
+    "Response" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer,
+    "Horizontal_min_responses" integer,
+    "Horizontal_max_responses" integer,
+    "Vertical_min_responses" integer,
+    "Vertical_max_responses" integer
+);
+
+
+--
+-- Name: new_question_item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_question_item (
+    id integer,
+    "Label" character varying,
+    "Literal" character varying,
+    "Instructions" character varying,
+    "Response" character varying,
+    parent_id integer,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer,
+    min_responses integer,
+    max_responses integer
+);
+
+
+--
+-- Name: new_response_domain; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_response_domain (
+    r_id integer,
+    "Label" character varying,
+    "Type" text,
+    "Type2" character varying,
+    "Format" text,
+    "Min" numeric,
+    "Max" numeric
+);
+
+
+--
+-- Name: new_sequence; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_sequence (
+    "Label" character varying,
+    "Parent_type" character varying,
+    "Parent_name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_statement; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_statement (
+    "Label" character varying,
+    "Literal" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
 
 
 --
@@ -3612,6 +3730,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190813092806'),
 ('20190829124508'),
 ('20190905215804'),
-('20201021193720');
+('20201021193720'),
+('20220422085829');
 
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! @object, :id, :agency, :version, :prefix, :label, :study, :signed_off
+json.extract! @object, :id, :agency, :version, :prefix, :label, :study, :signed_off, :slug
 json.ccs @object.ccs.count
 json.export_url @object.export_url
 json.export_time @object.export_time

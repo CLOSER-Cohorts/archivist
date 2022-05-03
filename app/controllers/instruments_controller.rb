@@ -8,7 +8,7 @@ class InstrumentsController < ImportableController
                   qvmapping: ImportJob::Mapping,
                   topicq: ImportJob::TopicQ
   })
-  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables latest_document document} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -25,7 +25,9 @@ class InstrumentsController < ImportableController
 
   def show
     respond_to do |f|
-      f.json {render json: @object}
+      f.json {
+        render json: Instruments::Serializer.new(@object).call()
+      }
       f.xml do
         exp = Exporters::XML::DDI::Instrument.new
         exp.add_root_attributes
@@ -72,8 +74,13 @@ class InstrumentsController < ImportableController
     head :ok, format: :json
   end
 
+  def export_complete
+    ExportJob::InstrumentComplete.perform_async(@object.id)
+    head :ok, format: :json
+  end
+
   def variables
-    @collection = @object.variables.includes(:topic, :questions, :question_topics)
+    @collection = @object.variables.includes(:dataset, :topic, :questions, :question_topics, :maps, :src_variables, :der_variables)
     render 'variables/index'
   end
 

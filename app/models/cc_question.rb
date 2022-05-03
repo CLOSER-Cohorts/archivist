@@ -64,8 +64,8 @@ class CcQuestion < ::ControlConstruct
   def resolved_topic_conflict
     return if topic
     variables_grouped_by_topic = variables.group_by(&:topic)
-    if variables_grouped_by_topic.keys.count > 1
-      new_topics = variables_grouped_by_topic.keys - [resolved_topic]
+    if variables_grouped_by_topic.keys.uniq.compact.count > 1
+      new_topics = variables_grouped_by_topic.keys.uniq.compact - [resolved_topic]
       new_variables = variables_grouped_by_topic.values_at(*new_topics).flatten
       errors.add(:topic, I18n.t('activerecord.errors.models.cc_question.attributes.resolved_topic.variables_conflict', new_variables: new_variables.to_sentence, new_topics: new_topics.to_sentence, existing_topic: resolved_topic))
     end

@@ -137,6 +137,38 @@ export const AdminInstrument = {
         });
     };
   },
+  datasets: {
+    create: (instrumentId, datasetId) => {
+      const request = axios.post(api_host + '/admin/instruments/' + instrumentId + '/datasets', { dataset_id: datasetId }, {
+        headers: api_headers()
+      })
+      return (dispatch) => {
+        dispatch(savingItem(instrumentId, 'Instrument'));
+        return request.then(res => {
+          dispatch(savedItem(instrumentId, 'Instrument'));
+          dispatch(instrumentFetchSuccess(res.data));
+        })
+          .catch(err => {
+            console.log('error')
+          });
+      };
+    },
+    delete: (instrumentId, datasetId) => {
+      const request = axios.delete(api_host + '/admin/instruments/' + instrumentId + '/datasets/' + datasetId, {
+        headers: api_headers()
+      })
+      return (dispatch) => {
+        dispatch(savingItem(instrumentId, 'Instrument'));
+        return request.then(res => {
+          dispatch(savedItem(instrumentId, 'Instrument'));;
+          dispatch(instrumentFetchSuccess(res.data));
+        })
+          .catch(err => {
+            dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
+          });
+      };
+    },
+  },
   clearCache: (instrumentId) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/clear_cache.json', {
       headers: api_headers()
@@ -402,6 +434,19 @@ export const Instrument = {
         return request.then(res => {
           console.log('ok')
         })
+        .catch(err => {
+          console.log('error')
+        });
+    };
+  },
+  export_complete: (instrumentId) => {
+    const request = axios.get(api_host + '/instruments/' + instrumentId + '/export_complete.json', {
+      headers: api_headers()
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        console.log('ok')
+      })
         .catch(err => {
           console.log('error')
         });
