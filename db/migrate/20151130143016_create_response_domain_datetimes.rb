@@ -1,4 +1,4 @@
-class CreateResponseDomainDatetimes < ActiveRecord::Migration
+class CreateResponseDomainDatetimes < ActiveRecord::Migration[4.2]
   def change
     create_table :response_domain_datetimes do |t|
       t.string :datetime_type

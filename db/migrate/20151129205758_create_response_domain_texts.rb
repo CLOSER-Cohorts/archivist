@@ -1,4 +1,4 @@
-class CreateResponseDomainTexts < ActiveRecord::Migration
+class CreateResponseDomainTexts < ActiveRecord::Migration[4.2]
   def change
     create_table :response_domain_texts do |t|
       t.string :label

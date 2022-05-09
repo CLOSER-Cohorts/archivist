@@ -10,38 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
-
-
---
--- Name: count_rows(text, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.count_rows(schema text, tablename text) RETURNS integer
-    LANGUAGE plpgsql
-    AS $$
-declare
-  result integer;
-  query varchar;
-begin
-  query := 'SELECT count(1) FROM ' || schema || '.' || tablename;
-  execute query into result;
-  return result;
-end;
-$$;
-
-
---
 -- Name: delete_cc_condition(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -132,55 +100,55 @@ DECLARE
 BEGIN
   IF new.id IS NULL THEN
     INSERT INTO conditions(
-                            instrument_id, 
-                            literal, 
-                            logic, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            logic,
+                            created_at,
                             updated_at
     ) VALUES (
-                            new.instrument_id, 
-                            new.literal, 
-                            new.logic, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.logic,
+                            new.created_at,
                             new.updated_at
     ) RETURNING id INTO cond_id;
   ELSE
     INSERT INTO conditions(
                             id,
-                            instrument_id, 
-                            literal, 
-                            logic, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            logic,
+                            created_at,
                             updated_at
     ) VALUES (
                             new.id,
-                            new.instrument_id, 
-                            new.literal, 
-                            new.logic, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.logic,
+                            new.created_at,
                             new.updated_at
     );
     cond_id = new.id;
   END IF;
   INSERT INTO control_constructs(
-                          label, 
-                          parent_id, 
-                          position, 
-                          branch, 
+                          label,
+                          parent_id,
+                          position,
+                          branch,
                           construct_id,
                           construct_type,
-                          instrument_id, 
-                          created_at, 
+                          instrument_id,
+                          created_at,
                           updated_at
   )  VALUES (
-                          new.label, 
-                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
-                          new.position, 
-                          new.branch, 
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
                           cond_id,
                           'CcCondition',
-                          new.instrument_id, 
-                          new.created_at, 
+                          new.instrument_id,
+                          new.created_at,
                           new.updated_at
   );
   IF new.topic_id IS NOT NULL THEN
@@ -188,14 +156,14 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
     ) VALUES (
                             cond_id,
                             'CcCondition',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
     );
   END IF;
   new.id = cond_id;
@@ -216,63 +184,63 @@ DECLARE
 BEGIN
   IF new.id IS NULL THEN
     INSERT INTO loops(
-                            instrument_id, 
-                            loop_var, 
-                            start_val, 
-                            end_val, 
-                            loop_while, 
-                            created_at, 
+                            instrument_id,
+                            loop_var,
+                            start_val,
+                            end_val,
+                            loop_while,
+                            created_at,
                             updated_at
     ) VALUES (
-                            new.instrument_id, 
-                            new.loop_var, 
-                            new.start_val, 
-                            new.end_val, 
-                            new.loop_while, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.loop_var,
+                            new.start_val,
+                            new.end_val,
+                            new.loop_while,
+                            new.created_at,
                             new.updated_at
     ) RETURNING id INTO loop_id;
   ELSE
     INSERT INTO loops(
                             id,
-                            instrument_id, 
-                            loop_var, 
-                            start_val, 
-                            end_val, 
-                            loop_while, 
-                            created_at, 
+                            instrument_id,
+                            loop_var,
+                            start_val,
+                            end_val,
+                            loop_while,
+                            created_at,
                             updated_at
     ) VALUES (
                             new.id,
-                            new.instrument_id, 
-                            new.loop_var, 
-                            new.start_val, 
-                            new.end_val, 
-                            new.loop_while, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.loop_var,
+                            new.start_val,
+                            new.end_val,
+                            new.loop_while,
+                            new.created_at,
                             new.updated_at
     );
     loop_id = new.id;
   END IF;
   INSERT INTO control_constructs(
-                          label, 
-                          parent_id, 
-                          position, 
-                          branch, 
+                          label,
+                          parent_id,
+                          position,
+                          branch,
                           construct_id,
                           construct_type,
-                          instrument_id, 
-                          created_at, 
+                          instrument_id,
+                          created_at,
                           updated_at
   )  VALUES (
-                          new.label, 
-                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
-                          new.position, 
-                          new.branch, 
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
                           loop_id,
                           'CcLoop',
-                          new.instrument_id, 
-                          new.created_at, 
+                          new.instrument_id,
+                          new.created_at,
                           new.updated_at
   );
   IF new.topic_id IS NOT NULL THEN
@@ -280,15 +248,15 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
-    ) 
+    )
        VALUES (
                             loop_id,
                             'CcLoop',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
     );
   END IF;
   new.id = loop_id;
@@ -309,59 +277,59 @@ DECLARE
 BEGIN
   IF new.id IS NULL THEN
     INSERT INTO questions(
-                            instrument_id, 
-                            question_id, 
-                            question_type, 
-                            response_unit_id, 
-                            created_at, 
+                            instrument_id,
+                            question_id,
+                            question_type,
+                            response_unit_id,
+                            created_at,
                             updated_at
     ) VALUES (
-                            new.instrument_id, 
-                            new.question_id, 
-                            new.question_type, 
-                            new.response_unit_id, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.question_id,
+                            new.question_type,
+                            new.response_unit_id,
+                            new.created_at,
                             new.updated_at
     ) RETURNING id INTO quest_id;
   ELSE
    INSERT INTO questions(
                             id,
-                            instrument_id, 
-                            question_id, 
-                            question_type, 
-                            response_unit_id, 
-                            created_at, 
+                            instrument_id,
+                            question_id,
+                            question_type,
+                            response_unit_id,
+                            created_at,
                             updated_at
     ) VALUES (
                             new.id,
-                            new.instrument_id, 
-                            new.question_id, 
-                            new.question_type, 
-                            new.response_unit_id, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.question_id,
+                            new.question_type,
+                            new.response_unit_id,
+                            new.created_at,
                             new.updated_at
     );
     quest_id = new.id;
   END IF;
   INSERT INTO control_constructs(
-                          label, 
-                          parent_id, 
-                          position, 
-                          branch, 
+                          label,
+                          parent_id,
+                          position,
+                          branch,
                           construct_id,
                           construct_type,
-                          instrument_id, 
-                          created_at, 
+                          instrument_id,
+                          created_at,
                           updated_at
   )  VALUES (
-                          new.label, 
-                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
-                          new.position, 
-                          new.branch, 
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
                           quest_id,
                           'CcQuestion',
-                          new.instrument_id, 
-                          new.created_at, 
+                          new.instrument_id,
+                          new.created_at,
                           new.updated_at
   );
   new.id = quest_id;
@@ -382,51 +350,51 @@ DECLARE
 BEGIN
   IF new.id IS NULL THEN
     INSERT INTO sequences(
-                            instrument_id, 
-                            literal, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            created_at,
                             updated_at
     ) VALUES (
-                            new.instrument_id, 
-                            new.literal, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
                             new.updated_at
     ) RETURNING id INTO seq_id;
   ELSE
     INSERT INTO sequences(
                             id,
-                            instrument_id, 
-                            literal, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            created_at,
                             updated_at
     ) VALUES (
                             new.id,
-                            new.instrument_id, 
-                            new.literal, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
                             new.updated_at
     );
     seq_id = new.id;
   END IF;
   INSERT INTO control_constructs(
-                          label, 
-                          parent_id, 
-                          position, 
-                          branch, 
+                          label,
+                          parent_id,
+                          position,
+                          branch,
                           construct_id,
                           construct_type,
-                          instrument_id, 
-                          created_at, 
+                          instrument_id,
+                          created_at,
                           updated_at
   )  VALUES (
-                          new.label, 
-                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
-                          new.position, 
-                          new.branch, 
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
                           seq_id,
                           'CcSequence',
-                          new.instrument_id, 
-                          new.created_at, 
+                          new.instrument_id,
+                          new.created_at,
                           new.updated_at
   );
   IF new.topic_id IS NOT NULL THEN
@@ -434,15 +402,15 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
-    ) 
+    )
        VALUES (
                             seq_id,
                             'CcSequence',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
     );
   END IF;
   new.id = seq_id;
@@ -461,53 +429,53 @@ CREATE FUNCTION public.insert_cc_statement() RETURNS trigger
 DECLARE
   sta_id INTEGER;
 BEGIN
-  IF new.id IS NULL THEN 
+  IF new.id IS NULL THEN
     INSERT INTO statements(
-                            instrument_id, 
-                            literal, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            created_at,
                             updated_at
     ) VALUES (
-                            new.instrument_id, 
-                            new.literal, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
                             new.updated_at
     ) RETURNING id INTO sta_id;
   ELSE
     INSERT INTO statements(
                             id,
-                            instrument_id, 
-                            literal, 
-                            created_at, 
+                            instrument_id,
+                            literal,
+                            created_at,
                             updated_at
     ) VALUES (
                             new.id,
-                            new.instrument_id, 
-                            new.literal, 
-                            new.created_at, 
+                            new.instrument_id,
+                            new.literal,
+                            new.created_at,
                             new.updated_at
     );
     sta_id = new.id;
   END IF;
   INSERT INTO control_constructs(
-                          label, 
-                          parent_id, 
-                          position, 
-                          branch, 
+                          label,
+                          parent_id,
+                          position,
+                          branch,
                           construct_id,
                           construct_type,
-                          instrument_id, 
-                          created_at, 
+                          instrument_id,
+                          created_at,
                           updated_at
   )  VALUES (
-                          new.label, 
-                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
-                          new.position, 
-                          new.branch, 
+                          new.label,
+                          (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
+                          new.position,
+                          new.branch,
                           sta_id,
                           'CcStatement',
-                          new.instrument_id, 
-                          new.created_at, 
+                          new.instrument_id,
+                          new.created_at,
                           new.updated_at
   );
   new.id = sta_id;
@@ -524,18 +492,18 @@ CREATE FUNCTION public.update_cc_condition() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE conditions 
+  UPDATE conditions
   SET
-          literal     = new.literal, 
-          logic       = new.logic, 
+          literal     = new.literal,
+          logic       = new.logic,
           updated_at  = new.updated_at
   WHERE id = new.id;
-  UPDATE control_constructs 
+  UPDATE control_constructs
   SET
-          label       = new.label, 
-          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
           position    = new.position,
-          branch      = new.branch, 
+          branch      = new.branch,
           updated_at = new.updated_at
   WHERE construct_id = new.id AND construct_type = 'CcCondition';
   IF new.topic_id <> old.topic_id THEN
@@ -546,15 +514,15 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
-      ) 
+      )
          VALUES (
                             new.id,
                             'CcCondition',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
       );
     ELSE
       UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcCondition';
@@ -573,20 +541,20 @@ CREATE FUNCTION public.update_cc_loop() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE loops 
+  UPDATE loops
   SET
-          loop_var          = new.loop_var, 
+          loop_var          = new.loop_var,
           start_val         = new.start_val,
           end_val           = new.end_val,
-          loop_while        = new.loop_while, 
+          loop_while        = new.loop_while,
           updated_at        = new.updated_at
   WHERE id = new.id;
-  UPDATE control_constructs 
+  UPDATE control_constructs
   SET
-          label       = new.label, 
-          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
           position    = new.position,
-          branch      = new.branch, 
+          branch      = new.branch,
           updated_at = new.updated_at
   WHERE construct_id = new.id AND construct_type = 'CcLoop';
   IF new.topic_id <> old.topic_id THEN
@@ -597,15 +565,15 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
-      ) 
+      )
          VALUES (
                             new.id,
                             'CcLoop',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
       );
     ELSE
       UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcLoop';
@@ -624,19 +592,19 @@ CREATE FUNCTION public.update_cc_question() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE questions 
+  UPDATE questions
   SET
-          question_id       = new.question_id, 
+          question_id       = new.question_id,
           question_type     = new.question_type,
           response_unit_id  = new.response_unit_id,
           updated_at        = new.updated_at
   WHERE id = new.id;
-  UPDATE control_constructs 
+  UPDATE control_constructs
   SET
-          label       = new.label, 
-          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
           position    = new.position,
-          branch      = new.branch, 
+          branch      = new.branch,
           updated_at = new.updated_at
   WHERE construct_id = new.id AND construct_type = 'CcQuestion';
   RETURN new;
@@ -652,17 +620,17 @@ CREATE FUNCTION public.update_cc_sequence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE sequences 
+  UPDATE sequences
   SET
-          literal           = new.literal, 
+          literal           = new.literal,
           updated_at        = new.updated_at
   WHERE id = new.id;
-  UPDATE control_constructs 
+  UPDATE control_constructs
   SET
-          label       = new.label, 
-          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
           position    = new.position,
-          branch      = new.branch, 
+          branch      = new.branch,
           updated_at = new.updated_at
   WHERE construct_id = new.id AND construct_type = 'CcSequence';
   IF new.topic_id <> old.topic_id THEN
@@ -673,15 +641,15 @@ BEGIN
                             target_id,
                             target_type,
                             topic_id,
-                            created_at, 
+                            created_at,
                             updated_at
-      ) 
+      )
          VALUES (
                             new.id,
                             'CcSequence',
-                            new.topic_id, 
-                            new.created_at, 
-                            new.updated_at 
+                            new.topic_id,
+                            new.created_at,
+                            new.updated_at
       );
     ELSE
       UPDATE links SET topic_id = new.topic_id WHERE target_id = new.id AND target_type = 'CcSequence';
@@ -700,17 +668,17 @@ CREATE FUNCTION public.update_cc_statement() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  UPDATE statements 
+  UPDATE statements
   SET
-          literal           = new.literal, 
+          literal           = new.literal,
           updated_at        = new.updated_at
   WHERE id = new.id;
-  UPDATE control_constructs 
+  UPDATE control_constructs
   SET
-          label       = new.label, 
-          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
+          label       = new.label,
+          parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id),
           position    = new.position,
-          branch      = new.branch, 
+          branch      = new.branch,
           updated_at = new.updated_at
   WHERE construct_id = new.id AND construct_type = 'CcStatement';
   RETURN new;
@@ -752,6 +720,7 @@ CREATE TABLE public.categories (
 --
 
 CREATE SEQUENCE public.categories_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -788,8 +757,8 @@ CREATE TABLE public.conditions (
 CREATE TABLE public.control_constructs (
     id integer NOT NULL,
     label character varying,
-    construct_id integer NOT NULL,
     construct_type character varying NOT NULL,
+    construct_id integer NOT NULL,
     parent_id integer,
     "position" integer,
     branch integer,
@@ -805,8 +774,8 @@ CREATE TABLE public.control_constructs (
 
 CREATE TABLE public.links (
     id integer NOT NULL,
-    target_id integer NOT NULL,
     target_type character varying NOT NULL,
+    target_id integer NOT NULL,
     topic_id integer NOT NULL,
     x integer,
     y integer,
@@ -846,8 +815,8 @@ CREATE VIEW public.cc_conditions AS
 CREATE VIEW public.cc_links AS
  SELECT cc.id,
     cc.label,
-    cc.construct_id,
     cc.construct_type,
+    cc.construct_id,
     cc.parent_id,
     cc."position",
     cc.branch,
@@ -909,8 +878,8 @@ CREATE VIEW public.cc_loops AS
 
 CREATE TABLE public.questions (
     id integer NOT NULL,
-    question_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     response_unit_id integer NOT NULL,
@@ -1032,6 +1001,7 @@ CREATE TABLE public.code_lists (
 --
 
 CREATE SEQUENCE public.code_lists_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1067,6 +1037,7 @@ CREATE TABLE public.codes (
 --
 
 CREATE SEQUENCE public.codes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1086,6 +1057,7 @@ ALTER SEQUENCE public.codes_id_seq OWNED BY public.codes.id;
 --
 
 CREATE SEQUENCE public.conditions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1105,6 +1077,7 @@ ALTER SEQUENCE public.conditions_id_seq OWNED BY public.conditions.id;
 --
 
 CREATE SEQUENCE public.control_constructs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1139,6 +1112,7 @@ CREATE TABLE public.datasets (
 --
 
 CREATE SEQUENCE public.datasets_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1176,6 +1150,7 @@ CREATE TABLE public.documents (
 --
 
 CREATE SEQUENCE public.documents_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1196,8 +1171,8 @@ ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
 
 CREATE TABLE public.maps (
     id integer NOT NULL,
-    source_id integer NOT NULL,
     source_type character varying NOT NULL,
+    source_id integer NOT NULL,
     variable_id integer NOT NULL,
     x integer,
     y integer,
@@ -1240,7 +1215,7 @@ CREATE VIEW public.dv_mappings AS
 --
 
 CREATE TABLE public.friendly_id_slugs (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     slug character varying NOT NULL,
     sluggable_id integer NOT NULL,
     sluggable_type character varying(50),
@@ -1332,6 +1307,7 @@ CREATE TABLE public.identifiers (
 --
 
 CREATE SEQUENCE public.identifiers_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1368,6 +1344,7 @@ CREATE TABLE public.imports (
 --
 
 CREATE SEQUENCE public.imports_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1400,6 +1377,7 @@ CREATE TABLE public.instructions (
 --
 
 CREATE SEQUENCE public.instructions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1450,6 +1428,7 @@ CREATE TABLE public.instruments_datasets (
 --
 
 CREATE SEQUENCE public.instruments_datasets_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1469,6 +1448,7 @@ ALTER SEQUENCE public.instruments_datasets_id_seq OWNED BY public.instruments_da
 --
 
 CREATE SEQUENCE public.instruments_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1488,6 +1468,7 @@ ALTER SEQUENCE public.instruments_id_seq OWNED BY public.instruments.id;
 --
 
 CREATE SEQUENCE public.item_groups_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1507,6 +1488,7 @@ ALTER SEQUENCE public.item_groups_id_seq OWNED BY public.item_groups.id;
 --
 
 CREATE SEQUENCE public.links_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1526,6 +1508,7 @@ ALTER SEQUENCE public.links_id_seq OWNED BY public.links.id;
 --
 
 CREATE SEQUENCE public.loops_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1545,6 +1528,7 @@ ALTER SEQUENCE public.loops_id_seq OWNED BY public.loops.id;
 --
 
 CREATE SEQUENCE public.maps_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1557,137 +1541,6 @@ CREATE SEQUENCE public.maps_id_seq
 --
 
 ALTER SEQUENCE public.maps_id_seq OWNED BY public.maps.id;
-
-
---
--- Name: new_codelist; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_codelist (
-    r_id integer,
-    min_responses integer,
-    max_responses integer,
-    "Label" character varying,
-    "Code_order" integer,
-    "Code_value" character varying,
-    "Category" character varying
-);
-
-
---
--- Name: new_condition; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_condition (
-    "Label" character varying,
-    "Literal" character varying,
-    "Logic" character varying,
-    "Parent_Type" character varying,
-    "Parent_Name" character varying,
-    "Branch" integer,
-    "Position" integer
-);
-
-
---
--- Name: new_loop; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_loop (
-    "Label" character varying,
-    "Loop_While" character varying,
-    "Start_value" character varying,
-    "End_Value" character varying,
-    "Variable" character varying,
-    "Parent_Type" character varying,
-    "Parent_Name" character varying,
-    "Branch" integer,
-    "Position" integer
-);
-
-
---
--- Name: new_question_grid; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_question_grid (
-    "Label" character varying,
-    "Literal" character varying,
-    "Instructions" character varying,
-    "Horizontal_Codelist_Name" character varying,
-    "Vertical_Codelist_Name" character varying,
-    "Response" character varying,
-    "Parent_Type" character varying,
-    "Parent_Name" character varying,
-    "Branch" integer,
-    "Position" integer,
-    "Horizontal_min_responses" integer,
-    "Horizontal_max_responses" integer,
-    "Vertical_min_responses" integer,
-    "Vertical_max_responses" integer
-);
-
-
---
--- Name: new_question_item; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_question_item (
-    id integer,
-    "Label" character varying,
-    "Literal" character varying,
-    "Instructions" character varying,
-    "Response" character varying,
-    parent_id integer,
-    "Parent_Type" character varying,
-    "Parent_Name" character varying,
-    "Branch" integer,
-    "Position" integer,
-    min_responses integer,
-    max_responses integer
-);
-
-
---
--- Name: new_response_domain; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_response_domain (
-    r_id integer,
-    "Label" character varying,
-    "Type" text,
-    "Type2" character varying,
-    "Format" text,
-    "Min" numeric,
-    "Max" numeric
-);
-
-
---
--- Name: new_sequence; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_sequence (
-    "Label" character varying,
-    "Parent_type" character varying,
-    "Parent_name" character varying,
-    "Branch" integer,
-    "Position" integer
-);
-
-
---
--- Name: new_statement; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.new_statement (
-    "Label" character varying,
-    "Literal" character varying,
-    "Parent_Type" character varying,
-    "Parent_Name" character varying,
-    "Branch" integer,
-    "Position" integer
-);
 
 
 --
@@ -1716,6 +1569,7 @@ CREATE TABLE public.question_grids (
 --
 
 CREATE SEQUENCE public.question_grids_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1751,6 +1605,7 @@ CREATE TABLE public.question_items (
 --
 
 CREATE SEQUENCE public.question_items_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1770,6 +1625,7 @@ ALTER SEQUENCE public.question_items_id_seq OWNED BY public.question_items.id;
 --
 
 CREATE SEQUENCE public.questions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1808,10 +1664,10 @@ CREATE VIEW public.qv_mappings AS
 
 CREATE TABLE public.rds_qs (
     id integer NOT NULL,
-    response_domain_id integer NOT NULL,
     response_domain_type character varying NOT NULL,
-    question_id integer NOT NULL,
+    response_domain_id integer NOT NULL,
     question_type character varying NOT NULL,
+    question_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     code_id integer,
@@ -1825,6 +1681,7 @@ CREATE TABLE public.rds_qs (
 --
 
 CREATE SEQUENCE public.rds_qs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1860,6 +1717,7 @@ CREATE TABLE public.response_domain_codes (
 --
 
 CREATE SEQUENCE public.response_domain_codes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1895,6 +1753,7 @@ CREATE TABLE public.response_domain_datetimes (
 --
 
 CREATE SEQUENCE public.response_domain_datetimes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1931,6 +1790,7 @@ CREATE TABLE public.response_domain_numerics (
 --
 
 CREATE SEQUENCE public.response_domain_numerics_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1965,6 +1825,7 @@ CREATE TABLE public.response_domain_texts (
 --
 
 CREATE SEQUENCE public.response_domain_texts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1997,6 +1858,7 @@ CREATE TABLE public.response_units (
 --
 
 CREATE SEQUENCE public.response_units_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2025,6 +1887,7 @@ CREATE TABLE public.schema_migrations (
 --
 
 CREATE SEQUENCE public.sequences_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2044,6 +1907,7 @@ ALTER SEQUENCE public.sequences_id_seq OWNED BY public.sequences.id;
 --
 
 CREATE SEQUENCE public.statements_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2063,6 +1927,7 @@ ALTER SEQUENCE public.statements_id_seq OWNED BY public.statements.id;
 --
 
 CREATE SEQUENCE public.streamlined_groupings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2097,6 +1962,7 @@ CREATE TABLE public.topics (
 --
 
 CREATE SEQUENCE public.topics_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2130,6 +1996,7 @@ CREATE TABLE public.user_groups (
 --
 
 CREATE SEQUENCE public.user_groups_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2182,6 +2049,7 @@ CREATE TABLE public.users (
 --
 
 CREATE SEQUENCE public.users_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2201,6 +2069,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 --
 
 CREATE SEQUENCE public.variables_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2724,6 +2593,14 @@ ALTER TABLE ONLY public.response_domain_texts
 
 ALTER TABLE ONLY public.response_units
     ADD CONSTRAINT response_units_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
@@ -3272,13 +3149,6 @@ CREATE UNIQUE INDEX unique_mapping ON public.maps USING btree (source_id, source
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
-
-
---
 -- Name: groupings groupings_delete; Type: RULE; Schema: public; Owner: -
 --
 
@@ -3396,10 +3266,10 @@ CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON public.cc_questions FOR E
 
 
 --
--- Name: cc_sequences update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
+-- Name: cc_sequences update_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.update_cc_sequence();
+CREATE TRIGGER update_cc_sequence INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.update_cc_sequence();
 
 
 --
@@ -3694,7 +3564,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20151206185120'),
 ('20151206185659'),
 ('20151206205100'),
-('20151211153924'),
 ('20160121070958'),
 ('20160216154523'),
 ('20160413095800'),
@@ -3725,7 +3594,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171124115905'),
 ('20171212182936'),
 ('20181106140729'),
-('20190812092806'),
 ('20190812092819'),
 ('20190813092806'),
 ('20190829124508'),

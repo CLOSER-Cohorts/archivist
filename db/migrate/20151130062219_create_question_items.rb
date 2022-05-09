@@ -1,4 +1,4 @@
-class CreateQuestionItems < ActiveRecord::Migration
+class CreateQuestionItems < ActiveRecord::Migration[4.2]
   def change
     create_table :question_items do |t|
       t.string :label

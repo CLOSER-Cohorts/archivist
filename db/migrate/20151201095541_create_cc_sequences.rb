@@ -1,4 +1,4 @@
-class CreateCcSequences < ActiveRecord::Migration
+class CreateCcSequences < ActiveRecord::Migration[4.2]
   def change
     create_table :cc_sequences do |t|
       t.string :literal

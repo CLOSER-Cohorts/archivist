@@ -1,4 +1,4 @@
-class CreateControlConstructs < ActiveRecord::Migration
+class CreateControlConstructs < ActiveRecord::Migration[4.2]
   def change
     create_table :control_constructs do |t|
       t.string :label
