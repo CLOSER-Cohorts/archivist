@@ -32,40 +32,42 @@ import {
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
-const TreeNode = (instrumentId, type, id, expanded=false) => {
-  var item = ObjectFinder(instrumentId, type, id)
+const TreeNode = (instrumentId, type, id, objectFinder, expanded = false) => {
+  var item = objectFinder.find(type, id)
+
   var children;
 
-  if(item.type === "condition"){
-    children = get(item, 'children',[])
-    var fchildren = get(item, 'fchildren',[])
+  if (item.type === "condition") {
+    children = get(item, 'children', [])
+    var fchildren = get(item, 'fchildren', [])
 
     var trueAndFalse = [
-      { title: `${item.label} True`, expanded: expanded, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id)) },
-      { title: `${item.label} Else`, expanded: expanded, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id)) },
+      { title: `${item.label} True`, expanded: expanded, conditionId: item.id, type: 'conditionTrue', children: children.map(child => TreeNode(instrumentId, child.type, child.id, objectFinder)) },
+      { title: `${item.label} Else`, expanded: expanded, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNode(instrumentId, child.type, child.id, objectFinder)) },
     ]
-    return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: trueAndFalse } }
-  }else{
-    children = get(item, 'children',[])
+    return { ...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: trueAndFalse } }
+  } else {
+    children = get(item, 'children', [])
 
-    return {...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id)) } }
+    return { ...item, ...{ title: `${item.label}`, expanded: expanded, type: item.type, children: children.map(child => TreeNode(instrumentId, child.type, child.id, objectFinder)) } }
   }
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
   const children = (item.type === "condition") ? [
-      { title: `${item.label} True`, expanded: false, type: 'conditionTrue', children: [] },
-      { title: `${item.label} Else`, expanded: false, type: 'conditionFalse', children: [] },
-    ] : []
-  return {...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children } }
+    { title: `${item.label} True`, expanded: false, conditionId: item.id, type: 'conditionTrue', children: item.children[0].children.map(child => TreeNodeFormatter(instrumentId, child)) },
+    { title: `${item.label} Else`, expanded: false, conditionId: item.id, type: 'conditionFalse', children: item.children[1].children.map(child => TreeNodeFormatter(instrumentId, child)) },
+  ] : []
+  return { ...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children } }
 }
 
 const Tree = (props) => {
   const { topSequence, instrumentId, dispatch, onNodeSelect } = props
-  const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id, true)]);
+  const objectFinder = ObjectFinder(instrumentId);
+  const [treeData, setTreeData] = useState([TreeNode(instrumentId, 'CcSequence', topSequence.id, objectFinder, true)]);
   const [selectedNode, setSelectedNode] = useState({});
 
-//  const [expanded, setExpanded] = useState(true);
+  //  const [expanded, setExpanded] = useState(true);
   const classes = useStyles();
 
   const [searchString, setSearchString] = useState();
@@ -78,38 +80,38 @@ const Tree = (props) => {
     node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
 
   const selectPrevMatch = () =>
-      setSearchFocusIndex(
-        searchFocusIndex !== null
-          ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
-          : searchFoundCount - 1
-      );
+    setSearchFocusIndex(
+      searchFocusIndex !== null
+        ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
+        : searchFoundCount - 1
+    );
 
   const selectNextMatch = () =>
     setSearchFocusIndex(
-        searchFocusIndex !== null
-          ? (searchFocusIndex + 1) % searchFoundCount
-          : 0,
+      searchFocusIndex !== null
+        ? (searchFocusIndex + 1) % searchFoundCount
+        : 0,
     );
 
   const getNodeKey = ({ treeIndex }) => treeIndex;
 
   const updateNode = ({ node, path }) => {
     var data = changeNodeAtPath({
-        treeData: treeData,
-        path,
-        getNodeKey,
-        newNode: TreeNodeFormatter(instrumentId, node)
-      })
-      setTreeData(data)
-      reorderConstructs(data)
+      treeData: treeData,
+      path,
+      getNodeKey,
+      newNode: TreeNodeFormatter(instrumentId, node)
+    })
+    setTreeData(data)
+    reorderConstructs(data)
   }
 
   const deleteNode = ({ path }) => {
     onNodeSelect({})
     setTreeData(removeNodeAtPath({
-                    treeData: treeData,
-                    path,
-                    getNodeKey,
+      treeData: treeData,
+      path,
+      getNodeKey,
     }));
   }
 
@@ -127,8 +129,8 @@ const Tree = (props) => {
 
   const toggleExpand = (expanded) => {
     setTreeData(toggleExpandedForAll({
-                    treeData: treeData,
-                    expanded: expanded
+      treeData: treeData,
+      expanded: expanded
     }));
   }
 
@@ -138,10 +140,10 @@ const Tree = (props) => {
       getNodeKey: ({ node }) => { return { id: node.id, type: node.type } }, // This ensures your "id" properties are exported in the path
       ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
     }).map(({ node, path }) => {
-      if(!canHaveChildren(node)){
+      if (!canHaveChildren(node)) {
         return null
       }
-      if(['conditionTrue', 'conditionFalse'].includes(node.type)){
+      if (['conditionTrue', 'conditionFalse'].includes(node.type)) {
         return null
       }
       return {
@@ -158,11 +160,11 @@ const Tree = (props) => {
   const orderArray = (data) => {
     return getFlatDataFromTree({
       treeData: data,
-      getNodeKey: ({ node }) => { return { id: node.id, type: node.type, children: node.children.map(child => `type ${child.type} id ${child.id}` ) } }, // This ensures your "id" properties are exported in the path
+      getNodeKey: ({ node }) => { return { id: node.id, type: node.type, children: node.children.map(child => `type ${child.type} id ${child.id}`) } }, // This ensures your "id" properties are exported in the path
       ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
     }).map(({ node, path }) => {
-      if(['conditionTrue', 'conditionFalse'].includes(node.type)){
-        if(node.id === 172015 || node.id === 36397 || node.id === 36396){
+      if (['conditionTrue', 'conditionFalse'].includes(node.type)) {
+        if (node.id === 172015 || node.id === 36397 || node.id === 36396) {
           console.log('nope')
         }
         return null
@@ -170,7 +172,7 @@ const Tree = (props) => {
       let parent = path[path.length - 2]
       let branch = (parent !== undefined && parent.type === 'conditionFalse') ? 1 : 0
       let position = (parent !== undefined) ? parent.children.indexOf(`type ${node.type} id ${node.id}`) + 1 : node.position
-      if(parent !== undefined && ['conditionTrue', 'conditionFalse'].includes(parent.type)){
+      if (parent !== undefined && ['conditionTrue', 'conditionFalse'].includes(parent.type)) {
         parent = path[path.length - 3]
       }
       const data = {
@@ -192,59 +194,59 @@ const Tree = (props) => {
   }
 
   const generateButtons = (node, path) => {
-      var buttons = []
-      if(canHaveChildren(node)){
-        const newNode = {
-                      title: `Click to select construct type`,
-                      children: [],
-                      type: undefined
-                    }
-        buttons.push(
-              <button
-              onClick={(event) => {
-                  setTreeData(addNodeUnderParent({
-                    treeData: treeData,
-                    parentKey: path[path.length - 1],
-                    expandParent: true,
-                    getNodeKey,
-                    newNode: newNode
-                  }).treeData)
-                  event.stopPropagation()
-                  console.log(newNode)
-                  console.log(path)
-                  setSelectedNode({ node: newNode, path: path,  callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
-              }}
-            >
-              <AddIcon />
-            </button>
-        )
+    var buttons = []
+    if (canHaveChildren(node)) {
+      const newNode = {
+        title: `Click to select construct type`,
+        children: [],
+        type: undefined
       }
-      return buttons;
+      buttons.push(
+        <button
+          onClick={(event) => {
+            setTreeData(addNodeUnderParent({
+              treeData: treeData,
+              parentKey: path[path.length - 1],
+              expandParent: true,
+              getNodeKey,
+              newNode: newNode
+            }).treeData)
+            event.stopPropagation()
+            console.log(newNode)
+            console.log(path)
+            setSelectedNode({ node: newNode, path: path, callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
+          }}
+        >
+          <AddIcon />
+        </button>
+      )
+    }
+    return buttons;
   }
-  const treeHeight = getFlatDataFromTree({treeData: treeData, getNodeKey: ({ node }) => { return { id: node.id, type: node.type } }, ignoreCollapsed: true }).length * 75
+  const treeHeight = getFlatDataFromTree({ treeData: treeData, getNodeKey: ({ node }) => { return { id: node.id, type: node.type } }, ignoreCollapsed: true }).length * 75
 
   return (
     <div style={{ height: treeHeight }}>
 
-      <Divider className={classes.divider}/>
+      <Divider className={classes.divider} />
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <MoveConstructSelect treeData={treeData} onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } } />
+          <MoveConstructSelect treeData={treeData} onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) }} />
         </Grid>
         <Grid item xs={6}>
           <ButtonGroup color="primary" aria-label="outlined primary button group">
-            <Button onClick={()=>{toggleExpand(true)}} startIcon={<ExpandMoreIcon />}>Expand All</Button>
-            <Button onClick={()=>{toggleExpand(false)}} startIcon={<ExpandLessIcon />}>Collapse All</Button>
+            <Button onClick={() => { toggleExpand(true) }} startIcon={<ExpandMoreIcon />}>Expand All</Button>
+            <Button onClick={() => { toggleExpand(false) }} startIcon={<ExpandLessIcon />}>Collapse All</Button>
           </ButtonGroup>
         </Grid>
       </Grid>
 
       <SortableTree
         treeData={treeData}
-        onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) } }
+        onChange={newTreeData => { setTreeData(newTreeData); reorderConstructs(newTreeData) }}
         canNodeHaveChildren={node => canHaveChildren(node)}
         canDrop={canDrop}
-        canDrag={({node}) =>{
+        canDrag={({ node }) => {
           return !['conditionTrue', 'conditionFalse'].includes(node.type)
         }}
         searchMethod={customSearchMethod}
@@ -255,7 +257,7 @@ const Tree = (props) => {
           setSearchFocusIndex(matches.length > 0 ? searchFocusIndex % matches.length : 0)
         }}
         generateNodeProps={({ node, path }) => {
-          const boxShadow = (node === selectedNode || node.type == 'sequence' ) ? `0px 0px 15px 3px  #${ObjectColour(node.type)}` : ''
+          const boxShadow = (node === selectedNode || node.type == 'sequence') ? `0px 0px 15px 3px  #${ObjectColour(node.type)}` : ''
 
           return (
             {
@@ -263,7 +265,7 @@ const Tree = (props) => {
                 boxShadow: boxShadow,
               },
               onClick: () => {
-                onNodeSelect({ node: node, path: path,  callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
+                onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
                 setSelectedNode(node);
               },
               buttons: generateButtons(node, path),
@@ -296,30 +298,30 @@ const useStyles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
-  paper:{
-    boxShadow :`5px 5px 10px 5px  #${ObjectColour('default')}`
+  paper: {
+    boxShadow: `5px 5px 10px 5px  #${ObjectColour('default')}`
   },
-  statement:{
-    boxShadow :`2px 2px 7px 2px  #${ObjectColour('statement')}`,
+  statement: {
+    boxShadow: `2px 2px 7px 2px  #${ObjectColour('statement')}`,
     'margin-bottom': '10px'
   },
-  sequence:{
-    boxShadow :`2px 2px 7px 2px  #${ObjectColour('sequence')}`,
+  sequence: {
+    boxShadow: `2px 2px 7px 2px  #${ObjectColour('sequence')}`,
     'margin-bottom': '10px'
   },
-  question:{
-    boxShadow :`2px 2px 7px 2px  #${ObjectColour('question')}`,
+  question: {
+    boxShadow: `2px 2px 7px 2px  #${ObjectColour('question')}`,
     'margin-bottom': '10px'
   },
-  loop:{
-    boxShadow :`2px 2px 7px 2px  #${ObjectColour('loop')}`,
+  loop: {
+    boxShadow: `2px 2px 7px 2px  #${ObjectColour('loop')}`,
     'margin-bottom': '10px'
   },
-  condition:{
-    boxShadow :`2px 2px 7px 2px  #${ObjectColour('condition')}`,
+  condition: {
+    boxShadow: `2px 2px 7px 2px  #${ObjectColour('condition')}`,
     'margin-bottom': '10px'
   },
-  divider:{
+  divider: {
     margin: '25px'
   }
 }));
@@ -330,7 +332,7 @@ const ObjectStatus = (id, type) => {
   return get(statuses, key, {})
 }
 
-const ObjectFinder = (instrumentId, type, id) => {
+const ObjectFinder = (instrumentId) => {
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, {})
   const statements = useSelector(state => state.cc_statements);
@@ -346,47 +348,51 @@ const ObjectFinder = (instrumentId, type, id) => {
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
 
-  var item = {children: []}
+  var item = { children: [] }
 
-  if(type === 'CcLoop'){
-    item = get(cc_loops, id.toString(), {})
-    item.type = 'loop'
-  }
+  return {
+    find: (type, id) => {
+      if (type === 'CcLoop') {
+        item = get(cc_loops, id.toString(), {})
+        item.type = 'loop'
+      }
 
-  if(type === 'CcSequence'){
-    item = get(cc_sequences, id.toString(), {})
-    item.type = 'sequence'
-  }
+      if (type === 'CcSequence') {
+        item = get(cc_sequences, id.toString(), {})
+        item.type = 'sequence'
+      }
 
-  if(type === 'CcStatement'){
-    item = get(cc_statements, id.toString(), {})
-    item.type = 'statement'
-  }
+      if (type === 'CcStatement') {
+        item = get(cc_statements, id.toString(), {})
+        item.type = 'statement'
+      }
 
-  if(type === 'CcCondition'){
-    item = get(cc_conditions, id.toString(), {})
-    item.type = 'condition'
-  }
+      if (type === 'CcCondition') {
+        item = get(cc_conditions, id.toString(), {})
+        item.type = 'condition'
+      }
 
-  if(type === 'CcQuestion'){
-    item = get(cc_questions, id.toString(), {})
+      if (type === 'CcQuestion') {
+        item = get(cc_questions, id.toString(), {})
 
-    if(item.question_type === 'QuestionItem'){
-      item.question = get(questionItems, item.question_id.toString(), {})
-    }else if(item.question_type === 'QuestionGrid'){
-      item.question = get(questionGrids, item.question_id.toString(), {})
+        if (item.question_type === 'QuestionItem') {
+          item.question = get(questionItems, item.question_id.toString(), {})
+        } else if (item.question_type === 'QuestionGrid') {
+          item.question = get(questionGrids, item.question_id.toString(), {})
+        }
+        item.type = 'question'
+      }
+
+      return item
     }
-    item.type = 'question'
   }
-
-  return item
 
 }
 
 const ConstructForm = (props) => {
-  const {object, instrumentId, onNodeSelect} = props;
-  const { node={}, path, callback=(node)=>{ console.log('No onChange callback provided')}, deleteCallback=(node)=>{ console.log('No onDelete callback provided')} } = object;
-  const onCreate = () => { onNodeSelect(null)}
+  const { object, instrumentId, onNodeSelect } = props;
+  const { node = {}, path, callback = (node) => { console.log('No onChange callback provided') }, deleteCallback = (node) => { console.log('No onDelete callback provided') } } = object;
+  const onCreate = () => { onNodeSelect(null) }
   switch (node.type) {
     case 'question':
       return <CcQuestionForm ccQuestion={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
@@ -400,7 +406,7 @@ const ConstructForm = (props) => {
       return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case undefined:
       console.log(object)
-      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback} onCreate={onCreate}/>
+      return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback} onCreate={onCreate} />
     default:
       return ''
   }
@@ -408,83 +414,83 @@ const ConstructForm = (props) => {
 }
 
 const NewConstructQuestion = (props) => {
-  const {object, onNodeSelect, onDelete, path, onChange} = props;
+  const { object, onNodeSelect, onDelete, path, onChange } = props;
 
   const classes = useStyles();
   console.log(object)
   return (
-            <Paper style={{ padding: 16 }} className={classes.paper}>
-              <h3>Select construct type</h3>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    className={classes.question}
-                    onClick={() => {
-                      var node = {...object.node, ...{ type: 'question' }}
-                      onNodeSelect({...object, ...{node: node }})
-                    }}
-                  >
-                    Question
-                  </Button>
-                  <br/>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    className={classes.condition}
-                    onClick={() => {
-                      var node = {...object.node, ...{ type: 'condition' }}
-                      onNodeSelect({...object, ...{node: node, callback: onChange }})
-                    }}
-                  >
-                    Condition
-                  </Button>
-                  <br/>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    className={classes.loop}
-                    onClick={() => {
-                      var node = {...object.node, ...{ type: 'loop' }}
-                      onNodeSelect({...object, ...{node: node }})
-                    }}
-                  >
-                    Loop
-                  </Button>
-                  <br/>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    className={classes.sequence}
-                    onClick={() => {
-                      var node = {...object.node, ...{ type: 'sequence' }}
-                      onNodeSelect({...object, ...{node: node }})
-                    }}
-                  >
-                    Sequence
-                  </Button>
-                  <br/>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    className={classes.statement}
-                    onClick={() => {
-                      var node = {...object.node, ...{ type: 'statement' }}
-                      onNodeSelect({...object, ...{node: node }})
-                    }}
-                  >
-                    Statement
-                  </Button>
-                  <br/>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    onClick={() => {
-                      onDelete({ path })
-                    }}
-                  >
-                    Delete
-                  </Button>
-          </Paper>
+    <Paper style={{ padding: 16 }} className={classes.paper}>
+      <h3>Select construct type</h3>
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.question}
+        onClick={() => {
+          var node = { ...object.node, ...{ type: 'question' } }
+          onNodeSelect({ ...object, ...{ node: node } })
+        }}
+      >
+        Question
+      </Button>
+      <br />
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.condition}
+        onClick={() => {
+          var node = { ...object.node, ...{ type: 'condition' } }
+          onNodeSelect({ ...object, ...{ node: node, callback: onChange } })
+        }}
+      >
+        Condition
+      </Button>
+      <br />
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.loop}
+        onClick={() => {
+          var node = { ...object.node, ...{ type: 'loop' } }
+          onNodeSelect({ ...object, ...{ node: node } })
+        }}
+      >
+        Loop
+      </Button>
+      <br />
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.sequence}
+        onClick={() => {
+          var node = { ...object.node, ...{ type: 'sequence' } }
+          onNodeSelect({ ...object, ...{ node: node } })
+        }}
+      >
+        Sequence
+      </Button>
+      <br />
+      <Button
+        type="button"
+        variant="outlined"
+        className={classes.statement}
+        onClick={() => {
+          var node = { ...object.node, ...{ type: 'statement' } }
+          onNodeSelect({ ...object, ...{ node: node } })
+        }}
+      >
+        Statement
+      </Button>
+      <br />
+      <Button
+        type="button"
+        variant="outlined"
+        onClick={() => {
+          onDelete({ path })
+        }}
+      >
+        Delete
+      </Button>
+    </Paper>
   )
 
 }
@@ -517,10 +523,10 @@ const InstrumentConstructBuild = (props) => {
       setDataLoaded(true)
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  }, []);
 
   const handleCloseForm = () => {
-    dispatch({ type: 'CLEAR', payload: { id: selectedNode.node.id, type: ConstructTypeFromObjectType(selectedNode.node.type)}})
+    dispatch({ type: 'CLEAR', payload: { id: selectedNode.node.id, type: ConstructTypeFromObjectType(selectedNode.node.type) } })
     setSelectedNode(null)
   }
 
@@ -530,22 +536,22 @@ const InstrumentConstructBuild = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Build'} instrumentId={instrumentId}>
         <h1>{get(instrument, 'label')}</h1>
-      {!dataLoaded
-        ? <Loader />
-        : (
-          <Grid container spacing={3} className={classes.main}>
-            <Grid item xs={(isEmpty(selectedNode)) ? 12 : 12 }>
-              <Tree topSequence={sequence.children[0]} instrumentId={instrumentId} onNodeSelect={setSelectedNode} dispatch={dispatch} />
-            </Grid>
-            {!isEmpty(selectedNode) && (
-              <Grid item xs={4} className={classes.side}>
-                <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
-                <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '20px' }} onClick={handleCloseForm}>Close</HighlightOffIcon>
+        {!dataLoaded
+          ? <Loader />
+          : (
+            <Grid container spacing={3} className={classes.main}>
+              <Grid item xs={(isEmpty(selectedNode)) ? 12 : 12}>
+                <Tree topSequence={sequence.children[0]} instrumentId={instrumentId} onNodeSelect={setSelectedNode} dispatch={dispatch} />
               </Grid>
-            )}
-          </Grid>
-        )
-      }
+              {!isEmpty(selectedNode) && (
+                <Grid item xs={4} className={classes.side}>
+                  <ConstructForm object={selectedNode} instrumentId={instrumentId} onNodeSelect={setSelectedNode} />
+                  <HighlightOffIcon style={{ position: 'absolute', right: '30px', top: '20px' }} onClick={handleCloseForm}>Close</HighlightOffIcon>
+                </Grid>
+              )}
+            </Grid>
+          )
+        }
       </Dashboard>
     </div>
   );
