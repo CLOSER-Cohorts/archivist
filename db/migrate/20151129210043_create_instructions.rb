@@ -1,4 +1,4 @@
-class CreateInstructions < ActiveRecord::Migration
+class CreateInstructions < ActiveRecord::Migration[4.2]
   def change
     create_table :instructions do |t|
       t.string :text

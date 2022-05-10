@@ -1,4 +1,4 @@
-class CreateCcStatements < ActiveRecord::Migration
+class CreateCcStatements < ActiveRecord::Migration[4.2]
   def change
     create_table :cc_statements do |t|
       t.string :literal

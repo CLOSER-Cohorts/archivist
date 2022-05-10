@@ -1,4 +1,4 @@
-class AddOrderToRdsQs < ActiveRecord::Migration
+class AddOrderToRdsQs < ActiveRecord::Migration[4.2]
   def change
     add_column :rds_qs, :rd_order, :integer
 

@@ -1,4 +1,4 @@
-class CreateQuestionGrids < ActiveRecord::Migration
+class CreateQuestionGrids < ActiveRecord::Migration[4.2]
   def change
     create_table :question_grids do |t|
       t.string :label
