@@ -6,6 +6,7 @@ import { CodeLists } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
+import { UsedByQuestions } from '../components/UsedByQuestions'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,9 +21,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { Link } from 'react-router-dom';
-import { reverse as url } from 'named-urls'
-import routes from '../routes'
 
 import {
   TextField,
@@ -264,38 +262,7 @@ export const CodeListForm = (props) => {
                 </Grid>
                 <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CodeLists} />
               </Grid>
-              <Grid item style={{ marginTop: 16 }}>
-                <h3>Used By</h3>
-                <TableContainer component={Paper}>
-                  <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell size="small">Question Type</TableCell>
-                        <TableCell>Label</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                              {codeList.used_by.map((question) => (
-                                  <TableRow key={question.id}>
-                                    <TableCell>
-                                      <Button variant="outlined">
-                                        <Link to={url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: question.id })}>{question.id}</Link>
-                                      </Button>
-                                    </TableCell>
-                                    <TableCell size="small">
-                                      {question.type}
-                                    </TableCell>
-                                    <TableCell size="small">
-                                      {question.label}
-                                    </TableCell>
-                                  </TableRow>
-                                ))
-                              }
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
+              <UsedByQuestions item={codeList} instrumentId={instrumentId} />
             </Paper>
           </form>
         )}
