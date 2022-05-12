@@ -20,7 +20,7 @@ const InstrumentCcConditions = (props) => {
   }
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Dashboard title={'CcCondition'}>
+      <Dashboard title={'CcConditions'} instrumentId={instrumentId}>
         <DataTable actions={actions}
           fetch={[dispatch(CcConditions.all(instrumentId))]}
           stateKey={'cc_conditions'}
