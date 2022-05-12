@@ -4,7 +4,7 @@ import { CodeLists, Categories } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { CodeListForm } from '../components/CodeListForm'
 import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
-import { get, isNil } from "lodash";
+import { get, isNil, forEach } from "lodash";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
@@ -17,6 +17,7 @@ import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Loader } from '../components/Loader'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -49,19 +50,23 @@ const useStyles = makeStyles((theme) => ({
 export const BuildContainer = (props) => {
   let history = useHistory();
 
-  const { instrumentId, selectionPath=()=>{}, heading="Code Lists", itemId, objectType="CodeList", stateKey = "codeLists", fetch = [], formRenderer=()=>{}} = props;
-
+  const { instrumentId, selectionPath = () => { }, heading = "Code Lists", itemId, itemType, objectType = "CodeList", stateKey = "codeLists", fetch = [], formRenderer = () => { }, defaultValues = { used_by: [], min_responses: 1, max_responses: 1 }} = props;
+  const { findSelectedItem = (items, itemId, itemType) => { return get(items, itemId, {}) }, listItemLabel = (item) => { return item.label }, listItemValue = (item) => { return item.used_by.length }, headingContent = (instrumentId) => { return '' } } = props;
   const dispatch = useDispatch()
   const classes = useStyles();
 
-  console.log(stateKey)
-  let values = useSelector(state => state[stateKey]);
-  console.log(values)
-  const items = useSelector(state => get(values, instrumentId, {}));
-  console.log(items)
-  console.log(Object.values(items))
-  const selectedItem = get(items, itemId, { used_by: [], min_responses: 1, max_responses: 1 })
+  const mergedItems = (keys, selector) => {
+    var items = {};
 
+    forEach([keys].flat(), (key)=>{
+      items = {...items, ...get(selector(state => state[key]), instrumentId, {})}
+    })
+
+    return items;
+  }
+
+  const items = mergedItems(stateKey, useSelector)
+  const selectedItem = findSelectedItem(items, itemId, itemType)
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
@@ -72,22 +77,21 @@ export const BuildContainer = (props) => {
   }, []);
 
   const BuildListItem = (props) => {
-    const { label, value, id } = props
+    const { label, value, id, type } = props
     const classes = useStyles();
 
     return (
       <ListItem>
-        <ListItemText className= { classes.truncate } primary = { label } onClick = {()=>{ handleItemSelection(id) }}/>
-        < ListItemSecondaryAction ><Chip label={ value } /></ListItemSecondaryAction>
+        <ListItemText className= { classes.truncate } primary = { label } onClick = {()=>{ handleItemSelection(id, type) }}/>
+        { value !== '' && (
+          < ListItemSecondaryAction ><Chip label={value} /></ListItemSecondaryAction>
+        )}
       </ListItem>
     )
   }
 
-  const handleItemSelection = (id) => {
-    console.log(id)
-    console.log(instrumentId)
-    console.log(selectionPath(instrumentId, id))
-    const path = selectionPath(instrumentId, id)
+  const handleItemSelection = (id, type=undefined) => {
+    const path = selectionPath(instrumentId, id, type)
     history.push(path);
   }
 
@@ -106,18 +110,22 @@ export const BuildContainer = (props) => {
           <Grid item xs = {(expanded) ? 8 : 2 }>
             <Paper className={ classes.control }>
               <Grid container >
-                <Grid item xs = { 11} > <h2>{heading}</h2></Grid >
+                <Grid item xs = { 11} > <h2>{heading} {headingContent(instrumentId)}</h2></Grid >
                 <Grid item xs = { 1} > <Expandable /></Grid >
               </Grid>
-              < CreateNewBuildObjectButtons instrumentId = { instrumentId } objectTypes = { [objectType]} />
-              <List dense={ true } className = { classes.list } >
-                  {
-                  Object.values(items).map((item) => {
-                    return (
-                      <BuildListItem label= { item.label } value = { item.used_by.length } id = { item.id } />
-                )
-                })}
-              </List>
+              < CreateNewBuildObjectButtons instrumentId = { instrumentId } objectTypes = { [objectType].flat()} />
+              {!dataLoaded
+                ? <Loader />
+                : (
+                  <List dense={true} className={classes.list} >
+                    {
+                      Object.values(items).map((item) => {
+                        return (
+                          <BuildListItem label={listItemLabel(item)} value={listItemValue(item)} id={item.id} type={item.type} />
+                        )
+                      })}
+                  </List>
+                )}
             </Paper>
           </Grid>
           < Grid item xs = {(expanded) ? 4 : 10}>
