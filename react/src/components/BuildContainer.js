@@ -119,7 +119,7 @@ export const BuildContainer = (props) => {
                 : (
                   <List dense={true} className={classes.list} >
                     {
-                      Object.values(items).map((item) => {
+                      Object.values(items).sort((a, b) => a.label.localeCompare(b.label)).map((item) => {
                         return (
                           <BuildListItem label={listItemLabel(item)} value={listItemValue(item)} id={item.id} type={item.type} />
                         )

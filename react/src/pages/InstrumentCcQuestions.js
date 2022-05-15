@@ -6,7 +6,8 @@ import { DataTable } from '../components/DataTable'
 import { get } from 'lodash'
 import Chip from '@material-ui/core/Chip';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
 const InstrumentCcQuestions = (props) => {
 
@@ -24,6 +25,7 @@ const InstrumentCcQuestions = (props) => {
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'CcQuestions'} instrumentId={instrumentId}>
+        <Box m={2} pt={3}>
         <Grid container spacing={3}>
           <Grid item xs={10}></Grid>
           <Grid item xs={2}>
@@ -32,12 +34,14 @@ const InstrumentCcQuestions = (props) => {
             </a>
           </Grid>
         </Grid>
+        </Box>
         <DataTable actions={actions}
           fetch={[dispatch(CcQuestions.all(instrumentId))]}
           stateKey={'cc_questions'}
           parentStateKey={instrumentId}
           searchKey={'label'}
           headers={headers}
+          sortKeys={[{ key: 'label', label: 'Label' },{ key: 'id', label: 'ID' }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

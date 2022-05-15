@@ -18,7 +18,7 @@ const InstrumentBuildQuestionGrids = (props) => {
       instrumentId={instrumentId}
       itemId={questionGridId}
       heading={'Question Items'}
-      headingContent={(instrumentId) => { return (<Link to={url(routes.instruments.instrument.build.questionGrids.all, { instrument_id: instrumentId })}>Question Grids</Link>) }}
+      headingContent={(instrumentId) => { return (<Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link>) }}
       stateKey={['questionGrids']}
       objectType={['QuestionGrid']}
       fetch={[
