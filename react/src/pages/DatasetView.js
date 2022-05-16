@@ -152,7 +152,7 @@ const DatasetView = (props) => {
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.label}</TableCell>
         <TableCell><VariableTypes sources={[]} variable={row} datasetId={datasetId}/></TableCell>
-        <TableCell></TableCell>
+        <TableCell><VariablesList variables={row.used_bys}/></TableCell>
         <TableCell>
           {(row.var_type == 'Derived') ? (
             <VariableSourcesList sources={row.sources} sourceOptions={sourceOptions} datasetId={datasetId} variable={row} />
@@ -186,6 +186,17 @@ const DatasetView = (props) => {
           <MenuItem value={'Derived'}>{'Derived'}</MenuItem>
           <MenuItem value={'Normal'}>{'Normal'}</MenuItem>
         </Select>
+    )
+  }
+
+  const VariablesList = (props) => {
+    const { variables } = props
+    const numbers = [1, 2, 3, 4, 5];
+    const listItems = variables.map((number) =>
+      <li>{number.name}</li>
+    );
+    return (
+      <ul>{listItems}</ul>
     )
   }
 
