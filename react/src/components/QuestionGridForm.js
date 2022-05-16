@@ -257,33 +257,36 @@ export const QuestionGridForm = (props) => {
                               <TableRow key={name}>
                                 <TableCell className={classes.small} >{fields.value[index].label}</TableCell>
                                 <TableCell>
-                                 <Autocomplete
-                                  autoComplete
-                                  options={Object.values(responseDomains)}
-                                  getOptionLabel={(option) => option.label}
-                                  onChange={(event, value, reason)=>{
-                                    var rd;
-                                    if(isNil(value)){
-                                      rd = {...fields.value[index].rd, ...{type: '', id: null, label: ''} }
-                                    }else{
-                                      rd = {...fields.value[index].rd, ...{type: value.type, id: value.id, label: value.label} }
-                                    }
-                                    fields.update(index, {...fields.value[index], ...{rd: rd} })
-                                  } }
-                                  value={(fields.value[index].rd) ? {type: fields.value[index].rd.type, id: fields.value[index].rd.id, label:fields.value[index].rd.label} : {type: '', id: null, label: ''}}
-                                  getOptionSelected= {(option, value) => {
-                                    return (
-                                    (option.type === value.type && option.id === value.id)
-                                  )}}
-                                  renderInput={(params) => (
-                                    <TextField name={`${name}.type - ${name}.label`}
-                                      {...params}
-                                      variant="outlined"
-                                      label="Label"
-                                      placeholder="label"
-                                    />
+                                  {fields.value[index].rd && fields.value[index].rd.label && (
+                                    <><strong>{(fields.value[index].rd) ? fields.value[index].rd.label : ''}</strong> or change to </>
                                   )}
-                                />
+                                  <Autocomplete
+                                    autoComplete
+                                    options={responseDomains}
+                                    getOptionLabel={(option) => option.label}
+                                    onChange={(event, value, reason) => {
+                                      var rd;
+                                      if (isNil(value)) {
+                                        rd = { ...fields.value[index].rd, ...{ type: '', id: null, label: '' } }
+                                      } else {
+                                        rd = { ...fields.value[index].rd, ...{ type: value.type, id: value.id, label: value.label } }
+                                      }
+                                      fields.update(index, { ...fields.value[index], ...{ rd: rd } })
+                                    }}
+                                    getOptionSelected={(option, value) => {
+                                      return (
+                                        (option.type === value.type && option.id === value.id)
+                                      )
+                                    }}
+                                    renderInput={(params) => (
+                                      <TextField name={`${name}.type - ${name}.label`}
+                                        {...params}
+                                        variant="outlined"
+                                        label="Label"
+                                        placeholder="label"
+                                      />
+                                    )}
+                                  />
                                 </TableCell>
                                 <TableCell className={classes.small} >
                                   <span
