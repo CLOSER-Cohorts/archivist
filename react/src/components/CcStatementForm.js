@@ -48,7 +48,7 @@ const formFields = [
         label="Label"
         name="label"
         margin="none"
-        required={false}
+        required={true}
         multiline
       />
     ),
@@ -60,7 +60,7 @@ const formFields = [
         label="Literal"
         name="literal"
         margin="none"
-        required={false}
+        required={true}
         multiline
       />
     ),
