@@ -107,7 +107,7 @@ export const BuildContainer = (props) => {
     <div style= {{ height: 500, width: '100%' }}>
       <Dashboard title={ instrumentId } instrumentId = { instrumentId } >
         <Grid container spacing = { 3} >
-          <Grid item xs = {(expanded) ? 8 : 2 }>
+          <Grid item xs = {(expanded) ? 6 : 3 }>
             <Paper className={ classes.control }>
               <Grid container >
                 <Grid item xs = { 11} > <h2>{heading} {headingContent(instrumentId)}</h2></Grid >
@@ -128,7 +128,7 @@ export const BuildContainer = (props) => {
                 )}
             </Paper>
           </Grid>
-          < Grid item xs = {(expanded) ? 4 : 10}>
+          < Grid item xs = {(expanded) ? 6 : 9}>
             {!isNil(selectedItem) && formRenderer(instrumentId, selectedItem)}
           </Grid>
         </Grid>
