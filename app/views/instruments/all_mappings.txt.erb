@@ -1,0 +1,35 @@
+Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Variable name<%= "\t" %>Variable Topic ID<%= "\t" %>Variable Label
+<% @object.cc_questions.each do |qc| %>
+  <% if qc. question.question_type == 'QuestionItem' %>
+    <% if qc.variables.empty? %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id) %>
+    <% else %>
+      <% qc.variables.each do | variable | %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id).to_i %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:id)  %><%= "\t" %><%= variable.label %><%= "\t" %><%= variable.id %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if qc.maps.where(x: nil, y: nil).empty? %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id) %>
+    <% else %>
+      <% qc.maps.where(x: nil, y: nil ).each do | map | %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id).to_i %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:id)  %><%= "\t" %><%= map.variable.label %>
+      <% end %>
+    <% end %>
+
+    <% qc.question.horizontal_code_list.codes.each_with_index do | _code, x| %>
+      <% qc.question.vertical_code_list.codes.each_with_index do | _code, y| %>
+        <% if qc.maps.where(x: x + 1, y: y + 1).empty? %>
+<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id) %>
+        <% else %>
+          <% qc.maps.where(x: x + 1, y: y + 1 ).each do | map | %>
+<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:id).to_i %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:id)  %><%= "\t" %><%= map.variable.label %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<% @unmapped_variables.each do | variable | %>
+<%= "\t" %><%= "\t" %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:id)  %><%= "\t" %><%= variable.label %><%= "\t" %><%= variable.id %>
+<% end %>

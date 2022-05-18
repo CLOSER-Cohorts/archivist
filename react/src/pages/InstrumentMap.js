@@ -29,6 +29,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -571,6 +572,14 @@ const InstrumentMap = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'map'} />
+        <Grid container spacing={3}>
+          <Grid item xs={10}></Grid>
+          <Grid item xs={2}>
+            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/all_mappings.txt?token=${window.localStorage.getItem('jwt')}`}>
+              <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
+            </a>
+          </Grid>
+        </Grid>
         {!dataLoaded
         ? <Loader />
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
