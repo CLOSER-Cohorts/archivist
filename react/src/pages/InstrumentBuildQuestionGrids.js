@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux'
-import { QuestionGrids } from '../actions'
+import { QuestionGrids, CodeLists } from '../actions'
 import { QuestionGridForm } from '../components/QuestionGridForm'
 import { BuildContainer } from '../components/BuildContainer'
 import { get } from "lodash";
@@ -22,6 +22,7 @@ const InstrumentBuildQuestionGrids = (props) => {
       stateKey={['questionGrids']}
       objectType={['QuestionGrid']}
       fetch={[
+        dispatch(CodeLists.all(instrumentId)),
         dispatch(QuestionGrids.all(instrumentId)),
       ]}
       selectionPath={(instrumentId, id, type) => { return url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: id }) }}

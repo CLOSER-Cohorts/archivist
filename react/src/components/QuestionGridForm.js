@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes, ResponseDomainCodes } from '../actions'
+import { QuestionGrids, ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes, ResponseDomainCodes, CodeLists } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
@@ -164,6 +164,7 @@ export const QuestionGridForm = (props) => {
   var codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
   // Only show response domains in the list of codeLists
+  console.log(codeLists)
   codeLists = Object.values(codeLists).filter((cl) => { return cl.rd === false})
 
   const dispatch = useDispatch();
@@ -191,8 +192,11 @@ export const QuestionGridForm = (props) => {
     dispatch(ResponseDomainNumerics.all(instrumentId));
     dispatch(ResponseDomainTexts.all(instrumentId));
     dispatch(ResponseDomainDatetimes.all(instrumentId));
+    dispatch(CodeLists.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
+  console.log(codeLists)
 
   return (
     <div style={{ padding: 0 }}>
