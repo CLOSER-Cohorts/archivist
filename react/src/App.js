@@ -16,9 +16,11 @@ import AdminUsers from './pages/AdminUsers';
 import AdminUserEdit from './pages/AdminUserEdit';
 import AdminInstruments from './pages/AdminInstruments';
 import AdminInstrumentExports from './pages/AdminInstrumentExports';
+import AdminInstrumentView from './pages/AdminInstrumentView';
 import AdminInstrumentEdit from './pages/AdminInstrumentEdit';
 import AdminInstrumentDatasetLink from './pages/AdminInstrumentDatasetLink';
 import AdminDatasets from './pages/AdminDatasets';
+import AdminDatasetView from './pages/AdminDatasetView';
 import Instruments from './pages/Instruments';
 import Datasets from './pages/Datasets';
 import DatasetView from './pages/DatasetView';
@@ -119,10 +121,12 @@ const App = () => {
             <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
             <AuthRoute type="private" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
             <AuthRoute type="admin" exact path={routes.admin.datasets.all} component={AdminDatasets} />
+            <AuthRoute type="admin" exact path={routes.admin.datasets.dataset.show} component={AdminDatasetView} />
             <AuthRoute type="admin" exact path={routes.admin.import} component={AdminImport} />
             <AuthRoute type="admin" exact path={routes.admin.imports.all} component={AdminImports} />
             <AuthRoute type="admin" exact path={routes.admin.imports.show} component={AdminImportView} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
+            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.show} component={AdminInstrumentView} />
             <AuthRoute type="admin" exact path={routes.admin.users.all} component={AdminUsers} />
             <AuthRoute type="admin" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.all} component={AdminInstruments} />

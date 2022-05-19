@@ -22,6 +22,9 @@ const AdminDatasets = () => {
     return (
       <ButtonGroup variant="outlined">
         <Button>
+          <Link to={url(routes.admin.datasets.dataset.show, { dataset_id: row.id })}>View</Link>
+        </Button>
+        <Button>
           <Link to={url(routes.datasets.dataset.edit, { dataset_id: row.id })}>Edit</Link>
         </Button>
         <Button>

@@ -27,9 +27,12 @@ class Instruments::Serializer
     end
 
     i[:datasets] = datasets.fetch(i["id"], [])
-    doc = Document.where(document_type: 'instrument_export', item_id: i["id"]).last rescue nil
-    i[:export_time] = doc.created_at.strftime('%b %e %Y %I:%M %p') rescue nil
-    i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}" rescue nil
+    exports = Document.where(document_type: ['instrument_export', 'instrument_export_complete'], item_id: i["id"])
+    i[:exports] = exports.order('created_at DESC').map do | doc |
+      { id: doc.id, created_at: doc.created_at.strftime('%b %e %Y %I:%M %p'), url: "/instruments/#{i["id"]}/export/#{doc.id}", type: doc.document_type }
+    end
+    i[:export_time] = i[:exports].first.fetch(:created_at) rescue nil
+    i[:export_url] = i[:exports].first.fetch(:url) rescue nil
 
     return i
   end
