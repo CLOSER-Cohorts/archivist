@@ -18,12 +18,12 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
     <% end %>
 
     <% qc.question.horizontal_code_list.codes.each_with_index do | _code, x| %>
-      <% qc.question.vertical_code_list.codes.each_with_index do | _code, y| %>
+      <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, y| %>
         <% if qc.maps.where(x: x + 1, y: y + 1).empty? %>
-<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %>
+<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %><%= "\t" %><%= qc.topic.try(:code) %>
         <% else %>
           <% qc.maps.where(x: x + 1, y: y + 1 ).each do | map | %>
-<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:code)  %><%= "\t" %><%= map.variable.label %>
+<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:code)  %><%= "\t" %><%= map.variable.label %>
           <% end %>
         <% end %>
       <% end %>
