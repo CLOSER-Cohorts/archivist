@@ -86,4 +86,8 @@ class DatasetsController < ImportableController
       render json: {message: e}, status: :bad_request
     end
   end
+
+  def collection
+    policy_scope(Dataset).includes(:instruments)
+  end
 end
