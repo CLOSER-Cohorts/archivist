@@ -102,7 +102,10 @@ const DatasetView = (props) => {
         const sources = get(value,'sources', [])
         const sourcesStr = sources.map((s)=>{ return s['name'] || s['label'] }).join(' ')
         const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
-        return nameMatch || labelMatch || topicMatch || sourcesMatch
+        const usedBy = get(value, 'used_bys', [])
+        const usedByStr = usedBy.map((s) => { return s['name'] || s['label'] }).join(' ')
+        const usedByMatch = usedByStr && usedByStr.toLowerCase().includes(search.toLowerCase())
+        return nameMatch || labelMatch || topicMatch || sourcesMatch || usedByMatch
       }).sort((el)=> el.id).reverse()
     );
   }, [search, variables]);
@@ -191,7 +194,7 @@ const DatasetView = (props) => {
 
   const VariablesList = (props) => {
     const { variables } = props
-    const numbers = [1, 2, 3, 4, 5];
+
     const listItems = variables.map((number) =>
       <li>{number.name}</li>
     );
