@@ -5,7 +5,7 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
 <%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %>
     <% else %>
       <% qc.variables.each do | variable | %>
-<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %><%= "\t" %><%= variable.id %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %>
       <% end %>
     <% end %>
   <% else %>
@@ -31,5 +31,5 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
   <% end %>
 <% end %>
 <% @unmapped_variables.each do | variable | %>
-<%= "\t" %><%= "\t" %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %><%= "\t" %><%= variable.id %>
+<%= "\t" %><%= "\t" %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %>
 <% end %>
