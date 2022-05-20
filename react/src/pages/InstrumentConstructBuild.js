@@ -57,7 +57,7 @@ const TreeNodeFormatter = (instrumentId, item) => {
   const children = (item.type === "condition") ? [
     { title: `${item.label} True`, expanded: false, conditionId: item.id, type: 'conditionTrue', children: item.children[0].children.map(child => TreeNodeFormatter(instrumentId, child)) },
     { title: `${item.label} Else`, expanded: false, conditionId: item.id, type: 'conditionFalse', children: item.children[1].children.map(child => TreeNodeFormatter(instrumentId, child)) },
-  ] : []
+  ] : item.children
   return { ...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children } }
 }
 
@@ -102,6 +102,7 @@ const Tree = (props) => {
       getNodeKey,
       newNode: TreeNodeFormatter(instrumentId, node)
     })
+
     setTreeData(data)
     reorderConstructs(data)
   }
@@ -164,9 +165,6 @@ const Tree = (props) => {
       ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
     }).map(({ node, path }) => {
       if (['conditionTrue', 'conditionFalse'].includes(node.type)) {
-        if (node.id === 172015 || node.id === 36397 || node.id === 36396) {
-          console.log('nope')
-        }
         return null
       }
       let parent = path[path.length - 2]
@@ -212,8 +210,6 @@ const Tree = (props) => {
               newNode: newNode
             }).treeData)
             event.stopPropagation()
-            console.log(newNode)
-            console.log(path)
             setSelectedNode({ node: newNode, path: path, callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
           }}
         >
@@ -405,7 +401,6 @@ const ConstructForm = (props) => {
     case 'loop':
       return <CcLoopForm ccLoop={node} instrumentId={instrumentId} path={path} onChange={callback} onDelete={deleteCallback} onCreate={onCreate} />
     case undefined:
-      console.log(object)
       return <NewConstructQuestion onNodeSelect={onNodeSelect} object={object} onChange={callback} path={path} onDelete={deleteCallback} onCreate={onCreate} />
     default:
       return ''
@@ -417,7 +412,7 @@ const NewConstructQuestion = (props) => {
   const { object, onNodeSelect, onDelete, path, onChange } = props;
 
   const classes = useStyles();
-  console.log(object)
+
   return (
     <Paper style={{ padding: 16 }} className={classes.paper}>
       <h3>Select construct type</h3>
