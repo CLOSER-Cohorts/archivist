@@ -2,8 +2,10 @@
   <% if qc. question.question_type == 'QuestionItem' %>
 <%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %>
   <% else %>
-    <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, i| %>
-<%= qc.label %>$1;<%= i + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %>
+    <% qc.question.horizontal_code_list.codes.each_with_index do | _code, x| %>
+      <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, y| %>
+        <%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
