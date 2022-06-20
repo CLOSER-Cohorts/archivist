@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
-  }
+  },
+  rosterLabel: {
+    backgroundColor: 'lightgray',
+    height: 25
+  },
 }));
 
 const ObjectFinder = (instrumentId, type, id) => {
@@ -141,6 +145,7 @@ const QuestionItemListItem = (props) => {
 
 const QuestionGridListItem = (props) => {
   const {item} = props;
+  const classes = useStyles();
 
   if(isNil(item) || isNil(item.question)){
     return ''
@@ -176,7 +181,7 @@ const QuestionGridListItem = (props) => {
             ))}
             {item.question && rows.map((row, i) => (
               <TableRow>
-                <TableCell><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
+                <TableCell className={classes.rosterLabel}><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
               </TableRow>
             ))}
           </TableBody>

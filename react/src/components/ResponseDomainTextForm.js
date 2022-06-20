@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ResponseDomainTexts } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { UsedByQuestions } from '../components/UsedByQuestions'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 
@@ -123,6 +124,7 @@ export const ResponseDomainTextForm = (props) => {
                 </Grid>
                 <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainTexts} />
               </Grid>
+              <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>
           </form>
         )}

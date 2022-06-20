@@ -127,6 +127,7 @@ Rails.application.routes.draw do
       get 'export', to: 'instruments#export'
       get 'export_complete', to: 'instruments#export_complete'
       get 'mapper', to: 'instruments#mapper'
+      get 'all_mappings', to: 'instruments#all_mappings'
       get 'qv', to: 'instruments#mapping'
 
       match 'imports', to: 'instruments#member_imports', via: [:post, :put]

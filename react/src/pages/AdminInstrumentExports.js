@@ -10,6 +10,8 @@ import { isNil } from 'lodash'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import { reverse as url } from 'named-urls'
+import routes from '../routes'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,6 +43,9 @@ const AdminInstrumentExports = () => {
     return (
       <>
         <ButtonGroup variant="outlined">
+          <Button>
+            <Link to={url(routes.admin.instruments.instrument.show, { instrument_id: row.prefix })}>View</Link>
+          </Button>
           <Button>
             <Link onClick={()=>{handleClick(row.id)}}>Create new export</Link>
           </Button>

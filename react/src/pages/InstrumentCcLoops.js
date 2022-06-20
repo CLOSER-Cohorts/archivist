@@ -27,6 +27,7 @@ const InstrumentCcLoops = (props) => {
           parentStateKey={instrumentId}
           searchKey={'label'}
           headers={headers}
+          sortKeys={[{ key: 'label', label: 'Label' }, { key: 'id', label: 'ID' }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

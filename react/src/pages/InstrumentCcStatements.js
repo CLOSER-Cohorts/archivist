@@ -27,6 +27,7 @@ const InstrumentCcStatements = (props) => {
           parentStateKey={instrumentId}
           searchKey={'label'}
           headers={headers}
+          sortKeys={[{ key: 'label', label: 'Label' }, { key: 'id', label: 'ID' }, { key: 'literal', label: 'Literal' }]}
           rowRenderer={rowRenderer}
           />
       </Dashboard>

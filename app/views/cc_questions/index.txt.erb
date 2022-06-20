@@ -1,4 +1,9 @@
 <% @collection.each do |qc| %>
-  <%= qc.id %>
-  <%= qc.label %><%= "\t" %><%= qc.question.literal %>
+  <% if qc. question.question_type == 'QuestionItem' %>
+<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %>
+  <% else %>
+    <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, i| %>
+<%= qc.label %>$1;<%= i + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %>
+    <% end %>
+  <% end %>
 <% end %>

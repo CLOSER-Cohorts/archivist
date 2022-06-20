@@ -161,6 +161,16 @@ class InstrumentsController < ImportableController
     end
   end
 
+  def all_mappings
+    @object = policy_scope(Instrument).friendly.find(params[:id])
+    @unmapped_variables = @object.variables.where.not(id: @object.maps.pluck(:variable_id))
+
+    respond_to do |format|
+      format.text { render 'all_mappings.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
+  end
+
   private
   def set_object
     @object = Instrument.friendly.find(params[:id])

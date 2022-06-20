@@ -19,14 +19,15 @@ class ApplicationController < ActionController::Base
   #   Rails.logger.info "#{controller_name}##{action_name}: #{duration}s"
   # end
 
-  def auth_header
+  def auth_token
     # { Authorization: 'Bearer <token>' }
-    request.headers['Authorization']
+    request.headers['Authorization'] || params[:token]
   end
 
   def decoded_token
-    if auth_header
-      token = auth_header.split(' ')[1]
+    if auth_token
+      token = auth_token.split(' ')[1] || auth_token
+
       # header: { 'Authorization': 'Bearer <token>' }
       begin
         JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')

@@ -29,6 +29,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -259,7 +260,7 @@ const QuestionGridListItem = (props) => {
             </Table>
           </Grid>
           <Grid item xs={6}>
-            <VariableList variables={item.variables.filter((variable) => { return variable.y == 0 && variable.x == 0 })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
+            <VariableList variables={item.variables.filter((variable) => { return (variable.y == 0 && variable.x == 0) || (variable.y == undefined && variable.x == undefined) })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
@@ -571,6 +572,14 @@ const InstrumentMap = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'map'} />
+        <Grid container spacing={3}>
+          <Grid item xs={10}></Grid>
+          <Grid item xs={2}>
+            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/all_mappings.txt?token=${window.localStorage.getItem('jwt')}`}>
+              <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
+            </a>
+          </Grid>
+        </Grid>
         {!dataLoaded
         ? <Loader />
         : <SequenceItem instrumentId={instrumentId} type={'CcSequence'} id={sequence.children[0].id} title={sequence.children[0].label} children={sequence.children[0].children}/>
