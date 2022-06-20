@@ -46,7 +46,9 @@ const AdminInstruments = () => {
           <Button onClick={()=>{ clearCache(row.id) }}>
             Clear Cache
           </Button>
-          <ConfirmationModal textToConfirm={row.prefix} key={'prefix'} objectType={'instrument'} onConfirm={() => { deleteInstrument(row.prefix) }}/>
+          <Button>
+            <ConfirmationModal textToConfirm={row.prefix} key={'prefix'} objectType={'instrument'} onConfirm={() => { deleteInstrument(row.prefix) }}/>
+          </Button>
         </ButtonGroup>
       </>
     )

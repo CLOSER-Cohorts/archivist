@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -94,8 +95,8 @@ export const ConfirmationModal = (props) => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        Delete
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        <DeleteIcon /> Delete
       </Button>
       <Modal
         open={open}
