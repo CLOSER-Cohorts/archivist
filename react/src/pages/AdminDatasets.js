@@ -43,7 +43,9 @@ const AdminDatasets = () => {
             View Imports
           </Link>
         </Button>
-        <ConfirmationModal objectType={'dataset'} onConfirm={() => { deleteDataset(row.id) }} />
+        <Button>
+          <ConfirmationModal objectType={'dataset'} onConfirm={() => { deleteDataset(row.id) }} />
+        </Button>
        </ButtonGroup>
     )
   }

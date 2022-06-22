@@ -48,7 +48,7 @@ class DatasetsController < ImportableController
   end
 
   # Destroy action queues a job to destroy a dataset
-  def delete
+  def destroy
     begin
       DeleteJob::Dataset.perform_async(@object.id)
       head :ok, format: :json

@@ -54,11 +54,18 @@ const TreeNode = (instrumentId, type, id, objectFinder, expanded = false) => {
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
-  const children = (item.type === "condition") ? [
-    { title: `${item.label} True`, expanded: false, conditionId: item.id, type: 'conditionTrue', children: item.children[0].children.map(child => TreeNodeFormatter(instrumentId, child)) },
-    { title: `${item.label} Else`, expanded: false, conditionId: item.id, type: 'conditionFalse', children: item.children[1].children.map(child => TreeNodeFormatter(instrumentId, child)) },
-  ] : item.children
-  return { ...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: children } }
+  if (item.type === "condition"){
+    var tchildren = get(item, 'children', [])
+    var fchildren = get(item, 'fchildren', [])
+
+    const childrenNodes = [
+      { title: `${item.label} True`, expanded: false, conditionId: item.id, type: 'conditionTrue', children: tchildren.map(child => TreeNodeFormatter(instrumentId, child)) },
+      { title: `${item.label} Else`, expanded: false, conditionId: item.id, type: 'conditionFalse', children: fchildren.map(child => TreeNodeFormatter(instrumentId, child)) },
+    ]
+    return { ...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: childrenNodes } }
+  }else{
+    return { ...item, ...{ title: `${item.label}`, expanded: true, type: item.type, children: item.children } }
+  }
 }
 
 const Tree = (props) => {
