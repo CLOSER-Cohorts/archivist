@@ -91,12 +91,14 @@ Rails.application.configure do
   config.asset_host = ENV['REACT_APP_API_HOST']
 
   ActionMailer::Base.smtp_settings = {
-    :port           => ENV['MAILGUN_SMTP_PORT'],
-    :address        => ENV['MAILGUN_SMTP_SERVER'],
-    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => ENV['HOSTNAME'],
+    :user_name => 'apikey', # This is the string literal 'apikey', NOT the ID of your API key
+    :password => ENV['SENDGRID_API_KEY'], # This is the secret sendgrid API key which was issued during API key creation
+    :domain => ENV['SMTP_DOMAIN'],
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
     :authentication => :plain,
+    :enable_starttls_auto => true
   }
+
   ActionMailer::Base.delivery_method = :smtp
 end
