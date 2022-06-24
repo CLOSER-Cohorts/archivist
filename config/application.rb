@@ -33,16 +33,6 @@ module Archivist
 
     config.enable_dependency_loading = true
     config.action_mailer.delivery_method = (ENV['MAILER'] || '').to_sym
-    config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_KEY'] }
-    config.action_mailer.smtp_settings = {
-        address:                ENV['SMTP_ADDRESS'],
-        port:                   ENV['SMTP_PORT'],
-        domain:                 ENV['SMTP_DOMAIN'],
-        user_name:              ENV['SMTP_USERNAME'],
-        password:               ENV['SMTP_PASSWORD'],
-        authentication:         (ENV['STMP_AUTH'] || '').to_sym,
-        enable_starttls_auto:   ENV['STMP_TLSAUTO']
-    }
 
     # enable sidekiq as active job adapter
     config.active_job.queue_adapter = :sidekiq
