@@ -6,11 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { authUser } from '../actions'
+import { Password } from '../actions'
 import { useDispatch } from 'react-redux'
 import logo from '../logo.svg';
 import routes from '../routes';
 import { reverse as url } from 'named-urls'
+import { get } from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,17 +42,18 @@ const useFormField = (initialValue: string = "") => {
   return { value, onChange };
 };
 
-export default function Login() {
+export default function ResetPassword(props) {
   const classes = useStyles();
 
-  const emailField = useFormField();
+  const reset_password_token = get(props, "match.params.reset_password_token", "")
   const passwordField = useFormField();
+  const passwordConfirmationField = useFormField();
 
   const dispatch = useDispatch()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(authUser(emailField.value, passwordField.value));
+    dispatch(Password.update(reset_password_token, passwordField.value, passwordConfirmationField.value));
   }
 
   return (
@@ -63,21 +65,9 @@ export default function Login() {
           Archivist
         </Typography>
         <Typography component="h2" variant="h5">
-          Sign in
+          Reset your password
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            {...emailField}
-          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -87,8 +77,18 @@ export default function Login() {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
             {...passwordField}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password_confirmation"
+            label="Password Confirmation"
+            type="password"
+            id="password"
+            {...passwordConfirmationField}
           />
           <Button
             type="submit"
@@ -97,11 +97,11 @@ export default function Login() {
             color="primary"
             className={classes.submit}
           >
-            Log In
+            Reset Password
           </Button>
         </form>
       </div>
-      <Link to={url(routes.forgotten_password)}>Forgotten password?</Link> or <Link to={url(routes.signup)}>signup</Link>
+      or <Link to={url(routes.login)}>Login</Link> here
     </Container>
   );
 }

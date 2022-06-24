@@ -86,4 +86,7 @@ Rails.application.configure do
 
   # enable sidekiq as active job adapter
   config.active_job.queue_adapter = :sidekiq
+
+  config.action_mailer.default_url_options = { host: ENV['REACT_APP_API_HOST'] }
+  config.asset_host = ENV['REACT_APP_API_HOST']
 end

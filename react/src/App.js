@@ -5,6 +5,8 @@ import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgottenPassword from './pages/ForgottenPassword';
+import ResetPassword from './pages/ResetPassword';
 import AdminImport from './pages/AdminImport';
 import AdminImportView from './pages/AdminImportView';
 import AdminImports from './pages/AdminImports';
@@ -88,6 +90,8 @@ const App = () => {
           <Switch>
             <AuthRoute type="guest" exact path={routes.signup} component={Signup} />
             <AuthRoute type="guest" exact path={routes.login} component={Login} />
+            <AuthRoute type="guest" exact path={routes.forgotten_password} component={ForgottenPassword} />
+            <AuthRoute type="guest" exact path={routes.reset_password} component={ResetPassword} />
             <Route
               exact
               path="/"

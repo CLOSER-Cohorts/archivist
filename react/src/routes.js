@@ -3,6 +3,8 @@ import { include } from 'named-urls'
 export default {
     login : '/login',
     signup: '/signup',
+    forgotten_password: '/forgotten_password',
+    reset_password: '/reset_password/:reset_password_token',
     datasets: include('/datasets', {
       all: '',
       dataset: include(':dataset_id/', {

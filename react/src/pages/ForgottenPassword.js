@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,11 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { authUser } from '../actions'
+import { Password } from '../actions'
 import { useDispatch } from 'react-redux'
 import logo from '../logo.svg';
 import routes from '../routes';
 import { reverse as url } from 'named-urls'
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,17 +42,19 @@ const useFormField = (initialValue: string = "") => {
   return { value, onChange };
 };
 
-export default function Login() {
+export default function ForgottenPassword() {
   const classes = useStyles();
 
   const emailField = useFormField();
-  const passwordField = useFormField();
 
   const dispatch = useDispatch()
 
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(authUser(emailField.value, passwordField.value));
+    setFormSubmitted(true)
+    dispatch(Password.forgot(emailField.value));
   }
 
   return (
@@ -63,8 +66,15 @@ export default function Login() {
           Archivist
         </Typography>
         <Typography component="h2" variant="h5">
-          Sign in
+          Forgotten Password
         </Typography>
+        {
+          formSubmitted && (
+            <Alert severity="success">
+              If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+            </Alert>
+          )
+        }
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
@@ -78,18 +88,6 @@ export default function Login() {
             autoFocus
             {...emailField}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            {...passwordField}
-          />
           <Button
             type="submit"
             fullWidth
@@ -97,11 +95,11 @@ export default function Login() {
             color="primary"
             className={classes.submit}
           >
-            Log In
+            Send me reset password instructions
           </Button>
         </form>
       </div>
-      <Link to={url(routes.forgotten_password)}>Forgotten password?</Link> or <Link to={url(routes.signup)}>signup</Link>
+      or <Link to={url(routes.login)}>Login</Link> here
     </Container>
   );
 }
