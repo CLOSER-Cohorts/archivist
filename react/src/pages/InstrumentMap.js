@@ -446,8 +446,11 @@ const ConditionItem = (props) => {
         <ListItemText primary={title} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      {!isEmpty(item.children) && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <ListItem>
+          <ListItemText primary={'True'} />
+        </ListItem>
+        {!isEmpty(item.children) && (
           <List component="div" disablePadding>
             {item.children.map((child) => (
               <ListItem button className={classes.nested}>
@@ -466,8 +469,31 @@ const ConditionItem = (props) => {
               </ListItem>
             ))}
           </List>
-        </Collapse>
-      )}
+        )}
+        <ListItem>
+          <ListItemText primary={'False'} />
+        </ListItem>
+        {!isEmpty(item.fchildren) && (
+          <List component="div" disablePadding>
+            {item.fchildren.map((child) => (
+              <ListItem button className={classes.nested}>
+                {(function () {
+                  switch (child.type) {
+                    case 'CcSequence':
+                      return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child, 'children', [])} />;
+                    case 'CcQuestion':
+                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcCondition':
+                      return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    default:
+                      return null;
+                  }
+                })()}
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Collapse>
     </List>
   );
 }
