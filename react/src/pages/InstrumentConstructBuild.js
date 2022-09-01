@@ -54,7 +54,8 @@ const TreeNode = (instrumentId, type, id, objectFinder, expanded = false) => {
 }
 
 const TreeNodeFormatter = (instrumentId, item) => {
-  if (item.type === "condition"){
+
+  if (item.type === "condition" && isEmpty(item.children)) {
     var tchildren = get(item, 'children', [])
     var fchildren = get(item, 'fchildren', [])
 
