@@ -25,7 +25,7 @@ class TopicsController < BasicController
   #   GET /topics/flattened_nest.json
   def flattened_nest
     @collection = Topic.includes(:children).flattened_nest
-    render :index
+    render action: :index
   end
 
   # Loads summary statistics for {Topic} to {CcQuestion} mapping

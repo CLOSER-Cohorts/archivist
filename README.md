@@ -9,7 +9,7 @@
 ![](/app/assets/images/diagrams/erd.png)
 
 ## Configuration
-* Ruby: 2.7.5
+* Ruby: 3.1.2
 * Rails: 5.2.X
 * Postgres: 13.5
 * React JS 16.7.0
