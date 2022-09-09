@@ -3,6 +3,8 @@ import { include } from 'named-urls'
 export default {
     login : '/login',
     signup: '/signup',
+    forgotten_password: '/forgotten_password',
+    reset_password: '/reset_password/:reset_password_token',
     datasets: include('/datasets', {
       all: '',
       dataset: include(':dataset_id/', {
@@ -27,6 +29,7 @@ export default {
         importMappings: ':instrumentId/imports',
         importMapping: ':instrumentId/imports/:id',
         instrument: include(':instrument_id/', {
+          show: 'exports',
           edit: 'edit',
           datasets: 'datasets',
         }),
@@ -34,7 +37,10 @@ export default {
       datasets: include('datasets/', {
         all: '',
         importMappings: ':datasetId/imports',
-        importMapping: ':datasetId/imports/:id'
+        importMapping: ':datasetId/imports/:id',
+        dataset: include(':dataset_id/', {
+          show: 'exports'
+        }),
       }),
     }),
     instruments: include('/instruments', {

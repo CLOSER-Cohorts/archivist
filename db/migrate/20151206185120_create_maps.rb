@@ -1,4 +1,4 @@
-class CreateMaps < ActiveRecord::Migration
+class CreateMaps < ActiveRecord::Migration[4.2]
   def change
     create_table :maps do |t|
       t.references :source, polymorphic: true, index: true, null: false

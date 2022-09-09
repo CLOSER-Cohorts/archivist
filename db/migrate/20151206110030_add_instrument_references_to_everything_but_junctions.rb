@@ -1,4 +1,4 @@
-class AddInstrumentReferencesToEverythingButJunctions < ActiveRecord::Migration
+class AddInstrumentReferencesToEverythingButJunctions < ActiveRecord::Migration[4.2]
   def change
     add_reference :categories, :instrument, index: true, null: false
     add_reference :code_lists, :instrument, index: true, null: false

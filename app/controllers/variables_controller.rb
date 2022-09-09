@@ -9,6 +9,10 @@ class VariablesController < BasicController
   @model_class = Variable
   @params_list = [:name, :label, :var_type, :dataset_id]
 
+  def index
+    render json: Variables::Serializer.new(@dataset).call() and return
+  end
+
   def tv
     topic_mapping do |format|
       format.text { render 'tv.txt.erb', layout: false, content_type: 'text/plain' }

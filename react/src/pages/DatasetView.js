@@ -102,7 +102,10 @@ const DatasetView = (props) => {
         const sources = get(value,'sources', [])
         const sourcesStr = sources.map((s)=>{ return s['name'] || s['label'] }).join(' ')
         const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
-        return nameMatch || labelMatch || topicMatch || sourcesMatch
+        const usedBy = get(value, 'used_bys', [])
+        const usedByStr = usedBy.map((s) => { return s['name'] || s['label'] }).join(' ')
+        const usedByMatch = usedByStr && usedByStr.toLowerCase().includes(search.toLowerCase())
+        return nameMatch || labelMatch || topicMatch || sourcesMatch || usedByMatch
       }).sort((el)=> el.id).reverse()
     );
   }, [search, variables]);
@@ -152,7 +155,7 @@ const DatasetView = (props) => {
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.label}</TableCell>
         <TableCell><VariableTypes sources={[]} variable={row} datasetId={datasetId}/></TableCell>
-        <TableCell></TableCell>
+        <TableCell><VariablesList variables={row.used_bys}/></TableCell>
         <TableCell>
           {(row.var_type == 'Derived') ? (
             <VariableSourcesList sources={row.sources} sourceOptions={sourceOptions} datasetId={datasetId} variable={row} />
@@ -186,6 +189,17 @@ const DatasetView = (props) => {
           <MenuItem value={'Derived'}>{'Derived'}</MenuItem>
           <MenuItem value={'Normal'}>{'Normal'}</MenuItem>
         </Select>
+    )
+  }
+
+  const VariablesList = (props) => {
+    const { variables } = props
+
+    const listItems = variables.map((number) =>
+      <li>{number.name}</li>
+    );
+    return (
+      <ul>{listItems}</ul>
     )
   }
 

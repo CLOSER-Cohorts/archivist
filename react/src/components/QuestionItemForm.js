@@ -9,6 +9,8 @@ import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialVal
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import {
   TextField,
@@ -39,6 +41,9 @@ const useStyles = makeStyles({
   },
   small: {
     width: 100
+  },
+  arrows: {
+    width: 70
   }
 });
 
@@ -153,6 +158,7 @@ export const QuestionItemForm = (props) => {
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
                         <TableRow>
+                          <TableCell className={classes.arrows} ></TableCell>
                           <TableCell>Type and Label</TableCell>
                           <TableCell className={classes.small} >Actions</TableCell>
                         </TableRow>
@@ -162,6 +168,24 @@ export const QuestionItemForm = (props) => {
                           {({ fields }) =>
                             fields.map((name, index) => (
                               <TableRow key={name}>
+                                <TableCell className={classes.arrows} >
+                                  {index > 0 && (
+                                    <span
+                                      onClick={() => { fields.move(index, index - 1) }}
+                                      style={{ cursor: 'pointer' }}
+                                    >
+                                      <ArrowUpwardIcon />
+                                    </span>
+                                  )}
+                                  {index != fields.length - 1 && (
+                                    <span
+                                      onClick={() => { fields.move(index, index + 1) }}
+                                      style={{ cursor: 'pointer' }}
+                                    >
+                                      <ArrowDownwardIcon />
+                                    </span>
+                                  )}
+                                </TableCell>
                                 <TableCell>
                                   <Autocomplete
                                     freesolo="true"

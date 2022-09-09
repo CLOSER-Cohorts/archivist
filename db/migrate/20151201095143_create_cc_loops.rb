@@ -1,4 +1,4 @@
-class CreateCcLoops < ActiveRecord::Migration
+class CreateCcLoops < ActiveRecord::Migration[4.2]
   def change
     create_table :cc_loops do |t|
       t.string :loop_var

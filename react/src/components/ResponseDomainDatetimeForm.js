@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { ResponseDomainDatetimes } from '../actions'
 import { ObjectStatusBar } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
+import { UsedByQuestions } from '../components/UsedByQuestions'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
 import arrayMutators from 'final-form-arrays'
 import { makeStyles } from '@material-ui/core/styles';
@@ -165,6 +166,7 @@ export const ResponseDomainDatetimeForm = (props) => {
                 </Grid>
                 <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
               </Grid>
+              <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>
           </form>
         )}

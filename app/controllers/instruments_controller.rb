@@ -8,7 +8,7 @@ class InstrumentsController < ImportableController
                   qvmapping: ImportJob::Mapping,
                   topicq: ImportJob::TopicQ
   })
-  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export mapper mapping member_imports variables latest_document document} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -34,6 +34,18 @@ class InstrumentsController < ImportableController
         filename = exp.run @object
         render file: filename
       end
+    end
+  end
+
+  def update
+    if @object.update(safe_params)
+      respond_to do |f|
+        f.json {
+          render json: Instruments::Serializer.new(@object).call()
+        }
+      end
+    else
+      render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 
@@ -71,6 +83,11 @@ class InstrumentsController < ImportableController
 
   def export
     ExportJob::Instrument.perform_async(@object.id)
+    head :ok, format: :json
+  end
+
+  def export_complete
+    ExportJob::InstrumentComplete.perform_async(@object.id)
     head :ok, format: :json
   end
 
@@ -152,6 +169,16 @@ class InstrumentsController < ImportableController
   def mapper
     respond_to do |format|
       format.text { render 'mapper.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json  {}
+    end
+  end
+
+  def all_mappings
+    @object = policy_scope(Instrument).friendly.find(params[:id])
+    @unmapped_variables = @object.variables.where.not(id: @object.maps.pluck(:variable_id))
+
+    respond_to do |format|
+      format.text { render 'all_mappings.txt.erb', layout: false, content_type: 'text/plain' }
       format.json  {}
     end
   end

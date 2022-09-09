@@ -4,7 +4,7 @@ import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestio
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
 import { Loader } from '../components/Loader'
-import { get, isEmpty, isNil } from "lodash";
+import { get, isEmpty, isNil, times } from "lodash";
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
-  }
+  },
+  rosterLabel: {
+    backgroundColor: 'lightgray',
+    height: 25
+  },
 }));
 
 const ObjectFinder = (instrumentId, type, id) => {
@@ -141,10 +145,13 @@ const QuestionItemListItem = (props) => {
 
 const QuestionGridListItem = (props) => {
   const {item} = props;
+  const classes = useStyles();
 
   if(isNil(item) || isNil(item.question)){
     return ''
   }
+
+  const rows = times(item.question.roster_rows, String)
 
   return (
     <Grid container spacing={3}>
@@ -167,9 +174,14 @@ const QuestionGridListItem = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {item.quesiton && item.question.rows.map((row)=>(
+            {item.question && item.question.rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
+              </TableRow>
+            ))}
+            {item.question && rows.map((row, i) => (
+              <TableRow>
+                <TableCell className={classes.rosterLabel}><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
               </TableRow>
             ))}
           </TableBody>

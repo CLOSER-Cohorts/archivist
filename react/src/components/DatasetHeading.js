@@ -1,7 +1,9 @@
 import React from 'react';
 import { get, isEmpty } from "lodash";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -14,8 +16,17 @@ export const DatasetHeading = ({dataset, mode='view'}) => {
   const study = get(dataset, 'study')
 
   return (
-    <Typography variant="h5">
-      <span className={classes.heading}>{(isEmpty(study)) ? "" : `${study} - ` }{get(dataset, 'name')}</span>
-    </Typography>
+    <Grid container spacing={3}>
+        <Grid item xs={10}>
+          <Typography variant="h5">
+            <span className={classes.heading}>{(isEmpty(study)) ? "" : `${study} - `}{get(dataset, 'name')}</span>
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          { dataset && (
+          <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={get(dataset, 'filename')}></Chip>
+          )}
+        </Grid>
+    </Grid>
   )
 }

@@ -5,6 +5,14 @@ import { useHistory } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  inline: {
+    display: 'inline-block'
+  }
+
+}));
 
 const ObjectTypeLookup = (objectType, instrumentId) => {
     switch(objectType) {
@@ -49,6 +57,7 @@ const ObjectTypeLookup = (objectType, instrumentId) => {
 export const CreateNewBuildObjectButtons  = (props) => {
   const { objectTypes=[], instrumentId, callback=()=>{}} = props;
 
+  const classes = useStyles();
   const history = useHistory();
 
   const createNew = (path) => {
@@ -59,7 +68,7 @@ export const CreateNewBuildObjectButtons  = (props) => {
   const buttons = objectTypes.map( objectType => ObjectTypeLookup(objectType, instrumentId) )
 
   return (
-    <ButtonGroup color="primary" aria-label="outlined primary button group">
+    <ButtonGroup color="primary" aria-label="outlined primary button group" class={classes.inline}>
      {buttons.map((button) => {
         return <Button onClick={()=> { createNew(button.path)} }startIcon={<AddIcon />}>{button.text}</Button>
       })}

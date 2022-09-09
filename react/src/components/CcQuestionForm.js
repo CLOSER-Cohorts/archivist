@@ -67,6 +67,7 @@ const formFields = [
         <Select
           name="question_type"
           label="Type"
+          required={true}
           formControlProps={{ margin: 'none' }}
         >
           <MenuItem></MenuItem>
@@ -185,6 +186,7 @@ export const CcQuestionForm = (props) => {
                   <Select
                     name="response_unit_id"
                     label="Interviewee"
+                    required={true}
                     formControlProps={{ margin: 'none' }}
                   >
                     <MenuItem></MenuItem>

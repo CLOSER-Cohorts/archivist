@@ -59,7 +59,7 @@ export const DataTable = (props) => {
   },[]);
 
   const [activeFilters, setActiveFilters] = useState({});
-  const [sortKey, setSortKey] = useState('id');
+  const [sortKey, setSortKey] = useState(get(sortKeys[0], 'key', 'id'));
 
   const handleFilter = (event) => {
     const name = event.target.name;
@@ -115,7 +115,7 @@ export const DataTable = (props) => {
         : (
           <>
             <Grid container spacing={3}>
-              <Grid item xs={(isEmpty(filters) ? 12 : 9)}>
+              <Grid item xs={(isEmpty(filters) && isEmpty(sortKeys) ? 12 : 9)}>
                 <SearchBar
                   placeholder={`Search by ${get(searchKeys, 0, searchKey)} (press return to perform search)`}
                   onChange={(newValue) =>

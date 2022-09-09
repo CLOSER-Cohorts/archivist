@@ -1,4 +1,4 @@
-class AddNotNullForeignKeys < ActiveRecord::Migration
+class AddNotNullForeignKeys < ActiveRecord::Migration[4.2]
   def change
     change_column :codes, :category_id, :integer, null: false
     change_column :codes, :code_list_id, :integer, null: false

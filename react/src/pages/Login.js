@@ -101,7 +101,7 @@ export default function Login() {
           </Button>
         </form>
       </div>
-      or <Link to={url(routes.signup)}>signup</Link> here
+      <Link to={url(routes.forgotten_password)}>Forgotten password?</Link> or <Link to={url(routes.signup)}>signup</Link>
     </Container>
   );
 }

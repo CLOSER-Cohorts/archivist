@@ -1,4 +1,4 @@
-class CreateResponseDomainNumerics < ActiveRecord::Migration
+class CreateResponseDomainNumerics < ActiveRecord::Migration[4.2]
   def change
     create_table :response_domain_numerics do |t|
       t.string :numeric_type

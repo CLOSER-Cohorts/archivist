@@ -1,4 +1,4 @@
-class CreateCodes < ActiveRecord::Migration
+class CreateCodes < ActiveRecord::Migration[4.2]
   def change
     create_table :codes do |t|
       t.string :value

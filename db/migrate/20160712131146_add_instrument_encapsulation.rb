@@ -1,4 +1,4 @@
-class AddInstrumentEncapsulation < ActiveRecord::Migration
+class AddInstrumentEncapsulation < ActiveRecord::Migration[4.2]
   def change
 
     reversible do |dir|

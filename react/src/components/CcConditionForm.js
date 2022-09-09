@@ -71,7 +71,6 @@ const formFields = [
         label="Logic"
         name="logic"
         margin="none"
-        required={true}
         multiline
       />
     ),
