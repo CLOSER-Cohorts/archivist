@@ -10,7 +10,11 @@ class VariablesController < BasicController
   @params_list = [:name, :label, :var_type, :dataset_id]
 
   def index
-    render json: Variables::Serializer.new(@dataset).call() and return
+    @variables = Variables::Serializer.new(@dataset).call()
+    respond_to do |format|
+      format.text { render 'index.txt.erb', layout: false, content_type: 'text/plain' }
+      format.json { render json: @variables }
+    end
   end
 
   def tv
@@ -75,6 +79,6 @@ class VariablesController < BasicController
   end
 
   def set_dataset
-    @dataset = policy_scope(Dataset).includes(variables: [:src_variables, :der_variables, :topic, :questions, :question_topics]).find(params[:dataset_id])
+    @dataset = Dataset.includes(variables: [:src_variables, :der_variables, :topic, :questions, :question_topics]).find(params[:dataset_id])
   end
 end
