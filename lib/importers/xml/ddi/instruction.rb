@@ -6,8 +6,11 @@ module Importers::XML::DDI
 
     def XML_node(node)
       instruction = ::Instruction.new({text: node.at_xpath('./InstructionText/LiteralText/Text').content})
-
-      @instrument.instructions << instruction
+      begin
+        @instrument.instructions << instruction
+      rescue ActiveRecord::RecordInvalid
+        raise Importers::XML::DDI::ValidationError.new(node.to_xml, instruction)
+      end
       instruction.add_urn extract_urn_identifier node
     end
 
