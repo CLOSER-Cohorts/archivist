@@ -28,7 +28,11 @@ module Importers::XML::DDI
         cl = ::CodeList.new label: codes_to_add.map {|c| c.category.label.gsub(/\s*(\S)\S*/, '\1')}.join('_')
       end
       cl.instrument_id = @instrument.id
-      cl.save!
+      begin
+        cl.save!
+      rescue ActiveRecord::RecordInvalid
+        raise Importers::XML::DDI::ValidationError.new(node.to_xml, cl)
+      end
       codes_to_add.each {|c| cl.codes << c}
       cl.add_urn extract_urn_identifier node
     end
