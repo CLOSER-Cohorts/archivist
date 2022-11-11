@@ -84,9 +84,9 @@ export const CcStatementForm = (props) => {
         onCreate()
       }))
     }else{
-      dispatch(CcStatements.update(instrumentId, ccStatement.id, values), (updatedObject) => {
+      dispatch(CcStatements.update(instrumentId, ccStatement.id, values, (updatedObject) => {
         onChange({ node: values, path: path })
-      })
+      }))
     }
   }
 
