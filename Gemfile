@@ -23,6 +23,9 @@ gem 'json', '= 2.3.0'
 # JSON Web Token implementation in Ruby
 # https://github.com/jwt/ruby-jwt
 gem 'jwt'
+# A common interface to multiple JSON libraries.
+# http://github.com/intridea/multi_json
+gem 'multi_json', '~> 1.12.1'
 # A fast JSON parser and serializer.
 # http://www.ohler.com/oj
 gem 'oj', '= 3.3.9'
@@ -50,6 +53,9 @@ gem 'rails', '= 6.1.6'
 # A Ruby client library for Redis
 # https://github.com/redis/redis-rb
 gem 'redis', '= 4.5.1'
+# Namespaces Redis commands.
+# https://github.com/resque/redis-namespace
+gem 'redis-namespace', '~> 1.9'
 # A Redis backend store for Rack::Cache
 # http://redis-store.org/redis-rack-cache
 gem 'redis-rack-cache', '= 2.0.2'
