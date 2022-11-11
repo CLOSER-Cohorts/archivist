@@ -28,7 +28,7 @@ gem 'friendly_id', '~> 5.4.2'
 # Create background workers
 gem 'resque', '1.27.4'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '2.7.0'
+gem 'jbuilder', '2.11.5'
 gem 'jbuilder_cache_multi', '0.1.0'
 # Use jquery as the JavaScript library
 # gem 'jquery-rails', '4.3.1'
