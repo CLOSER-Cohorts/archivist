@@ -26,6 +26,12 @@ gem 'jwt'
 # A common interface to multiple JSON libraries.
 # http://github.com/intridea/multi_json
 gem 'multi_json', '~> 1.12.1'
+# Ruby client api for Internet Message Access Protocol
+# https://github.com/ruby/net-imap
+gem 'net-imap', require: false
+# Ruby client library for POP3.
+# https://github.com/ruby/net-pop
+gem 'net-pop', require: false
 # Simple Mail Transfer Protocol client library for Ruby.
 # https://github.com/ruby/net-smtp
 gem 'net-smtp', require: false
