@@ -26,6 +26,9 @@ gem 'jwt'
 # A common interface to multiple JSON libraries.
 # http://github.com/intridea/multi_json
 gem 'multi_json', '~> 1.12.1'
+# Simple Mail Transfer Protocol client library for Ruby.
+# https://github.com/ruby/net-smtp
+gem 'net-smtp', require: false
 # A fast JSON parser and serializer.
 # http://www.ohler.com/oj
 gem 'oj', '= 3.3.9'
