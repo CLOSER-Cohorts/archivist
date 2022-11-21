@@ -136,7 +136,7 @@ module Exporters::XML::DDI
 
     # Populates the InterviewerInstructionScheme with all of the instrument's {Instruction Instructions}
     def build_iis
-      build_scheme Exporters::XML::DDI::Instruction, @instrument.instructions, @iis
+      build_scheme Exporters::XML::DDI::Instruction, instructions, @iis
     end
 
     # Populates the CategoryScheme with all of the instrument's {Category Categories}
@@ -185,6 +185,10 @@ module Exporters::XML::DDI
           ::CodeList.joins(:qgrids_via_v).where('question_grids.id IN (?)', question_grids.pluck(:id)).pluck(:id)
         ).uniq
       )
+    end
+
+    def instructions
+      @instructions ||= ::Instruction.where('id IN (?)', question_items.pluck(:instruction_id).union(question_items.pluck(:instruction_id))).distinct
     end
 
     def categories
