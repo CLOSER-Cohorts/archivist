@@ -79,7 +79,10 @@ class Variables::Serializer
       if variable["var_type"] == "Derived"
         variable["sources"] = variable["src_variables"].uniq
         # If derived then we should take the sources_topic from the source variables.
-        variable["sources_topic"] = variables.find{|c| c["id"] == variable["sources"].first[:id]}.fetch("sources_topic") unless variable["sources"].empty?
+        unless variable["sources"].empty?
+          source_variable = variables.find{|c| c["id"] == variable["sources"].first[:id]}
+          variable["sources_topic"] = source_variable.fetch("topic") || source_variable.fetch("sources_topic")
+        end
       else
         variable["sources"] = variable["questions"].uniq
       end
