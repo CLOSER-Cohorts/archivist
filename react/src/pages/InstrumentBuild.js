@@ -84,7 +84,7 @@ const InstrumentBuild = (props) => {
               <h2><Link to={url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })}>ResponseDomains</Link></h2>
               <List dense={true}>
                   <StatCount label="Datetime Answers" value={response_domain_datetimes} />
-                  <StatCount label="Numberic Answers" value={response_domain_numerics} />
+                  <StatCount label="Numeric Answers" value={response_domain_numerics} />
                   <StatCount label="Text Answers" value={response_domain_texts} />
               </List>
             </Paper>
