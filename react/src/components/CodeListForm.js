@@ -166,7 +166,7 @@ export const CodeListForm = (props) => {
                         <TableCell className={classes.small} >ID</TableCell>
                         <TableCell className={classes.small} >Order</TableCell>
                         <TableCell className={classes.small} size="small">Value</TableCell>
-                        <TableCell>Label</TableCell>
+                        <TableCell>Category</TableCell>
                         <TableCell className={classes.small}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
@@ -267,7 +267,7 @@ export const CodeListForm = (props) => {
                         type="submit"
                         disabled={submitting}
                       >
-                        Submit
+                        Save
                       </Button>
                     </Grid>
                     <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CodeLists} />

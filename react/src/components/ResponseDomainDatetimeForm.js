@@ -163,7 +163,7 @@ export const ResponseDomainDatetimeForm = (props) => {
                         type="submit"
                         disabled={submitting}
                       >
-                        Submit
+                        Save
                       </Button>
                     </Grid>
                     <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
