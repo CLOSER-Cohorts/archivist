@@ -105,7 +105,7 @@ const FormField = (props) => {
 }
 
 export const CodeListForm = (props) => {
-  const {codeList, instrumentId} = props;
+  const {codeList, instrumentId, instrument} = props;
 
   const categories = useSelector(state => get(state.categories, instrumentId, {}));
 
@@ -156,7 +156,9 @@ export const CodeListForm = (props) => {
                   </Grid>
                 ))}
                 <h3>Codes</h3>
+                {instrument && !instrument.signed_off && (
                   <AddCircleOutlineIcon onClick={() => push('codes', {})}/>
+                )}
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -177,23 +179,27 @@ export const CodeListForm = (props) => {
                                       {fields.value[index].id}
                                     </TableCell>
                                     <TableCell className={classes.small} >
-                                      {index !== 0 && (
-                                        <span
-                                          onClick={() => {
-                                            fields.move(index, index - 1)
-                                          }}
-                                          style={{ cursor: 'pointer' }}
-                                        >
-                                          <ArrowUpwardIcon />
-                                        </span>
-                                      )}
-                                      {index !== fields.length - 1 && (
-                                        <span
-                                          onClick={() => { fields.move(index, index + 1) }}
-                                          style={{ cursor: 'pointer' }}
-                                        >
-                                          <ArrowDownwardIcon />
-                                        </span>
+                                      {instrument && !instrument.signed_off && (
+                                      <>
+                                        {index !== 0 && (
+                                          <span
+                                            onClick={() => {
+                                              fields.move(index, index - 1)
+                                            }}
+                                            style={{ cursor: 'pointer' }}
+                                          >
+                                            <ArrowUpwardIcon />
+                                          </span>
+                                        )}
+                                        {index !== fields.length - 1 && (
+                                          <span
+                                            onClick={() => { fields.move(index, index + 1) }}
+                                            style={{ cursor: 'pointer' }}
+                                          >
+                                            <ArrowDownwardIcon />
+                                          </span>
+                                        )}
+                                      </>
                                       )}
                                     </TableCell>
                                     <TableCell className={classes.small} size="small">
@@ -226,12 +232,14 @@ export const CodeListForm = (props) => {
                                     />
                                     </TableCell>
                                     <TableCell className={classes.small}>
-                                      <span
-                                        onClick={() => fields.remove(index)}
-                                        style={{ cursor: 'pointer' }}
-                                      >
-                                        <DeleteIcon />
-                                      </span>
+                                      {instrument && !instrument.signed_off && (
+                                        <span
+                                          onClick={() => fields.remove(index)}
+                                          style={{ cursor: 'pointer' }}
+                                        >
+                                          <DeleteIcon />
+                                        </span>
+                                      )}
                                     </TableCell>
                                   </TableRow>
                                 ))
@@ -240,27 +248,31 @@ export const CodeListForm = (props) => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CodeLists} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Submit
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={CodeLists} />
+                </>
+              )}
               </Grid>
               <UsedByQuestions item={codeList} instrumentId={instrumentId} />
             </Paper>

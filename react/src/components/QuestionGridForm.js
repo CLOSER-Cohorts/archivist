@@ -158,7 +158,7 @@ const formFields = [
 ];
 
 export const QuestionGridForm = (props) => {
-  const {questionGrid, instrumentId} = props;
+  const {questionGrid, instrumentId, instrument} = props;
 
   var codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
@@ -306,27 +306,31 @@ export const QuestionGridForm = (props) => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Submit
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
+                  </>
+                )}
               </Grid>
             </Paper>
           </form>

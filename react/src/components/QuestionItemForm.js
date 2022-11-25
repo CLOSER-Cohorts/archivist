@@ -94,7 +94,7 @@ const formFields = [
 ];
 
 export const QuestionItemForm = (props) => {
-  const {questionItem, instrumentId} = props;
+  const {questionItem, instrumentId, instrument} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -153,7 +153,9 @@ export const QuestionItemForm = (props) => {
                   </Grid>
                 ))}
                 <h3>Response Domains</h3>
-                <AddCircleOutlineIcon onClick={() => push('rds', {})}/>
+                {instrument && !instrument.signed_off && (
+                  <AddCircleOutlineIcon onClick={() => push('rds', {})}/>
+                )}
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
@@ -213,12 +215,14 @@ export const QuestionItemForm = (props) => {
                                   />
                                 </TableCell>
                                 <TableCell className={classes.small} >
-                                  <span
-                                    onClick={() => fields.remove(index)}
-                                    style={{ cursor: 'pointer' }}
-                                  >
-                                    <DeleteIcon />
-                                  </span>
+                                  {instrument && !instrument.signed_off && (
+                                    <span
+                                      onClick={() => fields.remove(index)}
+                                      style={{ cursor: 'pointer' }}
+                                    >
+                                      <DeleteIcon />
+                                    </span>
+                                  )}
                                 </TableCell>
                               </TableRow>
                             ))
@@ -227,27 +231,31 @@ export const QuestionItemForm = (props) => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionItems} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Submit
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionItems} />
+                  </>
+                )}
               </Grid>
             </Paper>
           </form>
