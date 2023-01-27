@@ -152,6 +152,7 @@ const QuestionGridListItem = (props) => {
   }
 
   const rows = times(item.question.roster_rows, String)
+  const question_rows = get(item.question, 'rows', [])
 
   return (
     <Grid container spacing={3}>
@@ -174,7 +175,7 @@ const QuestionGridListItem = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {item.question && item.question.rows.map((row)=>(
+            {item.question && question_rows.map((row)=>(
               <TableRow key={row.label}>
                 <TableCell><strong>{row.label}</strong></TableCell>
               </TableRow>

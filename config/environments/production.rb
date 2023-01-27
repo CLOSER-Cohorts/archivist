@@ -86,4 +86,19 @@ Rails.application.configure do
 
   # enable sidekiq as active job adapter
   config.active_job.queue_adapter = :sidekiq
+
+  config.action_mailer.default_url_options = { host: ENV['REACT_APP_API_HOST'] }
+  config.asset_host = ENV['REACT_APP_API_HOST']
+
+  ActionMailer::Base.smtp_settings = {
+    :user_name => 'apikey', # This is the string literal 'apikey', NOT the ID of your API key
+    :password => ENV['SENDGRID_API_KEY'], # This is the secret sendgrid API key which was issued during API key creation
+    :domain => ENV['SMTP_DOMAIN'],
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
+  ActionMailer::Base.delivery_method = :smtp
 end

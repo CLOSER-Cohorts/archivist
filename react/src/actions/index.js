@@ -38,6 +38,41 @@ export const authUser = (email, password) => {
   };
 };
 
+export const Password = {
+  forgot: (email, password) => {
+    const request = axios.post(api_host + '/users/password.json', {
+      "user": {
+        "email": email
+      }
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        dispatch(forgottenPasswordFailure(res.message));
+      })
+        .catch(err => {
+          dispatch(forgottenPasswordFailure(err.message));
+        });
+    };
+  },
+  update: (token, password, password_confirmation) => {
+    const request = axios.put(api_host + '/users/password.json', {
+      "user": {
+        "password": password,
+        "password_confirmation": password_confirmation,
+        "reset_password_token": token
+      }
+    })
+    return (dispatch) => {
+      return request.then(res => {
+        dispatch(authUserSuccess(res.data));
+      })
+        .catch(err => {
+          dispatch(resetPasswordFailure(err.message));
+        });
+    };
+  }
+};
+
 export const WhoAmI = (email, password) => {
   const request = axios.get(api_host + '/users/admin/whoami.json', {
     headers: api_headers()
@@ -1925,6 +1960,27 @@ const whoAmISuccess = user => ({
 
 const authUserFailure = error => ({
   type: 'LOGIN_FAILURE',
+  payload: {
+    error
+  }
+});
+
+const forgottenPasswordFailure = error => ({
+  type: 'FORGOTTEN_PASSWORD_FAILURE',
+  payload: {
+    error
+  }
+});
+
+const forgottenPasswordSuccess = auth => ({
+  type: 'FORGOTTEN_PASSWORD_SUCCESS',
+  payload: {
+    ...auth
+  }
+});
+
+const resetPasswordFailure = error => ({
+  type: 'RESET_PASSWORD_FAILURE',
   payload: {
     error
   }

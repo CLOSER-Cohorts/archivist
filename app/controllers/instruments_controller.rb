@@ -37,6 +37,18 @@ class InstrumentsController < ImportableController
     end
   end
 
+  def update
+    if @object.update(safe_params)
+      respond_to do |f|
+        f.json {
+          render json: Instruments::Serializer.new(@object).call()
+        }
+      end
+    else
+      render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
+    end
+  end
+
   def reorder_ccs
     params.permit!
     unless params[:updates].nil?

@@ -9,8 +9,9 @@ class DeleteJob::Instrument
 
   def perform (instrument_id)
     begin
-      instrument = Instrument.find instrument_id
+      instrument = ::Instrument.find instrument_id
       instrument.destroy
+      ::Instrument.last.touch(:updated_at)
     rescue => e
       Rails.logger.fatal e
     end

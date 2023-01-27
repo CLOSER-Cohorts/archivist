@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Instrument, CcConditions, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
+import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { get, isEmpty, isNil, uniq } from "lodash";
 import { InstrumentHeading } from '../components/InstrumentHeading'
@@ -64,6 +64,8 @@ const ObjectFinder = (instrumentId, type, id) => {
   const questionItems = get(allQuestionItems, instrumentId, {})
   const allQuestionGrids = useSelector(state => state.questionGrids);
   const questionGrids = get(allQuestionGrids, instrumentId, {})
+  const loops = useSelector(state => state.cc_loops);
+  const cc_loops = get(loops, instrumentId, {})
 
   var item = {children: []}
 
@@ -77,6 +79,10 @@ const ObjectFinder = (instrumentId, type, id) => {
 
   if(type === 'CcCondition'){
     item = get(cc_conditions, id.toString(), {})
+  }
+
+  if (type === 'CcLoop') {
+    item = get(cc_loops, id.toString(), {})
   }
 
   if(type === 'CcQuestion'){
@@ -118,6 +124,18 @@ const SequenceTopicsFinder = (props) => {
     )
   }
 }
+
+const StatementListItem = (props) => {
+  const { type, id, instrumentId } = props
+  const item = ObjectFinder(instrumentId, type, id)
+
+  return (
+    <ListItem>
+      <ListItemText primary={item.literal} />
+    </ListItem>
+  )
+}
+
 
 const QuestionListItem = (props) => {
   const { type, id, instrumentId } = props
@@ -446,8 +464,11 @@ const ConditionItem = (props) => {
         <ListItemText primary={title} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      {!isEmpty(item.children) && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <ListItem>
+          <ListItemText primary={'True'} />
+        </ListItem>
+        {!isEmpty(item.children) && (
           <List component="div" disablePadding>
             {item.children.map((child) => (
               <ListItem button className={classes.nested}>
@@ -459,11 +480,120 @@ const ConditionItem = (props) => {
                       return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     case 'CcCondition':
                       return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcLoop':
+                      return <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcStatement':
+                      return <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
                     default:
                       return null;
                   }
                 })()}
               </ListItem>
+            ))}
+          </List>
+        )}
+        <ListItem>
+          <ListItemText primary={'False'} />
+        </ListItem>
+        {!isEmpty(item.fchildren) && (
+          <List component="div" disablePadding>
+            {item.fchildren.map((child) => (
+              <ListItem button className={classes.nested}>
+                {(function () {
+                  switch (child.type) {
+                    case 'CcSequence':
+                      return <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child, 'children', [])} />;
+                    case 'CcQuestion':
+                      return <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcCondition':
+                      return <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcLoop':
+                      return <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    case 'CcStatement':
+                      return <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                    default:
+                      return null;
+                  }
+                })()}
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Collapse>
+    </List>
+  );
+}
+
+const LoopItem = (props) => {
+  const { type, id, instrumentId, title } = props
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  var item = ObjectFinder(instrumentId, type, id)
+
+  var loop_description = `${item.loop_var} from ${item.start_val} while`
+
+  if (item.end_val) {
+    loop_description += ` ${item.loop_var} <= ${item.end_val}`
+  }
+
+  if (item.loop_while) {
+    loop_description += ` ${(item.end_val) ? '&& ' : ''}${item.loop_while}`
+  }
+
+  if (isNil(item.end_val) && isNil(item.loop_while)) {
+    loop_description += ` []`
+  }
+
+  return (
+    <List
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      className={classes.root}
+    >
+      <ListItem button onClick={handleClick}>
+        <ListItemText primary={loop_description} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      {!isEmpty(item.children) && (
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {item.children.map((child) => (
+              (function () {
+                switch (child.type) {
+                  case 'CcSequence':
+                    return (
+                      <ListItem className={classes.nested}>
+                        <SequenceItem instrumentId={instrumentId} id={child.id} type={child.type} title={child.type} children={get(child, 'children', [])} />
+                      </ListItem>)
+                  case 'CcQuestion':
+                    return (
+                      <ListItem className={classes.nested}>
+                        <QuestionListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                      </ListItem>)
+                  case 'CcCondition':
+                    return (
+                      <ListItem className={classes.nested}>
+                        <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} children={get(child, 'children', [])} />
+                      </ListItem>)
+                  case 'CcLoop':
+                    return (
+                      <ListItem className={classes.nested}>
+                        <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                      </ListItem>)
+                  case 'CcStatement':
+                    return (
+                      <ListItem button className={classes.nested}>
+                        <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                      </ListItem>)
+                  default:
+                    return null;
+                }
+              })()
             ))}
           </List>
         </Collapse>
@@ -525,6 +655,16 @@ const SequenceItem = (props) => {
                             <ListItem button className={classes.nested}>
                               <ConditionItem instrumentId={instrumentId} id={child.id} type={child.type} />
                             </ListItem>)
+                      case 'CcLoop':
+                        return (
+                          <ListItem button className={classes.nested}>
+                            <LoopItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                          </ListItem>)
+                      case 'CcStatement':
+                        return (
+                          <ListItem button className={classes.nested}>
+                            <StatementListItem instrumentId={instrumentId} id={child.id} type={child.type} />
+                          </ListItem>)
                       default:
                         return null;
                     }
@@ -554,6 +694,7 @@ const InstrumentMap = (props) => {
       dispatch(CcSequences.all(instrumentId)),
       dispatch(CcStatements.all(instrumentId)),
       dispatch(CcConditions.all(instrumentId)),
+      dispatch(CcLoops.all(instrumentId)),
       dispatch(CcQuestions.all(instrumentId)),
       dispatch(QuestionItems.all(instrumentId)),
       dispatch(QuestionGrids.all(instrumentId)),

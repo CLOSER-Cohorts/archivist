@@ -182,7 +182,11 @@ module Importers::XML::DDI
             extract_urn_identifier(node.at_xpath('./InterviewerInstructionReference'))
         ).try(:id)
       end
-      question.save!
+      begin
+        question.save!
+      rescue ActiveRecord::RecordInvalid
+        raise Importers::XML::DDI::ValidationError.new(node.to_xml, question)
+      end
       question.add_urn extract_urn_identifier node
     end
 

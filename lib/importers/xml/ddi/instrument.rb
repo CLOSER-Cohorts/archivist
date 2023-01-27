@@ -36,7 +36,9 @@ module Importers::XML::DDI
         @instrument.study = options[:study] unless options[:study].to_s.empty?
       rescue => e
         @errors = true
-        log :outcome, "Invalid : #{e.message}"
+        log :input, e.input if e.respond_to?(:input)
+        log :matches, e.record.inspect if e.respond_to?(:record)
+        log :outcome, "Record Invalid : #{e.message}"
         write_to_log
       ensure
         set_import_to_finished
