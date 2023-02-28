@@ -24,7 +24,7 @@ class CodeListsController < BasicInstrumentController
   # PATCH/PUT /instruments/1/code_lists/1.json
   def update
     parameters = safe_params
-    if @object.update_attributes(parameters)
+    if @object.update(parameters)
       # We need to reload otherwise the response_domain association will
       # be returned in the JSON even after it has been removed.
       @object.reload
