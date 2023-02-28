@@ -5,7 +5,7 @@
   "repository": "https://github.com/CLOSER-Cohorts/archivist.git",
   "license": "UKGLF-OGL",
   "engines": {
-    "node": "12.16.2"
+    "node": "16.19.1"
   },
   "devDependencies": {
     "karma": "^6.3.16",
