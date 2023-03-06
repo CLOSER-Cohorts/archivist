@@ -19,7 +19,7 @@ class Variables::Serializer
               array_remove(ARRAY_AGG (question_maps.source_id), NULL) questions,
               array_remove(ARRAY_AGG (src_variables.id), NULL) src_variables,
               array_remove(ARRAY_AGG (used_by.id), NULL) used_bys,
-              CASE WHEN variables.var_type = 'Derived' THEN src_links.topic_id ELSE der_src_links.topic_id END as sources_topic
+              CASE WHEN variables.var_type = 'Derived' THEN der_src_links.topic_id ELSE src_links.topic_id END as sources_topic
             FROM variables
             LEFT OUTER JOIN links ON links.target_id = variables.id AND links.target_type = 'Variable' AND links.target_id = variables.id
             LEFT OUTER JOIN maps AS question_maps ON question_maps.variable_id = variables.id AND question_maps.source_type = 'CcQuestion'
@@ -27,8 +27,8 @@ class Variables::Serializer
             LEFT OUTER JOIN maps AS used_by_maps ON used_by_maps.source_id = variables.id
             LEFT OUTER JOIN variables AS src_variables ON src_variable_maps.source_id = src_variables.id
             LEFT OUTER JOIN variables AS used_by ON used_by_maps.variable_id = used_by.id
-            LEFT OUTER JOIN links AS src_links ON src_links.target_id = src_variable_maps.source_id AND src_links.target_type = 'Variable'
-            LEFT OUTER JOIN links AS der_src_links ON der_src_links.target_id = question_maps.source_id AND der_src_links.target_type = 'Variable'
+            LEFT OUTER JOIN links AS src_links ON src_links.target_id = question_maps.source_id AND src_links.target_type = 'CcQuestion'
+            LEFT OUTER JOIN links AS der_src_links ON der_src_links.target_id = src_variable_maps.source_id AND src_links.target_type = 'Variable'
             WHERE variables.dataset_id = #{dataset.id}
             GROUP BY variables.id, links.topic_id, src_links.topic_id, der_src_links.topic_id
             ORDER BY variables.id DESC
@@ -77,9 +77,14 @@ class Variables::Serializer
       variable["questions"] = variable["questions"].map{|src_var| questions[src_var]}
 
       if variable["var_type"] == "Derived"
-        variable["sources"] = variable["src_variables"]
+        variable["sources"] = variable["src_variables"].uniq
+        # If derived then we should take the sources_topic from the source variables.
+        unless variable["sources"].empty?
+          source_variable = variables.find{|c| c["id"] == variable["sources"].first[:id]}
+          variable["sources_topic"] = source_variable.fetch("topic") || source_variable.fetch("sources_topic")
+        end
       else
-        variable["sources"] = variable["questions"]
+        variable["sources"] = variable["questions"].uniq
       end
       variable.delete("src_variables")
       variable.delete("questions")

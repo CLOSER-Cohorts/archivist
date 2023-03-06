@@ -100,7 +100,7 @@ const FormField = (props) => {
 }
 
 export const ResponseDomainDatetimeForm = (props) => {
-  const {responseDomain, instrumentId} = props;
+  const {responseDomain, instrumentId, instrument} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -144,27 +144,31 @@ export const ResponseDomainDatetimeForm = (props) => {
                     <FormField item={item} values={values} />
                   </Grid>
                 ))}
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
+                  </>
+                )}
               </Grid>
               <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>

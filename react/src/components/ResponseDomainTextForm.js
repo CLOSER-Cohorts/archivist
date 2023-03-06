@@ -53,7 +53,7 @@ const formFields = [
 ];
 
 export const ResponseDomainTextForm = (props) => {
-  const {responseDomain, instrumentId} = props;
+  const {responseDomain, instrumentId, instrument} = props;
 
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
@@ -102,27 +102,31 @@ export const ResponseDomainTextForm = (props) => {
                     }
                   </Grid>
                 ))}
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainTexts} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainTexts} />
+                  </>
+                )}
               </Grid>
               <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>
