@@ -17,6 +17,6 @@ json.array!(@collection) do |cc_question|
   json.base_label cc_question.base_label
   json.response_unit_label cc_question.response_unit_label
   json.interviewee cc_question.response_unit.try(:label)
-  json.resolved_topic cc_question.resolved_topic
-  json.variable_topic cc_question.variable_topics.first
+  json.resolved_topic cc_question.resolved_topic, :id, :code, :name unless cc_question.resolved_topic.nil?
+  json.variable_topic cc_question.variable_topics.first, :id, :code, :name unless cc_question.variable_topics.first.nil?
 end
