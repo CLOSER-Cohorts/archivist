@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { isNil } from "lodash";
-import { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, isDescendant } from 'react-sortable-tree';
+import { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, isDescendant } from '@nosferatu500/react-sortable-tree';
 
 const useStyles = makeStyles({
   option: {

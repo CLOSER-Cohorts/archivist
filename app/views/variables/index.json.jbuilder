@@ -14,6 +14,6 @@ json.array!(@collection) do |variable|
     json.topic variable.topic, :id, :code, :name, :parent_id
   end
   json.errors variable.errors.full_messages.to_sentence unless variable.valid?
-  json.resolved_topic variable.resolved_topic
-  json.sources_topic variable.sources_topic
+  json.resolved_topic variable.resolved_topic, :id, :code, :name unless variable.resolved_topic.nil?
+  json.sources_topic variable.sources_topic, :id, :code, :name unless variable.sources_topic.nil?
 end

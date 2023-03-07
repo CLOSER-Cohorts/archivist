@@ -200,8 +200,8 @@ const QuestionItemListItem = (props) => {
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
-            { (!isNil(variableTopic)) && (
-              <em>Resolved topic from variables - { get(variableTopic,'name') }</em>
+            {(isNil(get(topic, 'id')) && !isNil(variableTopic)) && (!isNil(get(variableTopic, 'name'))) && (
+              <em>Resolved topic from variables - {get(variableTopic, 'name')}</em>
             )}
           </Grid>
         </Grid>
@@ -282,7 +282,7 @@ const QuestionGridListItem = (props) => {
           </Grid>
           <Grid item xs={6}>
             <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
-            {(!isNil(variableTopic)) && (
+            {(isNil(get(topic, 'id')) && !isNil(variableTopic)) && (!isNil(get(variableTopic, 'name'))) && (
               <em>Resolved topic from variables - {get(variableTopic, 'name')}</em>
             )}
           </Grid>

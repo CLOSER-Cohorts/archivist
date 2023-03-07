@@ -20,7 +20,7 @@ class BasicController < ApplicationController
     @collection = collection
     respond_to do |format|
       format.text { render 'index.txt.erb', layout: false, content_type: 'text/plain' }
-      format.json { render 'index.json.jbuilder' }
+      format.json
     end
   end
 

@@ -27,7 +27,8 @@ module Archivist
 
     config.assets.paths += %W(#{config.root}/vendor/assets)
 
-    config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
+    # config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
+    config.assets.precompile << %w( *.eot *.svg *.woff *.woff2 *.ttf)
 
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/services)
 

@@ -4,7 +4,6 @@ require ::File.expand_path('../config/environment', __FILE__)
 require 'rack'
 require 'rack/cache'
 require 'redis-rack-cache'
-require 'resque'
 
 use Rack::Deflater
 # use Rack::Cache,

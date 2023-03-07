@@ -10,13 +10,13 @@ json.array!(@collection) do |cc_question|
     json.x map.x
     json.y map.y
   end
-  json.topic cc_question.topic
+  json.topic cc_question.topic, :id, :code, :name unless cc_question.topic.nil?
   json.ancestral_topic cc_question.get_ancestral_topic, :id, :code, :name, :parent_id unless cc_question.topic.nil?
   json.parent_id cc_question.parent_id
   json.parent_type cc_question.parent_type
   json.base_label cc_question.base_label
   json.response_unit_label cc_question.response_unit_label
   json.interviewee cc_question.response_unit.try(:label)
-  json.resolved_topic cc_question.resolved_topic
-  json.variable_topic cc_question.variable_topics.first
+  json.resolved_topic cc_question.resolved_topic, :id, :code, :name unless cc_question.resolved_topic.nil?
+  json.variable_topic cc_question.variable_topics.first, :id, :code, :name unless cc_question.variable_topics.first.nil?
 end

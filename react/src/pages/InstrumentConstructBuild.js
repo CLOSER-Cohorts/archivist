@@ -29,8 +29,8 @@ import {
 } from '@material-ui/core';
 
 
-import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
-import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
+import SortableTree, { addNodeUnderParent, removeNodeAtPath, getFlatDataFromTree, changeNodeAtPath, toggleExpandedForAll } from '@nosferatu500/react-sortable-tree';
+import '@nosferatu500/react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
 const TreeNode = (instrumentId, type, id, objectFinder, expanded = false) => {
   var item = objectFinder.find(type, id)
