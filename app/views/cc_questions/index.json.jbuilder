@@ -10,7 +10,7 @@ json.array!(@collection) do |cc_question|
     json.x map.x
     json.y map.y
   end
-  json.topic cc_question.topic
+  json.topic cc_question.topic, :id, :code, :name unless cc_question.topic.nil?
   json.ancestral_topic cc_question.get_ancestral_topic, :id, :code, :name, :parent_id unless cc_question.topic.nil?
   json.parent_id cc_question.parent_id
   json.parent_type cc_question.parent_type
