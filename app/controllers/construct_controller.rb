@@ -8,7 +8,7 @@ class ConstructController < BasicInstrumentController
       if @object.valid?
         render :show, status: :created
       else
-        render json: @object.errors, status: :unprocessable_entity
+        render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
       end
     rescue => e
       response = {error: e}
