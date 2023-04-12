@@ -105,11 +105,11 @@ export const ResponseDomainDatetimeForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainDatetimes.create(instrumentId, values))
+      dispatch(ResponseDomainDatetimes.create(instrumentId, values, form.reset))
     }else{
       dispatch(ResponseDomainDatetimes.update(instrumentId, responseDomain.id, values))
     }
@@ -117,7 +117,7 @@ export const ResponseDomainDatetimeForm = (props) => {
 
   return (
     <div style={{ padding: 0 }}>
-      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
+      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomainDatetime'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}

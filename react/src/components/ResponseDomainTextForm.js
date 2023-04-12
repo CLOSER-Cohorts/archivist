@@ -63,8 +63,7 @@ export const ResponseDomainTextForm = (props) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainTexts.create(instrumentId, values))
-      setTimeout(form.reset)
+      dispatch(ResponseDomainTexts.create(instrumentId, values, form.reset))
     }else{
       dispatch(ResponseDomainTexts.update(instrumentId, responseDomain.id, values))
     }
@@ -72,7 +71,7 @@ export const ResponseDomainTextForm = (props) => {
 
   return (
     <div style={{ padding: 0 }}>
-      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
+      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomainText'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}

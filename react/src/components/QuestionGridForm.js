@@ -168,11 +168,11 @@ export const QuestionGridForm = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(questionGrid, values)
 
     if(isNil(questionGrid.id)){
-      dispatch(QuestionGrids.create(instrumentId, values))
+      dispatch(QuestionGrids.create(instrumentId, values, form.reset))
     }else{
       dispatch(QuestionGrids.update(instrumentId, questionGrid.id, values))
     }

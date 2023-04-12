@@ -1227,7 +1227,7 @@ export const QuestionItems = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, callback) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/question_items.json', values, {
         headers: api_headers()
       })
@@ -1237,6 +1237,7 @@ export const QuestionItems = {
           dispatch(savedItem('new', 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: 'new' })));
+          callback();
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionItem', err.response.data.error_sentence));
@@ -1321,7 +1322,7 @@ export const QuestionGrids = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, callback) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/question_grids.json', values, {
         headers: api_headers()
       })
@@ -1331,6 +1332,7 @@ export const QuestionGrids = {
           dispatch(savedItem('new', 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: 'new' })));
+          callback();
         })
         .catch(err => {
           dispatch(saveError('new', 'QuestionGrid', err.response.data.error_sentence));
@@ -1400,7 +1402,7 @@ export const ResponseDomainNumerics = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, callback) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_numerics.json', values, {
         headers: api_headers()
       })
@@ -1410,6 +1412,7 @@ export const ResponseDomainNumerics = {
           dispatch(savedItem('new', 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          callback();
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainNumeric', err.response.data.error_sentence));
@@ -1503,7 +1506,7 @@ export const ResponseDomainTexts = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, callback) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_texts.json', values, {
         headers: api_headers()
       })
@@ -1513,6 +1516,7 @@ export const ResponseDomainTexts = {
           dispatch(savedItem('new', 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          callback();
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainText', err.response.data.error_sentence));
@@ -1582,7 +1586,7 @@ export const ResponseDomainDatetimes = {
         });
     };
   },
-  create: (instrumentId, values) => {
+  create: (instrumentId, values, callback) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/response_domain_datetimes.json', values, {
         headers: api_headers()
       })
@@ -1592,6 +1596,7 @@ export const ResponseDomainDatetimes = {
           dispatch(savedItem('new', 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
           dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          callback();
         })
         .catch(err => {
           dispatch(saveError('new', 'ResponseDomainDatetime', err.response.data.error_sentence));

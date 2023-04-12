@@ -89,11 +89,11 @@ export const ResponseDomainNumericForm = (props) => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainNumerics.create(instrumentId, values))
+      dispatch(ResponseDomainNumerics.create(instrumentId, values, form.reset))
     }else{
       dispatch(ResponseDomainNumerics.update(instrumentId, responseDomain.id, values))
     }
@@ -101,7 +101,7 @@ export const ResponseDomainNumericForm = (props) => {
 
   return (
     <div style={{ padding: 0 }}>
-      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
+      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomainNumeric'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}

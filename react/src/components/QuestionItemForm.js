@@ -106,10 +106,10 @@ export const QuestionItemForm = (props) => {
 
   const responseDomains = [...Object.values(responseDomainCodes), ...Object.values(responseDomainNumerics), ...Object.values(responseDomainTexts), ...Object.values(responseDomainDatetimes)]
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(questionItem, values)
     if(isNil(questionItem.id)){
-      dispatch(QuestionItems.create(instrumentId, values))
+      dispatch(QuestionItems.create(instrumentId, values, form.reset))
     }else{
       dispatch(QuestionItems.update(instrumentId, questionItem.id, values))
     }

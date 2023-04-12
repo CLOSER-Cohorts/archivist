@@ -12,7 +12,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.9",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
-    "@nosferatu500/react-sortable-tree": "^4.2.2",
+    "@nosferatu500/react-sortable-tree": "^4.3.0",
     "apexcharts": "^3.25.0",
     "axios": "^0.21.4",
     "chart.js": "^2.8.0",
