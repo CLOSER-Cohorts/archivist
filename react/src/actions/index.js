@@ -12,12 +12,14 @@ const api_headers = () => ({
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    if (401 === error.response.status) {
-      window.localStorage.removeItem('jwt');
-      window.location = '/login'
-    } else {
-        return Promise.reject(error);
-    }
+  if (401 === error.response.status) {
+    window.localStorage.removeItem('jwt');
+    window.location = '/login';
+  } else if (404 === error.response.status) {
+    window.location = url(routes.admin.instruments.all);
+  } else {
+    return Promise.reject(error);
+  }
 });
 
 // Auth

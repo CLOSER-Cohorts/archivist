@@ -1,8 +1,10 @@
 class Instruments::Serializer
+  include Pundit
 
-  attr_accessor :datasets, :instrument
+  attr_accessor :datasets, :instrument, :current_user
 
-  def initialize(instrument=nil)
+  def initialize(instrument=nil, user=nil)
+    self.current_user = user
     self.instrument = instrument
     self.datasets = get_datasets
   end
@@ -64,6 +66,9 @@ class Instruments::Serializer
       end
       i
     end
+
+    instrument_ids = policy_scope(Instrument).pluck(:id)
+    instruments = instruments.select{|i| instrument_ids.include?(i["id"])}
 
     return instruments
   end

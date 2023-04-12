@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :group, class_name: 'UserGroup'
 
   # Users do not have their own label, so it is delegated to the {UserGroup} it belongs to
-  delegate :study, to: :user_group
+  delegate :study, to: :group
 
   # Others available are:
   # :timeoutable and :omniauthable
