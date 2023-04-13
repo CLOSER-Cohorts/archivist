@@ -157,7 +157,7 @@ export const CcQuestionForm = (props) => {
                 <OnChange name="question_type">
                   {(value, previous) => {
                     changeQuestionOptions(value)
-                    values.question_id = null
+                    values.question_id = value
                   }}
                 </OnChange>
                 <Grid item xs="12" key="question">
