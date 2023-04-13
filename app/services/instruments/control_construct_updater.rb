@@ -6,7 +6,7 @@ module Instruments
 
     def initialize(instrument, updates=[])
       @instrument = instrument
-      @updates = updates.map{|u| u.to_hash.deep_symbolize_keys! }.select{|u| u[:type].present? && u[:parent][:type].present? }
+      @updates = updates.map{|u| u.to_hash.deep_symbolize_keys! }.select{|u| u[:type].present? && u[:parent][:type].present? && ['loop', 'sequence', 'condition'].include?(u[:parent][:type]) }
     end
 
     def call
