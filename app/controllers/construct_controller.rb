@@ -44,6 +44,13 @@ class ConstructController < BasicInstrumentController
                             'CcStatement'
                         end
     end
+
+    # If we have question_id but not question_type then we need to determine
+    # the question_type based on the question_id
+    if p[:question_id].present? && p[:question_type].blank?
+      p[:question_type] = (QuestionItem.exists?(p[:question_id])) ? 'QuestionItem' : 'QuestionGrid'
+    end
+
     p
   end
 
