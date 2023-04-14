@@ -15,6 +15,7 @@ module Question::Model
 
     validates :instrument, presence: true
     validates :label, uniqueness: {scope: [:instrument_id, :question_type]}
+    validates :literal, presence: true
 
     include Exportable
     # This model can be tracked using an Identifier
