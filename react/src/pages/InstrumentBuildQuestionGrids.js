@@ -17,7 +17,7 @@ const InstrumentBuildQuestionGrids = (props) => {
     <BuildContainer
       instrumentId={instrumentId}
       itemId={questionGridId}
-      heading={'Question Items'}
+      heading={'Question Grids'}
       headingContent={(instrumentId) => { return (<Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link>) }}
       stateKey={['questionGrids']}
       objectType={['QuestionGrid']}
