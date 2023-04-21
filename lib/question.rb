@@ -70,7 +70,7 @@ module Question::Model
             index = rds.index { |x| x[:id] == rd[:id] && x[:type] == rd.class.name }
             if index.nil?
               #ResponseDomain is no longer included
-              rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy}
+              rd.rds_qs.where(question_type: self.class.name, question_id: self.id).each {|x| x.destroy;}
             else
               joint = rd.rds_qs.where(question_type: self.class.name, question_id: self.id).first
               joint.rd_order = rds[index][:rd_order]
@@ -88,19 +88,23 @@ module Question::Model
     end
 
     def add_rds(rds)
+      # If there are no rds_qs associations, set the highest_rd_order to 0, otherwise get the highest rd_order value.
       if self.rds_qs.length < 1
         highest_rd_order = 0
       else
         highest_rd_order = self.rds_qs.order(:rd_order).last.rd_order
       end
-      o_rds = rds.map { |x| x[:type].constantize.find(x[:id]) }
-      new_rds = o_rds.reject { |x| self.response_domains.include? x }
-      new_rds.each do |new_rd|
+      # Map the input rds array to an array of hashes containing the actual response domain objects and their rd_order.
+      o_rds = rds.map { |x| { rd: x[:type].constantize.find(x[:id]), rd_order:  x[:rd_order] } }
+      # Filter out the response domains that are already associated with the question.
+      new_rds = o_rds.reject { |x| self.response_domains.include? x[:rd] }
+      # Iterate through the new_rds array, increment the highest_rd_order, and create a new RdsQs instance.
+      new_rds.each_with_index do |new_rd, index|
         highest_rd_order += 1
         RdsQs.create instrument_id: self.instrument.try(:id),
-                     response_domain: new_rd,
+                     response_domain: new_rd[:rd],
                      question: self,
-                     rd_order: highest_rd_order
+                     rd_order: new_rd.fetch(:rd_order, highest_rd_order)
       end
     end
 
