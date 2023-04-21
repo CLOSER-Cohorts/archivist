@@ -46,7 +46,6 @@ const formFields = [
         label="Max Length"
         name="maxlen"
         margin="none"
-        required={true}
       />
     ),
   }
