@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import {
   TextField,
-  Select
+  Select as RFFSelect
 } from 'mui-rff';
 import {
   Paper,
@@ -26,11 +26,10 @@ import {
   TableBody,
   TableHead,
   TableRow,
-  TableCell
+  TableCell,
+  Select
 } from '@material-ui/core';
-import {
-  Autocomplete
-} from '@material-ui/lab';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
@@ -91,7 +90,7 @@ const formFields = [
     type: 'select',
     size: 12,
     field: (options) => (
-      <Select
+      <RFFSelect
         name="horizontal_code_list_id"
         label="Horizontal Code List (X)"
         formControlProps={{ margin: 'none' }}
@@ -100,14 +99,14 @@ const formFields = [
         {options.map((item, idx) => (
           <MenuItem value={item.id}>{item.label}</MenuItem>
         ))}
-      </Select>
+      </RFFSelect>
     ),
   },
   {
       type: 'select',
       size: 12,
       field: (options) => (
-        <Select
+        <RFFSelect
           name="vertical_code_list_id"
           label="Vertical Code List (Y)"
           formControlProps={{ margin: 'none' }}
@@ -116,14 +115,14 @@ const formFields = [
           {options.map((item, idx) => (
             <MenuItem value={item.id}>{item.label}</MenuItem>
           ))}
-        </Select>
+        </RFFSelect>
       )
   },
   {
       type: 'select',
       size: 12,
       field: (options) => (
-        <Select
+        <RFFSelect
           name="corner_label"
           label="Corner Label"
           formControlProps={{ margin: 'none' }}
@@ -131,7 +130,7 @@ const formFields = [
           <MenuItem></MenuItem>
           <MenuItem value='H'>Horizontal</MenuItem>
           <MenuItem value='V'>Vertical</MenuItem>
-        </Select>
+        </RFFSelect>
       )
   },
   {
@@ -159,22 +158,21 @@ const formFields = [
 ];
 
 export const QuestionGridForm = (props) => {
-  const {questionGrid, instrumentId} = props;
+  const {questionGrid, instrumentId, instrument} = props;
 
   var codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
   // Only show response domains in the list of codeLists
-  console.log(codeLists)
   codeLists = Object.values(codeLists).filter((cl) => { return cl.rd === false})
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(questionGrid, values)
 
     if(isNil(questionGrid.id)){
-      dispatch(QuestionGrids.create(instrumentId, values))
+      dispatch(QuestionGrids.create(instrumentId, values, form.reset))
     }else{
       dispatch(QuestionGrids.update(instrumentId, questionGrid.id, values))
     }
@@ -195,8 +193,6 @@ export const QuestionGridForm = (props) => {
     dispatch(CodeLists.all(instrumentId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-
-  console.log(codeLists)
 
   return (
     <div style={{ padding: 0 }}>
@@ -250,7 +246,7 @@ export const QuestionGridForm = (props) => {
                       <TableHead>
                         <TableRow>
                           <TableCell className={classes.small} >Column</TableCell>
-                          <TableCell>Type and Label</TableCell>
+                          <TableCell>Label and Type</TableCell>
                           <TableCell className={classes.small} >Actions</TableCell>
                         </TableRow>
                       </TableHead>
@@ -261,36 +257,39 @@ export const QuestionGridForm = (props) => {
                               <TableRow key={name}>
                                 <TableCell className={classes.small} >{fields.value[index].label}</TableCell>
                                 <TableCell>
-                                  {fields.value[index].rd && fields.value[index].rd.label && (
-                                    <><strong>{(fields.value[index].rd) ? fields.value[index].rd.label : ''}</strong> or change to </>
-                                  )}
-                                  <Autocomplete
-                                    autoComplete
-                                    options={responseDomains}
-                                    getOptionLabel={(option) => option.label}
-                                    onChange={(event, value, reason) => {
+                                  <Select
+                                    label="Label"
+                                    name="rd"
+                                    variant="outlined"
+                                    value={get(fields.value[index].rd, 'id', '')}
+                                    onChange={(event) => {
                                       var rd;
+                                      var value = event.target.value;
+
                                       if (isNil(value)) {
-                                        rd = { ...fields.value[index].rd, ...{ type: '', id: null, label: '' } }
+                                        rd = { ...fields.value[index].rd, ...{ type: '', id: '', label: '' } }
                                       } else {
+                                        value = responseDomains.find(rd => { return rd.id == value })
                                         rd = { ...fields.value[index].rd, ...{ type: value.type, id: value.id, label: value.label } }
                                       }
-                                      fields.update(index, { ...fields.value[index], ...{ rd: rd } })
+
+                                      fields.map((n, i) => {
+                                        // We need to update all the fields otherwise if we update a single field then any other cols are cleared of their data.
+                                        if(i === index){
+                                          fields.update(i, { ...fields.value[i], ...{ rd: rd } })
+                                        }else{
+                                          fields.update(i, { ...fields.value[i] })
+                                        }
+                                      })
                                     }}
-                                    getOptionSelected={(option, value) => {
-                                      return (
-                                        (option.type === value.type && option.id === value.id)
-                                      )
-                                    }}
-                                    renderInput={(params) => (
-                                      <TextField name={`${name}.type - ${name}.label`}
-                                        {...params}
-                                        variant="outlined"
-                                        label="Label"
-                                        placeholder="label"
-                                      />
-                                    )}
-                                  />
+                                  >
+                                    <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem>
+                                    {responseDomains.map((rd) => (
+                                      <MenuItem value={rd.id}>{`${rd.label} - ${rd.type}`}</MenuItem>
+                                    ))}
+                                  </Select>
                                 </TableCell>
                                 <TableCell className={classes.small} >
                                   <span
@@ -307,27 +306,31 @@ export const QuestionGridForm = (props) => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={QuestionGrids} />
+                  </>
+                )}
               </Grid>
             </Paper>
           </form>

@@ -14,6 +14,7 @@ import Chip from '@material-ui/core/Chip';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -69,6 +70,14 @@ const InstrumentBuild = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={instrumentId} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'build'}/>
+        {instrument && instrument.signed_off && (
+          <div>
+            <Alert severity="error">
+              <AlertTitle>Read Only</AlertTitle>
+              Instrument has been signed off so you can only view this as read-only.
+            </Alert>
+          </div>
+        )}
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <Paper className={classes.control}>
@@ -84,7 +93,7 @@ const InstrumentBuild = (props) => {
               <h2><Link to={url(routes.instruments.instrument.build.responseDomains.all, { instrument_id: instrumentId })}>ResponseDomains</Link></h2>
               <List dense={true}>
                   <StatCount label="Datetime Answers" value={response_domain_datetimes} />
-                  <StatCount label="Numberic Answers" value={response_domain_numerics} />
+                  <StatCount label="Numeric Answers" value={response_domain_numerics} />
                   <StatCount label="Text Answers" value={response_domain_texts} />
               </List>
             </Paper>
@@ -101,7 +110,13 @@ const InstrumentBuild = (props) => {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.control}>
-              <h2><Link to={url(routes.instruments.instrument.build.constructs.show, { instrument_id: instrumentId })}>Constructs</Link></h2>
+              <h2>
+                {instrument && instrument.signed_off ? (
+                  'Constructs'
+                ) : (
+                  <Link to={url(routes.instruments.instrument.build.constructs.show, { instrument_id: instrumentId })}>Constructs</Link>
+                )}
+              </h2>
               <List dense={true}>
                   <Link to={url(routes.instruments.instrument.build.ccConditions, { instrument_id: instrumentId })}>
                     <StatCount label="Conditions" value={cc_conditions} />

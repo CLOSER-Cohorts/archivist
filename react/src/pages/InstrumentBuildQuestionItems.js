@@ -27,8 +27,8 @@ const InstrumentBuildQuestionItems = (props) => {
       selectionPath={(instrumentId, id, type) => { return url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: id }) }}
       listItemLabel={(item) => { return item.label }}
       listItemValue={(item) => { return '' }}
-      formRenderer={(instrumentId, selectedItem) => (
-        <QuestionItemForm questionItem={selectedItem} instrumentId={instrumentId} />
+      formRenderer={(instrumentId, selectedItem, instrument) => (
+        <QuestionItemForm questionItem={selectedItem} instrumentId={instrumentId} instrument={instrument} />
       )}
     />
   );

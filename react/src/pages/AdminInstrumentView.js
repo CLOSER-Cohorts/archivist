@@ -100,7 +100,7 @@ const InstrumentView = (props) => {
                   Mapper
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                  Topic Questions
+                  Questions and sequences
                 </Typography>
                 <Typography variant="body2" component="p">
                   <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrument.id}/mapper.txt?token=${window.localStorage.getItem('jwt')}`}>

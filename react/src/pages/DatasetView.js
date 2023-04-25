@@ -427,11 +427,11 @@ const DatasetView = (props) => {
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Label</TableCell>
+                  <TableCell style={{ width: 300 }} >Label</TableCell>
                   <TableCell>Type</TableCell>
                   <TableCell>Used by</TableCell>
-                  <TableCell>Sources</TableCell>
-                  <TableCell>Topic</TableCell>
+                  <TableCell style={{ width: 300 }}>Sources</TableCell>
+                  <TableCell style={{ width: 500 }}>Topic</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

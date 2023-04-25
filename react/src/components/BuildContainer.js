@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { CodeLists, Categories } from '../actions'
+import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import { CodeListForm } from '../components/CodeListForm'
 import { CreateNewBuildObjectButtons } from '../components/CreateNewBuildObjectButtons'
 import { get, isNil, forEach } from "lodash";
 import Grid from '@material-ui/core/Grid';
@@ -13,11 +12,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
 import { useHistory } from 'react-router-dom';
-import { reverse as url } from 'named-urls'
-import routes from '../routes'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Loader } from '../components/Loader'
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -55,6 +53,8 @@ export const BuildContainer = (props) => {
   const dispatch = useDispatch()
   const classes = useStyles();
 
+  const instrument = useSelector(state => get(state.instruments, instrumentId));
+
   const mergedItems = (keys, selector) => {
     var items = {};
 
@@ -70,6 +70,7 @@ export const BuildContainer = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
+    dispatch(Instrument.show(instrumentId));
     Promise.all(fetch).then(() => {
       setDataLoaded(true)
     });
@@ -113,7 +114,9 @@ export const BuildContainer = (props) => {
                 <Grid item xs = { 11} > <h2>{heading} {headingContent(instrumentId)}</h2></Grid >
                 <Grid item xs = { 1} > <Expandable /></Grid >
               </Grid>
-              < CreateNewBuildObjectButtons instrumentId = { instrumentId } objectTypes = { [objectType].flat()} />
+              {instrument && !instrument.signed_off && (
+                < CreateNewBuildObjectButtons instrumentId = { instrumentId } objectTypes = { [objectType].flat()} />
+              )}
               {!dataLoaded
                 ? <Loader />
                 : (
@@ -129,7 +132,15 @@ export const BuildContainer = (props) => {
             </Paper>
           </Grid>
           < Grid item xs = {(expanded) ? 6 : 9}>
-            {!isNil(selectedItem) && formRenderer(instrumentId, selectedItem)}
+            {instrument && instrument.signed_off && (
+              <div>
+                <Alert severity="error">
+                  <AlertTitle>Read Only</AlertTitle>
+                  Instrument has been signed off so you can only view this as read-only.
+                </Alert>
+              </div>
+            )}
+            {!isNil(selectedItem) && formRenderer(instrumentId, selectedItem, instrument)}
           </Grid>
         </Grid>
       </Dashboard>

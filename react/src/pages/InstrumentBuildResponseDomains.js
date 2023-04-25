@@ -33,14 +33,14 @@ const InstrumentBuildResponseDomains = (props) => {
       selectionPath={(instrumentId, id, type) => { return url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: type, responseDomainId: id }) }}
       listItemLabel={(item)=>{return item.label}}
       listItemValue={(item)=>{return HumanizeObjectType(item.type)}}
-      formRenderer={(instrumentId, selectedItem) => {
+      formRenderer={(instrumentId, selectedItem, instrument) => {
           switch (selectedItem.type) {
             case ('ResponseDomainNumeric'):
-              return <ResponseDomainNumericForm responseDomain={selectedItem} instrumentId={instrumentId} />
+              return <ResponseDomainNumericForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             case ('ResponseDomainText'):
-              return <ResponseDomainTextForm responseDomain={selectedItem} instrumentId={instrumentId} />
+              return <ResponseDomainTextForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             case ('ResponseDomainDatetime'):
-              return <ResponseDomainDatetimeForm responseDomain={selectedItem} instrumentId={instrumentId} />
+              return <ResponseDomainDatetimeForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             default:
               return ''
           }

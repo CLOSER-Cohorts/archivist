@@ -17,7 +17,7 @@ const InstrumentBuildQuestionGrids = (props) => {
     <BuildContainer
       instrumentId={instrumentId}
       itemId={questionGridId}
-      heading={'Question Items'}
+      heading={'Question Grids'}
       headingContent={(instrumentId) => { return (<Link to={url(routes.instruments.instrument.build.questionItems.all, { instrument_id: instrumentId })}>Question Items</Link>) }}
       stateKey={['questionGrids']}
       objectType={['QuestionGrid']}
@@ -28,8 +28,8 @@ const InstrumentBuildQuestionGrids = (props) => {
       selectionPath={(instrumentId, id, type) => { return url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: id }) }}
       listItemLabel={(item) => { return item.label }}
       listItemValue={(item) => { return '' }}
-      formRenderer={(instrumentId, selectedItem) => (
-        <QuestionGridForm questionGrid={selectedItem} instrumentId={instrumentId} />
+      formRenderer={(instrumentId, selectedItem, instrument) => (
+        <QuestionGridForm questionGrid={selectedItem} instrumentId={instrumentId} instrument={instrument} />
       )}
     />
   );

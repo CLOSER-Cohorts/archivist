@@ -157,7 +157,7 @@ export const CcQuestionForm = (props) => {
                 <OnChange name="question_type">
                   {(value, previous) => {
                     changeQuestionOptions(value)
-                    values.question_id = null
+                    values.question_type = value
                   }}
                 </OnChange>
                 <Grid item xs="12" key="question">
@@ -166,7 +166,7 @@ export const CcQuestionForm = (props) => {
                     options={Object.values(questionOptions)}
                     getOptionLabel={(option) => option.label}
                     onChange={(event, value, reason) => {
-                      values.question_id = value.id
+                      values.question_id = value?.id
                     }}
                     value={Object.values(questionOptions).find((q)=>{return q.id === values.question_id})}
                     getOptionSelected={(option, value) => {
