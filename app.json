@@ -35,7 +35,6 @@
     "mailgun:starter",
     "heroku-redis:premium-1",
     "heroku-postgresql:standard-0",
-    "process-scheduler:pet-project",
     "librato:development",
     "scheduler:standard",
     "ipinvestigator:free"
