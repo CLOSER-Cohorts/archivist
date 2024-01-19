@@ -31,8 +31,7 @@
       "description": "The email address used in the 'from' field for any outbound emails."
     }
   },
-  "addons": [
-    "mailgun:starter", 
+  "addons": [ 
     "heroku-redis:premium-1",
     "heroku-postgresql:standard-0",
     "librato:development",
