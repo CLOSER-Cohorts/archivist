@@ -18,7 +18,7 @@
 ## Deployment
 Currently Archivist has only been designed to be deployed to [Heroku][heroku], but rolling your own deployment should not be too difficult.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CLOSER-Cohorts/archivist/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sscarlet-tcd/tilda-archivist/tree/master)
 
 Clicking on the 'Deploy to Heroku' button will create a new Heroku instance of Archivist within your own Heroku account.
 
