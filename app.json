@@ -32,7 +32,6 @@
     }
   },
   "addons": [
-    "mailgun:starter",
     "heroku-redis:premium-1",
     "heroku-postgresql:standard-0",
     "librato:development",
