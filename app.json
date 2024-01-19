@@ -6,8 +6,8 @@
     "editor",
     "questionnaire"
   ],
-  "website": "https://wiki.ucl.ac.uk/display/CLOS/Archivist",
-  "repository": "https://github.com/CLOSER-Cohorts/archivist",
+  "website": "https://tilda.tcd.ie",
+  "repository": "https://github.com/sscarlet-tcd/tilda-archivist/",
   "scripts": {
     "postdeploy": "rails db:migrate"
   },
@@ -32,6 +32,7 @@
     }
   },
   "addons": [
+    "mailgun:starter", 
     "heroku-redis:premium-1",
     "heroku-postgresql:standard-0",
     "librato:development",
