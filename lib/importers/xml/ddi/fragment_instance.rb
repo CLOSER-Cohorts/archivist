@@ -43,8 +43,9 @@ module Importers::XML::DDI
 
     def create_question_items(question_items=[])
       question_items.each do | question_item_hash |
-        urn = question_item_hash.delete(:urn)
+        urn = question_item_hash.fetch(:urn, '')
         parsed_urn = parse_urn(urn)
+
         response_domains = question_item_hash.delete(:response_domains)
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           question_item = @instrument.question_items.create(question_item_hash)
@@ -69,7 +70,6 @@ module Importers::XML::DDI
 
     def create_response_domain(response_domain_hash)
       if response_domain_hash[:response_domain_type] == 'ResponseDomainCode'
-        urn = response_domain_hash.delete(:urn)
         code_list_urn = response_domain_hash.delete(:code_list_urn)
         response_domain_hash[:code_list] = @urn_to_object_mapping[code_list_urn]
       end
@@ -79,12 +79,12 @@ module Importers::XML::DDI
 
     def create_instructions(instructions=[])
       instructions.each do | instruction_hash |
-        urn = instruction_hash.delete(:urn)
+        urn = instruction_hash.fetch(:urn, '')
         parsed_urn = parse_urn(urn)
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           @urn_to_object_mapping[urn] = @instrument.instructions.create(instruction_hash)
         else
-          existing_instruction = @instrument.instructions.find_by(id: parsed_urn[:id])
+          existing_instruction = @instrument.instructions.find_by(ddi_slug: parsed_urn[:id])
           if existing_instruction
             @urn_to_object_mapping[urn] = existing_instruction.update(instruction_hash)
           else
@@ -96,7 +96,7 @@ module Importers::XML::DDI
 
     def create_categories(categories=[])
       categories.reverse.each do | category_hash |
-        urn = category_hash.delete(:urn)
+        urn = category_hash.fetch(:urn, '')
         parsed_urn = parse_urn(urn)
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           existing_category = @instrument.categories.find_by(label: category_hash[:label])
@@ -107,7 +107,7 @@ module Importers::XML::DDI
             @urn_to_object_mapping[urn] = @instrument.categories.create(category_hash)
           end
         else
-          existing_category = @instrument.categories.find_by(id: parsed_urn[:id]) || @instrument.categories.find_by(label: category_hash[:label])
+          existing_category = @instrument.categories.find_by(ddi_slug: parsed_urn[:id]) || @instrument.categories.find_by(label: category_hash[:label])
 
           if existing_category
             existing_category.update(category_hash)
@@ -121,13 +121,13 @@ module Importers::XML::DDI
 
     def create_code_lists(code_lists=[])
       code_lists.reverse.each do | code_list_hash |
-        urn = code_list_hash.delete(:urn)
+        urn = code_list_hash.fetch(:urn, '')
         codes = code_list_hash.delete(:codes)
         parsed_urn = parse_urn(urn)
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           @urn_to_object_mapping[urn] = @instrument.code_lists.create(code_list_hash)
         else
-          existing_code_list = @instrument.code_lists.find_by(id: parsed_urn[:id])
+          existing_code_list = @instrument.code_lists.find_by(ddi_slug: parsed_urn[:id])
           if existing_code_list
             existing_code_list.update(code_list_hash)
             @urn_to_object_mapping[urn] = existing_code_list
@@ -142,14 +142,14 @@ module Importers::XML::DDI
     def create_codes(codes, code_list)
       codes.reverse.each do | code_hash |
         code_hash[:code_list_id] = code_list.id
-        urn = code_hash.delete(:urn)
+        urn = code_hash.fetch(:urn, '')
         category_urn = code_hash.delete(:category_urn)
         code_hash[:category] = @urn_to_object_mapping[category_urn]
         parsed_urn = parse_urn(urn)
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           @urn_to_object_mapping[urn] = @instrument.codes.create(code_hash)
         else
-          existing_code = @instrument.codes.find_by(id: parsed_urn[:id])
+          existing_code = @instrument.codes.find_by(ddi_slug: parsed_urn[:id])
           if existing_code
             existing_code.update(code_hash)
             @urn_to_object_mapping[urn] = existing_code

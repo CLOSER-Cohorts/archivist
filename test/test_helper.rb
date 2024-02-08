@@ -1,9 +1,9 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'coveralls'
+# require 'coveralls'
 
-Coveralls.wear!
+# Coveralls.wear!
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)

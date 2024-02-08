@@ -4,10 +4,9 @@ require 'active_support/core_ext/hash/conversions'
 class Importers::XML::DDI::FragmentInstanceTest < ActiveSupport::TestCase
 
   describe ".parse" do
-    it "should parse fragments" do
-      instrument = FactoryBot.create(:instrument, study: 'uk.alspac')
-
-      xml = %Q|
+    before do
+      @instrument = FactoryBot.create(:instrument, study: 'uk.alspac', agency: 'uk.cls.bxs70', prefix: 'bcs_86_mo')
+      @xml = %Q|
         <ddi:FragmentInstance xmlns:ddi="ddi:instance:3_2">
             <ddi:Fragment xmlns:r="ddi:reusable:3_2">
                 <QuestionItem xmlns="ddi:datacollection:3_2" isUniversallyUnique="true" versionDate="2020-02-05T14:08:21Z">
@@ -147,11 +146,16 @@ class Importers::XML::DDI::FragmentInstanceTest < ActiveSupport::TestCase
             </ddi:Fragment>
         </ddi:FragmentInstance>
       |
+    end
+    it "should parse fragments" do
       assert_difference('Category.count', 2) do
         assert_difference('CodeList.count', 1) do
           assert_difference('Code.count', 2) do
             assert_difference('Instruction.count', 1) do
-              Importers::XML::DDI::FragmentInstance.new(xml, instrument).process
+              Importers::XML::DDI::FragmentInstance.new(@xml, @instrument).process      
+              assert_equal('urn:ddi:uk.cls.bxs70:bcs_86_mo-qi-026543:1.0.0', QuestionItem.last.urn)
+              assert_equal('urn:ddi:uk.cls.bxs70:bcs_86_mo-ii-015479:1.0.0', Instruction.last.urn)
+              assert_equal('urn:ddi:uk.cls.bxs70:bcs_86_mo-ca-248370:1.0.0', Category.last.urn)
             end
           end
         end

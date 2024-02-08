@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.1.3'
+ruby '3.2.2'
 
 # Flexible authentication solution for Rails with Warden
 # https://github.com/heartcombo/devise
@@ -40,7 +40,7 @@ gem 'net-smtp', require: false
 gem 'oj', '= 3.3.9'
 # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/]
 # https://github.com/ged/ruby-pg
-gem 'pg', '= 1.2.3'
+gem 'pg', '= 1.5.4'
 # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ru
 # http://puma.io
 gem 'puma', '= 4.3.12'
@@ -89,6 +89,7 @@ group :test do
   # Extracting `assigns` and `assert_template` from ActionDispatch.
   # https://github.com/rails/rails-controller-testing
   gem 'rails-controller-testing', '= 1.0.5'
+  gem "coveralls"
 end
 
 
