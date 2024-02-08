@@ -831,6 +831,7 @@ CREATE VIEW public.cc_conditions AS
     cc.label,
     parent.construct_id AS parent_id,
     parent.construct_type AS parent_type,
+    cc.ddi_slug,
     cc."position",
     cc.branch,
     links.topic_id
@@ -851,6 +852,7 @@ CREATE VIEW public.cc_links AS
     cc.construct_id,
     cc.construct_type,
     cc.parent_id,
+    cc.ddi_slug,
     cc."position",
     cc.branch,
     cc.created_at,
@@ -895,6 +897,7 @@ CREATE VIEW public.cc_loops AS
     cc.label,
     parent.construct_id AS parent_id,
     parent.construct_type AS parent_type,
+    cc.ddi_slug,
     cc."position",
     cc.branch,
     links.topic_id
@@ -936,6 +939,7 @@ CREATE VIEW public.cc_questions AS
     cc.label,
     parent.construct_id AS parent_id,
     parent.construct_type AS parent_type,
+    cc.ddi_slug,
     cc."position",
     cc.branch
    FROM ((public.questions q
@@ -971,6 +975,7 @@ CREATE VIEW public.cc_sequences AS
     cc.label,
     parent.construct_id AS parent_id,
     parent.construct_type AS parent_type,
+    cc.ddi_slug,
     cc."position",
     cc.branch,
     links.topic_id
@@ -1008,6 +1013,7 @@ CREATE VIEW public.cc_statements AS
     cc.label,
     parent.construct_id AS parent_id,
     parent.construct_type AS parent_type,
+    cc.ddi_slug,
     cc."position",
     cc.branch
    FROM ((public.statements s
@@ -3246,111 +3252,6 @@ CREATE RULE groupings_insert AS
 
 
 --
--- Name: cc_conditions delete_cc_condition; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER delete_cc_condition INSTEAD OF DELETE ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.delete_cc_condition();
-
-
---
--- Name: cc_loops delete_cc_loop; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER delete_cc_loop INSTEAD OF DELETE ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.delete_cc_loop();
-
-
---
--- Name: cc_questions delete_cc_question; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER delete_cc_question INSTEAD OF DELETE ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.delete_cc_question();
-
-
---
--- Name: cc_sequences delete_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER delete_cc_sequence INSTEAD OF DELETE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.delete_cc_sequence();
-
-
---
--- Name: cc_statements delete_cc_statement; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER delete_cc_statement INSTEAD OF DELETE ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.delete_cc_statement();
-
-
---
--- Name: cc_conditions insert_cc_condition; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER insert_cc_condition INSTEAD OF INSERT ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.insert_cc_condition();
-
-
---
--- Name: cc_loops insert_cc_loop; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER insert_cc_loop INSTEAD OF INSERT ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.insert_cc_loop();
-
-
---
--- Name: cc_questions insert_cc_question; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER insert_cc_question INSTEAD OF INSERT ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.insert_cc_question();
-
-
---
--- Name: cc_sequences insert_cc_sequence; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER insert_cc_sequence INSTEAD OF INSERT ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.insert_cc_sequence();
-
-
---
--- Name: cc_statements insert_cc_statement; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER insert_cc_statement INSTEAD OF INSERT ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.insert_cc_statement();
-
-
---
--- Name: cc_conditions update_cc_condition; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER update_cc_condition INSTEAD OF UPDATE ON public.cc_conditions FOR EACH ROW EXECUTE FUNCTION public.update_cc_condition();
-
-
---
--- Name: cc_loops update_cc_loop; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER update_cc_loop INSTEAD OF UPDATE ON public.cc_loops FOR EACH ROW EXECUTE FUNCTION public.update_cc_loop();
-
-
---
--- Name: cc_questions update_cc_question; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER update_cc_question INSTEAD OF UPDATE ON public.cc_questions FOR EACH ROW EXECUTE FUNCTION public.update_cc_question();
-
-
---
--- Name: cc_sequences update_cc_seqeunce; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER update_cc_seqeunce INSTEAD OF UPDATE ON public.cc_sequences FOR EACH ROW EXECUTE FUNCTION public.update_cc_sequence();
-
-
---
--- Name: cc_statements update_cc_statement; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER update_cc_statement INSTEAD OF UPDATE ON public.cc_statements FOR EACH ROW EXECUTE FUNCTION public.update_cc_statement();
-
-
---
 -- Name: conditions encapsulate_cc_conditions_and_control_constructs; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3672,6 +3573,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190905215804'),
 ('20201021193720'),
 ('20220422085829'),
-('20240207154741');
+('20240207154741'),
+('20240208160611');
 
 

@@ -8,10 +8,6 @@ module Exportable
   end
 
   included do
-    def ddi_slug
-      super || self.id.to_s
-    end
-
     def urn=(value)
       value.match(/urn:ddi:(?<instrument_agency>.*):(?<instrument_prefix>.*)-(?<type>.*)-(?<id>.*):(.*)/)
       self.ddi_slug = $~[:id]
