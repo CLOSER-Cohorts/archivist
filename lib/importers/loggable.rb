@@ -4,7 +4,7 @@ module Importers::Loggable
 
     def set_import_to_running
       return unless @import
-      @import.update_attributes(state: :running)
+      @import.update(state: :running)
       @logs = []
       @log_entry = {}
       @errors = false
@@ -12,7 +12,7 @@ module Importers::Loggable
 
     def set_import_to_finished
       return unless @import
-      @import.update_attributes(state: (@errors) ? :failure : :success, log: @logs.to_json)
+      @import.update(state: (@errors) ? :failure : :success, log: @logs.to_json)
     end
 
     def log(key, value)

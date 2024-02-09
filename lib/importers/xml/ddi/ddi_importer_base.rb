@@ -11,7 +11,8 @@ module Importers::XML::DDI
     end
 
     def extract_urn_identifier(xml_node)
-      urn = xml_node.at_xpath('./URN')&.content
+      return unless xml_node
+      urn = xml_node&.at_xpath('./URN')&.content
       if urn.nil?
         agency_node = xml_node.at_xpath('./Agency')
         id_node = xml_node.at_xpath('./ID')

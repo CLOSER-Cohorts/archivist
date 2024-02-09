@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :group, class_name: 'UserGroup'
 
   # Users do not have their own label, so it is delegated to the {UserGroup} it belongs to
-  delegate :study, to: :user_group
+  delegate :study, to: :group
 
   # Others available are:
   # :timeoutable and :omniauthable
@@ -52,7 +52,7 @@ class User < ApplicationRecord
     p = {}
     p[:password] = params[:password]
     p[:password_confirmation] = params[:password_confirmation]
-    update_attributes(p)
+    update(p)
   end
 
   # Returns whether a password has been set

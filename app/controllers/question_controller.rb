@@ -48,7 +48,7 @@ class QuestionController < BasicInstrumentController
       end
       render :show, status: :ok
     else
-      render json: @object.errors, status: :unprocessable_entity
+      render json: { errors: @object.errors, error_sentence: @object.errors.full_messages.to_sentence }, status: :unprocessable_entity and return
     end
   end
 

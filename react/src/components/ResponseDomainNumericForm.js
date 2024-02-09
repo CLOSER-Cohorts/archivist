@@ -83,17 +83,17 @@ const formFields = [
 ];
 
 export const ResponseDomainNumericForm = (props) => {
-  const {responseDomain, instrumentId} = props;
+  const {responseDomain, instrumentId, instrument} = props;
 
   const codeLists = useSelector(state => get(state.codeLists, instrumentId, {}));
 
   const dispatch = useDispatch();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainNumerics.create(instrumentId, values))
+      dispatch(ResponseDomainNumerics.create(instrumentId, values, form.reset))
     }else{
       dispatch(ResponseDomainNumerics.update(instrumentId, responseDomain.id, values))
     }
@@ -101,7 +101,7 @@ export const ResponseDomainNumericForm = (props) => {
 
   return (
     <div style={{ padding: 0 }}>
-      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
+      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomainNumeric'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
@@ -131,27 +131,31 @@ export const ResponseDomainNumericForm = (props) => {
                     }
                   </Grid>
                 ))}
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainNumerics} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainNumerics} />
+                  </>
+                )}
               </Grid>
               <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>

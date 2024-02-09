@@ -86,7 +86,7 @@ module Importers::XML::DDI
         else
           existing_instruction = @instrument.instructions.find_by(id: parsed_urn[:id])
           if existing_instruction
-            @urn_to_object_mapping[urn] = existing_instruction.update_attributes(instruction_hash)
+            @urn_to_object_mapping[urn] = existing_instruction.update(instruction_hash)
           else
             @urn_to_object_mapping[urn] = @instrument.instructions.create(instruction_hash)
           end
@@ -101,7 +101,7 @@ module Importers::XML::DDI
         if @instrument.prefix != parsed_urn[:instrument_prefix]
           existing_category = @instrument.categories.find_by(label: category_hash[:label])
           if existing_category
-            existing_category.update_attributes(category_hash)
+            existing_category.update(category_hash)
             @urn_to_object_mapping[urn] = existing_category
           else
             @urn_to_object_mapping[urn] = @instrument.categories.create(category_hash)
@@ -110,7 +110,7 @@ module Importers::XML::DDI
           existing_category = @instrument.categories.find_by(id: parsed_urn[:id]) || @instrument.categories.find_by(label: category_hash[:label])
 
           if existing_category
-            existing_category.update_attributes(category_hash)
+            existing_category.update(category_hash)
             @urn_to_object_mapping[urn] = existing_category
           else
             @urn_to_object_mapping[urn] = @instrument.categories.create(category_hash)
@@ -129,7 +129,7 @@ module Importers::XML::DDI
         else
           existing_code_list = @instrument.code_lists.find_by(id: parsed_urn[:id])
           if existing_code_list
-            existing_code_list.update_attributes(code_list_hash)
+            existing_code_list.update(code_list_hash)
             @urn_to_object_mapping[urn] = existing_code_list
           else
             @urn_to_object_mapping[urn] = @instrument.code_lists.create(code_list_hash)
@@ -151,7 +151,7 @@ module Importers::XML::DDI
         else
           existing_code = @instrument.codes.find_by(id: parsed_urn[:id])
           if existing_code
-            existing_code.update_attributes(code_hash)
+            existing_code.update(code_hash)
             @urn_to_object_mapping[urn] = existing_code
           else
             @urn_to_object_mapping[urn] = @instrument.codes.create(code_hash)

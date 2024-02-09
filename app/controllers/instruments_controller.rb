@@ -18,7 +18,7 @@ class InstrumentsController < ImportableController
 
   def index
     return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
-    instruments = Instruments::Serializer.new.call()
+    instruments = Instruments::Serializer.new(nil, current_user).call()
 
     render json: instruments and return
   end
@@ -185,7 +185,7 @@ class InstrumentsController < ImportableController
 
   private
   def set_object
-    @object = Instrument.friendly.find(params[:id])
+    @object = policy_scope(Instrument).friendly.find(params[:id])
   end
 
   def reorder_params

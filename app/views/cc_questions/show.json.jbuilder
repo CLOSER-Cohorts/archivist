@@ -13,7 +13,8 @@ json.variables @object.maps do | map |
   json.x map.x
   json.y map.y
 end
-json.topic @object.topic
+json.topic @object.topic, :id, :code, :name unless @object.topic.nil?
 json.ancestral_topic @object.get_ancestral_topic, :id, :code, :name, :parent_id unless @object.topic.nil?
-json.variable_topic @object.variable_topics.first
+json.resolved_topic @object.resolved_topic, :id, :code, :name unless @object.resolved_topic.nil?
+json.variable_topic @object.variable_topics.first, :id, :code, :name unless @object.variable_topics.first.nil?
 json.type 'CcQuestion'

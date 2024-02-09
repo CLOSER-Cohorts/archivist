@@ -72,6 +72,7 @@ class QuestionGrid < ApplicationRecord
         AND rds_qs.question_type = 'QuestionGrid'
       INNER JOIN codes
         ON codes.code_list_id = question_grids.horizontal_code_list_id
+        AND codes.value != ''
         AND codes.value::int = rds_qs.code_id
       WHERE question_grids.id = ?
       ORDER BY codes.order

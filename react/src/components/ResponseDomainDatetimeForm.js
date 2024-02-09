@@ -100,16 +100,16 @@ const FormField = (props) => {
 }
 
 export const ResponseDomainDatetimeForm = (props) => {
-  const {responseDomain, instrumentId} = props;
+  const {responseDomain, instrumentId, instrument} = props;
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, form) => {
     values = ObjectCheckForInitialValues(responseDomain, values)
 
     if(isNil(responseDomain.id)){
-      dispatch(ResponseDomainDatetimes.create(instrumentId, values))
+      dispatch(ResponseDomainDatetimes.create(instrumentId, values, form.reset))
     }else{
       dispatch(ResponseDomainDatetimes.update(instrumentId, responseDomain.id, values))
     }
@@ -117,7 +117,7 @@ export const ResponseDomainDatetimeForm = (props) => {
 
   return (
     <div style={{ padding: 0 }}>
-      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomain'} />
+      <ObjectStatusBar id={responseDomain.id || 'new'} type={'ResponseDomainDatetime'} />
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
@@ -144,27 +144,31 @@ export const ResponseDomainDatetimeForm = (props) => {
                     <FormField item={item} values={values} />
                   </Grid>
                 ))}
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={form.reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid>
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
+                {instrument && !instrument.signed_off && (
+                  <>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={form.reset}
+                        disabled={submitting || pristine}
+                      >
+                        Reset
+                      </Button>
+                    </Grid>
+                    <Grid item style={{ marginTop: 16 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                    <DeleteObjectButton id={values.id} instrumentId={instrumentId} action={ResponseDomainDatetimes} />
+                  </>
+                )}
               </Grid>
               <UsedByQuestions item={responseDomain} instrumentId={instrumentId} />
             </Paper>

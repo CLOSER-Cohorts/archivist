@@ -26,11 +26,9 @@ const Instruments = () => {
           <Button>
             <Link to={url(routes.instruments.instrument.show, { instrument_id: row.prefix })}>View</Link>
           </Button>
-          {!row.signed_off && (
-            <Button>
-              <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
-            </Button>
-          )}
+          <Button>
+            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
+          </Button>
           <Button>
             <Link to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })}>Map</Link>
           </Button>

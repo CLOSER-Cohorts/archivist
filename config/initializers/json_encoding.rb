@@ -1,7 +1,7 @@
 module ActiveSupport::JSON::Encoding
   class Oj < JSONGemEncoder
     def encode value
-      ::Oj.dump(value.as_json)
+      ::Oj.dump(value)
     end
   end
 end
