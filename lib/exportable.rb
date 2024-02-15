@@ -9,6 +9,7 @@ module Exportable
 
   included do
     def urn=(value)
+      return unless value
       value.match(/urn:ddi:(?<instrument_agency>.*):(?<instrument_prefix>.*)-(?<type>.*)-(?<id>.*):(.*)/)
       self.ddi_slug = $~[:id]
     end

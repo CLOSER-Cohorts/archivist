@@ -21,5 +21,10 @@ module Importers::XML::DDI
       end
       urn
     end
+
+    def extract_ddi_slug(xml_node)
+      urn = extract_urn_identifier(xml_node)
+      urn.match(/urn:ddi:(?<instrument_agency>.*):(?<instrument_prefix>.*)-(?<type>.*)-(?<id>.*):(.*)/)
+    end
   end
 end

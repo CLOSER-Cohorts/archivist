@@ -100,7 +100,7 @@ module Importers::XML::DDI
         position_counter += 1
         child = Reference.find_node doc, child_ref
         if child.name == 'Sequence'
-          cc_s = CcSequence.new
+          cc_s = CcSequence.new(urn: extract_urn_identifier(child))
           @instrument.cc_sequences << cc_s
           begin
             cc_s.label = child.at_xpath('./ConstructName/String').content
@@ -119,7 +119,8 @@ module Importers::XML::DDI
           read_sequence_children(child, cc_s)
           cc_s.save!
         elsif child.name == 'StatementItem'
-          cc_s = CcStatement.new
+          cc_s = CcStatement.new(urn: extract_urn_identifier(child))
+
           @instrument.cc_statements << cc_s
           begin
             cc_s.label = child.at_xpath('./ConstructName/String').content
@@ -135,8 +136,7 @@ module Importers::XML::DDI
           cc_s.literal = child.at_xpath('./DisplayText/LiteralText/Text').content
 
           cc_s.parent = parent
-          cc_s.save!
-
+          cc_s.save!     
         elsif child.name == 'QuestionConstruct'
           q_ref = child.at_xpath('./QuestionReference')
           # ApplicationRecord can perform generic queries
@@ -144,7 +144,7 @@ module Importers::XML::DDI
               'urn',
               extract_urn_identifier(q_ref)
           )
-          cc_q = CcQuestion.new
+          cc_q = CcQuestion.new(urn: extract_urn_identifier(child))
           cc_q.question = base_question
           begin
             ru_val = child.at_xpath('./ResponseUnit').content
@@ -174,7 +174,7 @@ module Importers::XML::DDI
           cc_q.parent = parent
           cc_q.save!
         elsif child.name == 'IfThenElse'
-          cc_c = CcCondition.new
+          cc_c = CcCondition.new(urn: extract_urn_identifier(child))
           @instrument.cc_conditions << cc_c
           begin
             cc_c.label = child.at_xpath('./ConstructName/String').content
@@ -206,7 +206,7 @@ module Importers::XML::DDI
 
         elsif child.name == 'Loop'
 
-          cc_l = CcLoop.new
+          cc_l = CcLoop.new(urn: extract_urn_identifier(child))
           @instrument.cc_loops << cc_l
           start_node = child.at_xpath('./InitialValue/Command/CommandContent')
           end_node = child.at_xpath('./EndValue/Command/CommandContent')

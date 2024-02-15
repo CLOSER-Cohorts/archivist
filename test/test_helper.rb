@@ -15,15 +15,14 @@ ActiveRecord::Migration.maintain_test_schema!
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
-  def self.ordered_fixtures(suffix: [])
-    fixture_files = Dir.entries(Rails.root + 'test/fixtures').select{|file| file =~ /\.yml/}.map{|file| file.gsub('.yml','').to_sym}
-    if suffix
-      fixture_files = fixture_files - suffix
-      fixture_files = fixture_files + suffix
-    end
-    fixture_files
+  setup do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
   end
-  fixtures *ordered_fixtures(suffix: [:cc_questions])
+
+  teardown do
+    DatabaseCleaner.clean
+  end
 
   # Add more helper methods to be used by all tests here...
   extend MiniTest::Spec::DSL
