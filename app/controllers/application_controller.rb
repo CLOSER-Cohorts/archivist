@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  include Pundit
+  include Pundit::Authorization
   protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token
 
@@ -20,17 +20,15 @@ class ApplicationController < ActionController::Base
   # end
 
   def auth_token
-    # { Authorization: 'Bearer <token>' }
-    request.headers['Authorization'] || params[:token]
+    full_token = request.headers['Authorization'] || params[:token]
+    return unless full_token
+    full_token.split(' ')[1] || full_token
   end
 
   def decoded_token
     if auth_token
-      token = auth_token.split(' ')[1] || auth_token
-
-      # header: { 'Authorization': 'Bearer <token>' }
       begin
-        JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')
+        JWT.decode(auth_token, 's3cr3t', true, algorithm: 'HS256')
       rescue JWT::DecodeError
         nil
       end

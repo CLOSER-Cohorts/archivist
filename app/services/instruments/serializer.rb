@@ -1,12 +1,13 @@
 class Instruments::Serializer
   include Pundit
 
-  attr_accessor :datasets, :instrument, :current_user
+  attr_accessor :datasets, :instrument, :current_user, :auth_token 
 
-  def initialize(instrument=nil, user=nil)
+  def initialize(instrument=nil, user=nil, auth_token=nil)
     self.current_user = user
     self.instrument = instrument
     self.datasets = get_datasets
+    self.auth_token = auth_token
   end
 
   def call
@@ -58,11 +59,11 @@ class Instruments::Serializer
       i[:datasets] = datasets.fetch(i["id"], [])
       doc = Document.where(document_type: 'instrument_export', item_id: i["id"]).last rescue nil
       i[:export_time] = doc.created_at.strftime('%b %e %Y %I:%M %p') rescue nil
-      i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}" rescue nil
+      i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}?token=#{auth_token}" rescue nil
       doc = Document.where(document_type: 'instrument_export_complete', item_id: i["id"]).last rescue nil
       if doc
         i[:export_complete_time] = doc.created_at.strftime('%b %e %Y %I:%M %p')
-        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}"
+        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}?token=#{auth_token}"
       end
       i
     end

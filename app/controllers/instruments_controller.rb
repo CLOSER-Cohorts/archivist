@@ -18,7 +18,7 @@ class InstrumentsController < ImportableController
 
   def index
     return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
-    instruments = Instruments::Serializer.new(nil, current_user).call()
+    instruments = Instruments::Serializer.new(nil, current_user, auth_token).call()
 
     render json: instruments and return
   end
