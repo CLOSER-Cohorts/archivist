@@ -194,6 +194,46 @@ export const QuestionGridForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  // Deep cloning so that we go back to the original QuestioGrid if the user selects the original code list
+  const originalQuestionGrid = JSON.parse(JSON.stringify(questionGrid));
+
+  const OnChangeComponent = ({ form, originalQuestionGrid, codeLists }) => {
+    return (
+      <OnChange name="horizontal_code_list_id">
+        {(value, previous) => {
+          if (value !== previous) {
+            form.batch(() => {
+              if (value === originalQuestionGrid.horizontal_code_list_id) {
+                // If the value is the same as the original, reset the cols to the original include the rd attributes
+                originalQuestionGrid.cols.forEach((col, index) => {
+                  form.change(`cols[${index}]`, col);
+                });
+              } else {
+                const codeList = codeLists.find(el => el.id === value);
+                if (codeList) {
+                  // Clear existing entries
+                  while (form.getState().values.cols.length > 0) {
+                    form.mutators.pop('cols');
+                  }
+                  
+                  // Add new entries
+                  codeList.codes.forEach((code) => {
+                    form.mutators.push('cols', {
+                      label: code.label,
+                      value: code.value,
+                      order: code.order,
+                    });
+                  });
+                }
+              }
+            });
+          }
+        }}
+      </OnChange>
+    );
+  };
+  
+
   return (
     <div style={{ padding: 0 }}>
       <ObjectStatusBar id={questionGrid.id || 'new'} type={'QuestionGrid'} />
@@ -216,7 +256,7 @@ export const QuestionGridForm = (props) => {
         values
       }) => (
           <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
+            <Paper style={{ padding: 16 }}>        
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
@@ -226,20 +266,11 @@ export const QuestionGridForm = (props) => {
                     }
                   </Grid>
                 ))}
-                <OnChange name="horizontal_code_list_id">
-                  {(value, previous) => {
-                    const codeList = codeLists.find(el => el.id === value)
-                    if(codeList){
-                      values.cols = codeList.codes.map((code) => {
-                        return {
-                          label: code.label,
-                          value: code.value,
-                          order: code.order
-                        }
-                      })
-                    }
-                  }}
-                </OnChange>
+              <OnChangeComponent
+                form={form}
+                originalQuestionGrid={originalQuestionGrid}
+                codeLists={codeLists}
+              />
                 <h3>Response Domains</h3>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
