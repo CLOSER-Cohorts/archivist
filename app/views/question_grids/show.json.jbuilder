@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-  json.extract! @object, :id, :label, :literal, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label
+  json.extract! @object.reload, :id, :label, :literal, :vertical_code_list_id, :horizontal_code_list_id, :roster_rows, :roster_label, :corner_label
   json.type @object.class.name
   json.instruction @object.instruction.nil? ? '' : @object.instruction.text
   begin

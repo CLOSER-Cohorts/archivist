@@ -204,6 +204,10 @@ export const QuestionGridForm = (props) => {
           if (value !== previous) {
             form.batch(() => {
               if (value === originalQuestionGrid.horizontal_code_list_id) {
+                // Clear existing entries
+                while (form.getState().values.cols.length > 0) {
+                  form.mutators.pop('cols');
+                }                
                 // If the value is the same as the original, reset the cols to the original include the rd attributes
                 originalQuestionGrid.cols.forEach((col, index) => {
                   form.change(`cols[${index}]`, col);
