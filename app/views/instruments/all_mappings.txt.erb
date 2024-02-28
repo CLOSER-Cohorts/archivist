@@ -9,10 +9,10 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
       <% end %>
     <% end %>
   <% else %>
-    <% if qc.maps.where(x: nil, y: nil).empty? %>
+    <% if qc.maps.where(x: [nil, 0], y: [nil, 0]).empty? %>
 <%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %>
     <% else %>
-      <% qc.maps.where(x: nil, y: nil ).each do | map | %>
+      <% qc.maps.where(x: [nil, 0], y: [nil, 0]).each do | map | %>
 <%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:code)  %><%= "\t" %><%= map.variable.label %>
       <% end %>
     <% end %>
