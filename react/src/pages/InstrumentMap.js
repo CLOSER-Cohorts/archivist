@@ -281,7 +281,7 @@ const QuestionGridListItem = (props) => {
             <VariableList variables={item.variables.filter((variable) => { return (variable.y == 0 && variable.x == 0) || (variable.y == undefined && variable.x == undefined) })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
           </Grid>
           <Grid item xs={6}>
-            <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
+            <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
             {(isNil(get(topic, 'id')) && !isNil(variableTopic)) && (!isNil(get(variableTopic, 'name'))) && (
               <em>Resolved topic from variables - {get(variableTopic, 'name')}</em>
             )}
