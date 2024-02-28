@@ -312,7 +312,9 @@ const DatasetView = (props) => {
       sourceOptions = sourceOptions.filter(opt => {
         return (
           get(opt.topic, 'id') == get(variable.topic, 'id') ||
+          get(opt, 'topic') == get(variable.topic, 'name') ||
           get(opt.resolved_topic, 'id') == get(variable.topic, 'id') ||
+          get(opt, 'resolved_topic') == get(variable.topic, 'name') ||
           (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null)
         )
       })
