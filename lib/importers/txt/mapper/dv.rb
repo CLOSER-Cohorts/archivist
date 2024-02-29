@@ -41,6 +41,9 @@ class Importers::TXT::Mapper::DV < Importers::TXT::Mapper::Dataset
     rescue => exception
       Rails.logger.info exception.message
       Rails.logger.info exception.backtrace
+      @errors = true
+      log :outcome, (exception.message =~ /Record Invalid/) ? exception.message : "Record Invalid : #{exception.message}"      
+      set_import_to_finished
       raise # always reraise
     end
     set_import_to_finished

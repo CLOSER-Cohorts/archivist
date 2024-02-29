@@ -317,6 +317,7 @@ const TopicList = (props) => {
   }else if(isNil(topicId)){
     return (
           <div>
+            <span></span>
             <Autocomplete
               onChange={handleChange}
               options={topicOptions}
