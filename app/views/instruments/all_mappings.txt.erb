@@ -2,28 +2,28 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
 <% @object.cc_questions.each do |qc| %>
   <% if qc. question.question_type == 'QuestionItem' %>
     <% if qc.variables.empty? %>
-<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %>
+<%=d qc.label %>$0;0<%= "\t" %><%=d qc.question.literal %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %>
     <% else %>
       <% qc.variables.each do | variable | %>
-<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %>
+<%=d qc.label %>$0;0<%= "\t" %><%=d qc.question.literal %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %><%= "\t" %><%=d variable.name %><%= "\t" %><%=d variable.topic.try(:code).try(:html_safe)  %><%= "\t" %><%=d variable.label %>
       <% end %>
     <% end %>
   <% else %>
-    <% if qc.maps.where(x: [nil, 0], y: [nil, 0]).empty? %>
-<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %>
+    <% if qc.maps.where(x: nil, y: nil).empty? %>
+<%=d qc.label %>$0;0<%= "\t" %><%=d qc.question.literal %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %>
     <% else %>
-      <% qc.maps.where(x: [nil, 0], y: [nil, 0]).each do | map | %>
-<%= qc.label %>$0;0<%= "\t" %><%= qc.question.literal %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:code)  %><%= "\t" %><%= map.variable.label %>
+      <% qc.maps.where(x: nil, y: nil ).each do | map | %>
+<%=d qc.label %>$0;0<%= "\t" %><%=d qc.question.literal %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %><%= "\t" %><%=d map.variable.name %><%= "\t" %><%=d map.variable.topic.try(:code).try(:html_safe)  %><%= "\t" %><%=d map.variable.label %>
       <% end %>
     <% end %>
 
     <% qc.question.horizontal_code_list.codes.each_with_index do | _code, x| %>
       <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, y| %>
         <% if qc.maps.where(x: x + 1, y: y + 1).empty? %>
-<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %><%= "\t" %><%= qc.topic.try(:code) %>
+<%=d qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%=d qc.question.literal %> <%=d category %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %>
         <% else %>
           <% qc.maps.where(x: x + 1, y: y + 1 ).each do | map | %>
-<%= qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%= qc.question.literal %> <%= category %><%= "\t" %><%= qc.topic.try(:code) %><%= "\t" %><%= map.variable.name %><%= "\t" %><%= map.variable.topic.try(:code)  %><%= "\t" %><%= map.variable.label %>
+<%=d qc.label %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%=d qc.question.literal %> <%=d category %><%= "\t" %><%=d qc.topic.try(:code).try(:html_safe) %><%= "\t" %><%=d map.variable.name %><%= "\t" %><%=d map.variable.topic.try(:code).try(:html_safe)  %><%= "\t" %><%=d map.variable.label %>
           <% end %>
         <% end %>
       <% end %>
@@ -31,5 +31,5 @@ Question name<%= "\t" %>Question text<%= "\t" %>Question Topic ID<%= "\t" %>Vari
   <% end %>
 <% end %>
 <% @unmapped_variables.each do | variable | %>
-<%= "\t" %><%= "\t" %><%= "\t" %><%= variable.name %><%= "\t" %><%= variable.topic.try(:code)  %><%= "\t" %><%= variable.label %>
+<%= "\t" %><%= "\t" %><%= "\t" %><%=d variable.name %><%= "\t" %><%=d variable.topic.try(:code).try(:html_safe)  %><%= "\t" %><%=d variable.label %>
 <% end %>
