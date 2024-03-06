@@ -97,33 +97,33 @@ const App = () => {
               path="/"
               render={() => {return ( <Redirect to={routes.instruments.all} />)}}
             />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
-            <AuthRoute type="private" exact path={routes.instruments.new} component={InstrumentNew} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.edit} component={InstrumentEdit} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.show} component={InstrumentView} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.show} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.codeLists.new} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionItems.all} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionItems.show} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionItems.new} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionGrids.all} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionGrids.show} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.questionGrids.new} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.all} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.show} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccConditions} component={InstrumentCcConditions} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccLoops} component={InstrumentCcLoops} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccQuestions} component={InstrumentCcQuestions} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccSequences} component={InstrumentCcSequences} />
-            <AuthRoute type="private" exact path={routes.instruments.instrument.build.ccStatements} component={InstrumentCcStatements} />
-            <AuthRoute type="private" exact path={routes.instruments.all} component={Instruments} />
-            <AuthRoute type="private" exact path={routes.datasets.all} component={Datasets} />
-            <AuthRoute type="private" exact path={'/datasets/:dataset_id'} component={DatasetView} />
-            <AuthRoute type="private" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
+            <AuthRoute type="editor" exact path={routes.instruments.new} component={InstrumentNew} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.edit} component={InstrumentEdit} />
+            <AuthRoute type="reader" exact path={routes.instruments.instrument.show} component={InstrumentView} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.show} component={InstrumentBuildCodeLists} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.new} component={InstrumentBuildCodeLists} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.all} component={InstrumentBuildQuestionItems} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.show} component={InstrumentBuildQuestionItems} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.new} component={InstrumentBuildQuestionItems} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.all} component={InstrumentBuildQuestionGrids} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.show} component={InstrumentBuildQuestionGrids} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.new} component={InstrumentBuildQuestionGrids} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.all} component={InstrumentBuildResponseDomains} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.show} component={InstrumentBuildResponseDomains} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccConditions} component={InstrumentCcConditions} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccLoops} component={InstrumentCcLoops} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccQuestions} component={InstrumentCcQuestions} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccSequences} component={InstrumentCcSequences} />
+            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccStatements} component={InstrumentCcStatements} />
+            <AuthRoute type="reader" exact path={routes.instruments.all} component={Instruments} />
+            <AuthRoute type="reader" exact path={routes.datasets.all} component={Datasets} />
+            <AuthRoute type="reader" exact path={'/datasets/:dataset_id'} component={DatasetView} />
+            <AuthRoute type="editor" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
             <AuthRoute type="admin" exact path={routes.admin.datasets.all} component={AdminDatasets} />
             <AuthRoute type="admin" exact path={routes.admin.datasets.dataset.show} component={AdminDatasetView} />
             <AuthRoute type="admin" exact path={routes.admin.import} component={AdminImport} />

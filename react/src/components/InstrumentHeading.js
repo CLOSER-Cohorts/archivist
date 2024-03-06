@@ -3,6 +3,7 @@ import { get, isEmpty } from "lodash";
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { AuthButton } from '../components/AuthButton';
 import Button from '@material-ui/core/Button';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -29,14 +30,10 @@ export const InstrumentHeading = ({instrument, mode='view'}) => {
           </Button>
         )}
         { !instrument.signed_off && mode !== 'build' && (
-          <Button variant="outlined">
-            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: slug })}>Build</Link>
-          </Button>
+          <AuthButton type="editor" to={url(routes.instruments.instrument.build.show, { instrument_id: slug })} label="Build"></AuthButton>
         )}
         { mode !== 'map' && (
-          <Button variant="outlined">
-            <Link to={url(routes.instruments.instrument.map.show, { instrument_id: slug })}>Map</Link>
-          </Button>
+          <AuthButton type="editor" to={url(routes.instruments.instrument.map.show, { instrument_id: slug })} label="Map"></AuthButton>                    
         )}
         </>
       )}

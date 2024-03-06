@@ -1,34 +1,33 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import { Redirect, Route } from "react-router-dom";
-import { reverse as url } from 'named-urls'
 import { get } from 'lodash'
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
-import routes from './routes'
-
-const AuthRoute = props => {
+export const AuthButton = (props)  => {
 
   const isAuthUser = useSelector(state => state.auth.isAuthUser);
   const user = useSelector(state => get(state.auth, 'user'));
-  console.log(user);
 
-  const { type } = props;
+  const { type, to, label } = props;
 
   if (type === "admin" && isAuthUser && user && user.role !== 'admin') {
-    return <Redirect to={url(routes.instruments.all)} />
+    return ''
   }
 
   if (type === "editor" && isAuthUser && user && user.role !== 'admin' && user.role !== 'editor') {
-    return <Redirect to={url(routes.instruments.all)} />
+    return ''
   }
 
   if (type === "guest" && isAuthUser) {
-    return <Redirect to={url(routes.instruments.all)} />
+    return ''
   }else if ((type === "editor" || type === "reader") && !isAuthUser){
-    return <Redirect to={url(routes.login)} />
+    return ''
   };
 
-  return <Route {...props} />;
+  return (
+    <Button variant='outlined'>
+      <Link to={to}>{label}</Link>
+    </Button>    
+  );
 };
-
-export default AuthRoute;

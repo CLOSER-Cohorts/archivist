@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -23,6 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SearchBar from "material-ui-search-bar";
 import { ObjectStatus } from '../components/ObjectStatusBar'
+import { useHasPermission } from '../hooks/useHasPermission';
 
 const TopicList = (props) => {
   const {topicId, datasetId, variableId} = props
@@ -91,6 +93,8 @@ const DatasetView = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [search, setSearch] = useState("");
   const [filteredValues, setFilteredValues] = useState([]);
+
+  const hasEditorPermission = useHasPermission("editor")
 
   useEffect(() => {
     setFilteredValues(
@@ -172,6 +176,45 @@ const DatasetView = (props) => {
       </TableRow>
     )
   }
+
+  const ReadOnlyVariableTableRow = (props) => {
+    const { row } = props;
+
+    const status = ObjectStatus(row.id, 'DatasetVariable')
+
+    var errorMessage = null;
+
+    if (status.error) {
+      errorMessage = status.errorMessage
+    } else if (row.errors) {
+      errorMessage = row.errors
+    }
+
+    var sourceOptions = (row.var_type == 'Derived') ? variables : get(dataset, 'questions', [])
+
+    const sourceItems = row.sources.map((source) =>
+      <Chip label={source.label}/>
+    );
+    
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.id}</TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.label}</TableCell>
+        <TableCell>{row.var_type}</TableCell>
+        <TableCell><VariablesList variables={row.used_bys}/></TableCell>
+        <TableCell>
+          {sourceItems}
+        </TableCell>
+        <TableCell>
+          <Chip label={get(row.topic, 'name')} />
+          {!isNil(row.sources_topic) && (
+            <em>Resolved topic from sources - {get(row.sources_topic, 'name')}</em>
+          )}
+        </TableCell>
+      </TableRow>
+    )
+  }  
 
   const VariableTypes = (props) => {
     const { sources, datasetId, variable } = props
@@ -461,7 +504,12 @@ const DatasetView = (props) => {
                       </TableCell>
                     </TableRow>
                   )}
-                  <VariableTableRow row={row} />
+                  {(hasEditorPermission) ? (
+                    <VariableTableRow row={row} />
+                  ):(
+                    <ReadOnlyVariableTableRow row={row} />
+                  )
+                  }
                   </>
                   )
                 })}

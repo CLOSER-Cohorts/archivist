@@ -2,6 +2,7 @@ import React, {  } from 'react';
 import { useDispatch } from 'react-redux'
 import { Instrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { AuthButton } from '../components/AuthButton'
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Chip from '@material-ui/core/Chip';
@@ -19,19 +20,11 @@ const Instruments = () => {
       <>
         <ButtonGroup variant="outlined">
           { !row.signed_off && (
-            <Button>
-              <Link to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })}>Edit</Link>
-            </Button>
+            <AuthButton type="editor" to={url(routes.instruments.instrument.edit, { instrument_id: row.prefix })} label="Edit"></AuthButton>
           )}
-          <Button>
-            <Link to={url(routes.instruments.instrument.show, { instrument_id: row.prefix })}>View</Link>
-          </Button>
-          <Button>
-            <Link to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })}>Build</Link>
-          </Button>
-          <Button>
-            <Link to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })}>Map</Link>
-          </Button>
+          <AuthButton type="reader" to={url(routes.instruments.instrument.show, { instrument_id: row.prefix })} label="View"></AuthButton>
+          <AuthButton type="editor" to={url(routes.instruments.instrument.build.show, { instrument_id: row.prefix })} label="Build"></AuthButton>
+          <AuthButton type="editor" to={url(routes.instruments.instrument.map.show, { instrument_id: row.prefix })} label="Map"></AuthButton>
         </ButtonGroup>
       </>
     )
