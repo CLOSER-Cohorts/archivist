@@ -203,7 +203,7 @@ export const CodeListForm = (props) => {
                                       )}
                                     </TableCell>
                                     <TableCell className={classes.small} size="small">
-                                      <TextField name={`${name}.value`} multiline label="Value" margin="none" />
+                                      <TextField name={`${name}.value`} value={fields.value[index].value} multiline label="Value" margin="none" />
                                     </TableCell>
                                     <TableCell>
                                      <Autocomplete
@@ -211,6 +211,7 @@ export const CodeListForm = (props) => {
                                       options={Object.values(categories)}
                                       getOptionLabel={(option) => option.label}
                                       onChange={(event, value, reason)=>{
+                                        console.log('change!')
                                         if(isNil(value)){
                                           fields.update(index, {...fields.value[index], ...{category_id: null, label: null} })
                                         }else{
@@ -234,7 +235,11 @@ export const CodeListForm = (props) => {
                                     <TableCell className={classes.small}>
                                       {instrument && !instrument.signed_off && (
                                         <span
-                                          onClick={() => fields.remove(index)}
+                                          onClick={() => {
+                                            console.log(index);
+                                            console.log(fields); fields.remove(index); console.log(fields)
+                                            }
+                                          }
                                           style={{ cursor: 'pointer' }}
                                         >
                                           <DeleteIcon />
