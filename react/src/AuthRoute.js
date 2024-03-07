@@ -10,7 +10,6 @@ const AuthRoute = props => {
 
   const isAuthUser = useSelector(state => state.auth.isAuthUser);
   const user = useSelector(state => get(state.auth, 'user'));
-  console.log(user);
 
   const { type } = props;
 
@@ -24,7 +23,7 @@ const AuthRoute = props => {
 
   if (type === "guest" && isAuthUser) {
     return <Redirect to={url(routes.instruments.all)} />
-  }else if ((type === "editor" || type === "reader") && !isAuthUser){
+  }else if ((type !== "guest") && !isAuthUser){
     return <Redirect to={url(routes.login)} />
   };
 
