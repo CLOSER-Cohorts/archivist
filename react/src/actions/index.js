@@ -23,21 +23,35 @@ axios.interceptors.response.use(function (response) {
 });
 
 // Auth
-export const authUser = (email, password) => {
-  const request = axios.post(api_host + '/users/sign_in.json', {
-      "user": {
-              "email": email,
-              "password": password
-      }
-    })
-  return (dispatch) => {
-      return request.then(res => {
-        dispatch(authUserSuccess(res.data));
+
+export const Auth = {
+  signIn: (email, password) => {
+    const request = axios.post(api_host + '/users/sign_in.json', {
+        "user": {
+                "email": email,
+                "password": password
+        }
       })
-      .catch(err => {
-        dispatch(authUserFailure(err.message));
-      });
-  };
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(authUserSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(authUserFailure(err.message));
+        });
+    };
+  },
+  signOut: () => {
+    const request = axios.delete(api_host + '/users/sign_out.json', {})
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(authUserSignOutSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(authUserFailure(err.message));
+        });
+    };
+  }  
 };
 
 export const Password = {
@@ -1956,6 +1970,10 @@ const authUserSuccess = auth => ({
   payload: {
     ...auth
   }
+});
+
+const authUserSignOutSuccess = auth => ({
+  type: 'LOGOUT'
 });
 
 const whoAmISuccess = user => ({

@@ -34,6 +34,7 @@ import BreadcrumbBar from './BreadcrumbBar'
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { Auth } from '../actions'
 
 function Copyright() {
   return (
@@ -230,6 +231,10 @@ export const Dashboard = (props)  => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSignOut = () => {
+    dispatch(Auth.signOut());
+  }  
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -252,7 +257,7 @@ export const Dashboard = (props)  => {
             {props.title}
           </Typography>
           <IconButton color="inherit">
-            <ExitToAppIcon onClick={()=>{ dispatch({type:'LOGOUT'}) }}/>
+            <ExitToAppIcon onClick={handleSignOut}/>
           </IconButton>
         </Toolbar>
       </AppBar>
