@@ -11,6 +11,16 @@ class ImportsController < ApplicationController
     @import = Import.find(params[:id])
   end
 
+  def document
+    @import = Import.find(params[:id])
+    @document = @import.document
+
+    file_name = @document.filename
+    file_contents = @document.file_contents
+  
+    send_data file_contents, filename: file_name, type: "text/xml", disposition: "attachment"
+  end
+
   private
 
   def set_documents

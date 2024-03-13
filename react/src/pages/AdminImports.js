@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { AdminImport } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { SuccessFailureChip } from '../components/SuccessFailureChip';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -57,7 +58,7 @@ const AdminImports = () => {
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.filename}</TableCell>
                 <TableCell>{row.import_type}</TableCell>
-                <TableCell>{row.state}</TableCell>
+                <TableCell><SuccessFailureChip outcome={row.state}/></TableCell>
                 <TableCell>{row.created_at}</TableCell>
                 <TableCell>
                   <Button variant="outlined">

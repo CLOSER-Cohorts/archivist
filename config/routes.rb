@@ -116,7 +116,11 @@ Rails.application.routes.draw do
     resources :response_domain_texts
     resources :code_lists
     resources :categories
-    resources :imports, module: :instruments, only: [:index, :show]
+    resources :imports, module: :instruments, only: [:index, :show] do 
+      member do
+        get 'document', to: 'imports#document'
+      end
+    end
     member do
       post 'copy/:new_prefix', to: 'instruments#copy', as: :copy
       get 'clear_cache', to: 'instruments#clear_cache'
@@ -134,7 +138,11 @@ Rails.application.routes.draw do
       get 'variables', to: 'instruments#variables'
     end
   end
-  resources :imports, only: [:index, :show]
+  resources :imports, only: [:index, :show] do
+    member do
+      get 'document', to: 'imports#document'
+    end
+  end
   get 'instruments/:id/mapping', to: redirect('/instruments/%{id}/qv')
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 
