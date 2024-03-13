@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { SuccessFailureChip } from '../components/SuccessFailureChip';
 
 const AdminDatasetImportMappings = (props) => {
   const dispatch = useDispatch()
@@ -48,7 +49,7 @@ const AdminDatasetImportMappings = (props) => {
 
     const headers = ["ID", "File", "Type","State","Created At"]
     const rowRenderer = (row) => {
-      return [row.id, row.file, row.import_type, row.state, row.created_at]
+      return [row.id, row.file, row.import_type, <SuccessFailureChip outcome={row.state} />, row.created_at]
     }
 
     return (

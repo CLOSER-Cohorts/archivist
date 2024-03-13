@@ -77,7 +77,11 @@ Rails.application.routes.draw do
       get 'questions', to: 'datasets#questions'
       get 'dv', to: 'datasets#dv'
     end
-    resources :imports, module: :datasets, only: [:index, :show]
+    resources :imports, module: :datasets, only: [:index, :show] do
+      member do
+        get 'document', to: 'imports#document'
+      end 
+    end
   end
   get 'datasets/:dataset_id/tv', to: 'variables#tv', constraints: request_processor
 
