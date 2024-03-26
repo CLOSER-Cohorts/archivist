@@ -199,7 +199,7 @@ const InstrumentView = (props) => {
                 <TableCell align="left">{row.created_at}</TableCell>
                 <TableCell align="left">
                   <Button variant="contained" color="primary">
-                    <a style={{ color: 'white', textDecoration: 'none' }} target={'_blank'} href={process.env.REACT_APP_API_HOST + row.export_url}><CloudDownloadIcon />Download export</a>
+                    <a style={{ color: 'white', textDecoration: 'none' }} target={'_blank'} href={process.env.REACT_APP_API_HOST + row.url}><CloudDownloadIcon />Download export</a>
                   </Button>
                 </TableCell>
               </TableRow>
