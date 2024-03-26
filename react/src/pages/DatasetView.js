@@ -104,10 +104,10 @@ const DatasetView = (props) => {
         const topic = get(value,'topic', {name: ''})
         const topicMatch = topic && topic['name'] && topic['name'].toLowerCase().includes(search.toLowerCase())
         const sources = get(value,'sources', [])
-        const sourcesStr = sources.map((s)=>{ return s['name'] || s['label'] }).join(' ')
+        const sourcesStr = sources.map((s) => s?.name ?? s?.label ?? '').join(' ');
         const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
         const usedBy = get(value, 'used_bys', [])
-        const usedByStr = usedBy.map((s) => { return s['name'] || s['label'] }).join(' ')
+        const usedByStr = usedBy.map((s) => s?.name ?? s?.label ?? '').join(' ');
         const usedByMatch = usedByStr && usedByStr.toLowerCase().includes(search.toLowerCase())
         return nameMatch || labelMatch || topicMatch || sourcesMatch || usedByMatch
       }).sort((el)=> el.id).reverse()
