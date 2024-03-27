@@ -239,7 +239,7 @@ const DatasetView = (props) => {
     const { variables } = props
 
     const listItems = variables.map((number) =>
-      <li>{number.name}</li>
+      <li>{number?.name}</li>
     );
     return (
       <ul>{listItems}</ul>
