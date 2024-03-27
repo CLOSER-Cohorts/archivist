@@ -26,8 +26,7 @@
     },    
     "SIDEKIQ_PASSWORD": {
       "description": "The password for Sidekiq web interface authentication.",
-      "required": false,
-      "generator": "secret"
+      "required": false
     },        
     "LANG": {
       "description": "Language setting",
