@@ -29,19 +29,32 @@
     },
     "FROM_ADDRESS": {
       "description": "The email address used in the 'from' field for any outbound emails."
-    }
+    },
+    "JEMALLOC_ENABLED": "true",
+    "NODE_MODULES_CACHE": "false",    
+    "USE_YARN_CACHE": "false",
+    "SIDEKIQ_USERNAME": {
+      "description": "The username for Sidekiq web interface authentication (/sidekiq_archivist where you can see background jobs).",
+      "value": "sidekiq"
+    },
+    "SIDEKIQ_PASSWORD": {
+      "description": "The password for Sidekiq web interface authentication.",
+      "value": "sidekiq_password"
+    }    
   },
   "addons": [
-    "logentries:le_tryit",
     "mailgun:starter",
     "heroku-redis:premium-1",
     "heroku-postgresql:standard-0",
-    "process-scheduler:pet-project",
+    "scheduler:standard",
     "librato:development",
     "scheduler:standard",
-    "ipinvestigator:free"
+    "scout:chair"
   ],
   "buildpacks": [
+    {
+      "url": "https://github.com/gaffneyc/heroku-buildpack-jemalloc.git"
+    },    
     {
       "url": "heroku/nodejs"
     },
