@@ -64,7 +64,7 @@ const AdminInstrumentDatasetForm = (props) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={dataset.name}
+                primary={dataset.name} secondary={`ID #${dataset.id}`}
               />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete">
@@ -80,7 +80,7 @@ const AdminInstrumentDatasetForm = (props) => {
           value={selectedDatasets}
           onChange={handleChange}
           options={Object.values(datasets)}
-          getOptionLabel={(option) => `${option.study} - ${option.name}`}
+          getOptionLabel={(option) => `${option.study} - ${option.name} (ID #${option.id})`}
           style={{ width: '100%' }}
           renderInput={(params) => <TextField {...params} label="Add dataset" variant="outlined" />}
         />
