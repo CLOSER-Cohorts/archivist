@@ -12,35 +12,68 @@
     "postdeploy": "rails db:migrate"
   },
   "env": {
-    "LANG": "en_GB.UTF-8",
-    "RACK_ENV": "production",
-    "RAILS_ENV": "production",
-    "RAILS_SERVE_STATIC_FILES": "enabled",
-    "REACT_APP_API_HOST": {
-      "description": "The URL to access the Rails API backend, this is the URL of the main heroku instance e.g. https://<INSERT HEROKU APP NAME>.herokuapp.com"
+    "FROM_ADDRESS": {
+      "description": "The email address used in the 'from' field for any outbound emails.",
+      "required": true
     },
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "1"
+    "REACT_APP_API_HOST": {
+      "description": "The URL to access the Rails API backend, this is the URL of the main heroku instance e.g. https://<INSERT HEROKU APP NAME>.herokuapp.com",
+      "required": true
+    },
+    "SIDEKIQ_USERNAME": {
+      "description": "The username for Sidekiq web interface authentication (/sidekiq_archivist where you can see background jobs).",
+      "required": false
+    },    
+    "SIDEKIQ_PASSWORD": {
+      "description": "The password for Sidekiq web interface authentication.",
+      "required": false,
+      "generator": "secret"
+    },        
+    "LANG": {
+      "description": "Language setting",
+      "value": "en_GB.UTF-8",
+      "required": true
     },
     "MAX_THREADS": {
       "description": "The number of threads to run.",
-      "value": "5"
+      "value": "5",
+      "required": true
     },
-    "FROM_ADDRESS": {
-      "description": "The email address used in the 'from' field for any outbound emails."
+    "NODE_MODULES_CACHE": {
+      "description": "Node modules cache setting",
+      "value": "false",
+      "required": true
     },
-    "JEMALLOC_ENABLED": "true",
-    "NODE_MODULES_CACHE": "false",    
-    "USE_YARN_CACHE": "false",
-    "SIDEKIQ_USERNAME": {
-      "description": "The username for Sidekiq web interface authentication (/sidekiq_archivist where you can see background jobs).",
-      "value": "sidekiq"
+    "RACK_ENV": {
+      "description": "Rack environment setting",
+      "value": "production",
+      "required": true
     },
-    "SIDEKIQ_PASSWORD": {
-      "description": "The password for Sidekiq web interface authentication.",
-      "value": "sidekiq_password"
-    }    
+    "RAILS_ENV": {
+      "description": "Rails environment setting",
+      "value": "production",
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "description": "Enable serving static files with Rails",
+      "value": "enabled",
+      "required": true
+    },
+    "JEMALLOC_ENABLED": {
+      "description": "Enable jemalloc, do not change this.",
+      "value": "true",
+      "required": true
+    },    
+    "USE_YARN_CACHE": {
+      "description": "Yarn cache setting",
+      "value": "false",
+      "required": true
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "1",
+      "required": true
+    }
   },
   "addons": [
     "mailgun:starter",
