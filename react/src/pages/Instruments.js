@@ -32,7 +32,7 @@ const Instruments = () => {
 
   const headers = ["ID", "Prefix", "Control Contructs", "Q-V Mappings", "Study", "Datasets"]
   const rowRenderer = (row) => {
-    return [row.id, row.prefix, row.ccs, row.qvs, row.study, row.datasets.map((dataset) => { return <Link to={url('/datasets/:dataset_id', { dataset_id: dataset.id })}><Chip label={dataset.instance_name} /></Link>})]
+    return [row.id, row.prefix, row.ccs, row.qvs, row.study]
   }
   return (
     <div style={{ height: 500, width: '100%' }}>
