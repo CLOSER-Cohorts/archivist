@@ -3,7 +3,7 @@
 class DatasetsController < ImportableController
   include Importers::Controller
 
-  only_set_object { %i{ questions dv latest_document } }
+  only_set_object { %i{ questions dv latest_document mapping_stats } }
 
   has_importers({
                   dv: ImportJob::DV,
@@ -90,4 +90,8 @@ class DatasetsController < ImportableController
   def collection
     policy_scope(Dataset).includes(:instruments)
   end
+
+  def mapping_stats
+    render json: @object.mapping_stats
+  end  
 end

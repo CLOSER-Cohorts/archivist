@@ -90,4 +90,39 @@ class Dataset < ApplicationRecord
     filename.match(/(\S*).ddi32/)
     $1.to_s
   end
+
+  def mapping_stats
+    {
+      total_variables: total_variables,
+      total_mapped_to_questions: total_mapped_to_questions,
+      total_mapped_to_topics: total_mapped_to_topics,
+      percentage_mapped_to_questions: percentage_mapped_to_questions,
+      percentage_mapped_to_topics: percentage_mapped_to_topics
+    }
+  end
+
+  def total_mapped_to_questions
+    @total_mappeed_to_variables ||= variables.joins(:maps).distinct.count
+  end
+
+  def total_mapped_to_topics
+    @total_mapped_to_topics ||= variables.joins(:link).count
+  end
+
+  def total_variables
+    @total_variables ||= variables.count
+  end
+
+  def percentage_mapped_to_questions
+    calculate_percentage(total_mapped_to_questions, total_variables)
+  end
+
+  def percentage_mapped_to_topics
+    calculate_percentage(total_mapped_to_topics, total_variables)
+  end
+
+  def calculate_percentage(part, total)
+    return 0 if total.zero?
+    (part.to_f / total * 100).round(2)
+  end    
 end

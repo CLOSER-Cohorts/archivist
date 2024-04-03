@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
       get 'questions', to: 'datasets#questions'
       get 'dv', to: 'datasets#dv'
+      get 'mapping_stats', to: 'datasets#mapping_stats'
     end
     resources :imports, module: :datasets, only: [:index, :show] do
       member do
@@ -132,6 +133,7 @@ Rails.application.routes.draw do
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
+      get 'mapping_stats', to: 'instruments#mapping_stats'
       get 'export', to: 'instruments#export'
       get 'export_complete', to: 'instruments#export_complete'
       get 'mapper', to: 'instruments#mapper'

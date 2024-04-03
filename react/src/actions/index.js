@@ -152,7 +152,20 @@ export const Dataset = {
           dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
         });
     };
-  }
+  },
+  mapping_stats: (id) => {
+    const request = axios.get(api_host + '/datasets/' + id + '/mapping_stats.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(datasetMappingStatsFetchSuccess(id, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }  
 }
 
 export const AdminInstrument = {
@@ -542,6 +555,19 @@ export const Instrument = {
         });
     };
   },
+  mapping_stats: (id) => {
+    const request = axios.get(api_host + '/instruments/' + id + '/mapping_stats.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(instrumentMappingStatsFetchSuccess(id, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },  
   reorderConstructs: (instrumentId, values) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/reorder_ccs.json', { updates: values }, {
         headers: api_headers()
@@ -1916,6 +1942,22 @@ const instrumentStatsFetchSuccess = (instrumentId, stats) => ({
   payload: {
     instrumentId: instrumentId,
     stats: stats
+  }
+});
+
+const instrumentMappingStatsFetchSuccess = (instrumentId, stats) => ({
+  type: 'LOAD_INSTRUMENT_MAPPING_STATS',
+  payload: {
+    instrumentId: instrumentId,
+    mapping_stats: stats
+  }
+});
+
+const datasetMappingStatsFetchSuccess = (datasetId, stats) => ({
+  type: 'LOAD_DATASET_MAPPING_STATS',
+  payload: {
+    datasetId: datasetId,
+    mapping_stats: stats
   }
 });
 

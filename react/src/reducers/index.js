@@ -105,6 +105,26 @@ const instrumentStats = (state = [], action) => {
   }
 }
 
+const instrumentMappingStats = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_MAPPING_STATS':
+      return {...state, ...{[action.payload.instrumentId]: action.payload.mapping_stats}}
+    default:
+      return state
+  }
+}
+
+const datasetMappingStats = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_DATASET_MAPPING_STATS':
+      return {...state, ...{[action.payload.datasetId]: action.payload.mapping_stats}}
+    default:
+      return state
+  }
+}
+
 const cc_sequences = (state = {}, action) => {
 
   switch (action.type) {
@@ -466,6 +486,8 @@ const appReducer = combineReducers({
     instrumentTrees,
     imports,
     instrumentStats,
+    instrumentMappingStats,
+    datasetMappingStats,
     cc_sequences,
     cc_statements,
     cc_conditions,

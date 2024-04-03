@@ -8,7 +8,7 @@ class InstrumentsController < ImportableController
                   qvmapping: ImportJob::Mapping,
                   topicq: ImportJob::TopicQ
   })
-  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document mapping_stats} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -181,6 +181,10 @@ class InstrumentsController < ImportableController
       format.text { render 'all_mappings.txt.erb', layout: false, content_type: 'text/plain' }
       format.json  {}
     end
+  end
+
+  def mapping_stats
+    render json: @object.mapping_stats
   end
 
   private

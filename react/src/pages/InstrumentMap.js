@@ -30,6 +30,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DescriptionIcon from '@material-ui/icons/Description';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -685,6 +689,8 @@ const InstrumentMap = (props) => {
   const instrumentId = get(props, "match.params.instrument_id", "")
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
+  const instrumentMappingStats = useSelector(state => get(state.instrumentMappingStats, instrumentId));
+  
   const cc_sequences = get(sequences, instrumentId, {})
 
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -692,6 +698,7 @@ const InstrumentMap = (props) => {
   useEffect(() => {
     Promise.all([
       dispatch(Instrument.show(instrumentId)),
+      dispatch(Instrument.mapping_stats(instrumentId)),
       dispatch(CcSequences.all(instrumentId)),
       dispatch(CcStatements.all(instrumentId)),
       dispatch(CcConditions.all(instrumentId)),
@@ -714,6 +721,50 @@ const InstrumentMap = (props) => {
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'map'} />
+        <Grid container spacing={3}>
+          <Grid item xs={4}>
+              <Box fontWeight="fontWeightLight" m={2} >
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6" component="h4">
+                      Total Questions
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {get(instrumentMappingStats, 'total_questions')}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grid>          
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="h2">
+                    Questions Mapped to Variables
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {get(instrumentMappingStats, 'total_mapped_to_variables')} ({get(instrumentMappingStats, 'percentage_mapped_to_variables')}%)
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="h2">
+                    Questions Mapped to Topics
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {get(instrumentMappingStats, 'total_mapped_to_topics')} ({get(instrumentMappingStats, 'percentage_mapped_to_topics')}%)
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+        </Grid>        
         <Grid container spacing={3}>
           <Grid item xs={10}></Grid>
           <Grid item xs={2}>

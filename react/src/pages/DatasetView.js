@@ -25,6 +25,11 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import SearchBar from "material-ui-search-bar";
 import { ObjectStatus } from '../components/ObjectStatusBar'
 import { useHasPermission } from '../hooks/useHasPermission';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const TopicList = (props) => {
   const {topicId, datasetId, variableId} = props
@@ -89,6 +94,7 @@ const DatasetView = (props) => {
   const statuses = useSelector(state => state.statuses);
   const dataset = useSelector(state => get(state.datasets, datasetId));
   const variables = useSelector(state => get(state.datasetVariables, datasetId,{}));
+  const datasetMappingStats = useSelector(state => get(state.datasetMappingStats, datasetId));  
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [search, setSearch] = useState("");
@@ -130,6 +136,7 @@ const DatasetView = (props) => {
   useEffect(() => {
     Promise.all([
       dispatch(Dataset.show(datasetId)),
+      dispatch(Dataset.mapping_stats(datasetId)),
       dispatch(DatasetVariable.all(datasetId)),
       dispatch(Topics.all())
     ]).then(() => {
@@ -467,6 +474,51 @@ const DatasetView = (props) => {
                     }}
             />
             <Divider style={{ margin: 16 }} variant="middle" />
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
+                  <Box fontWeight="fontWeightLight" m={2} >
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6" component="h4">
+                          Total Variables
+                        </Typography>
+                        <Typography color="textSecondary">
+                          {get(datasetMappingStats, 'total_variables')}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Grid>          
+              <Grid item xs={4}>
+                <Box fontWeight="fontWeightLight" m={2} >
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="h2">
+                        Variables Mapped to Questions
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {get(datasetMappingStats, 'total_mapped_to_questions')} ({get(datasetMappingStats, 'percentage_mapped_to_questions')}%)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Box fontWeight="fontWeightLight" m={2} >
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="h2">
+                        Variables Mapped to Topics
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {get(datasetMappingStats, 'total_mapped_to_topics')} ({get(datasetMappingStats, 'percentage_mapped_to_topics')}%)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Grid>
+            </Grid>
+            <Divider style={{ margin: 16 }} variant="middle" />       
             <Table size="small">
               <TableHead>
                 <TableRow>

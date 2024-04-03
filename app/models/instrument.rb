@@ -378,6 +378,41 @@ class Instrument < ApplicationRecord
     prefix + '_ccs01'
   end
 
+  def mapping_stats
+    {
+      total_questions: total_questions,
+      total_mapped_to_variables: total_mapped_to_variables,
+      total_mapped_to_topics: total_mapped_to_topics,
+      percentage_mapped_to_variables: percentage_mapped_to_variables,
+      percentage_mapped_to_topics: percentage_mapped_to_topics
+    }
+  end
+
+  def total_mapped_to_variables
+    @total_mappeed_to_variables ||= cc_questions.joins(:maps).distinct.count
+  end
+
+  def total_mapped_to_topics
+    @total_mapped_to_topics ||= cc_questions.joins(:link).count
+  end
+
+  def total_questions
+    @total_questions ||= cc_questions.count
+  end
+
+  def percentage_mapped_to_variables
+    calculate_percentage(total_mapped_to_variables, total_questions)
+  end
+
+  def percentage_mapped_to_topics
+    calculate_percentage(total_mapped_to_topics, total_questions)
+  end
+
+  def calculate_percentage(part, total)
+    return 0 if total.zero?
+    (part.to_f / total * 100).round(2)
+  end  
+
   private
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
