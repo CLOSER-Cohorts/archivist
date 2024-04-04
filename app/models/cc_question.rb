@@ -73,7 +73,11 @@ class CcQuestion < ::ControlConstruct
 
   def resolved_topic
     return topic if topic
-    variable_topics.first
+    variable_topics.first || variables_resolved_topic
+  end
+
+  def variables_resolved_topic
+    variables.map{|var| var.topic || var.resolved_topic}.compact.first    
   end
 
   def to_s
