@@ -178,7 +178,7 @@ class InstrumentsController < ImportableController
     @unmapped_variables = @object.variables.where.not(id: @object.maps.pluck(:variable_id))
 
     respond_to do |format|
-      format.text { render 'all_mappings.txt.erb', layout: false, content_type: 'text/plain' }
+      format.tsv { render 'all_mappings.tsv.erb', layout: false, content_type: 'text/tab-separated-values' }
       format.json  {}
     end
   end

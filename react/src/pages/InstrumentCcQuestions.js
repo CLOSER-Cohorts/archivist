@@ -29,7 +29,7 @@ const InstrumentCcQuestions = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={10}></Grid>
           <Grid item xs={2}>
-            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/cc_questions.txt?token=${window.localStorage.getItem('jwt')}`}>
+            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/cc_questions.tsv?token=${window.localStorage.getItem('jwt')}`}>
               <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
             </a>
           </Grid>

@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
 
   request_processor = lambda do |request|
-    [:json, :xml, :text].include?(request.format.symbol)
+    [:json, :xml, :text, :tsv].include?(request.format.symbol)
   end
 
   resources :topics, constraints: request_processor do

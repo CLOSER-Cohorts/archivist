@@ -19,7 +19,7 @@ class BasicController < ApplicationController
   def index
     @collection = collection
     respond_to do |format|
-      format.text { render 'index.txt.erb', layout: false, content_type: 'text/plain' }
+      format.tsv { render 'index.tsv.erb', layout: false, content_type: 'text/tab-separated-values' }
       format.json
     end
   end

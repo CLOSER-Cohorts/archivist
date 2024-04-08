@@ -122,8 +122,8 @@ const InstrumentView = (props) => {
                   Construct Questions
                 </Typography>
                 <Typography variant="body2" component="p">
-                  <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrument.id}/cc_questions.txt?token=${window.localStorage.getItem('jwt')}`}>
-                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download cc_questions.txt'}></Chip>
+                  <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrument.id}/cc_questions.tsv?token=${window.localStorage.getItem('jwt')}`}>
+                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download cc_questions.tsv'}></Chip>
                   </a>
                 </Typography>
               </CardContent>
