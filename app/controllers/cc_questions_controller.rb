@@ -5,7 +5,7 @@ class CcQuestionsController < ConstructController
 
   only_set_object { %i{variables set_topic add_variables remove_variable} }
 
-  prepend_before_action :create_response_unit, only: [:create, :update]
+  prepend_before_action :create_response_unit, only: [:create, :update, :update_all]
 
   @model_class = CcQuestion
   @params_list = [:id, :question_id, :question_type, :response_unit_id, :topic]
@@ -14,9 +14,10 @@ class CcQuestionsController < ConstructController
   # as params[:cc_question][:response_unit_id]
   def create_response_unit
     return unless params[:response_unit_id]
-    return if params[:response_unit_id].is_a? Integer
+    return if params[:response_unit_id].is_a?(Integer) || params[:response_unit_id].to_s.match?(/\A\d+\z/)
     set_instrument
     params[:cc_question][:response_unit_id] = @instrument.response_units.find_or_create_by(label: params[:response_unit_id]).try(:id)
+    params[:response_unit_id] = params[:cc_question][:response_unit_id]
   end
 
   def variables
@@ -79,6 +80,23 @@ class CcQuestionsController < ConstructController
     respond_to do |format|
       format.json { render 'show' }
     end
+  end
+
+  def update_all
+    # Ensure that params[:response_unit_id] is present and is an Integer
+    unless params[:response_unit_id].present? && params[:response_unit_id].to_i > 0
+      return render json: { message: 'Invalid or missing response_unit_id' }, status: :unprocessable_entity
+    end
+
+    # Convert params[:response_unit_id] to an Integer and perform the update
+    response_unit_id = params[:response_unit_id].to_i
+    updated_count = collection.update_all(response_unit_id: response_unit_id)
+
+    # Respond with a success message
+    render json: { message: "#{updated_count} questions updated successfully." }, status: :ok
+  rescue => e
+    # In case of any exceptions, respond with an error message
+    render json: { message: e.message }, status: :internal_server_error
   end
 
   private

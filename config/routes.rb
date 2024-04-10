@@ -101,6 +101,9 @@ Rails.application.routes.draw do
         post 'set_topic', to: 'cc_questions#set_topic'
         delete 'delete', to: 'cc_questions#remove_variable'
       end
+      collection do 
+        put 'update_all', to: 'cc_questions#update_all'
+      end
     end
     resources :cc_loops do
       member do

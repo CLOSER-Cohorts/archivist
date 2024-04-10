@@ -1107,6 +1107,21 @@ export const CcQuestions = {
         });
     };
   },
+  update_all: (instrumentId, values, onSuccess = (object) => { alert('need to define') }) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_questions/update_all.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem(instrumentId, 'CcQuestionUpdateAll'));
+        return request.then(res => {
+          dispatch(savedItem(instrumentId, 'CcQuestionUpdateAll'));
+          onSuccess(res.data);
+        })
+        .catch(err => {
+          dispatch(saveError(instrumentId, 'CcQuestionUpdateAll', err.response.data));
+        });
+    };
+  },  
   create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions.json', values, {
         headers: api_headers()
