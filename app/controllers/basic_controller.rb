@@ -20,9 +20,13 @@ class BasicController < ApplicationController
     @collection = collection
     respond_to do |format|
       format.tsv do
-        # Add BOM to make Excel happy with UTF-8
-        tsv_string = "\uFEFF" + render_to_string('all_mappings.tsv.erb', layout: false, formats: [:text])
-        send_data tsv_string, type: 'text/tab-separated-values; charset=utf-8'
+        begin
+          # Add BOM to make Excel happy with UTF-8          
+          tsv_content = "\uFEFF" + render_to_string('index.tsv.erb', layout: false, formats: [:text])
+          send_data tsv_content, type: 'text/tab-separated-values; charset=utf-8'
+        rescue ActionView::MissingTemplate
+          render file: 'public/404.html', status: :not_found, layout: false
+        end
       end      
       format.json
     end
