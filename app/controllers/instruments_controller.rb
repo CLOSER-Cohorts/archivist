@@ -178,7 +178,11 @@ class InstrumentsController < ImportableController
     @unmapped_variables = @object.variables.where.not(id: @object.maps.pluck(:variable_id))
 
     respond_to do |format|
-      format.tsv { render 'all_mappings.tsv.erb', layout: false, content_type: 'text/tab-separated-values' }
+      format.tsv do
+        # Add BOM to make Excel happy with UTF-8
+        tsv_string = "\uFEFF" + render_to_string('all_mappings.tsv.erb', layout: false, formats: [:text])
+        send_data tsv_string, type: 'text/tab-separated-values; charset=utf-8'
+      end      
       format.json  {}
     end
   end
