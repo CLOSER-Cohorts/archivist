@@ -36,6 +36,9 @@ class ControlConstruct < ApplicationRecord
   # After destroying, clear the cache from Redis
   after_destroy :clear_cache
 
+  # Ensure there are no circular references in the control construct tree
+  validate :no_circular_references
+
   # Recursive search through the parent tree and finds and returns the nearest
   # parent of the target_class
   def find_nearest_parent(target_class)
@@ -97,6 +100,51 @@ class ControlConstruct < ApplicationRecord
      Rails.logger.warn "Cannot connect to Redis [Control Construct] -> Error: '#{err}'"
    end
   end
+
+  def no_circular_references
+    if parent_id.present?
+      sql = <<-SQL
+      WITH RECURSIVE ancestry_check AS (
+          SELECT
+              id,
+              label,
+              parent_id,
+              ARRAY[id] AS ancestry,
+              false as has_cycle
+          FROM
+              control_constructs
+          WHERE
+              id = $1
+      
+          UNION ALL
+      
+          SELECT
+              cc.id,
+              cc.label,
+              cc.parent_id,
+              array_append(ac.ancestry, cc.id) AS ancestry,
+              cc.id = ANY(ac.ancestry) as has_cycle
+          FROM
+              control_constructs cc
+          JOIN
+              ancestry_check ac ON cc.id = ac.parent_id
+          WHERE
+              not ac.has_cycle
+      )
+      
+      SELECT DISTINCT id, label, ancestry
+      FROM ancestry_check
+      WHERE has_cycle;
+      SQL
+      
+      circular_references = ActiveRecord::Base.connection.exec_query(sql, 'SQL', [[nil, id]]).to_a      
+
+      if circular_references.present?
+        errors.add(:parent_id, "cannot create a circular reference")
+      end
+    end
+  end
+  
 
   private # Private methods
 
