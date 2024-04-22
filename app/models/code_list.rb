@@ -58,6 +58,8 @@ class CodeList < ApplicationRecord
   # Codes from within a CodeList form.
   accepts_nested_attributes_for :codes, :response_domain_code, allow_destroy: true
 
+  validates :label, presence: true, uniqueness: {scope: :instrument_id}
+
   # Returns all the {QuestionGrid QuestionGrids} that this CodeList has been
   # used as an axis in
   #

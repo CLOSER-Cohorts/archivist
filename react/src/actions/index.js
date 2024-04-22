@@ -643,9 +643,9 @@ export const CodeLists = {
     return (dispatch) => {
         dispatch(savingItem('new', 'CodeList'));
         return request.then(res => {
-          dispatch(savedItem('new', 'CodeList'));
+          dispatch(savedItem(res.data.id, 'CodeList'));
           dispatch(codeListFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));

@@ -45,9 +45,7 @@ const useStyles = makeStyles({
 
 const validate = values => {
   const errors = {};
-   if (!values.label) {
-     errors.label = 'Required';
-   }
+
   return errors;
 };
 

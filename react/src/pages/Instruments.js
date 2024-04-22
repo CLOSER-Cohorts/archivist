@@ -30,7 +30,7 @@ const Instruments = () => {
     )
   }
 
-  const headers = ["ID", "Prefix", "Control Contructs", "Q-V Mappings", "Study", "Datasets"]
+  const headers = ["ID", "Prefix", "Control Contructs", "Q-V Mappings", "Study"]
   const rowRenderer = (row) => {
     return [row.id, row.prefix, row.ccs, row.qvs, row.study]
   }
