@@ -8,6 +8,9 @@ module Exportable
   end
 
   included do
+
+    after_commit :set_ddi_slug, on: :create
+
     def urn=(value)
       return unless value
       value.match(/urn:ddi:(?<instrument_agency>.*):(?<instrument_prefix>.*)-(?<type>.*)-(?<id>.*):(.*)/)
@@ -29,6 +32,11 @@ module Exportable
         id: [self.instrument.prefix, self.class::URN_TYPE, self.ddi_slug].compact.join('-'),
         type_of_object: self.class.name
       )
+    end
+
+    def set_ddi_slug
+      return unless self.ddi_slug.blank?
+      self.update_column :ddi_slug, self.id
     end
   end
 end
