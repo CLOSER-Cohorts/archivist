@@ -542,7 +542,8 @@ BEGIN
   WHERE id = new.id;
   UPDATE control_constructs 
   SET
-          label       = new.label, 
+          label       = new.label,
+          ddi_slug    = new.ddi_slug, 
           parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
           position    = new.position,
           branch      = new.branch, 
@@ -559,7 +560,7 @@ BEGIN
                             created_at, 
                             updated_at
       ) 
-         VALUES (
+        VALUES (
                             new.id,
                             'CcCondition',
                             new.topic_id, 
@@ -593,7 +594,8 @@ BEGIN
   WHERE id = new.id;
   UPDATE control_constructs 
   SET
-          label       = new.label, 
+          label       = new.label,
+          ddi_slug    = new.ddi_slug, 
           parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
           position    = new.position,
           branch      = new.branch, 
@@ -610,7 +612,7 @@ BEGIN
                             created_at, 
                             updated_at
       ) 
-         VALUES (
+        VALUES (
                             new.id,
                             'CcLoop',
                             new.topic_id, 
@@ -643,7 +645,8 @@ BEGIN
   WHERE id = new.id;
   UPDATE control_constructs 
   SET
-          label       = new.label, 
+          label       = new.label,
+          ddi_slug    = new.ddi_slug, 
           parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
           position    = new.position,
           branch      = new.branch, 
@@ -669,7 +672,8 @@ BEGIN
   WHERE id = new.id;
   UPDATE control_constructs 
   SET
-          label       = new.label, 
+          label       = new.label,
+          ddi_slug    = new.ddi_slug, 
           parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
           position    = new.position,
           branch      = new.branch, 
@@ -686,7 +690,7 @@ BEGIN
                             created_at, 
                             updated_at
       ) 
-         VALUES (
+        VALUES (
                             new.id,
                             'CcSequence',
                             new.topic_id, 
@@ -717,7 +721,8 @@ BEGIN
   WHERE id = new.id;
   UPDATE control_constructs 
   SET
-          label       = new.label, 
+          label       = new.label,
+          ddi_slug    = new.ddi_slug, 
           parent_id   = (SELECT id FROM control_constructs WHERE construct_type = new.parent_type AND construct_id = new.parent_id), 
           position    = new.position,
           branch      = new.branch, 
@@ -3689,6 +3694,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201021193720'),
 ('20220422085829'),
 ('20240207154741'),
-('20240208160611');
+('20240208160611'),
+('20240425130950');
 
 
