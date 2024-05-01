@@ -205,9 +205,8 @@ export const QuestionGridForm = (props) => {
             form.batch(() => {
 
               if (value === originalQuestionGrid.horizontal_code_list_id) {
-                const colsLength = Array.isArray(form.getState()?.values?.cols) ? form.getState().values.cols.length : 0;
                 // Clear existing entries
-                while (colsLength > 0) {
+                while (form.getState().values.cols.length > 0) {                  
                   form.mutators.pop('cols');
                 }                
                 // If the value is the same as the original, reset the cols to the original include the rd attributes
@@ -216,12 +215,15 @@ export const QuestionGridForm = (props) => {
                 });
               } else {
                 const codeList = codeLists.find(el => el.id === value);
-                const colsLength = Array.isArray(form.getState()?.values?.cols) ? colsLength : 0;
+                
                 if (codeList) {
+                  const colsLength = Array.isArray(form.getState()?.values?.cols) ? form.getState()?.values?.cols.length : 0;
+
                   // Clear existing entries
-                  while (colsLength > 0) {
+                  Array(colsLength).fill().map((_, index) => {
+                    // Return the result of the operation here
                     form.mutators.pop('cols');
-                  }
+                  });                
                   
                   // Add new entries
                   codeList.codes.forEach((code) => {
