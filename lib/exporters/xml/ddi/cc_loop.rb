@@ -65,8 +65,7 @@ module Exporters::XML::DDI
     end
 
     def build_loop_sequence_reference(cc)
-      ('<d:ControlConstructReference>%{urn_node}</r:URN>' +
-          '<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
+      ('<d:ControlConstructReference>%{urn_node}<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
           urn_node: create_urn_node(cc, 'selp').to_xml
       }
     end
