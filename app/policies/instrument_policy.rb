@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class InstrumentPolicy < ApplicationPolicy
-  class Scope < Scope
+  class Scope < ApplicationPolicy::Scope
     def resolve
       return scope.none if user.nil?
       if user.group.study == '*'
