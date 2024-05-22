@@ -1289,9 +1289,9 @@ export const QuestionItems = {
     return (dispatch) => {
         dispatch(savingItem('new', 'QuestionItem'));
         return request.then(res => {
-          dispatch(savedItem('new', 'QuestionItem'));
+          dispatch(savedItem(res.data.id, 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1383,10 +1383,11 @@ export const QuestionGrids = {
       })
     return (dispatch) => {
         dispatch(savingItem('new', 'QuestionGrid'));
+
         return request.then(res => {
-          dispatch(savedItem('new', 'QuestionGrid'));
+          dispatch(savedItem(res.data.id, 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1464,9 +1465,9 @@ export const ResponseDomainNumerics = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainNumeric'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainNumeric'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1568,9 +1569,9 @@ export const ResponseDomainTexts = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainText'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainText'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1648,9 +1649,9 @@ export const ResponseDomainDatetimes = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainDatetime'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainDatetime'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
