@@ -188,7 +188,7 @@ module Exporters::XML::DDI
     end
 
     def instructions
-      @instructions ||= ::Instruction.where('id IN (?)', question_items.pluck(:instruction_id).union(question_items.pluck(:instruction_id))).distinct
+      @instructions ||= ::Instruction.where('id IN (?)', question_items.pluck(:instruction_id).union(question_grids.pluck(:instruction_id))).distinct
     end
 
     def categories
