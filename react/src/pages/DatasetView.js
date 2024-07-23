@@ -176,8 +176,8 @@ const DatasetView = (props) => {
         </TableCell>
         <TableCell>
           <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
-          {!isNil(row.sources_topic) && (
-            <em>Resolved topic from sources - {get(row.sources_topic, 'name')}</em>
+          {(!isNil(row.sources_topic) && get(row.sources_topic, 'id') !== get(row.topic, 'id')) && (
+            <em>Resolved topic from sources - {get(row.sources_topic, 'name')} {get(row.topic, 'name')}</em>
           )}
         </TableCell>
       </TableRow>

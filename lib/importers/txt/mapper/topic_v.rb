@@ -22,13 +22,17 @@ class Importers::TXT::Mapper::TopicV < Importers::TXT::Mapper::Dataset
           @errors = true
           log :outcome, "Record Invalid as Variable and Topic where not found"
         else
-          variable_ids_to_delete.delete(var.id)
-          var.topic = topic
-          if var.save
-            log :outcome, "Record Saved"
-          else
-            @errors = true
-            log :outcome, "Record Invalid : #{var.errors.full_messages.to_sentence}"
+          ActiveRecord::Base.transaction do
+            variable_ids_to_delete.delete(var.id)
+            var.topic = topic
+          
+            if var.save
+              log :outcome, "Record Saved"
+            else
+              @errors = true
+              log :outcome, "Record Invalid : #{var.errors.full_messages.to_sentence}"
+              raise ActiveRecord::Rollback # Explicitly rollback the transaction
+            end
           end
         end
       rescue StandardError => e

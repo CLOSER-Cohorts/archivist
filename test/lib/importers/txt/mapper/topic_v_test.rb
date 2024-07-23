@@ -4,7 +4,12 @@ require 'active_support/core_ext/hash/conversions'
 class Importers::TXT::Mapper::TopicVTest < ActiveSupport::TestCase
 
   setup do
-    @dataset = datasets 'Dataset_1'
+    @dataset = FactoryBot.create(:dataset)
+    topic = FactoryBot.create(:topic, id: 15, code: "10320")
+    FactoryBot.create(:variable, dataset: @dataset, name: 'aln')
+    FactoryBot.create(:variable, dataset: @dataset, name: 'qlet')
+    FactoryBot.create(:variable, dataset: @dataset, name: 'kw0001')
+    FactoryBot.create(:topic, id: 2, code: '102')
   end
 
   describe "where dataset already has tv mappings" do
@@ -13,8 +18,26 @@ class Importers::TXT::Mapper::TopicVTest < ActiveSupport::TestCase
         var = @dataset.variables.find_by_name('aln')
         new_txt = "#{@dataset.instance_name}\taln\t10320\n#{@dataset.instance_name}\tqlet\t10320\n"
         doc = Document.create(file: new_txt, item: @dataset)
-        Importers::TXT::Mapper::TopicV.new(doc.id, {:object=>@dataset.id.to_s}).import
+        importer = Importers::TXT::Mapper::TopicV.new(doc.id, {:object=>@dataset.id.to_s})
+        importer.import
         assert_equal(@dataset.variables.find_by_name('aln').fully_resolved_topic_code, '10320')
+        assert_equal(@dataset.variables.find_by_name('qlet').fully_resolved_topic_code, '10320')
+      end
+    end
+    describe "with there's a topic conflict" do 
+      it "should not assign the topic to the variable" do
+        question = FactoryBot.create(:cc_question)
+        question.topic = FactoryBot.create(:topic, id: 3, code: '10321')
+        question.save
+        var = @dataset.variables.find_by_name('aln')
+        var.questions << question
+
+        new_txt = "#{@dataset.instance_name}\taln\t10320\n#{@dataset.instance_name}\tqlet\t10320\n"
+        doc = Document.create(file: new_txt, item: @dataset)
+        importer = Importers::TXT::Mapper::TopicV.new(doc.id, {:object=>@dataset.id.to_s})
+        importer.import
+
+        assert_equal(@dataset.variables.find_by_name('aln').fully_resolved_topic_code, '10321')
         assert_equal(@dataset.variables.find_by_name('qlet').fully_resolved_topic_code, '10320')
       end
     end
