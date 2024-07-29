@@ -127,7 +127,7 @@ const AdminImportView = (props) => {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.original_text}</TableCell>
+                <TableCell style={{ maxWidth: 400, backgroundColor: '#f0f0f0', fontFamily: 'monospace', whiteSpace: 'pre-wrap', wordBreak: 'break-all', padding: '8px' }}><code>{row.original_text}</code></TableCell>
                 <TableCell>{row.matches}</TableCell>
                 <TableCell>{row.outcome}</TableCell>
               </TableRow>
