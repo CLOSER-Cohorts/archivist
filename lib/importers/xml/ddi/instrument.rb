@@ -24,16 +24,18 @@ module Importers::XML::DDI
 
       set_import_to_running
       begin
-        @instrument = Importers::XML::DDI::Instrument.build_instrument(@doc, {}, self)
-        import_category_schemes
-        import_code_list_schemes
-        import_instruction_schemes
-        import_question_schemes
-        read_constructs
-        @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
-        @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
-        @instrument.label = options[:label] unless options[:label].to_s.empty?
-        @instrument.study = options[:study] unless options[:study].to_s.empty?
+        ActiveRecord::Base.transaction do
+          @instrument = Importers::XML::DDI::Instrument.build_instrument(@doc, {}, self)
+          import_category_schemes
+          import_code_list_schemes
+          import_instruction_schemes
+          import_question_schemes
+          read_constructs
+          @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
+          @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
+          @instrument.label = options[:label] unless options[:label].to_s.empty?
+          @instrument.study = options[:study] unless options[:study].to_s.empty?
+        end
       rescue => e
         @errors = true
         log :input, e.input if e.respond_to?(:input)
@@ -70,6 +72,15 @@ module Importers::XML::DDI
 
     def read_constructs
       seq = doc.xpath("//ControlConstructScheme/Sequence[Label/Content[text()='#{@instrument.prefix}']]").first
+      if seq.nil?
+        raise "No sequence found for instrument prefix #{@instrument.prefix}"
+      end
+
+      seq = doc.xpath("//ControlConstructScheme/Sequence[Label/Content[not(text())]]").first
+      if seq.nil?
+        raise "No top sequence, we cannot import this instrument"
+      end
+
       log :input, seq.to_s
       write_to_log
       cc_seq = @instrument.top_sequence
