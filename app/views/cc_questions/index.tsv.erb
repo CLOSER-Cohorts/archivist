@@ -4,7 +4,7 @@
   <% else %>
     <% qc.question.horizontal_code_list.codes.each_with_index do | _code, x| %>
       <% qc.question.vertical_code_list.codes.map{|c| c.category.label }.each_with_index do | category, y| %>
-        <%=d qc.label.html_safe %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%=d qc.question.literal.gsub(/[\r\n]/, ' ').html_safe %> <%=d category %>
+<%=d qc.label.html_safe %>$<%= x + 1 %>;<%= y + 1 %><%= "\t" %><%=d qc.question.literal.gsub(/[\r\n]/, ' ').html_safe %> <%=d category %>
       <% end %>
     <% end %>
   <% end %>
