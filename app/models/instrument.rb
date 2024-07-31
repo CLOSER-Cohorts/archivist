@@ -142,6 +142,7 @@ class Instrument < ApplicationRecord
   # After creating a new instrument a first sequence is created as
   # a top sequence
   after_create :add_top_sequence
+  after_save :update_prefix_sequence
 
   validates :prefix, uniqueness: true
 
@@ -417,6 +418,19 @@ class Instrument < ApplicationRecord
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
     self.cc_sequences.create(label: nil)
+  end
+
+  # Updates the prefix of the top sequence
+  def update_prefix_sequence
+    # Ensure the prefix attribute is present
+    return unless self.saved_change_to_prefix
+
+    old_prefix, new_prefix = self.saved_change_to_prefix
+
+    # Find and update sequences with the old prefix
+    self.cc_sequences.where('label LIKE ?', "#{old_prefix}%").find_each do |sequence|
+      sequence.update(literal: new_prefix, label: new_prefix)
+    end
   end
 
   # Regenerates friendly id slug when prefix changes
