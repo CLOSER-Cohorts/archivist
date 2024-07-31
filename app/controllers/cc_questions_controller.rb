@@ -99,6 +99,11 @@ class CcQuestionsController < ConstructController
     render json: { message: e.message }, status: :internal_server_error
   end
 
+  def index
+    @circular_cc_questions = ControlConstruct.find_circular_references(@instrument.id, 'CcQuestion')
+    super
+  end
+
   private
   def collection
     @instrument.cc_questions.includes(:response_unit, :question, :topic, :variable_topics, link: :topic, maps: :variable)
