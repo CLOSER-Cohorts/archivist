@@ -21,7 +21,7 @@ module Exportable
       urn_prefix = ['urn', 'ddi', self.instrument.agency, self.instrument.prefix].join ':' if urn_prefix.nil?
       urn_type = self.class::URN_TYPE if urn_type.nil?
       # Use ddi_slug instead of id
-      [urn_prefix, urn_type, "#{self.ddi_slug}:1.0.0"].compact.join '-'
+      [urn_prefix, urn_type, "#{self.ddi_slug || self.id}:1.0.0"].compact.join '-'
     end
 
     def exploded_urn
