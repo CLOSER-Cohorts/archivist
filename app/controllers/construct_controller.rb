@@ -10,6 +10,12 @@ class ConstructController < BasicInstrumentController
       else
         render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
       end
+    rescue ActiveRecord::RecordNotUnique => e
+      if e.message.include?('index_control_constructs_on_label_and_instrument_id')
+        render json: 'A construct with the same label and instrument already exists.', status: :unprocessable_entity
+      else
+        render json: 'A construct with duplicate unique fields already exists.', status: :unprocessable_entity
+      end
     rescue => e
       response = {error: e}
       render json: response, status: :internal_server_error
