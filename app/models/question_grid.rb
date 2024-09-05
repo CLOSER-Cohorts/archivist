@@ -73,10 +73,12 @@ class QuestionGrid < ApplicationRecord
       INNER JOIN codes
         ON codes.code_list_id = question_grids.horizontal_code_list_id
         AND codes.value != ''
+        AND codes.value ~ '^[0-9]+$'  -- Ensure only numeric values
         AND codes.value::int = rds_qs.code_id
       WHERE question_grids.id = ?
       ORDER BY codes.order
     SQL
+
     RdsQs.find_by_sql ([sql, self.id])
   end
 
