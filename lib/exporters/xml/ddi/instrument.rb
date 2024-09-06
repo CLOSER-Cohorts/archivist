@@ -98,7 +98,7 @@ module Exporters::XML::DDI
       cit.add_next_sibling @rp
     end
 
-    # Populates the Resouse Package with all of the schemes
+    # Populates the Resource Package with all of the schemes
     # used in the questionnaire profile
     def build_rp
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
