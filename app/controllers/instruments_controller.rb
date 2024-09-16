@@ -180,6 +180,8 @@ class InstrumentsController < ImportableController
     respond_to do |format|
       format.tsv do
         # Add BOM to make Excel happy with UTF-8
+        service = Instruments::MappingsTsvDataService.new(@object, @unmapped_variables)
+        @tsv_data = service.generate_tsv_data        
         tsv_string = "\uFEFF" + render_to_string('all_mappings.tsv.erb', layout: false, formats: [:text])
         send_data tsv_string, type: 'text/tab-separated-values; charset=utf-8'
       end      
