@@ -28,7 +28,7 @@ class Instruments::MappingsTsvDataService
       @tsv_data << {
         label: "#{qc.label}$0;0",
         question_text: qc.question.literal,
-        question_topic_id: qc.topic.try(:code),
+        question_topic_id: qc.fully_resolved_topic_code,
         questionnaire_prefix: @object.prefix,
         variable_name: nil,
         variable_topic_id: nil,
@@ -40,7 +40,7 @@ class Instruments::MappingsTsvDataService
         @tsv_data << {
           label: "#{qc.label}$0;0",
           question_text: qc.question.literal,
-          question_topic_id: qc.topic.try(:code),
+          question_topic_id: qc.fully_resolved_topic_code,
           questionnaire_prefix: @object.prefix,
           variable_name: variable.name,
           variable_topic_id: variable.topic.try(:code),
@@ -56,7 +56,7 @@ class Instruments::MappingsTsvDataService
       @tsv_data << {
         label: "#{qc.label}$0;0",
         question_text: qc.question.literal,
-        question_topic_id: qc.topic.try(:code),
+        question_topic_id: qc.fully_resolved_topic_code,
         questionnaire_prefix: @object.prefix,
         variable_name: nil,
         variable_topic_id: nil,
@@ -68,7 +68,7 @@ class Instruments::MappingsTsvDataService
         @tsv_data << {
           label: "#{qc.label}$0;0",
           question_text: qc.question.literal,
-          question_topic_id: qc.topic.try(:code),
+          question_topic_id: qc.fully_resolved_topic_code,
           questionnaire_prefix: @object.prefix,
           variable_name: map.variable.name,
           variable_topic_id: map.variable.topic.try(:code),
@@ -88,7 +88,7 @@ class Instruments::MappingsTsvDataService
           @tsv_data << {
             label: "#{qc.label}$#{x + 1};#{y + 1}",
             question_text: "#{qc.question.literal} #{category}",
-            question_topic_id: qc.topic.try(:code),
+            question_topic_id: qc.fully_resolved_topic_code,
             questionnaire_prefix: @object.prefix,
             variable_name: nil,
             variable_topic_id: nil,
@@ -100,7 +100,7 @@ class Instruments::MappingsTsvDataService
             @tsv_data << {
               label: "#{qc.label}$#{x + 1};#{y + 1}",
               question_text: "#{qc.question.literal} #{category}",
-              question_topic_id: qc.topic.try(:code),
+              question_topic_id: qc.fully_resolved_topic_code,
               questionnaire_prefix: @object.prefix,
               variable_name: map.variable.name,
               variable_topic_id: map.variable.topic.try(:code),

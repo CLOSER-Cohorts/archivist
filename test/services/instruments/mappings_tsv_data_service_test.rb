@@ -59,7 +59,7 @@ class Instruments::MappingsTsvDataServiceTest < ActiveSupport::TestCase
     @instrument.cc_questions << @cc_question3
 
     # Initialize the service
-    @service = Instruments::TsvDataService.new(@instrument, @unmapped_variables)
+    @service = Instruments::MappingsTsvDataService.new(@instrument, @unmapped_variables)
   end
 
   def test_generate_tsv_data
