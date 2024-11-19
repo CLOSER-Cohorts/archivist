@@ -394,7 +394,7 @@ class Instrument < ApplicationRecord
   end
 
   def total_mapped_to_topics
-    @total_mapped_to_topics ||= cc_questions.joins(:link).count
+    @total_mapped_to_topics ||= cc_questions.left_joins(:link).left_joins(maps: { variable: :link }).where("links.topic_id IS NOT NULL OR links_variables.topic_id IS NOT NULL").distinct.count
   end
 
   def total_questions
