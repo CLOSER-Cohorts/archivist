@@ -5,7 +5,7 @@ import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { AuthButton } from '../components/AuthButton';
 import Button from '@material-ui/core/Button';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({

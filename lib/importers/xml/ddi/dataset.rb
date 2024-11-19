@@ -1,5 +1,5 @@
 module Importers::XML::DDI
-  class Dataset
+  class Dataset < DdiImporterBase
     def initialize(thing, options = {})
       if thing.is_a? String
         @doc = open(thing) { |f| Nokogiri::XML(f) }
@@ -18,12 +18,31 @@ module Importers::XML::DDI
     end
 
     def import(options = {})
-      @dataset = self.class.build_dataset( @doc, filename: File.basename(@filepath))
-      unless @document.nil?
-        @document.item = @dataset
-        @document.save!
+      options.symbolize_keys!
+
+      if options.has_key? :import_id
+        @import = Import.find_by_id(options[:import_id])
       end
-      read_variables
+
+      set_import_to_running
+      begin
+        ActiveRecord::Base.transaction do
+          @dataset = self.class.build_dataset( @doc, filename: File.basename(@filepath))
+          unless @document.nil?
+            @document.item = @dataset
+            @document.save!
+          end
+          read_variables
+        end
+      rescue => e
+        @errors = true
+        log :input, e.input if e.respond_to?(:input)
+        log :matches, e.record.inspect if e.respond_to?(:record)
+        log :outcome, "Record Invalid : #{e.message}"
+        write_to_log
+      ensure
+        set_import_to_finished
+      end    
     end
 
     def read_variables

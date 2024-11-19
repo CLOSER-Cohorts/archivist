@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { AuthButton } from '../components/AuthButton'
-import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'

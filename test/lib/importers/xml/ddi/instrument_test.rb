@@ -14,9 +14,9 @@ class Importers::XML::DDI::InstrumentTest < ActiveSupport::TestCase
 
       Importers::XML::DDI::Instrument.new(document.id).import
 
-      assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-ii-35090:1.0.0", Instruction.last.urn)
+      assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-ii-035090:1.0.0", Instruction.last.urn)
       assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-qi-270296:1.0.0", QuestionItem.last.urn)
-      assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-qg-15237:1.0.0", QuestionGrid.last.urn)
+      assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-qg-015237:1.0.0", QuestionGrid.last.urn)
       assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-ca-419176:1.0.0", Category.last.urn)
       assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-cl-112522:1.0.0", CodeList.last.urn)
       assert_equal("urn:ddi:uk.alspac:alspac_10_yayl_staging-co-575762:1.0.0", Code.last.urn)
