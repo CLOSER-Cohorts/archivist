@@ -35,6 +35,16 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { Auth } from '../actions'
+import { func } from 'prop-types';
+import packageJson from '../../package.json';
+
+function Version() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      <p>Version: {packageJson.version}</p>
+    </Typography>
+  );
+};
 
 function Copyright() {
   return (
@@ -291,6 +301,7 @@ export const Dashboard = (props)  => {
           </Grid>
           <Box pt={4}>
             <Copyright />
+            <Version />
           </Box>
         </Container>
       </main>

@@ -1,7 +1,7 @@
 {
   "name": "heyslate-react",
   "proxy": "http://localhost:3001",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "cross-env": "^5.1.4"
