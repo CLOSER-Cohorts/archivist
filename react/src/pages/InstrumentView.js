@@ -14,6 +14,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
+import Divider from '@material-ui/core/Divider';
 import { Grid, Typography } from '@material-ui/core'
 import { ObjectColour } from '../support/ObjectColour'
 import TextFieldsIcon from '@material-ui/icons/TextFields';
@@ -113,85 +114,210 @@ const ConstructLabel = ({item, type}) => {
   return (<Chip label={`${item.label}`} className={classes[type]}/>)
 }
 
-const QuestionItemListItem = (props) => {
-  const {item} = props;
+const questionStyles = makeStyles((theme) => ({
+  container: {
+    padding: theme.spacing(2),
+  },
+  details: {
+    padding: theme.spacing(2),
+    backgroundColor: '#f9f9f9',
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },    
+  secondaryDetails: {
+    color: '#9e9e9e',
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#0056b3',
+    textAlign: 'left',
+    marginBottom: theme.spacing(1),
+  },
+  questionLiteral: {
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    marginBottom: theme.spacing(2),
+    color: '#333',
+  },
+  sectionHeading: {
+    fontWeight: 700,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    color: '#555',
+    fontSize: '1rem',
+  },
+  sectionContent: {
+    fontSize: '0.9rem',
+    color: '#444',
+    marginBottom: theme.spacing(1),
+  },
+  table: {
+    border: '1px solid #ccc',
+    borderCollapse: 'collapse',
+  },
+  tableCell: {
+    border: '1px solid #ccc',
+    padding: theme.spacing(1),
+  },
+  tableRow: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: '#f4f4f4',
+    },
+  },  
+}));
 
-  if(isNil(item) || isNil(item.question)){
-    return ''
+const QuestionItemListItem = (props) => {
+  const { item } = props;
+  const classes = questionStyles();
+
+  if (isNil(item) || isNil(item.question)) {
+    return '';
   }
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={3} sm={6}>
-        <ConstructLabel item={item} type={'CcQuestion'} />
+    <Grid container spacing={2} alignItems="flex-start" className={classes.container}>
+      <Grid item xs={2} sm={2}>
+        <Typography className={classes.label}>
+          <ConstructLabel item={item} type="CcQuestion" />
+        </Typography>
       </Grid>
 
-      <Grid item xs={9} sm={6}>
-        {!isEmpty(item.interviewee) && (
-          <p>Interviewee : <b>{item.interviewee}</b></p>
-        )}
-        {item.question.literal}
-        {!isEmpty(item.question.instruction) && (
-          <p><i>{item.question.instruction}</i></p>
-        )}
-        {(item.question.rds) && (
-          <ResponseDomains rds={item.question.rds} />
-        )}
-        <VariableItems variables={item.variables} />
+      <Grid item xs={10} sm={10}>
+        <div className={classes.details}>         
+          <Typography className={classes.questionLiteral}>
+            {item.question.literal}
+          </Typography>
+          <Divider />
+
+          <div className={classes.secondaryDetails}>   
+            {!isEmpty(item.interviewee) && (
+              <>
+                <Typography className={classes.sectionHeading}>Interviewee</Typography>
+                <Typography className={classes.sectionContent}>
+                  {item.interviewee}
+                </Typography>
+              </>
+            )}
+            {!isEmpty(item.question.instruction) && (
+              <>
+                <Typography className={classes.sectionHeading}>Instruction</Typography>
+                <Typography className={classes.sectionContent}>
+                  {item.question.instruction}
+                </Typography>
+              </>
+            )}
+            {item.question.rds && (
+              <>
+                <Typography className={classes.sectionHeading}>Response Domains</Typography>
+                <Typography className={classes.sectionContent}>
+                  <ResponseDomains rds={item.question.rds} />
+                </Typography>
+              </>
+            )}
+            {!isEmpty(item.variables) && (
+              <>
+                <Typography className={classes.sectionHeading}>Variables</Typography>
+                <Typography className={classes.sectionContent}>
+                  <VariableItems variables={item.variables} />
+                </Typography>
+              </>
+            )}
+          </div>
+        </div>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const QuestionGridListItem = (props) => {
-  const {item} = props;
-  const classes = useStyles();
+  const { item } = props;
+  const classes = questionStyles();
 
-  if(isNil(item) || isNil(item.question)){
-    return ''
+  if (isNil(item) || isNil(item.question)) {
+    return '';
   }
 
-  const rows = times(item.question.roster_rows, String)
-  const question_rows = get(item.question, 'rows', [])
+  const rows = times(item.question.roster_rows, String);
+  const questionRows = get(item.question, 'rows', []);
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={3}>
-        <ConstructLabel item={item} type={'CcQuestion'} />
+    <Grid container spacing={2} alignItems="flex-start" className={classes.container}>
+      <Grid item xs={2} sm={2}>
+        <Typography className={classes.label}>
+          <ConstructLabel item={item} type={'CcQuestion'} />
+        </Typography>
       </Grid>
 
-      <Grid item xs={9}>
-        {item.question.literal}
-        {!isEmpty(item.question.instruction) && (
-          <p><i>{item.question.instruction}</i></p>
-        )}
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell><strong>{item.question.pretty_corner_label}</strong></TableCell>
-              {item.question.cols.map((header)=>(
-                <TableCell><strong>{header.label}</strong><ResponseDomains rds={[header.rd]} /></TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {item.question && question_rows.map((row)=>(
-              <TableRow key={row.label}>
-                <TableCell><strong>{row.label}</strong></TableCell>
-              </TableRow>
-            ))}
-            {item.question && rows.map((row, i) => (
+      <Grid item xs={10} sm={10}>
+        <div className={classes.details}>
+          <Typography className={classes.questionLiteral}>
+            {item.question.literal}
+          </Typography>
+            <Table size="small" className={classes.table}>
+            <TableHead>
               <TableRow>
-                <TableCell className={classes.rosterLabel}><strong>{(i == 0) ? item.question.roster_label : '' }</strong></TableCell>
+                <TableCell className={classes.tableCell}>
+                  <Typography className={classes.sectionHeading}>
+                    {item.question.pretty_corner_label}
+                  </Typography>
+                </TableCell>
+                {item.question.cols.map((header) => (
+                  <TableCell key={header.label} className={classes.tableCell}>
+                    <Typography className={classes.sectionHeading}>
+                      {header.label}
+                    </Typography>
+                    <ResponseDomains rds={[header.rd]} />
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <VariableItems variables={item.variables} />
+            </TableHead>
+            <TableBody>
+              {questionRows.map((row) => (
+                <TableRow key={row.label} className={classes.tableRow}>
+                  <TableCell className={classes.tableCell}>
+                    <Typography className={classes.sectionContent}>
+                      {row.label}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {rows.map((row, i) => (
+                <TableRow key={i} className={classes.tableRow}>
+                  <TableCell className={classes.tableCell}>
+                    <Typography className={classes.sectionContent}>
+                      {i === 0 ? item.question.roster_label : ''}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>       
+          <Divider />
+
+          <div className={classes.secondaryDetails}>
+            {!isEmpty(item.question.instruction) && (
+              <>
+                <Typography className={classes.sectionHeading}>Instruction</Typography>
+                <Typography className={classes.sectionContent}>
+                  {item.question.instruction}
+                </Typography>
+              </>
+            )}
+
+            {!isEmpty(item.variables) && (
+              <>
+                <Typography className={classes.sectionHeading}>Variables</Typography>
+                <Typography className={classes.sectionContent}>
+                  <VariableItems variables={item.variables} />
+                </Typography>
+              </>
+            )}
+          </div>
+        </div>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const QuestionListItem = (props) => {
   const {type, id, instrumentId} = props
@@ -210,7 +336,11 @@ const QuestionListItem = (props) => {
 
 const responseDomainClasses = makeStyles((theme) => ({
   root: {
-    listStyleType:'none'
+    listStyleType:'none',
+    color: '#9e9e9e',
+  },
+  secondary: {
+    color: '#9e9e9e',
   }
 }));
 
@@ -220,7 +350,6 @@ const VariableItems = ({ variables }) => {
   }else{
     return (
         <>
-          <h3>Variables</h3>
           <ul>
             { variables.map((variable) => {
               return (
@@ -238,16 +367,17 @@ const VariableItems = ({ variables }) => {
 
 const ResponseDomains = ({ rds }) => {
   const classes = responseDomainClasses();
+  console.log(classes);
   return rds.filter((rd)  => { return !isNil(rd) }).map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':
-        return(<><ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul><span>Min Responses : <strong>{ rd.min_responses }</strong> Max Responses : <strong>{ rd.max_responses }</strong></span></>)
+        return(<><ul className={classes.root}><ResponseDomainCodes codes={rd.codes} /></ul><span className={classes.secondary}>Min : <strong>{ rd.min_responses }</strong> Max : <strong>{ rd.max_responses }</strong></span></>)
       case 'ResponseDomainText':
-        return(<ul className={classes.root}><li><TextFieldsIcon /> {rd.label} ({`${(isNil(rd.maxlen)) ? 'no' : rd.maxlen} maximum length`})</li></ul>)
+        return(<ul className={classes.root}><li><TextFieldsIcon /> {rd.label} ({`max: ${(isNil(rd.maxlen)) ? 'no' : rd.maxlen}`})</li></ul>)
       case 'ResponseDomainNumeric':
         return(<ul className={classes.root}><li><Filter1Icon /> {rd.label} {rd.params} {rd.subtype}</li></ul>)
       case 'ResponseDomainDatetime':
-        return(<ul className={classes.root}><li><TodayIcon /> {rd.label} {rd.params} {rd.subtype}</li></ul>)
+        return(<ul className={classes.root}><li><TodayIcon /> {rd.label} {rd.params}</li></ul>)
       default:
         return '';
     }
