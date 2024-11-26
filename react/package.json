@@ -1,5 +1,5 @@
 {
-  "name": "heyslate-react",
+  "name": "archivist-react",
   "proxy": "http://localhost:3001",
   "version": "1.0.0",
   "private": true,
@@ -57,7 +57,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^5.0.0-alpha.6",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^5.0.1",
     "react-select": "^2.4.1",
     "react-select-country-list": "^2.1.2",
     "react-selectable": "^2.0.2",
@@ -73,7 +73,9 @@
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.3.0",
     "underscore": "^1.13.1",
-    "viewprt": "^3.1.0"
+    "viewprt": "^3.1.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "start": "cross-env PORT=3000 react-scripts start",
