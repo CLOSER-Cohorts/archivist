@@ -67,6 +67,18 @@ const imports = (state = [], action) => {
   }
 }
 
+const exports = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_ADMIN_EXPORTS':
+      return serializeArrayToObject(action.payload.exports)
+    case 'LOAD_ADMIN_EXPORT':
+      return {...state, ...{[action.payload.export.id]: action.payload.export}}
+    default:
+      return state
+  }
+}
+
 const datasets = (state = [], action) => {
   switch (action.type) {
     case 'LOAD_DATASETS':
@@ -485,6 +497,7 @@ const appReducer = combineReducers({
     instruments,
     instrumentTrees,
     imports,
+    exports,
     instrumentStats,
     instrumentMappingStats,
     datasetMappingStats,

@@ -205,15 +205,20 @@ const MainListItems = ({onExpand, user}) => {
                 </Link>
               </ListItem>
               <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.instruments.exports)}>
+                  <ListItemText primary="Instrument Exports" />
+                </Link>
+              </ListItem>              
+              <ListItem button className={classes.nested}>
                 <Link to={url(routes.admin.imports.all)}>
                   <ListItemText primary="DDI Imports" />
                 </Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to={url(routes.admin.instruments.exports)}>
-                  <ListItemText primary="Instrument Exports" />
+                <Link to={url(routes.admin.exports.all)}>
+                  <ListItemText primary="DDI Exports" />
                 </Link>
-              </ListItem>
+              </ListItem>              
             </List>
           </Collapse>
       </>

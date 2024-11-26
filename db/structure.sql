@@ -1261,6 +1261,42 @@ CREATE VIEW public.dv_mappings AS
 
 
 --
+-- Name: exports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exports (
+    id bigint NOT NULL,
+    document_id bigint,
+    export_type character varying,
+    dataset_id bigint,
+    instrument_id bigint,
+    state character varying,
+    log text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exports_id_seq OWNED BY public.exports.id;
+
+
+--
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1585,6 +1621,137 @@ CREATE SEQUENCE public.maps_id_seq
 --
 
 ALTER SEQUENCE public.maps_id_seq OWNED BY public.maps.id;
+
+
+--
+-- Name: new_codelist; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_codelist (
+    r_id integer,
+    min_responses integer,
+    max_responses integer,
+    "Label" character varying,
+    "Code_order" integer,
+    "Code_value" character varying,
+    "Category" character varying
+);
+
+
+--
+-- Name: new_condition; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_condition (
+    "Label" character varying,
+    "Literal" character varying,
+    "Logic" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_loop; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_loop (
+    "Label" character varying,
+    "Loop_While" character varying,
+    "Start_value" character varying,
+    "End_Value" character varying,
+    "Variable" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_question_grid; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_question_grid (
+    "Label" character varying,
+    "Literal" character varying,
+    "Instructions" character varying,
+    "Horizontal_Codelist_Name" character varying,
+    "Vertical_Codelist_Name" character varying,
+    "Response" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer,
+    "Horizontal_min_responses" integer,
+    "Horizontal_max_responses" integer,
+    "Vertical_min_responses" integer,
+    "Vertical_max_responses" integer
+);
+
+
+--
+-- Name: new_question_item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_question_item (
+    id integer,
+    "Label" character varying,
+    "Literal" character varying,
+    "Instructions" character varying,
+    "Response" character varying,
+    parent_id integer,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer,
+    min_responses integer,
+    max_responses integer
+);
+
+
+--
+-- Name: new_response_domain; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_response_domain (
+    r_id integer,
+    "Label" character varying,
+    "Type" text,
+    "Type2" character varying,
+    "Format" text,
+    "Min" numeric,
+    "Max" numeric
+);
+
+
+--
+-- Name: new_sequence; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_sequence (
+    "Label" character varying,
+    "Parent_type" character varying,
+    "Parent_name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
+
+
+--
+-- Name: new_statement; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.new_statement (
+    "Label" character varying,
+    "Literal" character varying,
+    "Parent_Type" character varying,
+    "Parent_Name" character varying,
+    "Branch" integer,
+    "Position" integer
+);
 
 
 --
@@ -2164,6 +2331,13 @@ ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.do
 
 
 --
+-- Name: exports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exports ALTER COLUMN id SET DEFAULT nextval('public.exports_id_seq'::regclass);
+
+
+--
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2487,6 +2661,14 @@ ALTER TABLE ONLY public.instructions
 
 ALTER TABLE ONLY public.response_units
     ADD CONSTRAINT encapsulate_unique_for_response_units UNIQUE (id, instrument_id);
+
+
+--
+-- Name: exports exports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exports
+    ADD CONSTRAINT exports_pkey PRIMARY KEY (id);
 
 
 --
@@ -2846,6 +3028,27 @@ CREATE INDEX index_documents_on_item_type_and_item_id ON public.documents USING 
 --
 
 CREATE UNIQUE INDEX index_documents_on_md5_hash ON public.documents USING btree (md5_hash);
+
+
+--
+-- Name: index_exports_on_dataset_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_exports_on_dataset_id ON public.exports USING btree (dataset_id);
+
+
+--
+-- Name: index_exports_on_document_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_exports_on_document_id ON public.exports USING btree (document_id);
+
+
+--
+-- Name: index_exports_on_instrument_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_exports_on_instrument_id ON public.exports USING btree (instrument_id);
 
 
 --
@@ -3500,6 +3703,14 @@ ALTER TABLE ONLY public.instruments_datasets
 
 
 --
+-- Name: exports fk_rails_537d1e8a59; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exports
+    ADD CONSTRAINT fk_rails_537d1e8a59 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
+
+
+--
 -- Name: response_domain_codes fk_rails_572ea44f7b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3513,6 +3724,14 @@ ALTER TABLE ONLY public.response_domain_codes
 
 ALTER TABLE ONLY public.topics
     ADD CONSTRAINT fk_rails_5f3c091f12 FOREIGN KEY (parent_id) REFERENCES public.topics(id);
+
+
+--
+-- Name: exports fk_rails_8bdf9d1720; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exports
+    ADD CONSTRAINT fk_rails_8bdf9d1720 FOREIGN KEY (dataset_id) REFERENCES public.datasets(id);
 
 
 --
@@ -3585,6 +3804,14 @@ ALTER TABLE ONLY public.codes
 
 ALTER TABLE ONLY public.rds_qs
     ADD CONSTRAINT fk_rails_e49dc1bfb6 FOREIGN KEY (instrument_id) REFERENCES public.instruments(id);
+
+
+--
+-- Name: exports fk_rails_f164e9f4c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exports
+    ADD CONSTRAINT fk_rails_f164e9f4c3 FOREIGN KEY (document_id) REFERENCES public.documents(id);
 
 
 --
@@ -3687,6 +3914,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171124115905'),
 ('20171212182936'),
 ('20181106140729'),
+('20190812092806'),
 ('20190812092819'),
 ('20190813092806'),
 ('20190829124508'),
@@ -3695,6 +3923,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220422085829'),
 ('20240207154741'),
 ('20240208160611'),
-('20240425130950');
+('20240425130950'),
+('20241124224933');
 
 

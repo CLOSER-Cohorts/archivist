@@ -152,6 +152,11 @@ Rails.application.routes.draw do
       get 'document', to: 'imports#document'
     end
   end
+  resources :exports, only: [:index, :show] do
+    member do
+      get 'document', to: 'exports#document'
+    end
+  end
   get 'instruments/:id/mapping', to: redirect('/instruments/%{id}/qv')
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 

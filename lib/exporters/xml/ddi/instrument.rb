@@ -26,6 +26,7 @@ module Exporters::XML::DDI
   #
   # @see ::Instruction
   class Instrument < DdiExporterBase
+    include ::Exporters::Loggable    
     # Creates the XML document for exporting to as
     # a DDIInstance
     def initialize

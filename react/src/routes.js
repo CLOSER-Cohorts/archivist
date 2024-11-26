@@ -17,6 +17,10 @@ export default {
         all: '',
         show: ':importId'
       }),
+      exports: include('exports/', {
+        all: '',
+        show: ':exportId'
+      }),      
       users: include('users/', {
         all: '',
         user: include(':user_id/', {

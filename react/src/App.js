@@ -10,6 +10,8 @@ import ResetPassword from './pages/ResetPassword';
 import AdminImport from './pages/AdminImport';
 import AdminImportView from './pages/AdminImportView';
 import AdminImports from './pages/AdminImports';
+import AdminExportView from './pages/AdminExportView';
+import AdminExports from './pages/AdminExports';
 import AdminInstrumentImportMappings from './pages/AdminInstrumentImportMappings';
 import AdminInstrumentImportMappingView from './pages/AdminInstrumentImportMappingView';
 import AdminDatasetImportMappings from './pages/AdminDatasetImportMappings';
@@ -81,7 +83,6 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
@@ -128,7 +129,9 @@ const App = () => {
             <AuthRoute type="admin" exact path={routes.admin.datasets.dataset.show} component={AdminDatasetView} />
             <AuthRoute type="admin" exact path={routes.admin.import} component={AdminImport} />
             <AuthRoute type="admin" exact path={routes.admin.imports.all} component={AdminImports} />
-            <AuthRoute type="admin" exact path={routes.admin.imports.show} component={AdminImportView} />
+            <AuthRoute type="admin" exact path={routes.admin.imports.show} component={AdminImportView} />         
+            <AuthRoute type="admin" exact path={routes.admin.exports.all} component={AdminExports} />            
+            <AuthRoute type="admin" exact path={routes.admin.exports.show} component={AdminExportView} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
             <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.show} component={AdminInstrumentView} />
             <AuthRoute type="admin" exact path={routes.admin.users.all} component={AdminUsers} />

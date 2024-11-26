@@ -82,13 +82,23 @@ class InstrumentsController < ImportableController
   end
 
   def export
-    ExportJob::Instrument.perform_async(@object.id)
-    head :ok, format: :json
+    begin
+      export = Export.create(export_type: "ExportJob::Instrument" , instrument_id: params[:id], state: :pending)    
+      ExportJob::Instrument.perform_async(@object.id, export_id: export.id)
+      head :ok, format: :json
+    rescue  => e
+      render json: {message: e}, status: :bad_request
+    end    
   end
 
   def export_complete
-    ExportJob::InstrumentComplete.perform_async(@object.id)
-    head :ok, format: :json
+    begin
+      export = Export.create(export_type: "ExportJob::InstrumentComplete" , instrument_id: params[:id], state: :pending)    
+      ExportJob::InstrumentComplete.perform_async(@object.id, export_id: export.id)
+      head :ok, format: :json
+    rescue  => e
+      render json: {message: e}, status: :bad_request
+    end      
   end
 
   def variables

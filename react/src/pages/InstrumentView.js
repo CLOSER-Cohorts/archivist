@@ -367,7 +367,7 @@ const VariableItems = ({ variables }) => {
 
 const ResponseDomains = ({ rds }) => {
   const classes = responseDomainClasses();
-  console.log(classes);
+
   return rds.filter((rd)  => { return !isNil(rd) }).map((rd) => {
     switch (rd.type) {
       case 'ResponseDomainCode':

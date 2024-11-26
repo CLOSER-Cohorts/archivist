@@ -354,6 +354,35 @@ export const AdminImport = {
   },
 }
 
+export const AdminExport = {
+  all: () => {
+    const request = axios.get(api_host + '/exports.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(exportsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+  show: (id) => {
+    const request = axios.get(api_host + '/exports/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(exportFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },
+}
+
 export const UserGroup = {
   all: () => {
     const request = axios.get(api_host + '/user_groups/external.json', {
@@ -496,7 +525,7 @@ export const Instrument = {
       })
     return (dispatch) => {
         return request.then(res => {
-          console.log('ok')
+          dispatch(redirectTo(url(routes.admin.exports.all)));
         })
         .catch(err => {
           console.log('error')
@@ -509,7 +538,7 @@ export const Instrument = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log('ok')
+        dispatch(redirectTo(url(routes.admin.exports.all)));
       })
         .catch(err => {
           console.log('error')
@@ -1915,6 +1944,20 @@ const importFetchSuccess = importObj => ({
   type: 'LOAD_ADMIN_IMPORT',
   payload: {
     import: importObj
+  }
+});
+
+const exportsFetchSuccess = exports => ({
+  type: 'LOAD_ADMIN_EXPORTS',
+  payload: {
+    exports: exports
+  }
+});
+
+const exportFetchSuccess = exportObj => ({
+  type: 'LOAD_ADMIN_EXPORT',
+  payload: {
+    export: exportObj
   }
 });
 
