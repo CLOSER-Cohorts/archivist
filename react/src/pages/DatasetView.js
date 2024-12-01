@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dataset, DatasetVariable, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DatasetHeading } from '../components/DatasetHeading'
@@ -89,7 +90,7 @@ const TopicList = (props) => {
 const DatasetView = (props) => {
 
   const dispatch = useDispatch()
-  const datasetId = get(props, "match.params.dataset_id", "")
+  const { dataset_id: datasetId } = useParams();
 
   const statuses = useSelector(state => state.statuses);
   const dataset = useSelector(state => get(state.datasets, datasetId));

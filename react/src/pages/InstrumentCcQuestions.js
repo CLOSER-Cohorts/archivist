@@ -1,5 +1,6 @@
 import React, { useEffect, useState  } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { CcQuestions } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DataTable } from '../components/DataTable'
@@ -81,7 +82,7 @@ const IntervieweeList = ({ instrumentId }) => {
 const InstrumentCcQuestions = (props) => {
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
 
   const actions = (row) => {
     return ''

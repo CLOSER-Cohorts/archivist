@@ -6,12 +6,11 @@ import { BuildContainer } from '../components/BuildContainer'
 import { get } from "lodash";
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const InstrumentBuildQuestionGrids = (props) => {
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
-  const questionGridId = get(props, "match.params.questionGridId", null);
+  const { instrument_id: instrumentId, questionGridId } = useParams();
 
   return (
     <BuildContainer

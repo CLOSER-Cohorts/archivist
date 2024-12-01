@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { InstrumentHeading } from '../components/InstrumentHeading'
@@ -120,7 +121,7 @@ const questionStyles = makeStyles((theme) => ({
   },
   details: {
     padding: theme.spacing(2),
-    backgroundColor: '#f9f9f9',
+    // backgroundColor: '#f9f9f9',
     borderRadius: theme.shape.borderRadius,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },    
@@ -649,7 +650,7 @@ const SequenceItem = (props) => {
 const InstrumentView = (props) => {
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, {})

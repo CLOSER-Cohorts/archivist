@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportMappingsForm } from '../components/AdminImportMappingsForm'
 import { DataTable } from '../components/DataTable'
@@ -18,7 +19,7 @@ const AdminDatasetImportMappings = (props) => {
   const dispatch = useDispatch()
   const type = "Dataset"
   const hint = "You can import multiple T-V and DV mapping files. Only TXT files are accepted."
-  const datasetId = get(props, "match.params.datasetId", "")
+  const { datasetId } = useParams();
 
   const onSubmit = (values) => {
     dispatch({type: 'CLEAR', payload: {id: 'new', type: 'AdminImportMapping'}})

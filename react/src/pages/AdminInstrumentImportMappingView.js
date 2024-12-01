@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { AdminImportMapping } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { SuccessFailureChip } from '../components/SuccessFailureChip'
@@ -101,8 +102,7 @@ const InstrumentImportView = (props) => {
 const AdminInstrumentImportMappingView = (props) => {
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrumentId", "")
-  const importMappingId = get(props, "match.params.id", "")
+  const { instrumentId, id: importMappingId } = useParams();
   const imports = useSelector(state => get(state.instrumentImportMappings, instrumentId));
   const importObj = get(imports, importMappingId, { logs: [] })
   const logs = get(importObj, 'logs', [])

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { User } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { AdminUserForm } from '../components/AdminUserForm'
@@ -10,7 +11,7 @@ const AdminUserEdit = (props) => {
 
   const dispatch = useDispatch()
 
-  const userId = get(props, "match.params.user_id", "")
+  const { user_id: userId } = useParams();
   const user = useSelector(state => get(state.users, userId));
 
   const [dataLoaded, setDataLoaded] = useState(false);

@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Loader } from '../components/Loader'
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const BuildContainer = (props) => {
-  let history = useHistory();
+  let history = useNavigate();
 
   const { instrumentId, selectionPath = () => { }, heading = "Code Lists", itemId, itemType, objectType = "CodeList", stateKey = "codeLists", fetch = [], formRenderer = () => { }, defaultValues = { used_by: [], min_responses: 1, max_responses: 1 }} = props;
   const { findSelectedItem = (items, itemId, itemType) => { return get(items, itemId, {}) }, listItemLabel = (item) => { return item.label }, listItemValue = (item) => { return item.used_by.length }, headingContent = (instrumentId) => { return '' } } = props;
@@ -93,7 +93,7 @@ export const BuildContainer = (props) => {
 
   const handleItemSelection = (id, type=undefined) => {
     const path = selectionPath(instrumentId, id, type)
-    history.push(path);
+    history(path);
   }
 
   const Expandable = () => {

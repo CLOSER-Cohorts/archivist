@@ -1,6 +1,5 @@
 import React from 'react';
-import { Switch, BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
-
+import { Routes, BrowserRouter as Router, Navigate, Route } from 'react-router-dom';
 import routes from './routes'
 import AuthRoute from './AuthRoute'
 import Login from './pages/Login';
@@ -54,97 +53,115 @@ const theme = createMuiTheme({
     // Name of the component ⚛️
     MuiButtonBase: {
       // The properties to apply
-      disableRipple: true, // No more ripple, on the whole application 💣!
-    },
+      disableRipple: true // No more ripple, on the whole application 💣!
+    }
   },
   palette: {
     primary: {
-      main: '#009de6',
+      main: '#009de6'
     },
     secondary: {
-      main: '#652d90',
+      main: '#652d90'
     },
     admin: {
-      main: '#37b34a',
+      main: '#37b34a'
     },
     error: {
-      main: '#eb008b',
+      main: '#eb008b'
     },
     warning: {
-      main: '#eb008b',
+      main: '#eb008b'
     },
     info: {
-      main: '#faaf40',
+      main: '#faaf40'
     },
     success: {
-      main: '#37b34a',
-    },
+      main: '#37b34a'
+    }
   }
 });
 
 const App = () => {
-  return (
+  const routeConfig = [
+    { path: routes.signup, type: "guest", element: <Signup /> },
+    { path: routes.login, type: "guest", element: <Login /> },
+    { path: routes.forgotten_password, type: "guest", element: <ForgottenPassword /> },
+    { path: routes.reset_password, type: "guest", element: <ResetPassword /> },
+    { path: routes.instruments.all, type: "reader", element: <Instruments /> },
+    // Editor Routes
+    { path: routes.instruments.instrument.map.show, type: "editor", element: <InstrumentMap /> },
+    { path: routes.instruments.instrument.build.show, type: "editor", element: <InstrumentBuild /> },
+    { path: routes.instruments.new, type: "editor", element: <InstrumentNew /> },
+    { path: routes.instruments.instrument.edit, type: "editor", element: <InstrumentEdit /> },
+    { path: routes.instruments.instrument.build.codeLists.all, type: "editor", element: <InstrumentBuildCodeLists /> },
+    { path: routes.instruments.instrument.build.codeLists.show, type: "editor", element: <InstrumentBuildCodeLists /> },
+    { path: routes.instruments.instrument.build.codeLists.new, type: "editor", element: <InstrumentBuildCodeLists /> },
+    { path: routes.instruments.instrument.build.questionItems.all, type: "editor", element: <InstrumentBuildQuestionItems /> },
+    { path: routes.instruments.instrument.build.questionItems.show, type: "editor", element: <InstrumentBuildQuestionItems /> },
+    { path: routes.instruments.instrument.build.questionItems.new, type: "editor", element: <InstrumentBuildQuestionItems /> },
+    { path: routes.instruments.instrument.build.questionGrids.all, type: "editor", element: <InstrumentBuildQuestionGrids /> },
+    { path: routes.instruments.instrument.build.questionGrids.show, type: "editor", element: <InstrumentBuildQuestionGrids /> },
+    { path: routes.instruments.instrument.build.questionGrids.new, type: "editor", element: <InstrumentBuildQuestionGrids /> },
+    { path: routes.instruments.instrument.build.responseDomains.all, type: "editor", element: <InstrumentBuildResponseDomains /> },
+    { path: routes.instruments.instrument.build.responseDomains.show, type: "editor", element: <InstrumentBuildResponseDomains /> },
+    { path: routes.instruments.instrument.build.responseDomains.new, type: "editor", element: <InstrumentBuildResponseDomains /> },
+    { path: routes.instruments.instrument.build.constructs.show, type: "editor", element: <InstrumentConstructBuild /> },
+    { path: routes.instruments.instrument.build.ccConditions, type: "editor", element: <InstrumentCcConditions /> },
+    { path: routes.instruments.instrument.build.ccLoops, type: "editor", element: <InstrumentCcLoops /> },
+    { path: routes.instruments.instrument.build.ccQuestions, type: "editor", element: <InstrumentCcQuestions /> },
+    { path: routes.instruments.instrument.build.ccSequences, type: "editor", element: <InstrumentCcSequences /> },
+    { path: routes.instruments.instrument.build.ccStatements, type: "editor", element: <InstrumentCcStatements /> },
+    // Reader Routes
+    { path: routes.instruments.instrument.show, type: "reader", element: <InstrumentView /> },
+    { path: routes.instruments.all, type: "reader", element: <Instruments /> },
+    { path: routes.datasets.all, type: "reader", element: <Datasets /> },
+    { path: "/datasets/:dataset_id", type: "reader", element: <DatasetView /> },
+    { path: routes.datasets.dataset.edit, type: "editor", element: <DatasetEdit /> },
+    // Admin Routes
+    { path: routes.admin.datasets.all, type: "admin", element: <AdminDatasets /> },
+    { path: routes.admin.datasets.dataset.show, type: "admin", element: <AdminDatasetView /> },
+    { path: routes.admin.import, type: "admin", element: <AdminImport /> },
+    { path: routes.admin.imports.all, type: "admin", element: <AdminImports /> },
+    { path: routes.admin.imports.show, type: "admin", element: <AdminImportView /> },
+    { path: routes.admin.exports.all, type: "admin", element: <AdminExports /> },
+    { path: routes.admin.exports.show, type: "admin", element: <AdminExportView /> },
+    { path: routes.admin.instruments.instrument.edit, type: "admin", element: <AdminInstrumentEdit /> },
+    { path: routes.admin.instruments.instrument.show, type: "admin", element: <AdminInstrumentView /> },
+    { path: routes.admin.users.all, type: "admin", element: <AdminUsers /> },
+    { path: routes.admin.users.user.edit, type: "admin", element: <AdminUserEdit /> },
+    { path: routes.admin.instruments.all, type: "admin", element: <AdminInstruments /> },
+    { path: routes.admin.instruments.exports, type: "admin", element: <AdminInstrumentExports /> },
+    { path: routes.admin.instruments.instrument.datasets, type: "admin", element: <AdminInstrumentDatasetLink /> },
+    { path: routes.admin.instruments.importMappings, type: "admin", element: <AdminInstrumentImportMappings /> },
+    { path: routes.admin.instruments.importMapping, type: "admin", element: <AdminInstrumentImportMappingView /> },
+    { path: routes.admin.datasets.importMappings, type: "admin", element: <AdminDatasetImportMappings /> },
+    { path: routes.admin.datasets.importMapping, type: "admin", element: <AdminDatasetImportMappingView /> },
+    { path: "/", element: <Navigate to={routes.instruments.all} />, noAuth: true },
+    { path: "*", element: <NoMatch />, noAuth: true }
+  ];
+
+  return (     
     <MuiThemeProvider theme={theme}>
       <Router>
        <div>
           <RedirectFromState />
-          <Switch>
-            <AuthRoute type="guest" exact path={routes.signup} component={Signup} />
-            <AuthRoute type="guest" exact path={routes.login} component={Login} />
-            <AuthRoute type="guest" exact path={routes.forgotten_password} component={ForgottenPassword} />
-            <AuthRoute type="guest" exact path={routes.reset_password} component={ResetPassword} />
-            <Route
-              exact
-              path="/"
-              render={() => {return ( <Redirect to={routes.instruments.all} />)}}
-            />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.map.show} component={InstrumentMap} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.show} component={InstrumentBuild} />
-            <AuthRoute type="editor" exact path={routes.instruments.new} component={InstrumentNew} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.edit} component={InstrumentEdit} />
-            <AuthRoute type="reader" exact path={routes.instruments.instrument.show} component={InstrumentView} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.all} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.show} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.codeLists.new} component={InstrumentBuildCodeLists} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.all} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.show} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionItems.new} component={InstrumentBuildQuestionItems} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.all} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.show} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.questionGrids.new} component={InstrumentBuildQuestionGrids} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.all} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.show} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.responseDomains.new} component={InstrumentBuildResponseDomains} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.constructs.show} component={InstrumentConstructBuild} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccConditions} component={InstrumentCcConditions} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccLoops} component={InstrumentCcLoops} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccQuestions} component={InstrumentCcQuestions} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccSequences} component={InstrumentCcSequences} />
-            <AuthRoute type="editor" exact path={routes.instruments.instrument.build.ccStatements} component={InstrumentCcStatements} />
-            <AuthRoute type="reader" exact path={routes.instruments.all} component={Instruments} />
-            <AuthRoute type="reader" exact path={routes.datasets.all} component={Datasets} />
-            <AuthRoute type="reader" exact path={'/datasets/:dataset_id'} component={DatasetView} />
-            <AuthRoute type="editor" exact path={routes.datasets.dataset.edit} component={DatasetEdit} />
-            <AuthRoute type="admin" exact path={routes.admin.datasets.all} component={AdminDatasets} />
-            <AuthRoute type="admin" exact path={routes.admin.datasets.dataset.show} component={AdminDatasetView} />
-            <AuthRoute type="admin" exact path={routes.admin.import} component={AdminImport} />
-            <AuthRoute type="admin" exact path={routes.admin.imports.all} component={AdminImports} />
-            <AuthRoute type="admin" exact path={routes.admin.imports.show} component={AdminImportView} />         
-            <AuthRoute type="admin" exact path={routes.admin.exports.all} component={AdminExports} />            
-            <AuthRoute type="admin" exact path={routes.admin.exports.show} component={AdminExportView} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.edit} component={AdminInstrumentEdit} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.show} component={AdminInstrumentView} />
-            <AuthRoute type="admin" exact path={routes.admin.users.all} component={AdminUsers} />
-            <AuthRoute type="admin" exact path={routes.admin.users.user.edit} component={AdminUserEdit} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.all} component={AdminInstruments} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.exports} component={AdminInstrumentExports} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.instrument.datasets} component={AdminInstrumentDatasetLink} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.importMappings} component={AdminInstrumentImportMappings} />
-            <AuthRoute type="admin" exact path={routes.admin.instruments.importMapping} component={AdminInstrumentImportMappingView} />
-            <AuthRoute type="admin" exact path={routes.admin.datasets.importMappings} component={AdminDatasetImportMappings} />
-            <AuthRoute type="admin" exact path={routes.admin.datasets.importMapping} component={AdminDatasetImportMappingView} />
-            <AuthRoute type="guest" component={NoMatch} />
-          </Switch>
+          <Routes>
+            {routeConfig.map(({ path, type, element, noAuth }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  noAuth ? (
+                    element
+                  ) : (
+                    <AuthRoute type={type}>
+                      {element}
+                    </AuthRoute>
+                  )
+                }
+              />
+            ))}
+          </Routes>
         </div>
       </Router>
     </MuiThemeProvider>

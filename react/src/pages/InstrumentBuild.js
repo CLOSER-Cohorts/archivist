@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -33,8 +33,7 @@ const InstrumentBuild = (props) => {
 
   const dispatch = useDispatch()
   const classes = useStyles();
-
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const stats = useSelector(state => get(state.instrumentStats, instrumentId, {}));
 

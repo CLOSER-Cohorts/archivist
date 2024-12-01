@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { AdminImportMapping } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Table from '@material-ui/core/Table';
@@ -102,8 +103,7 @@ const DatasetImportView = (props) => {
 const AdminDatasetImportMappingView = (props) => {
 
   const dispatch = useDispatch()
-  const datasetId = get(props, "match.params.datasetId", "")
-  const importMappingId = get(props, "match.params.id", "")
+  const { dataset_id: datasetId, id: importMappingId } = useParams();
   const imports = useSelector(state => get(state.datasetImportMappings, datasetId));
   const importObj = get(imports, importMappingId, { logs: [] })
   const logs = get(importObj, 'logs', [])

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { AdminImport } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Table from '@material-ui/core/Table';
@@ -101,7 +102,7 @@ const InstrumentImportView = (props) => {
 const AdminImportView = (props) => {
 
   const dispatch = useDispatch()
-  const importId = get(props, "match.params.importId", "")
+  const { importId } = useParams();
   const imports = useSelector(state => state.imports);
   const importObj = get(imports, importId, { logs: [] })
   const logs = get(importObj, 'logs', [])

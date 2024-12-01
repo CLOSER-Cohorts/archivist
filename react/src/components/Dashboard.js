@@ -156,7 +156,7 @@ const MainListItems = ({onExpand, user}) => {
     <ListItem button>
         <ListItemIcon>
           <Link to={url(routes.instruments.all)}>
-            <QuestionAnswerIcon />
+            <QuestionAnswerIcon />            
           </Link>
         </ListItemIcon>
       <Link to={url(routes.instruments.all)}>

@@ -1,5 +1,6 @@
 import React, {  } from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportMappingsForm } from '../components/AdminImportMappingsForm'
 import { SuccessFailureChip } from '../components/SuccessFailureChip'
@@ -25,7 +26,7 @@ const AdminInstrumentImportMappings = (props) => {
   const dispatch = useDispatch()
   const type = "Instrument"
   const hint = "You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted."
-  const instrumentId = get(props, "match.params.instrumentId", "")
+  const { instrumentId } = useParams();
 
   const onSubmit = (values) => {
     dispatch({type: 'CLEAR', payload: {id: 'new', type: 'AdminImportMapping'}})

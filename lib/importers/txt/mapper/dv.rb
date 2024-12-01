@@ -7,7 +7,7 @@ class Importers::TXT::Mapper::DV < Importers::TXT::Mapper::Dataset
           log :input, "#{variable_dataset},#{v},#{source_dataset},#{s}"
           begin
             if variable_dataset.blank? || source_dataset.blank? || v.blank? || s.blank?
-              raise StandardError.new(I18n.t('importers.txt.mapper.dv.wrong_number_of_columns', actual_number_of_columns: {a: source_dataset, b: variable_dataset, c: v, d: s}.compact.count))
+              raise StandardError.new(I18n.t('importers.txt.mapper.dv.wrong_number_of_columns', actual_number_of_columns: {a: source_dataset, b: variable_dataset, c: v, d: s}.compact_blank.count))
             elsif variable_dataset != @object.instance_name
               raise StandardError.new(I18n.t('importers.txt.mapper.dv.record_invalid_dataset', dataset_from_line: variable_dataset, dataset_from_object: @object.instance_name))
             end

@@ -522,7 +522,7 @@ const appReducer = combineReducers({
     userGroups,
     users,
     datasetImportMappings,
-    instrumentImportMappings,
+    instrumentImportMappings
 })
 
 export default appReducer;

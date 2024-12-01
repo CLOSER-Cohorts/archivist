@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h2 {
+    @apply text-2xl font-semibold text-gray-800;
+  }
+
+  a {
+    @apply text-blue-600;
+  }
+
+  /* For visited links */
+  a:visited {
+    @apply text-purple-600;
+  }
+
+  /* For hover and focus states */
+  a:hover,
+  a:focus {
+    @apply text-blue-800 underline;
+  }
+
+  .tree-container {
+    height: auto; /* Let the height adjust based on content */
+    overflow-y: auto; /* Add scroll if necessary */
+  }  
+  
+}

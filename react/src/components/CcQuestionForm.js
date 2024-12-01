@@ -67,7 +67,7 @@ const formFields = [
         <Select
           name="question_type"
           label="Type"
-          required={true}
+          required={false}
           formControlProps={{ margin: 'none' }}
         >
           <MenuItem></MenuItem>

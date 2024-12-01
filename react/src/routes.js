@@ -24,8 +24,8 @@ export default {
       users: include('users/', {
         all: '',
         user: include(':user_id/', {
-          edit: 'edit',
-        }),
+          edit: 'edit'
+        })
       }),
       instruments: include('instruments/', {
         all: '',
@@ -35,8 +35,8 @@ export default {
         instrument: include(':instrument_id/', {
           show: 'exports',
           edit: 'edit',
-          datasets: 'datasets',
-        }),
+          datasets: 'datasets'
+        })
       }),
       datasets: include('datasets/', {
         all: '',
@@ -44,8 +44,8 @@ export default {
         importMapping: ':datasetId/imports/:id',
         dataset: include(':dataset_id/', {
           show: 'exports'
-        }),
-      }),
+        })
+      })
     }),
     instruments: include('/instruments', {
       all: '',
@@ -84,7 +84,7 @@ export default {
             responseDomains: include('response_domains/', {
               all: '',
               new: 'new',
-              show: ':responseDomainType/:responseDomainId',
+              show: ':responseDomainType/:responseDomainId'
             })
         })
       })

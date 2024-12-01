@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
@@ -58,10 +58,10 @@ export const CreateNewBuildObjectButtons  = (props) => {
   const { objectTypes=[], instrumentId, callback=()=>{}} = props;
 
   const classes = useStyles();
-  const history = useHistory();
+  const history = useNavigate();
 
   const createNew = (path) => {
-    history.push(path);
+    history(path);
     callback('new')
   }
 

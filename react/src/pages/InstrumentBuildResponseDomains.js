@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { ResponseDomainNumerics, ResponseDomainTexts, ResponseDomainDatetimes } from '../actions'
 import { ResponseDomainNumericForm } from '../components/ResponseDomainNumericForm'
 import { ResponseDomainTextForm } from '../components/ResponseDomainTextForm'
@@ -12,9 +13,7 @@ import { HumanizeObjectType } from '../support/HumanizeObjectType'
 
 const InstrumentBuildResponseDomains = (props) => {
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
-  const responseDomainId = get(props, "match.params.responseDomainId", null)
-  const responseDomainType = get(props, "match.params.responseDomainType", null)
+  const { instrument_id: instrumentId, responseDomainId, responseDomainType } = useParams();
 
   return (
     <BuildContainer

@@ -24,5 +24,5 @@ export default (history) => combineReducers({
   months,
   years,
   admin_users,
-  router: connectRouter(history),
+  router: connectRouter(history)
 });

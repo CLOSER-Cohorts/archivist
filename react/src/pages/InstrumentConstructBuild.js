@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits, InstrumentTree } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { MoveConstructSelect } from '../components/MoveConstructSelect'
@@ -503,7 +504,7 @@ const InstrumentConstructBuild = (props) => {
   const classes = useStyles();
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, null)

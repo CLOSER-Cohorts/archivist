@@ -224,14 +224,14 @@ export const AdminInstrument = {
       return (dispatch) => {
         dispatch(savingItem(instrumentId, 'Instrument'));
         return request.then(res => {
-          dispatch(savedItem(instrumentId, 'Instrument'));;
+          dispatch(savedItem(instrumentId, 'Instrument'));
           dispatch(instrumentFetchSuccess(res.data));
         })
           .catch(err => {
             dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
           });
       };
-    },
+    }
   },
   clearCache: (instrumentId) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/clear_cache.json', {
@@ -278,7 +278,7 @@ export const AdminDataset = {
           dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 export const AdminImportMapping = {
@@ -351,7 +351,7 @@ export const AdminImport = {
           dispatch(fetchFailure(err.message));
         });
     };
-  },
+  }
 }
 
 export const AdminExport = {
@@ -380,7 +380,7 @@ export const AdminExport = {
           dispatch(fetchFailure(err.message));
         });
     };
-  },
+  }
 }
 
 export const UserGroup = {
@@ -471,7 +471,7 @@ export const User = {
           dispatch(saveError(userId, 'User', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 export const Instrument = {
@@ -775,7 +775,7 @@ export const CcSequences = {
           dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccSequencesFetchSuccess = (instrumentId, sequences) => ({
@@ -855,7 +855,7 @@ export const CcStatements = {
           dispatch(saveError(ccStatementId, 'CcStatement', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccStatementsFetchSuccess = (instrumentId, statements) => ({
@@ -935,7 +935,7 @@ export const CcLoops = {
           dispatch(saveError(ccLoopId, 'CcLoop', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 const ccLoopsFetchSuccess = (instrumentId, loops) => ({
@@ -1007,7 +1007,7 @@ export const ResponseUnits = {
           dispatch(saveError(responseUnitId, 'ResponseUnit', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 const responseUnitsFetchSuccess = (instrumentId, responseUnits) => ({
@@ -1087,7 +1087,7 @@ export const CcConditions = {
           dispatch(saveError(ccConditionId, 'CcCondition', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccConditionsFetchSuccess = (instrumentId, conditions) => ({

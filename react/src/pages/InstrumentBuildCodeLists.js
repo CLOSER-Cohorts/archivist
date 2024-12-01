@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { CodeLists, Categories } from '../actions'
 import { CodeListForm } from '../components/CodeListForm'
 import { BuildContainer } from '../components/BuildContainer'
@@ -9,8 +10,7 @@ import routes from '../routes'
 
 const InstrumentBuildCodeLists = (props) => {
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
-  const codeListId = get(props, "match.params.codeListId", null);
+  const { instrument_id: instrumentId, codeListId } = useParams();
 
   return (
     <BuildContainer

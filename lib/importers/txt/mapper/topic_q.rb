@@ -6,7 +6,7 @@ class Importers::TXT::Mapper::TopicQ < Importers::TXT::Mapper::Instrument
       log :input, "#{control_construct_scheme},#{q},#{t}"
       begin
         if control_construct_scheme.blank? || q.blank? || t.blank?
-          raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.wrong_number_of_columns', actual_number_of_columns: {a: control_construct_scheme, b: q, c: t}.compact.count))
+          raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.wrong_number_of_columns', actual_number_of_columns: {a: control_construct_scheme, b: q, c: t}.compact_blank.count))
         elsif control_construct_scheme != @object.control_construct_scheme
           raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.record_invalid_control_construct_scheme', control_construct_scheme_from_line: control_construct_scheme, control_construct_scheme_from_object: @object.control_construct_scheme))
         end

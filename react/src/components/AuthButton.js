@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { get } from 'lodash'
-import Button from '@material-ui/core/Button';
+import Button from './Button';
 import { Link } from 'react-router-dom';
 
 export const AuthButton = (props)  => {

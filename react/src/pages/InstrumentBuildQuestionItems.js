@@ -3,15 +3,13 @@ import { useDispatch } from 'react-redux'
 import { QuestionItems } from '../actions'
 import { QuestionItemForm } from '../components/QuestionItemForm'
 import { BuildContainer } from '../components/BuildContainer'
-import { get } from "lodash";
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const InstrumentBuildQuestionItems = (props) => {
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
-  const questionItemId = get(props, "match.params.questionItemId", null);
+  const { instrument_id: instrumentId, questionItemId: questionItemId } = useParams();
 
   return (
     <BuildContainer

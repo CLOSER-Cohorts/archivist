@@ -11,7 +11,7 @@ export const useHasPermission = (requiredType) => {
     guest: ['guest'],
     reader: ['reader', 'editor', 'admin'],
     editor: ['editor', 'admin'],
-    admin: ['admin'],
+    admin: ['admin']
   };
 
   return rolePermissions[requiredType].includes(userRole);
