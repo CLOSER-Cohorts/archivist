@@ -144,7 +144,10 @@ class Instrument < ApplicationRecord
   after_create :add_top_sequence
   after_save :update_prefix_sequence
 
-  validates :prefix, uniqueness: true
+  validates :prefix, uniqueness: true, format: { 
+    with: /\A[a-z0-9_]+\z/, 
+    message: 'can only contain lowercase letters, numbers, and underscores'
+  }
 
   friendly_id :prefix, use: :slugged
 
