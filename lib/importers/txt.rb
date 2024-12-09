@@ -1,24 +1,29 @@
 module Importers::TXT
   class Basic
     def initialize(thing, options)
-      if thing.is_a? String
-        @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
-      else
-        document = ::Document.find thing
-        @doc = Importers::TXT::TabDelimited.new document.file_contents
-      end
-
-      options.symbolize_keys!
-      if options.has_key? :object
-        if options[:object].is_a?(String) || options[:object].is_a?(Integer) || options[:object].is_a?(Symbol)
-          @object = yield options[:object]
+      begin
+        if thing.is_a? String
+          @doc = open(thing) { |f| Importers::TXT::TabDelimited.new(f) }
         else
-          @object = options[:object]
+          document = ::Document.find thing
+          @doc = Importers::TXT::TabDelimited.new document.file_contents
         end
-      end
-      if options.has_key? :import_id
-        @import = Import.find_by_id(options[:import_id])
-      end
+
+        options.symbolize_keys!
+        if options.has_key? :object
+          if options[:object].is_a?(String) || options[:object].is_a?(Integer) || options[:object].is_a?(Symbol)
+            @object = yield options[:object]
+          else
+            @object = options[:object]
+          end
+        end
+        if options.has_key? :import_id
+          @import = Import.find_by_id(options[:import_id])
+        end
+      rescue StandardError => e
+        handle_initialization_error(options, e)
+        raise e
+      end              
     end
 
     def set_import_to_running
@@ -57,6 +62,20 @@ module Importers::TXT
     def object
       @object
     end
+
+    def handle_initialization_error(options, exception)
+      options.symbolize_keys!
+      return unless options.key?(:import_id)
+    
+      @import = Import.find_by_id(options[:import_id])
+      return unless @import
+    
+      set_import_to_running
+      @errors = true
+      log :outcome, "File is not a valid format for mapping. The file cannot be blank it must be a tab delimited file."
+      write_to_log
+      set_import_to_finished  
+    end     
   end
   # Utility class for importing tab delimited text files
   class TabDelimited
@@ -83,6 +102,6 @@ module Importers::TXT
       @lines.each do |line|
         block.call(*(line.split(/\t/)))
       end
-    end
+    end   
   end
 end
