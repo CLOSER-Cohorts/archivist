@@ -110,7 +110,7 @@ const AdminImportView = (props) => {
 
   useEffect(() => {
     dispatch(AdminImport.show(importId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (

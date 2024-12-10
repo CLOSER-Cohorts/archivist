@@ -35,7 +35,7 @@ const AdminImports = () => {
 
   useEffect(() => {
     dispatch(AdminImport.all());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (

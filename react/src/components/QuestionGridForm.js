@@ -191,7 +191,7 @@ export const QuestionGridForm = (props) => {
     dispatch(ResponseDomainTexts.all(instrumentId));
     dispatch(ResponseDomainDatetimes.all(instrumentId));
     dispatch(CodeLists.all(instrumentId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   // Deep cloning so that we go back to the original QuestioGrid if the user selects the original code list

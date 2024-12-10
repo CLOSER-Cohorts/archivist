@@ -111,7 +111,7 @@ const AdminInstrumentImportMappingView = (props) => {
 
   useEffect(() => {
     dispatch(AdminImportMapping.show('instruments', instrumentId, importMappingId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (

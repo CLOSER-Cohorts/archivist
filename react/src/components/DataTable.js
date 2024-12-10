@@ -55,7 +55,7 @@ export const DataTable = (props) => {
     Promise.all(fetch).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   const [activeFilters, setActiveFilters] = useState({});

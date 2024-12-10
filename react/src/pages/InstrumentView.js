@@ -671,7 +671,7 @@ const InstrumentView = (props) => {
     ]).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top == true)

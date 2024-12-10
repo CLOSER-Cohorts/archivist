@@ -320,16 +320,17 @@ const instrumentImportMappings = (state = {}, action) => {
 
 const codeLists = (state = {}, action) => {
 
+  var codeLists;
   switch (action.type) {
     case 'LOAD_INSTRUMENT_CODE_LISTS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.codeLists)}}
     case 'LOAD_INSTRUMENT_CODE_LIST':
-      var codeLists = get(state, action.payload.instrumentId, {})
+      codeLists = get(state, action.payload.instrumentId, {})
       const revisedCodeLists = {...codeLists, ...{[action.payload.codeList.id]: action.payload.codeList}}
       return {...state, ...{[action.payload.instrumentId]: revisedCodeLists}}
     case 'DELETE_INSTRUMENT_OBJECT_TYPE':
       if(action.payload.objectType === 'CodeList'){
-        var codeLists = get(state, action.payload.instrumentId, {})
+        codeLists = get(state, action.payload.instrumentId, {})
         delete codeLists[action.payload.id]
         return {...state, ...{[action.payload.instrumentId]: codeLists}}
       }else{

@@ -120,7 +120,7 @@ export const QuestionItemForm = (props) => {
     dispatch(ResponseDomainNumerics.all(instrumentId));
     dispatch(ResponseDomainTexts.all(instrumentId));
     dispatch(ResponseDomainDatetimes.all(instrumentId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (

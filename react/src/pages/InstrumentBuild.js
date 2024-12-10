@@ -49,7 +49,7 @@ const InstrumentBuild = (props) => {
   useEffect(() => {
     dispatch(Instrument.show(instrumentId));
     dispatch(Instrument.stats(instrumentId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   const StatCount = (props) => {

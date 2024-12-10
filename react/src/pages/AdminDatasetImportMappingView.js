@@ -112,7 +112,7 @@ const AdminDatasetImportMappingView = (props) => {
 
   useEffect(() => {
     dispatch(AdminImportMapping.show('datasets', datasetId, importMappingId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (

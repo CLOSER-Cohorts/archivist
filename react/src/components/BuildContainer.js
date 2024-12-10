@@ -74,7 +74,7 @@ export const BuildContainer = (props) => {
     Promise.all(fetch).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   const BuildListItem = (props) => {
