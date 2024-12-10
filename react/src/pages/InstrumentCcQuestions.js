@@ -24,7 +24,6 @@ const IntervieweeList = ({ instrumentId }) => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const handleChange = (event, value, reason) => {
-    console.log(event.target.value)
     if(!isNil(event.target.value)){
       if (window.confirm("Are you sure you want to update all CcQuestions?")) {
         dispatch(CcQuestions.update_all(instrumentId, {response_unit_id: event.target.value}, (object) => {
@@ -44,7 +43,10 @@ const IntervieweeList = ({ instrumentId }) => {
     Promise.all([
       dispatch(Instrument.show(instrumentId)),
       dispatch(ResponseUnits.all(instrumentId))
-    ]).then(() => setDataLoaded(true)).catch((error) => console.error("Error loading data:", error));
+    ]).then(() => setDataLoaded(true)).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error("Error loading data:", error)
+    });
   }, [dispatch, instrumentId]);
 
   const intervieweeOptions = () => {

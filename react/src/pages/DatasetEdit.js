@@ -12,7 +12,7 @@ const DatasetEdit = (props) => {
   const dispatch = useDispatch()
 
   const { dataset_id: datasetId } = useParams();
-  console.log(useSelector(state => state.datasets))
+
   const dataset = useSelector(state => get(state.datasets, datasetId));
 
   const [dataLoaded, setDataLoaded] = useState(false);

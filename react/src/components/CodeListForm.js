@@ -209,7 +209,6 @@ export const CodeListForm = (props) => {
                                       options={Object.values(categories)}
                                       getOptionLabel={(option) => option.label}
                                       onChange={(event, value, reason)=>{
-                                        console.log('change!')
                                         if(isNil(value)){
                                           fields.update(index, {...fields.value[index], ...{category_id: null, label: null} })
                                         }else{
@@ -233,11 +232,7 @@ export const CodeListForm = (props) => {
                                     <TableCell className={classes.small}>
                                       {instrument && !instrument.signed_off && (
                                         <span
-                                          onClick={() => {
-                                            console.log(index);
-                                            console.log(fields); fields.remove(index); console.log(fields)
-                                            }
-                                          }
+                                          onClick={() => {}}
                                           style={{ cursor: 'pointer' }}
                                         >
                                           <DeleteIcon />

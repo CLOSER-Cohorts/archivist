@@ -162,7 +162,7 @@ const Tree = (props) => {
         title: node.title,
         path: path
       }
-    }).filter(el => el != null);
+    }).filter(el => el !== null);
   }
 
   dispatch(InstrumentTree.create(instrumentId, moveableNodesArray(treeData)));
@@ -193,7 +193,7 @@ const Tree = (props) => {
       }
 
       return data
-    }).filter(el => el != null);
+    }).filter(el => el !== null);
   }
 
   const reorderConstructs = (data) => {
@@ -396,7 +396,13 @@ const ObjectFinder = (instrumentId) => {
 
 const ConstructForm = (props) => {
   const { object, instrumentId, onNodeSelect } = props;
-  const { node = {}, path, callback = (node) => { console.log('No onChange callback provided') }, deleteCallback = (node) => { console.log('No onDelete callback provided') } } = object;
+  const { node = {}, path, callback = () => { 
+    // eslint-disable-next-line no-console
+    console.log('No onChange callback provided') 
+  }, deleteCallback = () => { 
+    // eslint-disable-next-line no-console
+    console.log('No onDelete callback provided') 
+  } } = object;
   const onCreate = () => { onNodeSelect(null) }
   switch (node.type) {
     case 'question':

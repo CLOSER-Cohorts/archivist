@@ -181,8 +181,7 @@ export const AdminInstrument = {
         return request.then(res => {
           dispatch(savedItem('new', 'AdminInstrument'));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -212,8 +211,7 @@ export const AdminInstrument = {
           dispatch(savedItem(instrumentId, 'Instrument'));
           dispatch(instrumentFetchSuccess(res.data));
         })
-          .catch(err => {
-            console.log('error')
+          .catch(() => {
           });
       };
     },
@@ -259,8 +257,7 @@ export const AdminDataset = {
         return request.then(res => {
           dispatch(savedItem('new', 'AdminDataset'));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -292,8 +289,7 @@ export const AdminImportMapping = {
           dispatch(savedItem('new', 'AdminImportMapping'));
           dispatch(AdminImportMapping.all(type,id))
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -390,7 +386,6 @@ export const UserGroup = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log(res.data)
         dispatch(userGroupsFetchSuccess(res.data));
       })
         .catch(err => {
@@ -436,7 +431,6 @@ export const User = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log(res.data)
         dispatch(usersFetchSuccess(res.data));
       })
         .catch(err => {
@@ -512,10 +506,8 @@ export const Instrument = {
       })
     return (dispatch) => {
         return request.then(res => {
-          console.log('ok')
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -527,8 +519,7 @@ export const Instrument = {
         return request.then(res => {
           dispatch(redirectTo(url(routes.admin.exports.all)));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -540,8 +531,7 @@ export const Instrument = {
       return request.then(res => {
         dispatch(redirectTo(url(routes.admin.exports.all)));
       })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -602,11 +592,9 @@ export const Instrument = {
         headers: api_headers()
       })
     return (dispatch) => {
-        return request.then(res => {
-          console.log('ok')
+        return request.then(() => {
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   }
