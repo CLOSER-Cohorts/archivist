@@ -9,8 +9,11 @@ env:
   jquery: true
   node: true
 
-# https://eslint.org/docs/rules/
+plugins:
+  - react-hooks
+
 rules:
+  react-hooks/exhaustive-deps: warn
   # Possible Errors
   comma-dangle: [2, never]
   no-cond-assign: 2
@@ -44,7 +47,7 @@ rules:
   # Best Practices
   accessor-pairs: 2
   block-scoped-var: 0
-  complexity: [2, 6]
+  complexity: [1, 15]
   consistent-return: 0
   curly: 0
   default-case: 0
