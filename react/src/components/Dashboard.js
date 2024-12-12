@@ -41,7 +41,7 @@ import packageJson from '../../package.json';
 function Version() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      <p>Version: {packageJson.version}</p>
+      Version: {packageJson.version}
     </Typography>
   );
 };
@@ -295,7 +295,7 @@ export const Dashboard = (props)  => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth={false} maxHeight={false} className={classes.container}>
+        <Container className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <BreadcrumbBar instrumentId={instrumentId} />

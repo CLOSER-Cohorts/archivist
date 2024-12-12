@@ -83,7 +83,7 @@ export const BuildContainer = (props) => {
 
     return (
       <ListItem>
-        <ListItemText className= { classes.truncate } primary = { label } onClick = {()=>{ handleItemSelection(id, type) }}/>
+        <ListItemText key={id} className= { classes.truncate } primary = { label } onClick = {()=>{ handleItemSelection(id, type) }}/>
         { value !== '' && (
           < ListItemSecondaryAction ><Chip label={value} /></ListItemSecondaryAction>
         )}
@@ -124,7 +124,7 @@ export const BuildContainer = (props) => {
                     {
                       Object.values(items).sort((a, b) => a.label.localeCompare(b.label)).map((item) => {
                         return (
-                          <BuildListItem label={listItemLabel(item)} value={listItemValue(item)} id={item.id} type={item.type} />
+                          <BuildListItem key={item.id} label={listItemLabel(item)} value={listItemValue(item)} id={item.id} type={item.type} />
                         )
                       })}
                   </List>

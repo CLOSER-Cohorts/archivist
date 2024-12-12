@@ -6,7 +6,6 @@ import { ResponseDomainNumericForm } from '../components/ResponseDomainNumericFo
 import { ResponseDomainTextForm } from '../components/ResponseDomainTextForm'
 import { ResponseDomainDatetimeForm } from '../components/ResponseDomainDatetimeForm'
 import { BuildContainer } from '../components/BuildContainer'
-import { get } from "lodash";
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { HumanizeObjectType } from '../support/HumanizeObjectType'
@@ -14,9 +13,10 @@ import { HumanizeObjectType } from '../support/HumanizeObjectType'
 const InstrumentBuildResponseDomains = (props) => {
   const dispatch = useDispatch()
   const { instrument_id: instrumentId, responseDomainId, responseDomainType } = useParams();
-
+  
   return (
     <BuildContainer
+      key={instrumentId}
       instrumentId={instrumentId}
       itemId={responseDomainId}
       itemType={responseDomainType}
@@ -35,11 +35,11 @@ const InstrumentBuildResponseDomains = (props) => {
       formRenderer={(instrumentId, selectedItem, instrument) => {
           switch (selectedItem.type) {
             case ('ResponseDomainNumeric'):
-              return <ResponseDomainNumericForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
+              return <ResponseDomainNumericForm key={selectedItem} responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             case ('ResponseDomainText'):
-              return <ResponseDomainTextForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
+              return <ResponseDomainTextForm key={selectedItem} responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             case ('ResponseDomainDatetime'):
-              return <ResponseDomainDatetimeForm responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
+              return <ResponseDomainDatetimeForm key={selectedItem} responseDomain={selectedItem} instrumentId={instrumentId} instrument={instrument} />
             default:
               return ''
           }

@@ -68,9 +68,9 @@ export const CreateNewBuildObjectButtons  = (props) => {
   const buttons = objectTypes.map( objectType => ObjectTypeLookup(objectType, instrumentId) )
 
   return (
-    <ButtonGroup color="primary" aria-label="outlined primary button group" class={classes.inline}>
+    <ButtonGroup color="primary" aria-label="outlined primary button group" className={classes.inline}>
      {buttons.map((button) => {
-        return <Button onClick={()=> { createNew(button.path)} }startIcon={<AddIcon />}>{button.text}</Button>
+        return <Button key={button.text} onClick={()=> { createNew(button.path)} }startIcon={<AddIcon />}>{button.text}</Button>
       })}
     </ButtonGroup>
   )

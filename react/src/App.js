@@ -46,9 +46,9 @@ import InstrumentBuildResponseDomains from './pages/InstrumentBuildResponseDomai
 import NoMatch from './pages/NoMatch';
 import RedirectFromState from './components/RedirectFromState';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   props: {
     // Name of the component ⚛️
     MuiButtonBase: {
