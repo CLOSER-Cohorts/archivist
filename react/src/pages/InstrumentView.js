@@ -120,13 +120,13 @@ const questionStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   details: {
-    padding: theme.spacing(2),
-    // backgroundColor: '#f9f9f9',
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     borderRadius: theme.shape.borderRadius,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },    
   secondaryDetails: {
-    color: '#9e9e9e',
   },
   label: {
     fontWeight: 'bold',
@@ -135,8 +135,6 @@ const questionStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   questionLiteral: {
-    fontSize: '1.25rem',
-    fontWeight: 600,
     marginBottom: theme.spacing(2),
     color: '#333',
   },
@@ -185,20 +183,20 @@ const QuestionItemListItem = (props) => {
 
       <Grid item xs={10} sm={10}>
         <div className={classes.details}>         
-          <Typography className={classes.questionLiteral}>
-            {item.question.literal}
-          </Typography>
-          <Divider />
-
-          <div className={classes.secondaryDetails}>   
-            {!isEmpty(item.interviewee) && (
+          {!isEmpty(item.interviewee) && (
               <>
                 <Typography className={classes.sectionHeading}>Interviewee</Typography>
                 <Typography className={classes.sectionContent}>
                   {item.interviewee}
                 </Typography>
               </>
-            )}
+            )}                      
+          <Typography className={classes.questionLiteral}>
+            {item.question.literal}
+          </Typography>
+          <Divider />
+
+          <div className={classes.secondaryDetails}>   
             {!isEmpty(item.question.instruction) && (
               <>
                 <Typography className={classes.sectionHeading}>Instruction</Typography>
@@ -338,10 +336,8 @@ const QuestionListItem = (props) => {
 const responseDomainClasses = makeStyles((theme) => ({
   root: {
     listStyleType:'none',
-    color: '#9e9e9e',
   },
   secondary: {
-    color: '#9e9e9e',
   }
 }));
 
