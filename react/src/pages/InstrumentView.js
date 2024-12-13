@@ -191,6 +191,7 @@ const QuestionItemListItem = (props) => {
                 </Typography>
               </>
             )}                      
+          <Typography className={classes.sectionHeading}>Question Text</Typography>
           <Typography className={classes.questionLiteral}>
             {item.question.literal}
           </Typography>
