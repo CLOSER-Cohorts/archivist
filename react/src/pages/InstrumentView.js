@@ -195,7 +195,6 @@ const QuestionItemListItem = (props) => {
           <Typography className={classes.questionLiteral}>
             {item.question.literal}
           </Typography>
-          <Divider />
 
           <div className={classes.secondaryDetails}>   
             {!isEmpty(item.question.instruction) && (
