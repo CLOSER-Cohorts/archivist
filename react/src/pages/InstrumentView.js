@@ -130,7 +130,6 @@ const questionStyles = makeStyles((theme) => ({
   },
   label: {
     fontWeight: 'bold',
-    color: '#0056b3',
     textAlign: 'left',
     marginBottom: theme.spacing(1),
   },
@@ -142,12 +141,10 @@ const questionStyles = makeStyles((theme) => ({
     fontWeight: 700,
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
-    color: '#555',
     fontSize: '1rem',
   },
   sectionContent: {
     fontSize: '0.9rem',
-    color: '#444',
     marginBottom: theme.spacing(1),
   },
   table: {
