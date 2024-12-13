@@ -291,7 +291,6 @@ const QuestionGridListItem = (props) => {
               ))}
             </TableBody>
           </Table>       
-          <Divider />
 
           <div className={classes.secondaryDetails}>
             {!isEmpty(item.question.instruction) && (
