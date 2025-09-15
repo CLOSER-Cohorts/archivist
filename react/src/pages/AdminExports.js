@@ -39,6 +39,27 @@ const AdminExports = () => {
   useEffect(() => {
     dispatch(AdminExport.all());
     
+    // Subscribe to ExportsChannel for this page
+    const subscription = window.ActionCableConsumer.subscriptions.create("ExportsChannel", {
+      connected() {
+        // Connected to ExportsChannel
+      },
+      disconnected() {
+        // Disconnected from ExportsChannel
+      },
+      received(data) {
+        // Refresh exports list when message received
+        dispatch(AdminExport.all());
+        // Show success flash message
+        dispatch({type: 'SHOW_SUCCESS', payload: { message: 'Export completed successfully!' }});
+      }
+    });
+
+    // Cleanup subscription when component unmounts
+    return () => {
+      subscription.unsubscribe();
+    };
+    
   },[]);
 
   return (

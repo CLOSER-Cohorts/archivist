@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Flash() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const error = useSelector(state => state.error);
+  const flash = useSelector(state => state.flash);
 
   const dispatch = useDispatch()
 
@@ -29,19 +29,19 @@ export default function Flash() {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch({type: 'ERROR_DISPLAYED'})
+    dispatch({type: 'CLEAR_FLASH'})
     setOpen(false);
   };
 
     useEffect(() => {
-        setOpen(!isEmpty(error))
-    }, [error]);
+        setOpen(!isEmpty(flash) && !isEmpty(flash.message))
+    }, [flash]);
 
   return (
     <div className={classes.root}>
       <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center'}} open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          {error}
+        <Alert onClose={handleClose} severity={flash.type || "error"}>
+          {flash.message}
         </Alert>
       </Snackbar>
     </div>

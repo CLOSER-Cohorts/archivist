@@ -45,6 +45,7 @@ import InstrumentBuildQuestionGrids from './pages/InstrumentBuildQuestionGrids';
 import InstrumentBuildResponseDomains from './pages/InstrumentBuildResponseDomains';
 import NoMatch from './pages/NoMatch';
 import RedirectFromState from './components/RedirectFromState';
+import Flash from './components/Flash';
 
 import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 
@@ -145,6 +146,7 @@ const App = () => {
       <Router>
        <div>
           <RedirectFromState />
+          <Flash />
           <Routes>
             {routeConfig.map(({ path, type, element, noAuth }) => (
               <Route

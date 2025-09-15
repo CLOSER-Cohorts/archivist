@@ -1,6 +1,8 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+  
   post 'setup', to: 'main#setup'
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

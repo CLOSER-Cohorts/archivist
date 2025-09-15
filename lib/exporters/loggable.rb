@@ -5,6 +5,7 @@ module Exporters::Loggable
     def set_export_to_running
       return unless @export
       @export.update(state: :running)
+      broadcast_progress("Export started")
       @logs = []
       @log_entry = {}
       @errors = false
@@ -13,7 +14,12 @@ module Exporters::Loggable
     def set_export_to_finished
       return unless @export
       @export.update(state: (@errors) ? :failure : :success, log: @logs.to_json)
+      broadcast_progress("Export finished")
     end
+
+    def broadcast_progress(progress)
+      ActionCable.server.broadcast("exports_channel", { message: "#{progress}", timestamp: Time.current })    
+    end    
 
     def log(key, value)
       return unless @export

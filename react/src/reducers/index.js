@@ -490,6 +490,19 @@ const common = (state = {}, action) => {
   }
 }
 
+const flash = (state = {}, action) => {
+  switch (action.type) {
+    case 'SHOW_ERROR':
+      return { message: action.payload.message, type: 'error' }
+    case 'SHOW_SUCCESS':
+      return { message: action.payload.message, type: 'success' }
+    case 'CLEAR_FLASH':
+      return {}
+    default:
+      return state
+  }
+}
+
 
 const appReducer = combineReducers({
     common,
@@ -523,7 +536,8 @@ const appReducer = combineReducers({
     userGroups,
     users,
     datasetImportMappings,
-    instrumentImportMappings
+    instrumentImportMappings,
+    flash
 })
 
 export default appReducer;
