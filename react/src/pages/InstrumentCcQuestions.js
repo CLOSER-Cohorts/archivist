@@ -1,10 +1,12 @@
 import React, { useEffect, useState  } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { CcQuestions } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DataTable } from '../components/DataTable'
 import { get, isNil, difference } from "lodash";
+import routes from '../routes'
+import { reverse as url } from 'named-urls'
 import Chip from '@material-ui/core/Chip';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { Grid, Box } from '@material-ui/core';
@@ -92,7 +94,25 @@ const InstrumentCcQuestions = (props) => {
 
   const headers = ["ID", "Label", "Base Label", "Response Unit Label"]
   const rowRenderer = (row) => {
-    return [row.id, row.label, row.base_label, row.response_unit_label]
+    // Create clickable link for base_label using question_id and question_type
+    let baseLabelElement = row.base_label;
+    if (row.base_label && row.question_id && row.question_type) {
+      if (row.question_type === "QuestionItem") {
+        const linkPath = url(routes.instruments.instrument.build.questionItems.show, {
+          instrument_id: instrumentId,
+          questionItemId: row.question_id
+        });
+        baseLabelElement = <Link to={linkPath} style={{ color: '#1976d2', textDecoration: 'none' }}>{row.base_label}</Link>;
+      } else if (row.question_type === "QuestionGrid") {
+        const linkPath = url(routes.instruments.instrument.build.questionGrids.show, {
+          instrument_id: instrumentId,
+          questionGridId: row.question_id
+        });
+        baseLabelElement = <Link to={linkPath} style={{ color: '#1976d2', textDecoration: 'none' }}>{row.base_label}</Link>;
+      }
+    }
+    
+    return [row.id, row.label, baseLabelElement, row.response_unit_label]
   }
 
   return (
