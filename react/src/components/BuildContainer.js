@@ -35,12 +35,25 @@ const useStyles = makeStyles((theme) => ({
     'text-overflow': 'ellipsis'
   },
   list: {
-    height: 1500,
-    overflow: 'hidden',
-    'overflow': 'scroll',
+    height: 'auto',
   },
   expandable: {
     marginTop: '20px',
+  },
+  stickyColumn: {
+    position: 'sticky',
+    top: 80,
+    height: 'fit-content',
+  },
+  selectedItem: {
+    '& .MuiListItemText-primary': {
+      fontWeight: 'bold',
+    },
+  },
+  selectedChip: {
+    marginLeft: theme.spacing(1),
+    height: '20px',
+    fontSize: '0.7rem',
   }
 
 }));
@@ -80,10 +93,17 @@ export const BuildContainer = (props) => {
   const BuildListItem = (props) => {
     const { label, value, id, type } = props
     const classes = useStyles();
+    const isSelected = selectedItem && selectedItem.id === id;
 
     return (
-      <ListItem>
-        <ListItemText key={id} className= { classes.truncate } primary = { label } onClick = {()=>{ handleItemSelection(id, type) }}/>
+      <ListItem className={isSelected ? classes.selectedItem : ''}>
+        <ListItemText 
+          key={id} 
+          className={classes.truncate} 
+          primary={label}
+          onClick={() => { handleItemSelection(id, type) }}
+        />
+        {isSelected && <Chip label="Selected" size="small" color="primary" className={classes.selectedChip} />}
         { value !== '' && (
           < ListItemSecondaryAction ><Chip label={value} /></ListItemSecondaryAction>
         )}
@@ -131,7 +151,7 @@ export const BuildContainer = (props) => {
                 )}
             </Paper>
           </Grid>
-          < Grid item xs = {(expanded) ? 6 : 9}>
+          < Grid item xs = {(expanded) ? 6 : 9} className={classes.stickyColumn}>
             {instrument && instrument.signed_off && (
               <div>
                 <Alert severity="error">
