@@ -10,7 +10,7 @@ import routes from '../routes'
 import { DataTable } from '../components/DataTable'
 import { ConfirmationModal } from '../components/ConfirmationModal'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Chip from '@material-ui/core/Chip';
+import StyledLink from '../components/StyledLink';
 
 const AdminInstruments = () => {
 
@@ -57,7 +57,7 @@ const AdminInstruments = () => {
 
   const headers = ["ID", "Prefix", "Study", "Datasets"]
   const rowRenderer = (row) => {
-    return [row.id, row.prefix, row.study, row.datasets.map((dataset) => { return <Link to={url('/datasets/:dataset_id', { dataset_id: dataset.id })}><Chip label={dataset.instance_name} /></Link>})]
+    return [row.id, row.prefix, row.study, row.datasets.map((dataset) => { return <StyledLink key={dataset.id} to={url('/datasets/:dataset_id', { dataset_id: dataset.id })} label={dataset.instance_name} />})]
   }
   return (
     <div style={{ height: 500, width: '100%' }}>
