@@ -99,3 +99,5 @@ group :test, :test do
   # http://github.com/colszowka/simplecov
   gem 'simplecov', require: false
 end
+
+gem "airbrake", "~> 13.0"
