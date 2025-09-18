@@ -25,7 +25,7 @@ const AdminExports = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(exports).sort().reverse();
+  const rows = Object.values(exports).sort().reverse();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -97,10 +97,13 @@ const AdminExports = () => {
                 <TableCell><SuccessFailureChip outcome={row.state}/></TableCell>
                 <TableCell>{row.created_at}</TableCell>
                 <TableCell>
-                {row.state === 'success' && (
+                {row.state === 'success' && row.filename && (
                     <a href={`${process.env.REACT_APP_API_HOST}/exports/${row.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
                       <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label="Download File" />
                     </a>
+                )}
+                {row.state === 'success' && !row.filename && (
+                    <span style={{ color: '#666', fontStyle: 'italic' }}>No document</span>
                 )}
                 </TableCell>
                 <TableCell>                                 

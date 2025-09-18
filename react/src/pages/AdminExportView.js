@@ -60,25 +60,27 @@ const InstrumentExportView = (props) => {
             </Card>
           </Box>
         </Grid>
-        <Grid item xs={4}>
-          <Box fontWeight="fontWeightLight" m={2} >
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  Document
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  { instrumentExport.filename }
-                </Typography>
-                <Typography variant="body2" component="p">
-                  <a href={`${process.env.REACT_APP_API_HOST}/exports/${instrumentExport.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
-                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
-                  </a>
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        </Grid>
+        {instrumentExport.filename && (
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    Document
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    { instrumentExport.filename }
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                    <a href={`${process.env.REACT_APP_API_HOST}/exports/${instrumentExport.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
+                      <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
+                    </a>
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+        )}
         <Grid item xs={4}>
           <Box fontWeight="fontWeightLight" m={2} >
             <Card className={classes.card}>
@@ -106,7 +108,7 @@ const AdminExportView = (props) => {
   const exports = useSelector(state => state.exports);
   const exportObj = get(exports, exportId, { logs: [] })
   const logs = get(exportObj, 'logs', [])
-  const rows: RowsProp = Object.values(logs);
+  const rows = Object.values(logs);
 
   useEffect(() => {
     dispatch(AdminExport.show(exportId));

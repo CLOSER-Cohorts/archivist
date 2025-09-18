@@ -60,25 +60,27 @@ const InstrumentImportView = (props) => {
             </Card>
           </Box>
         </Grid>
-        <Grid item xs={4}>
-          <Box fontWeight="fontWeightLight" m={2} >
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  Document
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  { instrumentImport.filename }
-                </Typography>
-                <Typography variant="body2" component="p">
-                  <a href={`${process.env.REACT_APP_API_HOST}/imports/${instrumentImport.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
-                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
-                  </a>
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        </Grid>
+        {instrumentImport.filename && (
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    Document
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    { instrumentImport.filename }
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                    <a href={`${process.env.REACT_APP_API_HOST}/imports/${instrumentImport.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
+                      <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
+                    </a>
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+        )}
         <Grid item xs={4}>
           <Box fontWeight="fontWeightLight" m={2} >
             <Card className={classes.card}>
@@ -106,7 +108,7 @@ const AdminImportView = (props) => {
   const imports = useSelector(state => state.imports);
   const importObj = get(imports, importId, { logs: [] })
   const logs = get(importObj, 'logs', [])
-  const rows: RowsProp = Object.values(logs);
+  const rows = Object.values(logs);
 
   useEffect(() => {
     dispatch(AdminImport.show(importId));
