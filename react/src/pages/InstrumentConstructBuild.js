@@ -130,11 +130,7 @@ const Tree = (props) => {
   }
 
   const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
-    if (!isNil(nextParent) && canHaveChildren(nextParent)) {
-      return true;
-    }
-
-    return false;
+    return !isNil(nextParent) && canHaveChildren(nextParent);
   };
 
   const toggleExpand = (expanded) => {
@@ -263,11 +259,12 @@ const Tree = (props) => {
         }}
         generateNodeProps={({ node, path }) => {
           const boxShadow = (node === selectedNode || node.type == 'sequence') ? `0px 0px 15px 3px  #${ObjectColour(node.type)}` : ''
-
+          
+          
           return (
             {
               style: {
-                boxShadow: boxShadow,
+                boxShadow: boxShadow
               },
               onClick: () => {
                 onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
