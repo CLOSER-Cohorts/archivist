@@ -32,3 +32,33 @@ class DeleteJob::Dataset
     end
   end
 end
+
+class DeleteJob::Document
+  include Sidekiq::Worker
+
+  sidekiq_options queue: 'in_and_out'
+
+  def perform(document_id)
+    begin
+      document = Document.find(document_id)
+      
+      if document.safe_to_delete?
+        # First nullify any remaining foreign key references
+        Import.where(document_id: document.id).update_all(document_id: nil)
+        Export.where(document_id: document.id).update_all(document_id: nil)
+        
+        # Then destroy the document
+        document.destroy
+        Rails.logger.info "Document cleanup job: deleted document #{document_id}"
+      else
+        reasons = document.preservation_reasons
+        Rails.logger.info "Document cleanup job: skipped document #{document_id} - preserved because: #{reasons.join(', ')}"
+      end
+    rescue ActiveRecord::RecordNotFound
+      Rails.logger.warn "Document cleanup job: document #{document_id} not found, may have been already deleted"
+    rescue => e
+      Rails.logger.error "Document cleanup job failed for document #{document_id}: #{e.message}"
+      raise e
+    end
+  end
+end

@@ -229,6 +229,56 @@ class Document < ApplicationRecord
     end
   end
 
+  # Checks if this specific document is safe to delete using the same business logic
+  # as the class methods
+  #
+  # @return [Boolean] true if this document can be safely deleted
+  def safe_to_delete?
+    # A document is safe to delete if it has NO preservation reasons
+    preservation_reasons.empty?
+  end
+
+  # Returns why this document is being preserved (if it is)
+  #
+  # @return [Array<String>] Reasons why this document is preserved, empty if safe to delete
+  def preservation_reasons
+    reasons = []
+    
+    # Check if it's the latest import for any type/instrument/dataset combination
+    latest_import_docs = Import.includes(:document)
+      .order(created_at: :desc)
+      .group_by { |i| [i.import_type, i.instrument_id, i.dataset_id] }
+      .map { |_key, imports| imports.first.document_id }
+      .compact
+    
+    if latest_import_docs.include?(self.id)
+      reasons << "Latest import document for a type/instrument/dataset combination"
+    end
+    
+    # Check if it's the latest export for any type/instrument/dataset combination  
+    latest_export_docs = Export.includes(:document)
+      .order(created_at: :desc)
+      .group_by { |e| [e.export_type, e.instrument_id, e.dataset_id] }
+      .map { |_key, exports| exports.first.document_id }
+      .compact
+      
+    if latest_export_docs.include?(self.id)
+      reasons << "Latest export document for a type/instrument/dataset combination"
+    end
+    
+    # Check if linked to pending imports
+    if Import.where(state: 'pending', document_id: self.id).exists?
+      reasons << "Linked to pending import(s)"
+    end
+    
+    # Check if linked to pending exports
+    if Export.where(state: 'pending', document_id: self.id).exists?
+      reasons << "Linked to pending export(s)"
+    end
+    
+    reasons
+  end
+
   private # Private methods
 
   # Prepare the filename for saving
