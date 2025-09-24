@@ -17,7 +17,7 @@ class CcSequencesController < ConstructController
   def index
     # Always make sure there is a top sequence so that we can
     # build a tree of sequences.
-    if collection.first.children.count == 0
+    if collection.first&.children&.count.to_i == 0
       top_sequence = collection.create!(parent: collection.first, label: @instrument.prefix)
     end
     super

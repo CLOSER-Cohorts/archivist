@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportMappingsForm } from '../components/AdminImportMappingsForm'
 import { DataTable } from '../components/DataTable'
@@ -12,12 +13,13 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { SuccessFailureChip } from '../components/SuccessFailureChip';
 
 const AdminDatasetImportMappings = (props) => {
   const dispatch = useDispatch()
   const type = "Dataset"
   const hint = "You can import multiple T-V and DV mapping files. Only TXT files are accepted."
-  const datasetId = get(props, "match.params.datasetId", "")
+  const { datasetId } = useParams();
 
   const onSubmit = (values) => {
     dispatch({type: 'CLEAR', payload: {id: 'new', type: 'AdminImportMapping'}})
@@ -48,7 +50,7 @@ const AdminDatasetImportMappings = (props) => {
 
     const headers = ["ID", "File", "Type","State","Created At"]
     const rowRenderer = (row) => {
-      return [row.id, row.file, row.import_type, row.state, row.created_at]
+      return [row.id, row.file, row.import_type, <SuccessFailureChip outcome={row.state} />, row.created_at]
     }
 
     return (

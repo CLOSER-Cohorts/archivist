@@ -1,7 +1,7 @@
 import React from 'react';
-import { isNil } from "lodash";
-import { Form } from 'react-final-form';
-import { useDispatch } from 'react-redux'
+import { get, isNil } from "lodash";
+import { Form, Field } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux'
 import { CcConditions } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
@@ -39,17 +39,45 @@ const validate = (values) => {
   return errors;
 };
 
-const formFields = [
+const formFields= (labelArray) => [
   {
     size: 12,
     field: (
-      <TextField
-        label="Label"
-        name="label"
-        margin="none"
-        required={true}
-        multiline
-      />
+      <Field name="label">
+        {({ input, meta }) => {
+          const [matches, setMatches] = React.useState([]);
+          React.useEffect(() => {
+            const foundMatches = labelArray.filter(label => 
+              label.startsWith(input.value) && input.value !== '' && label !== meta.initial
+            );
+            setMatches(foundMatches);
+          }, [input.value, labelArray]);
+
+          return (
+            <div>
+              <TextField
+                {...input}
+                label="Label"
+                margin="none"
+                required={true}
+                multiline
+                helperText={
+                  matches.length > 0
+                    ? `Found similar labels: ${matches.join(', ')}`
+                    : "Enter a unique label"
+                }
+              />
+              {matches.length > 0 && (
+                <ul style={{ margin: '8px 0', paddingLeft: '16px', color: 'red', fontSize: '0.9em' }}>
+                  {matches.map((match, index) => (
+                    <li key={index}>{match}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        }}
+      </Field>
     ),
   },
   {
@@ -82,6 +110,10 @@ export const CcConditionForm = (props) => {
 
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const conditions = useSelector(state => state.cc_conditions);
+  const cc_conditions = get(conditions, instrumentId, {});
+  const labelArray = Object.values(cc_conditions).map(condition => condition.label);    
 
   const status = ObjectStatus(ccCondition.id || 'new', 'CcCondition')
 
@@ -124,7 +156,7 @@ export const CcConditionForm = (props) => {
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }} className={classes.paper}>
               <Grid container alignItems="flex-start" spacing={2}>
-                {formFields.map((item, idx) => (
+                {formFields(labelArray).map((item, idx) => (
                   <Grid item xs={item.size} key={idx}>
                     {item.type && item.type === 'select'
                       ? item.field([])

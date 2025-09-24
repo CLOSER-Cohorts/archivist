@@ -10,4 +10,16 @@ class Datasets::ImportsController < ApplicationController
     dataset = Dataset.find(params[:dataset_id])
     @import = dataset.imports.find(params[:id])
   end
+
+  def document
+    dataset = Dataset.find(params[:dataset_id])
+    @import = dataset.imports.find(params[:id])
+    
+    @document = @import.document
+
+    file_name = @document.filename
+    file_contents = @document.file_contents
+  
+    send_data file_contents, filename: file_name, type: "text/plain", disposition: "attachment"
+  end  
 end

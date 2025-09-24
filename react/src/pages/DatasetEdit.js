@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DatasetForm } from '../components/DatasetForm'
@@ -10,8 +11,8 @@ const DatasetEdit = (props) => {
 
   const dispatch = useDispatch()
 
-  const datasetId = get(props, "match.params.dataset_id", "")
-  console.log(useSelector(state => state.datasets))
+  const { dataset_id: datasetId } = useParams();
+
   const dataset = useSelector(state => get(state.datasets, datasetId));
 
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -22,7 +23,7 @@ const DatasetEdit = (props) => {
     ]).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   return (

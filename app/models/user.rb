@@ -81,18 +81,6 @@ class User < ApplicationRecord
     password == password_confirmation && !password.blank?
   end
 
-  # Checks whether a password is required
-  #
-  # @return [Boolean] True if a password is required
-  def password_required?
-    # Password is required if it is being set, but not for new records
-    if !persisted?
-      false
-    else
-      !password.nil? || !password_confirmation.nil?
-    end
-  end
-
   # Returns pretty label of the current User status
   #
   # @return [String] Pretty status label

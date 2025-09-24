@@ -1,6 +1,8 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+  
   post 'setup', to: 'main#setup'
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
@@ -44,7 +46,7 @@ Rails.application.routes.draw do
   match 'admin/import/datasets',    to: 'datasets#import', via: [:post, :put], constraints: {format: 'json'}
 
   request_processor = lambda do |request|
-    [:json, :xml, :text].include?(request.format.symbol)
+    [:json, :xml, :text, :tsv].include?(request.format.symbol)
   end
 
   resources :topics, constraints: request_processor do
@@ -76,8 +78,13 @@ Rails.application.routes.draw do
       match 'imports', to: 'datasets#member_imports', via: [:post, :put]
       get 'questions', to: 'datasets#questions'
       get 'dv', to: 'datasets#dv'
+      get 'mapping_stats', to: 'datasets#mapping_stats'
     end
-    resources :imports, module: :datasets, only: [:index, :show]
+    resources :imports, module: :datasets, only: [:index, :show] do
+      member do
+        get 'document', to: 'imports#document'
+      end 
+    end
   end
   get 'datasets/:dataset_id/tv', to: 'variables#tv', constraints: request_processor
 
@@ -95,6 +102,9 @@ Rails.application.routes.draw do
         post 'remove_variable', to: 'cc_questions#remove_variable'
         post 'set_topic', to: 'cc_questions#set_topic'
         delete 'delete', to: 'cc_questions#remove_variable'
+      end
+      collection do 
+        put 'update_all', to: 'cc_questions#update_all'
       end
     end
     resources :cc_loops do
@@ -116,7 +126,11 @@ Rails.application.routes.draw do
     resources :response_domain_texts
     resources :code_lists
     resources :categories
-    resources :imports, module: :instruments, only: [:index, :show]
+    resources :imports, module: :instruments, only: [:index, :show] do 
+      member do
+        get 'document', to: 'imports#document'
+      end
+    end
     member do
       post 'copy/:new_prefix', to: 'instruments#copy', as: :copy
       get 'clear_cache', to: 'instruments#clear_cache'
@@ -124,6 +138,7 @@ Rails.application.routes.draw do
       get 'response_domain_codes', to: 'instruments#response_domain_codes'
       post 'reorder_ccs', to: 'instruments#reorder_ccs'
       get 'stats', to: 'instruments#stats'
+      get 'mapping_stats', to: 'instruments#mapping_stats'
       get 'export', to: 'instruments#export'
       get 'export_complete', to: 'instruments#export_complete'
       get 'mapper', to: 'instruments#mapper'
@@ -134,7 +149,16 @@ Rails.application.routes.draw do
       get 'variables', to: 'instruments#variables'
     end
   end
-  resources :imports, only: [:index, :show]
+  resources :imports, only: [:index, :show] do
+    member do
+      get 'document', to: 'imports#document'
+    end
+  end
+  resources :exports, only: [:index, :show] do
+    member do
+      get 'document', to: 'exports#document'
+    end
+  end
   get 'instruments/:id/mapping', to: redirect('/instruments/%{id}/qv')
   get 'instruments/:instrument_id/tq', to: 'cc_questions#tq', constraints: request_processor
 

@@ -6,7 +6,7 @@ module Importers::XML::DDI
 
     def XML_node(node)
       begin
-        cat = ::Category.new label: node.at_xpath('./Label/Content').content
+        cat = ::Category.new urn: extract_urn_identifier(node), label: node.at_xpath('./Label/Content').content
       rescue
         cat = ::Category.new label: ''
       end

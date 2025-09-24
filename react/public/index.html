@@ -5,10 +5,28 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/@nosferatu500/react-sortable-tree@4.4.0/style.css">
+    <style>
+      /* Override sortable tree visual feedback for better visibility */
+      .rst__rowLandingPad::before {
+        background-color: rgba(33, 150, 243, 0.5) !important;
+        border: 3px dashed #2196F3 !important;
+        z-index: 1 !important;
+      }
+      .rst__rowCancelPad::before {
+        background-color: rgba(244, 67, 54, 0.5) !important;
+        border: 3px dashed #F44336 !important;
+        z-index: 1 !important;
+      }
+      .rst__rowLandingPad,
+      .rst__rowCancelPad {
+        position: relative !important;
+      }
+    </style>
     <title>Archivist</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>You need to enable JavaScript to run this app.x</noscript>
     <div id="root"></div>
   </body>
 </html>

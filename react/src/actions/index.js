@@ -23,21 +23,35 @@ axios.interceptors.response.use(function (response) {
 });
 
 // Auth
-export const authUser = (email, password) => {
-  const request = axios.post(api_host + '/users/sign_in.json', {
-      "user": {
-              "email": email,
-              "password": password
-      }
-    })
-  return (dispatch) => {
-      return request.then(res => {
-        dispatch(authUserSuccess(res.data));
+
+export const Auth = {
+  signIn: (email, password) => {
+    const request = axios.post(api_host + '/users/sign_in.json', {
+        "user": {
+                "email": email,
+                "password": password
+        }
       })
-      .catch(err => {
-        dispatch(authUserFailure(err.message));
-      });
-  };
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(authUserSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(authUserFailure(err.message));
+        });
+    };
+  },
+  signOut: () => {
+    const request = axios.delete(api_host + '/users/sign_out.json', {})
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(authUserSignOutSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(authUserFailure(err.message));
+        });
+    };
+  }  
 };
 
 export const Password = {
@@ -138,7 +152,20 @@ export const Dataset = {
           dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
         });
     };
-  }
+  },
+  mapping_stats: (id) => {
+    const request = axios.get(api_host + '/datasets/' + id + '/mapping_stats.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(datasetMappingStatsFetchSuccess(id, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }  
 }
 
 export const AdminInstrument = {
@@ -154,8 +181,7 @@ export const AdminInstrument = {
         return request.then(res => {
           dispatch(savedItem('new', 'AdminInstrument'));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -185,8 +211,7 @@ export const AdminInstrument = {
           dispatch(savedItem(instrumentId, 'Instrument'));
           dispatch(instrumentFetchSuccess(res.data));
         })
-          .catch(err => {
-            console.log('error')
+          .catch(() => {
           });
       };
     },
@@ -197,14 +222,14 @@ export const AdminInstrument = {
       return (dispatch) => {
         dispatch(savingItem(instrumentId, 'Instrument'));
         return request.then(res => {
-          dispatch(savedItem(instrumentId, 'Instrument'));;
+          dispatch(savedItem(instrumentId, 'Instrument'));
           dispatch(instrumentFetchSuccess(res.data));
         })
           .catch(err => {
             dispatch(saveError(instrumentId, 'Instrument', err.response.data.error_sentence));
           });
       };
-    },
+    }
   },
   clearCache: (instrumentId) => {
     const request = axios.get(api_host + '/instruments/' + instrumentId + '/clear_cache.json', {
@@ -232,8 +257,7 @@ export const AdminDataset = {
         return request.then(res => {
           dispatch(savedItem('new', 'AdminDataset'));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -251,7 +275,7 @@ export const AdminDataset = {
           dispatch(saveError(datasetId, 'Dataset', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 export const AdminImportMapping = {
@@ -265,8 +289,7 @@ export const AdminImportMapping = {
           dispatch(savedItem('new', 'AdminImportMapping'));
           dispatch(AdminImportMapping.all(type,id))
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -324,7 +347,36 @@ export const AdminImport = {
           dispatch(fetchFailure(err.message));
         });
     };
+  }
+}
+
+export const AdminExport = {
+  all: () => {
+    const request = axios.get(api_host + '/exports.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(exportsFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
   },
+  show: (id) => {
+    const request = axios.get(api_host + '/exports/' + id + '.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(exportFetchSuccess(res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  }
 }
 
 export const UserGroup = {
@@ -334,7 +386,6 @@ export const UserGroup = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log(res.data)
         dispatch(userGroupsFetchSuccess(res.data));
       })
         .catch(err => {
@@ -380,7 +431,6 @@ export const User = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log(res.data)
         dispatch(usersFetchSuccess(res.data));
       })
         .catch(err => {
@@ -415,7 +465,7 @@ export const User = {
           dispatch(saveError(userId, 'User', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 export const Instrument = {
@@ -456,10 +506,8 @@ export const Instrument = {
       })
     return (dispatch) => {
         return request.then(res => {
-          console.log('ok')
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -469,10 +517,9 @@ export const Instrument = {
       })
     return (dispatch) => {
         return request.then(res => {
-          console.log('ok')
+          dispatch(redirectTo(url(routes.admin.exports.all)));
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -482,10 +529,9 @@ export const Instrument = {
     })
     return (dispatch) => {
       return request.then(res => {
-        console.log('ok')
+        dispatch(redirectTo(url(routes.admin.exports.all)));
       })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   },
@@ -528,16 +574,27 @@ export const Instrument = {
         });
     };
   },
+  mapping_stats: (id) => {
+    const request = axios.get(api_host + '/instruments/' + id + '/mapping_stats.json',{
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        return request.then(res => {
+          dispatch(instrumentMappingStatsFetchSuccess(id, res.data));
+        })
+        .catch(err => {
+          dispatch(fetchFailure(err.message));
+        });
+    };
+  },  
   reorderConstructs: (instrumentId, values) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/reorder_ccs.json', { updates: values }, {
         headers: api_headers()
       })
     return (dispatch) => {
-        return request.then(res => {
-          console.log('ok')
+        return request.then(() => {
         })
-        .catch(err => {
-          console.log('error')
+        .catch(() => {
         });
     };
   }
@@ -603,9 +660,9 @@ export const CodeLists = {
     return (dispatch) => {
         dispatch(savingItem('new', 'CodeList'));
         return request.then(res => {
-          dispatch(savedItem('new', 'CodeList'));
+          dispatch(savedItem(res.data.id, 'CodeList'));
           dispatch(codeListFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
         })
         .catch(err => {
           dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));
@@ -706,7 +763,7 @@ export const CcSequences = {
           dispatch(saveError(ccSequenceId, 'CcSequence', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccSequencesFetchSuccess = (instrumentId, sequences) => ({
@@ -786,7 +843,7 @@ export const CcStatements = {
           dispatch(saveError(ccStatementId, 'CcStatement', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccStatementsFetchSuccess = (instrumentId, statements) => ({
@@ -866,7 +923,7 @@ export const CcLoops = {
           dispatch(saveError(ccLoopId, 'CcLoop', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 const ccLoopsFetchSuccess = (instrumentId, loops) => ({
@@ -938,7 +995,7 @@ export const ResponseUnits = {
           dispatch(saveError(responseUnitId, 'ResponseUnit', err.response.data.error_sentence));
         });
     };
-  },
+  }
 }
 
 const responseUnitsFetchSuccess = (instrumentId, responseUnits) => ({
@@ -1018,7 +1075,7 @@ export const CcConditions = {
           dispatch(saveError(ccConditionId, 'CcCondition', err.response.data));
         });
     };
-  },
+  }
 }
 
 const ccConditionsFetchSuccess = (instrumentId, conditions) => ({
@@ -1067,6 +1124,21 @@ export const CcQuestions = {
         });
     };
   },
+  update_all: (instrumentId, values, onSuccess = (object) => { alert('need to define') }) => {
+    const request = axios.put(api_host + '/instruments/' + instrumentId + '/cc_questions/update_all.json', values, {
+        headers: api_headers()
+      })
+    return (dispatch) => {
+        dispatch(savingItem(instrumentId, 'CcQuestionUpdateAll'));
+        return request.then(res => {
+          dispatch(savedItem(instrumentId, 'CcQuestionUpdateAll'));
+          onSuccess(res.data);
+        })
+        .catch(err => {
+          dispatch(saveError(instrumentId, 'CcQuestionUpdateAll', err.response.data));
+        });
+    };
+  },  
   create: (instrumentId, values, onSuccess=(object)=>{}) => {
     const request = axios.post(api_host + '/instruments/' + instrumentId + '/cc_questions.json', values, {
         headers: api_headers()
@@ -1234,9 +1306,9 @@ export const QuestionItems = {
     return (dispatch) => {
         dispatch(savingItem('new', 'QuestionItem'));
         return request.then(res => {
-          dispatch(savedItem('new', 'QuestionItem'));
+          dispatch(savedItem(res.data.id, 'QuestionItem'));
           dispatch(questionItemFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionItems.show, { instrument_id: instrumentId, questionItemId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1328,10 +1400,11 @@ export const QuestionGrids = {
       })
     return (dispatch) => {
         dispatch(savingItem('new', 'QuestionGrid'));
+
         return request.then(res => {
-          dispatch(savedItem('new', 'QuestionGrid'));
+          dispatch(savedItem(res.data.id, 'QuestionGrid'));
           dispatch(questionGridFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.questionGrids.show, { instrument_id: instrumentId, questionGridId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1409,9 +1482,9 @@ export const ResponseDomainNumerics = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainNumeric'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainNumeric'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainNumeric'));
           dispatch(responseDomainNumericFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1513,9 +1586,9 @@ export const ResponseDomainTexts = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainText'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainText'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainText'));
           dispatch(responseDomainTextFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1593,9 +1666,9 @@ export const ResponseDomainDatetimes = {
     return (dispatch) => {
         dispatch(savingItem('new', 'ResponseDomainDatetime'));
         return request.then(res => {
-          dispatch(savedItem('new', 'ResponseDomainDatetime'));
+          dispatch(savedItem(res.data.id, 'ResponseDomainDatetime'));
           dispatch(responseDomainDatetimeFetchSuccess(instrumentId, res.data));
-          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: 'new' })));
+          dispatch(redirectTo(url(routes.instruments.instrument.build.responseDomains.show, { instrument_id: instrumentId, responseDomainType: res.data.type, responseDomainId: res.data.id })));
           callback();
         })
         .catch(err => {
@@ -1862,6 +1935,20 @@ const importFetchSuccess = importObj => ({
   }
 });
 
+const exportsFetchSuccess = exports => ({
+  type: 'LOAD_ADMIN_EXPORTS',
+  payload: {
+    exports: exports
+  }
+});
+
+const exportFetchSuccess = exportObj => ({
+  type: 'LOAD_ADMIN_EXPORT',
+  payload: {
+    export: exportObj
+  }
+});
+
 const instrumentsFetchSuccess = instruments => ({
   type: 'LOAD_INSTRUMENTS',
   payload: {
@@ -1902,6 +1989,22 @@ const instrumentStatsFetchSuccess = (instrumentId, stats) => ({
   payload: {
     instrumentId: instrumentId,
     stats: stats
+  }
+});
+
+const instrumentMappingStatsFetchSuccess = (instrumentId, stats) => ({
+  type: 'LOAD_INSTRUMENT_MAPPING_STATS',
+  payload: {
+    instrumentId: instrumentId,
+    mapping_stats: stats
+  }
+});
+
+const datasetMappingStatsFetchSuccess = (datasetId, stats) => ({
+  type: 'LOAD_DATASET_MAPPING_STATS',
+  payload: {
+    datasetId: datasetId,
+    mapping_stats: stats
   }
 });
 
@@ -1956,6 +2059,10 @@ const authUserSuccess = auth => ({
   payload: {
     ...auth
   }
+});
+
+const authUserSignOutSuccess = auth => ({
+  type: 'LOGOUT'
 });
 
 const whoAmISuccess = user => ({

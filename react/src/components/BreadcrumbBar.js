@@ -15,11 +15,11 @@ const BreadcrumbBarItem = (props) => {
 
   if(isEmpty(link)){
     return (
-      <Typography color="textPrimary">{text}</Typography>
+      <Typography key={text} color="textPrimary">{text}</Typography>
     )
   }else{
     return (
-      <Link color="inherit" to={link}>
+      <Link key={link} color="inherit" to={link}>
         {text}
       </Link>
     )
@@ -152,7 +152,7 @@ const BreadcrumbBar = (props) => {
       <Paper className={classes.root}>
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
           {breadcrumbs.map((breadcrumb) => {
-            return <BreadcrumbBarItem text={breadcrumb.text} link={breadcrumb.link} />
+            return <BreadcrumbBarItem key={breadcrumb.text} text={breadcrumb.text} link={breadcrumb.link} />
           })}
         </Breadcrumbs>
       </Paper>

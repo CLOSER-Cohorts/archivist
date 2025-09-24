@@ -45,9 +45,7 @@ const useStyles = makeStyles({
 
 const validate = values => {
   const errors = {};
-   if (!values.label) {
-     errors.label = 'Required';
-   }
+
   return errors;
 };
 
@@ -203,7 +201,7 @@ export const CodeListForm = (props) => {
                                       )}
                                     </TableCell>
                                     <TableCell className={classes.small} size="small">
-                                      <TextField name={`${name}.value`} multiline label="Value" margin="none" />
+                                      <TextField name={`${name}.value`} value={fields.value[index].value} multiline label="Value" margin="none" />
                                     </TableCell>
                                     <TableCell>
                                      <Autocomplete
@@ -234,7 +232,7 @@ export const CodeListForm = (props) => {
                                     <TableCell className={classes.small}>
                                       {instrument && !instrument.signed_off && (
                                         <span
-                                          onClick={() => fields.remove(index)}
+                                          onClick={() => {}}
                                           style={{ cursor: 'pointer' }}
                                         >
                                           <DeleteIcon />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits, InstrumentTree } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { MoveConstructSelect } from '../components/MoveConstructSelect'
@@ -129,11 +130,7 @@ const Tree = (props) => {
   }
 
   const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
-    if (!isNil(nextParent) && canHaveChildren(nextParent)) {
-      return true;
-    }
-
-    return false;
+    return !isNil(nextParent) && canHaveChildren(nextParent);
   };
 
   const toggleExpand = (expanded) => {
@@ -161,7 +158,7 @@ const Tree = (props) => {
         title: node.title,
         path: path
       }
-    }).filter(el => el != null);
+    }).filter(el => el !== null);
   }
 
   dispatch(InstrumentTree.create(instrumentId, moveableNodesArray(treeData)));
@@ -192,7 +189,7 @@ const Tree = (props) => {
       }
 
       return data
-    }).filter(el => el != null);
+    }).filter(el => el !== null);
   }
 
   const reorderConstructs = (data) => {
@@ -262,11 +259,12 @@ const Tree = (props) => {
         }}
         generateNodeProps={({ node, path }) => {
           const boxShadow = (node === selectedNode || node.type == 'sequence') ? `0px 0px 15px 3px  #${ObjectColour(node.type)}` : ''
-
+          
+          
           return (
             {
               style: {
-                boxShadow: boxShadow,
+                boxShadow: boxShadow
               },
               onClick: () => {
                 onNodeSelect({ node: node, path: path, callback: ({ node, path }) => { updateNode({ node, path }); setSelectedNode(null) }, deleteCallback: ({ path }) => { deleteNode({ path }) } });
@@ -395,7 +393,13 @@ const ObjectFinder = (instrumentId) => {
 
 const ConstructForm = (props) => {
   const { object, instrumentId, onNodeSelect } = props;
-  const { node = {}, path, callback = (node) => { console.log('No onChange callback provided') }, deleteCallback = (node) => { console.log('No onDelete callback provided') } } = object;
+  const { node = {}, path, callback = () => { 
+    // eslint-disable-next-line no-console
+    console.log('No onChange callback provided') 
+  }, deleteCallback = () => { 
+    // eslint-disable-next-line no-console
+    console.log('No onDelete callback provided') 
+  } } = object;
   const onCreate = () => { onNodeSelect(null) }
   switch (node.type) {
     case 'question':
@@ -503,7 +507,7 @@ const InstrumentConstructBuild = (props) => {
   const classes = useStyles();
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
   const cc_sequences = get(sequences, instrumentId, null)
@@ -525,7 +529,7 @@ const InstrumentConstructBuild = (props) => {
     ]).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   const handleCloseForm = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dataset, DatasetVariable, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DatasetHeading } from '../components/DatasetHeading'
@@ -11,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -23,6 +25,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SearchBar from "material-ui-search-bar";
 import { ObjectStatus } from '../components/ObjectStatusBar'
+import { useHasPermission } from '../hooks/useHasPermission';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const TopicList = (props) => {
   const {topicId, datasetId, variableId} = props
@@ -82,15 +90,18 @@ const TopicList = (props) => {
 const DatasetView = (props) => {
 
   const dispatch = useDispatch()
-  const datasetId = get(props, "match.params.dataset_id", "")
+  const { dataset_id: datasetId } = useParams();
 
   const statuses = useSelector(state => state.statuses);
   const dataset = useSelector(state => get(state.datasets, datasetId));
   const variables = useSelector(state => get(state.datasetVariables, datasetId,{}));
+  const datasetMappingStats = useSelector(state => get(state.datasetMappingStats, datasetId));  
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [search, setSearch] = useState("");
   const [filteredValues, setFilteredValues] = useState([]);
+
+  const hasEditorPermission = useHasPermission("editor")
 
   useEffect(() => {
     setFilteredValues(
@@ -100,10 +111,10 @@ const DatasetView = (props) => {
         const topic = get(value,'topic', {name: ''})
         const topicMatch = topic && topic['name'] && topic['name'].toLowerCase().includes(search.toLowerCase())
         const sources = get(value,'sources', [])
-        const sourcesStr = sources.map((s)=>{ return s['name'] || s['label'] }).join(' ')
+        const sourcesStr = sources.map((s) => s?.name ?? s?.label ?? '').join(' ');
         const sourcesMatch = sourcesStr && sourcesStr.toLowerCase().includes(search.toLowerCase())
         const usedBy = get(value, 'used_bys', [])
-        const usedByStr = usedBy.map((s) => { return s['name'] || s['label'] }).join(' ')
+        const usedByStr = usedBy.map((s) => s?.name ?? s?.label ?? '').join(' ');
         const usedByMatch = usedByStr && usedByStr.toLowerCase().includes(search.toLowerCase())
         return nameMatch || labelMatch || topicMatch || sourcesMatch || usedByMatch
       }).sort((el)=> el.id).reverse()
@@ -126,12 +137,13 @@ const DatasetView = (props) => {
   useEffect(() => {
     Promise.all([
       dispatch(Dataset.show(datasetId)),
+      dispatch(Dataset.mapping_stats(datasetId)),
       dispatch(DatasetVariable.all(datasetId)),
       dispatch(Topics.all())
     ]).then(() => {
       setDataLoaded(true)
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   const VariableTableRow = (props) => {
@@ -165,13 +177,52 @@ const DatasetView = (props) => {
         </TableCell>
         <TableCell>
           <TopicList topicId={get(row.topic, 'id')} datasetId={datasetId} variableId={row.id} />
+          {(!isNil(row.sources_topic) && get(row.sources_topic, 'id') !== get(row.topic, 'id')) && (
+            <em>Resolved topic from sources - {get(row.sources_topic, 'name')} {get(row.topic, 'name')}</em>
+          )}
+        </TableCell>
+      </TableRow>
+    )
+  }
+
+  const ReadOnlyVariableTableRow = (props) => {
+    const { row } = props;
+
+    const status = ObjectStatus(row.id, 'DatasetVariable')
+
+    var errorMessage = null;
+
+    if (status.error) {
+      errorMessage = status.errorMessage
+    } else if (row.errors) {
+      errorMessage = row.errors
+    }
+
+    var sourceOptions = (row.var_type == 'Derived') ? variables : get(dataset, 'questions', [])
+
+    const sourceItems = row.sources.map((source) =>
+      <Chip label={source.label}/>
+    );
+    
+    return (
+      <TableRow key={row.id}>
+        <TableCell>{row.id}</TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.label}</TableCell>
+        <TableCell>{row.var_type}</TableCell>
+        <TableCell><VariablesList variables={row.used_bys}/></TableCell>
+        <TableCell>
+          {sourceItems}
+        </TableCell>
+        <TableCell>
+          <Chip label={get(row.topic, 'name')} />
           {!isNil(row.sources_topic) && (
             <em>Resolved topic from sources - {get(row.sources_topic, 'name')}</em>
           )}
         </TableCell>
       </TableRow>
     )
-  }
+  }  
 
   const VariableTypes = (props) => {
     const { sources, datasetId, variable } = props
@@ -196,7 +247,7 @@ const DatasetView = (props) => {
     const { variables } = props
 
     const listItems = variables.map((number) =>
-      <li>{number.name}</li>
+      <li>{number?.name}</li>
     );
     return (
       <ul>{listItems}</ul>
@@ -312,7 +363,9 @@ const DatasetView = (props) => {
       sourceOptions = sourceOptions.filter(opt => {
         return (
           get(opt.topic, 'id') == get(variable.topic, 'id') ||
+          get(opt, 'topic') == get(variable.topic, 'name') ||
           get(opt.resolved_topic, 'id') == get(variable.topic, 'id') ||
+          get(opt, 'resolved_topic') == get(variable.topic, 'name') ||
           (get(opt.topic, 'id') === 0 && get(opt.resolved_topic, 'id') === 0) || (opt.topic === null && opt.resolved_topic === null)
         )
       })
@@ -422,6 +475,51 @@ const DatasetView = (props) => {
                     }}
             />
             <Divider style={{ margin: 16 }} variant="middle" />
+            <Grid container spacing={3}>
+              <Grid item xs={4}>
+                  <Box fontWeight="fontWeightLight" m={2} >
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6" component="h4">
+                          Total Variables
+                        </Typography>
+                        <Typography color="textSecondary">
+                          {get(datasetMappingStats, 'total_variables')}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Grid>          
+              <Grid item xs={4}>
+                <Box fontWeight="fontWeightLight" m={2} >
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="h2">
+                        Variables Mapped to Questions
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {get(datasetMappingStats, 'total_mapped_to_questions')} ({get(datasetMappingStats, 'percentage_mapped_to_questions')}%)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Box fontWeight="fontWeightLight" m={2} >
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" component="h2">
+                        Variables Mapped to Topics
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {get(datasetMappingStats, 'total_mapped_to_topics')} ({get(datasetMappingStats, 'percentage_mapped_to_topics')}%)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Grid>
+            </Grid>
+            <Divider style={{ margin: 16 }} variant="middle" />       
             <Table size="small">
               <TableHead>
                 <TableRow>
@@ -459,7 +557,12 @@ const DatasetView = (props) => {
                       </TableCell>
                     </TableRow>
                   )}
-                  <VariableTableRow row={row} />
+                  {(hasEditorPermission) ? (
+                    <VariableTableRow row={row} />
+                  ):(
+                    <ReadOnlyVariableTableRow row={row} />
+                  )
+                  }
                   </>
                   )
                 })}

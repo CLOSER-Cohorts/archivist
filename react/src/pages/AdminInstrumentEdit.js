@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { AdminInstrumentForm } from '../components/AdminInstrumentForm'
@@ -10,7 +11,7 @@ const AdminInstrumentEdit = (props) => {
 
   const dispatch = useDispatch()
 
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const datasets = useSelector(state => get(state, 'datasets'));
 

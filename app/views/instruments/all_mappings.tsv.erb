@@ -1,0 +1,4 @@
+Dataset prefix<%= "\t" %>Variable Name<%= "\t" %>Variable Label<%= "\t" %>Variable Topic ID<%= "\t" %>Questionnaire prefix<%= "\t" %>Question Name<%= "\t" %>Question Text<%= "\t" %>Question Topic ID
+<% @tsv_data.each do |line| -%>
+<%= line[:dataset_prefix] %><%= "\t" %><%= line[:variable_name] %><%= "\t" %><%= line[:variable_label] %><%= "\t" %><%= line[:variable_topic_id] %><%= "\t" %><%= line[:questionnaire_prefix] %><%= "\t" %><%= line[:label] %><%= "\t" %><%= line[:question_text] %><%= "\t" %><%= line[:question_topic_id] %>
+<% end -%>

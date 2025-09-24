@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 
 export const DeleteObjectButton = (props) => {
+  // eslint-disable-next-line no-console
   const {instrumentId, id, action, onDelete= () => { console.log('No delete callback provided') }} = props;
 
   const dispatch=useDispatch()

@@ -10,10 +10,12 @@ module Importers::XML::DDI
     def question_grid_node(node)
       question = ::QuestionGrid.new(
           {
+              urn: node.at_xpath('./URN').content,            
               label: node.at_xpath('./QuestionGridName/String').content,
               literal: node.at_xpath('./QuestionText/LiteralText/Text')&.content.to_s
           }
       )
+      
       question.horizontal_code_list = ::CodeList.find_by_identifier(
           'urn',
           extract_urn_identifier(node.at_xpath("./GridDimension[@rank='2']/CodeDomain/CodeListReference"))
@@ -68,6 +70,7 @@ module Importers::XML::DDI
     def question_item_node(node)
       question = ::QuestionItem.new(
           {
+              urn: node.at_xpath('./URN').content,
               label: node.at_xpath('./QuestionItemName/String').content,
               literal: node.at_xpath('./QuestionText/LiteralText/Text')&.content.to_s
           }

@@ -6,7 +6,7 @@ class Importers::TXT::Mapper::TopicQ < Importers::TXT::Mapper::Instrument
       log :input, "#{control_construct_scheme},#{q},#{t}"
       begin
         if control_construct_scheme.blank? || q.blank? || t.blank?
-          raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.wrong_number_of_columns', actual_number_of_columns: {a: control_construct_scheme, b: q, c: t}.compact.count))
+          raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.wrong_number_of_columns', actual_number_of_columns: {a: control_construct_scheme, b: q, c: t}.compact_blank.count))
         elsif control_construct_scheme != @object.control_construct_scheme
           raise StandardError.new(I18n.t('importers.txt.mapper.topic_q.record_invalid_control_construct_scheme', control_construct_scheme_from_line: control_construct_scheme, control_construct_scheme_from_object: @object.control_construct_scheme))
         end
@@ -17,13 +17,17 @@ class Importers::TXT::Mapper::TopicQ < Importers::TXT::Mapper::Instrument
           @errors = true
           log :outcome, "Record Invalid as QuestionContruct and Topic where not found"
         else
-          qc.topic = topic
-          if qc.save
-            log :outcome, "Record Saved"
-            cc_question_ids_to_delete.delete(qc.id)
-          else
-            @errors = true
-            log :outcome, "Record Invalid : #{qc.errors.full_messages.to_sentence}"
+          ActiveRecord::Base.transaction do
+            qc.topic = topic
+          
+            if qc.save
+              log :outcome, "Record Saved"
+              cc_question_ids_to_delete.delete(qc.id)
+            else
+              @errors = true
+              log :outcome, "Record Invalid : #{qc.errors.full_messages.to_sentence}"
+              raise ActiveRecord::Rollback # Explicitly rollback the transaction
+            end
           end
         end
       rescue StandardError => e

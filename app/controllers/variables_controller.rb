@@ -79,6 +79,6 @@ class VariablesController < BasicController
   end
 
   def set_dataset
-    @dataset = Dataset.includes(variables: [:src_variables, :der_variables, :topic, :questions, :question_topics]).find(params[:dataset_id])
+    @dataset = policy_scope(Dataset).includes(variables: [:src_variables, :der_variables, :topic, :questions, :question_topics]).find(params[:dataset_id])
   end
 end

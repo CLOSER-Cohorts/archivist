@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, Variables, Topics } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { get, isEmpty, isNil, uniq } from "lodash";
@@ -30,6 +31,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DescriptionIcon from '@material-ui/icons/Description';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -281,7 +286,7 @@ const QuestionGridListItem = (props) => {
             <VariableList variables={item.variables.filter((variable) => { return (variable.y == 0 && variable.x == 0) || (variable.y == undefined && variable.x == undefined) })} instrumentId={instrumentId} ccQuestionId={item.id} x={0} y={0} topicId={topicId || get(variableTopic, 'id', null)} label={'Map whole grid to variables'} />
           </Grid>
           <Grid item xs={6}>
-            <TopicList topicId={topicId} instrumentId={item.instrument_id} ccQuestionId={item.id} />
+            <TopicList topicId={topicId} instrumentId={instrumentId} ccQuestionId={item.id} />
             {(isNil(get(topic, 'id')) && !isNil(variableTopic)) && (!isNil(get(variableTopic, 'name'))) && (
               <em>Resolved topic from variables - {get(variableTopic, 'name')}</em>
             )}
@@ -317,6 +322,7 @@ const TopicList = (props) => {
   }else if(isNil(topicId)){
     return (
           <div>
+            <span></span>
             <Autocomplete
               onChange={handleChange}
               options={topicOptions}
@@ -681,9 +687,11 @@ const SequenceItem = (props) => {
 const InstrumentMap = (props) => {
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const sequences = useSelector(state => state.cc_sequences);
+  const instrumentMappingStats = useSelector(state => get(state.instrumentMappingStats, instrumentId));
+  
   const cc_sequences = get(sequences, instrumentId, {})
 
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -691,6 +699,7 @@ const InstrumentMap = (props) => {
   useEffect(() => {
     Promise.all([
       dispatch(Instrument.show(instrumentId)),
+      dispatch(Instrument.mapping_stats(instrumentId)),
       dispatch(CcSequences.all(instrumentId)),
       dispatch(CcStatements.all(instrumentId)),
       dispatch(CcConditions.all(instrumentId)),
@@ -704,7 +713,7 @@ const InstrumentMap = (props) => {
       setDataLoaded(true)
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   const sequence = (isEmpty(cc_sequences)) ? undefined : Object.values(cc_sequences).find(element => element.top === true)
@@ -714,9 +723,53 @@ const InstrumentMap = (props) => {
       <Dashboard title={'Maps'} instrumentId={instrumentId}>
         <InstrumentHeading instrument={instrument} mode={'map'} />
         <Grid container spacing={3}>
+          <Grid item xs={4}>
+              <Box fontWeight="fontWeightLight" m={2} >
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6" component="h4">
+                      Total Questions
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {get(instrumentMappingStats, 'total_questions')}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grid>          
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="h2">
+                    Questions Mapped to Variables
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {get(instrumentMappingStats, 'total_mapped_to_variables')} ({get(instrumentMappingStats, 'percentage_mapped_to_variables')}%)
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+          <Grid item xs={4}>
+            <Box fontWeight="fontWeightLight" m={2} >
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="h2">
+                    Questions Mapped to Topics
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {get(instrumentMappingStats, 'total_mapped_to_topics')} ({get(instrumentMappingStats, 'percentage_mapped_to_topics')}%)
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+        </Grid>        
+        <Grid container spacing={3}>
           <Grid item xs={10}></Grid>
           <Grid item xs={2}>
-            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/all_mappings.txt?token=${window.localStorage.getItem('jwt')}`}>
+            <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrumentId}/all_mappings.tsv?token=${window.localStorage.getItem('jwt')}`}>
               <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
             </a>
           </Grid>

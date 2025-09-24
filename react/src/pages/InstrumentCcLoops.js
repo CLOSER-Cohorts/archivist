@@ -1,14 +1,14 @@
 import React, {  } from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { CcLoops } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DataTable } from '../components/DataTable'
-import { get } from 'lodash'
 
 const InstrumentCcLoops = (props) => {
 
   const dispatch = useDispatch()
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
 
   const actions = (row) => {
     return ''

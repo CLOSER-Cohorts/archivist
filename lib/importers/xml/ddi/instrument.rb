@@ -24,16 +24,18 @@ module Importers::XML::DDI
 
       set_import_to_running
       begin
-        @instrument = Importers::XML::DDI::Instrument.build_instrument(@doc, {}, self)
-        import_category_schemes
-        import_code_list_schemes
-        import_instruction_schemes
-        import_question_schemes
-        read_constructs
-        @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
-        @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
-        @instrument.label = options[:label] unless options[:label].to_s.empty?
-        @instrument.study = options[:study] unless options[:study].to_s.empty?
+        ActiveRecord::Base.transaction do
+          @instrument = Importers::XML::DDI::Instrument.build_instrument(@doc, {}, self)
+          import_category_schemes
+          import_code_list_schemes
+          import_instruction_schemes
+          import_question_schemes
+          read_constructs
+          @instrument.prefix = options[:prefix] unless options[:prefix].to_s.empty?
+          @instrument.agency = options[:agency] unless options[:agency].to_s.empty?
+          @instrument.label = options[:label] unless options[:label].to_s.empty?
+          @instrument.study = options[:study] unless options[:study].to_s.empty?
+        end
       rescue => e
         @errors = true
         log :input, e.input if e.respond_to?(:input)
@@ -69,7 +71,18 @@ module Importers::XML::DDI
     end
 
     def read_constructs
-      seq = doc.xpath('//ControlConstructScheme/Sequence').first
+      seq = doc.xpath("//ControlConstructScheme/Sequence[Label/Content[text()='#{@instrument.prefix}']]").first
+      if seq.nil?
+        raise "No sequence found for instrument prefix #{@instrument.prefix}"
+      end
+
+      seq = doc.xpath("//ControlConstructScheme/Sequence[Label/Content[not(text())]]").first
+      if seq.nil?
+        raise "No top sequence, we cannot import this instrument"
+      end
+
+      log :input, seq.to_s
+      write_to_log
       cc_seq = @instrument.top_sequence
       begin
         cc_seq.label = seq.at_xpath('./ConstructName/String').content
@@ -81,6 +94,7 @@ module Importers::XML::DDI
         end
       end
       @response_unit_index = {}
+
       read_sequence_children(seq, cc_seq)
     end
 
@@ -97,149 +111,165 @@ module Importers::XML::DDI
       end
 
       node.xpath('./ControlConstructReference').each do |child_ref|
-        position_counter += 1
-        child = Reference.find_node doc, child_ref
-        if child.name == 'Sequence'
-          cc_s = CcSequence.new
-          @instrument.cc_sequences << cc_s
-          begin
-            cc_s.label = child.at_xpath('./ConstructName/String').content
-          rescue
-            if (label = child.at_xpath('./Label/Content')).nil?
-              cc_s.label = label
-            else
-              cc_s.label = 'Missing label'
+        begin
+          position_counter += 1
+          child = Reference.find_node doc, child_ref
+          
+          log :input, child.to_s
+
+          if child.name == 'Sequence'
+            cc_s = CcSequence.new(urn: extract_urn_identifier(child))
+            @instrument.cc_sequences << cc_s
+            begin
+              cc_s.label = child.at_xpath('./ConstructName/String').content
+            rescue
+              if (label = child.at_xpath('./Label/Content')).nil?
+                cc_s.label = label
+              else
+                cc_s.label = 'Missing label'
+              end
             end
-          end
-          cc_s.position = position_counter
+            cc_s.position = position_counter
 
-          cc_s.branch = branch
-          cc_s.parent = parent
+            cc_s.branch = branch
+            cc_s.parent = parent
 
-          read_sequence_children(child, cc_s)
-          cc_s.save!
-        elsif child.name == 'StatementItem'
-          cc_s = CcStatement.new
-          @instrument.cc_statements << cc_s
-          begin
-            cc_s.label = child.at_xpath('./ConstructName/String').content
-          rescue
-            if (label = child.at_xpath('./Label/Content')).nil?
-              cc_s.label = label
-            else
-              cc_s.label = 'Missing label'
+            read_sequence_children(child, cc_s)
+            cc_s.save!
+            log :outcome, "Record Saved : CcSequence #{cc_s.id}"
+          elsif child.name == 'StatementItem'
+            cc_s = CcStatement.new(urn: extract_urn_identifier(child))
+
+            @instrument.cc_statements << cc_s
+            begin
+              cc_s.label = child.at_xpath('./ConstructName/String').content
+            rescue
+              if (label = child.at_xpath('./Label/Content')).nil?
+                cc_s.label = label
+              else
+                cc_s.label = 'Missing label'
+              end
             end
-          end
-          cc_s.position = position_counter
-          cc_s.branch = branch
-          cc_s.literal = child.at_xpath('./DisplayText/LiteralText/Text').content
+            cc_s.position = position_counter
+            cc_s.branch = branch
+            cc_s.literal = child.at_xpath('./DisplayText/LiteralText/Text').content
 
-          cc_s.parent = parent
-          cc_s.save!
-
-        elsif child.name == 'QuestionConstruct'
-          q_ref = child.at_xpath('./QuestionReference')
-          # ApplicationRecord can perform generic queries
-          base_question = ApplicationRecord.find_by_identifier(
-              'urn',
-              extract_urn_identifier(q_ref)
-          )
-          cc_q = CcQuestion.new
-          cc_q.question = base_question
-          begin
-            ru_val = child.at_xpath('./ResponseUnit').content
-          rescue
-            ru_val = 'Default interviewee'
-          end
-          if @response_unit_index.has_key? ru_val
-            ru = @response_unit_index[ru_val]
-          else
-            ru = ResponseUnit.new label: ru_val
-            @instrument.response_units << ru
-            @response_unit_index[ru_val] = ru
-          end
-          cc_q.response_unit = ru
-          @instrument.cc_questions << cc_q
-          begin
-            cc_q.label = child.at_xpath('./ConstructName/String').content
-          rescue
-            if (label = child.at_xpath('./Label/Content')).nil?
-              cc_q.label = label
-            else
-              cc_q.label = 'Missing label'
+            cc_s.parent = parent
+            cc_s.save!     
+            log :outcome, "Record Saved : CcStatement #{cc_s.id}"            
+          elsif child.name == 'QuestionConstruct'
+            q_ref = child.at_xpath('./QuestionReference')
+            # ApplicationRecord can perform generic queries
+            base_question = ApplicationRecord.find_by_identifier(
+                'urn',
+                extract_urn_identifier(q_ref)
+            )
+            cc_q = CcQuestion.new(urn: extract_urn_identifier(child))
+            cc_q.question = base_question
+            begin
+              ru_val = child.at_xpath('./ResponseUnit').content
+            rescue
+              ru_val = 'Default interviewee'
             end
-          end
-          cc_q.position = position_counter
-          cc_q.branch = branch
-          cc_q.parent = parent
-          cc_q.save!
-        elsif child.name == 'IfThenElse'
-          cc_c = CcCondition.new
-          @instrument.cc_conditions << cc_c
-          begin
-            cc_c.label = child.at_xpath('./ConstructName/String').content
-          rescue
-            if (label = child.at_xpath('./Label/Content')).nil?
-              cc_c.label = label
+            if @response_unit_index.has_key? ru_val
+              ru = @response_unit_index[ru_val]
             else
-              cc_c.label = 'Missing label'
+              ru = ResponseUnit.new label: ru_val
+              @instrument.response_units << ru
+              @response_unit_index[ru_val] = ru
             end
-          end
-          cc_c.position = position_counter
-          cc_c.branch = branch
-          begin
-            cc_c.literal = child.at_xpath('./IfCondition/Description/Content').content
-          rescue
-            cc_c.literal = 'Missing text'
-          end
-          begin
-            cc_c.logic = child.at_xpath('./IfCondition/Command/CommandContent').content
-          rescue
-            cc_c.logic = ''
-          end
-
-          cc_c.parent = parent
-          cc_c.save!
-
-          sub_sequence.call child, './ThenConstructReference', cc_c, 0
-          sub_sequence.call child, './ElseConstructReference', cc_c, 1
-
-        elsif child.name == 'Loop'
-
-          cc_l = CcLoop.new
-          @instrument.cc_loops << cc_l
-          start_node = child.at_xpath('./InitialValue/Command/CommandContent')
-          end_node = child.at_xpath('./EndValue/Command/CommandContent')
-          while_node = child.at_xpath('./LoopWhile/Command/CommandContent')
-          begin
-            cc_l.label = child.at_xpath('./ConstructName/String').content
-          rescue
-            if (label = child.at_xpath('./Label/Content')).nil?
-              cc_l.label = label
-            else
-              cc_l.label = 'Missing label'
+            cc_q.response_unit = ru
+            @instrument.cc_questions << cc_q
+            begin
+              cc_q.label = child.at_xpath('./ConstructName/String').content
+            rescue
+              if (label = child.at_xpath('./Label/Content')).nil?
+                cc_q.label = label
+              else
+                cc_q.label = 'Missing label'
+              end
             end
-          end
-          cc_l.position = position_counter
-          cc_l.branch = branch
-          unless start_node.nil?
-            pieces = start_node.content.split(/\W\D\s/)
-            cc_l.loop_var = pieces[0]
-            cc_l.start_val = pieces[1]
-          end
-          unless end_node.nil?
-            pieces = end_node.content.split(/\W\D\s/)
-            cc_l.end_val = pieces[1]
-          end
-          unless while_node.nil? then
-            cc_l.loop_while = while_node.content
-          end
+            cc_q.position = position_counter
+            cc_q.branch = branch
+            cc_q.parent = parent
+            cc_q.save!
 
-          cc_l.parent = parent
-          cc_l.save!
+            log :outcome, "Record Saved : CcQuestion #{cc_q.id}"            
+          elsif child.name == 'IfThenElse'
+            cc_c = CcCondition.new(urn: extract_urn_identifier(child))
+            @instrument.cc_conditions << cc_c
+            begin
+              cc_c.label = child.at_xpath('./ConstructName/String').content
+            rescue
+              if (label = child.at_xpath('./Label/Content')).nil?
+                cc_c.label = label
+              else
+                cc_c.label = 'Missing label'
+              end
+            end
+            cc_c.position = position_counter
+            cc_c.branch = branch
+            begin
+              cc_c.literal = child.at_xpath('./IfCondition/Description/Content').content
+            rescue
+              cc_c.literal = 'Missing text'
+            end
+            begin
+              cc_c.logic = child.at_xpath('./IfCondition/Command/CommandContent').content
+            rescue
+              cc_c.logic = ''
+            end
 
-          sub_sequence.call child, './ControlConstructReference', cc_l, nil
+            cc_c.parent = parent
+            cc_c.save!
 
+            log :outcome, "Record Saved : CcCondition #{cc_c.id}"
+
+            sub_sequence.call child, './ThenConstructReference', cc_c, 0
+            sub_sequence.call child, './ElseConstructReference', cc_c, 1
+
+          elsif child.name == 'Loop'
+
+            cc_l = CcLoop.new(urn: extract_urn_identifier(child))
+            @instrument.cc_loops << cc_l
+            start_node = child.at_xpath('./InitialValue/Command/CommandContent')
+            end_node = child.at_xpath('./EndValue/Command/CommandContent')
+            while_node = child.at_xpath('./LoopWhile/Command/CommandContent')
+            begin
+              cc_l.label = child.at_xpath('./ConstructName/String').content
+            rescue
+              if (label = child.at_xpath('./Label/Content')).nil?
+                cc_l.label = label
+              else
+                cc_l.label = 'Missing label'
+              end
+            end
+            cc_l.position = position_counter
+            cc_l.branch = branch
+            unless start_node.nil?
+              pieces = start_node.content.split(/\W\D\s/)
+              cc_l.loop_var = pieces[0]
+              cc_l.start_val = pieces[1]
+            end
+            unless end_node.nil?
+              pieces = end_node.content.split(/\W\D\s/)
+              cc_l.end_val = pieces[1]
+            end
+            unless while_node.nil? then
+              cc_l.loop_while = while_node.content
+            end
+
+            cc_l.parent = parent
+            cc_l.save!
+            log :outcome, "Record Saved : CcLoop #{cc_l.id}"
+            sub_sequence.call child, './ControlConstructReference', cc_l, nil
+
+          end
+        rescue StandardError => e
+          @errors = true
+          log :outcome, (e.message =~ /Record Invalid/) ? e.message : "Record Invalid : #{e.message}"
+        ensure
+          write_to_log
         end
       end
 
@@ -259,6 +289,7 @@ module Importers::XML::DDI
       i.agency = urn_pieces[2]
       i.prefix = urn_pieces[3].split('-ddi-')[0]
       instruments = ::Instrument.where({prefix: i.prefix})
+
       if instruments.length > 0
         instrument_importer.try(:log, :input, i.prefix)
         instrument_importer.try(:log, :outcome, 'Invalid : Duplicate instrument(s) found while importing XML.')

@@ -4,11 +4,13 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  include Pundit
+  include Pundit::Authorization
   protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token
 
   after_action :set_csrf_cookie_for_ng
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # around_action :collect_metrics
 
@@ -20,17 +22,16 @@ class ApplicationController < ActionController::Base
   # end
 
   def auth_token
-    # { Authorization: 'Bearer <token>' }
-    request.headers['Authorization'] || params[:token]
+    full_token = request.headers['Authorization'] || params[:token]
+
+    return unless full_token
+    full_token.split(' ')[1] || full_token
   end
 
   def decoded_token
     if auth_token
-      token = auth_token.split(' ')[1] || auth_token
-
-      # header: { 'Authorization': 'Bearer <token>' }
       begin
-        JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')
+        JWT.decode(auth_token, 's3cr3t', true, algorithm: 'HS256')
       rescue JWT::DecodeError
         nil
       end
@@ -42,6 +43,8 @@ class ApplicationController < ActionController::Base
       user_id = decoded_token[0]['id']
       api_key = decoded_token[0]['api_key']
       @user = User.find_by(id: user_id, api_key: api_key)
+      raise Pundit::NotAuthorizedError, 'must be logged in' unless @user
+      @user
     end
   end
 
@@ -54,6 +57,14 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def user_not_authorized
+    respond_to do |format|
+      format.json { render json: { error: 'Not Authorized' }, status: :unauthorized }
+      format.any { redirect_to "#{ENV['REACT_APP_HOST']}/login", alert: 'You must be logged in to access this page.' }      
+    end
+  end
+
   def verified_request?
     super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
   end

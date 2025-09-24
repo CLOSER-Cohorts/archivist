@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
@@ -58,19 +58,19 @@ export const CreateNewBuildObjectButtons  = (props) => {
   const { objectTypes=[], instrumentId, callback=()=>{}} = props;
 
   const classes = useStyles();
-  const history = useHistory();
+  const history = useNavigate();
 
   const createNew = (path) => {
-    history.push(path);
+    history(path);
     callback('new')
   }
 
   const buttons = objectTypes.map( objectType => ObjectTypeLookup(objectType, instrumentId) )
 
   return (
-    <ButtonGroup color="primary" aria-label="outlined primary button group" class={classes.inline}>
+    <ButtonGroup color="primary" aria-label="outlined primary button group" className={classes.inline}>
      {buttons.map((button) => {
-        return <Button onClick={()=> { createNew(button.path)} }startIcon={<AddIcon />}>{button.text}</Button>
+        return <Button key={button.text} onClick={()=> { createNew(button.path)} }startIcon={<AddIcon />}>{button.text}</Button>
       })}
     </ButtonGroup>
   )

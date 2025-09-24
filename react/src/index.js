@@ -1,18 +1,31 @@
+import './tailwind.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client'; // Use 'react-dom/client' for createRoot
 import { Provider } from 'react-redux';
 import App from './App';
 import Store from './components/Store';
 import * as serviceWorker from './serviceWorker';
+import { createConsumer } from '@rails/actioncable';
 
-ReactDOM.render(
+// ActionCable consumer setup - initialized once at app root
+const cable_url = process.env.REACT_APP_API_HOST 
+  ? process.env.REACT_APP_API_HOST.replace(/^http/, 'ws') + '/cable'
+  : 'ws://localhost:3001/cable';
+
+window.ActionCableConsumer = createConsumer(cable_url);
+
+// Get the root DOM node
+const rootElement = document.getElementById('root');
+
+// Create a root
+const root = ReactDOM.createRoot(rootElement);
+
+// Render your application
+root.render(
   <Provider store={Store}>
     <App />
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+// Service worker setup (optional)
 serviceWorker.unregister();

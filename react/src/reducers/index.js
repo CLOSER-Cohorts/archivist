@@ -67,6 +67,18 @@ const imports = (state = [], action) => {
   }
 }
 
+const exports = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_ADMIN_EXPORTS':
+      return serializeArrayToObject(action.payload.exports)
+    case 'LOAD_ADMIN_EXPORT':
+      return {...state, ...{[action.payload.export.id]: action.payload.export}}
+    default:
+      return state
+  }
+}
+
 const datasets = (state = [], action) => {
   switch (action.type) {
     case 'LOAD_DATASETS':
@@ -100,6 +112,26 @@ const instrumentStats = (state = [], action) => {
   switch (action.type) {
     case 'LOAD_INSTRUMENT_STATS':
       return {...state, ...{[action.payload.instrumentId]: action.payload.stats}}
+    default:
+      return state
+  }
+}
+
+const instrumentMappingStats = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_INSTRUMENT_MAPPING_STATS':
+      return {...state, ...{[action.payload.instrumentId]: action.payload.mapping_stats}}
+    default:
+      return state
+  }
+}
+
+const datasetMappingStats = (state = [], action) => {
+
+  switch (action.type) {
+    case 'LOAD_DATASET_MAPPING_STATS':
+      return {...state, ...{[action.payload.datasetId]: action.payload.mapping_stats}}
     default:
       return state
   }
@@ -288,16 +320,17 @@ const instrumentImportMappings = (state = {}, action) => {
 
 const codeLists = (state = {}, action) => {
 
+  var codeLists;
   switch (action.type) {
     case 'LOAD_INSTRUMENT_CODE_LISTS':
       return {...state, ...{[action.payload.instrumentId]: serializeArrayToObject(action.payload.codeLists)}}
     case 'LOAD_INSTRUMENT_CODE_LIST':
-      var codeLists = get(state, action.payload.instrumentId, {})
+      codeLists = get(state, action.payload.instrumentId, {})
       const revisedCodeLists = {...codeLists, ...{[action.payload.codeList.id]: action.payload.codeList}}
       return {...state, ...{[action.payload.instrumentId]: revisedCodeLists}}
     case 'DELETE_INSTRUMENT_OBJECT_TYPE':
       if(action.payload.objectType === 'CodeList'){
-        var codeLists = get(state, action.payload.instrumentId, {})
+        codeLists = get(state, action.payload.instrumentId, {})
         delete codeLists[action.payload.id]
         return {...state, ...{[action.payload.instrumentId]: codeLists}}
       }else{
@@ -457,6 +490,19 @@ const common = (state = {}, action) => {
   }
 }
 
+const flash = (state = {}, action) => {
+  switch (action.type) {
+    case 'SHOW_ERROR':
+      return { message: action.payload.message, type: 'error' }
+    case 'SHOW_SUCCESS':
+      return { message: action.payload.message, type: 'success' }
+    case 'CLEAR_FLASH':
+      return {}
+    default:
+      return state
+  }
+}
+
 
 const appReducer = combineReducers({
     common,
@@ -465,7 +511,10 @@ const appReducer = combineReducers({
     instruments,
     instrumentTrees,
     imports,
+    exports,
     instrumentStats,
+    instrumentMappingStats,
+    datasetMappingStats,
     cc_sequences,
     cc_statements,
     cc_conditions,
@@ -488,6 +537,7 @@ const appReducer = combineReducers({
     users,
     datasetImportMappings,
     instrumentImportMappings,
+    flash
 })
 
 export default appReducer;

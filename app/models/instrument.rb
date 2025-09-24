@@ -142,8 +142,12 @@ class Instrument < ApplicationRecord
   # After creating a new instrument a first sequence is created as
   # a top sequence
   after_create :add_top_sequence
+  after_save :update_prefix_sequence
 
-  validates :prefix, uniqueness: true
+  validates :prefix, uniqueness: true, format: { 
+    with: /\A[a-z0-9_]+\z/, 
+    message: 'can only contain lowercase letters, numbers, and underscores'
+  }
 
   friendly_id :prefix, use: :slugged
 
@@ -378,10 +382,58 @@ class Instrument < ApplicationRecord
     prefix + '_ccs01'
   end
 
+  def mapping_stats
+    {
+      total_questions: total_questions,
+      total_mapped_to_variables: total_mapped_to_variables,
+      total_mapped_to_topics: total_mapped_to_topics,
+      percentage_mapped_to_variables: percentage_mapped_to_variables,
+      percentage_mapped_to_topics: percentage_mapped_to_topics
+    }
+  end
+
+  def total_mapped_to_variables
+    @total_mappeed_to_variables ||= cc_questions.joins(:maps).distinct.count
+  end
+
+  def total_mapped_to_topics
+    @total_mapped_to_topics ||= cc_questions.left_joins(:link).left_joins(maps: { variable: :link }).where("links.topic_id IS NOT NULL OR links_variables.topic_id IS NOT NULL").distinct.count
+  end
+
+  def total_questions
+    @total_questions ||= cc_questions.count
+  end
+
+  def percentage_mapped_to_variables
+    calculate_percentage(total_mapped_to_variables, total_questions)
+  end
+
+  def percentage_mapped_to_topics
+    calculate_percentage(total_mapped_to_topics, total_questions)
+  end
+
+  def calculate_percentage(part, total)
+    return 0 if total.zero?
+    (part.to_f / total * 100).round(2)
+  end  
+
   private
   # Creates an empty sequence as the top-sequence, i.e. parentless
   def add_top_sequence
     self.cc_sequences.create(label: nil)
+  end
+
+  # Updates the prefix of the top sequence
+  def update_prefix_sequence
+    # Ensure the prefix attribute is present
+    return unless self.saved_change_to_prefix
+
+    old_prefix, new_prefix = self.saved_change_to_prefix
+
+    # Find and update sequences with the old prefix
+    self.cc_sequences.where('label LIKE ?', "#{old_prefix}%").find_each do |sequence|
+      sequence.update(literal: new_prefix, label: new_prefix)
+    end
   end
 
   # Regenerates friendly id slug when prefix changes

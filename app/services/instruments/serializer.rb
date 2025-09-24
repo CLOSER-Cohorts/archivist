@@ -1,12 +1,13 @@
 class Instruments::Serializer
   include Pundit
 
-  attr_accessor :datasets, :instrument, :current_user
+  attr_accessor :datasets, :instrument, :current_user, :auth_token 
 
-  def initialize(instrument=nil, user=nil)
+  def initialize(instrument=nil, user=nil, auth_token=nil)
     self.current_user = user
     self.instrument = instrument
     self.datasets = get_datasets
+    self.auth_token = auth_token
   end
 
   def call
@@ -17,7 +18,7 @@ class Instruments::Serializer
   private
 
   def single
-    i = Rails.cache.fetch("instruments/#{instrument.id}.json", version: instrument.updated_at.to_i) do
+    i = Rails.cache.fetch("instruments/#{instrument.id}.json&#{auth_token}", version: instrument.updated_at.to_i) do
       connection = ActiveRecord::Base.connection
       sql = %|
         SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, instruments.signed_off, (SELECT COUNT(*) from control_constructs WHERE control_constructs.instrument_id= #{instrument.id}) as ccs, (SELECT COUNT(*) from qv_mappings WHERE qv_mappings.instrument_id= #{instrument.id}) as qvs
@@ -31,7 +32,7 @@ class Instruments::Serializer
     i[:datasets] = datasets.fetch(i["id"], [])
     exports = Document.where(document_type: ['instrument_export', 'instrument_export_complete'], item_id: i["id"])
     i[:exports] = exports.order('created_at DESC').map do | doc |
-      { id: doc.id, created_at: doc.created_at.strftime('%b %e %Y %I:%M %p'), url: "/instruments/#{i["id"]}/export/#{doc.id}", type: doc.document_type }
+      { id: doc.id, created_at: doc.created_at.strftime('%b %e %Y %I:%M %p'), url: "/instruments/#{i["id"]}/export/#{doc.id}?token=#{auth_token}", type: doc.document_type }
     end
     i[:export_time] = i[:exports].first.fetch(:created_at) rescue nil
     i[:export_url] = i[:exports].first.fetch(:url) rescue nil
@@ -40,7 +41,7 @@ class Instruments::Serializer
   end
 
   def all
-    instruments = Rails.cache.fetch('instruments.json', version: Instrument.maximum(:updated_at).to_i) do
+    instruments = Rails.cache.fetch('instruments.json&#{auth_token}', version: Instrument.maximum(:updated_at).to_i) do
       connection = ActiveRecord::Base.connection
       sql = %|
               SELECT instruments.id, instruments.agency, instruments.version, instruments.prefix, instruments.label, instruments.slug, instruments.study, instruments.signed_off, COUNT(DISTINCT(control_constructs.id)) as ccs, COUNT(DISTINCT(qv_mappings.id)) as qvs
@@ -58,11 +59,11 @@ class Instruments::Serializer
       i[:datasets] = datasets.fetch(i["id"], [])
       doc = Document.where(document_type: 'instrument_export', item_id: i["id"]).last rescue nil
       i[:export_time] = doc.created_at.strftime('%b %e %Y %I:%M %p') rescue nil
-      i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}" rescue nil
+      i[:export_url] = "/instruments/#{i["id"]}/export/#{doc.id}?token=#{auth_token}" rescue nil
       doc = Document.where(document_type: 'instrument_export_complete', item_id: i["id"]).last rescue nil
       if doc
         i[:export_complete_time] = doc.created_at.strftime('%b %e %Y %I:%M %p')
-        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}"
+        i[:export_complete_url] = "/instruments/#{i["id"]}/export/#{doc.id}?token=#{auth_token}"
       end
       i
     end

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { authUser } from '../actions'
+import { Auth } from '../actions'
 import { useDispatch } from 'react-redux'
 import logo from '../logo.svg';
 import routes from '../routes';
@@ -51,7 +51,7 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(authUser(emailField.value, passwordField.value));
+    dispatch(Auth.signIn(emailField.value, passwordField.value));
   }
 
   return (

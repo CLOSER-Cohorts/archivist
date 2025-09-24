@@ -8,7 +8,7 @@ class InstrumentsController < ImportableController
                   qvmapping: ImportJob::Mapping,
                   topicq: ImportJob::TopicQ
   })
-  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document} }
+  only_set_object { %i{copy clear_cache response_domains response_domain_codes reorder_ccs stats export export_complete mapper mapping member_imports variables latest_document document mapping_stats} }
 
   #skip_before_action :authenticate_user!, only: [:latest_document, :mapping]
 
@@ -18,7 +18,7 @@ class InstrumentsController < ImportableController
 
   def index
     return render(json: { error: 'Please sign in' }.to_json, status: 401) unless current_user
-    instruments = Instruments::Serializer.new(nil, current_user).call()
+    instruments = Instruments::Serializer.new(nil, current_user, auth_token).call()
 
     render json: instruments and return
   end
@@ -26,7 +26,7 @@ class InstrumentsController < ImportableController
   def show
     respond_to do |f|
       f.json {
-        render json: Instruments::Serializer.new(@object).call()
+        render json: Instruments::Serializer.new(@object, current_user, auth_token).call()
       }
       f.xml do
         exp = Exporters::XML::DDI::Instrument.new
@@ -82,13 +82,23 @@ class InstrumentsController < ImportableController
   end
 
   def export
-    ExportJob::Instrument.perform_async(@object.id)
-    head :ok, format: :json
+    begin
+      export = Export.create(export_type: "ExportJob::Instrument" , instrument_id: params[:id], state: :pending)    
+      ExportJob::Instrument.perform_async(@object.id, export_id: export.id)
+      head :ok, format: :json
+    rescue  => e
+      render json: {message: e}, status: :bad_request
+    end    
   end
 
   def export_complete
-    ExportJob::InstrumentComplete.perform_async(@object.id)
-    head :ok, format: :json
+    begin
+      export = Export.create(export_type: "ExportJob::InstrumentComplete" , instrument_id: params[:id], state: :pending)    
+      ExportJob::InstrumentComplete.perform_async(@object.id, export_id: export.id)
+      head :ok, format: :json
+    rescue  => e
+      render json: {message: e}, status: :bad_request
+    end      
   end
 
   def variables
@@ -178,9 +188,19 @@ class InstrumentsController < ImportableController
     @unmapped_variables = @object.variables.where.not(id: @object.maps.pluck(:variable_id))
 
     respond_to do |format|
-      format.text { render 'all_mappings.txt.erb', layout: false, content_type: 'text/plain' }
+      format.tsv do
+        # Add BOM to make Excel happy with UTF-8
+        service = Instruments::MappingsTsvDataService.new(@object, @unmapped_variables)
+        @tsv_data = service.generate_tsv_data        
+        tsv_string = "\uFEFF" + render_to_string('all_mappings.tsv.erb', layout: false, formats: [:text])
+        send_data tsv_string, type: 'text/tab-separated-values; charset=utf-8'
+      end      
       format.json  {}
     end
+  end
+
+  def mapping_stats
+    render json: @object.mapping_stats
   end
 
   private

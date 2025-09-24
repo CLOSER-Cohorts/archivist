@@ -1,7 +1,9 @@
 import React, {  } from 'react';
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Dashboard } from '../components/Dashboard'
 import { AdminImportMappingsForm } from '../components/AdminImportMappingsForm'
+import { SuccessFailureChip } from '../components/SuccessFailureChip'
 import { DataTable } from '../components/DataTable'
 import { AdminImportMapping } from '../actions'
 import { get } from 'lodash';
@@ -12,12 +14,19 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
 import routes from '../routes'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  error: {
+    backgroundColor: '#f2dede'
+  }
+}));
 
 const AdminInstrumentImportMappings = (props) => {
   const dispatch = useDispatch()
   const type = "Instrument"
   const hint = "You can import multiple Q-V and T-Q mapping files. Only TXT files are accepted."
-  const instrumentId = get(props, "match.params.instrumentId", "")
+  const { instrumentId } = useParams();
 
   const onSubmit = (values) => {
     dispatch({type: 'CLEAR', payload: {id: 'new', type: 'AdminImportMapping'}})
@@ -48,7 +57,7 @@ const AdminInstrumentImportMappings = (props) => {
 
   const headers = ["ID", "File", "Type","State","Created At"]
   const rowRenderer = (row) => {
-    return [row.id, row.filename, row.import_type, row.state, row.created_at]
+    return [row.id, row.filename, row.import_type, <SuccessFailureChip outcome={row.state} />, row.created_at]
   }
 
   return (

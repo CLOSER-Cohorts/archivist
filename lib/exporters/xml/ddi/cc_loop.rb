@@ -65,11 +65,8 @@ module Exporters::XML::DDI
     end
 
     def build_loop_sequence_reference(cc)
-      ('<d:ControlConstructReference><r:URN>urn:ddi:%{agency}:%{prefix}-selp-%{id}:1.0.0</r:URN>' +
-          '<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
-          agency: cc.instrument.agency,
-          prefix: cc.instrument.prefix,
-          id: '%06d' % cc.id
+      ('<d:ControlConstructReference>%{urn_node}<r:TypeOfObject>Sequence</r:TypeOfObject></d:ControlConstructReference>') % {
+          urn_node: create_urn_node(cc, 'selp').to_xml
       }
     end
 

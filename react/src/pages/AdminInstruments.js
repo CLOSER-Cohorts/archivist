@@ -10,6 +10,7 @@ import routes from '../routes'
 import { DataTable } from '../components/DataTable'
 import { ConfirmationModal } from '../components/ConfirmationModal'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import StyledLink from '../components/StyledLink';
 
 const AdminInstruments = () => {
 
@@ -54,15 +55,15 @@ const AdminInstruments = () => {
     )
   }
 
-  const headers = ["ID", "Prefix", "Study"]
+  const headers = ["ID", "Prefix", "Study", "Datasets"]
   const rowRenderer = (row) => {
-    return [row.id, row.prefix, row.study]
+    return [row.id, row.prefix, row.study, row.datasets.map((dataset) => { return <StyledLink key={dataset.id} to={url('/datasets/:dataset_id', { dataset_id: dataset.id })} label={dataset.instance_name} />})]
   }
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'Admin Instruments'}>
-        <Button variant="contained" color="primary">
-          <Link to={url(routes.instruments.new)}><AddCircleOutlineIcon /> Add new Instrument</Link>
+        <Button variant="contained" color="primary" style={ {marginBottom: '24px'}}>
+          <Link style={{textDecoration: 'none', color: 'white'}} to={url(routes.instruments.new)}><AddCircleOutlineIcon /> Add new Instrument</Link>
         </Button>
         <DataTable actions={actions}
           fetch={[dispatch(Instrument.all())]}

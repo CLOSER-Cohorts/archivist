@@ -19,7 +19,15 @@ class BasicController < ApplicationController
   def index
     @collection = collection
     respond_to do |format|
-      format.text { render 'index.txt.erb', layout: false, content_type: 'text/plain' }
+      format.tsv do
+        begin
+          # Add BOM to make Excel happy with UTF-8          
+          tsv_content = "\uFEFF" + render_to_string('index.tsv.erb', layout: false, formats: [:text])
+          send_data tsv_content, type: 'text/tab-separated-values; charset=utf-8'
+        rescue ActionView::MissingTemplate
+          render file: 'public/404.html', status: :not_found, layout: false
+        end
+      end      
       format.json
     end
   end

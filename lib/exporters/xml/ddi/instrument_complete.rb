@@ -174,7 +174,7 @@ module Exporters::XML::DDI
     end
 
     def control_constructs
-      @control_constructs ||= @instrument.ccs_in_ddi_order
+      @control_constructs ||= @instrument.ccs
     end
 
     def code_lists

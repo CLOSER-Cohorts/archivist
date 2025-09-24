@@ -72,9 +72,9 @@ class Variables::Serializer
       variable = grouped_variables.first.dup
 
       variable = merge_src_variables(variable, grouped_variables)
+      variable = merge_question_variables(variable, grouped_variables, questions)
 
       variable["src_variables"] = variable["src_variables"].map{|src_var| vars[src_var]}
-      variable["questions"] = variable["questions"].map{|src_var| questions[src_var]}
 
       if variable["var_type"] == "Derived"
         variable["sources"] = variable["src_variables"].uniq
@@ -86,6 +86,7 @@ class Variables::Serializer
       else
         variable["sources"] = variable["questions"].uniq
       end
+
       variable.delete("src_variables")
       variable.delete("questions")
       variable["used_bys"] = variable["used_bys"].map{|src_var| vars[src_var]}
@@ -96,6 +97,12 @@ class Variables::Serializer
     end
 
     return variables
+  end
+
+  def merge_question_variables(variable, grouped_variables, questions)
+    variable["questions"] = grouped_variables.map{|var| var["questions"]}.flatten.sort
+    variable["questions"] = variable["questions"].map{|src_var| questions[src_var]}
+    return variable
   end
 
   def merge_src_variables(variable, grouped_variables)

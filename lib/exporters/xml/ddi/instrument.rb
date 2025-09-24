@@ -26,6 +26,7 @@ module Exporters::XML::DDI
   #
   # @see ::Instruction
   class Instrument < DdiExporterBase
+    include ::Exporters::Loggable    
     # Creates the XML document for exporting to as
     # a DDIInstance
     def initialize
@@ -98,7 +99,7 @@ module Exporters::XML::DDI
       cit.add_next_sibling @rp
     end
 
-    # Populates the Resouse Package with all of the schemes
+    # Populates the Resource Package with all of the schemes
     # used in the questionnaire profile
     def build_rp
       urn = Nokogiri::XML::Node.new 'r:URN', @doc
@@ -188,7 +189,7 @@ module Exporters::XML::DDI
     end
 
     def instructions
-      @instructions ||= ::Instruction.where('id IN (?)', question_items.pluck(:instruction_id).union(question_items.pluck(:instruction_id))).distinct
+      @instructions ||= ::Instruction.where('id IN (?)', question_items.pluck(:instruction_id).union(question_grids.pluck(:instruction_id))).distinct
     end
 
     def categories

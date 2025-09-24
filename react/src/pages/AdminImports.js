@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { AdminImport } from '../actions'
 import { Dashboard } from '../components/Dashboard'
+import { SuccessFailureChip } from '../components/SuccessFailureChip';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,7 +22,7 @@ const AdminImports = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-  const rows: RowsProp = Object.values(imports).sort().reverse();
+  const rows = Object.values(imports).sort().reverse();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -34,7 +35,7 @@ const AdminImports = () => {
 
   useEffect(() => {
     dispatch(AdminImport.all());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (
@@ -55,9 +56,9 @@ const AdminImports = () => {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.filename}</TableCell>
+                <TableCell>{row.filename || 'No document'}</TableCell>
                 <TableCell>{row.import_type}</TableCell>
-                <TableCell>{row.state}</TableCell>
+                <TableCell><SuccessFailureChip outcome={row.state}/></TableCell>
                 <TableCell>{row.created_at}</TableCell>
                 <TableCell>
                   <Button variant="outlined">

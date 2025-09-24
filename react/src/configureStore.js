@@ -16,8 +16,8 @@ export default function configureStore(preloadedState) {
         promiseMiddleware,
         localStorageMiddleware
         // ... other middlewares ...
-      ),
-    ),
+      )
+    )
   )
 
   return store

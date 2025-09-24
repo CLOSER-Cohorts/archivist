@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { AdminImportMapping } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import Table from '@material-ui/core/Table';
@@ -9,6 +10,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles } from '@material-ui/core/styles';
 import { get, isNil } from 'lodash'
+import { SuccessFailureChip } from '../components/SuccessFailureChip';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Chip from '@material-ui/core/Chip';
+import DescriptionIcon from '@material-ui/icons/Description';
+
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -16,11 +26,84 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const DatasetImportView = (props) => {
+  const { datasetImport } = props;
+
+  const classes = useStyles();
+
+  return(
+    <Grid item xs={12}  >
+
+      <Box fontWeight="fontWeightLight" m={2} >
+        <Typography variant="h5" component="p" >
+          Instrument Import
+        </Typography>
+      </Box>
+
+      <Grid container spacing={4}>
+        <Grid item xs={3}>
+          <Box fontWeight="fontWeightLight" m={2} >
+            <Card className={classes.card}>
+              <CardContent>
+              <Typography variant="h6" component="h4">
+                  Import Type
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {datasetImport.import_type}
+                </Typography>                
+                <Typography variant="h6" component="h4">
+                  State
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  <SuccessFailureChip outcome={datasetImport.state} />
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box fontWeight="fontWeightLight" m={2} >
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  Document
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  { datasetImport.filename }
+                </Typography>
+                <Typography variant="body2" component="p">
+                  <a href={`${process.env.REACT_APP_API_HOST}/datasets/${datasetImport.dataset_id}/imports/${datasetImport.id}/document.json?token=${window.localStorage.getItem('jwt')}`}>
+                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download File'}></Chip>
+                  </a>
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box fontWeight="fontWeightLight" m={2} >
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  Created At
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  { datasetImport.created_at }
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+      </Grid>
+
+    </Grid>
+  )
+}
+
 const AdminDatasetImportMappingView = (props) => {
 
   const dispatch = useDispatch()
-  const datasetId = get(props, "match.params.datasetId", "")
-  const importMappingId = get(props, "match.params.id", "")
+  const { dataset_id: datasetId, id: importMappingId } = useParams();
   const imports = useSelector(state => get(state.datasetImportMappings, datasetId));
   const importObj = get(imports, importMappingId, { logs: [] })
   const logs = get(importObj, 'logs', [])
@@ -29,17 +112,13 @@ const AdminDatasetImportMappingView = (props) => {
 
   useEffect(() => {
     dispatch(AdminImportMapping.show('datasets', datasetId, importMappingId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   },[]);
 
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Dashboard title={'DatasetImports'}>
-        <ul>
-          <li>Filename : {importObj.filename}</li>
-          <li>State : {importObj.state}</li>
-          <li>Created At : {importObj.created_at}</li>
-        </ul>
+        <DatasetImportView datasetImport={importObj} />
         <Table size="small">
           <TableHead>
             <TableRow>

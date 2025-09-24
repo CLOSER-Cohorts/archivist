@@ -34,6 +34,17 @@ import BreadcrumbBar from './BreadcrumbBar'
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { Auth } from '../actions'
+import { func } from 'prop-types';
+import packageJson from '../../package.json';
+
+function Version() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      Version: {packageJson.version}
+    </Typography>
+  );
+};
 
 function Copyright() {
   return (
@@ -145,7 +156,7 @@ const MainListItems = ({onExpand, user}) => {
     <ListItem button>
         <ListItemIcon>
           <Link to={url(routes.instruments.all)}>
-            <QuestionAnswerIcon />
+            <QuestionAnswerIcon />            
           </Link>
         </ListItemIcon>
       <Link to={url(routes.instruments.all)}>
@@ -194,15 +205,20 @@ const MainListItems = ({onExpand, user}) => {
                 </Link>
               </ListItem>
               <ListItem button className={classes.nested}>
+                <Link to={url(routes.admin.instruments.exports)}>
+                  <ListItemText primary="Instrument Exports" />
+                </Link>
+              </ListItem>              
+              <ListItem button className={classes.nested}>
                 <Link to={url(routes.admin.imports.all)}>
                   <ListItemText primary="DDI Imports" />
                 </Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to={url(routes.admin.instruments.exports)}>
-                  <ListItemText primary="Instrument Exports" />
+                <Link to={url(routes.admin.exports.all)}>
+                  <ListItemText primary="DDI Exports" />
                 </Link>
-              </ListItem>
+              </ListItem>              
             </List>
           </Collapse>
       </>
@@ -227,8 +243,12 @@ export const Dashboard = (props)  => {
 
   useEffect(() => {
     dispatch(WhoAmI())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
+
+  const handleSignOut = () => {
+    dispatch(Auth.signOut());
+  }  
 
   return (
     <div className={classes.root}>
@@ -252,7 +272,7 @@ export const Dashboard = (props)  => {
             {props.title}
           </Typography>
           <IconButton color="inherit">
-            <ExitToAppIcon onClick={()=>{ dispatch({type:'LOGOUT'}) }}/>
+            <ExitToAppIcon onClick={handleSignOut}/>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -275,7 +295,7 @@ export const Dashboard = (props)  => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth={false} maxHeight={false} className={classes.container}>
+        <Container className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <BreadcrumbBar instrumentId={instrumentId} />
@@ -286,6 +306,7 @@ export const Dashboard = (props)  => {
           </Grid>
           <Box pt={4}>
             <Copyright />
+            <Version />
           </Box>
         </Container>
       </main>

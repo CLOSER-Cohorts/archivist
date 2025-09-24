@@ -9,6 +9,7 @@ import { reverse as url } from 'named-urls'
 import routes from '../routes'
 import { DataTable } from '../components/DataTable'
 import { ConfirmationModal } from '../components/ConfirmationModal'
+import StyledLink from '../components/StyledLink';
 
 const AdminDatasets = () => {
 
@@ -50,9 +51,9 @@ const AdminDatasets = () => {
     )
   }
 
-  const headers = ["ID", "Name", "Study"]
+  const headers = ["ID", "Name", "Study", "Instruments"]
   const rowRenderer = (row) => {
-    return [row.id, row.name, row.study]
+    return [row.id, row.name, row.study, row.instruments?.map((instrument) => { return <StyledLink key={instrument.id} to={url('/instruments/:instrument_prefix', { instrument_prefix: instrument.prefix })} label={instrument.prefix} />})]
   }
   return (
     <div style={{ height: 500, width: '100%' }}>

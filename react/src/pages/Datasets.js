@@ -2,7 +2,7 @@ import React, {  } from 'react';
 import { useDispatch } from 'react-redux'
 import { Dataset } from '../actions'
 import { Dashboard } from '../components/Dashboard'
-import Button from '@material-ui/core/Button';
+import { AuthButton } from '../components/AuthButton'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from 'react-router-dom';
 import { reverse as url } from 'named-urls'
@@ -17,12 +17,8 @@ const Datasets = () => {
     return (
       <>
         <ButtonGroup variant="outlined">
-          <Button>
-            <Link to={url(routes.datasets.dataset.edit, { dataset_id: row.id })}>Edit</Link>
-          </Button>
-          <Button>
-            <Link to={url('/datasets/:dataset_id', { dataset_id: row.id })}>View</Link>
-          </Button>
+          <AuthButton type="editor" to={url(routes.datasets.dataset.edit, { dataset_id: row.id })} label="Edit"></AuthButton>          
+          <AuthButton type="reader" to={url('/datasets/:dataset_id', { dataset_id: row.id })} label="View"></AuthButton>
         </ButtonGroup>
       </>
     )

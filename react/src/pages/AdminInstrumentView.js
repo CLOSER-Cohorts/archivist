@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument} from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { get, isEmpty } from 'lodash'
@@ -122,8 +123,8 @@ const InstrumentView = (props) => {
                   Construct Questions
                 </Typography>
                 <Typography variant="body2" component="p">
-                  <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrument.id}/cc_questions.txt?token=${window.localStorage.getItem('jwt')}`}>
-                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download cc_questions.txt'}></Chip>
+                  <a href={`${process.env.REACT_APP_API_HOST}/instruments/${instrument.id}/cc_questions.tsv?token=${window.localStorage.getItem('jwt')}`}>
+                    <Chip icon={<DescriptionIcon />} variant="outlined" color="primary" label={'Download cc_questions.tsv'}></Chip>
                   </a>
                 </Typography>
               </CardContent>
@@ -199,7 +200,7 @@ const InstrumentView = (props) => {
                 <TableCell align="left">{row.created_at}</TableCell>
                 <TableCell align="left">
                   <Button variant="contained" color="primary">
-                    <a style={{ color: 'white', textDecoration: 'none' }} target={'_blank'} href={process.env.REACT_APP_API_HOST + row.export_url}><CloudDownloadIcon />Download export</a>
+                    <a style={{ color: 'white', textDecoration: 'none' }} target={'_blank'} href={process.env.REACT_APP_API_HOST + row.url}><CloudDownloadIcon />Download export</a>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -216,7 +217,7 @@ const AdminInstrumentView = (props) => {
 
   const dispatch = useDispatch()
 
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
 
   const [dataLoaded, setDataLoaded] = useState(false);

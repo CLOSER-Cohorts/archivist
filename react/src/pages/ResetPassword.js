@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -45,7 +45,7 @@ const useFormField = (initialValue: string = "") => {
 export default function ResetPassword(props) {
   const classes = useStyles();
 
-  const reset_password_token = get(props, "match.params.reset_password_token", "")
+  const { reset_password_token } = useParams();
   const passwordField = useFormField();
   const passwordConfirmationField = useFormField();
 

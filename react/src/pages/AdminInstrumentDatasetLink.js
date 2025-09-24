@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Instrument, Dataset, AdminInstrument } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { get } from 'lodash'
@@ -64,7 +65,7 @@ const AdminInstrumentDatasetForm = (props) => {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={dataset.name}
+                primary={dataset.name} secondary={`ID #${dataset.id}`}
               />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete">
@@ -80,7 +81,7 @@ const AdminInstrumentDatasetForm = (props) => {
           value={selectedDatasets}
           onChange={handleChange}
           options={Object.values(datasets)}
-          getOptionLabel={(option) => `${option.study} - ${option.name}`}
+          getOptionLabel={(option) => `${option.study} - ${option.name} (ID #${option.id})`}
           style={{ width: '100%' }}
           renderInput={(params) => <TextField {...params} label="Add dataset" variant="outlined" />}
         />
@@ -93,7 +94,7 @@ const AdminInstrumentDatasetLink = (props) => {
 
   const dispatch = useDispatch()
 
-  const instrumentId = get(props, "match.params.instrument_id", "")
+  const { instrument_id: instrumentId } = useParams();
   const instrument = useSelector(state => get(state.instruments, instrumentId));
   const datasets = useSelector(state => get(state, 'datasets'));
 
