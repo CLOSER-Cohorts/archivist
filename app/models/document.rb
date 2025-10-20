@@ -68,19 +68,20 @@ class Document < ApplicationRecord
   #
   # @return [ActiveRecord::Relation] Documents that can be safely deleted
   def self.safe_to_delete
-    # Get latest import document per type per instrument/dataset using Ruby grouping
-    latest_import_docs = Import.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |i| [i.import_type, i.instrument_id, i.dataset_id] }
-      .map { |_key, imports| imports.first.document_id }
-      .compact
+    # Use SQL DISTINCT ON to efficiently get latest import document IDs per type/instrument/dataset
+    # This avoids loading all imports into memory
+    latest_import_docs = Import
+      .select('DISTINCT ON (import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+      .pluck(:document_id)
 
-    # Get latest export document per type per instrument/dataset using Ruby grouping
-    latest_export_docs = Export.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |e| [e.export_type, e.instrument_id, e.dataset_id] }
-      .map { |_key, exports| exports.first.document_id }
-      .compact
+    # Use SQL DISTINCT ON to efficiently get latest export document IDs per type/instrument/dataset
+    latest_export_docs = Export
+      .select('DISTINCT ON (export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+      .pluck(:document_id)
 
     # Get documents linked to any pending imports/exports (these must be preserved)
     pending_import_docs = Import.where(state: 'pending').pluck(:document_id).compact
@@ -126,17 +127,18 @@ class Document < ApplicationRecord
   #
   # @return [Hash] Detailed breakdown of document preservation reasons
   def self.preservation_breakdown
-    latest_import_docs = Import.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |i| [i.import_type, i.instrument_id || 0, i.dataset_id || 0] }
-      .map { |_key, imports| imports.first.document_id }
-      .compact
+    # Get latest import/export document IDs - need to pluck to count them
+    latest_import_docs = Import
+      .select('DISTINCT ON (import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+      .pluck(:document_id)
 
-    latest_export_docs = Export.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |e| [e.export_type, e.instrument_id || 0, e.dataset_id || 0] }
-      .map { |_key, exports| exports.first.document_id }
-      .compact
+    latest_export_docs = Export
+      .select('DISTINCT ON (export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+      .pluck(:document_id)
 
     pending_import_docs = Import.where(state: 'pending').pluck(:document_id).compact
     pending_export_docs = Export.where(state: 'pending').pluck(:document_id).compact
@@ -167,18 +169,19 @@ class Document < ApplicationRecord
     documents_to_delete = safe_to_delete
     document_ids_to_delete = documents_to_delete.pluck(:id)
     count = document_ids_to_delete.count
-    
+
     unless dry_run
       # First, nullify foreign key references to these documents
       Import.where(document_id: document_ids_to_delete).update_all(document_id: nil)
       Export.where(document_id: document_ids_to_delete).update_all(document_id: nil)
-      
-      # Then delete the documents
-      documents_to_delete.destroy_all
-      
+
+      # Then delete the documents directly with delete_all (bypasses callbacks but saves memory)
+      # We use delete_all instead of destroy_all to avoid loading file_contents blobs
+      Document.where(id: document_ids_to_delete).delete_all
+
       Rails.logger.info "Document cleanup: deleted #{count} old documents"
     end
-    
+
     count
   end
 
@@ -219,10 +222,11 @@ class Document < ApplicationRecord
       # Nullify references and delete old documents
       Import.where(document_id: old_document_ids).update_all(document_id: nil)
       Export.where(document_id: old_document_ids).update_all(document_id: nil)
-      
-      deleted_count = Document.where(id: old_document_ids).destroy_all.count
+
+      # Use delete_all to avoid loading file_contents blobs into memory
+      deleted_count = Document.where(id: old_document_ids).delete_all
       Rails.logger.info "Document cleanup for #{type}: deleted #{deleted_count} old documents"
-      
+
       deleted_count
     else
       0
@@ -243,39 +247,43 @@ class Document < ApplicationRecord
   # @return [Array<String>] Reasons why this document is preserved, empty if safe to delete
   def preservation_reasons
     reasons = []
-    
-    # Check if it's the latest import for any type/instrument/dataset combination
-    latest_import_docs = Import.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |i| [i.import_type, i.instrument_id, i.dataset_id] }
-      .map { |_key, imports| imports.first.document_id }
-      .compact
-    
-    if latest_import_docs.include?(self.id)
+
+    # Use SQL subquery to check if this document is a latest import without loading all imports
+    # DISTINCT ON gets the most recent document_id for each type/instrument/dataset combination
+    latest_imports_subquery = Import
+      .select('DISTINCT ON (import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('import_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+
+    # Check if this document's ID appears in the latest imports list
+    if Import.where(document_id: self.id)
+            .where("document_id IN (#{latest_imports_subquery.to_sql})")
+            .exists?
       reasons << "Latest import document for a type/instrument/dataset combination"
     end
-    
-    # Check if it's the latest export for any type/instrument/dataset combination  
-    latest_export_docs = Export.includes(:document)
-      .order(created_at: :desc)
-      .group_by { |e| [e.export_type, e.instrument_id, e.dataset_id] }
-      .map { |_key, exports| exports.first.document_id }
-      .compact
-      
-    if latest_export_docs.include?(self.id)
+
+    # Use SQL subquery to check if this document is a latest export
+    latest_exports_subquery = Export
+      .select('DISTINCT ON (export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0)) document_id')
+      .order(Arel.sql('export_type, COALESCE(instrument_id, 0), COALESCE(dataset_id, 0), created_at DESC'))
+      .where.not(document_id: nil)
+
+    if Export.where(document_id: self.id)
+            .where("document_id IN (#{latest_exports_subquery.to_sql})")
+            .exists?
       reasons << "Latest export document for a type/instrument/dataset combination"
     end
-    
-    # Check if linked to pending imports
+
+    # Check if linked to pending imports (already efficient)
     if Import.where(state: 'pending', document_id: self.id).exists?
       reasons << "Linked to pending import(s)"
     end
-    
-    # Check if linked to pending exports
+
+    # Check if linked to pending exports (already efficient)
     if Export.where(state: 'pending', document_id: self.id).exists?
       reasons << "Linked to pending export(s)"
     end
-    
+
     reasons
   end
 

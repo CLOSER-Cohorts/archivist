@@ -33,6 +33,19 @@ class DeleteJob::Dataset
   end
 end
 
+class DeleteJob::DocumentBatch
+  include Sidekiq::Worker
+
+  sidekiq_options queue: 'in_and_out'
+
+  # Process documents in batches - much more efficient than one job per document
+  def perform(batch_size: 100)
+    deleted_count = Document.cleanup_old_documents(dry_run: false)
+    Rails.logger.info "Document batch cleanup: deleted #{deleted_count} documents"
+    deleted_count
+  end
+end
+
 class DeleteJob::Document
   include Sidekiq::Worker
 
@@ -40,19 +53,33 @@ class DeleteJob::Document
 
   def perform(document_id)
     begin
-      document = Document.find(document_id)
-      
-      if document.safe_to_delete?
-        # First nullify any remaining foreign key references
-        Import.where(document_id: document.id).update_all(document_id: nil)
-        Export.where(document_id: document.id).update_all(document_id: nil)
-        
-        # Then destroy the document
+      # OPTIMIZATION: Don't load file_contents blob (saves ~919KB per document)
+      # We only need the ID and relationships for deletion logic
+      document = Document.select(Document.column_names - ['file_contents']).find(document_id)
+
+      # Pre-check: Is this document referenced by ANY import or export?
+      # This is much faster than calling preservation_reasons
+      has_import = Import.where(document_id: document_id).exists?
+      has_export = Export.where(document_id: document_id).exists?
+
+      if !has_import && !has_export
+        # Completely orphaned document - safe to delete
         document.destroy
-        Rails.logger.info "Document cleanup job: deleted document #{document_id}"
+        Rails.logger.info "Document cleanup job: deleted orphaned document #{document_id}"
       else
-        reasons = document.preservation_reasons
-        Rails.logger.info "Document cleanup job: skipped document #{document_id} - preserved because: #{reasons.join(', ')}"
+        # Document is referenced - use the more expensive safe_to_delete? check
+        if document.safe_to_delete?
+          # First nullify any remaining foreign key references
+          Import.where(document_id: document.id).update_all(document_id: nil)
+          Export.where(document_id: document.id).update_all(document_id: nil)
+
+          # Then destroy the document
+          document.destroy
+          Rails.logger.info "Document cleanup job: deleted document #{document_id}"
+        else
+          reasons = document.preservation_reasons
+          Rails.logger.info "Document cleanup job: skipped document #{document_id} - preserved because: #{reasons.join(', ')}"
+        end
       end
     rescue ActiveRecord::RecordNotFound
       Rails.logger.warn "Document cleanup job: document #{document_id} not found, may have been already deleted"
