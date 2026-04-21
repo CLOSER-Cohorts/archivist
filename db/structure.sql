@@ -1421,7 +1421,8 @@ CREATE TABLE public.imports (
     log text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    instrument_id integer
+    instrument_id integer,
+    filename character varying
 );
 
 
@@ -3914,7 +3915,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171124115905'),
 ('20171212182936'),
 ('20181106140729'),
-('20190812092806'),
 ('20190812092819'),
 ('20190813092806'),
 ('20190829124508'),
@@ -3924,6 +3924,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20240207154741'),
 ('20240208160611'),
 ('20240425130950'),
-('20241124224933');
+('20241124224933'),
+('20260421155655');
 
 
