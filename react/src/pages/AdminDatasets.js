@@ -34,12 +34,6 @@ const AdminDatasets = () => {
           </Link>
         </Button>
         <Button>
-          DV
-        </Button>
-        <Button>
-          Topics
-        </Button>
-        <Button>
           <Link to={url(routes.admin.datasets.importMappings, { datasetId: row.id })}>
             View Imports
           </Link>
