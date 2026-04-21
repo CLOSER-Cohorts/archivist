@@ -103,7 +103,7 @@ const DatasetImportView = (props) => {
 const AdminDatasetImportMappingView = (props) => {
 
   const dispatch = useDispatch()
-  const { dataset_id: datasetId, id: importMappingId } = useParams();
+  const { datasetId, id: importMappingId } = useParams();
   const imports = useSelector(state => get(state.datasetImportMappings, datasetId));
   const importObj = get(imports, importMappingId, { logs: [] })
   const logs = get(importObj, 'logs', [])
