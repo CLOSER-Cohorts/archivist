@@ -1,0 +1,18 @@
+version: 1
+steps_dir: .machina/flow-steps
+default_environment: dev
+default_profile: verification
+
+environments:
+  dev:
+    base_url:
+      # Hoist URL works for manual browsing: https://archivist-ml.simonreed.co
+      # Avoid it for machina-flow runs — Cloudflare aggressively caches the
+      # dev bundle (max-age=14400) so code changes don't show up for 4h.
+      default: http://localhost:3102
+      health_path: /
+    auth:
+      strategy: real_credentials
+      login_path: /__test__/login
+      credential_fields: [email]
+    mutations: allowed
