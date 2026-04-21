@@ -84,4 +84,46 @@ class Importers::TXT::Mapper::MappingTest < ActiveSupport::TestCase
       assert_equal(import.parsed_log[1][:outcome], I18n.t('importers.txt.mapper.mapping.wrong_number_of_columns', actual_number_of_columns: 2))
     end
   end
+
+  describe "partial QV file that does not cover all questions in the instrument" do
+    it "marks the import as failure and logs unmapped questions" do
+      dataset = FactoryBot.create(:dataset)
+      variables = (1..5).map { FactoryBot.create(:variable, dataset: dataset) }
+      instrument = FactoryBot.create(:instrument, datasets: [dataset])
+      cc_questions = (1..5).map { |n| FactoryBot.create(:cc_question, instrument: instrument, label: "qc_partial_#{n}") }
+      mapped_rows = cc_questions.first(3).map do |q|
+        "#{instrument.control_construct_scheme}\t#{q.label}\t#{dataset.instance_name}\t#{variables.first.name}"
+      end
+      new_txt = mapped_rows.join("\n") + "\n"
+      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::Mapping')
+      doc = Document.create(file: new_txt, item: instrument)
+      Importers::TXT::Mapper::Mapping.new(doc.id, { object: instrument.id.to_s, import_id: import.id }).import
+      import = import.reload
+      assert_equal('failure', import.state)
+      log = import.parsed_log
+      assert_equal 5, log.length
+      saved_outcomes = log.first(3).map { |e| e[:outcome] }
+      assert saved_outcomes.all? { |o| o == 'Record Saved' }, "Expected first 3 entries to be 'Record Saved'"
+      unmapped_outcomes = log.last(2).map { |e| e[:outcome] }
+      assert unmapped_outcomes.all? { |o| o.include?('Record Invalid') }, "Expected last 2 entries to mention Record Invalid"
+      assert unmapped_outcomes.any? { |o| o.include?(cc_questions[3].label) }
+      assert unmapped_outcomes.any? { |o| o.include?(cc_questions[4].label) }
+    end
+
+    it "keeps state as success when all questions are covered" do
+      dataset = FactoryBot.create(:dataset)
+      variables = (1..3).map { FactoryBot.create(:variable, dataset: dataset) }
+      instrument = FactoryBot.create(:instrument, datasets: [dataset])
+      cc_questions = (1..3).map { |n| FactoryBot.create(:cc_question, instrument: instrument, label: "qc_full_#{n}") }
+      rows = cc_questions.each_with_index.map do |q, i|
+        "#{instrument.control_construct_scheme}\t#{q.label}\t#{dataset.instance_name}\t#{variables[i].name}"
+      end
+      new_txt = rows.join("\n") + "\n"
+      import = FactoryBot.create(:import, instrument: instrument, import_type: 'ImportJob::Mapping')
+      doc = Document.create(file: new_txt, item: instrument)
+      Importers::TXT::Mapper::Mapping.new(doc.id, { object: instrument.id.to_s, import_id: import.id }).import
+      import = import.reload
+      assert_equal('success', import.state)
+    end
+  end
 end
