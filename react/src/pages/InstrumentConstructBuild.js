@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { Instrument, CcConditions, CcLoops, CcSequences, CcStatements, CcQuestions, QuestionItems, QuestionGrids, ResponseUnits, InstrumentTree } from '../actions'
+import { BulkIntervieweeModal } from '../components/BulkIntervieweeModal'
 import { Dashboard } from '../components/Dashboard'
 import { MoveConstructSelect } from '../components/MoveConstructSelect'
 import { CcConditionForm } from '../components/CcConditionForm'
@@ -82,6 +83,7 @@ const Tree = (props) => {
   const [searchString, setSearchString] = useState();
   const [searchFocusIndex, setSearchFocusIndex] = useState();
   const [searchFoundCount, setSearchFoundCount] = useState();
+  const [bulkIntervieweeOpen, setBulkIntervieweeOpen] = useState(false);
 
   // Case insensitive search of `node.title`
   const customSearchMethod = ({ node, searchQuery }) =>
@@ -238,7 +240,13 @@ const Tree = (props) => {
           <ButtonGroup color="primary" aria-label="outlined primary button group">
             <Button onClick={() => { toggleExpand(true) }} startIcon={<ExpandMoreIcon />}>Expand All</Button>
             <Button onClick={() => { toggleExpand(false) }} startIcon={<ExpandLessIcon />}>Collapse All</Button>
+            <Button onClick={() => { setBulkIntervieweeOpen(true) }}>Change Interviewee</Button>
           </ButtonGroup>
+          <BulkIntervieweeModal
+            open={bulkIntervieweeOpen}
+            onClose={() => setBulkIntervieweeOpen(false)}
+            instrumentId={instrumentId}
+          />
         </Grid>
       </Grid>
 
