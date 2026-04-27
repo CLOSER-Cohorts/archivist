@@ -91,6 +91,30 @@ class CodeListsControllerTest < ActionController::TestCase
     assert_equal [3,4], [code_a.reload.order, code_b.reload.order]
   end
 
+  test "should create code_list with multiple codes without client-supplied order" do
+    assert_difference('CodeList.count') do
+      post :create, format: :json, params: {
+        instrument_id: @instrument.id,
+        code_list: {
+          label: @code_list.label + '_multi',
+          codes: [
+            { value: '1', label: 'Yes' },
+            { value: '2', label: 'No' }
+          ]
+        }
+      }
+    end
+
+    assert_response :success
+    json = JSON.parse(response.body)
+    codes = json['codes'].sort_by { |c| c['order'] }
+    assert_equal 2, codes.length
+    assert_equal 1, codes[0]['order']
+    assert_equal 2, codes[1]['order']
+    assert_equal '1', codes[0]['value']
+    assert_equal '2', codes[1]['value']
+  end
+
   test "should destroy code_list" do
     assert_difference('CodeList.count', -1) do
       delete :destroy, format: :json, params: { instrument_id: @instrument.id, id: @code_list }

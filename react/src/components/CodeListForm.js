@@ -111,15 +111,13 @@ export const CodeListForm = (props) => {
   const classes = useStyles();
 
   const onSubmit = (values) => {
-      values = ObjectCheckForInitialValues(codeList, values)
-
-    if(isNil(codeList.id)){
+    values = ObjectCheckForInitialValues(codeList, values)
+    if (values.codes) {
+      values.codes.forEach((code, i) => { code.order = i + 1 })
+    }
+    if (isNil(codeList.id)) {
       dispatch(CodeLists.create(instrumentId, values))
-    }else{
-      values.codes.map((code, i) => {
-        code.order = i + 1
-        return code
-      })
+    } else {
       dispatch(CodeLists.update(instrumentId, codeList.id, values))
     }
   }

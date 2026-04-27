@@ -665,7 +665,7 @@ export const CodeLists = {
           dispatch(redirectTo(url(routes.instruments.instrument.build.codeLists.show, { instrument_id: instrumentId, codeListId: res.data.id })));
         })
         .catch(err => {
-          dispatch(saveError('new', 'CodeList', err.response.data.error_sentence));
+          dispatch(saveError('new', 'CodeList', err.response?.data?.error_sentence));
         });
     };
   },

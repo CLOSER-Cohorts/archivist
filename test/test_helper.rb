@@ -15,6 +15,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
+  fixtures :all
   setup do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start

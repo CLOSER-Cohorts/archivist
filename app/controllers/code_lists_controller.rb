@@ -53,7 +53,7 @@ class CodeListsController < BasicInstrumentController
     # and their nested categories.
     codes_params = params[:codes] ? params.delete(:codes) : params[:code_list].delete(:codes)
     if codes_params
-      codes_params.map.with_index do | code, index |
+      codes_params.each_with_index do | code, index |
         code[:order] = index + 1 unless code[:order].present?
         next if code[:value].blank? && code[:label].blank?
         existing_category = @instrument.categories.find_by_label(code[:label])
