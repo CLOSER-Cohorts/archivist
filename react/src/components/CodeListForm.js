@@ -31,6 +31,7 @@ import {
   Grid,
   Button,
   CssBaseline,
+  IconButton,
 } from '@material-ui/core';
 
 
@@ -155,7 +156,9 @@ export const CodeListForm = (props) => {
                 ))}
                 <h3>Codes</h3>
                 {instrument && !instrument.signed_off && (
-                  <AddCircleOutlineIcon onClick={() => push('codes', {})}/>
+                  <IconButton aria-label="Add code" onClick={() => push('codes', {})}>
+                    <AddCircleOutlineIcon />
+                  </IconButton>
                 )}
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
@@ -231,12 +234,15 @@ export const CodeListForm = (props) => {
                                     </TableCell>
                                     <TableCell className={classes.small}>
                                       {instrument && !instrument.signed_off && (
-                                        <span
-                                          onClick={() => {}}
-                                          style={{ cursor: 'pointer' }}
+                                        <IconButton
+                                          aria-label={fields.value[index].value
+                                            ? `Delete code ${fields.value[index].value}`
+                                            : 'Delete unsaved code'}
+                                          onClick={() => fields.remove(index)}
+                                          size="small"
                                         >
                                           <DeleteIcon />
-                                        </span>
+                                        </IconButton>
                                       )}
                                     </TableCell>
                                   </TableRow>
