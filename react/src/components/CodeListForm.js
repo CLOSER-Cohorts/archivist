@@ -156,7 +156,9 @@ export const CodeListForm = (props) => {
                 ))}
                 <h3>Codes</h3>
                 {instrument && !instrument.signed_off && (
-                  <AddCircleOutlineIcon onClick={() => push('codes', {})}/>
+                  <IconButton aria-label="Add code" onClick={() => push('codes', {})}>
+                    <AddCircleOutlineIcon />
+                  </IconButton>
                 )}
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
