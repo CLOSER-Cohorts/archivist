@@ -9,32 +9,32 @@ Feature: Trash icon removes a code list option (#888)
   Scenario: Trash icon removes a saved code via direct URL
     When I navigate to "/instruments/ns_09_w6/build/code_lists/90968"
     And I wait for the page to settle
-    And I should see "460306"
-    And I click the "Delete code 1" button
+    And I should see "459144"
+    And I click the first trash icon on the code list
     And I click the "Save" button
     And I wait for the page to settle
     And I navigate to "/instruments/ns_09_w6/build/code_lists/90968"
     And I wait for the page to settle
-    Then I should not see "460306"
+    Then I should not see "459144"
 
   Scenario: Trashing two saved codes in one save deletes both server-side
     When I navigate to "/instruments/ns_09_w6/build/code_lists/90970"
     And I wait for the page to settle
-    And I should see "460307"
-    And I should see "460308"
-    And I click the "Delete code 3" button
-    And I click the "Delete code 4" button
+    And I should see "459156"
+    And I should see "459157"
+    And I click the "Delete code 1" button
+    And I click the "Delete code 2" button
     And I click the "Save" button
     And I wait for the page to settle
     And I navigate to "/instruments/ns_09_w6/build/code_lists/90970"
     And I wait for the page to settle
-    Then I should not see "460307"
-    And I should not see "460308"
+    Then I should not see "459156"
+    And I should not see "459157"
 
   Scenario: Delete-then-readd saves cleanly without constraint conflict
     When I navigate to "/instruments/ns_09_w6/build/code_lists/90971"
     And I wait for the page to settle
-    And I should see "460309"
+    And I should see "460310"
     And I click the "Delete code 1" button
     And I add a code with value "1" and label "Yes"
     And I click the "Save" button

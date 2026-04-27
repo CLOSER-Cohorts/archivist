@@ -19,6 +19,14 @@ export default ({ defineStep }) => [
     await item.click();
   }),
 
+  // Targets the SVG directly so the step works on both patched (IconButton) and
+  // unpatched (plain span) code — on unpatched, the click is a no-op and the row stays.
+  defineStep('I click the first trash icon on the code list', async (ctx) => {
+    const icon = ctx.page.locator('table tbody tr:first-child td:last-child svg').first();
+    await icon.waitFor({ timeout: 5000 });
+    await icon.click();
+  }),
+
   // Adds a new code row, fills in value and label (via autocomplete), and selects the matching option.
   // Requires the instrument to have a category with the given label already loaded.
   defineStep('I add a code with value {string} and label {string}', async (ctx, value, label) => {
