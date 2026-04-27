@@ -31,6 +31,7 @@ import {
   Grid,
   Button,
   CssBaseline,
+  IconButton,
 } from '@material-ui/core';
 
 
@@ -231,12 +232,13 @@ export const CodeListForm = (props) => {
                                     </TableCell>
                                     <TableCell className={classes.small}>
                                       {instrument && !instrument.signed_off && (
-                                        <span
-                                          onClick={() => {}}
-                                          style={{ cursor: 'pointer' }}
+                                        <IconButton
+                                          aria-label={`Delete code ${fields.value[index].value}`}
+                                          onClick={() => fields.remove(index)}
+                                          size="small"
                                         >
                                           <DeleteIcon />
-                                        </span>
+                                        </IconButton>
                                       )}
                                     </TableCell>
                                   </TableRow>
