@@ -23,6 +23,21 @@ class InstrumentsController < ImportableController
     render json: instruments and return
   end
 
+  # Override BasicController#create to seed every freshly-created instrument
+  # with common response domains and a Yes/No code list (see GH issue #87).
+  # The DDI XML import path goes through ImportJob::Instrument, not this
+  # action, so imported instruments keep their own response domains.
+  def create
+    @object = collection.new(safe_params)
+    ActiveRecord::Base.transaction do
+      @object.save!
+      Instruments::SeedDefaults.new(@object).call
+    end
+    render :show, status: :created
+  rescue ActiveRecord::RecordInvalid
+    render json: @object.errors.full_messages.to_sentence, status: :unprocessable_entity
+  end
+
   def show
     respond_to do |f|
       f.json {
