@@ -4,7 +4,8 @@ import { useParams, Link } from 'react-router-dom';
 import { CcQuestions } from '../actions'
 import { Dashboard } from '../components/Dashboard'
 import { DataTable } from '../components/DataTable'
-import { get, isNil, difference } from "lodash";
+import { get, isNil } from "lodash";
+import { missingDefaultIntervieweeLabels } from '../support/intervieweeOptions';
 import routes from '../routes'
 import { reverse as url } from 'named-urls'
 import Chip from '@material-ui/core/Chip';
@@ -51,11 +52,7 @@ const IntervieweeList = ({ instrumentId }) => {
     });
   }, [dispatch, instrumentId]);
 
-  const intervieweeOptions = () => {
-    const allOptions = ['Cohort/sample member', 'Main parent of cohort/sample member', 'Partner of main parent/Father', 'Child of cohort/panel member', 'Proxy', 'Interviewer', 'Other'];
-    const rdOptions = Object.values(responseUnits).map(item => item.label);
-    return difference(allOptions, rdOptions);
-  };
+  const intervieweeOptions = () => missingDefaultIntervieweeLabels(responseUnits);
 
   return dataLoaded ? (
     <Paper style={{ padding: 16 }} className={classes.paper}>

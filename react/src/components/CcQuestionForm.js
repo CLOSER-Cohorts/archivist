@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { get, isNil, difference } from "lodash";
+import { get, isNil } from "lodash";
 import { Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { CcQuestions } from '../actions'
 import { ObjectStatusBar, ObjectStatus } from '../components/ObjectStatusBar'
 import { DeleteObjectButton } from '../components/DeleteObjectButton'
 import { ObjectCheckForInitialValues } from '../support/ObjectCheckForInitialValues'
+import { missingDefaultIntervieweeLabels } from '../support/intervieweeOptions'
 import arrayMutators from 'final-form-arrays'
 import { OnChange } from 'react-final-form-listeners'
 import { makeStyles } from '@material-ui/core/styles';
@@ -116,11 +117,7 @@ export const CcQuestionForm = (props) => {
     }
   }
 
-  const intervieweeOptions = () => {
-    const allOptions = ['Cohort/sample member','Main parent of cohort/sample member','Partner of main parent/Father','Child of cohort/panel member','Proxy','Interviewer','Other']
-    const rdOptions = Object.values(responseUnits).map(item => {return item.label})
-    return difference(allOptions, rdOptions);
-  }
+  const intervieweeOptions = () => missingDefaultIntervieweeLabels(responseUnits)
 
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1000 }}>

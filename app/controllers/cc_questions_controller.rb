@@ -16,8 +16,9 @@ class CcQuestionsController < ConstructController
     return unless params[:response_unit_id]
     return if params[:response_unit_id].is_a?(Integer) || params[:response_unit_id].to_s.match?(/\A\d+\z/)
     set_instrument
-    params[:cc_question][:response_unit_id] = @instrument.response_units.find_or_create_by(label: params[:response_unit_id]).try(:id)
-    params[:response_unit_id] = params[:cc_question][:response_unit_id]
+    new_id = @instrument.response_units.find_or_create_by(label: params[:response_unit_id]).try(:id)
+    params[:cc_question][:response_unit_id] = new_id if params[:cc_question]
+    params[:response_unit_id] = new_id
   end
 
   def variables

@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { CcQuestions } from '../actions';
+import { missingDefaultIntervieweeLabels } from '../support/intervieweeOptions';
 
 export const BulkIntervieweeModal = ({ open, onClose, instrumentId }) => {
   const dispatch = useDispatch();
@@ -74,6 +75,9 @@ export const BulkIntervieweeModal = ({ open, onClose, instrumentId }) => {
           >
             {Object.values(responseUnits).map((ru) => (
               <MenuItem key={ru.id} value={ru.id}>{ru.label}</MenuItem>
+            ))}
+            {missingDefaultIntervieweeLabels(responseUnits).map((label) => (
+              <MenuItem key={`label-${label}`} value={label}>{label}</MenuItem>
             ))}
           </Select>
         </FormControl>
